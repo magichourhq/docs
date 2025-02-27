@@ -2013,7 +2013,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "docs@workspace:."
   dependencies:
-    mintlify: "npm:^4.0.410"
+    mintlify: "npm:4.0.410"
   languageName: unknown
   linkType: soft
 
@@ -4886,7 +4886,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mintlify@npm:^4.0.410":
+"mintlify@npm:4.0.410":
   version: 4.0.410
   resolution: "mintlify@npm:4.0.410"
   dependencies:

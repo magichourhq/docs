@@ -6,6 +6,6 @@
   "license": "MIT",
   "packageManager": "yarn@4.6.0",
   "devDependencies": {
-    "mintlify": "^4.0.410"
+    "mintlify": "4.0.410"
   }
 }
