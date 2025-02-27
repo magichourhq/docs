@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/magichourhq/docs.git",
-  "author": "David Hu <davidhu314@gmail.com>",
   "license": "MIT",
   "packageManager": "yarn@4.6.0",
   "devDependencies": {
