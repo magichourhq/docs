@@ -10,6 +10,7 @@
     "dev": "mintlify dev"
   },
   "devDependencies": {
-    "mintlify": "4.0.410"
+    "mintlify": "4.0.410",
+    "typescript": "5.8.2"
   }
 }

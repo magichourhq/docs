@@ -17,7 +17,7 @@
     "light": "https://magichour.ai/favicon.ico"
   },
   "appearance": {
-    "default": "system",
+    "default": "dark",
     "strict": false
   },
   "background": {
