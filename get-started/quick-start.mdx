@@ -152,7 +152,6 @@ See the result of your generation at the [My Images Page](https://magichour.ai/d
 <CodeGroup>
 ```python Python SDK
 res = client.v1.text_to_video.create(
-    image_count=1,
     end_seconds=5,
     orientation="landscape",
     style={
@@ -163,7 +162,6 @@ res = client.v1.text_to_video.create(
 
 ```typescript Node SDK
 const res = await client.v1.textToVideo.create({
-  imageCount: 1,
   end_seconds: 5,
   orientation: "landscape",
   style: {
@@ -175,22 +173,20 @@ const res = await client.v1.textToVideo.create({
 
 ```go Go SDK
 res, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{
-    ImageCount: 1,
     EndSeconds: 5,
-    Orientation: types.PostV1AiImageGeneratorBodyOrientationEnumLandscape,
-    Style: types.PostV1AiImageGeneratorBodyStyle{
+    Orientation: types.PostV1TextToVideoBodyOrientationEnumLandscape,
+    Style: types.PostV1TextToVideoBodyStyle{
         Prompt: "A serene underwater world, where schools of colorful fish swim among vibrant coral reefs and sunlight dances on the surface",
     },
 })
 ```
 
 ```rust Rust SDK
-let res = client.v1().ai_image_generator().create(
-    magic_hour::resources::v1::ai_image_generator::CreateRequest {
-        image_count: 1,
+let res = client.v1().text_to_video().create(
+    magic_hour::resources::v1::text_to_video::CreateRequest {
         end_seconds: 5,
-        orientation: magic_hour::models::PostV1AiImageGeneratorBodyOrientationEnum::Landscape,
-        style: magic_hour::models::PostV1AiImageGeneratorBodyStyle {
+        orientation: magic_hour::models::PostV1TextToVideoBodyOrientationEnum::Landscape,
+        style: magic_hour::models::PostV1TextToVideoBodyStyle {
             prompt: "A serene underwater world, where schools of colorful fish swim among vibrant coral reefs and sunlight dances on the surface".to_string(),
         },
         ..Default::default()
@@ -203,11 +199,10 @@ let res = client.v1().ai_image_generator().create(
 <Tab title="Using Rest API">
 
 ```sh
-curl https://api.magichour.ai/v1/ai-image-generator \
+curl https://api.magichour.ai/v1/text-to-video \
   --request POST \
   --header 'Content-Type: application/json' \
   --data '{
-  "image_count": 1,
   "end_seconds": 5,
   "orientation": "landscape",
   "style": {
