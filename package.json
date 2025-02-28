@@ -6,6 +6,9 @@
   "author": "David Hu",
   "license": "MIT",
   "packageManager": "yarn@4.6.0",
+  "scripts": {
+    "dev": "mintlify dev"
+  },
   "devDependencies": {
     "mintlify": "4.0.410"
   }
