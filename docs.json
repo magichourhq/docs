@@ -63,12 +63,7 @@
       },
       {
         "tab": "API Reference",
-        "groups": [
-          {
-            "group": "API Documentation",
-            "openapi": "https://magichour.ai/docs/api/openapi.json"
-          }
-        ]
+        "openapi": "https://magichour.ai/docs/api/openapi.json"
       }
     ],
     "global": {
