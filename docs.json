@@ -5,8 +5,23 @@
   "description": "Easily generate videos using Magic Hour's API. Follow our documentation to seamlessly integrate video creation into your applications.",
   "colors": {
     "primary": "#3b82f6",
-    "light": "#3b82f6",
+    "light": "#0564ff",
     "dark": "#3b82f6"
+  },
+  "logo": {
+    "dark": "https://magichour.ai/logo.png",
+    "light": "https://magichour.ai/logo.png"
+  },
+  "favicon": {
+    "dark": "https://magichour.ai/favicon.ico",
+    "light": "https://magichour.ai/favicon.ico"
+  },
+  "appearance": {
+    "default": "system",
+    "strict": false
+  },
+  "background": {
+    "decoration": "gradient"
   },
   "banner": {
     "content": "⚠️ Docs is currently under construction. ⚠️"
@@ -30,7 +45,8 @@
       "github": "https://github.com/magichourhq",
       "linkedin": "https://linkedin.com/company/magichour",
       "instagram": "https://instagram.com/magichourai",
-      "youtube": "https://youtube.com/@magichourai"
+      "youtube": "https://youtube.com/@magichourai",
+      "website": "https://magichour.ai"
     }
   },
   "navigation": {
