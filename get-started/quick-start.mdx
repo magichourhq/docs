@@ -1,5 +1,233 @@
 ---
 title: "Quick Start"
-description: "Quickly get to an output
-"
+description: "Generate your first image and video in minutes"
 ---
+
+<Steps>
+
+<Step title="Create Your Account">
+
+1. Visit the [Magic Hour Developer Hub](https://magichour.ai/developer)
+2. Sign up for a new account.
+
+</Step>
+
+<Step title="Create an API Key">
+
+1. In the Developer Hub, click `Create API Key`.
+2. Add a describe name. Then click `Create key`.
+3. Copy the API key and save it.
+
+<Warning>The API key can only be viewed on creation.</Warning>
+
+</Step>
+
+<Step title="Initialize SDK (Optional)">
+
+<Note>Skip to the next step if you're not planning on using our SDKs.</Note>
+
+Install the SDK
+
+<CodeGroup>
+
+```sh Python SDK
+pip install magic_hour
+```
+
+```sh Node SDK
+npm install magic-hour
+```
+
+```sh Go SDK
+go get -u github.com/magichourhq/magic-hour-go
+```
+
+```sh Rust SDK
+cargo add magic_hour
+```
+
+</CodeGroup>
+
+Then initialize a new client
+
+<CodeGroup>
+
+```python Python SDK
+from magic_hour import Client
+client = Client(token="YOUR_API_KEY")
+```
+
+```typescript Node SDK
+import Client from "magic-hour";
+const client = new Client({ token: "YOUR_API_KEY" });
+```
+
+```go Go SDK
+import sdk "github.com/magichourhq/magic-hour-go/client"
+client := sdk.NewClient(sdk.WithBearerAuth("YOUR_API_KEY"))
+```
+
+```rust Rust SDK
+use magic_hour;
+let client = magic_hour::Client::default().with_bearer_auth("YOUR_API_KEY");
+```
+
+</CodeGroup>
+</Step>
+
+<Step title="Create an image">
+<Tabs>
+<Tab title="Using SDKs">
+
+<CodeGroup>
+```python Python SDK
+res = client.v1.ai_image_generator.create(
+    image_count=1,
+    orientation="landscape",
+    style={
+        "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'"
+    },
+)
+```
+
+```typescript Node SDK
+const res = await client.v1.aiImageGenerator.create({
+  imageCount: 1,
+  orientation: "landscape",
+  style: {
+    prompt:
+      "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
+  },
+});
+```
+
+```go Go SDK
+res, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{
+    ImageCount:  1,
+    Orientation: types.PostV1AiImageGeneratorBodyOrientationEnumLandscape,
+    Style: types.PostV1AiImageGeneratorBodyStyle{
+        Prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
+    },
+})
+```
+
+```rust Rust SDK
+let res = client.v1().ai_image_generator().create(
+    magic_hour::resources::v1::ai_image_generator::CreateRequest {
+        image_count: 1,
+        orientation: magic_hour::models::PostV1AiImageGeneratorBodyOrientationEnum::Landscape,
+        style: magic_hour::models::PostV1AiImageGeneratorBodyStyle {
+            prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'".to_string(),
+        },
+        ..Default::default()
+    }).await;
+```
+
+</CodeGroup>
+
+</Tab>
+<Tab title="Using Rest API">
+
+```sh
+curl https://api.magichour.ai/v1/ai-image-generator \
+  --request POST \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "image_count": 1,
+  "orientation": "landscape",
+  "style": {
+    "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'"
+  }
+}'
+```
+
+</Tab>
+</Tabs>
+
+See the result of your generation at the [My Images Page](https://magichour.ai/dashboard/images).
+
+</Step>
+
+<Step title="Create a video">
+<Tabs>
+<Tab title="Using SDKs">
+
+<CodeGroup>
+```python Python SDK
+res = client.v1.text_to_video.create(
+    end_seconds=5,
+    orientation="landscape",
+    style={
+        "prompt": "A serene underwater world, where schools of colorful fish swim among vibrant coral reefs and sunlight dances on the surface"
+    },
+)
+```
+
+```typescript Node SDK
+const res = await client.v1.textToVideo.create({
+  end_seconds: 5,
+  orientation: "landscape",
+  style: {
+    prompt:
+      "A serene underwater world, where schools of colorful fish swim among vibrant coral reefs and sunlight dances on the surface",
+  },
+});
+```
+
+```go Go SDK
+res, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{
+    EndSeconds: 5,
+    Orientation: types.PostV1TextToVideoBodyOrientationEnumLandscape,
+    Style: types.PostV1TextToVideoBodyStyle{
+        Prompt: "A serene underwater world, where schools of colorful fish swim among vibrant coral reefs and sunlight dances on the surface",
+    },
+})
+```
+
+```rust Rust SDK
+let res = client.v1().text_to_video().create(
+    magic_hour::resources::v1::text_to_video::CreateRequest {
+        end_seconds: 5,
+        orientation: magic_hour::models::PostV1TextToVideoBodyOrientationEnum::Landscape,
+        style: magic_hour::models::PostV1TextToVideoBodyStyle {
+            prompt: "A serene underwater world, where schools of colorful fish swim among vibrant coral reefs and sunlight dances on the surface".to_string(),
+        },
+        ..Default::default()
+    }).await;
+```
+
+</CodeGroup>
+
+</Tab>
+<Tab title="Using Rest API">
+
+```sh
+curl https://api.magichour.ai/v1/text-to-video \
+  --request POST \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "end_seconds": 5,
+  "orientation": "landscape",
+  "style": {
+    "prompt": "A serene underwater world, where schools of colorful fish swim among vibrant coral reefs and sunlight dances on the surface"
+  }
+}'
+```
+
+</Tab>
+</Tabs>
+
+See the result of your generation at the [My Videos Page](https://magichour.ai/dashboard/videos).
+
+</Step>
+
+</Steps>
+
+<Check>
+  🎉 Congratulations! You have successfully created an image and a video on
+  Magic Hour!
+</Check>
+
+## Next Steps
+
+Explore the rest of Magic Hour's suite of AI video and image tools.
