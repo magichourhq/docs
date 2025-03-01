@@ -57,7 +57,7 @@
           "introduction",
           {
             "group": "Get Started",
-            "pages": ["get-started/quick-start"]
+            "pages": ["get-started/quick-start", "get-started/video-tools"]
           }
         ]
       },
