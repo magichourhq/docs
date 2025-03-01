@@ -13,8 +13,8 @@
     "light": "https://magichour.ai/logo.png"
   },
   "favicon": {
-    "dark": "https://magichour.ai/favicon.ico",
-    "light": "https://magichour.ai/favicon.ico"
+    "dark": "/icons/favicon.png",
+    "light": "/icons/favicon.png"
   },
   "appearance": {
     "default": "dark",
