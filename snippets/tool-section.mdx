@@ -1,0 +1,40 @@
+export const ToolSection = ({ outputs, title, slug }) => (
+  <>
+    <Tabs>
+      {outputs.map((output) => (
+        <Tab title="Example Output">
+          <Frame>
+            <video
+              src={output.src}
+              muted
+              playsInline
+              controls
+              className="rounded-lg h-80"
+              loop
+            />
+          </Frame>
+        </Tab>
+      ))}
+    </Tabs>
+
+    <CardGroup cols={2}>
+      <Card
+        title="Product Page"
+        icon="video"
+        horizontal
+        href={`https://magichour.ai/products/${slug}`}
+      >
+        Learn more about {title}
+      </Card>
+      <Card
+        title="API Spec"
+        icon="webhook"
+        horizontal
+        href={`/api-reference/video-projects/${slug}`}
+      >
+        See API details
+      </Card>
+    </CardGroup>
+
+  </>
+);
