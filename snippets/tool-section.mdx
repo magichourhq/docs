@@ -1,17 +1,21 @@
-export const ToolSection = ({ outputs, title, slug }) => (
+export const ToolSection = ({ type, outputs, title, productSlug, apiSlug }) => (
   <>
     <Tabs>
       {outputs.map((output) => (
         <Tab title="Example Output">
           <Frame>
-            <video
-              src={output.src}
-              muted
-              playsInline
-              controls
-              className="rounded-lg h-80"
-              loop
-            />
+            {type === "video" ? (
+              <video
+                src={output.src}
+                muted
+                playsInline
+                controls
+                className="rounded-lg h-80"
+                loop
+              />
+            ) : (
+              <img height="320" className="rounded-lg h-80" src={output.src} />
+            )}
           </Frame>
         </Tab>
       ))}
@@ -22,7 +26,7 @@ export const ToolSection = ({ outputs, title, slug }) => (
         title="Product Page"
         icon="video"
         horizontal
-        href={`https://magichour.ai/products/${slug}`}
+        href={`https://magichour.ai/products/${productSlug}`}
       >
         Learn more about {title}
       </Card>
@@ -30,7 +34,7 @@ export const ToolSection = ({ outputs, title, slug }) => (
         title="API Spec"
         icon="webhook"
         horizontal
-        href={`/api-reference/video-projects/${slug}`}
+        href={`/api-reference/${type}-projects/${apiSlug}`}
       >
         See API details
       </Card>
