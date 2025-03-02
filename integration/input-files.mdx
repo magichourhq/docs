@@ -1,0 +1,226 @@
+---
+title: Input Files
+description: Learn how to handle input files
+---
+
+Magic Hour's API allows you to upload various types of assets needed for video generation. This guide explains how to manage these assets effectively.
+
+## Supported asset types
+
+The follow file extensions are supported by our APIs:
+
+<CardGroup cols={3}>
+  <Card title="Video" icon="film">
+    mp4, m4v, mov, webm
+  </Card>
+  <Card title="Audio" icon="music">
+    mp3, mpeg, wav, aac, aiff, flac
+  </Card>
+  <Card title="Image" icon="image">
+    png, jpg, jpeg, webp, avif, jp2, tiff, bmp
+  </Card>
+</CardGroup>
+
+<Note>
+  `gif` extension is only supported by face swap API's `video_file_path` field.
+</Note>
+
+## Using assets
+
+You have two options when it come to using input files:
+
+- Pass a URL as the input
+- Upload to our storage
+
+## Passing a File URL
+
+This is the simplest method if you have the files hosted somewhere. When calling our APIs, you can simply pass the URL as the `video_file_path`, `image_file_path`, or `audio_file_path`.
+
+For Example
+
+```json
+{
+  "assets": {
+    "video_file_file": "https://cdn.yourwebsite.com/video.mp4"
+  }
+}
+```
+
+<Tip>
+  The URL can be an authenticated url, as long as we can validate the file
+  extension is supported.
+</Tip>
+
+## Upload to Magic Hour storage
+
+To upload assets for video generation, you'll need to follow a two-step process:
+
+<Steps>
+<Step title="Get Presigned Upload URLs">
+First, request upload URLs for your assets.
+
+<CodeGroup>
+
+```python Python SDK
+res = client.v1.files.upload_urls.create(
+    items=[
+        {"extension": "mp4", "type_field": "video"},
+    ]
+)
+```
+
+```typescript Node SDK
+const res = await client.v1.files.uploadUrls.create({
+  items: [{ extension: "mp4", type: "video" }],
+});
+```
+
+```go Go SDK
+res, err := client.V1.Files.UploadUrls.Create(upload_urls.CreateRequest{
+    Items: []types.PostV1FilesUploadUrlsBodyItemsItem{
+        types.PostV1FilesUploadUrlsBodyItemsItem{ Extension: "mp4", Type: types.PostV1FilesUploadUrlsBodyItemsItemTypeEnumVideo },
+    },
+})
+```
+
+```rust Rust SDK
+let res = client.v1().files().upload_urls()
+    .create(magic_hour::resources::v1::files::upload_urls::CreateRequest {
+        items: vec![
+            magic_hour::models::PostV1FilesUploadUrlsBodyItemsItem { extension: "mp4".to_string(), type_field: magic_hour::models::PostV1FilesUploadUrlsBodyItemsItemTypeEnum::Video }
+        ],
+    }).await;
+```
+
+```sh cURL
+curl https://api.magichour.ai/v1/files/upload-urls \
+  --request POST \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "items": [
+    { "type": "video", "extension": "mp4" }
+  ]
+}'
+```
+
+</CodeGroup>
+
+```json
+{
+  "items": [
+    {
+      "upload_url": "https://videos.magichour.ai/api-assets/id/video.mp4?auth-value=1234567890",
+      "expires_at": "2024-07-25T16:56:21.932Z",
+      "file_path": "api-assets/id/video.mp4"
+    }
+  ]
+}
+```
+
+<Tip>
+  If requesting multiple upload urls, the response array will be in the same
+  order as the request body.
+</Tip>
+
+</Step>
+
+<Step title="Upload Files">
+After receiving the upload URLs, send a PUT request to each URL with your file data and the appropriate content type header.
+
+<Warning>
+  Make sure to add `Content-type: 'application/octet-stream'` header to the
+  request.
+</Warning>
+
+<CodeGroup>
+
+```python Python
+import requests
+
+with open('/path/to/file/video.mp4', 'rb') as file:
+    response = requests.put(
+        'https://videos.magichour.ai/api-assets/id/video.mp4?auth-value=1234567890',
+        data=file,
+        headers={'Content-Type': 'application/octet-stream'}
+    )
+```
+
+```javascript JavaScript
+const fs = require("fs");
+const fetch = require("node-fetch");
+
+const file = fs.readFileSync("/path/to/file/video.mp4");
+
+fetch(
+  "https://videos.magichour.ai/api-assets/id/video.mp4?auth-value=1234567890",
+  {
+    method: "PUT",
+    headers: { "Content-Type": "application/octet-stream" },
+    body: file,
+  }
+);
+```
+
+```go Go
+func main() {
+    file, err := os.Open("/path/to/file/video.mp4")
+    if err != nil {
+        panic(err)
+    }
+    defer file.Close()
+
+    req, err := http.NewRequest("PUT", "https://videos.magichour.ai/api-assets/id/video.mp4?auth-value=1234567890", file)
+    if err != nil {
+        panic(err)
+    }
+    req.Header.Set("Content-Type", "application/octet-stream")
+
+    client := &http.Client{}
+    _, err = client.Do(req)
+    if err != nil {
+        panic(err)
+    }
+}
+```
+
+```rust Rust
+use std::fs::File;
+use reqwest::blocking::Client;
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let file = File::open("/path/to/file/video.mp4")?;
+    let client = Client::new();
+    let response = client.put("https://videos.magichour.ai/api-assets/id/video.mp4?auth-value=1234567890")
+        .header("Content-Type", "application/octet-stream")
+        .body(file)
+        .send()?;
+    Ok(())
+}
+```
+
+```bash cURL
+curl -X PUT \
+    -H 'Content-Type: application/octet-stream' \
+    --data-binary '@/path/to/file/video.mp4' \
+    https://videos.magichour.ai/api-assets/id/video.mp4?auth-value=1234567890
+```
+
+</CodeGroup>
+
+</Step>
+</Steps>
+
+## Using uploaded assets
+
+After successfully uploading your assets, you can reference them in your video generation API calls using `.items.[].file_path` value from the upload urls API call.
+
+## Uploaded file lifecycle
+
+Uploaded files are automatically cleaned up after **7 days**.
+
+<Tip>
+  You can reference `.items.[].file_path` in multiple API calls before the file
+  is cleaned up.
+</Tip>
+
+If you have use cases where having more permanent storage is required, please reach out to our team at support@magichour.ai.
