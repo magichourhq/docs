@@ -64,6 +64,10 @@
             ]
           },
           {
+            "group": "Integration",
+            "pages": ["integration/input-files"]
+          },
+          {
             "group": "Billing",
             "pages": [
               "billing/overview",
