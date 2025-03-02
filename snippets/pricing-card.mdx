@@ -1,0 +1,21 @@
+export const PricingCard = ({ title, prices, benefits }) => {
+  return (
+    <Card title={title}>
+      <div class="flex items-end mb-6 gap-4">
+        {prices.map((price) => {
+          return (
+            <div>
+              <span class="text-2xl text-primary">${price.amount}</span>
+              {price.label}
+            </div>
+          );
+        })}
+      </div>
+      <ul class="flex flex-col space-y-2">
+        {benefits.map((benefit) => {
+          return <li>{benefit}</li>;
+        })}
+      </ul>
+    </Card>
+  );
+};
