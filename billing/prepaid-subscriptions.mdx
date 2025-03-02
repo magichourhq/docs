@@ -72,3 +72,51 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
 If your usage is higher than the amount of frames received within the billing period, you have the option to purchase frame packs.
 
 Each frame pack grants 1000 frames, and cost $3 each.
+
+## How to subscribe
+
+<Steps>
+<Step title="Visit Pricing Page">
+  Visit the [Pricing Page](https://magichour.ai/pricing)
+  ![Pricing Page](./pricing-page-1.png)
+</Step>
+
+<Step title="Pick between yearly and monthly">
+  ![Pricing Page](./pricing-page-2.png)
+</Step>
+
+<Step title="Choosing the plan">
+
+Select whether you want `Creator`, `Pro`, or `Business` plan.
+
+![Pricing Page](./pricing-page-3.png)
+
+And click `Get Plan`
+
+</Step>
+
+<Step title="Fill out payment info">
+
+Using your preferred method of payment, complete the form and click `Subscribe`.
+
+</Step>
+
+<Step title="Receive frames in your account">
+
+On successful payment, you will be redirected to [My Plan](https://magichour.ai/dashboard/my-plan), and once Stripe notify us of the payment, frames are added to your account.
+
+![Payment Successful](./subscription-successful.png)
+
+</Step>
+
+</Steps>
+
+## Tracking Usage
+
+You can see the available frames in your account by visiting any signed in page, for example, the [Create Page](https://magichour.ai/create).
+
+![Create Page](./subscription-frames.png)
+
+<Warning>
+  Generate API calls will be rejected if your account do not have enough frames
+</Warning>
