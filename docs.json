@@ -62,6 +62,14 @@
               "get-started/video-tools",
               "get-started/image-tools"
             ]
+          },
+          {
+            "group": "Billing",
+            "pages": [
+              "billing/overview",
+              "billing/usage-based-pricing",
+              "billing/prepaid-subscriptions"
+            ]
           }
         ]
       },
