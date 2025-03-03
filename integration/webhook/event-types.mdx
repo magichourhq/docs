@@ -1,0 +1,110 @@
+---
+title: Webhook Event Types
+sidebarTitle: Event Types
+description: See the available events you can be notified for.
+---
+
+## Event Format
+
+All webhook events are in the following format:
+
+```json
+{
+  "type": "<event name>",
+  "payload": {
+    ...
+  }
+}
+```
+
+## Video events
+
+The `payload` matches the response of [`GET /v1/video-projects/:id`](/api-reference/video-projects/get-video-details).
+
+The example payload includes the subset of fields to pay attention to.
+
+### `video.started`
+
+This event is triggered when rendered begins.
+
+```json
+"status": "rendering",
+"downloads": [],
+"error": null
+```
+
+### `video.completed`
+
+This event is triggered when video is completed. The payload includes the link to download the video file.
+
+```json
+"status": "complete",
+"downloads": [
+    {
+        "url": "https://video.magichour.ai/id/output.mp4?auth-token=1234",
+        "expires_at": "2024-10-19T05:16:19.027Z"
+    }
+],
+"error": null
+```
+
+### `video.errored`
+
+This event is triggered when the video ran into an error. The payload includes details on the error
+
+```json
+"status": "error",
+"downloads": [],
+"error": {
+    "code": "invalid_video_file",
+    "message": "The video file contains invalid data. Please try a different file.",
+},
+```
+
+<Note>In case of errors, you are not charged for any usage</Note>
+
+## Image events
+
+The `payload` matches the response of [`GET /v1/image-projects/:id`](/api-reference/image-projects/get-image-details)
+
+### `image.started`
+
+This event is triggered when rendering begins.
+
+```json
+"status": "rendering",
+"downloads": [],
+"error": null
+```
+
+<Warning>Some modes do not send `image.started` due to fast renders.</Warning>
+
+### `image.completed`
+
+This event is triggered when image is completed. The payload includes the link to download the video file.
+
+```json
+"status": "complete",
+"downloads": [
+    {
+        "url": "https://video.magichour.ai/id/output.png",
+        "expires_at": "2024-10-19T05:16:19.027Z"
+    }
+],
+"error": null
+```
+
+### `image.errored`
+
+This event is triggered when the image ran into an error.
+
+```json
+"status": "error",
+"downloads": [],
+"error": {
+    "code": "no_source_face",
+    "message": "Please use an image with a detectable face"
+},
+```
+
+<Note>In case of errors, you are not charged for any usage</Note>
