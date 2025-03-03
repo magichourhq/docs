@@ -65,7 +65,18 @@
           },
           {
             "group": "Integration",
-            "pages": ["integration/input-files"]
+            "pages": [
+              "integration/adding-api-to-your-app",
+              "integration/input-files",
+              {
+                "group": "Webhook",
+                "pages": [
+                  "integration/webhook/overview",
+                  "integration/webhook/event-types",
+                  "integration/webhook/protecting-your-endpoint"
+                ]
+              }
+            ]
           },
           {
             "group": "Billing",
