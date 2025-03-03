@@ -1,0 +1,19 @@
+{
+  "version": "0.2",
+  "ignorePaths": [],
+  "dictionaryDefinitions": [],
+  "dictionaries": [],
+  "words": [
+    "fastapi",
+    "flac",
+    "getenv",
+    "hashlib",
+    "Headshot",
+    "headshots",
+    "hexdigest",
+    "magichourhq",
+    "reqwest"
+  ],
+  "ignoreWords": [],
+  "import": []
+}
