@@ -92,6 +92,10 @@
       {
         "tab": "API Reference",
         "openapi": "https://magichour.ai/docs/api/openapi.json"
+      },
+      {
+        "tab": "Webhook Reference",
+        "openapi": "https://magichour.ai/docs/webhook/openapi.json"
       }
     ],
     "global": {
