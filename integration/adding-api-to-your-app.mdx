@@ -226,6 +226,43 @@ write("output.mp4", content).unwrap();
 
 </CodeGroup>
 
+## Deleting generated files
+
+By default, all generated content are kept in storage without expiration. If you want to remove the generated files, you can use the following endpoints:
+
+- `DELETE /v1/video-projects/:id`
+- `DELETE /v1/image-projects/:id`
+
+<Warning>
+  This action is not reversible, please be sure before deleting.
+</Warning>
+
+<CodeGroup>
+```python Python SDK
+client.v1.video_projects.delete(
+  id="cm6pvghix03bvyz0zwash6noj"
+)
+```
+
+```typescript Node SDK
+await client.v1.videoProjects.delete({
+  id: "cm6pvghix03bvyz0zwash6noj",
+});
+```
+
+```go Go SDK
+err := client.V1.VideoProjects.Delete(video_projects.DeleteRequest{
+  Id: "cm6pvghix03bvyz0zwash6noj"
+})
+```
+
+```rust Rust SDK
+let res = client.v1().video_projects().delete(
+  magic_hour::resources::v1::video_projects::DeleteRequest { id: "cm6pvghix03bvyz0zwash6noj".to_string() }
+).await;
+```
+
+</CodeGroup>
 ## Reducing frame usage during integration
 
 While building out the integration, you'd want to avoid actually rendering the video/image since you will be charged on any completed render. There are a few ways to reduce your usage.
@@ -281,9 +318,7 @@ let client = magic_hour::Client::default()
 
 <Tip>
 
-If you are not using SDKs,
-
-y replace the URL to use the mock server.
+If you are not using SDKs, simply replace the URL to use the mock server.
 
 ```diff
 - https://api.magichour.ai/v1/image-to-video
