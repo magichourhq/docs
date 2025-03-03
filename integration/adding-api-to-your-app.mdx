@@ -228,10 +228,12 @@ write("output.mp4", content).unwrap();
 
 ## Deleting generated files
 
-By default, all generated content are kept in storage without expiration. If you want to remove the generated files, you can use the following endpoints:
+Currently generated content are kept in storage without expiration.
 
-- `DELETE /v1/video-projects/:id`
-- `DELETE /v1/image-projects/:id`
+If you want to remove the generated files, you can use the following endpoints:
+
+- [`DELETE /v1/video-projects/:id`](/api-reference/video-projects/delete-video)
+- [`DELETE /v1/image-projects/:id`](/api-reference/image-projects/delete-image)
 
 <Warning>
   This action is not reversible, please be sure before deleting.
