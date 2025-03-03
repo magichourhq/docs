@@ -1,0 +1,140 @@
+---
+title: Create Webhook Handler
+sidebarTitle: Create Handler
+---
+
+## Create a handler
+
+Setup an HTTPS endpoint function that:
+
+- Handles POST request with a JSON payload
+- Returns a successful status code (2xx)
+
+### Retries
+
+If event delivery failed, meaning the response from your endpoint did not respond with a status code of 2XX, we will retry delivery up to **24 hours** with exponential backoff.
+
+After 24 hours, the event will be marked as failed and will not be retried.
+
+In the case where the webhook is disabled, pending events for the webhook will be skipped. These events will also be marked as failed after 24 hours.
+
+### Sample handler
+
+<CodeGroup>
+
+```python Python
+from fastapi import FastAPI, Request
+
+app = FastAPI()
+
+@app.post("/webhook")
+async def webhook(request: Request):
+    event = await request.json()
+    match event.type:
+        case 'video.started':
+            print('Video processing started')
+        case 'video.completed':
+            print('Video processing completed')
+        case 'video.errored':
+            print('Video processing errored')
+    return {"success": True}
+```
+
+```typescript Node
+const express = require("express");
+
+const app = express();
+app.use(express.json());
+
+app.post("/webhook", (req, res) => {
+  const { type, payload } = req.body;
+
+  switch (type) {
+    case "video.started":
+      console.log("Video processing started:");
+      break;
+    case "video.completed":
+      console.log("Video processing completed");
+      break;
+    case "video.errored":
+      console.log("Video processing errored");
+      break;
+  }
+
+  res.status(200).json({ success: true });
+});
+const port = 8000;
+app.listen(port, () => console.log(`Server started on ${port}`));
+```
+
+</CodeGroup>
+
+## Testing your handler
+
+Start your web server
+
+<CodeGroup>
+
+```sh Python
+fastapi dev
+```
+
+```sh Node
+node server.js
+```
+
+</CodeGroup>
+
+Then send a sample event via curl
+
+```sh
+curl http://localhost:8000/webhook \
+  --request POST \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "type": "video.completed",
+  "payload": {
+    "id": "clx7uu86w0a5qp55yxz315r6r",
+    "name": "Example Name",
+    "status": "complete",
+    "type": "ANIMATION",
+    "created_at": "2024-10-19T05:10:19.027Z",
+    "width": 512,
+    "height": 960,
+    "enabled": true,
+    "start_seconds": 0,
+    "end_seconds": 15,
+    "total_frame_cost": 450,
+    "fps": 30,
+    "error": null,
+    "downloads": [
+      {
+        "url": "https://videos.magichour.ai/id/output.mp4",
+        "expires_at": "2024-10-19T05:16:19.027Z"
+      }
+    ]
+  }
+}'
+```
+
+and verify the result in your application logic.
+
+## Next steps
+
+<CardGroup cols={2}>
+<Card
+  title="Securing Your Webhook Handler"
+  icon="webhook"
+  href="/integration/webhook/secure-handler"
+>
+  Learn how to ensure your webhook only respond to events from Magic Hour
+</Card>
+
+<Card
+  title="Securing Your Webhook Handler"
+  icon="webhook"
+  href="/integration/webhook/event-types"
+>
+  See all the available events published by our system.
+</Card>
+</CardGroup>

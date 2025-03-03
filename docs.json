@@ -72,8 +72,9 @@
                 "group": "Webhook",
                 "pages": [
                   "integration/webhook/overview",
-                  "integration/webhook/event-types",
-                  "integration/webhook/protecting-your-endpoint"
+                  "integration/webhook/create-handler",
+                  "integration/webhook/secure-handler",
+                  "integration/webhook/event-types"
                 ]
               }
             ]
