@@ -242,25 +242,25 @@ If you want to remove the generated files, you can use the following endpoints:
 <CodeGroup>
 ```python Python SDK
 client.v1.video_projects.delete(
-  id="cm6pvghix03bvyz0zwash6noj"
+  id="cuid"
 )
 ```
 
 ```typescript Node SDK
 await client.v1.videoProjects.delete({
-  id: "cm6pvghix03bvyz0zwash6noj",
+  id: "cuid",
 });
 ```
 
 ```go Go SDK
 err := client.V1.VideoProjects.Delete(video_projects.DeleteRequest{
-  Id: "cm6pvghix03bvyz0zwash6noj"
+  Id: "cuid"
 })
 ```
 
 ```rust Rust SDK
 let res = client.v1().video_projects().delete(
-  magic_hour::resources::v1::video_projects::DeleteRequest { id: "cm6pvghix03bvyz0zwash6noj".to_string() }
+  magic_hour::resources::v1::video_projects::DeleteRequest { id: "cuid".to_string() }
 ).await;
 ```
 
