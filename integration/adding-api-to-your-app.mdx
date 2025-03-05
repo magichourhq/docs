@@ -59,12 +59,12 @@ For videos, render time is generally longer, depending on the length of the outp
 
 There are two ways to check whether generation completed:
 
-- Webhook notification (recommended)
+- Webhook notification
 - Polling the details API
 
 ### Webhook notification
 
-This is the recommended way to receive status change events; however, it does require extra effort to setup.
+This is the recommended way to receive status change events for modes with longer rendering times (e.g. video modes); however, it does require extra effort to setup.
 
 At a high level, to implement webhook notification:
 
@@ -72,7 +72,9 @@ At a high level, to implement webhook notification:
 1. create an API in your application to listen to events with logic for each event you're listening too.
 1. add additional logic in your application when status changes.
 
-Polling is a valid solution if you mainly render images or very short videos.
+<Tip>
+  Polling is a valid solution if you mainly render images or very short videos.
+</Tip>
 
 For videos with long render time, setting up an API to listen for event will be more efficient than constantly calling the video details API.
 
@@ -170,7 +172,7 @@ loop {
 
 ## Downloading result
 
-Once `status` is `complete`, the response for the image/video details will populate the `downloads` key. Note this is an array since some modes may have more than one outputs
+Once `status` is `complete`, the response for the image/video details will populate the `downloads` key. Note this is an array since some modes may have more than one output.
 
 ```diff
 - "downloads": [],
@@ -228,9 +230,9 @@ write("output.mp4", content).unwrap();
 
 ## Deleting generated files
 
-Currently generated content are kept in storage without expiration.
+Currently, the generated content are kept in our storage without expiration.
 
-If you want to remove the generated files, you can use the following endpoints:
+If you want to remove the generated files, you can call the following endpoints:
 
 - [`DELETE /v1/video-projects/:id`](/api-reference/video-projects/delete-video)
 - [`DELETE /v1/image-projects/:id`](/api-reference/image-projects/delete-image)
