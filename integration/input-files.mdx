@@ -56,7 +56,7 @@ For Example
 To upload assets for video generation, you'll need to follow a two-step process:
 
 <Steps>
-<Step title="Get Presigned Upload URLs">
+<Step title="Get presigned upload URLs">
 First, request upload URLs for your assets.
 
 <CodeGroup>
@@ -109,8 +109,11 @@ curl https://api.magichour.ai/v1/files/upload-urls \
 {
   "items": [
     {
+      // send a PUT request to this url to upload your file
       "upload_url": "https://videos.magichour.ai/api-assets/id/video.mp4?auth-value=1234567890",
+      // when the authenticated url expires. This is set to be 15 minutes
       "expires_at": "2024-07-25T16:56:21.932Z",
+      // the value to send to the API as `video_file_path`, `image_file_path`, or `audio_file_path`
       "file_path": "api-assets/id/video.mp4"
     }
   ]
@@ -124,7 +127,7 @@ curl https://api.magichour.ai/v1/files/upload-urls \
 
 </Step>
 
-<Step title="Upload Files">
+<Step title="Upload files">
 After receiving the upload URLs, send a PUT request to each URL with your file data and the appropriate content type header.
 
 <Warning>
@@ -214,13 +217,23 @@ curl -X PUT \
 
 After successfully uploading your assets, you can reference them in your video generation API calls using `.items.[].file_path` value from the upload urls API call.
 
+For example,
+
+```json
+{
+  "assets": {
+    "video_file_path": "api-assets/id/video.mp4"
+  }
+}
+```
+
 ## Uploaded file lifecycle
 
 Uploaded files are automatically cleaned up after **7 days**.
 
 <Tip>
-  You can reference `.items.[].file_path` in multiple API calls before the file
-  is cleaned up.
+  You can reference the value in `.items.[].file_path` in multiple API calls
+  before the file is cleaned up.
 </Tip>
 
 If you have use cases where having more permanent storage is required, please reach out to our team at support@magichour.ai.
