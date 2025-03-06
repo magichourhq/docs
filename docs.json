@@ -99,28 +99,6 @@
       }
     ],
     "global": {
-      "dropdowns": [
-        {
-          "dropdown": "Python SDK",
-          "href": "https://github.com/magichourhq/magic-hour-python",
-          "icon": "python"
-        },
-        {
-          "dropdown": "Node SDK",
-          "href": "https://github.com/magichourhq/magic-hour-node",
-          "icon": "node-js"
-        },
-        {
-          "dropdown": "Go SDK",
-          "href": "https://github.com/magichourhq/magic-hour-go",
-          "icon": "golang"
-        },
-        {
-          "dropdown": "Rust SDK",
-          "href": "https://github.com/magichourhq/magic-hour-rust",
-          "icon": "rust"
-        }
-      ],
       "anchors": [
         {
           "anchor": "Community",
@@ -128,14 +106,9 @@
           "icon": "discord"
         },
         {
-          "anchor": "Status",
+          "anchor": "API Status",
           "href": "https://status.magichour.ai",
           "icon": "wave-pulse"
-        },
-        {
-          "anchor": "Cost Calculator",
-          "href": "https://magichour.ai/api#api-cost-calculator",
-          "icon": "dollar-sign"
         },
         {
           "anchor": "Blog",
