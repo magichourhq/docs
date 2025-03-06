@@ -72,6 +72,7 @@ res = client.v1.ai_image_generator.create(
         "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'"
     },
 )
+print(res)
 ```
 
 ```typescript Node SDK
@@ -79,10 +80,10 @@ const res = await client.v1.aiImageGenerator.create({
   imageCount: 1,
   orientation: "landscape",
   style: {
-    prompt:
-      "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
+    prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
   },
 });
+console.log(res);
 ```
 
 ```go Go SDK
@@ -93,6 +94,7 @@ res, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{
         Prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
     },
 })
+fmt.Println(res)
 ```
 
 ```rust Rust SDK
@@ -105,6 +107,7 @@ let res = client.v1().ai_image_generator().create(
         },
         ..Default::default()
     }).await;
+println!("{:?}", res);
 ```
 
 </CodeGroup>
@@ -138,46 +141,70 @@ See the result of your generation at the [My Images Page](https://magichour.ai/d
 
 <CodeGroup>
 ```python Python SDK
-res = client.v1.text_to_video.create(
-    end_seconds=5,
-    orientation="landscape",
-    style={
-        "prompt": "A serene underwater world, where schools of colorful fish swim among vibrant coral reefs and sunlight dances on the surface"
+res = client.v1.face_swap.create(
+    name="Swap Tom Cruise into Iron Man scene",
+    assets={
+        "image_file_path": "https://videos.magichour.ai/api-assets/sample/tom-cruise.png",
+        "video_file_path": "https://videos.magichour.ai/api-assets/sample/iron-man.mp4",
+        "video_source": "file",
     },
+    start_seconds=0.0,
+    end_seconds=8.5,
+    height=288,
+    width=512,
 )
+print(res)
 ```
 
 ```typescript Node SDK
-const res = await client.v1.textToVideo.create({
-  end_seconds: 5,
-  orientation: "landscape",
-  style: {
-    prompt:
-      "A serene underwater world, where schools of colorful fish swim among vibrant coral reefs and sunlight dances on the surface",
+const res = await client.v1.faceSwap.create({
+  name: "Swap Tom Cruise into Iron Man scene",
+  assets: {
+    image_file_path: "https://videos.magichour.ai/api-assets/sample/tom-cruise.png",
+    video_file_path: "https://videos.magichour.ai/api-assets/sample/iron-man.mp4",
+    video_source: "file",
   },
+  start_seconds: 0.0,
+  end_seconds: 8.5,
+  height: 288,
+  width: 512,
 });
+console.log(res);
 ```
 
 ```go Go SDK
-res, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{
-    EndSeconds: 5,
-    Orientation: types.PostV1TextToVideoBodyOrientationEnumLandscape,
-    Style: types.PostV1TextToVideoBodyStyle{
-        Prompt: "A serene underwater world, where schools of colorful fish swim among vibrant coral reefs and sunlight dances on the surface",
+res, err := client.V1.FaceSwap.Create(face_swap.CreateRequest{
+    Name: "Swap Tom Cruise into Iron Man scene",
+    Assets: types.PostV1FaceSwapBodyAssets{
+        ImageFilePath: "https://videos.magichour.ai/api-assets/sample/tom-cruise.png",
+        VideoFilePath: "https://videos.magichour.ai/api-assets/sample/iron-man.mp4",
+        VideoSource:   types.PostV1FaceSwapBodyAssetsVideoSourceEnumFile,
     },
+    StartSeconds: 0.0,
+    EndSeconds:   8.5,
+    Height:       288,
+    Width:        512,
 })
+fmt.Println(res)
 ```
 
 ```rust Rust SDK
-let res = client.v1().text_to_video().create(
-    magic_hour::resources::v1::text_to_video::CreateRequest {
-        end_seconds: 5,
-        orientation: magic_hour::models::PostV1TextToVideoBodyOrientationEnum::Landscape,
-        style: magic_hour::models::PostV1TextToVideoBodyStyle {
-            prompt: "A serene underwater world, where schools of colorful fish swim among vibrant coral reefs and sunlight dances on the surface".to_string(),
+let res = client.v1().face_swap().create(
+    magic_hour::resources::v1::face_swap::CreateRequest {
+        name: "Swap Tom Cruise into Iron Man scene",
+        assets: magic_hour::models::PostV1FaceSwapBodyAssets {
+            image_file_path: "https://videos.magichour.ai/api-assets/sample/tom-cruise.png".to_string(),
+            video_file_path: "https://videos.magichour.ai/api-assets/sample/iron-man.mp4".to_string(),
+            video_source: magic_hour::models::PostV1FaceSwapBodyAssetsVideoSourceEnum::File,
+            ..Default::default()
         },
+        start_seconds: 0.0,
+        end_seconds: 8.5,
+        height: 288,
+        width: 512,
         ..Default::default()
     }).await;
+println!("{:?}", res);
 ```
 
 </CodeGroup>
@@ -186,15 +213,20 @@ let res = client.v1().text_to_video().create(
 <Tab title="Using Rest API">
 
 ```sh
-curl https://api.magichour.ai/v1/text-to-video \
+curl https://api.magichour.ai/v1/face-swap \
   --request POST \
   --header 'Content-Type: application/json' \
   --data '{
-  "end_seconds": 5,
-  "orientation": "landscape",
-  "style": {
-    "prompt": "A serene underwater world, where schools of colorful fish swim among vibrant coral reefs and sunlight dances on the surface"
-  }
+  "name": "Swap Tom Cruise into Iron Man scene",
+  "assets": {
+    "image_file_path": "https://videos.magichour.ai/api-assets/sample/tom-cruise.png",
+    "video_file_path": "https://videos.magichour.ai/api-assets/sample/iron-man.mp4",
+    "video_source": "file"
+  },
+  "start_seconds": 0,
+  "end_seconds": 8.5,
+  "height": 288,
+  "width": 512
 }'
 ```
 
@@ -207,18 +239,15 @@ See the result of your generation at the [My Videos Page](https://magichour.ai/d
 
 </Steps>
 
-<Check>
-  🎉 Congratulations! You have successfully created an image and a video on
-  Magic Hour!
-</Check>
+<Check>🎉 Congratulations! You have successfully created an image and a video on Magic Hour!</Check>
 
 ## Next steps
 
-Check out more sample code for all video and image modes in the SDK repos:
-
-- [Python SDK](https://github.com/magichourhq/magic-hour-python/tree/main/magic_hour/resources/v1)
-- [Node SDK](https://github.com/magichourhq/magic-hour-node/tree/main/src/resources/v1)
-- [Go SDK](https://github.com/magichourhq/magic-hour-go/tree/main/resources/v1)
-- [Rust SDK](https://github.com/magichourhq/magic-hour-rust/tree/main/src/resources/v1)
-
-Or, explore the full [API](/api-reference) list
+<CardGroup cols={2}>
+  <Card title="Video Tools" icon="video" href="/get-started/video-tools">
+    Learn about all the available video modes.
+  </Card>
+  <Card title="Image Tools" icon="image" href="/get-started/image-tools">
+    Learn about all the available image modes.
+  </Card>
+</CardGroup>
