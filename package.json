@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "mintlify": "4.0.410",
+    "prettier": "3.5.3",
     "typescript": "5.8.2"
   }
 }
