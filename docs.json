@@ -41,12 +41,12 @@
   },
   "footer": {
     "socials": {
+      "website": "https://magichour.ai",
       "x": "https://x.com/magichourai",
       "github": "https://github.com/magichourhq",
       "linkedin": "https://linkedin.com/company/magichour",
       "instagram": "https://instagram.com/magichourai",
-      "youtube": "https://youtube.com/@magichourai",
-      "website": "https://magichour.ai"
+      "youtube": "https://youtube.com/@magichourai"
     }
   },
   "navigation": {
