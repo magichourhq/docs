@@ -68,7 +68,7 @@ while True:
         print("render failed")
         break
     else:
-        print("render in progress...")
+        print(f"render in progress: {res.status}")
         time.sleep(1)
 
 ```
@@ -99,7 +99,7 @@ async function main() {
     } else if (res.status === "error") {
       console.log("render failed");
     } else {
-      console.log("render in progress...");
+      console.log(`render in progress: ${res.status}`);
       await new Promise((resolve) => setTimeout(resolve, 3000));
     }
   }
@@ -177,7 +177,7 @@ func main() {
 			println("render failed")
 			break
 		} else {
-			println("render in progress...")
+			fmt.Printf("render in progress: %s\n", res.Status)
 			time.Sleep(1 * time.Second)
 		}
 	}
@@ -240,7 +240,7 @@ async fn main() {
                 return;
             }
             _ => {
-                println!("render in progress...");
+                println!("render in progress: {}", res.status);
                 std::thread::sleep(std::time::Duration::from_secs(1));
             }
         }
