@@ -43,6 +43,9 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 
 ```python Python SDK
 from magic_hour import Client
+import time
+import os
+import urllib.request
 
 client = Client(token="YOUR_API_KEY") # change to your API key
 create_res = client.v1.ai_image_generator.create(
