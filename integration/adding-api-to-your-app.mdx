@@ -10,8 +10,8 @@ Following the [Quick Start Guide](/get-started/quick-start), you now can call an
 1. Visit [Developer Hub](https://magichour.ai/developer) to create an API key.
 
 <Warning>
-  Do not expose your API key in client-side code. Keep it secure on your server
-  to prevent unauthorized usage and potential abuse.
+  Do not expose your API key in client-side code. Keep it secure on your server to prevent
+  unauthorized usage and potential abuse.
 </Warning>
 
 2. Install the SDK in your project
@@ -72,17 +72,11 @@ At a high level, to implement webhook notification:
 1. create an API in your application to listen to events with logic for each event you're listening too.
 1. add additional logic in your application when status changes.
 
-<Tip>
-  Polling is a valid solution if you mainly render images or very short videos.
-</Tip>
+<Tip>Polling is a valid solution if you mainly render images or very short videos.</Tip>
 
 For videos with long render time, setting up an API to listen for event will be more efficient than constantly calling the video details API.
 
-<Card
-  title="Webhook Overview"
-  icon="webhook"
-  href="/integration/webhook/overview"
->
+<Card title="Webhook Overview" icon="webhook" href="/integration/webhook/overview">
   Learn how to implement webhook with Magic Hour
 </Card>
 
@@ -101,7 +95,7 @@ Then check the `status` field in set intervals.
 create_res = client.v1.image_to_video.create(...)
 project_id = create_res.id
 while True:
-    res = client.v1.video_projects.delete(id=project_id)
+    res = client.v1.video_projects.get(id=project_id)
     if res.status == 'complete':
         print("render complete")
         break
@@ -237,9 +231,7 @@ If you want to remove the generated files, you can call the following endpoints:
 - [`DELETE /v1/video-projects/:id`](/api-reference/video-projects/delete-video)
 - [`DELETE /v1/image-projects/:id`](/api-reference/image-projects/delete-image)
 
-<Warning>
-  This action is not reversible, please be sure before deleting.
-</Warning>
+<Warning>This action is not reversible, please be sure before deleting.</Warning>
 
 <CodeGroup>
 ```python Python SDK
@@ -274,8 +266,7 @@ While building out the integration, you'd want to avoid actually rendering the v
 ### Using mock API server
 
 <Info>
-  The mock server only responds with sample data and does not actually create
-  any records.
+  The mock server only responds with sample data and does not actually create any records.
 </Info>
 
 To use the mock server, simply pass the `environment` parameter when initializing the client.
