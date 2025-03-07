@@ -7,137 +7,300 @@ description: "Generate your first image and video in minutes"
 
 <Step title="Create Your Account">
 
+{/* TODO: add images */}
+
+1. Sign up for a new account.
 1. Visit the [Magic Hour Developer Hub](https://magichour.ai/developer)
-2. Sign up for a new account.
-
-</Step>
-
-<Step title="Create an API Key">
-
-1. In the [Developer Hub](https://magichour.ai/developer), click `Create API Key`.
-2. Add a descriptive name. Then click `Create key`.
-3. Copy the API key and save it.
+1. Click `Create API Key`.
+1. Add a descriptive name. Then click `Create key`.
+1. Copy the API key and save it.
 
 <Warning>The API key can only be viewed on creation.</Warning>
 
 </Step>
 
-<Step title="Initialize SDK (Optional)">
+{/* TODO: add a env setup step???? */}
+
+<Step title="Install SDK (Optional)">
 
 <Note>Skip to the next step if you're not planning on using our SDKs.</Note>
-
-Install the SDK
 
 import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 
 <SdkInstallation />
 
-Then initialize a new client
+</Step>
+
+<Step title="Generate an image or a video">
+<Tabs>
+
+<Tab title="AI image">
 
 <CodeGroup>
 
 ```python Python SDK
 from magic_hour import Client
-client = Client(token="YOUR_API_KEY")
-```
 
-```typescript Node SDK
-import Client from "magic-hour";
-const client = new Client({ token: "YOUR_API_KEY" });
-```
-
-```go Go SDK
-import sdk "github.com/magichourhq/magic-hour-go/client"
-client := sdk.NewClient(sdk.WithBearerAuth("YOUR_API_KEY"))
-```
-
-```rust Rust SDK
-use magic_hour;
-let client = magic_hour::Client::default().with_bearer_auth("YOUR_API_KEY");
-```
-
-</CodeGroup>
-</Step>
-
-<Step title="Create an image">
-<Tabs>
-<Tab title="Using SDKs">
-
-<CodeGroup>
-```python Python SDK
-res = client.v1.ai_image_generator.create(
+client = Client(token="YOUR_API_KEY") # change to your API key
+create_res = client.v1.ai_image_generator.create(
     image_count=1,
     orientation="landscape",
     style={
         "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'"
     },
 )
-print(res)
+
+print(f"queued image with id {create_res.id}, spent ${create_res.frame_cost} frames")
+
+output_file = "output.png"
+while True:
+    res = client.v1.image_projects.get(id=create_res.id)
+    if res.status == "complete":
+        print("render complete!")
+        with (
+            urllib.request.urlopen(res.downloads[0].url) as response,
+            open(output_file, "wb") as out_file,
+        ):
+            out_file.write(response.read())
+        print(f"file downloaded successfully to {output_file}")
+        break
+    elif res.status == "error":
+        print("render failed")
+        break
+    else:
+        print("render in progress...")
+        time.sleep(1)
+
 ```
 
 ```typescript Node SDK
-const res = await client.v1.aiImageGenerator.create({
-  imageCount: 1,
-  orientation: "landscape",
-  style: {
-    prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
-  },
-});
-console.log(res);
+import Client from "magic-hour";
+const client = new Client({ token: "YOUR_API_KEY" }); // change to your API key
+
+async function main() {
+  const createRes = await client.v1.aiImageGenerator.create({
+    imageCount: 1,
+    orientation: "landscape",
+    style: {
+      prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
+    },
+  });
+
+  while (true) {
+    const res = await client.v1.imageProjects.get({ id: createRes.id });
+    if (res.status === "complete") {
+      console.log("render complete!");
+      const outputFile = "output.png";
+      await fetch(res.downloads[0].url)
+        .then((res) => res.arrayBuffer())
+        .then((buffer) => writeFileSync(outputFile, Buffer.from(buffer)));
+      console.log(`file downloaded successfully to ${outputFile}`);
+      break;
+    } else if (res.status === "error") {
+      console.log("render failed");
+    } else {
+      console.log("render in progress...");
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+    }
+  }
+}
+
+main();
 ```
 
 ```go Go SDK
-res, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{
-    ImageCount:  1,
-    Orientation: types.PostV1AiImageGeneratorBodyOrientationEnumLandscape,
-    Style: types.PostV1AiImageGeneratorBodyStyle{
-        Prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
-    },
-})
-fmt.Println(res)
+package main
+
+import (
+	"fmt"
+	"io"
+	"net/http"
+	"os"
+	"time"
+
+	sdk "github.com/magichourhq/magic-hour-go/client"
+	"github.com/magichourhq/magic-hour-go/resources/v1/ai_image_generator"
+	"github.com/magichourhq/magic-hour-go/resources/v1/image_projects"
+	"github.com/magichourhq/magic-hour-go/types"
+)
+
+func main() {
+	client := sdk.NewClient(sdk.WithBearerAuth("YOUR_API_KEY")) // change to your API key
+	createRes, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{
+		ImageCount:  1,
+		Orientation: types.PostV1AiImageGeneratorBodyOrientationEnumLandscape,
+		Style: types.PostV1AiImageGeneratorBodyStyle{
+			Prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
+		},
+	})
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Printf("queued image with id %s, spent %d frames\n", createRes.Id, createRes.FrameCost)
+
+	for {
+		res, err := client.V1.ImageProjects.Get(image_projects.GetRequest{Id: createRes.Id})
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		if res.Status == "complete" {
+			println("render complete!")
+			url := res.Downloads[0].Url
+			outputFile := "output.png"
+
+			resp, err := http.Get(url)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			defer resp.Body.Close()
+
+			out, err := os.Create(outputFile)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			defer out.Close()
+
+			_, err = io.Copy(out, resp.Body)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			fmt.Printf("file downloaded successfully to %s\n", outputFile)
+			break
+		} else if res.Status == "error" {
+			println("render failed")
+			break
+		} else {
+			println("render in progress...")
+			time.Sleep(1 * time.Second)
+		}
+	}
+}
 ```
 
 ```rust Rust SDK
-let res = client.v1().ai_image_generator().create(
-    magic_hour::resources::v1::ai_image_generator::CreateRequest {
+use magic_hour;
+use reqwest;
+use std::io::Read;
+
+#[tokio::main]
+async fn main() {
+    let mut client = magic_hour::Client::default().with_bearer_auth(
+        "YOUR_API_KEY", // change to your API key
+    );
+
+    let create_res = client.v1().ai_image_generator().create(
+        magic_hour::resources::v1::ai_image_generator::CreateRequest {
         image_count: 1,
         orientation: magic_hour::models::PostV1AiImageGeneratorBodyOrientationEnum::Landscape,
         style: magic_hour::models::PostV1AiImageGeneratorBodyStyle {
             prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'".to_string(),
         },
         ..Default::default()
-    }).await;
-println!("{:?}", res);
+    }).await.unwrap();
+    let project_id = create_res.id;
+    let frame_cost = create_res.frame_cost;
+    println!("queued image with id {project_id}, spent {frame_cost} frames");
+    loop {
+        let res = client
+            .v1()
+            .image_projects()
+            .get(magic_hour::resources::v1::image_projects::GetRequest {
+                id: project_id.clone(),
+            })
+            .await
+            .unwrap();
+        match res.status {
+            magic_hour::models::GetV1ImageProjectsIdResponseStatusEnum::Complete => {
+                println!("render complete!");
+                let url = res.downloads[0].url.clone();
+
+                tokio::task::block_in_place(move || {
+                    let response = reqwest::blocking::get(url).unwrap();
+                    let output_path = "output.png";
+                    if response.status().is_success() {
+                        let mut output_file = std::fs::File::create(output_path).unwrap();
+                        std::io::copy(&mut response.take(1_000_000), &mut output_file).unwrap();
+                        println!("file downloaded successfully to {}", output_path);
+                    } else {
+                        println!("failed to download file: {}", response.status());
+                    }
+                });
+
+                return;
+            }
+            magic_hour::models::GetV1ImageProjectsIdResponseStatusEnum::Error => {
+                println!("render failed");
+                return;
+            }
+            _ => {
+                println!("render in progress...");
+                std::thread::sleep(std::time::Duration::from_secs(1));
+            }
+        }
+    }
+}
+```
+
+```sh cURL
+#!/bin/bash
+
+URL="https://api.magichour.ai/v1/ai-image-generator"
+STATUS_URL="https://api.magichour.ai/v1/image-projects"
+API_KEY="YOUR_API_KEY" # change to your API key
+OUTPUT_PATH="output.png"
+
+create_response=$(curl -s $URL \
+  --request POST \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer $API_KEY" \
+  --data '{
+    "image_count": 1,
+    "orientation": "landscape",
+    "style": {
+      "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says \"Magic Hour\""
+    }
+  }')
+
+project_id=$(echo $create_response | jq -r '.id')
+frame_cost=$(echo $create_response | jq -r '.frame_cost')
+
+echo "queued image with id $project_id, spent $frame_cost frames"
+while true; do
+    status_response=$(curl -s $STATUS_URL/$project_id --header "Authorization: Bearer $API_KEY")
+
+    status=$(echo $status_response | jq -r '.status')
+
+    if [ "$status" == "complete" ]; then
+        echo "render complete!"
+        download_url=$(echo $status_response | jq -r '.downloads[0].url')
+
+        echo "downloading image from $download_url..."
+        curl -s $download_url -o $OUTPUT_PATH
+
+        echo "file downloaded successfully to $OUTPUT_PATH"
+        break
+    elif [ "$status" == "error" ]; then
+        echo "render failed"
+        break
+    else
+        echo "render in progress"
+        sleep 1
+    fi
+done
 ```
 
 </CodeGroup>
 
 </Tab>
-<Tab title="Using Rest API">
 
-```sh
-curl https://api.magichour.ai/v1/ai-image-generator \
-  --request POST \
-  --header 'Content-Type: application/json' \
-  --data '{
-  "image_count": 1,
-  "orientation": "landscape",
-  "style": {
-    "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'"
-  }
-}'
-```
-
-</Tab>
-</Tabs>
-
-See the result of your generation at the [My Images Page](https://magichour.ai/dashboard/images) or checkout the [full integration guide](/integration/adding-api-to-your-app) to see how to download the output.
-
-</Step>
-
-<Step title="Create a video">
-<Tabs>
-<Tab title="Using SDKs">
+<Tab title="Face swap video">
 
 <CodeGroup>
 ```python Python SDK
@@ -207,12 +370,7 @@ let res = client.v1().face_swap().create(
 println!("{:?}", res);
 ```
 
-</CodeGroup>
-
-</Tab>
-<Tab title="Using Rest API">
-
-```sh
+```sh cURL
 curl https://api.magichour.ai/v1/face-swap \
   --request POST \
   --header 'Content-Type: application/json' \
@@ -230,13 +388,11 @@ curl https://api.magichour.ai/v1/face-swap \
 }'
 ```
 
+</CodeGroup>
+
 </Tab>
 </Tabs>
-
-See the result of your generation at the [My Videos Page](https://magichour.ai/dashboard/videos) or checkout the [full integration guide](/integration/adding-api-to-your-app) to see how to download the output.
-
 </Step>
-
 </Steps>
 
 <Check>🎉 Congratulations! You have successfully created an image and a video on Magic Hour!</Check>
@@ -251,3 +407,4 @@ See the result of your generation at the [My Videos Page](https://magichour.ai/d
     Learn about all the available image tools.
   </Card>
 </CardGroup>
+````
