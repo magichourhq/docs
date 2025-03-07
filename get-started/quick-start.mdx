@@ -503,6 +503,7 @@ async fn main() {
     let mut client = magic_hour::Client::default().with_bearer_auth(
         "YOUR_API_KEY", // change to your API key
     );
+
     let create_res = client
         .v1()
         .face_swap()
