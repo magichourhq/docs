@@ -48,6 +48,7 @@ import os
 import urllib.request
 
 client = Client(token="YOUR_API_KEY") # change to your API key
+
 create_res = client.v1.ai_image_generator.create(
     image_count=1,
     orientation="landscape",
@@ -80,7 +81,9 @@ while True:
 ```
 
 ```typescript Node SDK
+import { writeFileSync } from "fs";
 import Client from "magic-hour";
+
 const client = new Client({ token: "YOUR_API_KEY" }); // change to your API key
 
 async function main() {
@@ -201,15 +204,19 @@ async fn main() {
         "YOUR_API_KEY", // change to your API key
     );
 
-    let create_res = client.v1().ai_image_generator().create(
-        magic_hour::resources::v1::ai_image_generator::CreateRequest {
-        image_count: 1,
-        orientation: magic_hour::models::PostV1AiImageGeneratorBodyOrientationEnum::Landscape,
-        style: magic_hour::models::PostV1AiImageGeneratorBodyStyle {
-            prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'".to_string(),
-        },
-        ..Default::default()
-    }).await.unwrap();
+    let create_res = client
+        .v1()
+        .ai_image_generator()
+        .create(magic_hour::resources::v1::ai_image_generator::CreateRequest {
+            image_count: 1,
+            orientation: magic_hour::models::PostV1AiImageGeneratorBodyOrientationEnum::Landscape,
+            style: magic_hour::models::PostV1AiImageGeneratorBodyStyle {
+                prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'".to_string(),
+            },
+            ..Default::default()
+        })
+        .await
+        .unwrap();
     let project_id = create_res.id;
     let frame_cost = create_res.frame_cost;
     println!("queued image with id {project_id}, spent {frame_cost} frames");
@@ -361,9 +368,7 @@ while True:
 import { writeFileSync } from "fs";
 import Client from "magic-hour";
 
-const client = new Client({
-  token: "YOUR_API_KEY", // change to your API key
-});
+const client = new Client({ token: "YOUR_API_KEY" }); // change to your API key
 
 async function main() {
   const createRes = await client.v1.faceSwap.create({
@@ -494,7 +499,7 @@ use reqwest;
 use std::io::Read;
 
 #[tokio::main]
-pub async fn main() {
+async fn main() {
     let mut client = magic_hour::Client::default().with_bearer_auth(
         "YOUR_API_KEY", // change to your API key
     );
