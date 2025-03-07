@@ -256,6 +256,7 @@ async fn main() {
 
 ```sh cURL
 #!/bin/bash
+set -e
 
 URL="https://api.magichour.ai/v1/ai-image-generator"
 STATUS_URL="https://api.magichour.ai/v1/image-projects"
@@ -568,6 +569,9 @@ pub async fn main() {
 ```
 
 ```sh cURL
+#!/bin/bash
+set -e
+
 URL="https://api.magichour.ai/v1/face-swap"
 STATUS_URL="https://api.magichour.ai/v1/video-projects"
 API_KEY="YOUR_API_KEY" # change to your API key
