@@ -23,9 +23,6 @@
   "background": {
     "decoration": "gradient"
   },
-  "banner": {
-    "content": "⚠️ Docs are currently under construction. ⚠️"
-  },
   "navbar": {
     "links": [
       {
