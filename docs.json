@@ -9,12 +9,12 @@
     "dark": "#3b82f6"
   },
   "logo": {
-    "dark": "https://magichour.ai/logo.png",
-    "light": "https://magichour.ai/logo.png"
+    "dark": "./icons/logo-dark.svg",
+    "light": "./icons/logo-light.svg"
   },
   "favicon": {
-    "dark": "/icons/favicon.png",
-    "light": "/icons/favicon.png"
+    "dark": "./icons/favicon.png",
+    "light": "./icons/favicon.png"
   },
   "appearance": {
     "default": "dark",
