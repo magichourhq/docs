@@ -92,7 +92,25 @@
       },
       {
         "tab": "Webhook Reference",
-        "openapi": "https://magichour.ai/docs/webhook/openapi.json"
+        "openapi": "https://magichour.ai/docs/webhook/openapi.json",
+        "pages": [
+          {
+            "group": "Image Events",
+            "pages": [
+              "webhook-reference/image-events/image-started",
+              "webhook-reference/image-events/image-completed",
+              "webhook-reference/image-events/image-errored"
+            ]
+          },
+          {
+            "group": "Video Events",
+            "pages": [
+              "webhook-reference/video-events/video-started",
+              "webhook-reference/video-events/video-completed",
+              "webhook-reference/video-events/video-errored"
+            ]
+          }
+        ]
       }
     ],
     "global": {
