@@ -1,0 +1,7 @@
+#sidebar,
+#table-of-contents-content {
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-gutter: none;
+  scrollbar-color: gray transparent;
+}
