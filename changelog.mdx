@@ -363,7 +363,7 @@ Check it out at: https://magichour.ai/api.
 
 ## Launching AI Clothes Changer!
 
-Head over to [AI Clothes Changer](https://magichour.ai/create/ai-clothes-generator) to create yours today!
+Head over to [AI Clothes Changer](https://magichour.ai/create/ai-clothes-changer) to create yours today!
 
 <Frame>
 
@@ -394,5 +394,199 @@ We launched a free tool to automate subtitle generation on your video. Head over
 </Frame>
 
 Each generation is limited to 30 seconds, and you can generate 3 videos free per day. That's 1.5 minutes of free usage every day!
+
+</Update>
+
+<Update label="2024-12-29">
+
+## File URL Support for Face Swap Video and Photo APIs.
+
+To make it easier to use input files, we now allow file URLs for `image_file_path` and `video_file_path` in the following APIs:
+
+- POST /v1/face-swap
+- POST /v1/face-swap-photo
+
+Simply pass the url in the `file_path` inputs:
+
+```json
+{
+  "image_file_path": "https://cdn.yourwebsite.com/files/image.png",
+  "video_file_path": "https://cdn.yourwebsite.com/files/video.mp4"
+}
+```
+
+</Update>
+
+<Update label="2024-12-27">
+
+## Increased Video Download URL Expiration
+
+In the response of `GET /v1/video-projects/:id`, the expiration time is increased from **1 hour** to **24 hours**.
+
+The `GET /v1/image-projects/:id` was already returning 24 hours expiration, so this change make both of these APIs have matching behavior.
+
+</Update>
+
+<Update label="2024-12-17">
+
+## Added `.downloads` key to `GET /v1/video-projects/:id`
+
+In the response of `GET /v1/video-projects/:id`, we added `.downloads` key to return a list of output urls. This make video and image project response have matching behavior so it's easier to work with both APIs.
+
+<Note>The `.download` key is still part of the response to ensure backwards compatibility.</Note>
+
+```diff
+{
+- "download": {
+-     "url": "https://video.magichour.ai/id/output.mp4?auth-token=1234",
+-     "expires_at": "2024-12-18T00:00:00.000Z"
+- },
++ "downloads": [
++     {
++         "url": "https://video.magichour.ai/id/output.mp4?auth-token=1234",
++         "expires_at": "2024-12-18T00:00:00.000Z"
++     }
++ ],
+}
+```
+
+</Update>
+
+<Update label="2024-12-16">
+
+## Added Image Background Remover API
+
+In the response of `GET /v1/video-projects/:id`, we added `.downloads` key to return a list of output urls. This make video and image project response have matching behavior so it's easier to work with both APIs.
+
+<Note>The `.download` key is still part of the response to ensure backwards compatibility.</Note>
+
+```diff
+{
+- "download": {
+-     "url": "https://video.magichour.ai/id/output.mp4?auth-token=1234",
+-     "expires_at": "2024-12-18T00:00:00.000Z"
+- },
++ "downloads": [
++     {
++         "url": "https://video.magichour.ai/id/output.mp4?auth-token=1234",
++         "expires_at": "2024-12-18T00:00:00.000Z"
++     }
++ ],
+}
+```
+
+</Update>
+
+<Update label="2024-12-14">
+
+## Launching Image Background Remover!
+
+Head over to [Image Background Remover](https://magichour.ai/create/image-background-remover) to create yours today!
+
+<Frame>
+
+![Dashboard View](./changelog/images/2024-12-14/image-background-remover-tile.png)
+
+</Frame>
+
+We also launched a free tool to the [Image Background Remover Product Page](https://magichour.ai/products/image-background-remover) so you can try out the new product for free!
+
+<Frame>
+
+![Dashboard View](./changelog/images/2024-12-14/image-background-remover-free-tool.png)
+
+</Frame>
+
+</Update>
+
+<Update label="2024-12-06">
+
+## Specify Height & Width Must be at Least 64px in `POST /v1/video-to-video`
+
+This is an API validation update to ensure that `height` and `width` of the API call are both above 64.
+
+Originally, this was not validated at the API level, and the video will fail to render. Now, you will get a validation error for invalid height/width in the request body.
+
+For example, passing `height: 32` will return in the following 400 response:
+
+```json
+{
+  "message": "Request validation failed",
+  "pathParameterErrors": null,
+  "headerErrors": null,
+  "queryParameterErrors": null,
+  "bodyErrors": {
+    "issues": [
+      {
+        "code": "too_small",
+        "minimum": 64,
+        "type": "number",
+        "inclusive": true,
+        "exact": false,
+        "message": "Number must be greater than or equal to 64",
+        "path": ["height"]
+      }
+    ],
+    "name": "ZodError"
+  }
+}
+```
+
+</Update>
+
+<Update label="2024-12-04">
+
+## Add Animation to API
+
+Now you can create stop-motion animations via API. Get started with this new API using:
+
+- [Python SDK](https://github.com/magichourhq/magic-hour-python/tree/main/magic_hour/resources/v1/animation)
+- [Node SDK](https://github.com/magichourhq/magic-hour-node/tree/main/src/resources/v1/animation)
+- [Go SDK](https://github.com/magichourhq/magic-hour-go/tree/main/resources/v1/animation)
+- [Rust SDK](https://github.com/magichourhq/magic-hour-rust/tree/main/src/resources/v1/animation)
+- [Rest API](/api-reference/image-projects/animation)
+
+<Note>Fun Fact: Animation was the first mode we built on Magic Hour!</Note>
+
+</Update>
+
+<Update label="2024-12-03">
+
+## Error Visibility on Errors
+
+Previously, whenever an error occurred on generation, there's no additional details on why.
+
+We now added an `error` key to the `GET /v1/image-projects/:id` and `GET /v1/video-projects/:id` APIs to give you deeper visibility into what happened.
+
+```json
+{
+  "error": {
+    "code": "<error code>",
+    "message": "<explanation of error>"
+  }
+}
+```
+
+If you see `unknown_error` as the code, please reach out to our team at support@magichour.ai to debug further.
+
+## Delete Image/Video Project APIs
+
+After you downloaded the output, you now can delete the generated asset from our storage. This is a highly requested feature from our API users to improve privacy for the end user.
+
+Now you can call
+
+```
+
+DELETE /v1/image-projects/:id
+DELETE /v1/video-projects/:id
+
+```
+
+This change is also released to all SDKs.
+
+- [Python SDK](https://github.com/magichourhq/magic-hour-python/tree/main/magic_hour/resources/v1/video_projects)
+- [Node SDK](https://github.com/magichourhq/magic-hour-node/tree/main/src/resources/v1/video-projects)
+- [Go SDK](https://github.com/magichourhq/magic-hour-go/tree/main/resources/v1/video_projects)
+- [Rust SDK](https://github.com/magichourhq/magic-hour-rust/tree/main/src/resources/v1/video_projects)
 
 </Update>
