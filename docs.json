@@ -9,12 +9,12 @@
     "dark": "#3b82f6"
   },
   "logo": {
-    "dark": "./icons/logo-dark.svg",
-    "light": "./icons/logo-light.svg"
+    "dark": "/icons/logo-dark.svg",
+    "light": "/icons/logo-light.svg"
   },
   "favicon": {
-    "dark": "./icons/favicon.png",
-    "light": "./icons/favicon.png"
+    "dark": "/icons/favicon.png",
+    "light": "/icons/favicon.png"
   },
   "appearance": {
     "default": "dark",
@@ -111,6 +111,10 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "Changelog",
+        "pages": ["changelog/product-updates"]
       }
     ],
     "global": {
