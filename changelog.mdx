@@ -577,3 +577,186 @@ This change is also released to all SDKs.
 - [Rust SDK](https://github.com/magichourhq/magic-hour-rust/tree/main/src/resources/v1/video_projects)
 
 </Update>
+
+<Update label="2024-11-29">
+
+## Improve Error Message When File Path is Invalid
+
+If the `audio_file_path`, `image_file_path`, or `video_file_path` points to a file that does not exist in our storage, we previously returns the error
+
+> Asset path api-assets/id/video.mp4 is invalid
+
+This error is not very actionable. The new error is now:
+
+> file path ' api-assets/id/video.mp4' does not exist. Please make sure that the value matches the 'items.[].file_path' from the /v1/files/upload-urls API and the files are uploaded by sending a PUT request to the upload url.
+
+</Update>
+
+<Update label="2024-11-25">
+
+## Added `max_fps_limit` to `POST /v1/lip-sync`
+
+This was a feature requested by one of our API users, who wanted reduce frame usage while using APIs. Allowing to set a `max_fps_limit` means you limit the maximum of cost of the video.
+
+For example, if the original video has an FPS of 60 with a duration of 10 seconds, generation would previously cost **600** frames. Now, you can pass `"max_fps_limit": 24` and only be charged **240** frames.
+
+If the video fps is lower than the `max_fps_limit` set, we will deduct frames based on the actual
+FPS of the video
+
+You can see more details in the [API Reference](/api-reference/video-projects/lip-sync#body-max-fps-limit)
+
+</Update>
+
+<Update label="2024-11-23">
+
+## Longer Videos for Face Swap and Lip Sync
+
+We updated the maximum frames for Face Swap Video and Lip Sync from 6,000 to 20,000 frames.
+
+Now you can generate videos that are **3.3x** longer! 📈
+
+The table summaries the length of video you can generate for a few common video FPS:
+
+| FPS | Previous                                        | New                                              |
+| :-- | :---------------------------------------------- | :----------------------------------------------- |
+| 24  | {Math.floor(6000 / 24 / 60 / 0.1) / 10} minutes | {Math.floor(20000 / 24 / 60 / 0.1) / 10} minutes |
+| 30  | {Math.floor(6000 / 30 / 60 / 0.1) / 10} minutes | {Math.floor(20000 / 30 / 60 / 0.1) / 10} minutes |
+| 60  | {Math.floor(6000 / 60 / 60 / 0.1) / 10} minutes | {Math.floor(20000 / 60 / 60 / 0.1) / 10} minutes |
+
+</Update>
+
+<Update label="2024-11-21">
+
+## See Your Email in Menu
+
+Many of us have multiple emails, and sometimes it is hard to know what email you used. So we added your email to the profile menu.
+
+<Frame>
+![User Menu](./changelog/images/2024-11-21/user-menu-email.png)
+</Frame>
+</Update>
+
+<Update label="2024-11-16">
+
+## Select Events for Webhook
+
+We added the ability to select specific events to send to your webhook event.
+
+<Frame>![User Menu](./changelog/images/2024-11-16/webhook-select-events.png)</Frame>
+
+You can create your webhook by going to the [Developer Hub](https://magichour.ai/developer)
+
+</Update>
+
+<Update label="2024-11-15">
+## Make `name` Actually Optional in APIs
+
+Currently, the `name` field in APIs are `nullable`, when it should be `optional`. Before this change, even if you didn't want to add a name for a particular render, you still need to pass in the key with a `null` value.
+
+```json
+{
+  "name": null
+}
+```
+
+After this change, you can leave off `name` completely.
+
+</Update>
+
+<Update label="2024-11-13">
+
+## New AI Image APIs
+
+Added the following AI image tools to our API:
+
+- [POST /v1/ai-headshot-generator](/api-reference/image-projects/ai-headshots)
+- [POST /v1/ai-image-generator](/api-reference/image-projects/ai-images)
+- [POST /v1/ai-image-upscaler](/api-reference/image-projects/ai-image-upscaler)
+- [POST /v1/ai-qr-code-generator](/api-reference/image-projects/ai-qr-code)
+
+All of our SDKs are updated with the new endpoints
+
+- [Python SDK](https://github.com/magichourhq/magic-hour-python)
+- [Node SDK](https://github.com/magichourhq/magic-hour-node)
+- [Go SDK](https://github.com/magichourhq/magic-hour-go)
+- [Rust SDK](https://github.com/magichourhq/magic-hour-rust)
+
+</Update>
+
+<Update label="2024-11-11">
+
+## First AI Image APIs and Webhook Events
+
+We have added our first set of APIs for image modes:
+
+- [GET /v1/image-projects/:id](/api-reference/image-projects/get-image-details)
+- [POST /v1/face-swap-photo](/api-reference/image-projects/face-swap-photo)
+
+Also introduced 3 additional webhook events
+
+- `image.started`
+- `image.completed`
+- `image.errored`
+
+## Documentation Improvements
+
+- We reorganized our API docs to combine all video and image modes under one tag.
+- [Webhook Documentation](/webhook-reference) is split into its own documentation.
+
+</Update>
+
+<Update label="2024-11-10">
+
+## Added `high_quality` Param to Image-to-Video API
+
+Added `High Quality` mode to [Image-to-Video](https://magichour.ai/create/image-to-video). "High Quality" is better at detail preservation, ideal for humans and complex images.
+
+<Frame>
+  <video
+    loop
+    controls
+    autoPlay
+    muted
+    playsInline
+    className="w-full aspect-video"
+    src="https://videos.magichour.ai/api-assets/docs/image-to-video-high-quality.webm"
+  ></video>
+</Frame>
+
+To use high quality mode, simply check `High Quality` checkbox.
+
+</Update>
+
+<Update label="2024-11-08">
+
+## Added Support for `.webm` Video
+
+Now you can use `.webm` files in our web app without having to convert to a supported format.
+
+</Update>
+
+<Update label="2024-11-07">
+
+## Added Support for `.gif` For Face Swap
+
+Ever saw a funny gif and wanted to put yourself in the scene? Now you can! We added support to allow `.gif` files for face swap mode, both in the web UI and API
+
+</Update>
+
+<Update label="2024-11-03">
+
+## Delete Generated Images on Account Deletion
+
+When you request to delete your account, we remove all personal data, delete your information from Stripe, and erase all generated videos. We discovered that generated images were not included in this process. This has now been fixed—going forward, and we have reviewed and deleted any remaining images for previously deleted accounts.
+
+</Update>
+
+<Update label="2024-11-01">
+
+## Allow Custom Prompt for AI Image Upscaler
+
+Now you can have more control over the upscaled image. We enabled custom prompt for "Creative" style.
+
+<Frame>![User Menu](./changelog/images/2024-11-01/ai-image-upscaler-promt.png)</Frame>
+
+</Update>
