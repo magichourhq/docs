@@ -456,24 +456,13 @@ In the response of `GET /v1/video-projects/:id`, we added `.downloads` key to re
 
 ## Added Image Background Remover API
 
-In the response of `GET /v1/video-projects/:id`, we added `.downloads` key to return a list of output urls. This make video and image project response have matching behavior so it's easier to work with both APIs.
+Now you can remove background from your images via API. Get started with this new API using:
 
-<Note>The `.download` key is still part of the response to ensure backwards compatibility.</Note>
-
-```diff
-{
-- "download": {
--     "url": "https://video.magichour.ai/id/output.mp4?auth-token=1234",
--     "expires_at": "2024-12-18T00:00:00.000Z"
-- },
-+ "downloads": [
-+     {
-+         "url": "https://video.magichour.ai/id/output.mp4?auth-token=1234",
-+         "expires_at": "2024-12-18T00:00:00.000Z"
-+     }
-+ ],
-}
-```
+- [Python SDK](https://github.com/magichourhq/magic-hour-python/tree/main/magic_hour/resources/v1/image_background_remover)
+- [Node SDK](https://github.com/magichourhq/magic-hour-node/tree/main/src/resources/v1/image-background-remover)
+- [Go SDK](https://github.com/magichourhq/magic-hour-go/tree/main/resources/v1/image_background_remover)
+- [Rust SDK](https://github.com/magichourhq/magic-hour-rust/tree/main/src/resources/v1/image_background_remover)
+- [Rest API](/api-reference/image-projects/image-background-remover)
 
 </Update>
 
