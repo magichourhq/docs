@@ -196,6 +196,8 @@ let res = client.v1().animation().create(magic_hour::resources::v1::animation::C
 </Tab>
 </Tabs>
 
+<Check>All of our APIs now supports file URLs!</Check>
+
 </Update>
 
 <Update label="2025-02-14">
@@ -214,4 +216,117 @@ We added the `Auto Subtitle Generator` to our dashboard! The max duration of our
 </Frame>
 Try it now: [Auto Subtitle Generator](https://magichour.ai/create/auto-subtitle-generator)
 
-</Update >
+</Update>
+
+<Update label="2025-02-12">
+
+## Added `high_quality` Param to Image-to-Video API
+
+We previously introduced a `High Quality` checkbox to the web app. Now, our API supports high quality generation as well. As a quick recap, "High Quality" is better at detail preservation, ideal for humans and complex images.
+
+<Frame>
+  <video
+    loop
+    controls
+    autoPlay
+    muted
+    playsInline
+    className="w-full aspect-video"
+    src="https://videos.magichour.ai/api-assets/docs/image-to-video-high-quality.webm"
+  ></video>
+</Frame>
+
+To use high quality mode, simply add `.style.high_quality` param when calling the API.
+
+```diff
+{
+    "style": {
++        "high_quality": true
+    }
+}
+```
+
+## File URL Support for 5 different APIs.
+
+To make it easier to work with input files, we added support for file urls for the following APIs:
+
+- POST /v1/ai-headshot-generator
+- POST /v1/ai-image-upscaler
+- POST /v1/image-background-remover
+- POST /v1/image-to-video
+- POST /v1/lip-sync
+
+Now you don't have to upload the file to Magic Hour storage first before using the asset in the APIs. Simply use the url in the `file_path` inputs:
+
+```json
+{
+  "audio_file_path": "https://cdn.yourwebsite.com/files/audio.mp3",
+  "image_file_path": "https://cdn.yourwebsite.com/files/image.png",
+  "video_file_path": "https://cdn.yourwebsite.com/files/video.mp4"
+}
+```
+
+</Update>
+
+<Update label="2025-02-09">
+
+## Launching Usage-Based Pricing for API users
+
+Benefits:
+
+- ✅ Pay only for what you use
+- ✅ Volume discounts—up to 50% off
+- ✅ Never run out of frames
+
+For example, 15,000 frames now costs just \$18 on our Creator tier instead of $27 with a subscription.
+
+<Frame>
+  ![Pricing Comparison](https://videos.magichour.ai/api-assets/api-pricing-comparison-chart.png)
+</Frame>
+
+If you're interested in our new pricing, send us an email at support@magichour.ai.
+
+</Update>
+
+<Update label="2025-02-08">
+
+## Detailed Usage Cost Breakdown + Usage Analytics
+
+For users who has an active usage-based pricing subscription, we added detailed breakdown of cost based on each usage tier in your [Developer Hub](https://magichour.ai/developer)
+
+<Frame>![Cost Breakdown](../billing/images/developer-hub.png)</Frame>
+
+Plus, get detailed analytics on your usage:
+
+<Frame>![Usage Analytics](../billing/images/usage-analytics.png)</Frame>
+
+</Update>
+
+<Update label="2025-02-05">
+
+## Added More Error Codes For More Visibility
+
+We added 4 more API error codes to help you identify why a particular render failed. You can get the error details using the `GET /v1/image-projects/:id` and `GET /v1/video-projects/:id` endpoints by accessing `.error.code` and `.error.message` fields.
+
+| Error Code            | Error Message                                                                                                                       |
+| :-------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| `invalid_audio_file`  | The audio file contains invalid data. Please try a different file.                                                                  |
+| `invalid_image_file`  | The image file contains invalid data. Please try a different file.                                                                  |
+| `invalid_video_file`  | The video file contains invalid data. Please try a different file.                                                                  |
+| `invalid_youtube_url` | The youtube video cannot be downloaded. The video may be private, age-restricted, or region-restricted. Please try a different url. |
+
+</Update>
+
+<Update label="2025-02-02">
+
+## Added AI Clothes Changer API
+
+AI Clothes Changer is now available via API! Get started with this new API using:
+
+- [Python SDK](https://github.com/magichourhq/magic-hour-python/tree/main/magic_hour/resources/v1/ai_clothes_changer)
+- [Node SDK](https://github.com/magichourhq/magic-hour-node/tree/main/src/resources/v1/ai-clothes-changer)
+- [Go SDK](https://github.com/magichourhq/magic-hour-go/tree/main/resources/v1/ai_clothes_changer)
+- [Rust SDK](https://github.com/magichourhq/magic-hour-rust/tree/main/src/resources/v1/ai_clothes_changer)
+- [Rest API](/api-reference/image-projects/ai-clothes-changer)
+
+</Update>
