@@ -114,7 +114,7 @@
       },
       {
         "tab": "Changelog",
-        "pages": ["changelog"]
+        "pages": ["changelog", "changelog/2024"]
       }
     ],
     "global": {
