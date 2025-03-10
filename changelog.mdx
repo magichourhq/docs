@@ -919,7 +919,7 @@ Text-to-Video is now available via API! Get started with this new API using:
 - [Node SDK](https://github.com/magichourhq/magic-hour-node/tree/main/src/resources/v1/text-to-video)
 - [Go SDK](https://github.com/magichourhq/magic-hour-go/tree/main/resources/v1/text_to_video)
 - [Rust SDK](https://github.com/magichourhq/magic-hour-rust/tree/main/src/resources/v1/text_to_video)
-- [Rest API](/api-reference/image-projects/text-to-video)
+- [Rest API](/api-reference/video-projects/text-to-video)
 
 </Update>
 
@@ -933,7 +933,7 @@ Image-to-Video is now available via API! Get started with this new API using:
 - [Node SDK](https://github.com/magichourhq/magic-hour-node/tree/main/src/resources/v1/image-to-video)
 - [Go SDK](https://github.com/magichourhq/magic-hour-go/tree/main/resources/v1/image_to_video)
 - [Rust SDK](https://github.com/magichourhq/magic-hour-rust/tree/main/src/resources/v1/image_to_video)
-- [Rest API](/api-reference/image-projects/image-to-video)
+- [Rest API](/api-reference/video-projects/image-to-video)
 
 </Update>
 
@@ -946,4 +946,100 @@ Now that we support image generation, we now allow you toggle between videos and
 <Frame>
   ![New Dashboard](./changelog/images/2024-09-05/new-dashboard.png)
 </Frame>
+</Update>
+
+<Update label="2024-08-29">
+
+## Launching Image-to-Video Mode
+
+We launched a new image-to-video mode. It's higher quality, can generate **one minute** videos, and you can enter a prompt in addition to the image.
+
+Some of our favorite use cases are animating paintings, historic photos, and memes.
+
+<Tabs>
+<Tab title="Great Wave Painting">
+<Frame>
+  <video
+    loop
+    controls
+    autoPlay
+    muted
+    playsInline
+    className="w-full aspect-video"
+    src="https://videos.magichour.ai/api-assets/docs/image-to-video-the-great-wave-painting.webm"
+  ></video>
+</Frame>
+</Tab>
+<Tab title="Iwo Jima">
+<Frame>
+  <video
+    loop
+    controls
+    autoPlay
+    muted
+    playsInline
+    className="w-full aspect-video"
+    src="https://videos.magichour.ai/api-assets/docs/image-to-video-iwo-jima.webm"
+  ></video>
+</Frame>
+</Tab>
+
+</Tabs>
+
+You can try it out at https://magichour.ai/create/image-to-video
+
+</Update>
+
+<Update label="2024-08-25">
+
+## Launching Text-to-Video Mode
+
+We launched a new text-to-video mode. It's has high realism and consistency, and you can generate up to 60 second videos.
+
+<Tabs>
+<Tab title="Dog with sunglasses">
+<Frame>
+  <video
+    loop
+    controls
+    autoPlay
+    muted
+    playsInline
+    className="w-full aspect-video"
+    src="https://videos.magichour.ai/api-assets/docs/text-to-video-dog-sunglasses.webm"
+  ></video>
+</Frame>
+</Tab>
+<Tab title="First Person Shooter Game">
+<Frame>
+  <video
+    loop
+    controls
+    autoPlay
+    muted
+    playsInline
+    className="w-full aspect-video"
+    src="https://videos.magichour.ai/api-assets/docs/text-to-video-first-person.webm"
+  ></video>
+</Frame>
+</Tab>
+
+</Tabs>
+
+You can try it out at https://magichour.ai/create/text-to-video
+
+</Update>
+
+<Update label="2024-08-19">
+
+## Added Video-to-Video API
+
+Video-to-Video is now available via API! Get started with this new API using:
+
+- [Python SDK](https://github.com/magichourhq/magic-hour-python/tree/main/magic_hour/resources/v1/video_to_video)
+- [Node SDK](https://github.com/magichourhq/magic-hour-node/tree/main/src/resources/v1/video-to-video)
+- [Go SDK](https://github.com/magichourhq/magic-hour-go/tree/main/resources/v1/video_to_video)
+- [Rust SDK](https://github.com/magichourhq/magic-hour-rust/tree/main/src/resources/v1/video_to_video)
+- [Rest API](/api-reference/video-projects/video-to-video)
+
 </Update>
