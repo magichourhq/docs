@@ -3,6 +3,8 @@ title: Product Updates
 description: Latest feature enhancements in Magic Hour
 ---
 
+import { VideoPlayer } from "/snippets/video-player.mdx";
+
 <Update label="2025-03-07">
 
 ## AI Clothes Changer Quality Upgrade
@@ -44,15 +46,7 @@ We improved face detection accuracy in Multi-Face Swap for images with zoomed in
 
 We've improved our Multi Face Swap mode — now with **2.5x** faster processing and higher quality!
 
-<Frame>
-  <video
-    controls
-    preload="metadata"
-    playsInline
-    className="w-full aspect-video"
-    src="https://videos.magichour.ai/api-assets/docs/improved-multi-face-swap.webm"
-  ></video>
-</Frame>
+<VideoPlayer src="https://videos.magichour.ai/api-assets/docs/improved-multi-face-swap.webm" />
 
 </Update>
 
@@ -222,15 +216,7 @@ Try it now: [Auto Subtitle Generator](https://magichour.ai/create/auto-subtitle-
 
 We previously introduced a `High Quality` checkbox to the web app. Now, our API supports high quality generation as well. As a quick recap, "High Quality" is better at detail preservation, ideal for humans and complex images.
 
-<Frame>
-  <video
-    controls
-    preload="metadata"
-    playsInline
-    className="w-full aspect-video"
-    src="https://videos.magichour.ai/api-assets/docs/image-to-video-high-quality.webm"
-  ></video>
-</Frame>
+<VideoPlayer src="https://videos.magichour.ai/api-assets/docs/image-to-video-high-quality.webm" />
 
 To use high quality mode, simply add `.style.high_quality` param when calling the API.
 
@@ -337,15 +323,7 @@ Developers can now integrate our AI image & video generation tools directly into
 
 Free to get started for all users, with usage-based pricing available by request.
 
-<Frame>
-  <video
-    controls
-    preload="metadata"
-    playsInline
-    className="w-full aspect-video"
-    src="https://videos.magichour.ai/api-assets/docs/launching-magic-hour-api.mp4"
-  ></video>
-</Frame>
+<VideoPlayer src="https://videos.magichour.ai/api-assets/docs/launching-magic-hour-api.mp4" />
 
 Check it out at: https://magichour.ai/api.
 
@@ -705,15 +683,7 @@ Also introduced 3 additional webhook events
 
 Added `High Quality` mode to [Image-to-Video](https://magichour.ai/create/image-to-video). "High Quality" is better at detail preservation, ideal for humans and complex images.
 
-<Frame>
-  <video
-    controls
-    preload="metadata"
-    playsInline
-    className="w-full aspect-video"
-    src="https://videos.magichour.ai/api-assets/docs/image-to-video-high-quality.webm"
-  ></video>
-</Frame>
+<VideoPlayer src="https://videos.magichour.ai/api-assets/docs/image-to-video-high-quality.webm" />
 
 To use high quality mode, simply check `High Quality` checkbox.
 
@@ -885,15 +855,7 @@ It has a stylistic quality that is more consistent and less "noisy" than V1.
 
 Some styles that work well with V2 are "The Void," "Android," and "Street Fighter," try them out yourself!
 
-<Frame caption="Android Art Style">
-  <video
-    controls
-    preload="metadata"
-    playsInline
-    className="w-full aspect-video"
-    src="https://videos.magichour.ai/api-assets/docs/video-to-video-v2-android.webm"
-  ></video>
-</Frame>
+<VideoPlayer src="https://videos.magichour.ai/api-assets/docs/video-to-video-v2-android.webm" />
 
 Try them now: [Video-to-Video](https://magichour.ai/create/video-to-video)
 
@@ -948,26 +910,10 @@ Some of our favorite use cases are animating paintings, historic photos, and mem
 
 <Tabs>
 <Tab title="Great Wave Painting">
-<Frame>
-  <video
-    controls
-    preload="metadata"
-    playsInline
-    className="w-full aspect-video"
-    src="https://videos.magichour.ai/api-assets/docs/image-to-video-the-great-wave-painting.webm"
-  ></video>
-</Frame>
+<VideoPlayer src="https://videos.magichour.ai/api-assets/docs/image-to-video-the-great-wave-painting.webm" />
 </Tab>
 <Tab title="Iwo Jima">
-<Frame>
-  <video
-    controls
-    preload="metadata"
-    playsInline
-    className="w-full aspect-video"
-    src="https://videos.magichour.ai/api-assets/docs/image-to-video-iwo-jima.webm"
-  ></video>
-</Frame>
+<VideoPlayer src="https://videos.magichour.ai/api-assets/docs/image-to-video-iwo-jima.webm" />
 </Tab>
 
 </Tabs>
@@ -984,26 +930,10 @@ We launched a new text-to-video mode. It's has high realism and consistency, and
 
 <Tabs>
 <Tab title="Dog with sunglasses">
-<Frame>
-  <video
-    controls
-    preload="metadata"
-    playsInline
-    className="w-full aspect-video"
-    src="https://videos.magichour.ai/api-assets/docs/text-to-video-dog-sunglasses.webm"
-  ></video>
-</Frame>
+<VideoPlayer src="https://videos.magichour.ai/api-assets/docs/text-to-video-dog-sunglasses.webm" />
 </Tab>
 <Tab title="First Person Shooter Game">
-<Frame>
-  <video
-    controls
-    preload="metadata"
-    playsInline
-    className="w-full aspect-video"
-    src="https://videos.magichour.ai/api-assets/docs/text-to-video-first-person.webm"
-  ></video>
-</Frame>
+<VideoPlayer src="https://videos.magichour.ai/api-assets/docs/text-to-video-first-person.webm" />
 </Tab>
 
 </Tabs>
@@ -1226,15 +1156,7 @@ To delete, visit https://magichour.ai/settings and click `Delete Account`.
 
 We launched Lip Sync, a new mode that lets you match the lips in a video to any audio.
 
-<Frame>
-  <video
-    controls
-    preload="metadata"
-    playsInline
-    className="w-full aspect-video"
-    src="https://videos.magichour.ai/api-assets/docs/lip-sync-james-bond.webm"
-  ></video>
-</Frame>
+<VideoPlayer src="https://videos.magichour.ai/api-assets/docs/lip-sync-james-bond.webm" />
 
 Try it out at https://magichour.ai/create/lip-sync
 
@@ -1360,15 +1282,7 @@ Exciting news: we've upgraded Video-to-Video, enhancing quality across all tiers
 
 The changes, subtle yet significant, are ideal for discerning and professional users. Check out our before-and-after video to see the improvements:
 
-<Frame>
-  <video
-    controls
-    preload="metadata"
-    playsInline
-    className="w-full aspect-video"
-    src="https://videos.magichour.ai/api-assets/docs/v2v-quality-improvement.mp4"
-  ></video>
-</Frame>
+<VideoPlayer src="https://videos.magichour.ai/api-assets/docs/v2v-quality-improvement.mp4" />
 
 </Update>
 
@@ -1380,15 +1294,7 @@ We just launched a new mode called Image-to-Video. Simply upload an image and ge
 
 Note it's available to Creator and Pro users only.
 
-<Frame>
-  <video
-    controls
-    preload="metadata"
-    playsInline
-    className="w-full aspect-video"
-    src="https://videos.magichour.ai/api-assets/docs/i2v-island-video-cool.mp4"
-  ></video>
-</Frame>
+<VideoPlayer src="https://videos.magichour.ai/api-assets/docs/i2v-island-video-cool.mp4" />
 
 </Update>
 
@@ -1398,14 +1304,6 @@ Note it's available to Creator and Pro users only.
 
 We drastically improved the output quality of faces in Face Swap
 
-<Frame>
-  <video
-    controls
-    preload="metadata"
-    playsInline
-    className="w-full aspect-video"
-    src="https://videos.magichour.ai/api-assets/docs/final-faceswap-before-after.webm"
-  ></video>
-</Frame>
-
+<VideoPlayer src="https://videos.magichour.ai/api-assets/docs/final-faceswap-before-after.webm" />
+  
 </Update>
