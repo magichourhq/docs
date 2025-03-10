@@ -23,6 +23,11 @@
   "background": {
     "decoration": "gradient"
   },
+  "seo": {
+    "metatags": {
+        "og:image": "https://magichour.ai/logo-social.png"
+    }
+  },
   "navbar": {
     "links": [
       {
