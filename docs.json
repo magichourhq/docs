@@ -23,6 +23,12 @@
   "background": {
     "decoration": "gradient"
   },
+  "seo": {
+    "metatags": {
+      "og:image": "https://magichour.ai/logo-social.png",
+      "twitter:image": "https://magichour.ai/logo-social.png"
+    }
+  },
   "navbar": {
     "links": [
       {
@@ -114,7 +120,11 @@
       },
       {
         "tab": "Changelog",
-        "pages": ["changelog", "changelog/2024", "changelog/2023"]
+        "pages": [
+          "changelog",
+          "changelog/2024",
+          "changelog/2023"
+        ]
       }
     ],
     "global": {
