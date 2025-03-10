@@ -5,13 +5,14 @@ export const ToolSection = ({ type, outputs, title, productSlug, apiSlug }) => (
         <Tab title="Example Output">
           <Frame>
             {type === "video" ? (
-              <video
-                src={output.src}
+              <video 
                 controls
                 preload="metadata"
                 playsInline
                 className="rounded-lg h-80"
-              />
+              >
+                <source src={`${output.src}`} type={`${output.src.endsWith("mp4") ? 'video/mp4': "video/webm"}`} />
+              </video>
             ) : (
               <img height="320" className="rounded-lg h-80" src={output.src.startsWith('http') ?  output.src : `https://mintlify.s3.us-west-1.amazonaws.com/magichour${output.src}`} />
             )}
