@@ -1099,3 +1099,66 @@ we launched a free version of our face swap video tool.
 Try it out at https://magichour.ai/products/face-swap?mode=video
 
 </Update>
+
+<Update label="2024-06-25">
+
+## API Now Available to All Users
+
+We want everyone to be able to try out our API, so removed any limitation based on subscription tier. Now you can create an API key and call the API!
+
+Now, you no longer need an active `Pro` or `Business` subscription to access the API.
+
+</Update>
+
+<Update label="2024-06-23">
+
+## New Sign In/Up Pages
+
+We rebuild the Sign In and Sign Up Pages for a more optimize flow.
+
+</Update>
+
+<Update label="2024-06-20">
+
+## API Now Available to Pro Users
+
+We opened up our API to more users. Anyone with an active `Pro` or `Business` subscription to access the API.
+
+</Update>
+
+<Update label="2024-06-15">
+
+## Launching the Magic Hour API
+
+Magic Hour officially has an API offering! It is currently available to users with an active `Business` subscription. But we plan to open up the API to more users.
+
+As part of the initial launch, you can upload assets to our storage and create face swap videos.
+
+```sh
+curl --request POST \
+  --url https://api.magichour.ai/v1/face-swap \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "name": "Face Swap video",
+  "height": 960,
+  "width": 512,
+  "start_seconds": 0,
+  "end_seconds": 15,
+  "assets": {
+    "image_file_path": "image/id/1234.png",
+    "video_source": "file",
+    "video_file_path": "api-assets/id/1234.mp4"
+  }
+}'
+```
+
+The following APIs are available as part of the initial launch
+
+- [POST /v1/face-swap](/api-reference/video-projects/face-swap-video)
+- [GET /v1/video-projects/:id](/api-reference/video-projects/get-video-details)
+- [POST /v1/files/upload-urls](/api-reference/files/generate-asset-upload-urls)
+
+Get started by creating an [API key](https://magichour.ai/developer)
+
+</Update>
