@@ -7,11 +7,10 @@ export const ToolSection = ({ type, outputs, title, productSlug, apiSlug }) => (
             {type === "video" ? (
               <video
                 src={output.src}
-                muted
-                playsInline
                 controls
+                preload="metadata"
+                playsInline
                 className="rounded-lg h-80"
-                loop
               />
             ) : (
               <img height="320" className="rounded-lg h-80" src={output.src.startsWith('http') ?  output.src : `https://mintlify.s3.us-west-1.amazonaws.com/magichour${output.src}`} />
