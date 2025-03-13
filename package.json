@@ -7,10 +7,13 @@
   "license": "MIT",
   "packageManager": "yarn@4.6.0",
   "scripts": {
-    "dev": "mintlify dev",
-    "check": "mintlify broken-links"
+    "dev": "mintlify dev --port 3001",
+    "check": "mintlify broken-links",
+    "scrap:api": "mintlify-scrape openapi-file https://magichour.ai/docs/api/openapi.json -o api-reference",
+    "scrap:webhook": "mintlify-scrape openapi-file https://magichour.ai/docs/webhook/openapi.json -o webhook-reference"
   },
   "devDependencies": {
+    "@mintlify/scraping": "4.0.154",
     "mintlify": "4.0.410",
     "prettier": "3.5.3",
     "typescript": "5.8.2"
