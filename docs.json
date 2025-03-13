@@ -94,7 +94,41 @@
       },
       {
         "tab": "API Reference",
-        "openapi": "https://magichour.ai/docs/api/openapi.json"
+        "openapi": "https://magichour.ai/docs/api/openapi.json",
+        "pages": [
+          {
+            "group": "Files",
+            "pages": ["api-reference/files/generate-asset-upload-urls"]
+          },
+          {
+            "group": "Video Projects",
+            "pages": [
+              "api-reference/video-projects/get-video-details",
+              "api-reference/video-projects/delete-video",
+              "api-reference/video-projects/animation",
+              "api-reference/video-projects/face-swap-video",
+              "api-reference/video-projects/image-to-video",
+              "api-reference/video-projects/lip-sync",
+              "api-reference/video-projects/video-to-video",
+              "api-reference/video-projects/text-to-video"
+            ]
+          },
+          {
+            "group": "Image Projects",
+            "pages": [
+              "api-reference/image-projects/get-image-details",
+              "api-reference/image-projects/delete-image",
+              "api-reference/image-projects/ai-clothes-changer",
+              "api-reference/image-projects/ai-headshots",
+              "api-reference/image-projects/ai-images",
+              "api-reference/image-projects/ai-image-upscaler",
+              "api-reference/image-projects/ai-photo-editor",
+              "api-reference/image-projects/ai-qr-code",
+              "api-reference/image-projects/face-swap-photo",
+              "api-reference/image-projects/image-background-remover"
+            ]
+          }
+        ]
       },
       {
         "tab": "Webhook Reference",
@@ -120,11 +154,7 @@
       },
       {
         "tab": "Changelog",
-        "pages": [
-          "changelog",
-          "changelog/2024",
-          "changelog/2023"
-        ]
+        "pages": ["changelog", "changelog/2024", "changelog/2023"]
       }
     ],
     "global": {
