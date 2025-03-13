@@ -5,6 +5,26 @@ description: Latest feature enhancements in Magic Hour
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2025-03-12">
+
+## Added Error Codes For Invalid File Path
+
+We added 3 API error codes to identify invalid file path issues. You can get the error details using the `GET /v1/image-projects/:id` and `GET /v1/video-projects/:id` endpoints by accessing `.error.code` and `.error.message` fields.
+
+| Error Code           | Error Message                                                                                                                                                                                                  |
+| :------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `invalid_audio_path` | The audio_file_path value provided does not point to a valid audio file. This value should be a valid URL or file_path from the API https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls.  |
+| `invalid_image_path` | The image_file_path value provided does not point to a valid image file. This` value should be a valid URL or file_path from the API https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls. |
+| `invalid_video_path` | The video_file_path value provided does not point to a valid video file. This value should be a valid URL or file_path from the API https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls.  |
+
+## Improved Model / Garment Detection For Small Images
+
+We make improvements to our model and garment detection to better find subjects in low resolution images.
+
+Previously, you would get the error `Please use an image with a detectable model` or `Please use an image with a detectable outfit`.
+
+</Update>
+
 <Update label="2025-03-07">
 
 ## AI Clothes Changer Quality Upgrade
