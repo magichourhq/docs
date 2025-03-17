@@ -30,7 +30,7 @@ jobs:
           cache: yarn
           cache-dependency-path: yarn.lock
       - run: yarn install
-      - run: mintlify-scrape openapi-file https://magichour.ai/docs/api/openapi.json -o api-reference
+      - run: yarn scrape:api
       - name: Check for changes
         run: |
           if git diff --quiet api-reference; then
@@ -50,7 +50,7 @@ jobs:
           cache: yarn
           cache-dependency-path: yarn.lock
       - run: yarn install
-      - run: mintlify-scrape openapi-file https://magichour.ai/docs/webhook/openapi.json -o webhook-reference
+      - run: yarn scrape:webhook
       - name: Check for changes
         run: |
           if git diff --quiet webhook-reference; then
