@@ -15,3 +15,43 @@ jobs:
       - uses: actions/setup-node@v4
       - run: npm i -g mintlify
       - run: mintlify broken-links
+
+  api-reference:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: yarn
+          cache-dependency-path: yarn.lock
+      - run: yarn install
+      - run: mintlify-scrape openapi-file https://magichour.ai/docs/api/openapi.json -o api-reference
+      - name: Check for changes
+        run: |
+          if git diff --quiet api-reference; then
+            echo "No changes to API reference"
+          else
+            echo "::error::API reference has changed. Please update the API reference by running 'yarn scrape:api' locally." >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+  webhook-reference:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: yarn
+          cache-dependency-path: yarn.lock
+      - run: yarn install
+      - run: mintlify-scrape openapi-file https://magichour.ai/docs/webhook/openapi.json -o webhook-reference
+      - name: Check for changes
+        run: |
+          if git diff --quiet webhook-reference; then
+            echo "No changes to webhook reference"
+          else
+            echo "::error::Webhook reference has changed. Please update the webhook reference by running 'yarn scrape:webhook' locally." >> $GITHUB_OUTPUT
+            exit 1
+          fi
