@@ -1,0 +1,77 @@
+name: pr-checks
+
+on:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  broken-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: yarn
+          cache-dependency-path: yarn.lock
+      - run: yarn install
+      - run: yarn check
+
+  api-reference:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: yarn
+          cache-dependency-path: yarn.lock
+      - run: yarn install
+      - name: Save current state of api-reference
+        run: |
+          if [ -d "api-reference" ]; then
+            find api-reference -type f -name "*.json" -o -name "*.mdx" | sort > before_api_files.txt
+          else
+            touch before_api_files.txt
+          fi
+      - run: yarn scrape:api
+      - name: Check for changes
+        run: |
+          find api-reference -type f -name "*.json" -o -name "*.mdx" | sort > after_api_files.txt
+          if diff -q before_api_files.txt after_api_files.txt >/dev/null && ! git status --porcelain api-reference | grep .; then
+            echo "No changes to API reference"
+          else
+            echo "::error::API reference has changed. Please update the API reference by running 'yarn scrape:api' locally."
+            exit 1
+          fi
+
+  webhook-reference:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: yarn
+          cache-dependency-path: yarn.lock
+      - run: yarn install
+      - name: Save current state of webhook-reference
+        run: |
+          if [ -d "webhook-reference" ]; then
+            find webhook-reference -type f -name "*.json" -o -name "*.mdx" | sort > before_webhook_files.txt
+          else
+            touch before_webhook_files.txt
+          fi
+      - run: yarn scrape:webhook
+      - name: Check for changes
+        run: |
+          find webhook-reference -type f -name "*.json" -o -name "*.mdx" | sort > after_webhook_files.txt
+          if diff -q before_webhook_files.txt after_webhook_files.txt >/dev/null && ! git status --porcelain webhook-reference | grep .; then
+            echo "No changes to webhook reference"
+          else
+            echo "::error::Webhook reference has changed. Please update the webhook reference by running 'yarn scrape:webhook' locally."
+            exit 1
+          fi
