@@ -18,7 +18,7 @@ jobs:
           cache: yarn
           cache-dependency-path: yarn.lock
       - run: yarn install
-      - run: yarn check
+      - run: yarn check >> $GITHUB_OUTPUT
 
   api-reference:
     runs-on: ubuntu-latest
