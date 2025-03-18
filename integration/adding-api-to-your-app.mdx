@@ -22,6 +22,24 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 
 3. Using the methods built into the SDK to create a video or image.
 
+## Input files
+
+The easiest way to get started is passing a URL as the input.
+
+When calling our APIs, you can simply pass the URL as the `video_file_path`, `image_file_path`, or `audio_file_path`.
+
+```json
+{
+  "assets": {
+    "video_file_file": "https://cdn.yourwebsite.com/video.mp4"
+  }
+}
+```
+
+<Card title="Input Files" icon="file" href="/integration/input-files">
+  Get more details about managing input files, uploading files to Magic Hour storage, and more.
+</Card>
+
 ## Render status
 
 Videos and images can be one of the following statuses:
