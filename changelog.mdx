@@ -5,6 +5,49 @@ description: Latest feature enhancements in Magic Hour
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2025-03-19">
+
+## AI Clothes Changer Speed Improvement
+
+We've upgraded our AI Clothes Changer to version 3, providing enhanced quality and performance for all your virtual wardrobe needs.
+
+On [2025-03-07](/changelog#2025-03-07), we released an improved version of AI Clothes changer with higher quality to paid users only. This version improved the quality of the output; however, it was much slower than the previous version. In this latest update, we drastically improved generation time of the new version.
+
+| Version | Time        | Improvement |
+| :------ | :---------- | :---------- |
+| 1.0     | ~18 seconds | --          |
+| 2.0     | ~43 seconds | 2.4x slower |
+| 3.0     | ~6 seconds  | 7.2x faster |
+
+<Check>This release is available to all users!</Check>
+
+## AI Headshot Generator Custom Prompt Feature
+
+We've added prompt customization to our AI Headshot Generator, allowing you to better control the style and appearance of your professional headshots. This feature is available on the web app and API.
+
+<Frame>![Custom Prompt](/changelog/images/2025/03/custom-prompt.png)</Frame>
+
+To try it out, head over to [AI Headshot Generator](https://magichour.ai/create/ai-headshot-generator).
+
+To use custom prompt with Rest API, add the `prompt` param to your request.
+
+```json
+{
+  "style": {
+    "prompt": "professional passport photo"
+  }
+}
+```
+
+For SDKs, please upgrade to `0.10.0` to use custom prompt with AI Headshot Generator.
+
+- [Python SDK v0.10.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.10.0)
+- [Node SDK v0.10.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.10.0)
+- [Go SDK v0.10.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.10.0)
+- [Rust SDK v0.10.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.10.0)
+
+</Update>
+
 <Update label="2025-03-12">
 
 ## Added Error Codes For Invalid File Path
