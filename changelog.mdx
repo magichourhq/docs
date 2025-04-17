@@ -5,6 +5,29 @@ description: Latest feature enhancements in Magic Hour
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2025-04-17">
+
+## API Changes
+
+To take advantage of the latest changes, please upgrade to `0.13.0`.
+
+- [Python SDK v0.13.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.13.0)
+- [Node SDK v0.13.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.13.0)
+- [Go SDK v0.13.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.13.0)
+- [Rust SDK v0.13.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.13.0)
+
+### 🎉 Create Memes via API
+
+We added `POST /v1/ai-meme-generator` to our APIs and SDKs. Now you can create memes even faster!
+
+Check out [API reference](/api-reference/image-projects/ai-meme-generator)
+
+### ⚠️ Breaking changes in GET image/video project APIs
+
+The `GET /v1/video-projects/:id` and `GET /v1/image-projects/:id` API type field is updated from enum to string field. This field is mainly used for internal filtering, and having the field being enum means any new mode we add becomes a breaking change. So we decided to introduce this breaking change once so we can more easily add new modes down the line.
+
+</Update>
+
 <Update label="2025-04-14">
 
 ## 🎉 Create Memes in Create Page
