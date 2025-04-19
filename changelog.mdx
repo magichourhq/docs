@@ -5,6 +5,24 @@ description: Latest feature enhancements in Magic Hour
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2025-04-18">
+
+## Stable Mode in Face Swap Video and Photo
+
+We launched **Stable Mode** in Face Swap Video and Photo, which reduces flickering in face swaps with beards, mustaches, piercings, and other items on the face. To use it, select "Stable Mode" under the setting Face Mask after uploading a video. The default setting, "Smart Mode," remains the same and is recommended for most videos.
+
+<VideoPlayer src="https://videos.magichour.ai/api-assets/docs/changelog/2025/04/face-swap-stable-mode.mp4" />
+
+## Higher Quality Text-to-Video
+
+We added higher quality mode to `Text-to-video`
+
+<Frame>![Create Page Tile](/changelog/images/2025/04/quality-mode-select.png)</Frame>
+
+This feature is available to all web and API users.
+
+</Update>
+
 <Update label="2025-04-17">
 
 ## API Changes
@@ -25,6 +43,16 @@ Check out [API reference](/api-reference/image-projects/ai-meme-generator)
 ### ⚠️ Breaking changes in GET image/video project APIs
 
 The `GET /v1/video-projects/:id` and `GET /v1/image-projects/:id` API type field is updated from enum to string field. This field is mainly used for internal filtering, and having the field being enum means any new mode we add becomes a breaking change. So we decided to introduce this breaking change once so we can more easily add new modes down the line.
+
+## 🎉 Edit Face in Create Page
+
+Now you can create memes in our create page, meaning your outputs will be saved and you have no daily limit! Each meme costs 10 frames.
+
+<Frame>![Create Page Tile](/changelog/images/2025/04/ai-face-editor-create-page.png)</Frame>
+
+## 🎉 New: Photo Colorizer Free Tool
+
+Colorize your photo in seconds, completed free! https://staging.magichour.ai/products/photo-colorizer
 
 </Update>
 
