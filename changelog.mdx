@@ -5,6 +5,23 @@ description: Latest feature enhancements in Magic Hour
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2025-04-20">
+
+## Simplify Lip Sync API and New AI Face Editor API
+
+We removed `height` and `width` as required params for the `POST /v1/lip-sync` API. We now will automatically figure out aspect ratio of the input video and resize based on your subscription's maximum resolution. This makes it easier to create the video as you no longer need to figure out the aspect ratio of your input video and compute the height/width.
+
+We also released `POST /v1/ai-face-editor` API.
+
+To take advantage of the this change, please upgrade your sdk version to `0.16.0`.
+
+- [Python SDK v0.16.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.16.0)
+- [Node SDK v0.16.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.16.0)
+- [Go SDK v0.16.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.16.0)
+- [Rust SDK v0.16.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.16.0)
+
+</Update>
+
 <Update label="2025-04-19">
 
 ## Simplify Face Swap Video API
