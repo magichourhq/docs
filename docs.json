@@ -127,7 +127,8 @@
               "api-reference/image-projects/ai-photo-editor",
               "api-reference/image-projects/ai-qr-code",
               "api-reference/image-projects/face-swap-photo",
-              "api-reference/image-projects/image-background-remover"
+              "api-reference/image-projects/image-background-remover",
+              "api-reference/image-projects/photo-colorizer"
             ]
           }
         ]
