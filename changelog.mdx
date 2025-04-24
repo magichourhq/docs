@@ -11,6 +11,21 @@ import { VideoPlayer } from "/snippets/video-player.mdx";
 
 We launched **Stable Mode** in Lip Sync Video, which reduces flickering in face swaps with beards, mustaches, piercings, and other items on the face. To use it, select "Stable Mode" under the setting Face Mask after uploading a video. The default setting, "Smart Mode," remains the same and is recommended for most videos.
 
+## AI Gif Generator in Create Page + API
+
+<Frame>![Create Page Tile](/changelog/images/2025/04/ai-gif-generator-create-page-tile.png)</Frame>
+
+Try it now https://magichour.ai/create
+
+The GIF Generator is also available via [API](/api-reference/image-projects/ai-gifs).
+
+To take advantage of the this change, please upgrade your sdk version to `0.19.0`.
+
+- [Python SDK v0.19.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.19.0)
+- [Node SDK v0.19.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.19.0)
+- [Go SDK v0.19.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.19.0)
+- [Rust SDK v0.19.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.19.0)
+
 </Update>
 
 <Update label="2025-04-21">
@@ -27,12 +42,12 @@ Try it out now https://magichour.ai/products/ai-gif-generator
 
 We removed `height` and `width` as required params for the `POST /v1/image-to-video` API. We now will automatically figure out orientation of the output video based on the input image.
 
-To take advantage of the this change, please upgrade your sdk version to `0.17.0`.
+To take advantage of the this change, please upgrade your sdk version to `0.18.0`.
 
-- [Python SDK v0.17.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.17.0)
-- [Node SDK v0.17.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.17.0)
-- [Go SDK v0.17.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.17.0)
-- [Rust SDK v0.17.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.17.0)
+- [Python SDK v0.18.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.18.0)
+- [Node SDK v0.18.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.18.0)
+- [Go SDK v0.18.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.18.0)
+- [Rust SDK v0.18.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.18.0)
 
 ## Photo Colorizer in Create Page + API
 
