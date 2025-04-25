@@ -5,6 +5,21 @@ description: Latest feature enhancements in Magic Hour
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2025-04-25">
+
+## Simplify Video-to-Video API by making `height`/`width` optional
+
+We removed `height` and `width` as required params for the `POST /v1/video-to-video` API. We now will automatically figure out orientation of the output video based on the input video.
+
+To take advantage of the this change, please upgrade your sdk version to `0.20.0`.
+
+- [Python SDK v0.20.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.20.0)
+- [Node SDK v0.20.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.20.0)
+- [Go SDK v0.20.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.20.0)
+- [Rust SDK v0.20.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.20.0)
+
+</Update>
+
 <Update label="2025-04-22">
 
 ## Stable Mode in Lip Sync Video
