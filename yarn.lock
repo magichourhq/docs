@@ -569,16 +569,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mintlify/cli@npm:4.0.501":
-  version: 4.0.501
-  resolution: "@mintlify/cli@npm:4.0.501"
+"@mintlify/cli@npm:4.0.508":
+  version: 4.0.508
+  resolution: "@mintlify/cli@npm:4.0.508"
   dependencies:
-    "@mintlify/common": "npm:1.0.355"
-    "@mintlify/link-rot": "npm:3.0.465"
+    "@mintlify/common": "npm:1.0.360"
+    "@mintlify/link-rot": "npm:3.0.471"
     "@mintlify/models": "npm:0.0.188"
-    "@mintlify/prebuild": "npm:1.0.462"
-    "@mintlify/previewing": "npm:4.0.492"
-    "@mintlify/validation": "npm:0.1.351"
+    "@mintlify/prebuild": "npm:1.0.468"
+    "@mintlify/previewing": "npm:4.0.499"
+    "@mintlify/validation": "npm:0.1.354"
     chalk: "npm:^5.2.0"
     detect-port: "npm:^1.5.1"
     fs-extra: "npm:^11.2.0"
@@ -589,50 +589,7 @@ __metadata:
   bin:
     mint: bin/index.js
     mintlify: bin/index.js
-  checksum: 10/e9a32da57cc179a87dda17ecbea0950c3b02a2f9a1d2465762489a7b8db1c94a3689dfb44b0bc96575d2300cf699107ab4c73760b296ca4b2df8e9760ff78a86
-  languageName: node
-  linkType: hard
-
-"@mintlify/common@npm:1.0.355":
-  version: 1.0.355
-  resolution: "@mintlify/common@npm:1.0.355"
-  dependencies:
-    "@asyncapi/parser": "npm:^3.4.0"
-    "@mintlify/mdx": "npm:^1.0.1"
-    "@mintlify/models": "npm:0.0.188"
-    "@mintlify/openapi-parser": "npm:^0.0.7"
-    "@mintlify/validation": "npm:0.1.351"
-    "@sindresorhus/slugify": "npm:^2.1.1"
-    acorn: "npm:^8.11.2"
-    estree-util-to-js: "npm:^2.0.0"
-    estree-walker: "npm:^3.0.3"
-    gray-matter: "npm:^4.0.3"
-    hast-util-from-html: "npm:^2.0.3"
-    hast-util-to-html: "npm:^9.0.4"
-    hast-util-to-text: "npm:^4.0.2"
-    is-absolute-url: "npm:^4.0.1"
-    js-yaml: "npm:^4.1.0"
-    lodash: "npm:^4.17.21"
-    mdast: "npm:^3.0.0"
-    mdast-util-from-markdown: "npm:^2.0.2"
-    mdast-util-mdx: "npm:^3.0.0"
-    mdast-util-mdx-jsx: "npm:^3.1.3"
-    micromark-extension-mdx-jsx: "npm:^3.0.1"
-    openapi-types: "npm:^12.0.0"
-    remark: "npm:^15.0.1"
-    remark-frontmatter: "npm:^5.0.0"
-    remark-gfm: "npm:^4.0.0"
-    remark-math: "npm:^6.0.0"
-    remark-mdx: "npm:^3.1.0"
-    unified: "npm:^11.0.5"
-    unist-builder: "npm:^4.0.0"
-    unist-util-map: "npm:^4.0.0"
-    unist-util-remove: "npm:^4.0.0"
-    unist-util-remove-position: "npm:^5.0.0"
-    unist-util-visit: "npm:^5.0.0"
-    unist-util-visit-parents: "npm:^6.0.1"
-    vfile: "npm:^6.0.3"
-  checksum: 10/b1449c993656b8dc5ddcff9d86b1202ca10b43ea6f1f988303c86d1449dcdd0fd8b8f065788b9f4008a2c6deb0611999eddba71a0b7de4a9254f074a307d1748
+  checksum: 10/0ae1f43ba100d7af359c7991beea52119c2272c25818b4fe92ba1a1a2d0a237e5d37b57854ef12fd8495f543e6129aa56d26264aea01822fcfa3714a3ecfbbe5
   languageName: node
   linkType: hard
 
@@ -679,16 +636,59 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mintlify/link-rot@npm:3.0.465":
-  version: 3.0.465
-  resolution: "@mintlify/link-rot@npm:3.0.465"
+"@mintlify/common@npm:1.0.360":
+  version: 1.0.360
+  resolution: "@mintlify/common@npm:1.0.360"
   dependencies:
-    "@mintlify/common": "npm:1.0.355"
-    "@mintlify/prebuild": "npm:1.0.462"
+    "@asyncapi/parser": "npm:^3.4.0"
+    "@mintlify/mdx": "npm:^1.0.1"
+    "@mintlify/models": "npm:0.0.188"
+    "@mintlify/openapi-parser": "npm:^0.0.7"
+    "@mintlify/validation": "npm:0.1.354"
+    "@sindresorhus/slugify": "npm:^2.1.1"
+    acorn: "npm:^8.11.2"
+    estree-util-to-js: "npm:^2.0.0"
+    estree-walker: "npm:^3.0.3"
+    gray-matter: "npm:^4.0.3"
+    hast-util-from-html: "npm:^2.0.3"
+    hast-util-to-html: "npm:^9.0.4"
+    hast-util-to-text: "npm:^4.0.2"
+    is-absolute-url: "npm:^4.0.1"
+    js-yaml: "npm:^4.1.0"
+    lodash: "npm:^4.17.21"
+    mdast: "npm:^3.0.0"
+    mdast-util-from-markdown: "npm:^2.0.2"
+    mdast-util-mdx: "npm:^3.0.0"
+    mdast-util-mdx-jsx: "npm:^3.1.3"
+    micromark-extension-mdx-jsx: "npm:^3.0.1"
+    openapi-types: "npm:^12.0.0"
+    remark: "npm:^15.0.1"
+    remark-frontmatter: "npm:^5.0.0"
+    remark-gfm: "npm:^4.0.0"
+    remark-math: "npm:^6.0.0"
+    remark-mdx: "npm:^3.1.0"
+    unified: "npm:^11.0.5"
+    unist-builder: "npm:^4.0.0"
+    unist-util-map: "npm:^4.0.0"
+    unist-util-remove: "npm:^4.0.0"
+    unist-util-remove-position: "npm:^5.0.0"
+    unist-util-visit: "npm:^5.0.0"
+    unist-util-visit-parents: "npm:^6.0.1"
+    vfile: "npm:^6.0.3"
+  checksum: 10/686019febf187958fe40b4ecebcf6f14ff6acb47de93c613ddc9e5b35219f5f88d852028719125e518197d750681120f196be833f33216b9b1c26a19f237b335
+  languageName: node
+  linkType: hard
+
+"@mintlify/link-rot@npm:3.0.471":
+  version: 3.0.471
+  resolution: "@mintlify/link-rot@npm:3.0.471"
+  dependencies:
+    "@mintlify/common": "npm:1.0.360"
+    "@mintlify/prebuild": "npm:1.0.468"
     fs-extra: "npm:^11.1.0"
     is-absolute-url: "npm:^4.0.1"
     unist-util-visit: "npm:^4.1.1"
-  checksum: 10/6f25a7bd899a51458126df13cb40dc47e456c8c9cd10df450793633e36fd34abce0ce5da2958dd3f45be93e5c9f53aa79155e318c30b9d0694ac8ea83cfd2597
+  checksum: 10/bbae7ca3a11e610220a0432a80c95f563deac21f3a99f2ada763c867bf232f9442f4e3e551bc3583c820fdedc77842fc175cc464d0e107c60ac67dd87f98f828
   languageName: node
   linkType: hard
 
@@ -738,14 +738,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mintlify/prebuild@npm:1.0.462":
-  version: 1.0.462
-  resolution: "@mintlify/prebuild@npm:1.0.462"
+"@mintlify/prebuild@npm:1.0.468":
+  version: 1.0.468
+  resolution: "@mintlify/prebuild@npm:1.0.468"
   dependencies:
-    "@mintlify/common": "npm:1.0.355"
+    "@mintlify/common": "npm:1.0.360"
     "@mintlify/openapi-parser": "npm:^0.0.7"
-    "@mintlify/scraping": "npm:4.0.210"
-    "@mintlify/validation": "npm:0.1.351"
+    "@mintlify/scraping": "npm:4.0.215"
+    "@mintlify/validation": "npm:0.1.354"
     axios: "npm:^1.6.2"
     chalk: "npm:^5.3.0"
     favicons: "npm:^7.0.2"
@@ -755,17 +755,17 @@ __metadata:
     js-yaml: "npm:^4.1.0"
     openapi-types: "npm:^12.0.0"
     unist-util-visit: "npm:^4.1.1"
-  checksum: 10/dc41cd9bfefa88b2c8fe18bfa6dd9d2a6356acb8d4f91a6318c6062bc4d9c89bcbbd9e6ab2e986d9c6a4c13b602dcd5df4a43fabd011ed04e253c6643b3878f4
+  checksum: 10/fba8233a65bbbbeb20def54f25695b42739c06f6a212700398c96f00ea8a36976862b492d6998b610ea6fa71b5523aabb1cecbc696e1d462c60212d3fce7f464
   languageName: node
   linkType: hard
 
-"@mintlify/previewing@npm:4.0.492":
-  version: 4.0.492
-  resolution: "@mintlify/previewing@npm:4.0.492"
+"@mintlify/previewing@npm:4.0.499":
+  version: 4.0.499
+  resolution: "@mintlify/previewing@npm:4.0.499"
   dependencies:
-    "@mintlify/common": "npm:1.0.355"
-    "@mintlify/prebuild": "npm:1.0.462"
-    "@mintlify/validation": "npm:0.1.351"
+    "@mintlify/common": "npm:1.0.360"
+    "@mintlify/prebuild": "npm:1.0.468"
+    "@mintlify/validation": "npm:0.1.354"
     better-opn: "npm:^3.0.2"
     chalk: "npm:^5.1.0"
     chokidar: "npm:^3.5.3"
@@ -782,34 +782,7 @@ __metadata:
     tar: "npm:^6.1.15"
     unist-util-visit: "npm:^4.1.1"
     yargs: "npm:^17.6.0"
-  checksum: 10/378bf433710d12e38016a887c3cdc36d152a2c36b8af484687032fc8db8f64045cf935416b05167b83ba74285aee43198b5e94c857151abad5f7c175c3b997f0
-  languageName: node
-  linkType: hard
-
-"@mintlify/scraping@npm:4.0.210":
-  version: 4.0.210
-  resolution: "@mintlify/scraping@npm:4.0.210"
-  dependencies:
-    "@mintlify/common": "npm:1.0.355"
-    "@mintlify/openapi-parser": "npm:^0.0.7"
-    fs-extra: "npm:^11.1.1"
-    hast-util-to-mdast: "npm:^10.1.0"
-    js-yaml: "npm:^4.1.0"
-    mdast-util-mdx-jsx: "npm:^3.1.3"
-    neotraverse: "npm:^0.6.18"
-    puppeteer: "npm:^22.14.0"
-    rehype-parse: "npm:^9.0.0"
-    remark-gfm: "npm:^4.0.0"
-    remark-mdx: "npm:^3.0.1"
-    remark-parse: "npm:^11.0.0"
-    remark-stringify: "npm:^11.0.0"
-    unified: "npm:^11.0.5"
-    unist-util-visit: "npm:^5.0.0"
-    yargs: "npm:^17.6.0"
-    zod: "npm:^3.20.6"
-  bin:
-    mintlify-scrape: bin/cli.js
-  checksum: 10/315d907dd56e9af061c2440ebd70a224bb4368d2c26ef4896c33d211c0897f41ca1cdd6cfa02b00c0ae4e17c18c86a58040165708eb2b268338a07b586892b2d
+  checksum: 10/b1663a8fda649a7107ce675b817e972f3d3010af902fd70642fca64ff7bcbaeae2b824f225b78151fe969db9ae0120bfeea222b41b5af6d564b7c15b30c37925
   languageName: node
   linkType: hard
 
@@ -840,18 +813,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mintlify/validation@npm:0.1.351":
-  version: 0.1.351
-  resolution: "@mintlify/validation@npm:0.1.351"
+"@mintlify/scraping@npm:4.0.215":
+  version: 4.0.215
+  resolution: "@mintlify/scraping@npm:4.0.215"
   dependencies:
-    "@mintlify/models": "npm:0.0.188"
-    is-absolute-url: "npm:^4.0.1"
-    lcm: "npm:^0.0.3"
-    lodash: "npm:^4.17.21"
-    openapi-types: "npm:^12.0.0"
+    "@mintlify/common": "npm:1.0.360"
+    "@mintlify/openapi-parser": "npm:^0.0.7"
+    fs-extra: "npm:^11.1.1"
+    hast-util-to-mdast: "npm:^10.1.0"
+    js-yaml: "npm:^4.1.0"
+    mdast-util-mdx-jsx: "npm:^3.1.3"
+    neotraverse: "npm:^0.6.18"
+    puppeteer: "npm:^22.14.0"
+    rehype-parse: "npm:^9.0.0"
+    remark-gfm: "npm:^4.0.0"
+    remark-mdx: "npm:^3.0.1"
+    remark-parse: "npm:^11.0.0"
+    remark-stringify: "npm:^11.0.0"
+    unified: "npm:^11.0.5"
+    unist-util-visit: "npm:^5.0.0"
+    yargs: "npm:^17.6.0"
     zod: "npm:^3.20.6"
-    zod-to-json-schema: "npm:^3.20.3"
-  checksum: 10/59d537ad3e3cfa17ec08e88f0d41e555081978a022dc8023035a6a1f65c3d06b379c55faa6b8bead045e8db68609e730936db34c6b6e82984ce36f3684a8fae3
+  bin:
+    mintlify-scrape: bin/cli.js
+  checksum: 10/d88a555426826cf9d27729dc3af5552e0a2dfff993e020ebcbc5e172936b5cf71e89369e22130f358b39d49f0ce65db3251f2a700fd32f3cc53a8235b05d887f
   languageName: node
   linkType: hard
 
@@ -867,6 +852,21 @@ __metadata:
     zod: "npm:^3.20.6"
     zod-to-json-schema: "npm:^3.20.3"
   checksum: 10/60999cff809798e758846dc9225bbd7cdebade925d0fc2f95195f99ab2fb61649021f9e3b661429ad71c7cdf7112007e599d9d7f338169ee151411659971b367
+  languageName: node
+  linkType: hard
+
+"@mintlify/validation@npm:0.1.354":
+  version: 0.1.354
+  resolution: "@mintlify/validation@npm:0.1.354"
+  dependencies:
+    "@mintlify/models": "npm:0.0.188"
+    is-absolute-url: "npm:^4.0.1"
+    lcm: "npm:^0.0.3"
+    lodash: "npm:^4.17.21"
+    openapi-types: "npm:^12.0.0"
+    zod: "npm:^3.20.6"
+    zod-to-json-schema: "npm:^3.20.3"
+  checksum: 10/7cb24e9e838e5b61312b93949d1f5dd0572db8376224a00ed757905ebdda8fc35780e8c6a47314783bc27ebf072c747cb530853363dfee65a5ca90bf39d730de
   languageName: node
   linkType: hard
 
@@ -2491,7 +2491,7 @@ __metadata:
   resolution: "docs@workspace:."
   dependencies:
     "@mintlify/scraping": "npm:4.0.211"
-    mintlify: "npm:4.0.502"
+    mintlify: "npm:4.0.509"
     prettier: "npm:3.5.3"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -5461,15 +5461,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mintlify@npm:4.0.502":
-  version: 4.0.502
-  resolution: "mintlify@npm:4.0.502"
+"mintlify@npm:4.0.509":
+  version: 4.0.509
+  resolution: "mintlify@npm:4.0.509"
   dependencies:
-    "@mintlify/cli": "npm:4.0.501"
+    "@mintlify/cli": "npm:4.0.508"
   bin:
     mint: index.js
     mintlify: index.js
-  checksum: 10/2452335f434a143177e770e2e20998f0be5bfcb276f9c85153e25d9751de660b206030fd0fd397d78d2c13ccd1998df1b572de0ff6e622242e038e203ffee79c
+  checksum: 10/dc6858b8d3acdbbd7599ade81325c37e3a227f93ae0ba1723ce1263e3df05cdc48af6bf181311abe60376befb1019e63b1900e1dc9f54057a6c70c76006b6747
   languageName: node
   linkType: hard
 
