@@ -569,15 +569,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mintlify/cli@npm:4.0.516":
-  version: 4.0.516
-  resolution: "@mintlify/cli@npm:4.0.516"
+"@mintlify/cli@npm:4.0.518":
+  version: 4.0.518
+  resolution: "@mintlify/cli@npm:4.0.518"
   dependencies:
     "@mintlify/common": "npm:1.0.365"
     "@mintlify/link-rot": "npm:3.0.477"
     "@mintlify/models": "npm:0.0.188"
     "@mintlify/prebuild": "npm:1.0.474"
-    "@mintlify/previewing": "npm:4.0.507"
+    "@mintlify/previewing": "npm:4.0.509"
     "@mintlify/validation": "npm:0.1.356"
     chalk: "npm:^5.2.0"
     detect-port: "npm:^1.5.1"
@@ -589,7 +589,7 @@ __metadata:
   bin:
     mint: bin/index.js
     mintlify: bin/index.js
-  checksum: 10/dd54530ce3bd4ff8644c7a1d3a79f56f1ec0e0304ce74bb1aaeaff9394150867e76eb7cce634215fb96115f565eba2dbebea00c6850dfe6b901365ef5da30db2
+  checksum: 10/eb66014f5d649c46596ff2af5058b1f21212a62a8c11ef8ed4d46fd557fffadcfbbfaa1dfb716eefbb6d181fcf998180c3e16e6f74acf220bfbbcb9845625d26
   languageName: node
   linkType: hard
 
@@ -718,9 +718,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mintlify/previewing@npm:4.0.507":
-  version: 4.0.507
-  resolution: "@mintlify/previewing@npm:4.0.507"
+"@mintlify/previewing@npm:4.0.509":
+  version: 4.0.509
+  resolution: "@mintlify/previewing@npm:4.0.509"
   dependencies:
     "@mintlify/common": "npm:1.0.365"
     "@mintlify/prebuild": "npm:1.0.474"
@@ -742,7 +742,7 @@ __metadata:
     tar: "npm:^6.1.15"
     unist-util-visit: "npm:^4.1.1"
     yargs: "npm:^17.6.0"
-  checksum: 10/9f3c564b0e59e72969de726feb1214488fd8d2890edab17d33581aa2cb1f57d23a4d0c556beb59e4867b88a7a45463481b4206ed05eae07966822646f4a19eb3
+  checksum: 10/d2607ab696bdce004eef4dd16aba7aab6305a66c52b17b1f34e13edb1f48188d34eab32194d445a873605c238926e4043a1a5d3d17c3306a33b59a8b2a18cb16
   languageName: node
   linkType: hard
 
@@ -2409,7 +2409,7 @@ __metadata:
   resolution: "docs@workspace:."
   dependencies:
     "@mintlify/scraping": "npm:4.0.221"
-    mintlify: "npm:4.0.518"
+    mintlify: "npm:4.0.520"
     prettier: "npm:3.5.3"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -5379,15 +5379,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mintlify@npm:4.0.518":
-  version: 4.0.518
-  resolution: "mintlify@npm:4.0.518"
+"mintlify@npm:4.0.520":
+  version: 4.0.520
+  resolution: "mintlify@npm:4.0.520"
   dependencies:
-    "@mintlify/cli": "npm:4.0.516"
+    "@mintlify/cli": "npm:4.0.518"
   bin:
     mint: index.js
     mintlify: index.js
-  checksum: 10/e9594fc4bc94c6522414b7237c2b95d7a691245f7c91ecf1b0481818f53aeecd8cba64ba6f0e3b215d40d8c2f818bad05080546f39733b506ccfaa8293a39de4
+  checksum: 10/f49be7cdff8d9c708e2ec11711c2ec90e63f76526990b922366949933dc70b000b8d1f6f3d3a89d5257078f77e7c2469b933d7e147ad3332bf360a9dc30e7a5f
   languageName: node
   linkType: hard
 
