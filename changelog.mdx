@@ -5,6 +5,29 @@ description: Latest feature enhancements in Magic Hour
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2025-05-14">
+
+## Renamed `frames` to `credit` in the API.
+
+We originally named our credit system `frame` because we started off only having video modes, but since we now include images as well, using frame as the name of our credit system can cause confusion, so we renamed it.
+
+We introduced this change in sdk v0.22.0, and deprecated fields referencing `frames`
+
+- added `credits_charged` field in the API response for get details API and success responses from create API calls.
+- deprecated `total_frame_cost` from the `GET /v1/video-projects/:id` API.
+- deprecated `estimated_frame_cost` from the success response in create video API.
+- deprecated `total_frame_cost` from the `GET /v1/image-projects/:id` API.
+- deprecated `frame_cost` from the success response in create image API.
+
+To take advantage of the this change, please upgrade your sdk version to `0.22.0`.
+
+- [Python SDK v0.22.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.22.0)
+- [Node SDK v0.22.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.22.0)
+- [Go SDK v0.22.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.22.0)
+- [Rust SDK v0.22.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.22.0)
+
+</Update>
+
 <Update label="2025-05-08">
 
 ## "No Art Style" Art Style for Video to Video
