@@ -105,6 +105,7 @@
             "pages": [
               "api-reference/video-projects/get-video-details",
               "api-reference/video-projects/delete-video",
+              "api-reference/video-projects/ai-talking-photo",
               "api-reference/video-projects/animation",
               "api-reference/video-projects/face-swap-video",
               "api-reference/video-projects/image-to-video",
