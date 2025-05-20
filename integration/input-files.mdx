@@ -21,9 +21,7 @@ The follow file extensions are supported by our APIs:
   </Card>
 </CardGroup>
 
-<Note>
-  `gif` extension is only supported by face swap API's `video_file_path` field.
-</Note>
+<Note>`gif` extension is only supported by face swap API's `video_file_path` field.</Note>
 
 ## Using assets
 
@@ -47,8 +45,7 @@ For Example
 ```
 
 <Tip>
-  The URL can be an authenticated url, as long as we can validate the file
-  extension is supported.
+  The URL can be an authenticated url, as long as we can validate the file extension is supported.
 </Tip>
 
 ## Upload to Magic Hour storage
@@ -64,7 +61,7 @@ First, request upload URLs for your assets.
 ```python Python SDK
 res = client.v1.files.upload_urls.create(
     items=[
-        {"extension": "mp4", "type_field": "video"},
+        {"extension": "mp4", "type": "video"},
     ]
 )
 ```
@@ -121,8 +118,8 @@ curl https://api.magichour.ai/v1/files/upload-urls \
 ```
 
 <Tip>
-  If requesting multiple upload urls, the response array will be in the same
-  order as the request body.
+  If requesting multiple upload urls, the response array will be in the same order as the request
+  body.
 </Tip>
 
 </Step>
@@ -131,8 +128,7 @@ curl https://api.magichour.ai/v1/files/upload-urls \
 After receiving the upload URLs, send a PUT request to each URL with your file data and the appropriate content type header.
 
 <Warning>
-  Make sure to add `Content-type: 'application/octet-stream'` header to the
-  request.
+  Make sure to add `Content-type: 'application/octet-stream'` header to the request.
 </Warning>
 
 <CodeGroup>
@@ -154,14 +150,11 @@ const fetch = require("node-fetch");
 
 const file = fs.readFileSync("/path/to/file/video.mp4");
 
-fetch(
-  "https://videos.magichour.ai/api-assets/id/video.mp4?auth-value=1234567890",
-  {
-    method: "PUT",
-    headers: { "Content-Type": "application/octet-stream" },
-    body: file,
-  }
-);
+fetch("https://videos.magichour.ai/api-assets/id/video.mp4?auth-value=1234567890", {
+  method: "PUT",
+  headers: { "Content-Type": "application/octet-stream" },
+  body: file,
+});
 ```
 
 ```go Go
@@ -232,8 +225,8 @@ For example,
 Uploaded files are automatically cleaned up after **7 days**.
 
 <Tip>
-  You can reference the value in `.items.[].file_path` in multiple API calls
-  before the file is cleaned up.
+  You can reference the value in `.items.[].file_path` in multiple API calls before the file is
+  cleaned up.
 </Tip>
 
 If you have use cases where having more permanent storage is required, please reach out to our team at support@magichour.ai.
