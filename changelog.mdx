@@ -5,6 +5,43 @@ description: Latest feature enhancements in Magic Hour
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2025-05-22">
+
+## Improved AI Headshot Generator
+
+We improved our AI Headshot Generator! Now you can create studio-quality headshots by training a model using your photos. It's more realistic, accurate, and consistent than our one-shot model.
+
+Try it out at https://magichour.ai/create/ai-headshot-generator
+
+<Frame>![No Art Style](/changelog/images/2025/05/ai-headshots-custom-model.png)</Frame>
+
+(Note: each training costs 2,000 credits)
+
+</Update>
+
+<Update label="2025-05-17">
+
+## Fixed: Unable to cancel subscription with scheduled plan change
+
+We resolved an issue that prevented users from canceling their subscription if a plan change was scheduled. You can now cancel at any time, even with an upcoming plan update.
+
+</Update>
+
+<Update label="2025-05-15">
+
+## Add generation mode and intensity param to talking photo API
+
+We recently introduced `Expressive` mode to Talking Photo, and now it has been added to the API as well. We also added a `.style.intensity` param to help control amount of motion and expressiveness.
+
+To take advantage of the this change, please upgrade your sdk version to `0.23.0`.
+
+- [Python SDK v0.23.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.23.0)
+- [Node SDK v0.23.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.23.0)
+- [Go SDK v0.23.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.23.0)
+- [Rust SDK v0.23.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.23.0)
+
+</Update>
+
 <Update label="2025-05-14">
 
 ## 🚀 Brand new Pricing Page
