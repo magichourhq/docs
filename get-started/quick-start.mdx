@@ -55,7 +55,7 @@ create_res = client.v1.ai_image_generator.create(
     },
 )
 
-print(f"queued image with id {create_res.id}, spent ${create_res.frame_cost} frames")
+print(f"queued image with id {create_res.id}, spent ${create_res.credits_charged} credits")
 
 output_file = "output.png"
 while True:
@@ -146,7 +146,7 @@ func main() {
 		return
 	}
 
-	fmt.Printf("queued image with id %s, spent %d frames\n", createRes.Id, createRes.FrameCost)
+	fmt.Printf("queued image with id %s, spent %d credits\n", createRes.Id, createRes.CreditsCharged)
 
 	for {
 		res, err := client.V1.ImageProjects.Get(image_projects.GetRequest{Id: createRes.Id})
@@ -216,8 +216,8 @@ async fn main() {
         .await
         .unwrap();
     let project_id = create_res.id;
-    let frame_cost = create_res.frame_cost;
-    println!("queued image with id {project_id}, spent {frame_cost} frames");
+    let credits_charged = create_res.credits_charged;
+    println!("queued image with id {project_id}, spent {credits_charged} credots");
     loop {
         let res = client
             .v1()
@@ -281,9 +281,9 @@ create_response=$(curl -s $URL \
   }')
 
 project_id=$(echo $create_response | jq -r '.id')
-frame_cost=$(echo $create_response | jq -r '.frame_cost')
+credits_charged=$(echo $create_response | jq -r '.credits_charged')
 
-echo "queued image with id $project_id, spent $frame_cost frames"
+echo "queued image with id $project_id, spent $credits_charged credits"
 while true; do
     status_response=$(curl -s $STATUS_URL/$project_id --header "Authorization: Bearer $API_KEY")
 
@@ -338,14 +338,14 @@ create_res = client.v1.face_swap.create(
 )
 
 print(
-    f"queued face swap video with id {create_res.id}, spent an estimated {create_res.estimated_frame_cost} frames based on 30fps. This value be updated after render completes if fps is different."
+    f"queued face swap video with id {create_res.id}, spent {create_res.credits_charged} credits based on 30fps. This value be updated after render completes if fps is different."
 )
 
 output_file = "output.mp4"
 while True:
     res = client.v1.video_projects.get(id=create_res.id)
     if res.status == "complete":
-        print(f"render complete! Final frame cost is {res.total_frame_cost}, actual fps is {res.fps}.")
+        print(f"render complete! Final credit charged is {res.credits_charged}, actual fps is {res.fps}.")
         with (
             urllib.request.urlopen(res.downloads[0].url) as response,
             open(output_file, "wb") as out_file,
@@ -383,14 +383,14 @@ async function main() {
   });
 
   console.log(
-    `queued face swap video with id ${createRes.id}, spent an estimated ${createRes.estimatedFrameCost} frames based on 30fps. This value be updated after render completes if fps is different.`
+    `queued face swap video with id ${createRes.id}, spent ${createRes.creditsCharged} credits based on 30fps. This value be updated after render completes if fps is different.`
   );
 
   while (true) {
     const res = await client.v1.videoProjects.get({ id: createRes.id });
     if (res.status === "complete") {
       console.log(
-        `render complete! Final frame cost is ${res.totalFrameCost}, actual fps is ${res.fps}.`
+        `render complete! Final credit charged is ${res.creditsCharged}, actual fps is ${res.fps}.`
       );
       const outputFile = "output.mp4";
       await fetch(res.downloads[0].url)
@@ -446,7 +446,7 @@ func main() {
 		return
 	}
 
-	fmt.Printf("queued video with id %s, spent an estimated %d frames based on 30fps. This value be adjusted after render completes if fps is different.\n", createRes.Id, createRes.EstimatedFrameCost)
+	fmt.Printf("queued video with id %s, spent %d credits based on 30fps. This value be adjusted after render completes if fps is different.\n", createRes.Id, createRes.CreditsCharged)
 
 	for {
 		res, err := client.V1.VideoProjects.Get(video_projects.GetRequest{Id: createRes.Id})
@@ -455,7 +455,7 @@ func main() {
 			return
 		}
 		if res.Status == "complete" {
-			fmt.Printf("render complete! Final frame cost is %d, actual fps is %f.\n", res.TotalFrameCost, res.Fps)
+			fmt.Printf("render complete! Final credits charged is %d, actual fps is %f.\n", res.CreditsCharged, res.Fps)
 			url := res.Downloads[0].Url
 			outputFile := "output.mp4"
 
@@ -525,8 +525,8 @@ async fn main() {
         .await
         .unwrap();
     let project_id = create_res.id;
-    let frame_cost = create_res.estimated_frame_cost;
-    println!("queued face swap video with id {project_id}, spent an estimated {frame_cost} frames based on 30fps. This value be updated after render completes if fps is different.");
+    let credits_charged = create_res.credits_charged;
+    println!("queued face swap video with id {project_id}, spent {credits_charged} credits based on 30fps. This value be updated after render completes if fps is different.");
 
     loop {
         let res = client
@@ -540,8 +540,8 @@ async fn main() {
         match res.status {
             magic_hour::models::GetV1VideoProjectsIdResponseStatusEnum::Complete => {
                 println!(
-                    "render complete! Final frame cost is {}, actual fps is {}",
-                    res.total_frame_cost, res.fps
+                    "render complete! Final credit charged is {}, actual fps is {}",
+                    res.credits_charged, res.fps
                 );
                 let url = res.downloads[0].url.clone();
 
@@ -599,19 +599,19 @@ create_response=$(curl -s $URL \
   }')
 
 project_id=$(echo $create_response | jq -r '.id')
-estimated_frame_cost=$(echo $create_response | jq -r '.estimated_frame_cost')
+credits_charged=$(echo $create_response | jq -r '.credits_charged')
 
-echo "queued face swap video with id $project_id, spent an estimated $estimated_frame_cost frames based on 30fps. This value be adjusted after render completes if fps is different."
+echo "queued face swap video with id $project_id, spent an estimated $credits_charged credits based on 30fps. This value be adjusted after render completes if fps is different."
 while true; do
     status_response=$(curl -s $STATUS_URL/$project_id --header "Authorization: Bearer $API_KEY")
 
     status=$(echo $status_response | jq -r '.status')
 
     if [ "$status" == "complete" ]; then
-        total_frame_cost=$(echo $status_response | jq -r '.total_frame_cost')
+        credits_charged=$(echo $status_response | jq -r '.credits_charged')
         fps=$(echo $status_response | jq -r '.fps')
         download_url=$(echo $status_response | jq -r '.downloads[0].url')
-        echo "render complete! Final frame cost is $total_frame_cost, actual fps is $fps."
+        echo "render complete! Final credit charged is $credits_charged, actual fps is $fps."
 
         echo "downloading video from $download_url..."
         curl -s $download_url -o $OUTPUT_PATH
