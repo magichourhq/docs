@@ -55,7 +55,7 @@ create_res = client.v1.ai_image_generator.create(
     },
 )
 
-print(f"queued image with id {create_res.id}, spent ${create_res.credits_charged} credits")
+print(f"queued image with id {create_res.id}, spent {create_res.credits_charged} credits")
 
 output_file = "output.png"
 while True:
