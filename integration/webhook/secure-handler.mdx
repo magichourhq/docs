@@ -42,7 +42,7 @@ Create a `signed_payload` by concatenating:
 For example,
 
 ```
-1729314984.{"type":"video.started","object":{"id":"cuid","name":"Video","status":"rendering","type":"TEXT_TO_VIDEO","created_at":"2024-10-19T05:16:19.027Z","width":720,"height":1280,"total_frame_cost":300,"start_seconds":0,"end_seconds":5,"fps":30,"download":null}}
+1729314984.{"type":"video.started","object":{"id":"cuid","name":"Video","status":"rendering","type":"TEXT_TO_VIDEO","created_at":"2024-10-19T05:16:19.027Z","width":720,"height":1280,"total_frame_cost":300,"credits_charged":300,"start_seconds":0,"end_seconds":5,"fps":30,"download":null}}
 ```
 
 </Step>
@@ -72,10 +72,7 @@ const crypto = require("crypto");
 
 const webhookSecret = process.env.MAGIC_HOUR_WEBHOOK_SECRET;
 function computeSignature(signedPayload: string) {
-  return crypto
-    .createHmac("sha256", webhookSecret)
-    .update(signedPayload)
-    .digest("hex");
+  return crypto.createHmac("sha256", webhookSecret).update(signedPayload).digest("hex");
 }
 ```
 
@@ -119,8 +116,8 @@ fn compute_signature(signed_payload: &str) -> String {
 </Step>
 
 <Step title="Compare against request header">
-  Compare the computed signature value against the header value and ensure they
-  are identical. And verify that the timestamp is within a reasonable window.
+  Compare the computed signature value against the header value and ensure they are identical. And
+  verify that the timestamp is within a reasonable window.
 </Step>
 
 </Steps>
