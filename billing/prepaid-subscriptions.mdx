@@ -3,7 +3,7 @@ title: Prepaid Subscription
 description: See what prepaid subscription has to offer.
 ---
 
-With prepaid subscriptions, you receive all of your frames upfront, and receive additional frames at the end of each billing period. You have the option to subscribe to a monthly or a yearly plan.
+With prepaid subscriptions, you receive all of your credits upfront, and receive additional credits at the end of each billing period. You have the option to subscribe to a monthly or a yearly plan.
 
 With yearly plan, you receive the entire yearly's frame upfront, and you get 2 month free as compared to the monthly subscription.
 
@@ -17,10 +17,10 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
   title="Free"
   prices={[{ amount: 0, label: "" }]}
   benefits={[
-    "400 frames on signup plus 100 frames/day",
+    "400 credits on signup plus 100 credits/day",
     "512x512 resolution",
-    "Access to Animation, Face Swap, Lip Sync",
     "Access to all image modes",
+    "Access to Animation, Face Swap, Lip Sync, Subtitle Generator, Talking Photo",
   ]}
 />
 
@@ -31,10 +31,10 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
     { amount: 120, label: "/ year" },
   ]}
   benefits={[
-    "10,000 frames per month",
+    "10,000 credits per month",
     "1024x1024 resolution",
-    "Access to all video modes",
     "Access to all image modes",
+    "Access to all video modes",
   ]}
 />
 
@@ -45,10 +45,10 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
     { amount: 588, label: "/ year" },
   ]}
   benefits={[
-    "50,000 frames per month",
+    "50,000 credits per month",
     "1472x1472 resolution",
-    "Access to all video modes",
     "Access to all image modes",
+    "Access to all video modes",
   ]}
 />
 
@@ -59,19 +59,19 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
     { amount: 2988, label: "/ year" },
   ]}
   benefits={[
-    "250,000 frames per month",
-    "4096x4096 resolution for face swap and lip sync",
-    "Access to all video modes",
+    "250,000 credits per month",
+    "4096x4096 resolution for select modes",
     "Access to all image modes",
+    "Access to all video modes",
   ]}
 />
 </CardGroup>
 
-## Purchase additional frames
+## Purchase additional credits
 
-If your usage is higher than the amount of frames received within the billing period, you have the option to purchase frame packs.
+If your usage is higher than the amount of credits received within the billing period, you have the option to purchase frame packs.
 
-Each frame pack grants 1000 frames, and cost $3 each.
+Each frame pack grants 1000 credits, and cost $3 each.
 
 ## How to subscribe
 
@@ -81,9 +81,7 @@ Each frame pack grants 1000 frames, and cost $3 each.
   ![Pricing Page](./images/pricing-page-1.png)
 </Step>
 
-<Step title="Pick between yearly and monthly">
-  ![Pricing Page](./images/pricing-page-2.png)
-</Step>
+<Step title="Pick between yearly and monthly">![Pricing Page](./images/pricing-page-2.png)</Step>
 
 <Step title="Choosing the plan">
 
@@ -101,9 +99,9 @@ Using your preferred method of payment, complete the form and click `Subscribe`.
 
 </Step>
 
-<Step title="Receive frames in your account">
+<Step title="Receive credits in your account">
 
-On successful payment, you will be redirected to [My Plan](https://magichour.ai/dashboard/my-plan), and once Stripe notify us of the payment, frames are added to your account.
+On successful payment, you will be redirected to [My Plan](https://magichour.ai/dashboard/my-plan), and once Stripe notify us of the payment, credits are added to your account.
 
 ![Payment Successful](./images/subscription-successful.png)
 
@@ -113,11 +111,10 @@ On successful payment, you will be redirected to [My Plan](https://magichour.ai/
 
 ## Tracking usage
 
-You can see the available frames in your account by visiting any signed in page, for example, the [Create Page](https://magichour.ai/create).
+You can see the available credits in your account by visiting any signed in page, for example, the [Create Page](https://magichour.ai/create).
 
-![Create Page](./images/subscription-frames.png)
+![Create Page](./images/subscription-credits.png)
 
 <Warning>
-  API calls to generate image or video will be rejected if your account do not
-  have enough frames
+  API calls to generate image or video will be rejected if your account do not have enough credits
 </Warning>
