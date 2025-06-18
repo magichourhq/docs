@@ -5,6 +5,101 @@ description: Latest feature enhancements in Magic Hour
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2025-06-13">
+## Additional art styles for stylized selfies for one-shot model
+
+We added additional styles specifically for our "One-Shot" model, which do not require training your own model so you can easily get started.
+
+<Frame>
+  ![AI Selfie Generator One-shot Style](/changelog/images/2025/06/ai-selfie-one-shot-styles.png)
+</Frame>
+
+Look for styles with the following icon:
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="16"
+  height="16"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="#ff8b47"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class="lucide lucide-zap-icon lucide-zap"
+>
+  <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
+</svg>
+
+</Update>
+
+<Update label="2025-06-12">
+
+## Add support for tools for `POST /v1/ai-image-generator` endpoint
+
+We added `.style.tool` to the API so you can pick a specific tool to use for the AI Image generator. We have over 30 tools available to help better customize the style of your output. See the list of tools available via: https://docs.magichour.ai/api-reference/image-projects/ai-images#body-style-tool
+
+To take advantage of the this change, please upgrade your sdk version to `0.24.0`.
+
+- [Python SDK v0.24.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.24.0)
+- [Node SDK v0.24.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.24.0)
+- [Go SDK v0.24.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.24.0)
+- [Rust SDK v0.24.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.24.0)
+
+</Update>
+
+<Update label="2025-06-11">
+
+## Brand new developer page
+
+We rebuild the Developer Hub to make it more informative and easier to navigate. Check it out and let me know what you think at https://magichour.ai/developer
+
+<Frame>![AI Selfie Generator Free Tool](/changelog/images/2025/06/developer-hub-new-ui.png)</Frame>
+
+- unified usage analytics with the rest of the developer hub, so you don't have to visit a different url to see your usage.
+- split up the page into multiple tabs for `Analytics & Billing`, `API Keys`, and `Webhooks`.
+- added an invoice history table to show all prior invoices, and also showing if any credit is applied.
+
+</Update>
+
+<Update label="2025-06-10">
+
+## Stylized selfie free tool
+
+We shipped a free tool so you can try out AI Selfie for free.
+
+<Frame>![AI Selfie Generator Free Tool](/changelog/images/2025/06/ai-selfie-free-tool.png)</Frame>
+
+Try it out now: https://magichour.ai/products/ai-selfie-generator!
+
+</Update>
+
+<Update label="2025-06-06">
+
+## Added image preview for professional headshot styles
+
+To make it easier to pick the right style for your headshot, we added image previews to the style buttons
+
+<Frame>
+  ![AI Headshot Generator](/changelog/images/2025/06/professional-headshot-style-image.png)
+</Frame>
+
+Try it out now: https://magichour.ai/create/ai-headshot-generator!
+
+</Update>
+
+<Update label="2025-06-03">
+
+## Stylized Selfies
+
+We created a new tool that allow you to stylized your selfies in a variety of styles. You have the ability to train a model using your photos or use one image as your base image.
+
+<Frame>![AI Selfie Generator](/changelog/images/2025/06/ai-selfie-generator-dashboard.png)</Frame>
+
+Try it out now: https://magichour.ai/create/ai-selfie-generator!
+
+</Update>
+
 <Update label="2025-05-22">
 
 ## Improved AI Headshot Generator
