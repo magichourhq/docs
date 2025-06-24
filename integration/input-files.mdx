@@ -81,7 +81,6 @@ with open(local_path, 'rb') as file:
     response = requests.put(
         response.items[0].upload_url,
         data=file,
-        headers={'Content-Type': 'application/octet-stream'}
     )
 
 file_path = response.items[0].file_path
@@ -111,7 +110,6 @@ const file = fs.readFileSync(local_path);
 
 await fetch(response.items[0].upload_url, {
   method: "PUT",
-  headers: { "Content-Type": "application/octet-stream" },
   body: file,
 });
 
@@ -163,7 +161,6 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	req.Header.Set("Content-Type", "application/octet-stream")
 
 	fileClient := &http.Client{}
 	_, err = fileClient.Do(req)
@@ -201,8 +198,7 @@ let local_path = "/path/to/file/video.mp4"; // change to your local file path
 let file = std::fs::File::open(local_path).unwrap();
 
 let mut req = reqwest::Client::new()
-    .put(response.items[0].upload_url)
-    .header("Content-Type", "application/octet-stream");
+    .put(response.items[0].upload_url);
 
 req.body(file).send().unwrap();
 
@@ -231,7 +227,6 @@ local_path="/path/to/file/video.mp4" # change to your local file path
 # from the result from the first curl call to upload the file
 curl $(jq -r '.items[0].upload_url' response) \
   --request PUT \
-  --header 'Content-Type: application/octet-stream' \
   --data-binary @${local_path}
 
 file_path=$(jq -r '.items[0].file_path' response)
@@ -241,10 +236,6 @@ file_path=$(jq -r '.items[0].file_path' response)
 ```
 
 </CodeGroup>
-
-<Warning>
-  Make sure to include `Content-type: 'application/octet-stream'` header in the `PUT` request.
-</Warning>
 
 ## Uploaded file lifecycle
 
