@@ -5,6 +5,35 @@ description: Latest feature enhancements in Magic Hour
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2025-06-24">
+
+## Simplify file upload
+
+We updated the signature of the upload url from the `POST /v1/files/upload-urls` endpoint to not require `Content-Type` header. This should simplify the upload process a bit, you're welcome to pass in the content type of your file or leave it completely.
+
+```diff
+ with open(local_path, 'rb') as file:
+     response = requests.put(
+         response.items[0].upload_url,
+         data=file,
+-        headers={'Content-Type': 'application/octet-stream'}
+    )
+```
+
+</Update>
+
+<Update label="2025-06-18">
+
+## Split up AI headshot and selfie modes
+
+On our dashboard page, we split up AI headshot and AI selfie into separate modes, making it easier to find the correct mode you're interested in.
+
+<Frame>
+  ![AI Headshot and AI Selfie Split](/changelog/images/2025/06/ai-headshot-and-selfie-split.png)
+</Frame>
+
+</Update>
+
 <Update label="2025-06-13">
 ## Additional art styles for stylized selfies for one-shot model
 
