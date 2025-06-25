@@ -13,8 +13,8 @@
     "scrape:webhook": "mintlify-scrape openapi-file https://magichour.ai/docs/webhook/openapi.json -o webhook-reference"
   },
   "devDependencies": {
-    "@mintlify/scraping": "4.0.280",
-    "mintlify": "4.0.592",
+    "@mintlify/scraping": "4.0.281",
+    "mintlify": "4.1.92",
     "prettier": "3.6.0",
     "typescript": "5.8.3"
   }
