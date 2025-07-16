@@ -98,7 +98,9 @@
         "pages": [
           {
             "group": "Files",
-            "pages": ["api-reference/files/generate-asset-upload-urls"]
+            "pages": [
+              "api-reference/files/generate-asset-upload-urls"
+            ]
           },
           {
             "group": "Video Projects",
@@ -107,6 +109,7 @@
               "api-reference/video-projects/delete-video",
               "api-reference/video-projects/ai-talking-photo",
               "api-reference/video-projects/animation",
+              "api-reference/video-projects/auto-subtitle-generator",
               "api-reference/video-projects/face-swap-video",
               "api-reference/video-projects/image-to-video",
               "api-reference/video-projects/lip-sync",
@@ -160,7 +163,11 @@
       },
       {
         "tab": "Changelog",
-        "pages": ["changelog", "changelog/2024", "changelog/2023"]
+        "pages": [
+          "changelog",
+          "changelog/2024",
+          "changelog/2023"
+        ]
       }
     ],
     "global": {
