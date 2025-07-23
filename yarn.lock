@@ -579,41 +579,41 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mintlify/cli@npm:4.0.623":
-  version: 4.0.623
-  resolution: "@mintlify/cli@npm:4.0.623"
+"@mintlify/cli@npm:4.0.632":
+  version: 4.0.632
+  resolution: "@mintlify/cli@npm:4.0.632"
   dependencies:
-    "@mintlify/common": "npm:1.0.451"
-    "@mintlify/link-rot": "npm:3.0.573"
-    "@mintlify/models": "npm:0.0.207"
-    "@mintlify/prebuild": "npm:1.0.569"
-    "@mintlify/previewing": "npm:4.0.612"
-    "@mintlify/validation": "npm:0.1.414"
+    "@mintlify/common": "npm:1.0.456"
+    "@mintlify/link-rot": "npm:3.0.580"
+    "@mintlify/models": "npm:0.0.208"
+    "@mintlify/prebuild": "npm:1.0.574"
+    "@mintlify/previewing": "npm:4.0.618"
+    "@mintlify/validation": "npm:0.1.419"
     chalk: "npm:^5.2.0"
     detect-port: "npm:^1.5.1"
     fs-extra: "npm:^11.2.0"
-    ink: "npm:^6.0.1"
+    ink: "npm:^5.2.1"
     inquirer: "npm:^12.3.0"
     js-yaml: "npm:^4.1.0"
-    react: "npm:^19.1.0"
+    react: "npm:^18.3.1"
     semver: "npm:^7.7.2"
     yargs: "npm:^17.6.0"
   bin:
     mint: bin/index.js
     mintlify: bin/index.js
-  checksum: 10/866e2e3ba6599444ac9171b6819b4322859110b236fa9c4260fc1fdfce02dbe4c6c4cfe417eaea5e035b4366dc95fba43e84ec025635ad95cb048ccb08ed8ea6
+  checksum: 10/52d468814e15d9d2a0793422ebc7c088cc4bc6d1f7ce4686084a610e7fd48cd02db0f4d5cd6e5eeab7db8c751378a92366d4f23def840ff8d20cecad7e254360
   languageName: node
   linkType: hard
 
-"@mintlify/common@npm:1.0.451":
-  version: 1.0.451
-  resolution: "@mintlify/common@npm:1.0.451"
+"@mintlify/common@npm:1.0.456":
+  version: 1.0.456
+  resolution: "@mintlify/common@npm:1.0.456"
   dependencies:
     "@asyncapi/parser": "npm:^3.4.0"
     "@mintlify/mdx": "npm:^2.0.3"
-    "@mintlify/models": "npm:0.0.207"
+    "@mintlify/models": "npm:0.0.208"
     "@mintlify/openapi-parser": "npm:^0.0.7"
-    "@mintlify/validation": "npm:0.1.414"
+    "@mintlify/validation": "npm:0.1.419"
     "@sindresorhus/slugify": "npm:^2.1.1"
     acorn: "npm:^8.11.2"
     acorn-jsx: "npm:^5.3.2"
@@ -645,20 +645,21 @@ __metadata:
     unist-util-visit: "npm:^5.0.0"
     unist-util-visit-parents: "npm:^6.0.1"
     vfile: "npm:^6.0.3"
-  checksum: 10/58d11349899a8e7c5d8f2aff2e40882ef49fa5c40d2dff18b0a702aec98b8eb8658634310e6ebbae733d4d3bbca3d3e81f33da85e20e0e532509a52611890780
+  checksum: 10/b83c0cb4b44cbbc406b1aea4492edf3038b2f4c85e322348532d9613b9f7604a304add047a4bc54e5fce54b17a63a715028b66876a05f61509bb1970a6aec290
   languageName: node
   linkType: hard
 
-"@mintlify/link-rot@npm:3.0.573":
-  version: 3.0.573
-  resolution: "@mintlify/link-rot@npm:3.0.573"
+"@mintlify/link-rot@npm:3.0.580":
+  version: 3.0.580
+  resolution: "@mintlify/link-rot@npm:3.0.580"
   dependencies:
-    "@mintlify/common": "npm:1.0.451"
-    "@mintlify/prebuild": "npm:1.0.569"
-    "@mintlify/previewing": "npm:4.0.612"
+    "@mintlify/common": "npm:1.0.456"
+    "@mintlify/prebuild": "npm:1.0.574"
+    "@mintlify/previewing": "npm:4.0.618"
+    "@mintlify/validation": "npm:0.1.419"
     fs-extra: "npm:^11.1.0"
     unist-util-visit: "npm:^4.1.1"
-  checksum: 10/8512cd9d0a9afadc40b78e0b4c473985c0d45683a4b6253c7c164bbb6ac9435b18b4424797e12f6a0ca0bfc9308d0c9c0438fdebc61dcd838ca7bf99601469e0
+  checksum: 10/067f0a4b659971015fa951de6d3e444f85667cc152b5b943754177f96feecd96056cf991289d54cd762c0dce707522f2eb1aad7685399b9225005474676f1d9b
   languageName: node
   linkType: hard
 
@@ -684,13 +685,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mintlify/models@npm:0.0.207":
-  version: 0.0.207
-  resolution: "@mintlify/models@npm:0.0.207"
+"@mintlify/models@npm:0.0.208":
+  version: 0.0.208
+  resolution: "@mintlify/models@npm:0.0.208"
   dependencies:
     axios: "npm:^1.8.3"
     openapi-types: "npm:^12.0.0"
-  checksum: 10/08bbb76ad5a08473ee8a39849f6b1275b27b26eb5a881c0c38ffc9a96783a887f6b61e6e46060b3f7eaf86c14c00c35ae42621b8e32735dbc98e11ef24637d04
+  checksum: 10/eb0fecec379ed147981bd0f1f1b8ac83dbafc2ffc2d91fa61d0bb693eb5083e46525c1b5ed5d432741875b53d06579ec4783231449106f8c962564cddbecaf5a
   languageName: node
   linkType: hard
 
@@ -708,14 +709,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mintlify/prebuild@npm:1.0.569":
-  version: 1.0.569
-  resolution: "@mintlify/prebuild@npm:1.0.569"
+"@mintlify/prebuild@npm:1.0.574":
+  version: 1.0.574
+  resolution: "@mintlify/prebuild@npm:1.0.574"
   dependencies:
-    "@mintlify/common": "npm:1.0.451"
+    "@mintlify/common": "npm:1.0.456"
     "@mintlify/openapi-parser": "npm:^0.0.7"
-    "@mintlify/scraping": "npm:4.0.307"
-    "@mintlify/validation": "npm:0.1.414"
+    "@mintlify/scraping": "npm:4.0.312"
+    "@mintlify/validation": "npm:0.1.419"
     chalk: "npm:^5.3.0"
     favicons: "npm:^7.2.0"
     fs-extra: "npm:^11.1.0"
@@ -724,17 +725,17 @@ __metadata:
     mdast: "npm:^3.0.0"
     openapi-types: "npm:^12.0.0"
     unist-util-visit: "npm:^4.1.1"
-  checksum: 10/abf6b414d718de4a5decc544892649077c31b32af3eb1bb55693e99acf887fddf2eff95937741717cdb44aa5843bb2565212ee7e7bd8009122dbdaa3cd075049
+  checksum: 10/4d6001971b268b6eade3bf84ed077d7afc549cdece3ae505cadc4795c29bc5570d5ec639cd2e1f7327379b1b21e215dc6e4e04e4b23a70939eb1cdf41c0cef92
   languageName: node
   linkType: hard
 
-"@mintlify/previewing@npm:4.0.612":
-  version: 4.0.612
-  resolution: "@mintlify/previewing@npm:4.0.612"
+"@mintlify/previewing@npm:4.0.618":
+  version: 4.0.618
+  resolution: "@mintlify/previewing@npm:4.0.618"
   dependencies:
-    "@mintlify/common": "npm:1.0.451"
-    "@mintlify/prebuild": "npm:1.0.569"
-    "@mintlify/validation": "npm:0.1.414"
+    "@mintlify/common": "npm:1.0.456"
+    "@mintlify/prebuild": "npm:1.0.574"
+    "@mintlify/validation": "npm:0.1.419"
     better-opn: "npm:^3.0.2"
     chalk: "npm:^5.1.0"
     chokidar: "npm:^3.5.3"
@@ -742,26 +743,26 @@ __metadata:
     fs-extra: "npm:^11.1.0"
     got: "npm:^13.0.0"
     gray-matter: "npm:^4.0.3"
-    ink: "npm:^6.0.1"
+    ink: "npm:^5.2.1"
     ink-spinner: "npm:^5.0.0"
     is-online: "npm:^10.0.0"
     js-yaml: "npm:^4.1.0"
     mdast: "npm:^3.0.0"
     openapi-types: "npm:^12.0.0"
-    react: "npm:^19.1.0"
+    react: "npm:^18.3.1"
     socket.io: "npm:^4.7.2"
     tar: "npm:^6.1.15"
     unist-util-visit: "npm:^4.1.1"
     yargs: "npm:^17.6.0"
-  checksum: 10/8ddfc2d1422198fcf57cceadeb5dfe3a5c57dbb03c6b5933d66e009c3f3b4b09a907133e7d2ed5234ad37deaa4a5d45fba97b903f68909bec5435c2eaeb362de
+  checksum: 10/84e9d63a9690d20af1f917563ed880f0d012a1a2ea0c102b804c867dbda9d74d1fecafad94e15b65242daed7928c9ddbd8d916abfc127e0f6d76413d8fb3656f
   languageName: node
   linkType: hard
 
-"@mintlify/scraping@npm:4.0.307":
-  version: 4.0.307
-  resolution: "@mintlify/scraping@npm:4.0.307"
+"@mintlify/scraping@npm:4.0.312":
+  version: 4.0.312
+  resolution: "@mintlify/scraping@npm:4.0.312"
   dependencies:
-    "@mintlify/common": "npm:1.0.451"
+    "@mintlify/common": "npm:1.0.456"
     "@mintlify/openapi-parser": "npm:^0.0.7"
     fs-extra: "npm:^11.1.1"
     hast-util-to-mdast: "npm:^10.1.0"
@@ -780,21 +781,21 @@ __metadata:
     zod: "npm:^3.20.6"
   bin:
     mintlify-scrape: bin/cli.js
-  checksum: 10/a5c4ace10fa7c748c9d0f26d97d7157921304caef433e46fe3640a8be2f4d9b4f00fc9aad4163ce9448ea9419e1238e19abf314928736be62114eebefd0c8360
+  checksum: 10/93f2058eec91be5e4c7c2f51193ad09f614eb17418a999c1b6eb2448ebe1225e67cdae5c9909d3bdc95c1579495251b53e203affd7c2118266ca3d4e47688199
   languageName: node
   linkType: hard
 
-"@mintlify/validation@npm:0.1.414":
-  version: 0.1.414
-  resolution: "@mintlify/validation@npm:0.1.414"
+"@mintlify/validation@npm:0.1.419":
+  version: 0.1.419
+  resolution: "@mintlify/validation@npm:0.1.419"
   dependencies:
-    "@mintlify/models": "npm:0.0.207"
+    "@mintlify/models": "npm:0.0.208"
     lcm: "npm:^0.0.3"
     lodash: "npm:^4.17.21"
     openapi-types: "npm:^12.0.0"
     zod: "npm:^3.20.6"
     zod-to-json-schema: "npm:^3.20.3"
-  checksum: 10/f77f9e2b960b83811c66c92ccf67db6c3c1b423b25f13a846e23ab8290ce05ba6f878f6ed4fc6adf08f1d812fe0e6779b0b8e07a8f3e4d9c3ccc1476e69e2b59
+  checksum: 10/379700175bf4c4bd4cd2e357cd68163f81f22a647497bfabf82bea0c7ce53389e6c0ed3e055785c498823106c1504fa8f6e077e08f294b45217383772c30e3be
   languageName: node
   linkType: hard
 
@@ -2514,8 +2515,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "docs@workspace:."
   dependencies:
-    "@mintlify/scraping": "npm:4.0.307"
-    mintlify: "npm:4.2.19"
+    "@mintlify/scraping": "npm:4.0.312"
+    mintlify: "npm:4.2.28"
     prettier: "npm:3.6.2"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3910,9 +3911,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ink@npm:^6.0.1":
-  version: 6.0.1
-  resolution: "ink@npm:6.0.1"
+"ink@npm:^5.2.1":
+  version: 5.2.1
+  resolution: "ink@npm:5.2.1"
   dependencies:
     "@alcalzone/ansi-tokenize": "npm:^0.1.3"
     ansi-escapes: "npm:^7.0.0"
@@ -3927,7 +3928,7 @@ __metadata:
     indent-string: "npm:^5.0.0"
     is-in-ci: "npm:^1.0.0"
     patch-console: "npm:^2.0.0"
-    react-reconciler: "npm:^0.32.0"
+    react-reconciler: "npm:^0.29.0"
     scheduler: "npm:^0.23.0"
     signal-exit: "npm:^3.0.7"
     slice-ansi: "npm:^7.1.0"
@@ -3939,15 +3940,15 @@ __metadata:
     ws: "npm:^8.18.0"
     yoga-layout: "npm:~3.2.1"
   peerDependencies:
-    "@types/react": ">=19.0.0"
-    react: ">=19.0.0"
+    "@types/react": ">=18.0.0"
+    react: ">=18.0.0"
     react-devtools-core: ^4.19.1
   peerDependenciesMeta:
     "@types/react":
       optional: true
     react-devtools-core:
       optional: true
-  checksum: 10/a37f8abd9dc7b61916a0fc5e685906216bf4a71dbfbcfb05231cc7678f318ecefc819dadbfdbe471b668200e7a3d4340bb5f92c002d9ff2706eb05c406b4b706
+  checksum: 10/780aecdcfe4c55b5ecbd939ff21c153a9c1e3912f5217727d913d6cd05be508057037e74948e60f3b22ee0aa4ad5f089d31e97cf972f260c8926d0f509c3a3fd
   languageName: node
   linkType: hard
 
@@ -5562,15 +5563,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mintlify@npm:4.2.19":
-  version: 4.2.19
-  resolution: "mintlify@npm:4.2.19"
+"mintlify@npm:4.2.28":
+  version: 4.2.28
+  resolution: "mintlify@npm:4.2.28"
   dependencies:
-    "@mintlify/cli": "npm:4.0.623"
+    "@mintlify/cli": "npm:4.0.632"
   bin:
     mint: index.js
     mintlify: index.js
-  checksum: 10/5404fef7db7aef3377f90ee732fac15d47c42bcc66605bb7c6dd16765ecf591f458ee1041764e06d56d7a69f923df867dd62a0dea45a239eb90f43270828363d
+  checksum: 10/464731992f4ed90e9a587b058aae8f03421f64fd39e35a4bef3cfcecf4f9723b70b731106754c7fd82cbd18774f4aaf1e83a5d5097eeb49c698e925b01598b1b
   languageName: node
   linkType: hard
 
@@ -6245,21 +6246,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-reconciler@npm:^0.32.0":
-  version: 0.32.0
-  resolution: "react-reconciler@npm:0.32.0"
+"react-reconciler@npm:^0.29.0":
+  version: 0.29.2
+  resolution: "react-reconciler@npm:0.29.2"
   dependencies:
-    scheduler: "npm:^0.26.0"
+    loose-envify: "npm:^1.1.0"
+    scheduler: "npm:^0.23.2"
   peerDependencies:
-    react: ^19.1.0
-  checksum: 10/aa6813eed55c15b8b28facb8dc762ad467fc83b2e1c55548c2bee50c21380867c98a951c07dbd29a11db35afe66a37080a97cd3346766944d977bf1eb51692f4
+    react: ^18.3.1
+  checksum: 10/f9ef98a88ec07efaf520ce4508bc4f499cfbec6c929549b4b802a09c2c7cd1b7b893f197ab0505dc03398a991b4f57d7b6572ae53d2699db74496cadde541cfc
   languageName: node
   linkType: hard
 
-"react@npm:^19.1.0":
-  version: 19.1.0
-  resolution: "react@npm:19.1.0"
-  checksum: 10/d0180689826fd9de87e839c365f6f361c561daea397d61d724687cae88f432a307d1c0f53a0ee95ddbe3352c10dac41d7ff1ad85530fb24951b27a39e5398db4
+"react@npm:^18.3.1":
+  version: 18.3.1
+  resolution: "react@npm:18.3.1"
+  dependencies:
+    loose-envify: "npm:^1.1.0"
+  checksum: 10/261137d3f3993eaa2368a83110466fc0e558bc2c7f7ae7ca52d94f03aac945f45146bd85e5f481044db1758a1dbb57879e2fcdd33924e2dde1bdc550ce73f7bf
   languageName: node
   linkType: hard
 
@@ -6729,19 +6733,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scheduler@npm:^0.23.0":
+"scheduler@npm:^0.23.0, scheduler@npm:^0.23.2":
   version: 0.23.2
   resolution: "scheduler@npm:0.23.2"
   dependencies:
     loose-envify: "npm:^1.1.0"
   checksum: 10/e8d68b89d18d5b028223edf090092846868a765a591944760942b77ea1f69b17235f7e956696efbb62c8130ab90af7e0949bfb8eba7896335507317236966bc9
-  languageName: node
-  linkType: hard
-
-"scheduler@npm:^0.26.0":
-  version: 0.26.0
-  resolution: "scheduler@npm:0.26.0"
-  checksum: 10/1ecf2e5d7de1a7a132796834afe14a2d589ba7e437615bd8c06f3e0786a3ac3434655e67aac8755d9b14e05754c177e49c064261de2673aaa3c926bc98caa002
   languageName: node
   linkType: hard
 
