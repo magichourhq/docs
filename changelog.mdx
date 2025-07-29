@@ -18,6 +18,8 @@ To take advantage of the this change, please upgrade your sdk version to `v0.31.
 - [Go SDK v0.31.1](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.31.1)
 - [Rust SDK v0.31.1](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.31.1)
 
+Note: `v0.31.0` had a bug where the `image_file_path` is still required even if you're using `face_swap_mode: individual-faces`. This has been fixed in `v0.31.1`.
+
 ## Fixed authentication issue on `GET /v1/face-detection/{id}` API
 
 We noticed that the `GET /v1/face-detection/{id}` API was always returning 401 Unauthorized. We have since fixed the issue and the API should now be working as expected.
