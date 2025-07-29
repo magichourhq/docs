@@ -5,6 +5,207 @@ description: Latest feature enhancements in Magic Hour
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2025-07-29">
+
+## Added support for individual face swapping in Face Swap Video API
+
+We've enhanced the Face Swap Video API to support selective face swapping. You can now specify which faces to swap in a video using the new `face_mappings` parameter. This gives you more precise control over face swapping operations.
+
+To take advantage of the this change, please upgrade your sdk version to `v0.32.0`.
+
+- [Python SDK v0.32.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.32.0)
+- [Node SDK v0.32.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.32.0)
+- [Go SDK v0.32.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.32.0)
+- [Rust SDK v0.32.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.31.1)
+
+Note: `v0.31.0` had a bug where the `image_file_path` is still required even if you're using `face_swap_mode: individual-faces`. This has been fixed in `v0.31.1`.
+
+## Fixed authentication issue on `GET /v1/face-detection/{id}` API
+
+We noticed that the `GET /v1/face-detection/{id}` API was always returning 401 Unauthorized. We have since fixed the issue and the API should now be working as expected.
+
+To take advantage of the this change, please upgrade your sdk version to `v0.30.1`.
+
+- [Python SDK v0.30.1](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.30.1)
+- [Node SDK v0.30.1](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.30.1)
+- [Go SDK v0.30.1](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.30.1)
+- [Rust SDK v0.30.1](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.30.1)
+
+</Update>
+
+<Update label="2025-07-28">
+
+## Added APIs for face detection and face swap
+
+We added two new APIs for face detection and face swap:
+
+[`POST /v1/face-detection`](/api-reference/files/face-detection)
+
+- Detect faces in an image or video
+
+[`GET /v1/face-detection/{id}`](/api-reference/files/get-face-detection-details)
+
+- Get the result of a face detection job
+- Detected faces are added to the response as `faces` as soon as any face is detected.
+
+Example usage:
+
+```python
+res = client.v1.face_detection.create(
+    assets={
+        "target_file_path": "https://cdn.magichour.ai/target.jpg",
+    },
+    confidence_score='0.75',
+)
+
+task_id = res.id
+status = "pending"
+
+while status != 'complete':
+  res = client.v1.face_detection.get(id=task_id)
+  status = res.status
+  time.sleep(1)
+
+res = client.v1.face_swap_photo.create(
+    assets={
+        "face_swap_mode": 'individual-faces',
+        "target_file_path": "https://cdn.magichour.ai/target.jpg",
+        "face_mappings": [
+            {
+                "new_face": "https://cdn.magichour.ai/new_face.jpg",
+                "original_face": res.faces[0].path
+            }
+        ]
+    },
+)
+```
+
+To take advantage of the this change, please upgrade your sdk version to `v0.30.0`.
+
+- [Python SDK v0.30.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.30.0)
+- [Node SDK v0.30.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.30.0)
+- [Go SDK v0.30.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.30.0)
+- [Rust SDK v0.30.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.30.0)
+
+</Update>
+
+<Update label="2025-07-27">
+
+## Added support for individual face swapping in Face Swap Photo API
+
+We've enhanced the Face Swap Photo API to support selective face swapping. You can now specify which faces to swap in a photo using the new `face_mappings` parameter. This gives you more precise control over face swapping operations.
+
+Example usage:
+
+```python
+res = client.v1.face_swap_photo.create(
+    assets={
+        "face_swap_mode": 'individual-faces',
+        "target_file_path": "https://cdn.magichour.ai/target.jpg",
+        "face_mappings": [
+            {
+                "new_face": "https://cdn.magichour.ai/new_face.jpg",
+                "original_face": "api-assets/id/0-0.png"
+            }
+        ]
+    },
+)
+```
+
+To take advantage of the this change, please upgrade your sdk version to `v0.29.0`.
+
+- [Python SDK v0.29.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.29.0)
+- [Node SDK v0.29.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.29.0)
+- [Go SDK v0.29.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.29.0)
+- [Rust SDK v0.29.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.29.0)
+
+Note: the original face path is part of the response from the face detection API [Coming soon]
+
+</Update>
+
+<Update label="2025-07-24">
+
+## Increased Talking Photo duration limit to 60 seconds
+
+We've extended the maximum duration for Talking Photo generations from 30 seconds to 60 seconds. This allows for longer, more engaging animated content while maintaining the same high quality output.
+
+This update applies to both the API and dashboard.
+
+To take advantage of the this change, please upgrade your sdk version to `v0.28.0`.
+
+- [Python SDK v0.28.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.28.0)
+- [Node SDK v0.28.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.28.0)
+- [Go SDK v0.28.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.28.0)
+- [Rust SDK v0.28.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.28.0)
+
+</Update>
+
+<Update label="2025-07-22">
+
+## Added additional functions to the Image Details modal
+
+<Frame>![Image Details Modal](/changelog/images/2025/07/image-modal-new-functions.jpg)</Frame>
+
+We added additional functions to the Image Details modal, including:
+
+- Upscale
+- Edit
+- Turn into video
+- Remove background
+
+</Update>
+
+<Update label="2025-07-16">
+
+## Added `POST /v1/auto-subtitle-generator` API
+
+We added support for the `POST /v1/auto-subtitle-generator` API, which allows you to generate subtitles for your videos.
+
+To take advantage of the this change, please upgrade your sdk version to `v0.27.0`.
+
+- [Python SDK v0.27.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.27.0)
+- [Node SDK v0.27.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.27.0)
+- [Go SDK v0.27.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.27.0)
+- [Rust SDK v0.27.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.27.0)
+
+## Fixing duration issue in 480p Image to Video and Text to Video
+
+We found an issue where the duration of the output video is always 5s even if you specified 10s. We have since fixed the issue and the duration of the output video should now be correct. And we fully refunded all affected videos.
+
+</Update>
+
+<Update label="2025-07-14">
+
+## Fixing webhook timeout issue
+
+We were notified that webhook delivery was seeing delays. This was caused by a invalid webhook configuration where the delivery was not properly timing out in a reasonable amount of time. We have since fixed the issue and webhook delivery should be back to normal.
+
+</Update>
+
+<Update label="2025-07-13">
+
+## Cheaper Image to Video and Text to Video
+
+We introduced a new 480p resolution for Image to Video and Text to Video, which is 60% cheaper!
+
+For a 5s video, 480p uses 120 credits, while 720p uses 300 credits.
+
+Note that the 480p resolution only support 5s or 10s videos.
+
+Check it out now:
+
+- https://magichour.ai/create/image-to-video
+- https://magichour.ai/create/text-to-video
+
+To take advantage of the 480p resolution video in our SDKs, please upgrade your sdk version to `v0.26.0`.
+
+- [Python SDK v0.26.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.26.0)
+- [Node SDK v0.26.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.26.0)
+- [Go SDK v0.26.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.26.0)
+- [Rust SDK v0.26.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.26.0)
+
+</Update>
+
 <Update label="2025-07-07">
 
 ## AI Image Editor Free Tool, Dashboard Tool, and API endpoint
@@ -18,6 +219,11 @@ We launched everything in one go for AI Image Editor:
 <Frame>![AI Image Editor](/changelog/images/2025/07/ai-image-editor-free-tool.jpg)</Frame>
 
 To take advantage of the this change, please upgrade your sdk version to `v0.25.0`.
+
+- [Python SDK v0.25.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.25.0)
+- [Node SDK v0.25.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.25.0)
+- [Go SDK v0.25.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.25.0)
+- [Rust SDK v0.25.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.25.0)
 
 </Update>
 
