@@ -99,7 +99,9 @@
           {
             "group": "Files",
             "pages": [
-              "api-reference/files/generate-asset-upload-urls"
+              "api-reference/files/generate-asset-upload-urls",
+              "api-reference/files/get-face-detection-details",
+              "api-reference/files/face-detection"
             ]
           },
           {
@@ -163,11 +165,7 @@
       },
       {
         "tab": "Changelog",
-        "pages": [
-          "changelog",
-          "changelog/2024",
-          "changelog/2023"
-        ]
+        "pages": ["changelog", "changelog/2024", "changelog/2023"]
       }
     ],
     "global": {
