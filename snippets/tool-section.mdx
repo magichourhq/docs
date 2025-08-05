@@ -1,8 +1,8 @@
 export const ToolSection = ({ type, outputs, title, productSlug, apiSlug }) => (
   <>
     <Tabs>
-      {outputs.map((output) => (
-        <Tab title="Example Output">
+      {outputs.map((output, idx) => (
+        <Tab title={`Example Output ${idx + 1}`}>
           <Frame>
             {type === "video" ? (
               <video 
