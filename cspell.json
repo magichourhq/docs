@@ -7,13 +7,17 @@
     "fastapi",
     "flac",
     "getenv",
+    "gifs",
     "hashlib",
     "Headshot",
     "headshots",
     "hexdigest",
     "magichourhq",
+    "magick",
+    "metatags",
     "mintlify",
-    "reqwest"
+    "reqwest",
+    "urlopen"
   ],
   "ignoreWords": [],
   "import": []

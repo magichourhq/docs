@@ -3,9 +3,7 @@ title: "Quick Start"
 description: "Generate your first image and video in minutes"
 ---
 
-<Steps>
-
-<Step title="Create Your Account">
+## Create your account
 
 1. Visit the [Magic Hour Developer Hub](https://magichour.ai/developer?tab=api-keys) (create an account if you don't have one).
 1. Click `Create API Key`.
@@ -17,11 +15,9 @@ description: "Generate your first image and video in minutes"
 
 <Warning>The API key can only be viewed on creation.</Warning>
 
-</Step>
-
 {/* TODO: add a env setup step???? */}
 
-<Step title="Install SDK (Optional)">
+## Install SDK (Optional)
 
 <Note>Skip to the next step if you're not planning on using our SDKs.</Note>
 
@@ -29,9 +25,8 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 
 <SdkInstallation />
 
-</Step>
+## Generate an image or a video
 
-<Step title="Generate an image or a video">
 <Tabs>
 
 <Tab title="AI image">
@@ -216,7 +211,7 @@ async fn main() {
         .unwrap();
     let project_id = create_res.id;
     let credits_charged = create_res.credits_charged;
-    println!("queued image with id {project_id}, spent {credits_charged} credots");
+    println!("queued image with id {project_id}, spent {credits_charged} credits");
     loop {
         let res = client
             .v1()
@@ -631,8 +626,6 @@ done
 
 </Tab>
 </Tabs>
-</Step>
-</Steps>
 
 <Check>🎉 Congratulations! You have successfully created an image and a video on Magic Hour!</Check>
 
