@@ -62,6 +62,7 @@
             "group": "Get Started",
             "pages": [
               "get-started/quick-start",
+              "get-started/model-context-protocol",
               "get-started/video-tools",
               "get-started/image-tools"
             ]
