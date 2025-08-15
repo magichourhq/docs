@@ -60,12 +60,7 @@
           "introduction",
           {
             "group": "Get Started",
-            "pages": [
-              "get-started/quick-start",
-              "get-started/model-context-protocol",
-              "get-started/video-tools",
-              "get-started/image-tools"
-            ]
+            "pages": ["get-started/quick-start", "get-started/model-context-protocol"]
           },
           {
             "group": "Integration",
@@ -90,6 +85,10 @@
               "billing/usage-based-pricing",
               "billing/prepaid-subscriptions"
             ]
+          },
+          {
+            "group": "Available Tools",
+            "pages": ["tools/video-tools", "tools/image-tools"]
           }
         ]
       },
