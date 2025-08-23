@@ -60,11 +60,7 @@
           "introduction",
           {
             "group": "Get Started",
-            "pages": [
-              "get-started/quick-start",
-              "get-started/video-tools",
-              "get-started/image-tools"
-            ]
+            "pages": ["get-started/quick-start", "get-started/model-context-protocol"]
           },
           {
             "group": "Integration",
@@ -89,6 +85,10 @@
               "billing/usage-based-pricing",
               "billing/prepaid-subscriptions"
             ]
+          },
+          {
+            "group": "Available Tools",
+            "pages": ["tools/video-tools", "tools/image-tools"]
           }
         ]
       },
@@ -191,6 +191,13 @@
   "integrations": {
     "ga4": {
       "measurementId": "G-CZ9Q9NBZB3"
+    },
+    "posthog": {
+      "apiKey": "phc_EmzSy2RU0TOPhpouazMzxFedNdMyhze8HakyjffW2Wr",
+      "apiHost": "https://us.i.posthog.com"
     }
+  },
+  "contextual": {
+    "options": ["chatgpt", "claude", "perplexity", "mcp", "cursor", "vscode", "copy", "view"]
   }
 }

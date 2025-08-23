@@ -1,0 +1,78 @@
+---
+title: Add Docs as MCP Server
+description: Access Magic Hour API docs through your favorite AI tools
+---
+
+The Model Context Protocol (MCP) enables your favorite AI development tools to access Magic Hour's API documentation directly. This integration allows AI assistants to provide accurate, up-to-date information about Magic Hour's APIs, helping you write better code with contextual assistance.
+
+## Benefits
+
+- **Real-time API reference**: AI assistants can access the latest API documentation without you needing to copy-paste from docs
+- **Code generation**: Get accurate code examples for Magic Hour APIs directly in your editor
+- **Parameter guidance**: Receive intelligent suggestions for API parameters and request structures
+- **Error troubleshooting**: Get help debugging API integration issues with full context of the documentation
+
+## Setup Instructions
+
+Choose your development environment below to add Magic Hour's documentation as an MCP server:
+
+<Tabs>
+
+<Tab title="Cursor">
+
+To connect the Magic Hour MCP server to Cursor, click the link below.
+
+[Install MCP Server](https://cursor.com/en/install-mcp?name=Magic%20Hour&config=eyJ1cmwiOiJodHRwczovL2RvY3MubWFnaWNob3VyLmFpL21jcCJ9)
+
+To manually connect the MCP server:
+
+1. Open MCP Settings
+2. In `mcp.json`, add the following:
+
+```json
+{
+  "mcpServers": {
+    "Magic Hour": {
+      "url": "https://docs.magichour.ai/mcp"
+    }
+  }
+}
+```
+
+</Tab>
+
+<Tab title="VS Code">
+
+To connect the Magic Hour MCP server to VS Code, click the button below.
+
+[Install MCP Server](https://vscode.dev/redirect/mcp/install?name=MagicHour&config=%7B%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fdocs.magichour.ai%2Fmcp%22%7D)
+
+To manually connect the MCP server:
+
+Created a file `.vscode/mcp.json` and add the following:
+
+```json
+{
+  "mcpServers": {
+    "Magic Hour": {
+      "url": "https://docs.magichour.ai/mcp"
+    }
+  }
+}
+```
+
+</Tab>
+
+<Tab title="Claude Code">
+
+To use the Magic Hour MCP server with Claude Code, run the following command:
+
+```
+claude mcp add --transport http MagicHour https://docs.magichour.ai/mcp
+```
+
+Check out the [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code/mcp#installing-mcp-servers) for more information.
+
+</Tab>
+
+</Tabs>

@@ -3,26 +3,21 @@ title: "Quick Start"
 description: "Generate your first image and video in minutes"
 ---
 
-<Steps>
+## Create your account
 
-<Step title="Create Your Account">
-
-1. [Sign up](https://magichour.ai/sign-up) for a new account.
-2. Visit the [Magic Hour Developer Hub](https://magichour.ai/developer)
-3. Click `Create API Key`.
+1. Visit the [Magic Hour Developer Hub](https://magichour.ai/developer?tab=api-keys) (create an account if you don't have one).
+1. Click `Create API Key`.
    ![Create API Key](./images/api-key-1.png)
-4. Add a descriptive name. Then click `Create key`.
+1. Add a descriptive name. Then click `Create key`.
    ![Create API Key Modal](./images/api-key-2.png)
-5. Copy the API key and save it.
+1. Copy the API key and save it.
    ![Copy API Key](./images/api-key-3.png)
 
 <Warning>The API key can only be viewed on creation.</Warning>
 
-</Step>
-
 {/* TODO: add a env setup step???? */}
 
-<Step title="Install SDK (Optional)">
+## Install SDK (Optional)
 
 <Note>Skip to the next step if you're not planning on using our SDKs.</Note>
 
@@ -30,9 +25,13 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 
 <SdkInstallation />
 
-</Step>
+## Generate an image or a video
 
-<Step title="Generate an image or a video">
+<Tip>
+  You can install this documentation as an MCP server to get contextual help while integrating Magic
+  Hour APIs into your application. [Learn more](./model-context-protocol)
+</Tip>
+
 <Tabs>
 
 <Tab title="AI image">
@@ -217,7 +216,7 @@ async fn main() {
         .unwrap();
     let project_id = create_res.id;
     let credits_charged = create_res.credits_charged;
-    println!("queued image with id {project_id}, spent {credits_charged} credots");
+    println!("queued image with id {project_id}, spent {credits_charged} credits");
     loop {
         let res = client
             .v1()
@@ -632,32 +631,5 @@ done
 
 </Tab>
 </Tabs>
-</Step>
-</Steps>
 
 <Check>🎉 Congratulations! You have successfully created an image and a video on Magic Hour!</Check>
-
-## Learn about available tools
-
-<CardGroup cols={2}>
-  <Card title="Video Tools" icon="video" href="/get-started/video-tools">
-    Learn about all the available video tools.
-  </Card>
-  <Card title="Image Tools" icon="image" href="/get-started/image-tools">
-    Learn about all the available image tools.
-  </Card>
-</CardGroup>
-
-## Dive deeper into integration
-
-Ready to take the next step? Learn how to fully integrate Magic Hour APIs into your own application:
-
-<Card
-  title="Integration Guide"
-  icon="code"
-  href="/integration/adding-api-to-your-app"
-  iconType="duotone"
-  fullWidth
->
-  Learn about managing render status, handling errors, reducing usage during integration, and more.
-</Card>
