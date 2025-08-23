@@ -7,6 +7,31 @@ import { VideoPlayer } from "/snippets/video-player.mdx";
 
 <Update label="2025-08-22">
 
+## New and improved Python SDK
+
+Two pain points for our SDKs are
+
+- uploading files
+- checking for status / downloading output.
+
+We have now updated the Python SDK to include a `.generate` function for every client. This function will handle the uploading and downloading of files for you.
+
+```python
+from magic_hour import Client
+client = Client(token="YOUR_API_KEY")
+
+response = client.v1.image_to_video.generate(
+    assets={"image_file_path": "path/to/image.png"},
+    end_seconds=5.0,
+    resolution="720p",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs/",
+)
+```
+
+Checkout the release notes to learn more: https://github.com/magichourhq/magic-hour-python/releases/tag/v0.36.0
+
 ## New Face Swap Version
 
 We deployed a new version of face that is faster, sharper, and has better identify preservation. All web users has automatically been upgraded to the new version.
