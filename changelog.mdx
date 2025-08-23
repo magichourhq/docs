@@ -5,6 +5,178 @@ description: Latest feature enhancements in Magic Hour
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2025-08-22">
+
+## New Face Swap Version
+
+We deployed a new version of face that is faster, sharper, and has better identify preservation. All web users has automatically been upgraded to the new version.
+
+If you're using the API, you can fallback to the old version by specifying `.style.version = "v1"`. Please upgrade your sdk version to `v0.36.0` to take advantage of the this change.
+
+- [Python SDK v0.36.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.36.0)
+- [Node SDK v0.36.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.36.0)
+- [Go SDK v0.36.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.36.0)
+- [Rust SDK v0.36.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.36.0)
+
+</Update>
+
+<Update label="2025-08-20">
+
+## Fixing generation error for long animation videos
+
+We fixed a generation error for long animation videos. This error was caused by the server running out of disk space. We have since fixed the issue!
+
+</Update>
+
+<Update label="2025-08-19">
+
+## Brand new headshot form UI
+
+We rebuilt the headshot form UI to be more user-friendly and intuitive.
+
+<Frame>
+  ![Brand new headshot form UI](/changelog/images/2025/08/brand-new-headshot-form-ui.jpg)
+</Frame>
+
+Try it out now: https://magichour.ai/create/ai-headshot-generator
+
+</Update>
+
+<Update label="2025-08-17">
+
+## Fully deprecating all height/width params for face swap, image-to-video, lip sync, and video-to-video API
+
+We removed all validations for the height and width params for face swap, image-to-video, lip sync, and video-to-video API. Previously, if you specified height or width, you're required to specify both. Now, we will automatically calculate the output size based on the input size and your subscription tier.
+
+To take advantage of the this change, please upgrade your sdk version to `v0.35.0`.
+
+- [Python SDK v0.35.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.35.0)
+- [Node SDK v0.35.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.35.0)
+- [Go SDK v0.35.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.35.0)
+- [Rust SDK v0.35.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.35.0)
+
+</Update>
+
+<Update label="2025-08-16">
+
+## Simplifying `POST /v1/ai-face-editor` API by making individual face editing params optional.
+
+Previously, you need to specify all the face editing params. Now, you can specify only the params you want to edit. This is a quality of life improvement to make it easier to use the API.
+
+```diff
+res = client.v1.ai_face_editor.create(
+    assets={"image_file_path": "api-assets/id/1234.png"},
+    style={
+-        "enhance_face": False,
+         "eye_gaze_horizontal": 50,
+-        "eye_gaze_vertical": 0.0,
+-        "eye_open_ratio": 0.0,
+-        "eyebrow_direction": 0.0,
+-        "head_pitch": 0.0,
+-        "head_roll": 0.0,
+-        "head_yaw": 0.0,
+-        "lip_open_ratio": 0.0,
+-        "mouth_grim": 0.0,
+-        "mouth_position_horizontal": 0.0,
+-        "mouth_position_vertical": 0.0,
+-        "mouth_pout": 0.0,
+-        "mouth_purse": 0.0,
+-        "mouth_smile": 0.0,
+    },
+    name="Face Editor image",
+)
+```
+
+To take advantage of the this change, please upgrade your sdk version to `v0.34.0`.
+
+- [Python SDK v0.34.0](https://github.com/magichourhq/magic-hour-python/releases/tag/v0.34.0)
+- [Node SDK v0.34.0](https://github.com/magichourhq/magic-hour-node/releases/tag/v0.34.0)
+- [Go SDK v0.34.0](https://github.com/magichourhq/magic-hour-go/releases/tag/v0.34.0)
+- [Rust SDK v0.34.0](https://github.com/magichourhq/magic-hour-rust/releases/tag/v0.34.0)
+
+</Update>
+
+<Update label="2025-08-14">
+
+## Improved error message for APIs
+
+We reworking the error handling for APIs. Now, the error message will be more descriptive and helpful.
+
+A few examples:
+
+```diff
+{
+-  "message": "Expected integer, received float"
++  "message": "Invalid type for height: expected integer, got float"
+}
+```
+
+```diff
+{
+-  "message": "Required, Required"
++  "message": "Missing required field: start_seconds (expected number); Missing required field: end_seconds (expected number)"
+}
+```
+
+</Update>
+
+<Update label="2025-08-12">
+
+## Recent images for Image to Video
+
+We added a quality of life improvement to Image to Video. You can now see the recent 4 images you've used for Image to Video.
+
+<Frame>
+  ![Recent images for Image to
+  Video](/changelog/images/2025/08/recent-images-for-image-to-video.jpg)
+</Frame>
+
+Try it out now: https://magichour.ai/create/image-to-video
+
+</Update>
+
+<Update label="2025-08-08">
+
+## Updating API documentation sample code to SDK samples
+
+Previously, the code samples in the API documentation were not using our SDK. We pushed an update to ensure all languages we support now show the SDK code as the sample to make it easier to integrate.
+
+Check it out now: https://docs.magichour.ai/api-reference
+
+## Migrated AI Headshot Generator API to the latest model
+
+After our latest model update for AI Headshot Generator, we migrated the API to the latest model. No change is needed to start generating using the latest model.
+
+</Update>
+
+<Update label="2025-08-07">
+
+## Multi-face swap for Face Swap Photo
+
+Now, you can pick and choose which faces to swap in a photo.
+
+<Frame>
+  ![Multi-face swap for Face Swap Photo](/changelog/images/2025/08/multi-face-swap-photo.jpg)
+</Frame>
+
+Try it out now: https://magichour.ai/create/face-swap-photo
+
+</Update>
+
+<Update label="2025-08-06">
+
+## End frame support for Image to Video.
+
+We've added support for end frame in Image to Video. You can now specify the end frame of the video, and watch the start frame morph into the end frame.
+
+<VideoPlayer src="https://videos.magichour.ai/api-assets/docs/changelog/2025/08/end-frame-support-for-image-to-video.mp4" />
+
+Try it out now: https://magichour.ai/create/image-to-video
+
+Note: this is only available for the 480p resolution. We are working on adding support for the higher resolutions.
+
+</Update>
+
 <Update label="2025-08-01">
 
 ## Major Improvements to One-shot Headshot Outputs
