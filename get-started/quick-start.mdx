@@ -36,6 +36,11 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 
 <Tab title="AI image">
 
+<Note>
+  The `.generate` function is only available in the Python SDK v0.36.0 or later. We are working on
+  adding it to the other SDKs.
+</Note>
+
 <CodeGroup>
 
 ```python Python SDK
@@ -46,35 +51,18 @@ import urllib.request
 
 client = Client(token="YOUR_API_KEY") # change to your API key
 
-create_res = client.v1.ai_image_generator.create(
+result = client.v1.ai_image_generator.generate(
     image_count=1,
     orientation="landscape",
     style={
         "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'"
     },
+    wait_for_completion=True, # wait for the render to complete
+    download_outputs=True, # download the outputs to local disk
+    download_directory="outputs", # save the outputs to the "outputs" directory
 )
 
-print(f"queued image with id {create_res.id}, spent {create_res.credits_charged} credits")
-
-output_file = "output.png"
-while True:
-    res = client.v1.image_projects.get(id=create_res.id)
-    if res.status == "complete":
-        print("render complete!")
-        with (
-            urllib.request.urlopen(res.downloads[0].url) as response,
-            open(output_file, "wb") as out_file,
-        ):
-            out_file.write(response.read())
-        print(f"file downloaded successfully to {output_file}")
-        break
-    elif res.status == "error":
-        print("render failed")
-        break
-    else:
-        print(f"render in progress: {res.status}")
-        time.sleep(1)
-
+print(f"created image with id {result.id}, spent {result.credits_charged} credits. Outputs are saved at {result.downloaded_paths}")
 ```
 
 ```typescript Node SDK
