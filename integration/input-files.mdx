@@ -52,11 +52,16 @@ For Example
 
 To upload assets for video generation, you'll need to follow these steps:
 
-1. Request upload URLs for your assets, you need to specificy the file extension and the type of the file.
+1. Request upload URLs for your assets, you need to specify the file extension and the type of the file.
 2. Upload the files to the provided URLs by sending a PUT request.
 3. Use the `file_path` value from the original upload url response in your API calls.
 
 The following code samples provide a full example of how to upload a video file to Magic Hour storage.
+
+<Note>
+  The `upload_file` function is only available in the Python SDK v0.36.0 or later. We are working on
+  adding it to the other SDKs.
+</Note>
 
 <CodeGroup>
 
@@ -66,24 +71,7 @@ import requests
 
 client = Client(token="YOUR_API_KEY") # change to your API key
 
-response = client.v1.files.upload_urls.create(
-    items=[
-        {"extension": "mp4", "type": "video"},
-        # if you have multiple files to upload, you can request multiple upload urls
-        # the order of the response will be in the same order as the request
-        # {"extension": "mp3", "type": "audio"},
-        # {"extension": "png", "type": "image"},
-    ]
-)
-
-local_path = "/path/to/file/video.mp4" # change to your local file path
-with open(local_path, 'rb') as file:
-    response = requests.put(
-        response.items[0].upload_url,
-        data=file,
-    )
-
-file_path = response.items[0].file_path
+file_path = client.v1.files.upload_file("/path/to/your/image.jpg")
 
 # now you can use `file_path` in your API calls for
 # `video_file_path`, `image_file_path`, or `audio_file_path
