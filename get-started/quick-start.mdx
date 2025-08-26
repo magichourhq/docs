@@ -37,8 +37,14 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 <Tab title="AI image">
 
 <Note>
-  The `.generate` function is only available in the Python SDK v0.36.0 or later. We are working on
-  adding it to the other SDKs.
+
+The `.generate` function is only available in the following SDKs:
+
+- Python SDK v0.36.0 or later.
+- Node SDK v0.37.0 or later.
+
+We are working on adding it to the other SDKs. If you need it in an SDK that is not listed above, please [contact us](mailto:support@magichour.ai).
+
 </Note>
 
 <CodeGroup>
@@ -72,31 +78,24 @@ import Client from "magic-hour";
 const client = new Client({ token: "YOUR_API_KEY" }); // change to your API key
 
 async function main() {
-  const createRes = await client.v1.aiImageGenerator.create({
-    imageCount: 1,
-    orientation: "landscape",
-    style: {
-      prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
+  const createRes = await client.v1.aiImageGenerator.generate(
+    {
+      imageCount: 1,
+      orientation: "landscape",
+      style: {
+        prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
+      },
     },
-  });
-
-  while (true) {
-    const res = await client.v1.imageProjects.get({ id: createRes.id });
-    if (res.status === "complete") {
-      console.log("render complete!");
-      const outputFile = "output.png";
-      await fetch(res.downloads[0].url)
-        .then((res) => res.arrayBuffer())
-        .then((buffer) => writeFileSync(outputFile, Buffer.from(buffer)));
-      console.log(`file downloaded successfully to ${outputFile}`);
-      break;
-    } else if (res.status === "error") {
-      console.log("render failed");
-    } else {
-      console.log(`render in progress: ${res.status}`);
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+    {
+      waitForCompletion: true, // wait for the render to complete
+      downloadOutputs: true, // download the outputs to local disk
+      downloadDirectory: "outputs", // save the outputs to the "outputs" directory
     }
-  }
+  );
+
+  console.log(
+    `created image with id ${createRes.id}, spent ${createRes.creditsCharged} credits. Outputs are saved at ${createRes.downloadedPaths}`
+  );
 }
 
 main();
