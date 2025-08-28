@@ -1,0 +1,302 @@
+---
+title: Node.js SDK
+description: TypeScript-first Node.js SDK for Magic Hour API
+---
+
+The Magic Hour Node.js SDK provides a TypeScript-first interface for interacting with the Magic Hour API from Node.js and browser environments. It features full type safety, modern async/await patterns, and comprehensive error handling.
+
+## Installation
+
+Install the SDK using npm or yarn:
+
+<CodeGroup>
+```bash npm
+npm install magic-hour
+```
+
+```bash yarn
+yarn add magic-hour
+```
+
+```bash pnpm
+pnpm add magic-hour
+```
+</CodeGroup>
+
+For development versions:
+
+```bash
+npm install github:magichourhq/magic-hour-node
+```
+
+## Quick Start
+
+```typescript
+import { Client } from 'magic-hour';
+
+// Initialize the client
+const client = new Client({
+  token: 'YOUR_API_KEY'
+});
+
+// Generate an AI image
+async function generateImage() {
+  const result = await client.v1.aiImageGenerator.create({
+    prompt: 'A beautiful sunset over mountains',
+    imageCount: 1
+  });
+
+  console.log('Image generation started:', result.id);
+  
+  // Check status
+  const project = await client.v1.imageProjects.get({ id: result.id });
+  console.log('Project status:', project.status);
+}
+
+generateImage();
+```
+
+## Key Features
+
+### Full TypeScript Support
+Complete type definitions for all API endpoints:
+
+```typescript
+import { ImageGeneratorResponse, ImageProject } from 'magic-hour';
+
+const response: ImageGeneratorResponse = await client.v1.aiImageGenerator.create({
+  prompt: 'A majestic eagle soaring',
+  imageCount: 1
+});
+
+const project: ImageProject = await client.v1.imageProjects.get({ 
+  id: response.id 
+});
+```
+
+### Modern Async/Await
+Built for modern JavaScript patterns:
+
+```typescript
+async function processVideo() {
+  try {
+    // Start face swap
+    const swapJob = await client.v1.faceSwap.create({
+      imageFilePath: 'https://example.com/face.jpg',
+      videoFilePath: 'https://example.com/video.mp4'
+    });
+
+    // Poll for completion
+    let project;
+    do {
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      project = await client.v1.videoProjects.get({ id: swapJob.id });
+      console.log('Status:', project.status);
+    } while (project.status === 'processing' || project.status === 'queued');
+
+    if (project.status === 'completed') {
+      console.log('Download URL:', project.downloads[0].url);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+```
+
+### File Upload Support
+Handle file uploads seamlessly:
+
+```typescript
+import fs from 'fs';
+
+// Upload local files
+const faceSwap = await client.v1.faceSwap.create({
+  imageFilePath: fs.createReadStream('path/to/face.jpg'),
+  videoFilePath: fs.createReadStream('path/to/video.mp4')
+});
+
+// Or use URLs
+const faceSwap2 = await client.v1.faceSwap.create({
+  imageFilePath: 'https://example.com/face.jpg',
+  videoFilePath: 'https://example.com/video.mp4'
+});
+```
+
+### Error Handling
+Comprehensive error types and handling:
+
+```typescript
+import { 
+  APIError, 
+  AuthenticationError, 
+  ValidationError,
+  RateLimitError 
+} from 'magic-hour';
+
+try {
+  const result = await client.v1.aiImageGenerator.create({
+    prompt: 'A beautiful landscape'
+  });
+} catch (error) {
+  if (error instanceof AuthenticationError) {
+    console.error('Invalid API key');
+  } else if (error instanceof ValidationError) {
+    console.error('Invalid request:', error.message);
+  } else if (error instanceof RateLimitError) {
+    console.error('Rate limit exceeded');
+  } else if (error instanceof APIError) {
+    console.error('API error:', error.message);
+  } else {
+    console.error('Unexpected error:', error);
+  }
+}
+```
+
+## Configuration
+
+### Environment Variables
+Set your API key using environment variables:
+
+```bash
+export MAGIC_HOUR_API_KEY="your-api-key-here"
+```
+
+```typescript
+// Client will automatically use the environment variable
+const client = new Client(); // No need to pass token explicitly
+```
+
+### Custom Configuration
+```typescript
+const client = new Client({
+  token: 'your-api-key',
+  baseURL: 'https://api.magichour.ai', // Custom base URL
+  timeout: 60000, // Request timeout in milliseconds
+  maxRetries: 3   // Maximum retry attempts
+});
+```
+
+## Browser Usage
+
+The SDK works in browsers with proper bundling:
+
+```typescript
+import { Client } from 'magic-hour';
+
+const client = new Client({
+  token: 'YOUR_API_KEY'
+});
+
+// Note: File uploads in browsers require FormData
+const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+const file = fileInput.files?.[0];
+
+if (file) {
+  const result = await client.v1.aiImageGenerator.create({
+    // Browser file uploads need special handling
+    imageFile: file, // This depends on SDK implementation
+    prompt: 'Transform this image'
+  });
+}
+```
+
+## Examples
+
+### Image to Video
+```typescript
+async function createImageToVideo() {
+  const result = await client.v1.imageToVideo.create({
+    imageFilePath: 'https://example.com/image.jpg',
+    endSeconds: 5.0,
+    resolution: '720p'
+  });
+
+  console.log('Video generation started:', result.id);
+  return result;
+}
+```
+
+### Animation with Custom Settings
+```typescript
+async function createAnimation() {
+  const animation = await client.v1.animation.create({
+    imageFilePath: 'portrait.jpg',
+    prompt: 'The person is laughing joyfully',
+    endSeconds: 3.0,
+    artStyle: 'photorealistic',
+    useAudioAsPrompt: false
+  });
+
+  return animation;
+}
+```
+
+### Polling Helper Function
+```typescript
+async function waitForCompletion(
+  projectId: string, 
+  type: 'image' | 'video' = 'video'
+) {
+  const projectClient = type === 'image' 
+    ? client.v1.imageProjects 
+    : client.v1.videoProjects;
+
+  while (true) {
+    const project = await projectClient.get({ id: projectId });
+    
+    if (project.status === 'completed') {
+      return project;
+    } else if (project.status === 'error') {
+      throw new Error(`Generation failed: ${project.error?.message}`);
+    }
+    
+    // Wait 3 seconds before next poll
+    await new Promise(resolve => setTimeout(resolve, 3000));
+  }
+}
+
+// Usage
+const result = await client.v1.faceSwap.create({...});
+const completed = await waitForCompletion(result.id, 'video');
+console.log('Download URL:', completed.downloads[0].url);
+```
+
+### Batch Processing
+```typescript
+async function processBatch(prompts: string[]) {
+  const jobs = await Promise.all(
+    prompts.map(prompt => 
+      client.v1.aiImageGenerator.create({
+        prompt,
+        imageCount: 1
+      })
+    )
+  );
+
+  console.log(`Started ${jobs.length} image generation jobs`);
+  
+  // Wait for all to complete
+  const completed = await Promise.all(
+    jobs.map(job => waitForCompletion(job.id, 'image'))
+  );
+
+  return completed;
+}
+```
+
+## GitHub Repository
+
+- **Repository**: [magic-hour-node](https://github.com/magichourhq/magic-hour-node)
+- **Issues**: [Report bugs or request features](https://github.com/magichourhq/magic-hour-node/issues)
+- **Releases**: [View changelog and releases](https://github.com/magichourhq/magic-hour-node/releases)
+
+## Requirements
+
+- Node.js 14+ (or modern browser)
+- TypeScript 4.0+ (optional but recommended)
+
+## Support
+
+- Check the [GitHub Issues](https://github.com/magichourhq/magic-hour-node/issues) for common problems
+- Join our [Discord community](https://discord.com/invite/JX5rgsZaJp)
+- Email [support@magichour.ai](mailto:support@magichour.ai) for direct support

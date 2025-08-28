@@ -57,10 +57,23 @@
       {
         "tab": "Documentation",
         "pages": [
-          "introduction",
           {
             "group": "Get Started",
-            "pages": ["get-started/quick-start", "get-started/model-context-protocol"]
+            "pages": ["introduction", "get-started/quick-start"]
+          },
+          {
+            "group": "SDKs",
+            "pages": [
+              "sdks/overview",
+              "sdks/python",
+              "sdks/nodejs",
+              "sdks/go",
+              "sdks/rust"
+            ]
+          },
+          {
+            "group": "AI Tools",
+            "pages": ["tools/video-tools", "tools/image-tools"]
           },
           {
             "group": "Integration",
@@ -68,28 +81,26 @@
               "integration/adding-api-to-your-app",
               "integration/input-files",
               {
-                "group": "Webhook",
+                "group": "Webhooks",
                 "pages": [
                   "integration/webhook/overview",
                   "integration/webhook/create-handler",
                   "integration/webhook/secure-handler",
                   "integration/webhook/event-types"
                 ]
-              }
+              },
+              "get-started/model-context-protocol"
             ]
           },
           {
-            "group": "Billing",
+            "group": "Pricing",
             "pages": [
               "billing/overview",
-              "billing/usage-based-pricing",
-              "billing/prepaid-subscriptions"
+              "billing/subscription-pricing",
+              "billing/usage-based-pricing"
             ]
-          },
-          {
-            "group": "Available Tools",
-            "pages": ["tools/video-tools", "tools/image-tools"]
           }
+
         ]
       },
       {
@@ -165,7 +176,12 @@
       },
       {
         "tab": "Changelog",
-        "pages": ["changelog", "changelog/2024", "changelog/2023"]
+        "pages": [
+          {
+            "group": "Product Updates",
+            "pages": ["changelog", "changelog/2024", "changelog/2023"]
+          }
+        ]
       }
     ],
     "global": {
@@ -176,14 +192,9 @@
           "icon": "discord"
         },
         {
-          "anchor": "API Status",
+          "anchor": "Status",
           "href": "https://status.magichour.ai",
           "icon": "wave-pulse"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://magichour.ai/blog",
-          "icon": "rss"
         }
       ]
     }

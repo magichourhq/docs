@@ -1,0 +1,419 @@
+---
+title: Rust SDK
+description: Memory-safe Rust SDK for Magic Hour API
+---
+
+The Magic Hour Rust SDK provides a memory-safe, high-performance interface for interacting with the Magic Hour API. It features async/await support, comprehensive error handling, and follows Rust best practices for API clients.
+
+## Installation
+
+Add the SDK to your `Cargo.toml`:
+
+```toml
+[dependencies]
+magic-hour = "0.1"
+tokio = { version = "1.0", features = ["full"] }
+```
+
+Or install via cargo:
+
+```bash
+cargo add magic-hour
+cargo add tokio --features full
+```
+
+## Quick Start
+
+```rust
+use magic_hour::Client;
+use magic_hour::resources::v1::ai_image_generator;
+use magic_hour::models::PostV1AIImageGeneratorBodyOrientationEnum;
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let client = Client::new("YOUR_API_KEY");
+
+    // Generate an AI image
+    let create_res = client
+        .v1()
+        .ai_image_generator()
+        .create(ai_image_generator::CreateRequest {
+            prompt: "A beautiful sunset over mountains".to_string(),
+            image_count: Some(1),
+            orientation: Some(PostV1AIImageGeneratorBodyOrientationEnum::Landscape),
+            ..Default::default()
+        })
+        .await?;
+
+    println!("Image generation started: {}", create_res.id);
+    Ok(())
+}
+```
+
+## Key Features
+
+### Memory Safety
+Rust's ownership system ensures memory safety without garbage collection:
+
+```rust
+use std::fs::File;
+use std::io::Read;
+
+async fn upload_file() -> Result<(), Box<dyn std::error::Error>> {
+    let client = Client::new("YOUR_API_KEY");
+    
+    // File is automatically closed when it goes out of scope
+    let mut file = File::open("image.jpg")?;
+    let mut buffer = Vec::new();
+    file.read_to_end(&mut buffer)?;
+
+    let result = client
+        .v1()
+        .ai_image_generator()
+        .create(ai_image_generator::CreateRequest {
+            prompt: "Transform this image".to_string(),
+            image_file: Some(buffer),
+            ..Default::default()
+        })
+        .await?;
+
+    Ok(())
+}
+```
+
+### Async/Await Support
+Built on top of modern Rust async ecosystem:
+
+```rust
+use tokio::time::{sleep, Duration};
+
+async fn wait_for_completion(
+    client: &Client, 
+    project_id: String
+) -> Result<(), Box<dyn std::error::Error>> {
+    loop {
+        let project = client
+            .v1()
+            .video_projects()
+            .get(&project_id)
+            .await?;
+
+        match project.status.as_str() {
+            "completed" => {
+                if let Some(downloads) = project.downloads {
+                    println!("Download URL: {}", downloads[0].url);
+                }
+                break;
+            }
+            "error" => {
+                if let Some(error) = project.error {
+                    return Err(format!("Generation failed: {}", error.message).into());
+                }
+                return Err("Generation failed with unknown error".into());
+            }
+            _ => {
+                println!("Status: {}", project.status);
+                sleep(Duration::from_secs(3)).await;
+            }
+        }
+    }
+    Ok(())
+}
+```
+
+### Comprehensive Error Types
+Rich error handling with custom error types:
+
+```rust
+use magic_hour::error::{Error, ErrorKind};
+
+async fn handle_errors() {
+    let client = Client::new("YOUR_API_KEY");
+    
+    match client.v1().ai_image_generator().create(request).await {
+        Ok(result) => println!("Success: {}", result.id),
+        Err(Error::Authentication) => {
+            eprintln!("Authentication failed: invalid API key");
+        }
+        Err(Error::Validation(msg)) => {
+            eprintln!("Validation error: {}", msg);
+        }
+        Err(Error::RateLimit) => {
+            eprintln!("Rate limit exceeded");
+        }
+        Err(Error::Api { status, message }) => {
+            eprintln!("API error ({}): {}", status, message);
+        }
+        Err(Error::Network(e)) => {
+            eprintln!("Network error: {}", e);
+        }
+        Err(e) => {
+            eprintln!("Unexpected error: {}", e);
+        }
+    }
+}
+```
+
+### Type Safety with Serde
+Strong typing with automatic serialization/deserialization:
+
+```rust
+use serde::{Deserialize, Serialize};
+use magic_hour::models::*;
+
+#[derive(Debug, Serialize, Deserialize)]
+struct CustomRequest {
+    prompt: String,
+    settings: ImageGeneratorSettings,
+}
+
+async fn typed_request() -> Result<(), Box<dyn std::error::Error>> {
+    let client = Client::new("YOUR_API_KEY");
+    
+    let request = ai_image_generator::CreateRequest {
+        prompt: "A majestic eagle soaring".to_string(),
+        image_count: Some(1),
+        orientation: Some(PostV1AIImageGeneratorBodyOrientationEnum::Portrait),
+        style: Some(PostV1AIImageGeneratorBodyStyle {
+            art_style: Some("photorealistic".to_string()),
+            ..Default::default()
+        }),
+        ..Default::default()
+    };
+
+    let response = client
+        .v1()
+        .ai_image_generator()
+        .create(request)
+        .await?;
+
+    println!("Generated image project: {}", response.id);
+    Ok(())
+}
+```
+
+## Configuration
+
+### Environment Variables
+Set your API key using environment variables:
+
+```bash
+export MAGIC_HOUR_API_KEY="your-api-key-here"
+```
+
+```rust
+// Client will automatically use the environment variable
+let client = Client::from_env()?;
+```
+
+### Custom Configuration
+```rust
+use std::time::Duration;
+use reqwest::ClientBuilder;
+
+let http_client = ClientBuilder::new()
+    .timeout(Duration::from_secs(60))
+    .build()?;
+
+let client = Client::builder()
+    .api_key("your-api-key")
+    .base_url("https://api.magichour.ai")
+    .http_client(http_client)
+    .build()?;
+```
+
+## Examples
+
+### Face Swap with Error Handling
+```rust
+use magic_hour::resources::v1::face_swap;
+
+async fn create_face_swap() -> Result<(), Box<dyn std::error::Error>> {
+    let client = Client::new("YOUR_API_KEY");
+
+    let result = client
+        .v1()
+        .face_swap()
+        .create(face_swap::CreateRequest {
+            image_file_path: "https://example.com/face.jpg".to_string(),
+            video_file_path: Some("https://example.com/video.mp4".to_string()),
+            ..Default::default()
+        })
+        .await?;
+
+    println!("Face swap started: {}", result.id);
+    wait_for_completion(&client, result.id).await?;
+    Ok(())
+}
+```
+
+### Image to Video Generation
+```rust
+use magic_hour::resources::v1::image_to_video;
+use magic_hour::models::PostV1ImageToVideoBodyResolutionEnum;
+
+async fn create_image_to_video() -> Result<(), Box<dyn std::error::Error>> {
+    let client = Client::new("YOUR_API_KEY");
+
+    let result = client
+        .v1()
+        .image_to_video()
+        .create(image_to_video::CreateRequest {
+            image_file_path: "https://example.com/image.jpg".to_string(),
+            end_seconds: 5.0,
+            resolution: Some(PostV1ImageToVideoBodyResolutionEnum::_720p),
+            ..Default::default()
+        })
+        .await?;
+
+    println!("Video generation started: {}", result.id);
+    Ok(())
+}
+```
+
+### Concurrent Processing with Join
+```rust
+use tokio::try_join;
+
+async fn process_multiple_images() -> Result<(), Box<dyn std::error::Error>> {
+    let client = Client::new("YOUR_API_KEY");
+    
+    let prompts = vec![
+        "A cyberpunk cityscape",
+        "A serene mountain lake",
+        "A futuristic robot",
+    ];
+
+    let tasks = prompts.into_iter().map(|prompt| {
+        let client = client.clone();
+        tokio::spawn(async move {
+            client
+                .v1()
+                .ai_image_generator()
+                .create(ai_image_generator::CreateRequest {
+                    prompt: prompt.to_string(),
+                    image_count: Some(1),
+                    ..Default::default()
+                })
+                .await
+        })
+    }).collect::<Vec<_>>();
+
+    let results = try_join_all(tasks).await?;
+    
+    for result in results {
+        match result {
+            Ok(response) => println!("Started: {}", response.id),
+            Err(e) => eprintln!("Failed: {}", e),
+        }
+    }
+
+    Ok(())
+}
+```
+
+### File Download Helper
+```rust
+use std::io::Write;
+use reqwest;
+use tokio::fs::File;
+use tokio::io::AsyncWriteExt;
+
+async fn download_file(url: &str, filename: &str) -> Result<(), Box<dyn std::error::Error>> {
+    let response = reqwest::get(url).await?;
+    
+    if !response.status().is_success() {
+        return Err(format!("Download failed with status: {}", response.status()).into());
+    }
+
+    let mut file = File::create(filename).await?;
+    let bytes = response.bytes().await?;
+    file.write_all(&bytes).await?;
+
+    println!("Downloaded: {}", filename);
+    Ok(())
+}
+
+async fn download_completed_project(project_id: &str) -> Result<(), Box<dyn std::error::Error>> {
+    let client = Client::new("YOUR_API_KEY");
+    
+    let project = client
+        .v1()
+        .video_projects()
+        .get(project_id)
+        .await?;
+
+    if project.status == "completed" {
+        if let Some(downloads) = project.downloads {
+            for (i, download) in downloads.iter().enumerate() {
+                let filename = format!("output_{}.mp4", i);
+                download_file(&download.url, &filename).await?;
+            }
+        }
+    }
+
+    Ok(())
+}
+```
+
+### Streaming and Progress
+```rust
+use futures_util::StreamExt;
+use tokio::time::{interval, Duration};
+
+async fn poll_with_progress(
+    client: &Client, 
+    project_id: String
+) -> Result<(), Box<dyn std::error::Error>> {
+    let mut interval = interval(Duration::from_secs(3));
+    
+    loop {
+        interval.tick().await;
+        
+        let project = client
+            .v1()
+            .video_projects()
+            .get(&project_id)
+            .await?;
+
+        match project.status.as_str() {
+            "completed" => {
+                println!("✅ Generation completed!");
+                break;
+            }
+            "error" => {
+                return Err("❌ Generation failed".into());
+            }
+            "processing" => {
+                print!("⚡ Processing");
+                if let Some(progress) = project.progress {
+                    print!(" ({}%)", (progress * 100.0) as u32);
+                }
+                println!("...");
+            }
+            status => {
+                println!("📝 Status: {}", status);
+            }
+        }
+    }
+    
+    Ok(())
+}
+```
+
+## GitHub Repository
+
+- **Repository**: [magic-hour-rust](https://github.com/magichourhq/magic-hour-rust)
+- **Issues**: [Report bugs or request features](https://github.com/magichourhq/magic-hour-rust/issues)
+- **Releases**: [View changelog and releases](https://github.com/magichourhq/magic-hour-rust/releases)
+
+## Requirements
+
+- Rust 1.70+ (2021 Edition)
+- Tokio runtime for async support
+
+## Support
+
+- Check the [GitHub Issues](https://github.com/magichourhq/magic-hour-rust/issues) for common problems
+- Join our [Discord community](https://discord.com/invite/JX5rgsZaJp)
+- Email [support@magichour.ai](mailto:support@magichour.ai) for direct support

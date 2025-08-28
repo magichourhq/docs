@@ -1,0 +1,386 @@
+---
+title: Go SDK
+description: Idiomatic Go SDK for Magic Hour API
+---
+
+The Magic Hour Go SDK provides an idiomatic Go interface for interacting with the Magic Hour API. It features proper error handling, context support, and follows Go best practices for API clients.
+
+## Installation
+
+Install the SDK using Go modules:
+
+```bash
+go get github.com/magichourhq/magic-hour-go
+```
+
+## Quick Start
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/magichourhq/magic-hour-go"
+    "github.com/magichourhq/magic-hour-go/resources/v1/ai_image_generator"
+    "github.com/magichourhq/magic-hour-go/types"
+)
+
+func main() {
+    client := sdk.NewClient(sdk.WithBearerAuth("YOUR_API_KEY"))
+
+    ctx := context.Background()
+    
+    // Generate an AI image
+    createRes, err := client.V1.AIImageGenerator.Create(ctx, ai_image_generator.CreateRequest{
+        Prompt:      "A beautiful sunset over mountains",
+        ImageCount:  1,
+        Orientation: types.PostV1AIImageGeneratorBodyOrientationEnumLandscape,
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    fmt.Printf("Image generation started: %s\n", createRes.ID)
+}
+```
+
+## Key Features
+
+### Context Support
+All API calls accept a context for cancellation and timeouts:
+
+```go
+import (
+    "context"
+    "time"
+)
+
+// Create a context with timeout
+ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+defer cancel()
+
+// Use context in API calls
+result, err := client.V1.AIImageGenerator.Create(ctx, ai_image_generator.CreateRequest{
+    Prompt: "A majestic eagle soaring",
+    ImageCount: 1,
+})
+if err != nil {
+    if ctx.Err() == context.DeadlineExceeded {
+        fmt.Println("Request timed out")
+    } else {
+        fmt.Printf("API error: %v\n", err)
+    }
+    return
+}
+```
+
+### Proper Error Handling
+Comprehensive error types following Go conventions:
+
+```go
+import (
+    "errors"
+    "fmt"
+    
+    "github.com/magichourhq/magic-hour-go/apierror"
+)
+
+result, err := client.V1.AIImageGenerator.Create(ctx, request)
+if err != nil {
+    var apiErr *apierror.APIError
+    if errors.As(err, &apiErr) {
+        switch apiErr.StatusCode {
+        case 401:
+            fmt.Println("Authentication failed: invalid API key")
+        case 422:
+            fmt.Printf("Validation error: %s\n", apiErr.Message)
+        case 429:
+            fmt.Println("Rate limit exceeded")
+        default:
+            fmt.Printf("API error (%d): %s\n", apiErr.StatusCode, apiErr.Message)
+        }
+    } else {
+        fmt.Printf("Network error: %v\n", err)
+    }
+    return
+}
+```
+
+### Type Safety
+Strong typing for all API endpoints and responses:
+
+```go
+import (
+    "github.com/magichourhq/magic-hour-go/resources/v1/face_swap"
+    "github.com/magichourhq/magic-hour-go/resources/v1/video_projects"
+    "github.com/magichourhq/magic-hour-go/types"
+)
+
+// Create face swap with proper types
+swapRequest := face_swap.CreateRequest{
+    ImageFilePath: "https://example.com/face.jpg",
+    VideoFilePath: types.NewOptional("https://example.com/video.mp4"),
+}
+
+swapResult, err := client.V1.FaceSwap.Create(ctx, swapRequest)
+if err != nil {
+    return fmt.Errorf("face swap creation failed: %w", err)
+}
+
+// Check project status with typed response
+project, err := client.V1.VideoProjects.Get(ctx, video_projects.GetRequest{
+    ID: swapResult.ID,
+})
+if err != nil {
+    return fmt.Errorf("failed to get project status: %w", err)
+}
+```
+
+### File Upload Support
+Handle file uploads with io.Reader interface:
+
+```go
+import (
+    "io"
+    "os"
+)
+
+// Upload local files
+imageFile, err := os.Open("path/to/face.jpg")
+if err != nil {
+    log.Fatal(err)
+}
+defer imageFile.Close()
+
+videoFile, err := os.Open("path/to/video.mp4")
+if err != nil {
+    log.Fatal(err)
+}
+defer videoFile.Close()
+
+result, err := client.V1.FaceSwap.Create(ctx, face_swap.CreateRequest{
+    ImageFile: imageFile,
+    VideoFile: videoFile,
+})
+```
+
+## Configuration
+
+### Environment Variables
+Set your API key using environment variables:
+
+```bash
+export MAGIC_HOUR_API_KEY="your-api-key-here"
+```
+
+```go
+// Client will automatically use the environment variable
+client := sdk.NewClient()
+```
+
+### Custom Configuration
+```go
+import (
+    "net/http"
+    "time"
+)
+
+// Custom HTTP client with timeout
+httpClient := &http.Client{
+    Timeout: 60 * time.Second,
+}
+
+client := sdk.NewClient(
+    sdk.WithBearerAuth("your-api-key"),
+    sdk.WithHTTPClient(httpClient),
+    sdk.WithBaseURL("https://api.magichour.ai"),
+)
+```
+
+## Examples
+
+### Polling for Completion
+```go
+func waitForCompletion(ctx context.Context, client *sdk.Client, projectID string) error {
+    ticker := time.NewTicker(3 * time.Second)
+    defer ticker.Stop()
+
+    for {
+        select {
+        case <-ctx.Done():
+            return ctx.Err()
+        case <-ticker.C:
+            project, err := client.V1.VideoProjects.Get(ctx, video_projects.GetRequest{
+                ID: projectID,
+            })
+            if err != nil {
+                return fmt.Errorf("failed to check status: %w", err)
+            }
+
+            switch project.Status {
+            case "completed":
+                fmt.Printf("Generation completed: %s\n", project.Downloads[0].URL)
+                return nil
+            case "error":
+                return fmt.Errorf("generation failed: %s", project.Error.Message)
+            default:
+                fmt.Printf("Status: %s\n", project.Status)
+            }
+        }
+    }
+}
+
+// Usage
+result, err := client.V1.FaceSwap.Create(ctx, request)
+if err != nil {
+    log.Fatal(err)
+}
+
+if err := waitForCompletion(ctx, client, result.ID); err != nil {
+    log.Fatal(err)
+}
+```
+
+### Image to Video Generation
+```go
+func createImageToVideo(ctx context.Context, client *sdk.Client) error {
+    result, err := client.V1.ImageToVideo.Create(ctx, image_to_video.CreateRequest{
+        ImageFilePath: "https://example.com/image.jpg",
+        EndSeconds:    5.0,
+        Resolution:    types.PostV1ImageToVideoBodyResolutionEnum720p,
+    })
+    if err != nil {
+        return fmt.Errorf("image to video creation failed: %w", err)
+    }
+
+    fmt.Printf("Video generation started: %s\n", result.ID)
+    return waitForCompletion(ctx, client, result.ID)
+}
+```
+
+### Animation with Custom Settings
+```go
+func createAnimation(ctx context.Context, client *sdk.Client) error {
+    imageFile, err := os.Open("portrait.jpg")
+    if err != nil {
+        return fmt.Errorf("failed to open image: %w", err)
+    }
+    defer imageFile.Close()
+
+    result, err := client.V1.Animation.Create(ctx, animation.CreateRequest{
+        ImageFile:   imageFile,
+        Prompt:      types.NewOptional("The person is laughing joyfully"),
+        EndSeconds:  3.0,
+        ArtStyle:    types.NewOptional("photorealistic"),
+    })
+    if err != nil {
+        return fmt.Errorf("animation creation failed: %w", err)
+    }
+
+    fmt.Printf("Animation started: %s\n", result.ID)
+    return waitForCompletion(ctx, client, result.ID)
+}
+```
+
+### Concurrent Processing
+```go
+import (
+    "sync"
+)
+
+func processBatch(ctx context.Context, client *sdk.Client, prompts []string) error {
+    var wg sync.WaitGroup
+    errCh := make(chan error, len(prompts))
+
+    for _, prompt := range prompts {
+        wg.Add(1)
+        go func(p string) {
+            defer wg.Done()
+            
+            result, err := client.V1.AIImageGenerator.Create(ctx, ai_image_generator.CreateRequest{
+                Prompt:     p,
+                ImageCount: 1,
+            })
+            if err != nil {
+                errCh <- fmt.Errorf("failed to create image for prompt '%s': %w", p, err)
+                return
+            }
+            
+            fmt.Printf("Started generation for '%s': %s\n", p, result.ID)
+        }(prompt)
+    }
+
+    wg.Wait()
+    close(errCh)
+
+    // Check for errors
+    for err := range errCh {
+        if err != nil {
+            return err
+        }
+    }
+
+    return nil
+}
+```
+
+### Download Helper
+```go
+import (
+    "io"
+    "net/http"
+    "os"
+    "path/filepath"
+)
+
+func downloadFile(ctx context.Context, url, filename string) error {
+    req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
+    if err != nil {
+        return fmt.Errorf("failed to create request: %w", err)
+    }
+
+    resp, err := http.DefaultClient.Do(req)
+    if err != nil {
+        return fmt.Errorf("failed to download file: %w", err)
+    }
+    defer resp.Body.Close()
+
+    if resp.StatusCode != http.StatusOK {
+        return fmt.Errorf("download failed with status: %d", resp.StatusCode)
+    }
+
+    file, err := os.Create(filename)
+    if err != nil {
+        return fmt.Errorf("failed to create file: %w", err)
+    }
+    defer file.Close()
+
+    _, err = io.Copy(file, resp.Body)
+    if err != nil {
+        return fmt.Errorf("failed to write file: %w", err)
+    }
+
+    fmt.Printf("Downloaded: %s\n", filename)
+    return nil
+}
+```
+
+## GitHub Repository
+
+- **Repository**: [magic-hour-go](https://github.com/magichourhq/magic-hour-go)
+- **Issues**: [Report bugs or request features](https://github.com/magichourhq/magic-hour-go/issues)
+- **Releases**: [View changelog and releases](https://github.com/magichourhq/magic-hour-go/releases)
+
+## Requirements
+
+- Go 1.19+
+- Go modules enabled
+
+## Support
+
+- Check the [GitHub Issues](https://github.com/magichourhq/magic-hour-go/issues) for common problems
+- Join our [Discord community](https://discord.com/invite/JX5rgsZaJp)
+- Email [support@magichour.ai](mailto:support@magichour.ai) for direct support
