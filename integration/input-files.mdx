@@ -59,8 +59,14 @@ To upload assets for video generation, you'll need to follow these steps:
 The following code samples provide a full example of how to upload a video file to Magic Hour storage.
 
 <Note>
-  The `upload_file` function is only available in the Python SDK v0.36.0 or later. We are working on
-  adding it to the other SDKs.
+
+The upload file function is only available in the following SDKs:
+
+- Python SDK v0.36.0 or later.
+- Node SDK v0.37.0 or later.
+
+We are working on adding it to the other SDKs. If you need it in an SDK that is not listed above, please [contact us](mailto:support@magichour.ai).
+
 </Note>
 
 <CodeGroup>
@@ -83,27 +89,9 @@ import Client from "magic-hour";
 
 const client = new Client({ token: "YOUR_API_KEY" }); // change to your API key
 
-const response = await client.v1.files.uploadUrls.create({
-  items: [
-    { extension: "mp4", type: "video" },
-    // if you have multiple files to upload, you can request multiple upload urls
-    // the order of the response will be in the same order as the request
-    // { extension: "mp3", type: "audio" },
-    // { extension: "png", type: "image" },
-  ],
-});
+const filePath = await client.v1.files.uploadFile("/path/to/your/image.jpg");
 
-const local_path = "/path/to/file/video.mp4"; // change to your local file path
-const file = fs.readFileSync(local_path);
-
-await fetch(response.items[0].upload_url, {
-  method: "PUT",
-  body: file,
-});
-
-const file_path = response.items[0].file_path;
-
-// now you can use `file_path` in your API calls for
+// now you can use `filePath` in your API calls for
 // `video_file_path`, `image_file_path`, or `audio_file_path`
 ```
 
