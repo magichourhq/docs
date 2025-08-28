@@ -5,7 +5,9 @@ export const PricingCard = ({ title, prices, benefits }) => {
         {prices.map((price) => {
           return (
             <div>
-              <span class="text-2xl text-primary">${price.amount}</span>
+              {price.amount !== null ? (
+                <span class="text-2xl text-primary">${price.amount}</span>
+              ) : null}
               {price.label}
             </div>
           );

@@ -1,368 +1,694 @@
 ---
 title: Adding API to Your App
-description: Learn how to fully integrate APIs into your own application.
+description: Complete guide to integrating Magic Hour APIs into your production application.
 ---
 
-Following the [Quick Start Guide](/get-started/quick-start), you now can call any APIs to create an image or video.
+This guide walks you through integrating Magic Hour APIs into your production application. You'll learn the complete workflow from making API calls to handling responses, errors, and file management.
 
-## Quick start recap
+## What you'll accomplish
 
-1. Visit [Developer Hub](https://magichour.ai/developer?tab=api-keys) to create an API key.
+By the end of this guide, you'll have:
+- ✅ Secure API integration setup
+- ✅ Complete create → poll → download workflow  
+- ✅ Robust error handling
+- ✅ Production-ready patterns
+
+## Before you start
+
+<Tip>Complete the [Quick Start Guide](/get-started/quick-start) first to get familiar with basic API calls.</Tip>
+
+**Prerequisites:**
+- API key from [Developer Hub](https://magichour.ai/developer?tab=api-keys)
+- Your preferred [SDK](/sdks/overview) installed or direct HTTP client ready
 
 <Warning>
-  Do not expose your API key in client-side code. Keep it secure on your server to prevent
-  unauthorized usage and potential abuse.
+  **Security:** Never expose your API key in client-side code. Always keep it secure on your server to prevent unauthorized usage.
 </Warning>
 
-2. Install the SDK in your project
+## Integration overview
 
-import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
+Magic Hour APIs follow a simple 3-step pattern:
 
-<SdkInstallation />
+**Step 1: Create Job** → **Step 2: Check Status** → **Step 3: Download Result**
+                                   ↑_________________↓
+                                   (Poll until complete)
 
-3. Using the methods built into the SDK to create a video or image.
+1. **Create** - Submit your job (image/video generation)
+2. **Poll** - Check status until complete
+3. **Download** - Retrieve your generated content
 
-## Input files
+## Complete integration example
 
-The easiest way to get started is passing a URL as the input.
+Here's a full end-to-end example that demonstrates the complete workflow:
 
-When calling our APIs, you can simply pass the URL as the `video_file_path`, `image_file_path`, or `audio_file_path`.
+<CodeGroup>
+
+```python Python SDK
+from magic_hour import Client
+import time
+
+client = Client(token="YOUR_API_KEY")
+
+# 1. Create job
+print("Creating face swap job...")
+create_res = client.v1.face_swap.create(
+    name="My face swap",
+    assets={
+        "image_file_path": "https://example.com/face.jpg",
+        "video_file_path": "https://example.com/video.mp4",
+        "video_source": "file"
+    },
+    start_seconds=0.0,
+    end_seconds=10.0,
+    height=512,
+    width=512
+)
+
+project_id = create_res.id
+print(f"Job created: {project_id}")
+
+# 2. Poll for completion
+print("Waiting for completion...")
+while True:
+    status_res = client.v1.video_projects.get(id=project_id)
+    print(f"Status: {status_res.status}")
+    
+    if status_res.status == "complete":
+        print("✅ Render complete!")
+        
+        # 3. Download result
+        download_url = status_res.downloads[0].url
+        import requests
+        with open("result.mp4", "wb") as file:
+            response = requests.get(download_url)
+            file.write(response.content)
+        print("📁 File downloaded: result.mp4")
+        break
+        
+    elif status_res.status == "error":
+        print(f"❌ Error: {status_res.error}")
+        break
+        
+    time.sleep(5)  # Wait 5 seconds before next check
+```
+
+```typescript Node SDK
+import Client from "magic-hour";
+import { writeFileSync } from "fs";
+
+const client = new Client({ token: "YOUR_API_KEY" });
+
+async function createAndDownload() {
+  // 1. Create job
+  console.log("Creating face swap job...");
+  const createRes = await client.v1.faceSwap.create({
+    name: "My face swap",
+    assets: {
+      imageFilePath: "https://example.com/face.jpg",
+      videoFilePath: "https://example.com/video.mp4",
+      videoSource: "file"
+    },
+    startSeconds: 0.0,
+    endSeconds: 10.0,
+    height: 512,
+    width: 512
+  });
+
+  const projectId = createRes.id;
+  console.log(`Job created: ${projectId}`);
+
+  // 2. Poll for completion
+  console.log("Waiting for completion...");
+  while (true) {
+    const statusRes = await client.v1.videoProjects.get({ id: projectId });
+    console.log(`Status: ${statusRes.status}`);
+
+    if (statusRes.status === "complete") {
+      console.log("✅ Render complete!");
+      
+      // 3. Download result
+      const downloadUrl = statusRes.downloads[0].url;
+      const response = await fetch(downloadUrl);
+      const buffer = await response.arrayBuffer();
+      writeFileSync("result.mp4", Buffer.from(buffer));
+      console.log("📁 File downloaded: result.mp4");
+      break;
+      
+    } else if (statusRes.status === "error") {
+      console.log(`❌ Error: ${statusRes.error}`);
+      break;
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 5000)); // Wait 5 seconds
+  }
+}
+
+createAndDownload();
+```
+
+</CodeGroup>
+
+## Working with input files
+
+Magic Hour accepts input files in two ways:
+
+### Option 1: URL references (Recommended)
+
+The simplest approach is to pass publicly accessible URLs:
 
 ```json
 {
   "assets": {
-    "video_file_file": "https://cdn.yourwebsite.com/video.mp4"
+    "image_file_path": "https://cdn.yourwebsite.com/face.jpg",
+    "video_file_path": "https://cdn.yourwebsite.com/video.mp4"
   }
 }
 ```
 
-<Card title="Input Files" icon="file" href="/integration/input-files">
-  Get more details about managing input files, uploading files to Magic Hour storage, and more.
+**Supported formats:**
+- **Images**: PNG, JPG, JPEG, WEBP, AVIF
+- **Videos**: MP4, MOV, WEBM  
+- **Audio**: MP3, WAV, AAC, FLAC
+
+### Option 2: Upload to Magic Hour
+
+For secure or temporary files, upload directly to Magic Hour storage:
+
+<Card title="Input Files Guide" icon="file" href="/integration/input-files">
+  Complete guide to file uploads, formats, and storage options
 </Card>
 
-## Render status
+## Understanding job status
 
-Videos and images can be one of the following statuses:
+Every job goes through these states:
 
-| Status      | Description                                |
-| :---------- | :----------------------------------------- |
-| `draft`     | Not currently used                         |
-| `queued`    | The job is queued and waiting for a server |
-| `rendering` | Rendering is in progress                   |
-| `complete`  | Rendering completed                        |
-| `error`     | An error occurred during rendering         |
-| `canceled`  | Video render is canceled                   |
+| Status      | Description                                | Action Required |
+| :---------- | :----------------------------------------- | :------------- |
+| `queued`    | Job is waiting for available server       | ⏳ Keep polling |
+| `rendering` | Job is being processed                     | ⏳ Keep polling |
+| `complete`  | Job finished successfully                  | ✅ Download result |
+| `error`     | Job failed during processing              | ❌ Handle error |
+| `canceled`  | Job was manually canceled                  | 🛑 Job stopped |
 
-### Error details
+### Recommended polling intervals
 
-When `status` is `error`, you can get details on why the failure happened. For example,
+- **Images**: Check every 2-3 seconds (usually complete within 30-60 seconds)
+- **Videos**: Check every 5-10 seconds (can take 2-5 minutes depending on length)
+
+## Error handling best practices
+
+When a job fails (`status: "error"`), the response includes detailed error information:
 
 ```json
 {
-    ...
-    "error": {
-        "code": "no_source_face",
-        "message": "Please use an image with a detectable face"
-    }
-}
-```
-
-Occasionally, you may see `"code": "unknown_error"`. Please reach to our team support@magichour.ai so we can investigate.
-
-## Checking rendering status
-
-The render time depends on a variety of factors. For images, you should have your result within one minute.
-
-For videos, render time is generally longer, depending on the length of the output video, but most of the time, you should have your result within a few minutes.
-
-There are two ways to check whether generation completed:
-
-- Webhook notification
-- Polling the details API
-
-### Webhook notification
-
-This is the recommended way to receive status change events for modes with longer rendering times (e.g. video modes); however, it does require extra effort to setup.
-
-At a high level, to implement webhook notification:
-
-1. configure a webhook in [Developer Hub](https://magichour.ai/developer?tab=webhooks), and pick the events you want to be notified.
-1. create an API in your application to listen to events with logic for each event you're listening too.
-1. add additional logic in your application when status changes.
-
-<Tip>Polling is a valid solution if you mainly render images or very short videos.</Tip>
-
-For videos with long render time, setting up an API to listen for event will be more efficient than constantly calling the video details API.
-
-<Card title="Webhook Overview" icon="webhook" href="/integration/webhook/overview">
-  Learn how to implement webhook with Magic Hour
-</Card>
-
-### Polling the details API
-
-To check the status of the render, you can call the following APIs
-
-- [GET /v1/video-projects/:id](/api-reference/video-projects/get-video-details)
-- [GET /v1/image-projects/:id](/api-reference/image-projects/get-image-details)
-
-Then check the `status` field in set intervals.
-
-<CodeGroup>
-
-```python Python SDK
-create_res = client.v1.image_to_video.create(...)
-project_id = create_res.id
-while True:
-    res = client.v1.video_projects.get(id=project_id)
-    if res.status == 'complete':
-        print("render complete")
-        break
-    elif res.status == "error":
-        print("render failed")
-        break
-    else:
-        print("render in progress")
-        time.sleep(3)
-```
-
-```typescript Node SDK
-const createRes = await client.v1.imageToVideo.create({});
-const projectId = createRes.id;
-while (true) {
-  const res = await client.v1.videoProjects.get({ id: projectId });
-  if (res.status === "complete") {
-    console.log("render complete");
-    break;
-  } else if (res.status === "error") {
-    console.log("render failed");
-  } else {
-    console.log("render in progress");
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+  "status": "error",
+  "error": {
+    "code": "no_source_face", 
+    "message": "Please use an image with a detectable face"
   }
 }
 ```
 
-```go Go SDK
-createRes, _ := client.V1.ImageToVideo.Create(context.Background(), sdk.ImageToVideoCreateRequest{})
-projectId := createRes.ID
+### Common error codes
 
-for {
-    res, _ := client.V1.VideoProjects.Get(context.Background(), sdk.VideoProjectsGetRequest{ID: projectId})
-    if res.Status == "complete" {
-        println("render complete")
-        break
-    } else if res.Status == "error" {
-        println("render failed")
-        break
-    } else {
-        println("render in progress")
-        time.Sleep(3 * time.Second)
-    }
-}
-```
+| Error Code | Description | Solution |
+|:-----------|:------------|:---------|
+| `no_source_face` | No detectable face in image | Use image with clear, visible face |
+| `invalid_file_format` | Unsupported file type | Check [supported formats](#working-with-input-files) |
+| `file_too_large` | File exceeds size limits | Compress file or use smaller input |
+| `insufficient_credits` | Not enough credits | Add credits to your account |
+| `invalid_parameters` | Request parameters are invalid | Check API documentation |
 
-```rust Rust SDK
-let create_res = client.v1().image_to_video().create().await.unwrap();
-let project_id = create_res.id;
-
-loop {
-    let res = client.v1().video_projects().get(project_id).await.unwrap();
-    if res.status == "complete" {
-        println!("render complete");
-        break;
-    } else if res.status == "error" {
-        println!("render failed");
-        break;
-    } else {
-        println!("render in progress");
-        std::thread::sleep(std::time::Duration::from_secs(3));
-    }
-}
-```
-
-</CodeGroup>
-
-## Downloading result
-
-Once `status` is `complete`, the response for the image/video details will populate the `downloads` key. Note this is an array since some modes may have more than one output.
-
-```diff
-- "downloads": [],
-+ "downloads": [
-+     {
-+         "url": "https://video.magichour.ai/id/output.mp4?auth-token=1234",
-+         "expires_at": "2024-10-19T05:16:19.027Z"
-+     }
-+ ],
-```
-
-Then, use any http package to download the file. Below are some sample code:
+### Error handling example
 
 <CodeGroup>
 
-```python Python
-import requests
-
-with open("output.mp4", "wb") as file:
-  response = requests.get("https://video.magichour.ai/id/output.mp4?auth-token=1234")
-  file.write(response.content)
-```
-
-```typescript Node
-import { writeFileSync } from "fs";
-
-fetch("https://video.magichour.ai/id/output.mp4?auth-token=1234")
-  .then((res) => res.arrayBuffer())
-  .then((buffer) => writeFileSync("output.mp4", Buffer.from(buffer)));
-```
-
-```go Go
-import (
-	"io"
-	"net/http"
-	"os"
-)
-
-resp, _ := http.Get("https://video.magichour.ai/id/output.mp4?auth-token=1234")
-defer resp.Body.Close()
-file, _ := os.Create("output.mp4")
-defer file.Close()
-io.Copy(file, resp.Body)
-```
-
-```rust Rust
-use std::fs::write;
-use reqwest::blocking::get;
-
-let content = get("https://video.magichour.ai/id/output.mp4?auth-token=1234").unwrap().bytes().unwrap();
-write("output.mp4", content).unwrap();
-```
-
-</CodeGroup>
-
-## Deleting generated files
-
-Currently, the generated content are kept in our storage without expiration.
-
-If you want to remove the generated files, you can call the following endpoints:
-
-- [`DELETE /v1/video-projects/:id`](/api-reference/video-projects/delete-video)
-- [`DELETE /v1/image-projects/:id`](/api-reference/image-projects/delete-image)
-
-<Warning>This action is not reversible, please be sure before deleting.</Warning>
-
-<CodeGroup>
 ```python Python SDK
-client.v1.video_projects.delete(
-  id="cuid",
-)
+try:
+    create_res = client.v1.face_swap.create(...)
+    
+    # Poll with error handling
+    while True:
+        status_res = client.v1.video_projects.get(id=create_res.id)
+        
+        if status_res.status == "complete":
+            # Success - download result
+            break
+        elif status_res.status == "error":
+            error_code = status_res.error.get("code", "unknown")
+            error_msg = status_res.error.get("message", "Unknown error")
+            
+            # Handle specific errors
+            if error_code == "no_source_face":
+                print("❌ No face detected. Please use a different image.")
+            elif error_code == "insufficient_credits":
+                print("💳 Not enough credits. Please add credits to continue.")
+            else:
+                print(f"❌ Error ({error_code}): {error_msg}")
+            break
+            
+        time.sleep(5)
+        
+except Exception as e:
+    print(f"❌ Request failed: {e}")
 ```
 
 ```typescript Node SDK
-await client.v1.videoProjects.delete({
-  id: "cuid",
-});
-```
-
-```go Go SDK
-err := client.V1.VideoProjects.Delete(video_projects.DeleteRequest{
-  Id: "cuid"
-})
-```
-
-```rust Rust SDK
-let res = client.v1().video_projects().delete(
-  magic_hour::resources::v1::video_projects::DeleteRequest { id: "cuid".to_string() }
-).await;
+try {
+  const createRes = await client.v1.faceSwap.create({...});
+  
+  // Poll with error handling
+  while (true) {
+    const statusRes = await client.v1.videoProjects.get({ id: createRes.id });
+    
+    if (statusRes.status === "complete") {
+      // Success - download result
+      break;
+    } else if (statusRes.status === "error") {
+      const errorCode = statusRes.error?.code || "unknown";
+      const errorMsg = statusRes.error?.message || "Unknown error";
+      
+      // Handle specific errors
+      switch (errorCode) {
+        case "no_source_face":
+          console.log("❌ No face detected. Please use a different image.");
+          break;
+        case "insufficient_credits":
+          console.log("💳 Not enough credits. Please add credits to continue.");
+          break;
+        default:
+          console.log(`❌ Error (${errorCode}): ${errorMsg}`);
+      }
+      break;
+    }
+    
+    await new Promise(resolve => setTimeout(resolve, 5000));
+  }
+} catch (error) {
+  console.log(`❌ Request failed: ${error}`);
+}
 ```
 
 </CodeGroup>
-## Reducing credit usage during integration
 
-While building out the integration, you'd want to avoid actually rendering the video/image since you will be charged on any completed render. There are a few ways to reduce your usage.
+<Note>For `unknown_error` codes, contact [support@magichour.ai](mailto:support@magichour.ai) with your project ID for investigation.</Note>
 
-### Using mock API server
+## Status monitoring strategies
 
-<Info>
-  The mock server only responds with sample data and does not actually create any records.
-</Info>
+Choose the right approach based on your application's needs:
 
-To use the mock server, simply pass the `environment` parameter when initializing the client.
+### Option 1: Webhooks (Recommended for production)
+
+Get real-time notifications when jobs complete. Best for:
+- ✅ Production applications
+- ✅ Video processing (longer render times)
+- ✅ Multiple concurrent jobs
+- ✅ Better server resource usage
+
+<Card title="Webhook Setup Guide" icon="webhook" href="/integration/webhook/overview">
+  Complete webhook implementation guide with examples
+</Card>
+
+### Option 2: Polling (Good for simple use cases)
+
+Periodically check job status. Best for:
+- ✅ Simple integrations
+- ✅ Single job processing
+- ✅ Image generation (quick results)
+- ⚠️ Be mindful of rate limits
+
+**Smart polling example:**
 
 <CodeGroup>
 
-```py Python SDK
+```python Python SDK
+import time
+
+def wait_for_completion(client, project_id, project_type="video"):
+    """Smart polling with exponential backoff"""
+    
+    get_method = (client.v1.video_projects.get if project_type == "video" 
+                 else client.v1.image_projects.get)
+    
+    max_wait = 300  # 5 minutes max
+    start_time = time.time()
+    interval = 2  # Start with 2 seconds
+    
+    while time.time() - start_time < max_wait:
+        try:
+            res = get_method(id=project_id)
+            print(f"Status: {res.status}")
+            
+            if res.status == "complete":
+                return res  # Success!
+            elif res.status == "error":
+                raise Exception(f"Job failed: {res.error}")
+                
+            # Smart interval adjustment
+            if res.status == "queued":
+                interval = min(interval * 1.5, 10)  # Increase wait time
+            else:  # rendering
+                interval = 3  # Steady polling during render
+                
+            time.sleep(interval)
+            
+        except Exception as e:
+            print(f"Error checking status: {e}")
+            time.sleep(5)
+    
+    raise TimeoutError("Job did not complete within timeout")
+```
+
+```typescript Node SDK
+async function waitForCompletion(
+  client: Client, 
+  projectId: string, 
+  projectType: "video" | "image" = "video"
+) {
+  const getMethod = projectType === "video" 
+    ? client.v1.videoProjects.get 
+    : client.v1.imageProjects.get;
+    
+  const maxWait = 300000; // 5 minutes in ms
+  const startTime = Date.now();
+  let interval = 2000; // Start with 2 seconds
+  
+  while (Date.now() - startTime < maxWait) {
+    try {
+      const res = await getMethod({ id: projectId });
+      console.log(`Status: ${res.status}`);
+      
+      if (res.status === "complete") {
+        return res; // Success!
+      } else if (res.status === "error") {
+        throw new Error(`Job failed: ${res.error}`);
+      }
+      
+      // Smart interval adjustment
+      if (res.status === "queued") {
+        interval = Math.min(interval * 1.5, 10000); // Increase wait time
+      } else { // rendering
+        interval = 3000; // Steady polling during render
+      }
+      
+      await new Promise(resolve => setTimeout(resolve, interval));
+      
+    } catch (error) {
+      console.log(`Error checking status: ${error}`);
+      await new Promise(resolve => setTimeout(resolve, 5000));
+    }
+  }
+  
+  throw new Error("Job did not complete within timeout");
+}
+```
+
+</CodeGroup>
+
+### Rate limiting considerations
+
+- **Don't poll faster than once per second**
+- **Use exponential backoff** when jobs are queued
+- **Implement timeout limits** (max 5-10 minutes)
+- **Handle network errors gracefully**
+
+## Downloading results
+
+When a job completes, the `downloads` array is populated with secure, time-limited URLs:
+
+```json
+{
+  "status": "complete",
+  "downloads": [
+    {
+      "url": "https://video.magichour.ai/id/output.mp4?auth-token=1234",
+      "expires_at": "2024-10-19T05:16:19.027Z"
+    }
+  ]
+}
+```
+
+<Warning>Download URLs expire after 24 hours. Download files immediately after job completion.</Warning>
+
+### Production download handling
+
+<CodeGroup>
+
+```python Python SDK
+import requests
+import os
+from pathlib import Path
+
+def download_result(download_info, output_dir="./downloads"):
+    """Robust download with error handling"""
+    
+    # Create output directory
+    Path(output_dir).mkdir(exist_ok=True)
+    
+    # Generate filename from URL or use timestamp
+    url = download_info["url"]
+    filename = f"result_{int(time.time())}.mp4"  # or extract from URL
+    filepath = Path(output_dir) / filename
+    
+    try:
+        print(f"Downloading to {filepath}...")
+        response = requests.get(url, stream=True, timeout=60)
+        response.raise_for_status()
+        
+        # Stream download for large files
+        with open(filepath, "wb") as file:
+            for chunk in response.iter_content(chunk_size=8192):
+                file.write(chunk)
+                
+        print(f"✅ Downloaded: {filepath} ({filepath.stat().st_size} bytes)")
+        return str(filepath)
+        
+    except requests.exceptions.RequestException as e:
+        print(f"❌ Download failed: {e}")
+        return None
+```
+
+```typescript Node SDK
+import fs from 'fs';
+import path from 'path';
+
+async function downloadResult(downloadInfo: any, outputDir = './downloads') {
+  // Create output directory
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+  
+  // Generate filename
+  const filename = `result_${Date.now()}.mp4`;
+  const filepath = path.join(outputDir, filename);
+  
+  try {
+    console.log(`Downloading to ${filepath}...`);
+    
+    const response = await fetch(downloadInfo.url);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    // Stream download for large files
+    const arrayBuffer = await response.arrayBuffer();
+    fs.writeFileSync(filepath, Buffer.from(arrayBuffer));
+    
+    const stats = fs.statSync(filepath);
+    console.log(`✅ Downloaded: ${filepath} (${stats.size} bytes)`);
+    return filepath;
+    
+  } catch (error) {
+    console.log(`❌ Download failed: ${error}`);
+    return null;
+  }
+}
+```
+
+</CodeGroup>
+
+### Multiple outputs handling
+
+Some tools generate multiple files (e.g., multiple images):
+
+```python
+# Handle multiple downloads
+for i, download in enumerate(status_res.downloads):
+    filename = f"output_{i+1}.{'mp4' if 'video' in download.url else 'jpg'}"
+    download_result(download, filename)
+```
+
+## Production best practices
+
+### 1. Resource management
+
+**Clean up completed jobs:**
+```python
+# Delete job after downloading to save storage
+client.v1.video_projects.delete(id=project_id)
+```
+
+**Monitor credit usage:**
+```python
+# Check credit balance before expensive operations
+account_info = client.v1.account.get()
+if account_info.credits < estimated_cost:
+    # Handle insufficient credits
+    pass
+```
+
+### 2. Performance optimization
+
+**Batch operations:**
+- Process multiple jobs concurrently (mind rate limits)
+- Use webhooks for high-volume scenarios
+- Implement job queues for better resource management
+
+**Optimize file handling:**
+- Use CDN URLs for input files when possible
+- Compress large input files before processing
+- Stream downloads for large outputs
+
+### 3. Error resilience
+
+**Implement retry logic:**
+```python
+import time
+from functools import wraps
+
+def retry_on_failure(max_retries=3, delay=1):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            for attempt in range(max_retries):
+                try:
+                    return func(*args, **kwargs)
+                except Exception as e:
+                    if attempt == max_retries - 1:
+                        raise e
+                    time.sleep(delay * (2 ** attempt))  # Exponential backoff
+            return wrapper
+    return decorator
+
+@retry_on_failure(max_retries=3)
+def create_job_with_retry():
+    return client.v1.face_swap.create(...)
+```
+
+**Monitor and log:**
+- Log all API calls with timestamps and project IDs
+- Track success/failure rates
+- Set up alerts for high error rates
+
+### 4. Security considerations
+
+- **Never expose API keys** in client-side code
+- **Validate file inputs** before sending to API
+- **Use HTTPS** for all file URLs
+- **Implement rate limiting** in your application
+
+## File management
+
+### Cleaning up storage
+
+Generated files are stored indefinitely. Clean up completed jobs to manage storage:
+
+<CodeGroup>
+```python Python SDK
+# Clean up after successful download
+client.v1.video_projects.delete(id=project_id)
+```
+
+```typescript Node SDK
+// Clean up after successful download  
+await client.v1.videoProjects.delete({ id: projectId });
+```
+</CodeGroup>
+
+<Warning>Deletion is permanent and cannot be undone. Only delete after confirming successful download.</Warning>
+## Development and testing
+
+### Free testing with mock server
+
+Avoid credit charges during development by using the mock API server:
+
+<Info>
+  The mock server returns realistic sample data without processing jobs or charging credits.
+</Info>
+
+<CodeGroup>
+
+```python Python SDK
 from magic_hour import Client
 from magic_hour.environment import Environment
 
+# Use mock server for development
 client = Client(
-    token="API_TOKEN", environment=Environment.MOCK_SERVER,
+    token="API_TOKEN", 
+    environment=Environment.MOCK_SERVER
 )
+
+# All API calls will return mock data
+result = client.v1.face_swap.create(...)  # No credits charged
 ```
 
-```ts Node SDK
+```typescript Node SDK
 import Client, { Environment } from "magic-hour";
 
+// Use mock server for development
 const client = new Client({
   token: "API_TOKEN",
   environment: Environment.MockServer,
 });
-```
 
-```go Go SDK
-import sdk "github.com/magichourhq/magic-hour-go/client"
-
-client := sdk.NewClient(
-    sdk.WithBearerAuth("API_TOKEN"),
-    sdk.WithEnv(sdk.MockServer),
-)
-```
-
-```rust Rust SDK
-use magic_hour;
-
-let client = magic_hour::Client::default()
-    .with_bearer_auth("API_TOKEN")
-    .with_environment(magic_hour::Environment::MockServer);
-
+// All API calls will return mock data
+const result = await client.v1.faceSwap.create({...}); // No credits charged
 ```
 
 </CodeGroup>
 
-<Tip>
+### Emergency job cancellation
 
-If you are not using SDKs, simply replace the URL to use the mock server.
-
-```diff
-- https://api.magichour.ai/v1/image-to-video
-+ https://api.sideko.dev/v1/mock/magichour/magic-hour/latest/v1/image-to-video
-```
-
-</Tip>
-
-### Canceling render in the web app
-
-You have the option to cancel a video render with a full credit refund.
-
-<Note>Image rendering cannot be cancelled</Note>
+Cancel video jobs (with full refund) via the web dashboard:
 
 <Steps>
-  <Step title='Visit Video Details Page'>
-  You can access the video details page using the URL
-
-> https://magichour.ai/dashboard/videos/:id
-
+  <Step title="Open video details">
+    Visit: `https://magichour.ai/dashboard/videos/{project_id}`
   </Step>
-
   <Step title="Click Cancel Render">
     ![Cancel Render Button](./images/cancel-1.png)
   </Step>
-  <Step title="Confirm cancel">
+  <Step title="Confirm cancellation">
     ![Confirm Cancel Button](./images/cancel-2.jpg)
   </Step>
-  <Step title="Cancel successful">
-    ![Confirm Cancel Button](./images/cancel-3.png)
+  <Step title="Cancellation complete">
+    ![Cancel Success](./images/cancel-3.png)
   </Step>
 </Steps>
 
-<Note>Cancelling is not currently supported via API</Note>
+<Note>
+- Image jobs cannot be cancelled (they complete too quickly)
+- API-based cancellation is not currently available
+- Full credit refund is provided for cancelled video jobs
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Webhook Integration" icon="webhook" href="/integration/webhook/overview">
+    Set up real-time notifications for production apps
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference">
+    Explore all available endpoints and parameters
+  </Card>
+  <Card title="SDK Documentation" icon="book" href="/sdks/overview">
+    Language-specific guides and advanced features
+  </Card>
+  <Card title="File Management" icon="file" href="/integration/input-files">
+    Advanced file upload and management techniques
+  </Card>
+</CardGroup>
+
+---
+
+**Need help?** Join our [Discord community](https://discord.com/invite/JX5rgsZaJp) or email [support@magichour.ai](mailto:support@magichour.ai)

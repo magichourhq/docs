@@ -1,0 +1,243 @@
+---
+title: Python SDK
+description: Official Python SDK for Magic Hour API
+---
+
+The Magic Hour Python SDK provides a convenient way to interact with the Magic Hour API from Python applications. It includes comprehensive type hints, async support, and helper functions for common operations.
+
+## Installation
+
+Install the SDK using pip:
+
+```bash
+pip install magic-hour
+```
+
+For development versions or to install from source:
+
+```bash
+pip install git+https://github.com/magichourhq/magic-hour-python.git
+```
+
+## Quick Start
+
+```python
+from magic_hour import Client
+
+# Initialize the client
+client = Client(token="YOUR_API_KEY")
+
+# Generate an AI image
+result = client.v1.ai_image_generator.generate(
+    prompt="A beautiful sunset over mountains",
+    image_count=1,
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs/"
+)
+
+print(f"Generated image saved to: {result.output_files}")
+```
+
+## Key Features
+
+### Type Safety
+Full type hints for all API endpoints and responses:
+
+```python
+from magic_hour.types import ImageGeneratorResponse
+
+response: ImageGeneratorResponse = client.v1.ai_image_generator.create({
+    "prompt": "A majestic eagle soaring",
+    "image_count": 1
+})
+```
+
+### Async Support
+Use the async client for non-blocking operations:
+
+```python
+import asyncio
+from magic_hour import AsyncClient
+
+async def generate_image():
+    client = AsyncClient(token="YOUR_API_KEY")
+    
+    response = await client.v1.ai_image_generator.create({
+        "prompt": "A serene lake at dawn",
+        "image_count": 1
+    })
+    
+    return response
+
+# Run the async function
+result = asyncio.run(generate_image())
+```
+
+### File Upload Helper
+Simplified file upload handling:
+
+```python
+# Upload local files
+result = client.v1.face_swap.generate(
+    assets={
+        "image_file_path": "path/to/face.jpg",
+        "video_file_path": "path/to/video.mp4"
+    },
+    wait_for_completion=True,
+    download_outputs=True
+)
+```
+
+### Polling and Download Utilities
+The `.generate()` method automatically handles:
+- File uploads
+- Status polling
+- Output downloads
+
+```python
+# This handles everything automatically
+result = client.v1.image_to_video.generate(
+    assets={"image_file_path": "input.jpg"},
+    end_seconds=5.0,
+    wait_for_completion=True,  # Polls until complete
+    download_outputs=True,     # Downloads results
+    download_directory="./outputs/"
+)
+```
+
+## Manual Operations
+
+For more control, use the individual methods:
+
+```python
+# Create a job
+create_response = client.v1.ai_image_generator.create({
+    "prompt": "A cyberpunk cityscape",
+    "image_count": 2
+})
+
+project_id = create_response.id
+
+# Poll for completion
+while True:
+    status_response = client.v1.image_projects.get({"id": project_id})
+    
+    if status_response.status == "completed":
+        # Download the results
+        for download in status_response.downloads:
+            # Download logic here
+            pass
+        break
+    elif status_response.status == "error":
+        print(f"Generation failed: {status_response.error}")
+        break
+    
+    time.sleep(3)  # Wait before next poll
+```
+
+## Error Handling
+
+The SDK provides comprehensive error types:
+
+```python
+from magic_hour.exceptions import (
+    APIError,
+    AuthenticationError,
+    RateLimitError,
+    ValidationError
+)
+
+try:
+    result = client.v1.ai_image_generator.create({
+        "prompt": "A beautiful landscape"
+    })
+except AuthenticationError:
+    print("Invalid API key")
+except ValidationError as e:
+    print(f"Invalid request: {e}")
+except RateLimitError:
+    print("Rate limit exceeded")
+except APIError as e:
+    print(f"API error: {e}")
+```
+
+## Configuration
+
+### Environment Variables
+Set your API key using environment variables:
+
+```bash
+export MAGIC_HOUR_API_KEY="your-api-key-here"
+```
+
+```python
+# Client will automatically use the environment variable
+client = Client()  # No need to pass token explicitly
+```
+
+### Custom Configuration
+```python
+client = Client(
+    token="your-api-key",
+    base_url="https://api.magichour.ai",  # Custom base URL
+    timeout=60,  # Request timeout in seconds
+    max_retries=3  # Maximum retry attempts
+)
+```
+
+## Examples
+
+### Face Swap Video
+```python
+result = client.v1.face_swap.generate(
+    assets={
+        "image_file_path": "face.jpg",
+        "video_file_path": "video.mp4"
+    },
+    wait_for_completion=True,
+    download_outputs=True
+)
+```
+
+### Animation with Custom Settings
+```python
+result = client.v1.animation.generate(
+    assets={"image_file_path": "portrait.jpg"},
+    prompt="The person is laughing joyfully",
+    end_seconds=3.0,
+    art_style="photorealistic",
+    wait_for_completion=True,
+    download_outputs=True
+)
+```
+
+### Lip Sync
+```python
+result = client.v1.lip_sync.generate(
+    assets={
+        "video_file_path": "talking_video.mp4",
+        "audio_file_path": "new_audio.wav"
+    },
+    wait_for_completion=True,
+    download_outputs=True
+)
+```
+
+## GitHub Repository
+
+- **Repository**: [magic-hour-python](https://github.com/magichourhq/magic-hour-python)
+- **Issues**: [Report bugs or request features](https://github.com/magichourhq/magic-hour-python/issues)
+- **Releases**: [View changelog and releases](https://github.com/magichourhq/magic-hour-python/releases)
+
+## Requirements
+
+- Python 3.7+
+- `requests` library
+- `typing_extensions` (for Python < 3.8)
+
+## Support
+
+- Check the [GitHub Issues](https://github.com/magichourhq/magic-hour-python/issues) for common problems
+- Join our [Discord community](https://discord.com/invite/JX5rgsZaJp)
+- Email [support@magichour.ai](mailto:support@magichour.ai) for direct support
