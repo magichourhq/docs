@@ -1,31 +1,35 @@
 ---
 title: "Quick Start"
-description: "Generate your first image and video in minutes"
+description: "Generate an API key and make your first call in <3 minutes."
 ---
 
-## Create your account
+Magic Hour is an AI video and image generation platform. You submit a job, we render it, and you download the result. This guide gets you to your first output in a few minutes.
 
-1. Visit the [Magic Hour Developer Hub](https://magichour.ai/developer?tab=api-keys) (create an account if you don't have one).
+**What you'll do:**
+
+1. Create an API key
+1. Install an SDK (optional)
+1. Generate your first asset
+
+## 1. Create your account
+
+1. Visit the [Magic Hour Developer Hub](https://magichour.ai/developer?tab=api-keys) and sign in.
 1. Click `Create API Key`.
    ![Create API Key](./images/api-key-1.png)
-1. Add a descriptive name. Then click `Create key`.
+1. Name the key, then click `Create key`.
    ![Create API Key Modal](./images/api-key-2.png)
 1. Copy the API key and save it.
    ![Copy API Key](./images/api-key-3.png)
 
-<Warning>The API key can only be viewed on creation.</Warning>
+## 2. Install SDK (Optional)
 
-{/* TODO: add a env setup step???? */}
-
-## Install SDK (Optional)
-
-<Note>Skip to the next step if you're not planning on using our SDKs.</Note>
+<Note>SDKs reduce boilerplate. Skip to the Step 3 if you're not planning on using our SDKs.</Note>
 
 import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 
 <SdkInstallation />
 
-## Generate an image or a video
+## 3. Generate your first asset
 
 <Tip>
   You can install this documentation as an MCP server to get contextual help while integrating Magic
@@ -34,7 +38,7 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 
 <Tabs>
 
-<Tab title="AI image">
+<Tab title="Generate image">
 
 <Note>
 
@@ -298,7 +302,7 @@ done
 
 </Tab>
 
-<Tab title="Face swap video">
+<Tab title="Swap Faces in a Video">
 
 <CodeGroup>
 
@@ -620,3 +624,20 @@ done
 </Tabs>
 
 <Check>🎉 Congratulations! You have successfully created an image and a video on Magic Hour!</Check>
+
+## Next Steps
+
+- **Explore the API Reference:** Learn how to generate and edit videos and images programmatically. [API Reference →](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls)
+
+- **Use the Web App:** Try more tools and experiment interactively at [magichour.ai](https://magichour.ai).
+
+- **Handle Results at Scale:** Set up [webhooks](https://docs.magichour.ai/webhook-reference/image-events/image-started) to process results async and avoid polling.
+
+- **Join the Community:** Get help, share projects, and see what others are building in [Discord](https://discord.gg/JX5rgsZaJp).
+
+- **Stay Updated:** Check out the [Changelog](https://docs.magichour.ai/changelog) for new products and API updates.
+
+<Tip>
+  Prefer fast iteration inside your editor? Install this documentation as an MCP server to get
+  contextual help while integrating the Magic Hour API. [Learn more](./model-context-protocol).{" "}
+</Tip>
