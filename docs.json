@@ -82,8 +82,8 @@
             "group": "Billing",
             "pages": [
               "billing/overview",
-              "billing/usage-based-pricing",
-              "billing/prepaid-subscriptions"
+              "billing/subscription-pricing",
+              "billing/usage-based-pricing"
             ]
           },
           {
