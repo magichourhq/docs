@@ -165,7 +165,12 @@
       },
       {
         "tab": "Changelog",
-        "pages": ["changelog", "changelog/2024", "changelog/2023"]
+        "pages": [
+          {
+            "group": "Product Updates",
+            "pages": ["changelog", "changelog/2024", "changelog/2023"]
+          }
+        ]
       }
     ],
     "global": {
@@ -176,14 +181,9 @@
           "icon": "discord"
         },
         {
-          "anchor": "API Status",
+          "anchor": "Status",
           "href": "https://status.magichour.ai",
           "icon": "wave-pulse"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://magichour.ai/blog",
-          "icon": "rss"
         }
       ]
     }
