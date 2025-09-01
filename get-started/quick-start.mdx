@@ -31,15 +31,6 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 
 ## 3. Generate your first asset
 
-<Tip>
-  You can install this documentation as an MCP server to get contextual help while integrating Magic
-  Hour APIs into your application. [Learn more](./model-context-protocol)
-</Tip>
-
-<Tabs>
-
-<Tab title="Generate image">
-
 <Note>
 
 The `.generate` function is only available in the following SDKs:
@@ -50,6 +41,10 @@ The `.generate` function is only available in the following SDKs:
 We are working on adding it to the other SDKs. If you need it in an SDK that is not listed above, please [contact us](mailto:support@magichour.ai).
 
 </Note>
+
+<Tabs>
+
+<Tab title="Generate image">
 
 <CodeGroup>
 
@@ -314,7 +309,7 @@ import urllib.request
 
 client = Client(token="YOUR_API_KEY") # change to your API key
 
-create_res = client.v1.face_swap.create(
+result = client.v1.face_swap.generate(
     name="Swap Tom Cruise into Iron Man scene",
     assets={
         "image_file_path": "https://videos.magichour.ai/api-assets/sample/tom-cruise.png",
@@ -323,32 +318,12 @@ create_res = client.v1.face_swap.create(
     },
     start_seconds=2.3,
     end_seconds=8.5,
-    height=288,
-    width=512,
+    wait_for_completion=True, # wait for the render to complete
+    download_outputs=True, # download the outputs to local disk
+    download_directory="outputs", # save the outputs to the "outputs" directory
 )
 
-print(
-    f"queued face swap video with id {create_res.id}, spent {create_res.credits_charged} credits based on 30fps. This value be updated after render completes if fps is different."
-)
-
-output_file = "output.mp4"
-while True:
-    res = client.v1.video_projects.get(id=create_res.id)
-    if res.status == "complete":
-        print(f"render complete! Final credit charged is {res.credits_charged}, actual fps is {res.fps}.")
-        with (
-            urllib.request.urlopen(res.downloads[0].url) as response,
-            open(output_file, "wb") as out_file,
-        ):
-            out_file.write(response.read())
-        print(f"file downloaded successfully to {output_file}")
-        break
-    elif res.status == "error":
-        print("render failed")
-        break
-    else:
-        print(f"render in progress: {res.status}")
-        time.sleep(3)
+print(f"created face swap video with id {result.id}, spent {result.credits_charged} credits. Outputs are saved at {result.downloaded_paths}")
 
 ```
 
@@ -359,42 +334,27 @@ import Client from "magic-hour";
 const client = new Client({ token: "YOUR_API_KEY" }); // change to your API key
 
 async function main() {
-  const createRes = await client.v1.faceSwap.create({
-    name: "Swap Tom Cruise into Iron Man scene",
-    assets: {
-      imageFilePath: "https://videos.magichour.ai/api-assets/sample/tom-cruise.png",
-      videoFilePath: "https://videos.magichour.ai/api-assets/sample/iron-man.mp4",
-      videoSource: "file",
+  const createRes = await client.v1.faceSwap.generate(
+    {
+      name: "Swap Tom Cruise into Iron Man scene",
+      assets: {
+        imageFilePath: "https://videos.magichour.ai/api-assets/sample/tom-cruise.png",
+        videoFilePath: "https://videos.magichour.ai/api-assets/sample/iron-man.mp4",
+        videoSource: "file",
+      },
+      startSeconds: 2.3,
+      endSeconds: 8.5,
     },
-    startSeconds: 2.3,
-    endSeconds: 8.5,
-    height: 288,
-    width: 512,
-  });
-
-  console.log(
-    `queued face swap video with id ${createRes.id}, spent ${createRes.creditsCharged} credits based on 30fps. This value be updated after render completes if fps is different.`
+    {
+      waitForCompletion: true, // wait for the render to complete
+      downloadOutputs: true, // download the outputs to local disk
+      downloadDirectory: "outputs", // save the outputs to the "outputs" directory
+    }
   );
 
-  while (true) {
-    const res = await client.v1.videoProjects.get({ id: createRes.id });
-    if (res.status === "complete") {
-      console.log(
-        `render complete! Final credit charged is ${res.creditsCharged}, actual fps is ${res.fps}.`
-      );
-      const outputFile = "output.mp4";
-      await fetch(res.downloads[0].url)
-        .then((res) => res.arrayBuffer())
-        .then((buffer) => writeFileSync(outputFile, Buffer.from(buffer)));
-      console.log(`file downloaded successfully to ${outputFile}`);
-      break;
-    } else if (res.status === "error") {
-      console.log("render failed");
-    } else {
-      console.log(`render in progress: ${res.status}`);
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-    }
-  }
+  console.log(
+    `created face swap video with id ${createRes.id}, spent ${createRes.creditsCharged} credits. Outputs are saved at ${createRes.downloadedPaths}`
+  );
 }
 
 main();
