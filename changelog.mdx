@@ -5,6 +5,88 @@ description: Latest feature enhancements in Magic Hour
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2025-08-31">
+
+## AI Talking Photo Pro Mode
+
+We just launched Pro Mode for Talking Photo — with better lip-sync accuracy, higher-quality visuals, and more natural results.
+
+See and hear the difference:
+
+<VideoPlayer src="https://videos.magichour.ai/api-assets/docs/changelog/2025/08/lebron-talking-photo-comparison.mp4" />
+
+Try it out now: https://magichour.ai/create/ai-talking-photo
+
+</Update>
+
+<Update label="2025-08-29">
+
+## Brand new UI for AI Image Editor
+
+We redesigned the UI for AI Image Editor to make it more user-friendly and intuitive.
+
+<Frame>
+  ![Brand new UI for AI Image
+  Editor](/changelog/images/2025/08/brand-new-ui-for-ai-image-editor.jpg)
+</Frame>
+
+Try it out now: https://magichour.ai/create/ai-image-editor
+
+</Update>
+
+<Update label="2025-08-28">
+
+## Version Selector for Face Swap Photo
+
+Since we introduced a new version of Face Swap Photo, we added a version selector to the create page so you can switch between the old and new versions.
+
+<Frame>
+  ![Version Selector for Face Swap
+  Photo](/changelog/images/2025/08/version-selector-for-face-swap-photo.jpg)
+</Frame>
+
+Try it out now: https://magichour.ai/create/face-swap-photo
+
+</Update>
+
+<Update label="2025-08-27">
+
+## Version Selector for Face Swap Video
+
+Since we introduced a new version of Face Swap Video, we added a version selector to the create page so you can switch between the old and new versions.
+
+<Frame>
+  ![Version Selector for Face Swap
+  Video](/changelog/images/2025/08/version-selector-for-face-swap-video.jpg)
+</Frame>
+
+Try it out now: https://magichour.ai/create/face-swap-video
+
+</Update>
+
+<Update label="2025-08-25">
+
+## New and improved Node/Typescript SDK
+
+We have updated the Node/Typescript SDK to include a `.generate` function for every client. This function will handle the uploading and downloading of files for you.
+
+```typescript
+const client = new Client((token = "YOUR_API_KEY"));
+
+response = client.v1.image_to_video.generate(
+  (assets = { image_file_path: "path/to/image.png" }),
+  (end_seconds = 5.0),
+  (resolution = "720p"),
+  (wait_for_completion = True),
+  (download_outputs = True),
+  (download_directory = "outputs/")
+);
+```
+
+Checkout the release notes to learn more: https://github.com/magichourhq/magic-hour-node/releases/tag/v0.37.0
+
+</Update>
+
 <Update label="2025-08-22">
 
 ## New and improved Python SDK
