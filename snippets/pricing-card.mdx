@@ -7,7 +7,7 @@ export const PricingCard = ({ title, prices, benefits }) => {
             <>
               <div class="flex items-end gap-2">
                 <div>
-                  <span class="text-2xl text-primary">${price.amount}</span>
+                  <span class="text-2xl text-primary">${price.amount.toLocaleString()}</span>
                   {price.label}
                 </div>
               </div>
