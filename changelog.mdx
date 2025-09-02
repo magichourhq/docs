@@ -5,6 +5,27 @@ description: Latest feature enhancements in Magic Hour
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2025-09-02">
+
+## Added output format to the AI Gif Generator API
+
+We added a new `output_format` param to the AI Gif Generator API. You can now specify the output format of the generated file. Valid values are `gif`, `webm`, and `mp4`.
+
+```python
+res = client.v1.ai_gif_generator.generate(
+    ...
+    output_format="mp4"
+)
+```
+
+Try it up by updating to latest version of the SDK
+
+## Increased gif output resolution
+
+GIF outputs were previously limited to 512x512. They now correctly support resolutions up to 1024x1024.
+
+</Update>
+
 <Update label="2025-08-31">
 
 ## AI Talking Photo Pro Mode
