@@ -92,6 +92,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@canvas/image-data@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@canvas/image-data@npm:1.0.0"
+  checksum: 10/0929dfedb2545297fd1f74ac9c8d38d4517615a5d17e8e812929caeec677ab96c86ec491640441bd7880a4b5612a91e0243acf29a4576d1e0fbc7537f875bb7d
+  languageName: node
+  linkType: hard
+
 "@emnapi/runtime@npm:^1.2.0":
   version: 1.3.1
   resolution: "@emnapi/runtime@npm:1.3.1"
@@ -101,11 +108,39 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@emnapi/runtime@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "@emnapi/runtime@npm:1.5.0"
+  dependencies:
+    tslib: "npm:^2.4.0"
+  checksum: 10/5311ce854306babc77f4bd94c2f973722714a0fab93c126239104ad52dea16a147bfed4c4cff3ca1eb32709607221c25d2f747ae8524cbeb9088058f02ff962b
+  languageName: node
+  linkType: hard
+
+"@img/colour@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@img/colour@npm:1.0.0"
+  checksum: 10/bd248d7c4b8ba99a72b22a005a63f1d3309ee8343a74b6d0d1314bae300a3096919991a09e9a9243cf6ca50e393b4c5a7e065488ed616c3b58d052473240b812
+  languageName: node
+  linkType: hard
+
 "@img/sharp-darwin-arm64@npm:0.33.5":
   version: 0.33.5
   resolution: "@img/sharp-darwin-arm64@npm:0.33.5"
   dependencies:
     "@img/sharp-libvips-darwin-arm64": "npm:1.0.4"
+  dependenciesMeta:
+    "@img/sharp-libvips-darwin-arm64":
+      optional: true
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@img/sharp-darwin-arm64@npm:0.34.4":
+  version: 0.34.4
+  resolution: "@img/sharp-darwin-arm64@npm:0.34.4"
+  dependencies:
+    "@img/sharp-libvips-darwin-arm64": "npm:1.2.3"
   dependenciesMeta:
     "@img/sharp-libvips-darwin-arm64":
       optional: true
@@ -125,9 +160,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@img/sharp-darwin-x64@npm:0.34.4":
+  version: 0.34.4
+  resolution: "@img/sharp-darwin-x64@npm:0.34.4"
+  dependencies:
+    "@img/sharp-libvips-darwin-x64": "npm:1.2.3"
+  dependenciesMeta:
+    "@img/sharp-libvips-darwin-x64":
+      optional: true
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
 "@img/sharp-libvips-darwin-arm64@npm:1.0.4":
   version: 1.0.4
   resolution: "@img/sharp-libvips-darwin-arm64@npm:1.0.4"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@img/sharp-libvips-darwin-arm64@npm:1.2.3":
+  version: 1.2.3
+  resolution: "@img/sharp-libvips-darwin-arm64@npm:1.2.3"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
@@ -139,9 +193,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@img/sharp-libvips-darwin-x64@npm:1.2.3":
+  version: 1.2.3
+  resolution: "@img/sharp-libvips-darwin-x64@npm:1.2.3"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
 "@img/sharp-libvips-linux-arm64@npm:1.0.4":
   version: 1.0.4
   resolution: "@img/sharp-libvips-linux-arm64@npm:1.0.4"
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@img/sharp-libvips-linux-arm64@npm:1.2.3":
+  version: 1.2.3
+  resolution: "@img/sharp-libvips-linux-arm64@npm:1.2.3"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
@@ -153,9 +221,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@img/sharp-libvips-linux-arm@npm:1.2.3":
+  version: 1.2.3
+  resolution: "@img/sharp-libvips-linux-arm@npm:1.2.3"
+  conditions: os=linux & cpu=arm & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@img/sharp-libvips-linux-ppc64@npm:1.2.3":
+  version: 1.2.3
+  resolution: "@img/sharp-libvips-linux-ppc64@npm:1.2.3"
+  conditions: os=linux & cpu=ppc64 & libc=glibc
+  languageName: node
+  linkType: hard
+
 "@img/sharp-libvips-linux-s390x@npm:1.0.4":
   version: 1.0.4
   resolution: "@img/sharp-libvips-linux-s390x@npm:1.0.4"
+  conditions: os=linux & cpu=s390x & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@img/sharp-libvips-linux-s390x@npm:1.2.3":
+  version: 1.2.3
+  resolution: "@img/sharp-libvips-linux-s390x@npm:1.2.3"
   conditions: os=linux & cpu=s390x & libc=glibc
   languageName: node
   linkType: hard
@@ -167,9 +256,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@img/sharp-libvips-linux-x64@npm:1.2.3":
+  version: 1.2.3
+  resolution: "@img/sharp-libvips-linux-x64@npm:1.2.3"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
 "@img/sharp-libvips-linuxmusl-arm64@npm:1.0.4":
   version: 1.0.4
   resolution: "@img/sharp-libvips-linuxmusl-arm64@npm:1.0.4"
+  conditions: os=linux & cpu=arm64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@img/sharp-libvips-linuxmusl-arm64@npm:1.2.3":
+  version: 1.2.3
+  resolution: "@img/sharp-libvips-linuxmusl-arm64@npm:1.2.3"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
@@ -181,11 +284,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@img/sharp-libvips-linuxmusl-x64@npm:1.2.3":
+  version: 1.2.3
+  resolution: "@img/sharp-libvips-linuxmusl-x64@npm:1.2.3"
+  conditions: os=linux & cpu=x64 & libc=musl
+  languageName: node
+  linkType: hard
+
 "@img/sharp-linux-arm64@npm:0.33.5":
   version: 0.33.5
   resolution: "@img/sharp-linux-arm64@npm:0.33.5"
   dependencies:
     "@img/sharp-libvips-linux-arm64": "npm:1.0.4"
+  dependenciesMeta:
+    "@img/sharp-libvips-linux-arm64":
+      optional: true
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@img/sharp-linux-arm64@npm:0.34.4":
+  version: 0.34.4
+  resolution: "@img/sharp-linux-arm64@npm:0.34.4"
+  dependencies:
+    "@img/sharp-libvips-linux-arm64": "npm:1.2.3"
   dependenciesMeta:
     "@img/sharp-libvips-linux-arm64":
       optional: true
@@ -205,11 +327,47 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@img/sharp-linux-arm@npm:0.34.4":
+  version: 0.34.4
+  resolution: "@img/sharp-linux-arm@npm:0.34.4"
+  dependencies:
+    "@img/sharp-libvips-linux-arm": "npm:1.2.3"
+  dependenciesMeta:
+    "@img/sharp-libvips-linux-arm":
+      optional: true
+  conditions: os=linux & cpu=arm & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@img/sharp-linux-ppc64@npm:0.34.4":
+  version: 0.34.4
+  resolution: "@img/sharp-linux-ppc64@npm:0.34.4"
+  dependencies:
+    "@img/sharp-libvips-linux-ppc64": "npm:1.2.3"
+  dependenciesMeta:
+    "@img/sharp-libvips-linux-ppc64":
+      optional: true
+  conditions: os=linux & cpu=ppc64 & libc=glibc
+  languageName: node
+  linkType: hard
+
 "@img/sharp-linux-s390x@npm:0.33.5":
   version: 0.33.5
   resolution: "@img/sharp-linux-s390x@npm:0.33.5"
   dependencies:
     "@img/sharp-libvips-linux-s390x": "npm:1.0.4"
+  dependenciesMeta:
+    "@img/sharp-libvips-linux-s390x":
+      optional: true
+  conditions: os=linux & cpu=s390x & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@img/sharp-linux-s390x@npm:0.34.4":
+  version: 0.34.4
+  resolution: "@img/sharp-linux-s390x@npm:0.34.4"
+  dependencies:
+    "@img/sharp-libvips-linux-s390x": "npm:1.2.3"
   dependenciesMeta:
     "@img/sharp-libvips-linux-s390x":
       optional: true
@@ -229,11 +387,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@img/sharp-linux-x64@npm:0.34.4":
+  version: 0.34.4
+  resolution: "@img/sharp-linux-x64@npm:0.34.4"
+  dependencies:
+    "@img/sharp-libvips-linux-x64": "npm:1.2.3"
+  dependenciesMeta:
+    "@img/sharp-libvips-linux-x64":
+      optional: true
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
 "@img/sharp-linuxmusl-arm64@npm:0.33.5":
   version: 0.33.5
   resolution: "@img/sharp-linuxmusl-arm64@npm:0.33.5"
   dependencies:
     "@img/sharp-libvips-linuxmusl-arm64": "npm:1.0.4"
+  dependenciesMeta:
+    "@img/sharp-libvips-linuxmusl-arm64":
+      optional: true
+  conditions: os=linux & cpu=arm64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@img/sharp-linuxmusl-arm64@npm:0.34.4":
+  version: 0.34.4
+  resolution: "@img/sharp-linuxmusl-arm64@npm:0.34.4"
+  dependencies:
+    "@img/sharp-libvips-linuxmusl-arm64": "npm:1.2.3"
   dependenciesMeta:
     "@img/sharp-libvips-linuxmusl-arm64":
       optional: true
@@ -253,12 +435,40 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@img/sharp-linuxmusl-x64@npm:0.34.4":
+  version: 0.34.4
+  resolution: "@img/sharp-linuxmusl-x64@npm:0.34.4"
+  dependencies:
+    "@img/sharp-libvips-linuxmusl-x64": "npm:1.2.3"
+  dependenciesMeta:
+    "@img/sharp-libvips-linuxmusl-x64":
+      optional: true
+  conditions: os=linux & cpu=x64 & libc=musl
+  languageName: node
+  linkType: hard
+
 "@img/sharp-wasm32@npm:0.33.5":
   version: 0.33.5
   resolution: "@img/sharp-wasm32@npm:0.33.5"
   dependencies:
     "@emnapi/runtime": "npm:^1.2.0"
   conditions: cpu=wasm32
+  languageName: node
+  linkType: hard
+
+"@img/sharp-wasm32@npm:0.34.4":
+  version: 0.34.4
+  resolution: "@img/sharp-wasm32@npm:0.34.4"
+  dependencies:
+    "@emnapi/runtime": "npm:^1.5.0"
+  conditions: cpu=wasm32
+  languageName: node
+  linkType: hard
+
+"@img/sharp-win32-arm64@npm:0.34.4":
+  version: 0.34.4
+  resolution: "@img/sharp-win32-arm64@npm:0.34.4"
+  conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
@@ -269,9 +479,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@img/sharp-win32-ia32@npm:0.34.4":
+  version: 0.34.4
+  resolution: "@img/sharp-win32-ia32@npm:0.34.4"
+  conditions: os=win32 & cpu=ia32
+  languageName: node
+  linkType: hard
+
 "@img/sharp-win32-x64@npm:0.33.5":
   version: 0.33.5
   resolution: "@img/sharp-win32-x64@npm:0.33.5"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@img/sharp-win32-x64@npm:0.34.4":
+  version: 0.34.4
+  resolution: "@img/sharp-win32-x64@npm:0.34.4"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -636,16 +860,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mintlify/cli@npm:4.0.749":
-  version: 4.0.749
-  resolution: "@mintlify/cli@npm:4.0.749"
+"@mintlify/cli@npm:4.0.765":
+  version: 4.0.765
+  resolution: "@mintlify/cli@npm:4.0.765"
   dependencies:
-    "@mintlify/common": "npm:1.0.556"
-    "@mintlify/link-rot": "npm:3.0.694"
-    "@mintlify/models": "npm:0.0.230"
-    "@mintlify/prebuild": "npm:1.0.681"
-    "@mintlify/previewing": "npm:4.0.730"
-    "@mintlify/validation": "npm:0.1.483"
+    "@mintlify/common": "npm:1.0.571"
+    "@mintlify/link-rot": "npm:3.0.709"
+    "@mintlify/models": "npm:0.0.233"
+    "@mintlify/prebuild": "npm:1.0.696"
+    "@mintlify/previewing": "npm:4.0.745"
+    "@mintlify/validation": "npm:0.1.496"
     chalk: "npm:^5.2.0"
     color: "npm:^4.2.3"
     detect-port: "npm:^1.5.1"
@@ -663,19 +887,19 @@ __metadata:
   bin:
     mint: bin/index.js
     mintlify: bin/index.js
-  checksum: 10/95ea52df377f78bb656fca213c66af46170adabe1ea8c4e6ce14b997387730326a445bc7ed737c7625db2182f2f9aed381586cc7e06740446dd40c7276d7f036
+  checksum: 10/c0bb4ff220a374d46edfdacd7f550d94de20f30b2659b574904c4813892882963a08ba88ec454c2ab69201eff889b69e7b08d3ffc98423ba03483f1e27f48baa
   languageName: node
   linkType: hard
 
-"@mintlify/common@npm:1.0.556":
-  version: 1.0.556
-  resolution: "@mintlify/common@npm:1.0.556"
+"@mintlify/common@npm:1.0.571":
+  version: 1.0.571
+  resolution: "@mintlify/common@npm:1.0.571"
   dependencies:
     "@asyncapi/parser": "npm:^3.4.0"
     "@mintlify/mdx": "npm:^3.0.0"
-    "@mintlify/models": "npm:0.0.230"
+    "@mintlify/models": "npm:0.0.233"
     "@mintlify/openapi-parser": "npm:^0.0.8"
-    "@mintlify/validation": "npm:0.1.483"
+    "@mintlify/validation": "npm:0.1.496"
     "@sindresorhus/slugify": "npm:^2.1.1"
     acorn: "npm:^8.11.2"
     acorn-jsx: "npm:^5.3.2"
@@ -714,21 +938,21 @@ __metadata:
     unist-util-visit: "npm:^5.0.0"
     unist-util-visit-parents: "npm:^6.0.1"
     vfile: "npm:^6.0.3"
-  checksum: 10/72a7fafb9ec2f412a392308446e33f32d7d5e0a77de24356416c810adbdd54147d9619c0df5ef609fa0b1810038ea9e1ef87b42cc2fb89db8d23c8135a91f7d9
+  checksum: 10/01f84d65264e4ad20739eba5c052bcb9fd1b63144190d71d2c7c549f09fc320e4c23a98bdeb9c2837beab7a0511ccef718fa7269961754a1f4d2fc3699c8678c
   languageName: node
   linkType: hard
 
-"@mintlify/link-rot@npm:3.0.694":
-  version: 3.0.694
-  resolution: "@mintlify/link-rot@npm:3.0.694"
+"@mintlify/link-rot@npm:3.0.709":
+  version: 3.0.709
+  resolution: "@mintlify/link-rot@npm:3.0.709"
   dependencies:
-    "@mintlify/common": "npm:1.0.556"
-    "@mintlify/prebuild": "npm:1.0.681"
-    "@mintlify/previewing": "npm:4.0.730"
-    "@mintlify/validation": "npm:0.1.483"
+    "@mintlify/common": "npm:1.0.571"
+    "@mintlify/prebuild": "npm:1.0.696"
+    "@mintlify/previewing": "npm:4.0.745"
+    "@mintlify/validation": "npm:0.1.496"
     fs-extra: "npm:^11.1.0"
     unist-util-visit: "npm:^4.1.1"
-  checksum: 10/fc7288ac411c02145dc756205c5babc4aa4cd9c8881820f9d5ef9a53fd904318661aaa809cbfd898f3c9e7efced823469dd00e7e561bae2630a99d8232a5b5af
+  checksum: 10/a10f5f0546a3ba616f2d6727627178e085f4bd66b10e70d540f43f1ebc215fe4d2708cb5eb5ce0438b07602845f8d7a2872087536e215220d356d1cc6b21d7b2
   languageName: node
   linkType: hard
 
@@ -759,13 +983,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mintlify/models@npm:0.0.230":
-  version: 0.0.230
-  resolution: "@mintlify/models@npm:0.0.230"
+"@mintlify/models@npm:0.0.233":
+  version: 0.0.233
+  resolution: "@mintlify/models@npm:0.0.233"
   dependencies:
     axios: "npm:^1.8.3"
     openapi-types: "npm:^12.0.0"
-  checksum: 10/f8adb0e8b62b7f86354b5a3a2d0ca361fc21e5ae6067aaa043ab4b5860394726f685f35ab03bad975fea15343535113a06d27596ebb988a5a4edd6bbb6142143
+  checksum: 10/43a79aa1888212768eb1c60ca1bd763cd4ffbf5a9612772fe5cdddb6d262ce122505021b2d91431bb5f8e5db788e8f680ecf4b7a21aa9116c91faeae03b64755
   languageName: node
   linkType: hard
 
@@ -783,14 +1007,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mintlify/prebuild@npm:1.0.681":
-  version: 1.0.681
-  resolution: "@mintlify/prebuild@npm:1.0.681"
+"@mintlify/prebuild@npm:1.0.696":
+  version: 1.0.696
+  resolution: "@mintlify/prebuild@npm:1.0.696"
   dependencies:
-    "@mintlify/common": "npm:1.0.556"
+    "@mintlify/common": "npm:1.0.571"
     "@mintlify/openapi-parser": "npm:^0.0.8"
-    "@mintlify/scraping": "npm:4.0.415"
-    "@mintlify/validation": "npm:0.1.483"
+    "@mintlify/scraping": "npm:4.0.430"
+    "@mintlify/validation": "npm:0.1.496"
     chalk: "npm:^5.3.0"
     favicons: "npm:^7.2.0"
     fs-extra: "npm:^11.1.0"
@@ -798,18 +1022,20 @@ __metadata:
     js-yaml: "npm:^4.1.0"
     mdast: "npm:^3.0.0"
     openapi-types: "npm:^12.0.0"
+    sharp: "npm:^0.33.1"
+    sharp-ico: "npm:^0.1.5"
     unist-util-visit: "npm:^4.1.1"
-  checksum: 10/c64af761a55ca1fd2da10e59bbd239118d86e1ff56f18627d527721d5a04b7757d5aee234daaef21afdede3236d601d683ad0d89f1176dbba7707ba9cdc28acc
+  checksum: 10/b770bb9a41e0f05e1f1df4d3dbb90b680432011b47f962b8ee0079eaf8283a52d2edd2a1f3e245885896cec3004e0a93e41ec672f805a33334eda427f7c542bb
   languageName: node
   linkType: hard
 
-"@mintlify/previewing@npm:4.0.730":
-  version: 4.0.730
-  resolution: "@mintlify/previewing@npm:4.0.730"
+"@mintlify/previewing@npm:4.0.745":
+  version: 4.0.745
+  resolution: "@mintlify/previewing@npm:4.0.745"
   dependencies:
-    "@mintlify/common": "npm:1.0.556"
-    "@mintlify/prebuild": "npm:1.0.681"
-    "@mintlify/validation": "npm:0.1.483"
+    "@mintlify/common": "npm:1.0.571"
+    "@mintlify/prebuild": "npm:1.0.696"
+    "@mintlify/validation": "npm:0.1.496"
     better-opn: "npm:^3.0.2"
     chalk: "npm:^5.1.0"
     chokidar: "npm:^3.5.3"
@@ -828,15 +1054,15 @@ __metadata:
     tar: "npm:^6.1.15"
     unist-util-visit: "npm:^4.1.1"
     yargs: "npm:^17.6.0"
-  checksum: 10/d967187c66cd6e60e5c1e7c329aaeeade95a7e9916e46b38c8e257768beb4a9cd572f971c021b63fa9fd1e39054c0f781907761e7b601ad4ec4134f426742b1d
+  checksum: 10/638238052b76d9e708b9bf7e2ab1849a024d3158a4c9192a697bbd403cb53738698eb6af9a91da694f2a80b492adac1c4b72613b80501fe1ba977b93713c0435
   languageName: node
   linkType: hard
 
-"@mintlify/scraping@npm:4.0.415":
-  version: 4.0.415
-  resolution: "@mintlify/scraping@npm:4.0.415"
+"@mintlify/scraping@npm:4.0.430":
+  version: 4.0.430
+  resolution: "@mintlify/scraping@npm:4.0.430"
   dependencies:
-    "@mintlify/common": "npm:1.0.556"
+    "@mintlify/common": "npm:1.0.571"
     "@mintlify/openapi-parser": "npm:^0.0.8"
     fs-extra: "npm:^11.1.1"
     hast-util-to-mdast: "npm:^10.1.0"
@@ -855,23 +1081,26 @@ __metadata:
     zod: "npm:^3.20.6"
   bin:
     mintlify-scrape: bin/cli.js
-  checksum: 10/da44245f6886128fb1b4a4c22f6054a6e35dbe15fb42eb8737ea39a350fe14f851addb7d4b4a856e22dfbdb9b75fa68b1e00dd6c58eae6b2b478abc6fe671cdb
+  checksum: 10/b7b89bbe5aee6775c2a46d6ee31134ea50b48845feb91a922f4183e1554920ebe7cc20f6fedca4465e0f4bc2ec94f7d0f40627a2d5e614fd3f6382653f0437e1
   languageName: node
   linkType: hard
 
-"@mintlify/validation@npm:0.1.483":
-  version: 0.1.483
-  resolution: "@mintlify/validation@npm:0.1.483"
+"@mintlify/validation@npm:0.1.496":
+  version: 0.1.496
+  resolution: "@mintlify/validation@npm:0.1.496"
   dependencies:
     "@mintlify/mdx": "npm:^3.0.0"
-    "@mintlify/models": "npm:0.0.230"
+    "@mintlify/models": "npm:0.0.233"
     arktype: "npm:^2.1.20"
+    js-yaml: "npm:^4.1.0"
     lcm: "npm:^0.0.3"
     lodash: "npm:^4.17.21"
+    object-hash: "npm:^3.0.0"
     openapi-types: "npm:^12.0.0"
+    uuid: "npm:^11.1.0"
     zod: "npm:^3.20.6"
     zod-to-json-schema: "npm:^3.20.3"
-  checksum: 10/7c4a0e96a67015ebc3c76de1bd30aa49625e7de75d38261c54834ee6898033a99dfeb6c738e9c8dc2e82fff4f08daef15e3d5ccdc58deec708c2b6af2a9340c7
+  checksum: 10/416bf13b98eafb26ad442fdeb40aca5a4c8750ee44b283a5c70a2f1227661cabc10658ad4123a44d35416fbb8066dd14773c4e0fec6bdc9acd630f157230aab1
   languageName: node
   linkType: hard
 
@@ -2545,6 +2774,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"decode-bmp@npm:^0.2.0":
+  version: 0.2.1
+  resolution: "decode-bmp@npm:0.2.1"
+  dependencies:
+    "@canvas/image-data": "npm:^1.0.0"
+    to-data-view: "npm:^1.1.0"
+  checksum: 10/659ac3330e901e5b275207b5b3a792b939185f7f31f2c26864ff1b3db18f875fbf0e7dc0fedcb6ae69538d8b4ee2aa745a8bf5856df0c4858ffd0f2987204735
+  languageName: node
+  linkType: hard
+
+"decode-ico@npm:*":
+  version: 0.4.1
+  resolution: "decode-ico@npm:0.4.1"
+  dependencies:
+    "@canvas/image-data": "npm:^1.0.0"
+    decode-bmp: "npm:^0.2.0"
+    to-data-view: "npm:^1.1.0"
+  checksum: 10/b5a049b2227d7c3cb569f9f3a889f91da200403989a8eeb8e001a335056c1857617038810f0dbf3e77d0fc930c677a6d5e6f106a0bc64cf0475e2e390b487aff
+  languageName: node
+  linkType: hard
+
 "decode-named-character-reference@npm:^1.0.0":
   version: 1.0.2
   resolution: "decode-named-character-reference@npm:1.0.2"
@@ -2652,6 +2902,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"detect-libc@npm:^2.1.0":
+  version: 2.1.2
+  resolution: "detect-libc@npm:2.1.2"
+  checksum: 10/b736c8d97d5d46164c0d1bed53eb4e6a3b1d8530d460211e2d52f1c552875e706c58a5376854e4e54f8b828c9cada58c855288c968522eb93ac7696d65970766
+  languageName: node
+  linkType: hard
+
 "detect-port@npm:^1.5.1":
   version: 1.6.1
   resolution: "detect-port@npm:1.6.1"
@@ -2717,8 +2974,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "docs@workspace:."
   dependencies:
-    "@mintlify/scraping": "npm:4.0.415"
-    mintlify: "npm:4.2.145"
+    "@mintlify/scraping": "npm:4.0.430"
+    mintlify: "npm:4.2.161"
     prettier: "npm:3.6.2"
     typescript: "npm:5.9.3"
   languageName: unknown
@@ -4073,6 +4330,13 @@ __metadata:
     agent-base: "npm:^7.1.2"
     debug: "npm:4"
   checksum: 10/784b628cbd55b25542a9d85033bdfd03d4eda630fb8b3c9477959367f3be95dc476ed2ecbb9836c359c7c698027fc7b45723a302324433590f45d6c1706e8c13
+  languageName: node
+  linkType: hard
+
+"ico-endec@npm:*":
+  version: 0.1.6
+  resolution: "ico-endec@npm:0.1.6"
+  checksum: 10/36fcdcb9681f153bebef2a386e740b2ac8c22fc5bce6fbbd96700a958d105269c59ebed8c73df9295618a5baa8a4ca35d15bb6676a9918ba04c0bd4cb90cdb9c
   languageName: node
   linkType: hard
 
@@ -5833,15 +6097,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mintlify@npm:4.2.145":
-  version: 4.2.145
-  resolution: "mintlify@npm:4.2.145"
+"mintlify@npm:4.2.161":
+  version: 4.2.161
+  resolution: "mintlify@npm:4.2.161"
   dependencies:
-    "@mintlify/cli": "npm:4.0.749"
+    "@mintlify/cli": "npm:4.0.765"
   bin:
     mint: index.js
     mintlify: index.js
-  checksum: 10/f734b0ea7f7dc965081fc90b57179f7b6261759d224a36c242264da69994573d3b9aea25df6b73470e940c2631a7a7977321f6389e9eac53ddd40db394862d2e
+  checksum: 10/d717e64eeb045db5aca148fda78d90eb26bc057834d8acbbb8e1383edac3aa9ae985d87fa4ccae3d5c1018fbbdd1022594fc7ec487ee60afece323f7c9846c9a
   languageName: node
   linkType: hard
 
@@ -7308,6 +7572,95 @@ __metadata:
   languageName: node
   linkType: hard
 
+"sharp-ico@npm:^0.1.5":
+  version: 0.1.5
+  resolution: "sharp-ico@npm:0.1.5"
+  dependencies:
+    decode-ico: "npm:*"
+    ico-endec: "npm:*"
+    sharp: "npm:*"
+  checksum: 10/8d958147fa4de0a3dd0693871564318accf56940b642a732b98e75d3d694569d4b8857184aacc83cc24ff7340a5eb35552449758e7224bd4f7cef8ba13e66f4f
+  languageName: node
+  linkType: hard
+
+"sharp@npm:*":
+  version: 0.34.4
+  resolution: "sharp@npm:0.34.4"
+  dependencies:
+    "@img/colour": "npm:^1.0.0"
+    "@img/sharp-darwin-arm64": "npm:0.34.4"
+    "@img/sharp-darwin-x64": "npm:0.34.4"
+    "@img/sharp-libvips-darwin-arm64": "npm:1.2.3"
+    "@img/sharp-libvips-darwin-x64": "npm:1.2.3"
+    "@img/sharp-libvips-linux-arm": "npm:1.2.3"
+    "@img/sharp-libvips-linux-arm64": "npm:1.2.3"
+    "@img/sharp-libvips-linux-ppc64": "npm:1.2.3"
+    "@img/sharp-libvips-linux-s390x": "npm:1.2.3"
+    "@img/sharp-libvips-linux-x64": "npm:1.2.3"
+    "@img/sharp-libvips-linuxmusl-arm64": "npm:1.2.3"
+    "@img/sharp-libvips-linuxmusl-x64": "npm:1.2.3"
+    "@img/sharp-linux-arm": "npm:0.34.4"
+    "@img/sharp-linux-arm64": "npm:0.34.4"
+    "@img/sharp-linux-ppc64": "npm:0.34.4"
+    "@img/sharp-linux-s390x": "npm:0.34.4"
+    "@img/sharp-linux-x64": "npm:0.34.4"
+    "@img/sharp-linuxmusl-arm64": "npm:0.34.4"
+    "@img/sharp-linuxmusl-x64": "npm:0.34.4"
+    "@img/sharp-wasm32": "npm:0.34.4"
+    "@img/sharp-win32-arm64": "npm:0.34.4"
+    "@img/sharp-win32-ia32": "npm:0.34.4"
+    "@img/sharp-win32-x64": "npm:0.34.4"
+    detect-libc: "npm:^2.1.0"
+    semver: "npm:^7.7.2"
+  dependenciesMeta:
+    "@img/sharp-darwin-arm64":
+      optional: true
+    "@img/sharp-darwin-x64":
+      optional: true
+    "@img/sharp-libvips-darwin-arm64":
+      optional: true
+    "@img/sharp-libvips-darwin-x64":
+      optional: true
+    "@img/sharp-libvips-linux-arm":
+      optional: true
+    "@img/sharp-libvips-linux-arm64":
+      optional: true
+    "@img/sharp-libvips-linux-ppc64":
+      optional: true
+    "@img/sharp-libvips-linux-s390x":
+      optional: true
+    "@img/sharp-libvips-linux-x64":
+      optional: true
+    "@img/sharp-libvips-linuxmusl-arm64":
+      optional: true
+    "@img/sharp-libvips-linuxmusl-x64":
+      optional: true
+    "@img/sharp-linux-arm":
+      optional: true
+    "@img/sharp-linux-arm64":
+      optional: true
+    "@img/sharp-linux-ppc64":
+      optional: true
+    "@img/sharp-linux-s390x":
+      optional: true
+    "@img/sharp-linux-x64":
+      optional: true
+    "@img/sharp-linuxmusl-arm64":
+      optional: true
+    "@img/sharp-linuxmusl-x64":
+      optional: true
+    "@img/sharp-wasm32":
+      optional: true
+    "@img/sharp-win32-arm64":
+      optional: true
+    "@img/sharp-win32-ia32":
+      optional: true
+    "@img/sharp-win32-x64":
+      optional: true
+  checksum: 10/8e6268e3b0fba7704291684e63c2829963a5ec311d8a8ebbcd32d750c4efb0b01594d925d289ccb5ac0ac373df40fedf5a05a8f331470db799b9c78c48923cba
+  languageName: node
+  linkType: hard
+
 "sharp@npm:^0.33.1":
   version: 0.33.5
   resolution: "sharp@npm:0.33.5"
@@ -7925,6 +8278,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"to-data-view@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "to-data-view@npm:1.1.0"
+  checksum: 10/53bf818cf7ed4b481568085cfed5528b268efe1e95d0b90c2a45031de9cf40de91600771c046924348fdedbedb54f655f98e7bf1c51041ba06f0ec3f2fd53dc6
+  languageName: node
+  linkType: hard
+
 "to-regex-range@npm:^5.0.1":
   version: 5.0.1
   resolution: "to-regex-range@npm:5.0.1"
@@ -8376,6 +8736,15 @@ __metadata:
   version: 1.0.1
   resolution: "utils-merge@npm:1.0.1"
   checksum: 10/5d6949693d58cb2e636a84f3ee1c6e7b2f9c16cb1d42d0ecb386d8c025c69e327205aa1c69e2868cc06a01e5e20681fbba55a4e0ed0cce913d60334024eae798
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^11.1.0":
+  version: 11.1.0
+  resolution: "uuid@npm:11.1.0"
+  bin:
+    uuid: dist/esm/bin/uuid
+  checksum: 10/d2da43b49b154d154574891ced66d0c83fc70caaad87e043400cf644423b067542d6f3eb641b7c819224a7cd3b4c2f21906acbedd6ec9c6a05887aa9115a9cf5
   languageName: node
   linkType: hard
 
