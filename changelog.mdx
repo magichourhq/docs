@@ -6,6 +6,201 @@ rss: true
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2025-09-29">
+
+## New UI for AI Gif Generator
+
+We redesigned the AI Gif Generator UI to be more user-friendly and intuitive. We added a new sidebar so you can better keep track of your generations while you're working on your next idea.
+
+<Frame>![New AI Gif Generator UI](/changelog/images/2025/09/new-ai-gif-generator-ui.jpg)</Frame>
+
+Try it out now: https://magichour.ai/create/ai-gif-generator
+
+</Update>
+
+<Update label="2025-09-26">
+
+## Improved precision for start and end seconds
+
+We updated all the inputs for start and end seconds to allow 2 decimal places. This is a quality of life improvement to make it easier to specify the exact time you want to start and end the video.
+
+</Update>
+
+<Update label="2025-09-25">
+
+## Added `Pro` mode to AI Image Generator
+
+You can now use the `Pro` mode to generate images with higher quality and more natural results.
+
+See the difference:
+
+<Frame>
+  ![AI Image Generator Pro Mode](/changelog/images/2025/09/ai-image-generator-pro-mode.jpg)
+</Frame>
+
+Try it out now: https://magichour.ai/create/ai-image-generator and select the `Pro` mode to get started.
+
+**Note**: The `Pro` mode is only available for users with an existing subscription.
+
+</Update>
+
+<Update label="2025-09-23">
+
+## New Lip Sync UI
+
+We redesigned the Lip Sync UI to be more user-friendly and intuitive.
+
+<Frame>![New Lip Sync UI](/changelog/images/2025/09/new-lip-sync-ui.jpg)</Frame>
+
+Try it out now: https://magichour.ai/create/lip-sync
+
+</Update>
+
+<Update label="2025-09-23">
+
+## New /create page UI for desktop users
+
+We redesigned the /create page UI for desktop users to be more user-friendly and intuitive.
+
+<Frame>
+  ![New /create page UI for desktop users](/changelog/images/2025/09/new-create-page-desktop-ui.jpg)
+</Frame>
+
+Try it out now: https://magichour.ai/create
+
+</Update>
+
+<Update label="2025-09-20">
+
+## Add generation mode to Lip Sync API
+
+We recently introduced standard and pro mode to Lip Sync, and now we've added a generation mode param to the API and SDKs.
+
+## Added audio project APIs
+
+We recently added support for audio generations, and now we've added the following APIs for audio projects.
+
+- `POST /v1/ai-voice-generator`
+- `GET /v1/audio-projects/:id`
+- `DELETE /v1/audio-projects/:id`
+
+</Update>
+
+<Update label="2025-09-19">
+
+## New AI Talking Photo UI
+
+We redesigned the Talking Photo UI to be more user-friendly and intuitive.
+
+<Frame>![New Talking Photo UI](/changelog/images/2025/09/ai-talking-photo-ui.jpg)</Frame>
+
+Try it out now: https://magichour.ai/create/ai-talking-photo
+
+</Update>
+
+<Update label="2025-09-18">
+
+## New Face Swap Video UI
+
+We redesigned the Face Swap Video UI to be more user-friendly and intuitive.
+
+<Frame>![New Face Swap Video UI](/changelog/images/2025/09/face-swap-video-ui.jpg)</Frame>
+
+Try it out now: https://magichour.ai/create/face-swap-video
+
+</Update>
+
+<Update label="2025-09-14">
+
+## Added `Standard` and `Pro` mode to Lip Sync
+
+We added two new modes to Lip Sync: `Standard` and `Pro`. The existing Lip Sync mode is renamed to `Lite`
+
+See the video below for the difference:
+
+<VideoPlayer src="https://d28dkohlqf5vwj.cloudfront.net/projects/lip-sync/lip-sync-modes-comparison.webm" />
+
+Try it out now: https://magichour.ai/create/lip-sync and select the `Standard` or `Pro` mode to get started.
+
+**Note**: The `Standard` and `Pro` modes are only available for users with an existing subscription.
+
+</Update>
+
+<Update label="2025-09-13">
+
+## Speed up Lip Sync Videos
+
+We sped up the generation time for Lip Sync by 50-60%! This change applies to all Lip Sync users.
+
+Give it a try now: https://magichour.ai/create/lip-sync
+
+</Update>
+
+<Update label="2025-09-11">
+
+## Simplified the Video-to-video API by making multiple params optional.
+
+We updated the following params in the Video-to-video API to be optional:
+
+- `version` - default to `default`
+- `prompt_type` - default to `default`
+- `prompt` - now it is no longer necessary to specify `prompt: null` if you don't want to have any prompt.
+- `model` - default to `default`
+
+</Update>
+
+<Update label="2025-09-08">
+
+## AI Voice Generator Dashboard Tool
+
+The AI Voice Generator is now available in the /create page.
+
+<Frame>
+  ![AI Voice Generator Dashboard
+  Tool](/changelog/images/2025/09/ai-voice-generator-dashboard-tool.jpg)
+</Frame>
+
+Try it out now: https://magichour.ai/create/ai-voice-generator. This feature is available to all users!
+
+</Update>
+
+<Update label="2025-09-05">
+
+## AI Voice Generator Free tool. Now available!
+
+We launched a free tool to generate voice from text. Just upload a text file and we'll generate a voice for you.
+
+<Frame>
+  ![AI Voice Generator Free tool](/changelog/images/2025/09/ai-voice-generator-free-tool.jpg)
+</Frame>
+
+Try it out now: https://magichour.ai/products/ai-voice-generator
+
+**Note**: The free tool is limited to 200 characters per generation.
+
+</Update>
+
+<Update label="2025-09-02">
+
+## Added output format to the AI Gif Generator API
+
+We added a new `output_format` param to the AI Gif Generator API. You can now specify the output format of the generated file. Valid values are `gif`, `webm`, and `mp4`.
+
+```python
+res = client.v1.ai_gif_generator.generate(
+    ...
+    output_format="mp4"
+)
+```
+
+Try it up by updating to latest version of the SDK
+
+## Increased gif output resolution
+
+GIF outputs were previously limited to 512x512. They now correctly support resolutions up to 1024x1024.
+
+</Update>
+
 <Update label="2025-08-31">
 
 ## AI Talking Photo Pro Mode
