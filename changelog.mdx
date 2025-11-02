@@ -182,21 +182,22 @@ Try it out now: https://magichour.ai/products/ai-voice-generator
 
 <Update label="2025-09-02">
 
-## Added `Pro` mode to Talking Photo API
+## Added output format to the AI Gif Generator API
 
-We added our new pro mode to the Talking Photo API. You can now use the `Pro` mode to generate talking photos with higher quality and more natural results. You can check out the difference in the [2025-08-31](/changelog#2025-08-31) changelog.
+We added a new `output_format` param to the AI Gif Generator API. You can now specify the output format of the generated file. Valid values are `gif`, `webm`, and `mp4`.
 
-## Added support to export AI Gifs as webm
-
-Now you can export AI Gifs as webm/mp4 files. Just pass in `webm` or `mp4` as the `output_format` param when calling the API. For example:
-
-```ts
-client.v1.aiGifGenerator.create({
-  name: "Ai Gif gif",
-  outputFormat: "webm",
-  style: { prompt: "Cute dancing cat, pixel art" },
-});
+```python
+res = client.v1.ai_gif_generator.generate(
+    ...
+    output_format="mp4"
+)
 ```
+
+Try it up by updating to latest version of the SDK
+
+## Increased gif output resolution
+
+GIF outputs were previously limited to 512x512. They now correctly support resolutions up to 1024x1024.
 
 </Update>
 
