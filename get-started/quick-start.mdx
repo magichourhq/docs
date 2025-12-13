@@ -12,7 +12,8 @@ Magic Hour is an AI video and image generation platform. You submit a job, we re
 3. **Generate your first image** - Make an API call and download the result (costs ~100 credits)
 
 <Note>
-**Credit Cost:** The examples in this guide will use approximately 100 credits. New accounts get 400 free credits plus 100 daily credits if you claim them in the web app.
+  **Credit Cost:** The examples in this guide will use approximately 100 credits. New accounts get
+  400 free credits plus 100 daily credits if you claim them in the web app.
 </Note>
 
 ## 1. Create your API key
@@ -21,9 +22,9 @@ Magic Hour is an AI video and image generation platform. You submit a job, we re
 
 1. Visit the [Magic Hour Developer Hub](https://magichour.ai/developer?tab=api-keys) and sign in.
    ![Create API Key](./images/api-key-1.png)
-3. Name the key (e.g., "My First Project"), then click `Create key`.
+2. Name the key (e.g., "My First Project"), then click `Create key`.
    ![Create API Key Modal](./images/api-key-2.png)
-4. **Copy the API key immediately** - you won't be able to see it again.
+3. **Copy the API key immediately** - you won't be able to see it again.
    ![Copy API Key](./images/api-key-3.png)
 
 ### Save your API key securely
@@ -57,7 +58,8 @@ setx MAGIC_HOUR_API_KEY "your_api_key_here"
 </CodeGroup>
 
 <Warning>
-**Never commit API keys to version control.** Always use environment variables or secure credential management.
+  **Never commit API keys to version control.** Always use environment variables or secure
+  credential management.
 </Warning>
 
 ## 2. Set up your development environment
@@ -124,11 +126,13 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 ## 3. Generate your first image
 
 **What we're doing:** Creating an AI-generated image using a text prompt. The API will:
+
 1. Queue your job and return a project ID
 2. Process your request (usually takes 30-60 seconds)
 3. Make the result available for download
 
 **Why these parameters:**
+
 - `image_count: 1` - Generate one image (costs 5 credits)
 - `orientation: "landscape"` - 16:9 aspect ratio
 - `wait_for_completion: true` - SDK polls until done
@@ -178,6 +182,7 @@ cargo run
 </CodeGroup>
 
 **Expected output:**
+
 ```
 queued image with id clx1234567890, spent 5 credits
 render complete!
@@ -185,7 +190,8 @@ created image with id clx1234567890, spent 5 credits. Outputs are saved at ['out
 ```
 
 <Note>
-**SDK Versions:** The `.generate()` helper function requires Python SDK v0.36.0+ or Node SDK v0.37.0+. Other SDKs use the manual create/poll/download pattern shown in the examples.
+  **SDK Versions:** The `.generate()` helper function requires Python SDK v0.36.0+ or Node SDK
+  v0.37.0+. Other SDKs use the manual create/poll/download pattern shown in the examples.
 </Note>
 
 <Tabs>
@@ -746,6 +752,7 @@ done
 **FileNotFoundError: No such file or directory: 'outputs/output-1.png'**
 
 **Solution:** Create the outputs directory before running:
+
 ```bash
 mkdir outputs
 ```
@@ -753,6 +760,7 @@ mkdir outputs
 **Error: MAGIC_HOUR_API_KEY environment variable not set**
 
 **Solution:** Make sure you've set your API key as an environment variable:
+
 ```bash
 export MAGIC_HOUR_API_KEY="your_api_key_here"
 ```
@@ -761,15 +769,14 @@ export MAGIC_HOUR_API_KEY="your_api_key_here"
 
 If you encounter HTTP errors, here's what they mean:
 
-| Error Code | Meaning | Solution |
-|:-----------|:--------|:---------|
-| `400` | Bad Request | Check your request parameters and format |
-| `401` | Unauthorized | Verify your API key is correct and active |
-| `402` | Payment Required | Insufficient credits - [add more credits](https://magichour.ai/dashboard/my-plan) |
-| `429` | Rate Limited | Too many requests - wait and retry with exponential backoff |
-| `500` | Internal Server Error | Temporary server issue - retry after a few seconds |
-| `502` | Bad Gateway | Server temporarily unavailable - retry after 30-60 seconds |
-| `503` | Service Unavailable | Server overloaded - retry with exponential backoff |
+| Error Code | Meaning               | Solution                                                                          |
+| :--------- | :-------------------- | :-------------------------------------------------------------------------------- |
+| `400`      | Bad Request           | Check your request parameters and format                                          |
+| `401`      | Unauthorized          | Verify your API key is correct and active                                         |
+| `402`      | Payment Required      | Insufficient credits - [add more credits](https://magichour.ai/dashboard/my-plan) |
+| `500`      | Internal Server Error | Temporary server issue - retry after a few seconds                                |
+| `502`      | Bad Gateway           | Server temporarily unavailable - retry after 30-60 seconds                        |
+| `503`      | Service Unavailable   | Server overloaded - retry with exponential backoff                                |
 
 **For persistent errors:** Contact [support@magichour.ai](mailto:support@magichour.ai) with your project ID.
 
