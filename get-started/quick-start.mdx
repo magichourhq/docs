@@ -5,41 +5,187 @@ description: "Generate an API key and make your first call in <3 minutes."
 
 Magic Hour is an AI video and image generation platform. You submit a job, we render it, and you download the result. This guide gets you to your first output in a few minutes.
 
-**What you'll do:**
+**What you'll accomplish:**
 
-1. Create an API key
-1. Install an SDK (optional)
-1. Generate your first asset
+1. **Create an API key** - Get credentials to authenticate with our API
+2. **Set up your development environment** - Install SDK and create project files
+3. **Generate your first image** - Make an API call and download the result (costs ~100 credits)
 
-## 1. Create your account
+<Note>
+**Credit Cost:** The examples in this guide will use approximately 100 credits. New accounts get 400 free credits plus 100 daily credits if you claim them in the web app.
+</Note>
+
+## 1. Create your API key
+
+**Why:** API keys authenticate your requests and track your usage.
 
 1. Visit the [Magic Hour Developer Hub](https://magichour.ai/developer?tab=api-keys) and sign in.
-1. Click `Create API Key`.
    ![Create API Key](./images/api-key-1.png)
-1. Name the key, then click `Create key`.
+3. Name the key (e.g., "My First Project"), then click `Create key`.
    ![Create API Key Modal](./images/api-key-2.png)
-1. Copy the API key and save it.
+4. **Copy the API key immediately** - you won't be able to see it again.
    ![Copy API Key](./images/api-key-3.png)
 
-## 2. Install SDK (Optional)
+### Save your API key securely
 
-<Note>SDKs reduce boilerplate. Skip to the Step 3 if you're not planning on using our SDKs.</Note>
+**Important:** Store your API key as an environment variable for security:
+
+<CodeGroup>
+
+```bash macOS/Linux
+# Add to your ~/.bashrc or ~/.zshrc file
+export MAGIC_HOUR_API_KEY="your_api_key_here"
+
+# Reload your shell
+source ~/.bashrc  # or source ~/.zshrc
+```
+
+```cmd Windows
+# Set environment variable (Command Prompt)
+setx MAGIC_HOUR_API_KEY "your_api_key_here"
+
+# Restart your terminal after running this command
+```
+
+```powershell PowerShell
+# Set environment variable (PowerShell)
+[Environment]::SetEnvironmentVariable("MAGIC_HOUR_API_KEY", "your_api_key_here", "User")
+
+# Restart your terminal after running this command
+```
+
+</CodeGroup>
+
+<Warning>
+**Never commit API keys to version control.** Always use environment variables or secure credential management.
+</Warning>
+
+## 2. Set up your development environment
+
+**Why:** SDKs handle authentication, polling, and file downloads automatically, reducing boilerplate code.
+
+### Create your project directory
+
+<CodeGroup>
+
+```bash Python
+# Create and navigate to project directory
+mkdir magic-hour-quickstart
+cd magic-hour-quickstart
+
+# Create outputs directory (prevents FileNotFoundError)
+mkdir outputs
+
+# Create your Python file
+touch main.py
+```
+
+```bash Node.js
+# Create and navigate to project directory
+mkdir magic-hour-quickstart
+cd magic-hour-quickstart
+
+# Initialize npm project
+npm init -y
+
+# Create outputs directory (prevents FileNotFoundError)
+mkdir outputs
+
+# Create your JavaScript file
+touch main.js
+```
+
+```bash Go
+# Create and navigate to project directory
+mkdir magic-hour-quickstart
+cd magic-hour-quickstart
+
+# Initialize Go module
+go mod init magic-hour-quickstart
+
+# Create your Go file
+touch main.go
+```
+
+```bash Rust
+# Create new Rust project
+cargo new magic-hour-quickstart
+cd magic-hour-quickstart
+```
+
+</CodeGroup>
+
+### Install the SDK
 
 import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 
 <SdkInstallation />
 
-## 3. Generate your first asset
+## 3. Generate your first image
+
+**What we're doing:** Creating an AI-generated image using a text prompt. The API will:
+1. Queue your job and return a project ID
+2. Process your request (usually takes 30-60 seconds)
+3. Make the result available for download
+
+**Why these parameters:**
+- `image_count: 1` - Generate one image (costs 5 credits)
+- `orientation: "landscape"` - 16:9 aspect ratio
+- `wait_for_completion: true` - SDK polls until done
+- `download_outputs: true` - Automatically download to local disk
+- `download_directory: "outputs"` - Save to the outputs folder we created
+
+### Copy the code and run it
+
+1. **Copy the code** from your preferred language tab below
+2. **Paste it into your file** (`main.py`, `main.js`, `main.go`, etc.)
+3. **Run the code:**
+
+<CodeGroup>
+
+```bash Python
+# Make sure you're in your project directory
+cd magic-hour-quickstart
+
+# Run the script
+python main.py
+```
+
+```bash Node.js
+# Make sure you're in your project directory
+cd magic-hour-quickstart
+
+# Run the script
+node main.js
+```
+
+```bash Go
+# Make sure you're in your project directory
+cd magic-hour-quickstart
+
+# Run the program
+go run main.go
+```
+
+```bash Rust
+# Make sure you're in your project directory
+cd magic-hour-quickstart
+
+# Run the program
+cargo run
+```
+
+</CodeGroup>
+
+**Expected output:**
+```
+queued image with id clx1234567890, spent 5 credits
+render complete!
+created image with id clx1234567890, spent 5 credits. Outputs are saved at ['outputs/output-1.png']
+```
 
 <Note>
-
-The `.generate` function is only available in the following SDKs:
-
-- Python SDK v0.36.0 or later.
-- Node SDK v0.37.0 or later.
-
-We are working on adding it to the other SDKs. If you need it in an SDK that is not listed above, please [contact us](mailto:support@magichour.ai).
-
+**SDK Versions:** The `.generate()` helper function requires Python SDK v0.36.0+ or Node SDK v0.37.0+. Other SDKs use the manual create/poll/download pattern shown in the examples.
 </Note>
 
 <Tabs>
@@ -54,7 +200,8 @@ import time
 import os
 import urllib.request
 
-client = Client(token="YOUR_API_KEY") # change to your API key
+# Use environment variable for security
+client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
 
 result = client.v1.ai_image_generator.generate(
     image_count=1,
@@ -74,7 +221,8 @@ print(f"created image with id {result.id}, spent {result.credits_charged} credit
 import { writeFileSync } from "fs";
 import Client from "magic-hour";
 
-const client = new Client({ token: "YOUR_API_KEY" }); // change to your API key
+// Use environment variable for security
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 async function main() {
   const createRes = await client.v1.aiImageGenerator.generate(
@@ -117,7 +265,8 @@ import (
 )
 
 func main() {
-	client := sdk.NewClient(sdk.WithBearerAuth("YOUR_API_KEY")) // change to your API key
+	// Use environment variable for security
+	client := sdk.NewClient(sdk.WithBearerAuth(os.Getenv("MAGIC_HOUR_API_KEY")))
 	createRes, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{
 		ImageCount:  1,
 		Orientation: types.PostV1AiImageGeneratorBodyOrientationEnumLandscape,
@@ -183,9 +332,10 @@ use std::io::Read;
 
 #[tokio::main]
 async fn main() {
-    let mut client = magic_hour::Client::default().with_bearer_auth(
-        "YOUR_API_KEY", // change to your API key
-    );
+    // Use environment variable for security
+    let api_key = std::env::var("MAGIC_HOUR_API_KEY")
+        .expect("MAGIC_HOUR_API_KEY environment variable not set");
+    let mut client = magic_hour::Client::default().with_bearer_auth(&api_key);
 
     let create_res = client
         .v1()
@@ -250,7 +400,8 @@ set -e
 
 URL="https://api.magichour.ai/v1/ai-image-generator"
 STATUS_URL="https://api.magichour.ai/v1/image-projects"
-API_KEY="YOUR_API_KEY" # change to your API key
+# Use environment variable for security
+API_KEY="$MAGIC_HOUR_API_KEY"
 OUTPUT_PATH="output.png"
 
 create_response=$(curl -s $URL \
@@ -307,7 +458,8 @@ import time
 import os
 import urllib.request
 
-client = Client(token="YOUR_API_KEY") # change to your API key
+# Use environment variable for security
+client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
 
 result = client.v1.face_swap.generate(
     name="Swap Tom Cruise into Iron Man scene",
@@ -331,7 +483,8 @@ print(f"created face swap video with id {result.id}, spent {result.credits_charg
 import { writeFileSync } from "fs";
 import Client from "magic-hour";
 
-const client = new Client({ token: "YOUR_API_KEY" }); // change to your API key
+// Use environment variable for security
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 async function main() {
   const createRes = await client.v1.faceSwap.generate(
@@ -378,7 +531,8 @@ import (
 )
 
 func main() {
-	client := sdk.NewClient("YOUR_API_KEY") // change to your API key
+	// Use environment variable for security
+	client := sdk.NewClient(os.Getenv("MAGIC_HOUR_API_KEY"))
 	createRes, err := client.V1.FaceSwap.Create(face_swap.CreateRequest{
 		Name: nullable.NewValue("Swap Tom Cruise into Iron Man scene"),
 		Assets: types.PostV1FaceSwapBodyAssets{
@@ -448,9 +602,10 @@ use std::io::Read;
 
 #[tokio::main]
 async fn main() {
-    let mut client = magic_hour::Client::default().with_bearer_auth(
-        "YOUR_API_KEY", // change to your API key
-    );
+    // Use environment variable for security
+    let api_key = std::env::var("MAGIC_HOUR_API_KEY")
+        .expect("MAGIC_HOUR_API_KEY environment variable not set");
+    let mut client = magic_hour::Client::default().with_bearer_auth(&api_key);
 
     let create_res = client
         .v1()
@@ -528,7 +683,8 @@ set -e
 
 URL="https://api.magichour.ai/v1/face-swap"
 STATUS_URL="https://api.magichour.ai/v1/video-projects"
-API_KEY="YOUR_API_KEY" # change to your API key
+# Use environment variable for security
+API_KEY="$MAGIC_HOUR_API_KEY"
 OUTPUT_PATH="output.mp4"
 
 create_response=$(curl -s $URL \
@@ -582,6 +738,40 @@ done
 
 </Tab>
 </Tabs>
+
+## Troubleshooting
+
+### Common Issues
+
+**FileNotFoundError: No such file or directory: 'outputs/output-1.png'**
+
+**Solution:** Create the outputs directory before running:
+```bash
+mkdir outputs
+```
+
+**Error: MAGIC_HOUR_API_KEY environment variable not set**
+
+**Solution:** Make sure you've set your API key as an environment variable:
+```bash
+export MAGIC_HOUR_API_KEY="your_api_key_here"
+```
+
+### HTTP Error Codes
+
+If you encounter HTTP errors, here's what they mean:
+
+| Error Code | Meaning | Solution |
+|:-----------|:--------|:---------|
+| `400` | Bad Request | Check your request parameters and format |
+| `401` | Unauthorized | Verify your API key is correct and active |
+| `402` | Payment Required | Insufficient credits - [add more credits](https://magichour.ai/dashboard/my-plan) |
+| `429` | Rate Limited | Too many requests - wait and retry with exponential backoff |
+| `500` | Internal Server Error | Temporary server issue - retry after a few seconds |
+| `502` | Bad Gateway | Server temporarily unavailable - retry after 30-60 seconds |
+| `503` | Service Unavailable | Server overloaded - retry with exponential backoff |
+
+**For persistent errors:** Contact [support@magichour.ai](mailto:support@magichour.ai) with your project ID.
 
 <Check>🎉 Congratulations! You have successfully created an image and a video on Magic Hour!</Check>
 
