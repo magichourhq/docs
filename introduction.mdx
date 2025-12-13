@@ -1,13 +1,31 @@
 ---
-title: Welcome to Magic Hour
+title: Welcome to Magic Hour API
 sidebarTitle: Introduction
 "og:title": "API Documentation | Magic Hour"
 "og:description": "Magic Hour API documentation - generate videos and images using AI."
 ---
 
-Magic Hour is an API for generating videos, images, and audio using AI. Create videos, images, animations, and visual effects seamlessly through our REST API.
+Magic Hour API is an API for AI-powered video and image generation. You can run models for creating videos, images, and audio through a single REST API.
 
-<Note>Want to use our web app? Check out [magichour.ai](https://magichour.ai)!</Note>
+## API vs Web App
+
+The Magic Hour API provides programmatic access to our most popular AI tools. Here's how it relates to our web application:
+
+**🌐 Web App ([magichour.ai](https://magichour.ai)):**
+- Full suite of 100+ AI tools and features
+- User-friendly interface with templates and presets  
+- New features launch here first
+- Perfect for creators and individual use
+
+**⚡ API (docs.magichour.ai):**
+- Core popular tools available programmatically
+- Built for developers and applications
+- Same underlying AI models as web app
+- Features added after web app validation
+
+<Note>
+**Shared Dashboard:** All API-generated content automatically appears in your [magichour.ai dashboard](https://magichour.ai/my-library), where you can view, manage, and share your creations.
+</Note>
 
 ## Get Started
 
@@ -19,6 +37,24 @@ If you're new to Magic Hour, start here to learn the essentials and make your fi
   </Card>
   <Card title="API Reference" icon="webhook" href="/api-reference">
     Complete documentation for all endpoints.
+  </Card>
+</CardGroup>
+
+<CardGroup cols={3}>
+  <Card title="Video Tools" icon="video" href="/tools/video-tools">
+    Face swap, lip sync, animation, and more.
+  </Card>
+  <Card title="Image Tools" icon="image" href="/tools/image-tools">
+    AI generation, editing, and enhancement.
+  </Card>
+  <Card title="Audio Tools" icon="microphone" href="/api-reference/audio-projects/ai-voice-generator">
+    AI voice generation with celebrity voices.
+  </Card>
+</CardGroup>
+
+<CardGroup cols={1}>
+  <Card title="Pricing & Billing" icon="credit-card" href="/billing/overview">
+    Understand costs, billing options, and credit usage for all API tools.
   </Card>
 </CardGroup>
 
@@ -35,12 +71,40 @@ If you're new to Magic Hour, start here to learn the essentials and make your fi
   />
 </Frame>
 
-**Key features:**
+**Available via API:**
 
-- **Video generation**: Create videos from text, images, or reference videos
-- **Video editing**: Swap faces, add subtitles, change styles, and animate videos
-- **Image generation**: Produce images from prompts or reference images
-- **Image editing & enhancement**: Edit, swap faces, remove backgrounds, and upscale images
-- **REST API**: Simple HTTP requests with JSON responses
+**🎥 Video Tools:**
+- **Face Swap Video** - Replace faces in videos with realistic results
+- **AI Talking Photo** - Make still photos speak with any audio
+- **Animation** - Create smooth stop-motion style animations
+- **Auto Subtitle Generator** - Add accurate subtitles to videos
+- **Image-to-Video** - Animate static images into dynamic videos
+- **Lip Sync** - Sync audio with video lip movements
+- **Video-to-Video** - Apply style transfers to existing videos
+- **Text-to-Video** - Generate videos from text descriptions
 
-Magic Hour manages the models, scaling, and infrastructure so you can focus on building your application.
+**🖼️ Image Tools:**
+- **AI Image Generator** - Create images from text descriptions
+- **Face Swap Photo** - Swap faces in static images
+- **AI Clothes Changer** - Try on different outfits virtually
+- **AI Face Editor** - Edit facial features with precision
+- **AI GIF Generator** - Create animated GIFs from text
+- **AI Image Editor** - Edit images with text prompts
+- **AI Headshot Generator** - Create professional headshots
+- **AI Image Upscaler** - Enhance image resolution and quality
+- **AI Meme Generator** - Generate memes with AI
+- **AI QR Code Generator** - Create artistic QR codes
+- **Image Background Remover** - Remove backgrounds instantly
+- **Photo Colorizer** - Add color to black and white photos
+
+**🎤 Audio Tools:**
+- **AI Voice Generator** - Generate speech with celebrity voices (Elon Musk, Joe Rogan, Obama, and more)
+
+**Why choose the API:**
+
+- **Scalable integration** - Build AI features into your applications
+- **Production ready** - Enterprise-grade infrastructure and reliability  
+- **Cost effective** - Pay only for what you use with [transparent pricing](/billing/overview)
+- **Developer friendly** - RESTful API with SDKs for Python, Node.js, Go, and Rust
+
+Magic Hour handles the AI models, scaling, and infrastructure so you can focus on building your application.
