@@ -84,8 +84,8 @@
             ]
           },
           {
-            "group": "Available Tools",
-            "pages": ["tools/video-tools", "tools/image-tools"]
+            "group": "Available APIs",
+            "pages": ["tools/video-tools", "tools/image-tools", "tools/audio-apis"]
           }
         ]
       },

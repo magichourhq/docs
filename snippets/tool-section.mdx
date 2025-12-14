@@ -1,36 +1,49 @@
-export const ToolSection = ({ type, outputs, title, productSlug, apiSlug }) => (
+export const ToolSection = ({ 
+  type = "image", 
+  outputs = [], 
+  title = "", 
+  productSlug = "", 
+  apiSlug = "" 
+}) => (
   <>
-    <Tabs>
-      {outputs.map((output, idx) => (
-        <Tab title={`Example Output ${idx + 1}`}>
-          <Frame>
-            {type === "video" ? (
-              <video 
-                controls
-                preload="metadata"
-                playsInline
-                className="rounded-lg h-80"
-                src={`${output.src}#t=0.001`}
-                 type={`${output.src.endsWith("mp4") ? 'video/mp4': "video/webm"}`}
-              >
-              </video>
-            ) : (
-              <img height="320" className="rounded-lg h-80" src={output.src.startsWith('http') ?  output.src : `https://mintlify.s3.us-west-1.amazonaws.com/magichour${output.src}`} />
-            )}
-          </Frame>
-        </Tab>
-      ))}
-    </Tabs>
+    {outputs && outputs.length > 0 && (
+      <Tabs>
+        {outputs.map((output, idx) => (
+          <Tab key={idx} title={`Example Output ${idx + 1}`}>
+            <Frame>
+              {type === "video" ? (
+                <video 
+                  controls
+                  preload="metadata"
+                  playsInline
+                  className="rounded-lg h-80"
+                  src={`${output.src}#t=0.001`}
+                  type={`${output.src?.endsWith("mp4") ? 'video/mp4': "video/webm"}`}
+                >
+                </video>
+              ) : type === "audio" ? (
+                <audio 
+                  controls
+                  preload="metadata"
+                  className="w-full"
+                  src={output.src}
+                >
+                  Your browser does not support the audio element.
+                </audio>
+              ) : (
+                <img 
+                  height="320" 
+                  className="rounded-lg h-80" 
+                  src={output.src} 
+                />
+              )}
+            </Frame>
+          </Tab>
+        ))}
+      </Tabs>
+    )}
 
     <CardGroup cols={2}>
-      <Card
-        title="Product Page"
-        icon="video"
-        horizontal
-        href={`https://magichour.ai/products/${productSlug}`}
-      >
-        Learn more about {title}
-      </Card>
       <Card
         title="API Spec"
         icon="webhook"
@@ -39,7 +52,14 @@ export const ToolSection = ({ type, outputs, title, productSlug, apiSlug }) => (
       >
         See API details
       </Card>
+      <Card
+        title="Product Page"
+        icon="video"
+        horizontal
+        href={`https://magichour.ai/products/${productSlug}`}
+      >
+        Learn more about {title}
+      </Card>
     </CardGroup>
-
   </>
 );

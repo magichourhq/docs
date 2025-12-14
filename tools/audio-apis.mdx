@@ -1,0 +1,41 @@
+---
+title: Audio APIs
+description: Available audio generation APIs you can integrate into your application.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## AI Voice Generator API
+
+**What it does:** Generate realistic speech audio from text using celebrity and character voices. This API creates high-quality voice synthesis with natural intonation, emotion, and speaking patterns that closely match famous personalities and fictional characters.
+
+**Use cases:**
+- Personalized voice messages and greetings
+- Content creation for podcasts and videos
+- Interactive voice applications and chatbots
+- Entertainment and social media content
+- Accessibility features for text-to-speech
+- Educational content with engaging narration
+
+**API Endpoint:** `POST /v1/ai-voice-generator`
+
+**Available Voices:**
+- Celebrity voices (Elon Musk, Joe Rogan, Obama, and more)
+- Character voices and custom voice profiles
+- Multiple languages and accents
+- Adjustable speaking speed and tone
+
+<ToolSection
+  title="AI Voice Generator"
+  productSlug="ai-voice-generator"
+  apiSlug="ai-voice-generator"
+  type="audio"
+  outputs={[
+    {
+      src: "/get-started/images/voicegeneratorexample1.mp3",
+    },
+    {
+      src: "/get-started/images/voicegeneratorexample2.mp3",
+    },
+  ]}
+/>
