@@ -1,11 +1,41 @@
 ---
 title: Usage-Based Pricing
-description: See what usage-based pricing has to offer.
+description: Pay only for what you use with automatic monthly billing and volume discounts.
 ---
 
-With usage-based pricing, you pay based on how much you use, no monthly subscriptions and monthly minimums. As you scale, you get up to 50% discount on per credit.
+## How Usage-Based Pricing Works
 
-## Subscription tiers and benefits
+**Simple concept:** You pay only for the credits you actually use each month. No upfront payments, no unused credits going to waste.
+
+### **The Basics**
+
+1. **Add a payment method** to your account
+2. **Choose your tier** based on resolution needs and expected usage
+3. **Use the API** - credits are consumed as you generate content
+4. **Get billed monthly** based on your actual usage
+5. **Automatic volume discounts** apply as you use more credits
+
+### **Key Benefits**
+
+✅ **No upfront costs** - Start using immediately without buying credits in advance  
+✅ **Pay for actual usage** - Only pay for credits you actually consume  
+✅ **Automatic billing** - Monthly invoices based on previous month's usage  
+✅ **Volume discounts** - Up to 50% savings as you scale  
+✅ **No waste** - Never lose unused credits  
+
+### **How It Differs from Subscriptions**
+
+| Usage-Based | Subscription |
+|:------------|:-------------|
+| Pay after you use | Pay upfront |
+| Automatic monthly billing | Manual credit purchases |
+| Volume discounts included | Fixed credit amounts |
+| No unused credits | Credits can expire unused |
+| Perfect for variable usage | Good for predictable usage |
+
+## Choose Your Tier
+
+Each tier offers different resolution limits and credit pricing. Higher tiers unlock better resolution but cost more per credit.
 
 import { PricingCard } from "/snippets/pricing-card.mdx";
 
@@ -44,9 +74,16 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
 />
 </CardGroup>
 
-## Volume discounts
+## Volume Discounts (Automatic)
 
-Based on how many credits you use per month, you get a discount on the credits on that range. See the table below for details on the per credit cost for each range.
+The more credits you use each month, the cheaper each credit becomes. Discounts apply automatically to different usage ranges within the same month.
+
+**Example:** If you use 150,000 credits on Starter tier:
+- First 100,000 credits: \$0.90 per 1000 credits  
+- Next 50,000 credits: \$0.81 per 1000 credits (10% discount)
+- **Total cost:** \$90 + \$40.50 = \$130.50
+
+### **Discount Tiers by Plan**
 
 <Tabs>
 <Tab title="Starter">
@@ -101,16 +138,53 @@ Based on how many credits you use per month, you get a discount on the credits o
 
 <Note>Usage resets at midnight on the first of each month PST time</Note>
 
-You can use our [calculator](https://magichour.ai/api#api-cost-calculator) to estimate your total cost based on your estimated usage. Volume discount is factored into the calculation.
+## Practical Examples
 
-## How to subscribe
+### **Small Developer (5,000 credits/month)**
+- **Starter Tier**: 5,000 × \$0.0009 = **\$4.50/month**
+- **Creator Tier**: 5,000 × \$0.0012 = **\$6.00/month**
 
-We are working on making usage-based pricing signup self-serve.
+*Choose Starter for basic resolution, Creator for higher quality*
 
-In the meantime, you can reach out to our team to get setup:
+### **Growing Business (75,000 credits/month)**
+- **Starter Tier**: \$67.50/month (all at base rate)
+- **Creator Tier**: \$90/month (all at base rate)  
+- **Pro Tier**: \$146.25/month (all at base rate)
 
-- Email us at support@magichour.ai
-- Send us a message using Intercom
+*Volume discounts kick in at 100,000+ credits*
+
+### **High Volume (500,000 credits/month)**
+**Starter Tier with volume discounts:**
+- First 100,000: \$90 (base rate)
+- Next 400,000: \$324 (10% discount)
+- **Total: \$414/month** (vs \$450 without discounts)
+
+**Use our [cost calculator](https://magichour.ai/api#api-cost-calculator) for precise estimates with volume discounts included.**
+
+## Getting Started
+
+<Warning>
+**Currently requires setup assistance** - Usage-based pricing is not yet self-serve. We're working on making this automatic.
+</Warning>
+
+**To get started:**
+
+1. **Contact our team** to set up usage-based billing:
+   - Email: [support@magichour.ai](mailto:support@magichour.ai)
+   - Use the Intercom chat widget on our website
+
+2. **Choose your tier** based on resolution needs and expected usage
+
+3. **Add payment method** - We'll help you set this up securely
+
+4. **Start using the API** - Credits are tracked automatically
+
+### **Billing Process**
+
+- **Monthly billing** on the same date each month
+- **High usage accounts** may be billed earlier (e.g., at \$500 threshold)
+- **Detailed invoices** show credit usage breakdown by tier
+- **Volume discounts** applied automatically
 
 ## Tracking usage
 
