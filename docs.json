@@ -129,6 +129,10 @@
               "api-reference/image-projects/ai-image-generator",
               "api-reference/image-projects/ai-image-upscaler",
               "api-reference/image-projects/ai-meme-generator",
+              {
+                "page": "api-reference/image-projects/ai-photo-editor",
+                "hidden": true
+              },
               "api-reference/image-projects/ai-qr-code-generator",
               "api-reference/image-projects/face-swap-photo",
               "api-reference/image-projects/image-background-remover",
