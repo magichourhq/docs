@@ -1,0 +1,144 @@
+---
+title: Resolution Limits
+description: Maximum resolution limits for each subscription tier and tool across all Magic Hour APIs.
+---
+
+## Resolution Limits by Subscription Tier
+
+Your subscription tier determines the maximum width and height available for image and video generation across all Magic Hour APIs.
+
+| Subscription Tier | Maximum Dimension | Example Dimensions |
+|:------------------|:------------------|:-------------------|
+| **Free** | 512px | 512×512, 512×256, 256×512 |
+| **Creator** | 1024px | 1024×1024, 1024×576, 576×1024 |
+| **Pro** | 1472px | 1472×1472, 1472×828, 828×1472 |
+| **Business** | 4096px | 4096×4096, 4096×2304, 2304×4096 |
+
+## How Resolution Limits Work
+
+### **Tier-Limited APIs**
+For most APIs that respect subscription limits:
+- **Automatic sizing** determines optimal resolution based on your tier
+- **Manual sizing** must stay within your tier's maximum dimension
+- **Both width and height** must be ≤ your tier limit
+- Invalid dimensions will return an error with suggested alternatives
+
+### **Hard-Capped APIs**
+For compute-intensive video APIs:
+- **Maximum resolution enforced** regardless of subscription tier
+- **Performance optimization** - caps ensure reasonable processing times
+- **Specific limits:**
+  - AI Headshot Generator: 1344px maximum dimension
+  - AI Clothes Changer: 1472px maximum dimension
+  - AI Talking Photo: 720p (1280×720)
+  - Text to Video: 1080p (1920×1080)
+  - Image to Video: 1080p (1920×1080)
+  - Video to Video: 1472px maximum dimension
+  - Animation: 1472px maximum dimension
+
+### **Special Requirements**
+
+Some video generation APIs have additional constraints:
+
+#### **64-Pixel Increment Requirement**
+These APIs require both width and height to be divisible by 64:
+- **Video-to-Video API** - Both dimensions must be multiples of 64
+- Other video APIs may have similar requirements (check individual API docs)
+
+**Examples of valid 64-divisible dimensions:**
+- 512×512, 576×576, 640×640, 704×704, 768×768
+- 1024×576, 1024×640, 1024×704, 1024×768
+- 1472×832, 1472×896, 1472×960
+
+### **Examples by Tier**
+
+<Tabs>
+<Tab title="Free (512px)">
+**Valid dimensions:**
+- 512×512 (square)
+- 640×480 (4:3 ratio)
+- 720×360 (2:1 ratio)
+
+**Invalid dimensions:**
+- 1024×256 ❌ (width exceeds 512px limit)
+- 600×600 ❌ (both dimensions exceed 512px limit)
+</Tab>
+
+<Tab title="Creator (1024px)">
+**Valid dimensions:**
+- 1024×1024 (square)
+- 1024×576 (16:9 ratio)
+- 576×1024 (portrait)
+
+**Invalid dimensions:**
+- 1920×1080 ❌ (width exceeds 1024px limit)
+- 1024×1200 ❌ (height exceeds 1024px limit)
+</Tab>
+
+<Tab title="Pro (1472px)">
+**Valid dimensions:**
+- 1472×1472 (square)
+- 1472×828 (16:9 ratio)
+- 828×1472 (portrait)
+
+**Invalid dimensions:**
+- 1920×1080 ❌ (width exceeds 1472px limit)
+- 1472×2000 ❌ (height exceeds 1472px limit)
+</Tab>
+
+<Tab title="Business (4096px)">
+**Valid dimensions:**
+- 4096×4096 (square)
+- 4096×2304 (16:9 ratio)
+- 2304×4096 (portrait)
+- Any combination where both width ≤ 4096px and height ≤ 4096px
+
+**Note:** Business tier supports true 4K resolution for tier-limited APIs only. Hard-capped APIs have their own maximum limits regardless of subscription tier.
+</Tab>
+</Tabs>
+
+## API-Specific Resolution Behavior
+
+Different APIs handle resolution limits in different ways:
+
+### **Tier-Limited APIs**
+These APIs respect your subscription's resolution limits:
+
+**Image APIs:**
+- AI Image Generator
+- AI Image Upscaler
+- Face Swap Photo
+
+**Video APIs:**
+- Face Swap Video
+- Lip Sync
+
+### **Hard-Capped APIs**
+These APIs have maximum resolution limits regardless of subscription tier:
+
+**Image APIs:**
+- **AI Headshot Generator** - Maximum 1344px across all tiers
+- **AI Clothes Changer** - Maximum 1472px across all tiers
+
+**Video APIs:**
+- **AI Talking Photo** - Maximum 720p (1280×720) across all tiers
+- **Text to Video (T2V)** - Maximum 1080p (1920×1080) across all tiers
+- **Image to Video (I2V)** - Maximum 1080p (1920×1080) across all tiers  
+- **Video to Video** - Maximum 1472px across all tiers
+- **Animation** - Maximum 1472px across all tiers
+
+<Note>
+**Hard Caps Override Tiers**: Even Business tier subscribers cannot exceed the hard caps listed above. These limits are set for performance and computational efficiency.
+</Note>
+
+## Upgrading for Higher Resolution
+
+Need higher resolution? [Upgrade your subscription](https://magichour.ai/pricing) to unlock:
+
+- **Creator**: 2x larger dimensions (1024px vs 512px)
+- **Pro**: 3x larger dimensions (1472px vs 512px)
+- **Business**: 8x larger dimensions (4096px vs 512px), supports true 4K
+
+<Card title="View Pricing Plans" icon="credit-card" href="/billing/subscription-pricing">
+  Compare all subscription tiers and their benefits
+</Card>
