@@ -54,10 +54,13 @@
       {
         "tab": "Documentation",
         "pages": [
-          "introduction",
           {
             "group": "Get Started",
-            "pages": ["get-started/quick-start", "get-started/model-context-protocol"]
+            "pages": [
+              "introduction",
+              "get-started/quick-start", 
+              "get-started/model-context-protocol"
+            ]
           },
           {
             "group": "Integration",
