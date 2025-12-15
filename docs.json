@@ -57,7 +57,11 @@
           "introduction",
           {
             "group": "Get Started",
-            "pages": ["get-started/quick-start", "get-started/model-context-protocol"]
+            "pages": [
+              "get-started/quick-start", 
+              "get-started/authentication",
+              "get-started/model-context-protocol"
+            ]
           },
           {
             "group": "Integration",
