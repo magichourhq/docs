@@ -56,7 +56,7 @@
         "pages": [
           {
             "group": "Get Started",
-            "pages": ["introduction", "get-started/quick-start"]
+            "pages": ["introduction", "get-started/quick-start", "get-started/authentication"]
           },
           {
             "group": "Integration",

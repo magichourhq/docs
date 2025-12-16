@@ -19,19 +19,19 @@ Authorization: Bearer your_api_key_here
 <Step title="Sign in to Magic Hour">
 Visit [magichour.ai](https://magichour.ai/sign-up) and sign in to your account. If you don't have an account yet, you can create one for free.
 
-![Sign in page](./images/sign-in-to-magic-hour.png)
+![Sign in page](./images/sign-in-to-magic-hour.jpg)
 </Step>
 
 <Step title="Navigate to Developer Hub">
 Once signed in, go to the [Developer Hub](https://magichour.ai/developer) from your dashboard or account menu. The API Keys section will be displayed by default.
 
-![Developer Hub with API Keys](./images/navigate-to-developer-hub.png)
+![Developer Hub with API Keys](./images/navigate-to-developer-hub.jpg)
 </Step>
 
 <Step title="Create New API Key">
 Click the **"Create API Key"** button to generate a new key.
 
-![Create API Key button](./images/create-new-api-key.png)
+![Create API Key button](./images/create-new-api-key.jpg)
 </Step>
 
 <Step title="Configure Your API Key">
@@ -40,7 +40,7 @@ Give your API key a descriptive name to help you identify its purpose later:
 - **Name**: Choose a clear name (e.g., "Production App", "Development Testing", "Mobile App")
 - **Permissions**: Select the appropriate permissions for your use case
 
-![API Key configuration](./images/configure-your-api-key.png)
+![API Key configuration](./images/configure-your-api-key.jpg)
 
 Click **"Create Key"** to generate your new API key.
 </Step>
@@ -48,7 +48,7 @@ Click **"Create Key"** to generate your new API key.
 <Step title="Copy and Store Your API Key">
 **Important**: Your API key will only be shown once. Copy it immediately and store it securely.
 
-![API Key created](./images/copy-and-store-api-key.png)
+![API Key created](./images/copy-and-store-api-key.jpg)
 
 <Warning>
 **Save your API key now!** You won't be able to see the full key again after closing this dialog. If you lose it, you'll need to create a new one.
@@ -63,11 +63,10 @@ Click **"Create Key"** to generate your new API key.
 
 In the Developer Hub, you can see all your API keys with:
 - **Name**: The descriptive name you gave the key
+- **Last 4 Characters**: The last 4 characters of the key
 - **Created**: When the key was created
-- **Last Used**: When the key was last used (if ever)
-- **Status**: Active or Revoked
 
-![API Keys list](./images/copy-and-store-api-key.png)
+![API Keys list](./images/copy-and-store-api-key.jpg)
 
 ### Revoking API Keys
 
@@ -77,7 +76,7 @@ To revoke an API key:
 2. Click the **Delete (Trash Icon)** button next to the key
 3. Click "Delete key" to confirm the revocation
 
-![Revoke API Key](./images/revoking-api-keys.png)
+![Revoke API Key](./images/revoking-api-keys.jpg)
 
 <Warning>
 **Immediate Effect**: Revoked keys stop working immediately. Any applications using the revoked key will start receiving authentication errors.
@@ -200,20 +199,6 @@ Common authentication errors and how to resolve them:
 - Ensure the `Authorization` header is properly formatted
 - Verify the key hasn't been revoked
 
-### `403 Forbidden`
-**Cause**: Valid key but insufficient permissions
-**Solutions**:
-- Verify your account has the necessary permissions for the requested operation
-- Verify your account has the necessary permissions
-- Ensure your subscription supports the requested operation
-
-### `429 Too Many Requests`
-**Cause**: Rate limit exceeded
-**Solutions**:
-- Implement exponential backoff in your retry logic
-- Check your rate limits in the Developer Hub
-- Consider upgrading your plan for higher limits
-
 ## Monitoring Usage
 
 <Note>
@@ -222,13 +207,9 @@ Common authentication errors and how to resolve them:
 
 For usage-based pricing users, track your API key usage in the Developer Hub:
 
-- **Request Volume**: Number of API calls made
 - **Credit Usage**: Credits consumed by your requests
-- **Error Rates**: Failed requests and error types
-- **Last Activity**: When each key was last used
 
 This helps you:
-- Identify which applications are using which keys
 - Detect unusual activity that might indicate a compromised key
 - Plan for capacity and billing
 
