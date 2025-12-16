@@ -54,10 +54,9 @@
       {
         "tab": "Documentation",
         "pages": [
-          "introduction",
           {
             "group": "Get Started",
-            "pages": ["get-started/quick-start"]
+            "pages": ["introduction", "get-started/quick-start"]
           },
           {
             "group": "Integration",
