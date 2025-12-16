@@ -73,7 +73,7 @@
                   "integration/webhook/event-types"
                 ]
               },
-              "get-started/model-context-protocol"
+              "integration/model-context-protocol"
             ]
           },
           {
