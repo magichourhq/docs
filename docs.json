@@ -59,7 +59,6 @@
             "pages": [
               "introduction",
               "get-started/quick-start", 
-              "get-started/model-context-protocol"
             ]
           },
           {
@@ -75,7 +74,8 @@
                   "integration/webhook/secure-handler",
                   "integration/webhook/event-types"
                 ]
-              }
+              },
+              "integration/model-context-protocol"
             ]
           },
           {
