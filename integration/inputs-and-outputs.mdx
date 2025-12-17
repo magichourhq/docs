@@ -1,0 +1,721 @@
+---
+title: Handling Inputs and Outputs
+sidebarTitle: Inputs & Outputs
+description: Complete guide to uploading input files and downloading generated results from Magic Hour API.
+---
+
+## Overview
+
+Most Magic Hour APIs use a file-based workflow: you provide input files (images, videos, audio), the API processes them, and returns generated output files. Some APIs like AI Image Generator or Text-to-Video work with text prompts instead.
+
+This guide covers both sides of file handling: **getting your files to Magic Hour** and **retrieving the results**.
+
+## Input Files
+
+### How to Provide Input Files
+
+You have three options for providing input files to the API:
+
+| Method | Best For | Pros | Cons |
+|:-------|:---------|:-----|:-----|
+| **Public URLs** | Files already hosted | Simple, no upload needed | Requires public hosting |
+| **Magic Hour Library URLs** | Reusing generated content | No upload, direct reference | Must be from your Magic Hour account |
+| **Upload to Magic Hour** | Local files, secure files | No hosting required, secure | Extra upload step |
+
+## Option 1: Using Public URLs
+
+The simplest method if your files are already hosted somewhere publicly accessible:
+
+```json
+{
+  "assets": {
+    "video_file_path": "https://svs.gsfc.nasa.gov/vis/a010000/a014300/a014327/john_bolten_no_graphics.mp4",
+    "image_file_path": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU_%28cropped%29.jpg",
+    "audio_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3"
+  }
+}
+```
+
+<Tip>
+**Authenticated URLs**: The URL can be authenticated, as long as Magic Hour can validate the file extension is supported.
+</Tip>
+
+### URL Requirements
+
+- Must be publicly accessible (or use authenticated URLs that Magic Hour can access)
+- Must include the file extension in the URL
+- Should use HTTPS for security
+- Files must be in supported formats
+
+## Option 2: Using Magic Hour Library URLs
+
+You can reference files from your Magic Hour library directly using library URLs. This is useful when you want to reuse previously generated content or files you've uploaded to Magic Hour.
+
+### Library URL Format
+
+Magic Hour library URLs follow this pattern:
+
+- **Videos**: `https://magichour.ai/my-library?videoId={video_id}`
+- **Images**: `https://magichour.ai/my-library?imageId={image_id}`
+- **Audio**: `https://magichour.ai/my-library?audioId={audio_id}`
+
+### Using Library URLs in API Calls
+
+```json
+{
+  "assets": {
+    "video_file_path": "https://magichour.ai/my-library?videoId=cmj86i5yy006x4m0z6znwowjb",
+    "image_file_path": "https://magichour.ai/my-library?imageId=cmjag94dw01mr5s0zqf8ug0or",
+    "audio_file_path": "https://magichour.ai/my-library?audioId=cmj8cx1gn009f1k0z89zg97u9"
+  }
+}
+```
+
+<CodeGroup>
+
+```python Python
+# Use library URLs for assets
+result = client.v1.face_swap.create(
+    assets={
+        "source_file_path": "https://magichour.ai/my-library?imageId=cmjag94dw01mr5s0zqf8ug0or",
+        "video_file_path": "https://magichour.ai/my-library?videoId=cmj86i5yy006x4m0z6znwowjb"
+    }
+)
+```
+
+```javascript Node.js
+// Use library URLs for assets
+const result = await client.v1.faceSwap.create({
+  assets: {
+    sourceFilePath: "https://magichour.ai/my-library?imageId=cmjag94dw01mr5s0zqf8ug0or",
+    videoFilePath: "https://magichour.ai/my-library?videoId=cmj86i5yy006x4m0z6znwowjb"
+  }
+});
+```
+
+</CodeGroup>
+
+<Info>
+**Library Access**: You can only use library URLs for files in your own Magic Hour account. The file IDs are available from your [my-library dashboard](https://magichour.ai/my-library) or from API responses.
+</Info>
+
+**Benefits:**
+- ✅ Reuse previously generated content
+- ✅ No need to re-upload files
+- ✅ Direct reference to your Magic Hour files
+- ✅ Works with any file type (video, image, audio)
+
+## Option 3: Uploading to Magic Hour Storage
+
+For local files or files that aren't publicly hosted, upload them to Magic Hour's storage:
+
+### Upload Process
+
+The upload workflow has three steps:
+
+1. **Request upload URLs** - Tell Magic Hour what file types you're uploading (specify extension and type)
+2. **Upload files** - PUT your files to the provided temporary URLs
+3. **Use file paths** - Reference the returned `file_path` in your API calls
+
+### SDK Upload (Simplified)
+
+Python and Node.js SDKs provide a helper function:
+
+<Note>
+**SDK Version Required**: Python SDK v0.36.0+ or Node SDK v0.37.0+  
+Go and Rust SDKs: Manual upload process (shown below)
+</Note>
+
+<CodeGroup>
+
+```python Python SDK
+from magic_hour import Client
+
+client = Client(token="YOUR_API_KEY")
+
+# Upload file and get file_path
+file_path = client.v1.files.upload_file("/path/to/your/image.jpg")
+
+# Use in API calls
+result = client.v1.face_swap_photo.create(
+    assets={
+        "source_file_path": file_path,  # Use uploaded file
+        "target_file_path": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU_%28cropped%29.jpg"
+    }
+)
+```
+
+```javascript Node.js SDK
+import Client from 'magic-hour';
+
+const client = new Client({ token: "YOUR_API_KEY" });
+
+// Upload file and get filePath
+const filePath = await client.v1.files.uploadFile("/path/to/your/image.jpg");
+
+// Use in API calls
+const result = await client.v1.faceSwapPhoto.create({
+  assets: {
+    sourceFilePath: filePath,  // Use uploaded file
+    targetFilePath: "https://upload.wikimedia.org/wikipedia/commons/e/ec/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU_%28cropped%29.jpg"
+  }
+});
+```
+
+</CodeGroup>
+
+### Manual Upload Process
+
+For Go, Rust, or custom implementations:
+
+<CodeGroup>
+
+```go Go SDK
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"os"
+	
+	sdk "github.com/magichourhq/magic-hour-go/client"
+	"github.com/magichourhq/magic-hour-go/resources/v1/files/upload_urls"
+	"github.com/magichourhq/magic-hour-go/types"
+)
+
+func main() {
+	client := sdk.NewClient(sdk.WithBearerAuth(os.Getenv("API_KEY")))
+	
+	// Step 1: Request upload URL
+	response, err := client.V1.Files.UploadUrls.Create(upload_urls.CreateRequest{
+		Items: []types.PostV1FilesUploadUrlsBodyItemsItem{
+			{Extension: "mp4", Type: types.PostV1FilesUploadUrlsBodyItemsItemTypeEnumVideo},
+		},
+	})
+	
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	
+	// Step 2: Upload file to the URL
+	localPath := "/path/to/file/video.mp4"
+	file, err := os.Open(localPath)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer file.Close()
+	
+	req, err := http.NewRequest("PUT", response.Items[0].UploadUrl, file)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	
+	fileClient := &http.Client{}
+	_, err = fileClient.Do(req)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	
+	// Step 3: Use file_path in API calls
+	filePath := response.Items[0].FilePath
+	fmt.Printf("✅ File uploaded: %s\n", filePath)
+	
+	// Now use filePath in your API calls
+}
+```
+
+```rust Rust SDK
+use magic_hour;
+
+let mut client = magic_hour::Client::default()
+    .with_bearer_auth(&std::env::var("API_KEY").expect("API_KEY must be set"));
+
+// Step 1: Request upload URL
+let response = client.v1().files().upload_urls()
+    .create(magic_hour::resources::v1::files::upload_urls::CreateRequest {
+        items: vec![
+            magic_hour::models::PostV1FilesUploadUrlsBodyItemsItem {
+                extension: "mp4".to_string(),
+                type_field: magic_hour::models::PostV1FilesUploadUrlsBodyItemsItemTypeEnum::Video
+            }
+        ],
+    }).await;
+
+// Step 2: Upload file
+let local_path = "/path/to/file/video.mp4";
+let file = std::fs::File::open(local_path).unwrap();
+
+let mut req = reqwest::Client::new()
+    .put(response.items[0].upload_url);
+
+req.body(file).send().unwrap();
+
+// Step 3: Use file_path in API calls
+let file_path = response.items[0].file_path;
+```
+
+```bash cURL
+# Step 1: Request upload URL
+response=$(curl https://api.magichour.ai/v1/files/upload-urls \
+  --request POST \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "items": [
+      { "type": "video", "extension": "mp4" }
+    ]
+  }')
+
+# Step 2: Upload file to the URL
+upload_url=$(echo $response | jq -r '.items[0].upload_url')
+curl $upload_url \
+  --request PUT \
+  --data-binary @/path/to/file/video.mp4
+
+# Step 3: Extract file_path for API calls
+file_path=$(echo $response | jq -r '.items[0].file_path')
+echo "File uploaded: $file_path"
+```
+
+</CodeGroup>
+
+### Upload Response Format
+
+```json
+{
+  "items": [
+    {
+      "upload_url": "https://storage.magichour.ai/upload/abc123...",
+      "file_path": "mh://uploads/abc123/video.mp4",
+      "type": "video",
+      "extension": "mp4"
+    }
+  ]
+}
+```
+
+**Fields explained:**
+- `upload_url`: Temporary URL for uploading (PUT request)
+- `file_path`: Reference to use in API calls (starts with `mh://`)
+- `type`: File type (video, image, audio)
+- `extension`: File extension
+
+### Uploading Multiple Files
+
+Request multiple upload URLs in a single call:
+
+<CodeGroup>
+
+```python Python
+response = client.v1.files.upload_urls.create(
+    items=[
+        {"type": "video", "extension": "mp4"},
+        {"type": "image", "extension": "jpg"},
+        {"type": "audio", "extension": "mp3"}
+    ]
+)
+
+# Upload each file
+# Order matches request order
+video_path = response.items[0].file_path
+image_path = response.items[1].file_path
+audio_path = response.items[2].file_path
+```
+
+```javascript Node.js
+const response = await client.v1.files.uploadUrls.create({
+  items: [
+    { type: "video", extension: "mp4" },
+    { type: "image", extension: "jpg" },
+    { type: "audio", extension: "mp3" }
+  ]
+});
+
+// Upload each file
+// Order matches request order
+const videoPath = response.items[0].filePath;
+const imagePath = response.items[1].filePath;
+const audioPath = response.items[2].filePath;
+```
+
+</CodeGroup>
+
+<Tip>
+**Upload Timing**: Upload files just before using them in API calls. For permanent storage needs, contact [support@magichour.ai](mailto:support@magichour.ai).
+</Tip>
+
+## Output Files
+
+### Download URLs
+
+When a job completes successfully, the response includes download URLs:
+
+```json
+{
+  "status": "complete",
+  "downloads": [
+    {
+      "url": "https://videos.magichour.ai/id/output.mp4",
+      "expires_at": "2024-10-19T05:16:19.027Z"
+    }
+  ]
+}
+```
+
+### Download URL Expiration
+
+<Warning>
+**24-Hour Expiration**: Download URLs expire after 24 hours. Download files promptly or request fresh URLs using the GET endpoint.
+</Warning>
+
+To get fresh download URLs for an existing project:
+
+<CodeGroup>
+
+```python Python
+# Get fresh download URLs for completed project
+status = client.v1.video_projects.get(id="project_id")
+download_url = status.downloads[0].url
+```
+
+```javascript Node.js
+// Get fresh download URLs for completed project
+const status = await client.v1.videoProjects.get({ id: "project_id" });
+const downloadUrl = status.downloads[0].url;
+```
+
+</CodeGroup>
+
+### Streaming Downloads
+
+For production applications, use streaming downloads to handle large files efficiently:
+
+<CodeGroup>
+
+```python Python
+import requests
+from pathlib import Path
+import time
+
+def download_file(url, output_path, max_retries=3):
+    """Download file with retries and streaming for large files"""
+    
+    # Create output directory
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+    
+    for attempt in range(max_retries):
+        try:
+            print(f"Downloading (attempt {attempt + 1}/{max_retries})...")
+            
+            response = requests.get(url, stream=True, timeout=60)
+            response.raise_for_status()
+            
+            # Stream download for large files
+            with open(output_path, "wb") as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    f.write(chunk)
+            
+            file_size = Path(output_path).stat().st_size
+            print(f"✅ Downloaded: {output_path} ({file_size:,} bytes)")
+            return True
+            
+        except requests.exceptions.RequestException as e:
+            print(f"❌ Download failed: {e}")
+            if attempt < max_retries - 1:
+                wait_time = 2 ** attempt  # Exponential backoff
+                print(f"   Retrying in {wait_time} seconds...")
+                time.sleep(wait_time)
+            else:
+                print("   Max retries exceeded")
+                return False
+    
+    return False
+
+# Usage
+download_file(download_url, "outputs/result.mp4")
+```
+
+```javascript Node.js
+import { writeFileSync, mkdirSync } from 'fs';
+import { dirname } from 'path';
+
+async function downloadFile(url, outputPath, maxRetries = 3) {
+  // Create output directory
+  try {
+    mkdirSync(dirname(outputPath), { recursive: true });
+  } catch (e) {
+    // Directory exists
+  }
+  
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      console.log(`Downloading (attempt ${attempt + 1}/${maxRetries})...`);
+      
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const arrayBuffer = await response.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      
+      writeFileSync(outputPath, buffer);
+      
+      console.log(`✅ Downloaded: ${outputPath} (${buffer.length.toLocaleString()} bytes)`);
+      return true;
+      
+    } catch (error) {
+      console.log(`❌ Download failed: ${error.message}`);
+      if (attempt < maxRetries - 1) {
+        const waitTime = Math.pow(2, attempt) * 1000;  // Exponential backoff
+        console.log(`   Retrying in ${waitTime / 1000} seconds...`);
+        await new Promise(resolve => setTimeout(resolve, waitTime));
+      } else {
+        console.log("   Max retries exceeded");
+        return false;
+      }
+    }
+  }
+  
+  return false;
+}
+
+// Usage
+await downloadFile(downloadUrl, "outputs/result.mp4");
+```
+
+</CodeGroup>
+
+### Handling Multiple Output Files
+
+Some APIs generate multiple files (e.g., multiple images):
+
+<CodeGroup>
+
+```python Python
+# Download all outputs
+for i, download in enumerate(status_response.downloads):
+    filename = f"output_{i+1}.png"
+    filepath = f"outputs/{filename}"
+    download_file(download.url, filepath)
+    print(f"Downloaded: {filename}")
+```
+
+```javascript Node.js
+// Download all outputs
+for (const [i, download] of statusResponse.downloads.entries()) {
+  const filename = `output_${i + 1}.png`;
+  const filepath = `outputs/${filename}`;
+  await downloadFile(download.url, filepath);
+  console.log(`Downloaded: ${filename}`);
+}
+```
+
+</CodeGroup>
+
+### Automatic Downloads with `generate()`
+
+The SDK's `generate()` function can download files automatically:
+
+<CodeGroup>
+
+```python Python
+result = client.v1.ai_image_generator.generate(
+    image_count=1,
+    orientation="landscape",
+    style={"prompt": "Cool image", "tool": "ai-anime-generator"},
+    name="AI Image Generated by Magic Hour",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs"
+)
+
+# Print where files were saved
+paths = getattr(res, "downloaded_paths", None) or []
+print(f"✅ Downloaded to: {paths}" if paths else "✅ Done (no downloaded_paths returned by SDK)")
+```
+
+```javascript Node.js
+const result = await client.v1.aiImageGenerator.generate({
+  imageCount: 1,
+  orientation: "landscape",
+  style: { prompt: "Mountain sunset", tool: "ai-anime-generator" },
+  waitForCompletion: true,
+  downloadOutputs: true,              // Auto-download
+  downloadDirectory: "./outputs/"     // Where to save
+});
+
+// Files are already downloaded
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+## File Specifications
+
+### Supported File Formats
+
+<CardGroup cols={3}>
+  <Card title="Video" icon="film">
+    mp4, m4v, mov, webm
+  </Card>
+  <Card title="Image" icon="image">
+    png, jpg, jpeg, webp, avif, jp2, tiff, bmp
+  </Card>
+  <Card title="Audio" icon="music">
+    mp3, mpeg, wav, aac, aiff, flac
+  </Card>
+</CardGroup>
+
+<Note>`gif` extension is only supported by face swap API's `video_file_path` field.</Note>
+
+### File Size Limits
+
+Different subscription tiers have different upload limits:
+
+| Tier | Maximum Upload Size |
+|:-----|:-------------------|
+| **Free** | 200 MB |
+| **Creator** | 1 GB |
+| **Pro** | 2 GB |
+| **Business** | 3 GB |
+
+<Info>
+**Upgrade for Larger Files**: If you need to process files larger than your current limit, upgrade your subscription tier.
+</Info>
+
+## Retention & Storage Policies
+
+### Uploaded Files (Inputs)
+
+**7-Day Retention**: Files uploaded to Magic Hour storage are automatically deleted after 7 days.
+
+```python
+# Upload once, use multiple times within 7 days
+file_path = client.v1.files.upload_file("image.jpg")
+
+# Use in multiple API calls within the 7-day window
+result1 = client.v1.face_swap_photo.create(assets={"source_file_path": file_path, ...})
+result2 = client.v1.ai_clothes_changer.create(assets={"image_file_path": file_path, ...})
+```
+
+**Best practice:** Reuse the same `file_path` for multiple API calls to avoid duplicate uploads.
+
+### Generated Files (Outputs)
+
+**Permanent Storage**: Generated files are stored indefinitely in Magic Hour cloud storage.
+
+**Download URL Expiration**: Download URLs expire after 24 hours for security, but you can request fresh URLs anytime.
+
+**Web Dashboard**: All generated content appears in your [magichour.ai/my-library](https://magichour.ai/my-library) dashboard.
+
+### Getting Fresh Download URLs
+
+If your download URL expired, request a new one:
+
+<CodeGroup>
+
+```python Python
+# Get fresh download URLs for an existing project
+status = client.v1.video_projects.get(id="project_id")
+fresh_url = status.downloads[0].url
+```
+
+```javascript Node.js
+// Get fresh download URLs for an existing project
+const status = await client.v1.videoProjects.get({ id: "project_id" });
+const freshUrl = status.downloads[0].url;
+```
+
+</CodeGroup>
+
+## Best Practices
+
+### For Uploads
+
+✅ **Do:**
+- Validate file formats before uploading
+- Use the SDK upload helpers when available
+- Reuse uploaded files within the 7-day window
+- Compress large files to save upload time
+
+❌ **Don't:**
+- Upload the same file repeatedly (reuse the `file_path`)
+- Exceed your tier's file size limits
+- Rely on uploaded files after 7 days
+
+### For Downloads
+
+✅ **Do:**
+- Download files immediately after job completion
+- Implement retry logic with exponential backoff
+- Stream large files to avoid memory issues
+- Store files in your own storage for permanent access
+- Verify file integrity after download
+
+❌ **Don't:**
+- Rely on download URLs after 24 hours
+- Download the same file multiple times unnecessarily
+- Ignore download errors without retry logic
+
+## Troubleshooting
+
+### Upload Issues
+
+**"Invalid file format" error:**
+- Check that your file extension is in the supported list
+- Verify the file isn't corrupted
+- Ensure the file type matches the extension
+
+**"File too large" error:**
+- Check your subscription tier's upload limit
+- Compress the file or upgrade your subscription
+- Split large videos into smaller segments
+
+**Upload timeout:**
+- Check your internet connection
+- Try uploading during off-peak hours
+- Consider using a CDN for faster uploads
+
+### Download Issues
+
+**"URL expired" error:**
+- Request fresh download URLs using the GET endpoint
+- Download files within 24 hours of job completion
+- Store files in your own storage for permanent access
+
+**Download fails or corrupts:**
+- Implement retry logic with exponential backoff
+- Verify file integrity (check file size matches)
+- Use streaming downloads for large files
+
+**"404 Not Found" on download:**
+- Verify the job ID is correct
+- Ensure the job status is "complete"
+- Check that the project hasn't been deleted
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="First Integration" icon="rocket" href="/integration/first-integration">
+    Build your first integration step-by-step
+  </Card>
+  <Card title="Development & Testing" icon="flask" href="/integration/development-and-testing">
+    Test without using credits
+  </Card>
+  <Card title="API Reference" icon="book" href="/api-reference/files/generate-asset-upload-urls">
+    Complete upload API documentation
+  </Card>
+  <Card title="Webhooks" icon="webhook" href="/integration/webhook/create-webhook">
+    Set up webhooks for production apps
+  </Card>
+</CardGroup>
+
+---
+
+**Questions?** Join our [Discord community](https://discord.com/invite/JX5rgsZaJp) or email [support@magichour.ai](mailto:support@magichour.ai)
+
