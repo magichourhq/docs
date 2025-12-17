@@ -6,27 +6,13 @@ description: Complete guide to uploading input files and downloading generated r
 
 ## Overview
 
-Magic Hour APIs require input files (images, videos, audio) and produce output files (generated content). This guide covers both sides of file handling: getting your files to Magic Hour and retrieving the results.
+Most Magic Hour APIs use a file-based workflow: you provide input files (images, videos, audio), the API processes them, and returns generated output files. Some APIs like AI Image Generator or Text-to-Video work with text prompts instead.
+
+This guide covers both sides of file handling: **getting your files to Magic Hour** and **retrieving the results**.
 
 ## Input Files
 
-### Supported File Formats
-
-<CardGroup cols={3}>
-  <Card title="Video" icon="film">
-    mp4, m4v, mov, webm
-  </Card>
-  <Card title="Image" icon="image">
-    png, jpg, jpeg, webp, avif, jp2, tiff, bmp
-  </Card>
-  <Card title="Audio" icon="music">
-    mp3, mpeg, wav, aac, aiff, flac
-  </Card>
-</CardGroup>
-
-<Note>`gif` extension is only supported by face swap API's `video_file_path` field.</Note>
-
-### Two Ways to Provide Input Files
+### How to Provide Input Files
 
 You have three options for providing input files to the API:
 
@@ -125,9 +111,11 @@ For local files or files that aren't publicly hosted, upload them to Magic Hour'
 
 ### Upload Process
 
-1. Request upload URLs specifying file extension and type
-2. Upload files to the provided URLs via PUT request
-3. Use the returned `file_path` in your API calls
+The upload workflow has three steps:
+
+1. **Request upload URLs** - Tell Magic Hour what file types you're uploading (specify extension and type)
+2. **Upload files** - PUT your files to the provided temporary URLs
+3. **Use file paths** - Reference the returned `file_path` in your API calls
 
 ### SDK Upload (Simplified)
 
@@ -356,19 +344,8 @@ const audioPath = response.items[2].filePath;
 
 </CodeGroup>
 
-### File Retention Policy
-
-<Warning>
-**7-Day Retention**: Uploaded files are automatically deleted after 7 days.
-</Warning>
-
-**Best practices:**
-- Upload files just before using them in API calls
-- Reuse the same `file_path` for multiple API calls within 7 days
-- For permanent storage needs, contact [support@magichour.ai](mailto:support@magichour.ai)
-
 <Tip>
-**Reuse Uploads**: You can reference the same `file_path` in multiple API calls before it expires, avoiding duplicate uploads.
+**Upload Timing**: Upload files just before using them in API calls. For permanent storage needs, contact [support@magichour.ai](mailto:support@magichour.ai).
 </Tip>
 
 ## Output Files
@@ -413,9 +390,9 @@ const downloadUrl = status.downloads[0].url;
 
 </CodeGroup>
 
-### Downloading Files Efficiently
+### Streaming Downloads
 
-For production applications, implement robust download logic:
+For production applications, use streaming downloads to handle large files efficiently:
 
 <CodeGroup>
 
@@ -576,29 +553,63 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 </CodeGroup>
 
-## File Storage and Lifecycle
+## File Specifications
+
+### Supported File Formats
+
+<CardGroup cols={3}>
+  <Card title="Video" icon="film">
+    mp4, m4v, mov, webm
+  </Card>
+  <Card title="Image" icon="image">
+    png, jpg, jpeg, webp, avif, jp2, tiff, bmp
+  </Card>
+  <Card title="Audio" icon="music">
+    mp3, mpeg, wav, aac, aiff, flac
+  </Card>
+</CardGroup>
+
+<Note>`gif` extension is only supported by face swap API's `video_file_path` field.</Note>
+
+### File Size Limits
+
+Different subscription tiers have different upload limits:
+
+| Tier | Maximum Upload Size |
+|:-----|:-------------------|
+| **Free** | 200 MB |
+| **Creator** | 1 GB |
+| **Pro** | 2 GB |
+| **Business** | 3 GB |
+
+<Info>
+**Upgrade for Larger Files**: If you need to process files larger than your current limit, upgrade your subscription tier.
+</Info>
+
+## Retention & Storage Policies
 
 ### Uploaded Files (Inputs)
 
-- **Retention**: 7 days from upload
-- **Reuse**: Can be used in multiple API calls within 7 days
-- **Cleanup**: Automatically deleted after 7 days
+**7-Day Retention**: Files uploaded to Magic Hour storage are automatically deleted after 7 days.
 
 ```python
-# Upload once, use multiple times
+# Upload once, use multiple times within 7 days
 file_path = client.v1.files.upload_file("image.jpg")
 
-# Use in multiple API calls within 7 days
+# Use in multiple API calls within the 7-day window
 result1 = client.v1.face_swap_photo.create(assets={"source_file_path": file_path, ...})
 result2 = client.v1.ai_clothes_changer.create(assets={"image_file_path": file_path, ...})
 ```
 
+**Best practice:** Reuse the same `file_path` for multiple API calls to avoid duplicate uploads.
+
 ### Generated Files (Outputs)
 
-- **Storage**: Stored indefinitely in Magic Hour cloud storage
-- **Download URLs**: Expire after 24 hours
-- **Accessing**: Retrieve fresh URLs anytime using GET endpoints
-- **Web App**: All generated content appears in your [magichour.ai/my-library](https://magichour.ai/my-library) dashboard
+**Permanent Storage**: Generated files are stored indefinitely in Magic Hour cloud storage.
+
+**Download URL Expiration**: Download URLs expire after 24 hours for security, but you can request fresh URLs anytime.
+
+**Web Dashboard**: All generated content appears in your [magichour.ai/my-library](https://magichour.ai/my-library) dashboard.
 
 ### Getting Fresh Download URLs
 
@@ -619,21 +630,6 @@ const freshUrl = status.downloads[0].url;
 ```
 
 </CodeGroup>
-
-## File Size Limits
-
-Different subscription tiers have different upload limits:
-
-| Tier | Maximum Upload Size |
-|:-----|:-------------------|
-| **Free** | 200 MB |
-| **Creator** | 1 GB |
-| **Pro** | 2 GB |
-| **Business** | 3 GB |
-
-<Info>
-**Upgrade for Larger Files**: If you need to process files larger than your current limit, upgrade your subscription tier.
-</Info>
 
 ## Best Practices
 
