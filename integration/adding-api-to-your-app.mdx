@@ -61,8 +61,8 @@ print("Creating face swap job...")
 create_res = client.v1.face_swap.create(
     name="My face swap",
     assets={
-        "image_file_path": "https://example.com/face.jpg",
-        "video_file_path": "https://example.com/video.mp4",
+        "image_file_path": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU_%28cropped%29.jpg",
+        "video_file_path": "https://svs.gsfc.nasa.gov/vis/a010000/a014300/a014327/john_bolten_no_graphics.mp4",
         "video_source": "file"
     },
     start_seconds=0.0,
@@ -109,8 +109,8 @@ async function createAndDownload() {
   const createRes = await client.v1.faceSwap.create({
     name: "My face swap",
     assets: {
-      imageFilePath: "https://example.com/face.jpg",
-      videoFilePath: "https://example.com/video.mp4",
+      imageFilePath: "https://upload.wikimedia.org/wikipedia/commons/e/ec/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU_%28cropped%29.jpg",
+      videoFilePath: "https://svs.gsfc.nasa.gov/vis/a010000/a014300/a014327/john_bolten_no_graphics.mp4",
       videoSource: "file",
     },
     startSeconds: 0.0,
@@ -161,8 +161,8 @@ The simplest approach is to pass file URLs:
 ```json
 {
   "assets": {
-    "image_file_path": "https://cdn.yourwebsite.com/face.jpg",
-    "video_file_path": "https://cdn.yourwebsite.com/video.mp4"
+    "image_file_path": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU_%28cropped%29.jpg",
+    "video_file_path": "https://svs.gsfc.nasa.gov/vis/a010000/a014300/a014327/john_bolten_no_graphics.mp4"
   }
 }
 ```
@@ -553,8 +553,11 @@ const result = await client.v1.faceSwap.create({...}); // No credits charged
 Cancel video jobs (with full refund) via the web dashboard:
 
 <Steps>
-  <Step title="Open video details">
-    Visit: `https://magichour.ai/my-library?videoId={project_id}`
+  <Step title="Open project details">
+    Visit the project in your library:
+    - **Videos**: `https://magichour.ai/my-library?videoId={project_id}`
+    - **Images**: `https://magichour.ai/my-library?imageId={project_id}`
+    - **Audio**: `https://magichour.ai/my-library?audioId={project_id}`
   </Step>
   <Step title="Click cancel render">![Cancel Render Button](./images/cancel-1.jpg)</Step>
   <Step title="Confirm cancellation">![Confirm Cancel Button](./images/cancel-2.jpg)</Step>
