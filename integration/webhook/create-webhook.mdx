@@ -316,9 +316,9 @@ Create a simple image to trigger webhook events:
 <CodeGroup>
 
 ```python Python/Colab
-import magic_hour
+from magic_hour import Client
 
-client = magic_hour.Client(api_key="your-api-key")
+client = Client(token="your-api-key")
 
 # Create a simple AI image - this will trigger webhooks
 result = client.v1.ai_image_generator.generate(
@@ -351,9 +351,9 @@ curl -X POST "https://api.magichour.ai/v1/ai-image-generator" \
 # If using webhook.site, you don't need a server
 # Just make the API call and watch the webhook.site browser tab
 
-import magic_hour
+from magic_hour import Client
 
-client = magic_hour.Client(api_key="your-api-key")
+client = Client(token="your-api-key")
 
 result = client.v1.ai_image_generator.generate(
     image_count=1,

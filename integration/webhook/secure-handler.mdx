@@ -364,13 +364,28 @@ const express = require("express");
 const crypto = require("crypto");
 
 const app = express();
-app.use(express.json());
+
+// IMPORTANT: Use express.raw() or express.text() to get raw body for signature verification
+// Do NOT use express.json() if you need raw body for signature verification
+app.use(express.text({ type: 'application/json' }));
+
+const webhookSecret = process.env.MAGIC_HOUR_WEBHOOK_SECRET;
+
+function computeSignature(signedPayload) {
+  return crypto
+    .createHmac("sha256", webhookSecret)
+    .update(signedPayload)
+    .digest("hex");
+}
 
 app.post("/webhook", (req, res) => {
   // Get signature and timestamp from headers
   const signature = req.headers["magic-hour-event-signature"];
   const timestamp = req.headers["magic-hour-event-timestamp"];
-  const { type, payload } = req.body;
+  
+  if (!signature || !timestamp) {
+    return res.status(401).json({ error: "Missing security headers" });
+  }
 
   // Verify timestamp is recent (within 5 minutes)
   const currentTime = Math.floor(Date.now() / 1000);
@@ -378,15 +393,31 @@ app.post("/webhook", (req, res) => {
     return res.status(401).json({ error: "Timestamp too old" });
   }
 
+  // Get raw body (req.body is now a string, not parsed JSON)
+  const rawBody = req.body;
+
   // Create signed payload and verify signature
-  const signedPayload = `${timestamp}.${JSON.stringify(req.body)}`;
+  const signedPayload = `${timestamp}.${rawBody}`;
   const computedSignature = computeSignature(signedPayload);
 
+  // Constant-time comparison
   if (signature !== computedSignature) {
     return res.status(401).json({ error: "Invalid signature" });
   }
 
-  // rest of webhook logic
+  // Now it's safe to parse the JSON
+  const event = JSON.parse(rawBody);
+  const { type, payload } = event;
+
+  // Process webhook event
+  console.log(`✅ Verified webhook: ${type}`);
+  
+  // Your business logic here
+  if (type === "video.completed") {
+    console.log("Video is ready!");
+  }
+
+  res.status(200).json({ success: true });
 });
 ```
 

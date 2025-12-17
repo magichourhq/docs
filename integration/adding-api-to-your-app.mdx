@@ -53,6 +53,7 @@ Here's a full end-to-end example that demonstrates the complete workflow:
 ```python Python SDK
 from magic_hour import Client
 import time
+import requests
 
 client = Client(token="YOUR_API_KEY")
 
@@ -83,7 +84,6 @@ while True:
 
         # 3. Download result
         download_url = status_res.downloads[0].url
-        import requests
         with open("result.mp4", "wb") as file:
             response = requests.get(download_url)
             file.write(response.content)

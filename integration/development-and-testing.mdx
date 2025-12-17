@@ -121,13 +121,8 @@ Implement comprehensive error handling for all API calls:
 <CodeGroup>
 
 ```python Python
+import httpx
 from magic_hour import Client
-from magic_hour.errors import (
-    AuthenticationError,
-    ValidationError,
-    RateLimitError,
-    APIError
-)
 
 client = Client(token="YOUR_API_KEY")
 
@@ -135,27 +130,27 @@ try:
     result = client.v1.ai_image_generator.create(
         image_count=1,
         orientation="landscape",
-        style={"prompt": "Test", "tool": "ai-anime-generator"}
+        style={"prompt": "Test", "tool": "ai-anime-generator"},
     )
-    
-except AuthenticationError:
-    print("❌ Invalid API key. Check your credentials.")
-    
-except ValidationError as e:
-    print(f"❌ Invalid parameters: {e}")
-    # Fix your request parameters
-    
-except RateLimitError:
-    print("❌ Rate limit exceeded. Wait before retrying.")
-    # Implement exponential backoff
-    
-except APIError as e:
-    print(f"❌ API error: {e}")
-    # Log error and alert monitoring system
-    
+
+except httpx.HTTPStatusError as e:
+    code = e.response.status_code
+    detail = e.response.text[:300]
+
+    if code == 401:
+        print("❌ Invalid API key. Check your credentials.")
+    elif code == 403:
+        print("❌ Forbidden. Key lacks permission or resource is protected.")
+    elif code == 422:
+        print(f"❌ Invalid parameters: {detail}")
+    elif code == 429:
+        print("❌ Rate limit exceeded. Wait before retrying.")
+    else:
+        print(f"❌ API error ({code}): {detail}")
+
 except Exception as e:
     print(f"❌ Unexpected error: {e}")
-    # Catch-all for unknown errors
+
 ```
 
 ```javascript Node.js
@@ -198,21 +193,24 @@ Check for errors during job processing:
 <CodeGroup>
 
 ```python Python
-# Poll for completion with error handling
+import time
+
+download_url = None
+
+job_id = "your_job_id" # Change this to your job ID
+
 while True:
     status = client.v1.image_projects.get(id=job_id)
-    
+
     if status.status == "complete":
-        # Success - download result
         download_url = status.downloads[0].url
         break
-        
-    elif status.status == "error":
-        # Job failed during processing
-        error_code = status.error.get("code", "unknown")
-        error_msg = status.error.get("message", "Unknown error")
-        
-        # Handle specific error codes
+
+    if status.status == "error":
+        err = status.error or {}
+        error_code = err.get("code", "unknown")
+        error_msg = err.get("message", "Unknown error")
+
         if error_code == "no_source_face":
             print("❌ No face detected. Use an image with a visible face.")
         elif error_code == "invalid_file_format":
@@ -223,10 +221,14 @@ while True:
             print("❌ Not enough credits. Add credits to your account.")
         else:
             print(f"❌ Error ({error_code}): {error_msg}")
-        
-        return None
-        
+
+        break
+
     time.sleep(3)
+
+if not download_url:
+    raise RuntimeError("Job did not complete successfully; no download URL available.")
+
 ```
 
 ```javascript Node.js
@@ -449,30 +451,24 @@ Implement comprehensive logging:
 ```python
 import logging
 
-# Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('magichour.log'),
-        logging.StreamHandler()
-    ]
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler("magichour.log"), logging.StreamHandler()],
 )
-
 logger = logging.getLogger(__name__)
 
-# Log API calls
-logger.info("Creating AI image job", extra={
-    'orientation': 'landscape',
-    'image_count': 1
-})
+logger.info("Creating AI image job", extra={"orientation": "landscape", "image_count": 1})
 
-result = client.v1.ai_image_generator.create(...)
+result = client.v1.ai_image_generator.create(
+    image_count=1,
+    orientation="landscape",
+    style={"prompt": "Test", "tool": "ai-anime-generator"},
+    name="Logging Example",
+)
 
-logger.info("Job created", extra={
-    'job_id': result.id,
-    'credits_charged': result.credits_charged
-})
+logger.info("Job created", extra={"job_id": result.id, "credits_charged": result.credits_charged})
+print("job_id:", result.id)
 ```
 
 ## Job Cancellation
