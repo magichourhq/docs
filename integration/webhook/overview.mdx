@@ -32,10 +32,15 @@ sequenceDiagram
 First, let's create a simple webhook handler that can receive and process events.
 
 <Note>
-  **Using Jupyter/Colab?** The server examples below are for standalone deployment. For notebook
-  testing: 1. Use [webhook.site](https://webhook.site) for instant webhook testing (no code needed)
-  - see the "webhook.site" tab in Step 2 2. Or use the notebook-friendly code in the "Colab/Jupyter"
-  tab below
+
+**Using Jupyter/Colab?** The server examples below are for standalone deployment. For notebook
+testing:
+
+1. Use [webhook.site](https://webhook.site) for instant webhook testing (no code needed). See the "webhook.site" tab in Step 2
+
+2. Or use the notebook-friendly code in the "Colab/Jupyter"
+   tab below
+
 </Note>
 
 <CodeGroup>
@@ -281,8 +286,12 @@ Enter your webhook details:
   - `video.started` - When video processing begins
   - `video.completed` - When video is ready for download
   - `video.errored` - When video processing fails
+  - `image.started` - When image processing begins
   - `image.completed` - When image is ready for download
   - `image.errored` - When image processing fails
+  - `audio.started` - When audio processing begins
+  - `audio.completed` - When audio is ready for download
+  - `audio.errored` - When audio processing fails
 
 ![Create webhook modal](./images/webhook-2.png)
 
