@@ -9,14 +9,15 @@ description: Verify webhook authenticity with signature validation to prevent ma
 Without signature verification, anyone who discovers your webhook URL could send fake events to your application. This could lead to:
 
 - ❌ **Fake completion events** triggering incorrect business logic
-- ❌ **Malicious payloads** attempting to exploit your system  
+- ❌ **Malicious payloads** attempting to exploit your system
 - ❌ **Spam requests** overwhelming your servers
 - ❌ **Data corruption** from processing invalid events
 
 **✅ Solution**: Verify that webhooks are actually from Magic Hour using cryptographic signatures.
 
 <Warning>
-**Production Requirement**: Always verify webhook signatures in production environments. This is critical for security.
+  **Production Requirement**: Always verify webhook signatures in production environments. This is
+  critical for security.
 </Warning>
 
 ## How Signature Verification Works
@@ -27,7 +28,7 @@ Magic Hour signs every webhook with your secret key using HMAC-SHA256:
 sequenceDiagram
     participant MH as Magic Hour
     participant App as Your App
-    
+
     MH->>MH: 1. Create event payload
     MH->>MH: 2. Generate timestamp
     MH->>MH: 3. Create signed_payload = timestamp + "." + payload
@@ -43,13 +44,15 @@ sequenceDiagram
 Every webhook includes two security headers:
 
 ### `magic-hour-event-signature`
+
 The HMAC-SHA256 signature of the payload using your webhook secret:
 
 ```http
 magic-hour-event-signature: d1747eb9491aadeac6173f1c9fd5f4aff87c8981ac53d87b0830199221ff50af
 ```
 
-### `magic-hour-event-timestamp`  
+### `magic-hour-event-timestamp`
+
 Unix timestamp (seconds since epoch) when the webhook was sent:
 
 ```http
@@ -57,7 +60,8 @@ magic-hour-event-timestamp: 1729314984
 ```
 
 <Info>
-**Header Case**: HTTP headers are case-insensitive, so `Magic-Hour-Event-Signature` and `magic-hour-event-signature` are equivalent.
+  **Header Case**: HTTP headers are case-insensitive, so `Magic-Hour-Event-Signature` and
+  `magic-hour-event-signature` are equivalent.
 </Info>
 
 ## Step-by-Step Verification
@@ -68,9 +72,10 @@ Get the signature, timestamp, and raw JSON payload from the incoming request:
 
 ```python
 signature = request.headers.get('magic-hour-event-signature')
-timestamp = request.headers.get('magic-hour-event-timestamp') 
+timestamp = request.headers.get('magic-hour-event-timestamp')
 raw_payload = await request.body()  # Raw JSON bytes, not parsed
 ```
+
 </Step>
 
 <Step title="Create the Signed Payload">
@@ -79,6 +84,7 @@ Concatenate the timestamp, a dot, and the raw JSON payload:
 **Format**: `{timestamp}.{raw_json_payload}`
 
 **Example**:
+
 ```
 1729314984.{"type":"video.completed","payload":{"id":"clx123","status":"complete","downloads":[{"url":"https://videos.magichour.ai/output.mp4"}]}}
 ```
@@ -115,10 +121,7 @@ signature = compute_signature(signed_payload, webhook_secret)
 const crypto = require("crypto");
 
 function computeSignature(signedPayload: string, webhookSecret: string): string {
-  return crypto
-    .createHmac("sha256", webhookSecret)
-    .update(signedPayload, 'utf8')
-    .digest("hex");
+  return crypto.createHmac("sha256", webhookSecret).update(signedPayload, "utf8").digest("hex");
 }
 
 // Usage
@@ -213,28 +216,28 @@ import json
 app = FastAPI()
 
 def verify_webhook_signature(
-    signature: str, 
-    timestamp: str, 
+    signature: str,
+    timestamp: str,
     raw_payload: bytes,
     webhook_secret: str
 ) -> bool:
     """Verify webhook signature and timestamp"""
-    
+
     # Check timestamp is recent (within 5 minutes)
     current_time = int(time.time())
     if abs(current_time - int(timestamp)) > 300:
         return False
-    
+
     # Create signed payload
     signed_payload = f"{timestamp}.{raw_payload.decode('utf-8')}"
-    
+
     # Compute expected signature
     expected_signature = hmac.new(
         webhook_secret.encode('utf-8'),
         signed_payload.encode('utf-8'),
         hashlib.sha256
     ).hexdigest()
-    
+
     # Compare signatures (constant-time comparison)
     return hmac.compare_digest(signature, expected_signature)
 
@@ -243,27 +246,27 @@ async def secure_webhook_handler(request: Request):
     # Get headers
     signature = request.headers.get('magic-hour-event-signature')
     timestamp = request.headers.get('magic-hour-event-timestamp')
-    
+
     if not signature or not timestamp:
         raise HTTPException(status_code=401, detail="Missing signature headers")
-    
+
     # Get raw payload (important: don't parse JSON yet)
     raw_payload = await request.body()
     webhook_secret = os.getenv("MAGIC_HOUR_WEBHOOK_SECRET")
-    
+
     if not webhook_secret:
         raise HTTPException(status_code=500, detail="Webhook secret not configured")
-    
+
     # Verify signature
     if not verify_webhook_signature(signature, timestamp, raw_payload, webhook_secret):
         raise HTTPException(status_code=401, detail="Invalid signature or timestamp")
-    
+
     # Now it's safe to parse the JSON
     event = json.loads(raw_payload)
-    
+
     # Process the verified webhook
     print(f"✅ Verified webhook: {event['type']}")
-    
+
     # Your business logic here
     match event['type']:
         case 'video.completed':
@@ -272,7 +275,7 @@ async def secure_webhook_handler(request: Request):
             print("Image processing completed!")
         case _:
             print(f"Received event: {event['type']}")
-    
+
     return {"success": True}
 ```
 
@@ -283,7 +286,7 @@ const crypto = require("crypto");
 const app = express();
 
 // Custom middleware to capture raw body
-app.use('/webhook', express.raw({ type: 'application/json' }));
+app.use("/webhook", express.raw({ type: "application/json" }));
 
 function verifyWebhookSignature(signature, timestamp, rawPayload, webhookSecret) {
   // Check timestamp is recent (within 5 minutes)
@@ -291,20 +294,20 @@ function verifyWebhookSignature(signature, timestamp, rawPayload, webhookSecret)
   if (Math.abs(currentTime - parseInt(timestamp)) > 300) {
     return false;
   }
-  
+
   // Create signed payload
-  const signedPayload = `${timestamp}.${rawPayload.toString('utf8')}`;
-  
+  const signedPayload = `${timestamp}.${rawPayload.toString("utf8")}`;
+
   // Compute expected signature
   const expectedSignature = crypto
-    .createHmac('sha256', webhookSecret)
-    .update(signedPayload, 'utf8')
-    .digest('hex');
-  
+    .createHmac("sha256", webhookSecret)
+    .update(signedPayload, "utf8")
+    .digest("hex");
+
   // Compare signatures (constant-time comparison)
   return crypto.timingSafeEqual(
-    Buffer.from(signature, 'hex'),
-    Buffer.from(expectedSignature, 'hex')
+    Buffer.from(signature, "hex"),
+    Buffer.from(expectedSignature, "hex")
   );
 }
 
@@ -312,27 +315,27 @@ app.post("/webhook", (req, res) => {
   // Get headers
   const signature = req.headers["magic-hour-event-signature"];
   const timestamp = req.headers["magic-hour-event-timestamp"];
-  
+
   if (!signature || !timestamp) {
     return res.status(401).json({ error: "Missing signature headers" });
   }
-  
+
   const webhookSecret = process.env.MAGIC_HOUR_WEBHOOK_SECRET;
   if (!webhookSecret) {
     return res.status(500).json({ error: "Webhook secret not configured" });
   }
-  
+
   // Verify signature using raw body
   if (!verifyWebhookSignature(signature, timestamp, req.body, webhookSecret)) {
     return res.status(401).json({ error: "Invalid signature or timestamp" });
   }
-  
+
   // Now it's safe to parse the JSON
-  const event = JSON.parse(req.body.toString('utf8'));
-  
+  const event = JSON.parse(req.body.toString("utf8"));
+
   // Process the verified webhook
   console.log(`✅ Verified webhook: ${event.type}`);
-  
+
   // Your business logic here
   switch (event.type) {
     case "video.completed":
@@ -344,7 +347,7 @@ app.post("/webhook", (req, res) => {
     default:
       console.log(`Received event: ${event.type}`);
   }
-  
+
   res.status(200).json({ success: true });
 });
 
@@ -378,44 +381,44 @@ def verify_signature(signature: str, timestamp: str, raw_payload: bytes) -> bool
     if abs(int(time.time()) - int(timestamp)) > 300:
         print("❌ Timestamp too old")
         return False
-    
+
     # Create signed payload
     signed_payload = f"{timestamp}.{raw_payload.decode('utf-8')}"
-    
+
     # Compute expected signature
     expected = hmac.new(
         WEBHOOK_SECRET.encode('utf-8'),
         signed_payload.encode('utf-8'),
         hashlib.sha256
     ).hexdigest()
-    
+
     # Compare
     if not hmac.compare_digest(signature, expected):
         print("❌ Invalid signature")
         return False
-    
+
     return True
 
 @app.post("/webhook")
 async def secure_webhook(request: Request):
     signature = request.headers.get('magic-hour-event-signature')
     timestamp = request.headers.get('magic-hour-event-timestamp')
-    
+
     if not signature or not timestamp:
         print("❌ Missing headers")
         raise HTTPException(status_code=401, detail="Missing headers")
-    
+
     raw_payload = await request.body()
-    
+
     # Verify signature
     if not verify_signature(signature, timestamp, raw_payload):
         raise HTTPException(status_code=401, detail="Invalid signature")
-    
+
     # Parse verified payload
     event = json.loads(raw_payload)
     print(f"✅ Verified webhook: {event['type']}")
     print(f"📦 Payload: {json.dumps(event['payload'], indent=2)}")
-    
+
     return {"success": True}
 
 # Start server
@@ -458,7 +461,7 @@ def create_test_webhook():
     timestamp = str(int(time.time()))
     payload = {"type": "test.event", "payload": {"test": True}}
     payload_json = json.dumps(payload, separators=(',', ':'))
-    
+
     # Create signature
     signed_payload = f"{timestamp}.{payload_json}"
     signature = hmac.new(
@@ -466,7 +469,7 @@ def create_test_webhook():
         signed_payload.encode('utf-8'),
         hashlib.sha256
     ).hexdigest()
-    
+
     # Send test webhook
     response = requests.post(
         "http://localhost:8000/webhook",
@@ -476,7 +479,7 @@ def create_test_webhook():
             "magic-hour-event-timestamp": timestamp
         }
     )
-    
+
     print(f"Status: {response.status_code}")
     print(f"Response: {response.json()}")
 
@@ -488,6 +491,7 @@ create_test_webhook()
 ## Best Practices
 
 ### 1. Environment Variables
+
 Store your webhook secret securely:
 
 ```bash
@@ -496,6 +500,7 @@ MAGIC_HOUR_WEBHOOK_SECRET=whsec_abc123def456...
 ```
 
 ### 2. Error Handling
+
 Handle verification failures gracefully:
 
 ```python
@@ -512,6 +517,7 @@ except Exception as e:
 ```
 
 ### 3. Logging
+
 Log security events for monitoring:
 
 ```python
@@ -531,6 +537,7 @@ logger.warning("Webhook verification failed", extra={
 ```
 
 ### 4. Rate Limiting
+
 Protect against abuse:
 
 ```python
@@ -550,17 +557,20 @@ async def webhook_handler(request: Request):
 ### Common Issues
 
 **"Invalid signature" errors:**
+
 - ✅ Ensure you're using the raw JSON payload, not parsed/re-stringified
 - ✅ Check that your webhook secret is correct
 - ✅ Verify timestamp format (Unix seconds, not milliseconds)
 - ✅ Make sure you're concatenating `timestamp.payload` correctly
 
 **"Timestamp too old" errors:**
+
 - ✅ Check server clock synchronization
 - ✅ Increase tolerance window if needed (but keep it reasonable)
 - ✅ Ensure timestamp is in seconds, not milliseconds
 
 **Missing headers:**
+
 - ✅ Verify webhook is registered correctly in Magic Hour
 - ✅ Check that your endpoint URL is correct
 - ✅ Ensure headers are being received (log all headers for debugging)
@@ -573,14 +583,14 @@ Add debug logging to troubleshoot signature issues:
 def debug_signature_verification(signature, timestamp, raw_payload, secret):
     signed_payload = f"{timestamp}.{raw_payload.decode('utf-8')}"
     expected = hmac.new(secret.encode(), signed_payload.encode(), hashlib.sha256).hexdigest()
-    
+
     print(f"🔍 Debug Info:")
     print(f"   Received signature: {signature}")
     print(f"   Expected signature: {expected}")
     print(f"   Timestamp: {timestamp}")
     print(f"   Signed payload: {signed_payload[:100]}...")
     print(f"   Match: {hmac.compare_digest(signature, expected)}")
-    
+
     return hmac.compare_digest(signature, expected)
 ```
 

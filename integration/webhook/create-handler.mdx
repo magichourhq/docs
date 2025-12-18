@@ -7,7 +7,8 @@ description: Deploy robust webhook handlers for production use
 This guide covers production-ready webhook handlers with error handling, logging, and best practices.
 
 <Note>
-**New to webhooks?** Start with our [Webhook Quickstart](/integration/webhook/overview) for a complete end-to-end tutorial.
+  **New to webhooks?** Start with our [Webhook Quickstart](/integration/webhook/overview) for a
+  complete end-to-end tutorial.
 </Note>
 
 ## Production Requirements
@@ -24,6 +25,7 @@ Your production webhook handler should:
 ## Retry Behavior
 
 **Automatic Retries**: If your endpoint doesn't respond with a 2xx status code, Magic Hour will retry delivery:
+
 - **Duration**: Up to 24 hours
 - **Pattern**: Exponential backoff (1s, 2s, 4s, 8s, ...)
 - **After 24 hours**: Event marked as failed, no more retries
@@ -46,7 +48,7 @@ logger = logging.getLogger(__name__)
 
 @app.post("/webhook")
 async def webhook_handler(
-    request: Request, 
+    request: Request,
     background_tasks: BackgroundTasks
 ):
     try:
@@ -54,19 +56,19 @@ async def webhook_handler(
         event = await request.json()
         event_type = event.get('type')
         payload = event.get('payload', {})
-        
+
         # Log the event
         logger.info(f"Received webhook: {event_type}", extra={
             'event_type': event_type,
             'job_id': payload.get('id'),
             'status': payload.get('status')
         })
-        
+
         # Process in background to respond quickly
         background_tasks.add_task(process_webhook_event, event)
-        
+
         return {"success": True, "timestamp": int(time.time())}
-        
+
     except Exception as e:
         logger.error(f"Webhook processing failed: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal server error")
@@ -77,33 +79,33 @@ async def process_webhook_event(event: dict):
         event_type = event['type']
         payload = event['payload']
         job_id = payload['id']
-        
+
         # Update database record
         with get_db_session() as db:
             job = db.query(Job).filter(Job.magic_hour_id == job_id).first()
             if not job:
                 logger.warning(f"Job {job_id} not found in database")
                 return
-            
+
             if event_type == 'video.completed':
                 job.status = 'completed'
                 job.download_url = payload['downloads'][0]['url']
                 job.completed_at = datetime.utcnow()
-                
+
                 # Notify user (email, push notification, etc.)
                 await notify_user_completion(job.user_id, job)
-                
+
             elif event_type == 'video.errored':
                 job.status = 'failed'
                 job.error_message = payload['error']['message']
                 job.failed_at = datetime.utcnow()
-                
+
                 # Notify user of failure
                 await notify_user_error(job.user_id, job)
-            
+
             db.commit()
             logger.info(f"Updated job {job_id} status to {job.status}")
-            
+
     except Exception as e:
         logger.error(f"Background processing failed: {str(e)}")
 ```
@@ -118,16 +120,9 @@ const redisClient = redis.createClient();
 
 // Setup logging
 const logger = createLogger({
-  level: 'info',
-  format: format.combine(
-    format.timestamp(),
-    format.errors({ stack: true }),
-    format.json()
-  ),
-  transports: [
-    new transports.File({ filename: 'webhook.log' }),
-    new transports.Console()
-  ]
+  level: "info",
+  format: format.combine(format.timestamp(), format.errors({ stack: true }), format.json()),
+  transports: [new transports.File({ filename: "webhook.log" }), new transports.Console()],
 });
 
 app.use(express.json());
@@ -136,23 +131,22 @@ app.post("/webhook", async (req, res) => {
   try {
     const { type, payload } = req.body;
     const jobId = payload.id;
-    
+
     // Log the event
     logger.info("Received webhook", {
       eventType: type,
       jobId: jobId,
-      status: payload.status
+      status: payload.status,
     });
-    
+
     // Respond immediately
-    res.status(200).json({ 
-      success: true, 
-      timestamp: Math.floor(Date.now() / 1000) 
+    res.status(200).json({
+      success: true,
+      timestamp: Math.floor(Date.now() / 1000),
     });
-    
+
     // Process asynchronously
     processWebhookEvent(type, payload);
-    
   } catch (error) {
     logger.error("Webhook processing failed", { error: error.message });
     res.status(500).json({ error: "Internal server error" });
@@ -162,42 +156,41 @@ app.post("/webhook", async (req, res) => {
 async function processWebhookEvent(type, payload) {
   try {
     const jobId = payload.id;
-    
+
     // Update job status in Redis
     const jobKey = `job:${jobId}`;
-    
+
     switch (type) {
       case "video.started":
         await redisClient.hSet(jobKey, {
           status: "processing",
-          startedAt: new Date().toISOString()
+          startedAt: new Date().toISOString(),
         });
         break;
-        
+
       case "video.completed":
         await redisClient.hSet(jobKey, {
           status: "completed",
           downloadUrl: payload.downloads[0].url,
-          completedAt: new Date().toISOString()
+          completedAt: new Date().toISOString(),
         });
-        
+
         // Notify user via WebSocket, email, etc.
         await notifyUserCompletion(jobId, payload);
         break;
-        
+
       case "video.errored":
         await redisClient.hSet(jobKey, {
           status: "failed",
           error: JSON.stringify(payload.error),
-          failedAt: new Date().toISOString()
+          failedAt: new Date().toISOString(),
         });
-        
+
         await notifyUserError(jobId, payload);
         break;
     }
-    
+
     logger.info(`Updated job ${jobId} status`, { type, status: payload.status });
-    
   } catch (error) {
     logger.error("Background processing failed", { error: error.message });
   }
@@ -214,6 +207,7 @@ app.listen(port, () => {
 ## Best Practices
 
 ### 1. Idempotent Processing
+
 Handle duplicate events gracefully (Magic Hour may retry):
 
 ```python
@@ -228,6 +222,7 @@ await mark_event_processed(event_id)
 ```
 
 ### 2. Quick Response Times
+
 Respond within 10 seconds to avoid timeouts:
 
 ```python
@@ -247,6 +242,7 @@ async def webhook(request: Request):
 ```
 
 ### 3. Comprehensive Logging
+
 Log all events for debugging:
 
 ```python
@@ -260,6 +256,7 @@ logger.info("Webhook received", extra={
 ```
 
 ### 4. Error Handling
+
 Handle errors gracefully:
 
 ```python
@@ -328,6 +325,7 @@ curl -X POST http://localhost:8000/webhook \
 ## Deployment Considerations
 
 ### Load Balancing
+
 If using multiple servers, ensure webhooks can reach any instance:
 
 ```yaml
@@ -341,6 +339,7 @@ services:
 ```
 
 ### Health Checks
+
 Add a health check endpoint:
 
 ```python
@@ -350,6 +349,7 @@ async def health_check():
 ```
 
 ### Monitoring
+
 Monitor webhook delivery and processing:
 
 ```python
@@ -361,11 +361,11 @@ processing_time = Histogram('webhook_processing_seconds')
 async def webhook(request: Request):
     start_time = time.time()
     event = await request.json()
-    
+
     webhook_counter.labels(event_type=event['type']).inc()
-    
+
     # Process event...
-    
+
     processing_time.observe(time.time() - start_time)
     return {"success": True}
 ```
@@ -381,19 +381,11 @@ async def webhook(request: Request):
   Add signature verification for production security
 </Card>
 
-<Card
-  title="Event Types Reference"
-  icon="book"
-  href="/integration/webhook/event-types"
->
+<Card title="Event Types Reference" icon="book" href="/integration/webhook/event-types">
   Complete list of webhook events and payloads
 </Card>
 
-<Card
-  title="Webhook API Reference"
-  icon="webhook"
-  href="/webhook-reference"
->
+<Card title="Webhook API Reference" icon="webhook" href="/webhook-reference">
   Detailed webhook API documentation
 </Card>
 
@@ -409,19 +401,21 @@ async def webhook(request: Request):
 ## Common Issues
 
 **Webhook timeouts?**
+
 - Respond within 10 seconds
 - Use background tasks for long processing
 - Check server resources and scaling
 
 **Missing events?**
+
 - Verify webhook is enabled in Developer Hub
 - Check endpoint URL is correct and accessible
 - Review server logs for errors
 
 **Duplicate events?**
+
 - Implement idempotent processing
 - Store processed event IDs
 - Handle retries gracefully
 
 Need help? Contact [support@magichour.ai](mailto:support@magichour.ai)
-

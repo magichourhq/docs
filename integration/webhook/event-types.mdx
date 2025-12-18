@@ -27,12 +27,14 @@ Events use dot notation: `{resource}.{action}`
 ### Payload Format
 
 The `payload` field contains the same data structure as the corresponding API endpoint:
+
 - **Video events**: Match [`GET /v1/video-projects/:id`](/api-reference/video-projects/get-video-details)
-- **Image events**: Match [`GET /v1/image-projects/:id`](/api-reference/image-projects/get-image-details)  
+- **Image events**: Match [`GET /v1/image-projects/:id`](/api-reference/image-projects/get-image-details)
 - **Audio events**: Match [`GET /v1/audio-projects/:id`](/api-reference/audio-projects/get-audio-details)
 
 <Info>
-**Consistent Data**: Webhook payloads use the exact same format as API responses, making it easy to reuse your existing data handling code.
+  **Consistent Data**: Webhook payloads use the exact same format as API responses, making it easy
+  to reuse your existing data handling code.
 </Info>
 
 ## Video Events
@@ -43,12 +45,14 @@ Video events are triggered during the lifecycle of video processing jobs. All pa
 
 **When triggered**: Video processing begins (job moves from `pending` to `rendering`)
 
-**Use cases**: 
+**Use cases**:
+
 - Update UI to show "processing" status
 - Log job start time for analytics
 - Send user notification that processing began
 
 **Key payload fields**:
+
 ```json
 {
   "type": "video.started",
@@ -68,7 +72,8 @@ Video events are triggered during the lifecycle of video processing jobs. All pa
 ```
 
 <Note>
-**Processing Time**: Video processing can take 30 seconds to several minutes depending on length and complexity.
+  **Processing Time**: Video processing can take 30 seconds to several minutes depending on length
+  and complexity.
 </Note>
 
 ### `video.completed`
@@ -76,15 +81,17 @@ Video events are triggered during the lifecycle of video processing jobs. All pa
 **When triggered**: Video processing finishes successfully
 
 **Use cases**:
+
 - Download the completed video
 - Update database with completion status
 - Send user notification with download link
 - Trigger downstream workflows
 
 **Key payload fields**:
+
 ```json
 {
-  "type": "video.completed", 
+  "type": "video.completed",
   "payload": {
     "id": "clx7uu86w0a5qp55yxz315r6r",
     "status": "complete",
@@ -102,7 +109,8 @@ Video events are triggered during the lifecycle of video processing jobs. All pa
 ```
 
 <Warning>
-**Download URLs Expire**: Video download URLs typically expire after 24 hours. Download and store videos promptly or use the API to get fresh URLs.
+  **Download URLs Expire**: Video download URLs typically expire after 24 hours. Download and store
+  videos promptly or use the API to get fresh URLs.
 </Warning>
 
 ### `video.errored`
@@ -110,17 +118,19 @@ Video events are triggered during the lifecycle of video processing jobs. All pa
 **When triggered**: Video processing fails due to an error
 
 **Use cases**:
+
 - Log error details for debugging
 - Retry processing if appropriate
 - Notify user of failure
 - Update job status in database
 
 **Key payload fields**:
+
 ```json
 {
   "type": "video.errored",
   "payload": {
-    "id": "clx7uu86w0a5qp55yxz315r6r", 
+    "id": "clx7uu86w0a5qp55yxz315r6r",
     "status": "error",
     "downloads": [],
     "error": {
@@ -133,15 +143,14 @@ Video events are triggered during the lifecycle of video processing jobs. All pa
 ```
 
 **Common error codes**:
+
 - `invalid_video_file` - Corrupted or unsupported video format
 - `file_too_large` - Video file exceeds size limits
 - `insufficient_credits` - Not enough credits to process
 - `invalid_parameters` - Invalid width, height, or other parameters
 - `processing_timeout` - Processing took too long and was terminated
 
-<Info>
-**No Charges**: You're never charged credits when processing fails with an error.
-</Info>
+<Info>**No Charges**: You're never charged credits when processing fails with an error.</Info>
 
 ## Image Events
 
@@ -152,17 +161,19 @@ Image events track the lifecycle of image processing jobs. All payloads match th
 **When triggered**: Image processing begins (job moves from `pending` to `rendering`)
 
 **Use cases**:
+
 - Show processing indicator in UI
 - Track processing start time
 - Update job status in database
 
 **Key payload fields**:
+
 ```json
 {
   "type": "image.started",
   "payload": {
     "id": "clx8abc123def456ghi789",
-    "status": "rendering", 
+    "status": "rendering",
     "type": "AI_IMAGE_GENERATOR",
     "created_at": "2024-10-19T05:10:19.027Z",
     "width": 1024,
@@ -175,7 +186,9 @@ Image events track the lifecycle of image processing jobs. All payloads match th
 ```
 
 <Warning>
-**Fast Processing**: Some image modes (like AI Image Generator) process so quickly that `image.started` events may not be sent. Always handle cases where you only receive `image.completed`.
+  **Fast Processing**: Some image modes (like AI Image Generator) process so quickly that
+  `image.started` events may not be sent. Always handle cases where you only receive
+  `image.completed`.
 </Warning>
 
 ### `image.completed`
@@ -183,19 +196,21 @@ Image events track the lifecycle of image processing jobs. All payloads match th
 **When triggered**: Image processing finishes successfully
 
 **Use cases**:
+
 - Download the generated image
 - Display result to user
 - Update completion status
 - Trigger post-processing workflows
 
 **Key payload fields**:
+
 ```json
 {
   "type": "image.completed",
   "payload": {
     "id": "clx8abc123def456ghi789",
     "status": "complete",
-    "type": "AI_IMAGE_GENERATOR", 
+    "type": "AI_IMAGE_GENERATOR",
     "downloads": [
       {
         "url": "https://images.magichour.ai/clx8abc123def456ghi789/output.png",
@@ -209,7 +224,8 @@ Image events track the lifecycle of image processing jobs. All payloads match th
 ```
 
 <Info>
-**Fast Processing**: Most image operations complete within 5-30 seconds, much faster than video processing.
+  **Fast Processing**: Most image operations complete within 5-30 seconds, much faster than video
+  processing.
 </Info>
 
 ### `image.errored`
@@ -217,12 +233,14 @@ Image events track the lifecycle of image processing jobs. All payloads match th
 **When triggered**: Image processing fails due to an error
 
 **Use cases**:
+
 - Display error message to user
 - Log error for debugging
 - Retry with different parameters
 - Update job status
 
 **Key payload fields**:
+
 ```json
 {
   "type": "image.errored",
@@ -240,6 +258,7 @@ Image events track the lifecycle of image processing jobs. All payloads match th
 ```
 
 **Common error codes**:
+
 - `no_source_face` - Face required but not detected in image
 - `invalid_file_format` - Unsupported image format
 - `file_too_large` - Image file exceeds size limits
@@ -247,9 +266,7 @@ Image events track the lifecycle of image processing jobs. All payloads match th
 - `invalid_parameters` - Invalid dimensions or other parameters
 - `content_policy_violation` - Image violates content guidelines
 
-<Info>
-**No Charges**: Failed image processing never consumes credits.
-</Info>
+<Info>**No Charges**: Failed image processing never consumes credits.</Info>
 
 ## Audio Events
 
@@ -260,13 +277,14 @@ Audio events track the lifecycle of audio processing jobs. All payloads match th
 **When triggered**: Audio processing begins
 
 **Key payload fields**:
+
 ```json
 {
   "type": "audio.started",
   "payload": {
     "id": "clx9audio123voice456",
     "status": "rendering",
-    "type": "AI_VOICE_GENERATOR", 
+    "type": "AI_VOICE_GENERATOR",
     "created_at": "2024-10-19T05:10:19.027Z",
     "credits_charged": 5,
     "downloads": [],
@@ -280,6 +298,7 @@ Audio events track the lifecycle of audio processing jobs. All payloads match th
 **When triggered**: Audio processing finishes successfully
 
 **Key payload fields**:
+
 ```json
 {
   "type": "audio.completed",
@@ -303,6 +322,7 @@ Audio events track the lifecycle of audio processing jobs. All payloads match th
 **When triggered**: Audio processing fails
 
 **Common error codes**:
+
 - `text_too_long` - Input text exceeds maximum length
 - `invalid_voice` - Requested voice not available
 - `insufficient_credits` - Not enough credits
@@ -316,7 +336,7 @@ Audio events track the lifecycle of audio processing jobs. All payloads match th
 async def handle_webhook_event(event):
     event_type = event['type']
     payload = event['payload']
-    
+
     match event_type:
         # Video events
         case 'video.started':
@@ -325,15 +345,15 @@ async def handle_webhook_event(event):
             await handle_video_completed(payload)
         case 'video.errored':
             await handle_video_errored(payload)
-            
-        # Image events  
+
+        # Image events
         case 'image.started':
             await handle_image_started(payload)
         case 'image.completed':
             await handle_image_completed(payload)
         case 'image.errored':
             await handle_image_errored(payload)
-            
+
         # Audio events
         case 'audio.started':
             await handle_audio_started(payload)
@@ -341,7 +361,7 @@ async def handle_webhook_event(event):
             await handle_audio_completed(payload)
         case 'audio.errored':
             await handle_audio_errored(payload)
-            
+
         case _:
             print(f"Unknown event type: {event_type}")
 ```
@@ -352,13 +372,13 @@ async def handle_webhook_event(event):
 async def handle_completion_event(event):
     payload = event['payload']
     job_id = payload['id']
-    
+
     # Update job status in database
     await db.execute(
         "UPDATE jobs SET status = ?, download_url = ?, completed_at = ? WHERE magic_hour_id = ?",
         (payload['status'], payload['downloads'][0]['url'], payload['completed_at'], job_id)
     )
-    
+
     # Notify user
     await notify_user_completion(job_id)
 ```
@@ -369,7 +389,7 @@ async def handle_completion_event(event):
 async def handle_error_event(event):
     payload = event['payload']
     error = payload['error']
-    
+
     # Log error details
     logger.error(f"Job {payload['id']} failed", extra={
         'job_id': payload['id'],
@@ -377,13 +397,13 @@ async def handle_error_event(event):
         'error_message': error['message'],
         'job_type': payload['type']
     })
-    
+
     # Update database
     await db.execute(
         "UPDATE jobs SET status = 'failed', error_code = ?, error_message = ? WHERE magic_hour_id = ?",
         (error['code'], error['message'], payload['id'])
     )
-    
+
     # Notify user of failure
     await notify_user_error(payload['id'], error)
 ```

@@ -5,6 +5,7 @@ description: Set up webhooks and test them end-to-end in under 10 minutes
 ---
 
 By the end of this guide, you'll have:
+
 - ✅ Created a webhook endpoint in your application
 - ✅ Registered it with Magic Hour
 - ✅ Tested it with a real API call
@@ -31,9 +32,10 @@ sequenceDiagram
 First, let's create a simple webhook handler that can receive and process events.
 
 <Note>
-**Using Jupyter/Colab?** The server examples below are for standalone deployment. For notebook testing:
-1. Use [webhook.site](https://webhook.site) for instant webhook testing (no code needed) - see the "webhook.site" tab in Step 2
-2. Or use the notebook-friendly code in the "Colab/Jupyter" tab below
+  **Using Jupyter/Colab?** The server examples below are for standalone deployment. For notebook
+  testing: 1. Use [webhook.site](https://webhook.site) for instant webhook testing (no code needed)
+  - see the "webhook.site" tab in Step 2 2. Or use the notebook-friendly code in the "Colab/Jupyter"
+  tab below
 </Note>
 
 <CodeGroup>
@@ -48,11 +50,11 @@ app = FastAPI()
 async def webhook_handler(request: Request):
     # Get the event data
     event = await request.json()
-    
+
     # Log the event for testing
     print(f"Received event: {event['type']}")
     print(f"Payload: {json.dumps(event['payload'], indent=2)}")
-    
+
     # Handle different event types
     match event['type']:
         case 'video.started':
@@ -66,7 +68,7 @@ async def webhook_handler(request: Request):
             print('🖼️ Image processing completed')
         case 'image.errored':
             print('❌ Image processing failed')
-    
+
     # Always return success
     return {"success": True}
 
@@ -83,11 +85,11 @@ app.use(express.json());
 
 app.post("/webhook", (req, res) => {
   const { type, payload } = req.body;
-  
+
   // Log the event for testing
   console.log(`Received event: ${type}`);
   console.log(`Payload:`, JSON.stringify(payload, null, 2));
-  
+
   // Handle different event types
   switch (type) {
     case "video.started":
@@ -107,7 +109,7 @@ app.post("/webhook", (req, res) => {
       console.log("❌ Image processing failed");
       break;
   }
-  
+
   // Always return success
   res.status(200).json({ success: true });
 });
@@ -139,11 +141,11 @@ app = FastAPI()
 async def webhook_handler(request: Request):
     # Get the event data
     event = await request.json()
-    
+
     # Log the event for testing
     print(f"Received event: {event['type']}")
     print(f"Payload: {json.dumps(event['payload'], indent=2)}")
-    
+
     # Handle different event types
     match event['type']:
         case 'video.started':
@@ -156,7 +158,7 @@ async def webhook_handler(request: Request):
             print('🖼️ Image processing completed')
         case 'image.errored':
             print('❌ Image processing failed')
-    
+
     return {"success": True}
 
 # Notebook-friendly server startup
@@ -192,6 +194,7 @@ Your webhook endpoint needs to be accessible from the internet. For testing, use
 <Tab title="ngrok (Recommended)">
 
 **Install ngrok:**
+
 ```bash
 # macOS
 brew install ngrok
@@ -200,6 +203,7 @@ brew install ngrok
 ```
 
 **Start your server:**
+
 <CodeGroup>
 ```bash Python
 python webhook_server.py
@@ -210,9 +214,11 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 ```bash Node.js
 node webhook_server.js
 ```
+
 </CodeGroup>
 
 **Expose it publicly:**
+
 ```bash
 ngrok http 8000
 ```
@@ -239,6 +245,7 @@ ngrok http 8000
 **For notebook environments with the code above:**
 
 1. **Install dependencies:**
+
 ```python
 !pip install fastapi uvicorn nest-asyncio pyngrok
 ```
@@ -263,6 +270,7 @@ ngrok http 8000
 Go to Magic Hour [Developer Hub](https://magichour.ai/developer?tab=webhooks), and click **Create Webhook**
 
 ![Webhook Table](./images/webhook-1.png)
+
 </Step>
 
 <Step title="Configure webhook">
@@ -271,7 +279,7 @@ Enter your webhook details:
 - **Endpoint URL**: Your public HTTPS URL (e.g., `https://abc123.ngrok.io/webhook`)
 - **Events**: Select the events you want to receive:
   - `video.started` - When video processing begins
-  - `video.completed` - When video is ready for download  
+  - `video.completed` - When video is ready for download
   - `video.errored` - When video processing fails
   - `image.completed` - When image is ready for download
   - `image.errored` - When image processing fails
@@ -279,6 +287,7 @@ Enter your webhook details:
 ![Create webhook modal](./images/webhook-2.png)
 
 Click **Create Webhook**
+
 </Step>
 
 <Step title="Save webhook secret">
@@ -307,6 +316,7 @@ Now let's verify everything works by making a real API call and watching for the
 **If using Colab/Jupyter**: Watch the cell output for webhook events
 
 **If using webhook.site**: Keep the browser tab open to see incoming requests in real-time
+
 </Step>
 
 <Step title="Make a test API call">
@@ -352,7 +362,7 @@ import magic_hour
 client = magic_hour.Client(api_key="your-api-key")
 
 result = client.v1.ai_image_generator.generate(
-    prompt="A cute cat wearing sunglasses", 
+    prompt="A cute cat wearing sunglasses",
     width=512,
     height=512
 )
@@ -383,6 +393,7 @@ Payload: {
 ```
 
 **Success!** 🎉 Your webhook is working end-to-end.
+
 </Step>
 </Steps>
 
@@ -417,8 +428,9 @@ echo "✅ Image downloaded as generated_image.png"
 ## 🎉 Congratulations!
 
 You've successfully:
+
 - ✅ Created a webhook endpoint
-- ✅ Registered it with Magic Hour  
+- ✅ Registered it with Magic Hour
 - ✅ Tested it with a real API call
 - ✅ Received webhook notifications
 - ✅ Downloaded the generated content
@@ -448,18 +460,21 @@ You've successfully:
 ## Troubleshooting
 
 **Webhook not receiving events?**
+
 - ✅ Check your endpoint URL is publicly accessible
 - ✅ Ensure your server returns HTTP 2xx status codes
 - ✅ Verify the webhook is enabled in Developer Hub
 - ✅ Check server logs for errors
 
 **Colab/Jupyter specific issues:**
+
 - ✅ Install required packages: `!pip install fastapi uvicorn nest-asyncio pyngrok`
 - ✅ Make sure the server thread started successfully
 - ✅ Check if ngrok tunnel is active and accessible
 - ✅ Try webhook.site as an alternative for quick testing
 
 **AsyncIO errors in notebooks?**
+
 - ✅ Make sure you're using the Colab/Jupyter code version with `nest_asyncio.apply()`
 - ✅ Don't run `uvicorn.run()` directly in notebooks - use the threading approach shown above
 
