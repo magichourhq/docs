@@ -1,0 +1,164 @@
+---
+title: Face Swap Photo
+sidebarTitle: Face Swap Photo
+description: Replace faces in photos with realistic precision and natural blending.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+Face Swap Photo lets you replace faces in static images with realistic precision and natural blending. The API swaps faces between two photos while preserving facial expressions, lighting conditions, and image quality for seamless results.
+
+<ToolSection
+  title="Face Swap Photo"
+  productSlug="face-swap?mode=photo"
+  apiSlug="face-swap-photo"
+  type="image"
+  outputs={[
+    {
+      src: "/get-started/images/faceswapphotoexample1.jpg",
+    },
+    {
+      src: "/get-started/images/mr-bean-swap.jpeg",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Provide a source face** - Upload an image containing the face you want to use
+2. **Provide a target image** - Upload the image where you want to swap the face
+3. **API processes the swap** - AI detects faces, aligns features, and blends seamlessly
+4. **Download the result** - Retrieve your face-swapped image
+
+## Use Cases
+
+- **Entertainment content** - Create fun social media content and memes
+- **Privacy protection** - Replace faces to anonymize individuals in photos
+- **Creative projects** - Character replacement in digital art and design
+- **Marketing** - Personalized ad experiences with customer faces
+- **Photo editing apps** - Build face swap features into your application
+
+## Best Practices
+
+### Image Quality
+
+<Tip>
+**Use high-resolution images** - Higher quality source images produce better results. Aim for at least 512x512 pixels for the face area.
+</Tip>
+
+- **Clear, well-lit faces** - Ensure faces are clearly visible with good lighting
+- **Front-facing angles work best** - Extreme profile angles may reduce quality
+- **Avoid obstructions** - Glasses, hands, or hair covering the face can affect results
+- **Similar lighting conditions** - Match lighting between source and target for more natural results
+
+### Face Detection Tips
+
+- **One clear face per image** - The API works best with a single prominent face
+- **Visible facial features** - Eyes, nose, and mouth should all be visible
+- **Neutral to moderate expressions** - Extreme expressions may affect alignment
+
+### Common Issues and Solutions
+
+| Issue | Cause | Solution |
+|:------|:------|:---------|
+| Face not detected | Face too small or obscured | Use a clearer, larger face image |
+| Unnatural blending | Lighting mismatch | Match lighting between source and target |
+| Distorted features | Extreme angle difference | Use more similar face angles |
+| Low quality output | Low resolution input | Use higher resolution images |
+
+## Code Examples
+
+### Basic Face Swap
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+import os
+
+client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
+
+result = client.v1.face_swap_photo.generate(
+    assets={
+        "source_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+        "target_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/lebron.jpg"
+    },
+    name="My Face Swap",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+print(f"✅ Face swap complete!")
+print(f"Status: {result.status}")
+print(f"Downloaded to: {result.downloaded_paths}")
+print(f"Credits charged: {result.credits_charged}")
+```
+
+```javascript Node.js
+import Client from 'magic-hour';
+
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
+
+const result = await client.v1.faceSwapPhoto.generate({
+  assets: {
+    sourceFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+    targetFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+  },
+  name: "My Face Swap",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/"
+});
+
+console.log(`✅ Face swap complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+## Pricing
+
+Face Swap Photo uses a flat credit cost per image:
+
+| Output | Credits |
+|:-------|:--------|
+| 1 face swap image | 5 credits |
+
+<Info>
+Credits are charged when the job is created. If the job fails, credits are refunded automatically.
+</Info>
+
+## API Reference
+
+For complete API details including all parameters and response formats:
+
+<Card title="Face Swap Photo API Reference" icon="webhook" href="/api-reference/image-projects/face-swap-photo">
+  View full API specification
+</Card>
+
+## Error Handling
+
+Common error codes and how to handle them:
+
+| Error Code | Description | Solution |
+|:-----------|:------------|:---------|
+| `no_source_face` | No face detected in source image | Use image with clear, visible face |
+| `no_target_face` | No face detected in target image | Use image with clear, visible face |
+| `invalid_file_format` | Unsupported file format | Use PNG, JPG, JPEG, or WEBP |
+| `file_too_large` | File exceeds size limit | Compress or resize the image |
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="Face Swap Video" icon="video" href="/tools/video/face-swap-video">
+    Swap faces in videos with frame-by-frame precision
+  </Card>
+  <Card title="AI Headshot Generator" icon="user" href="/tools/image/headshot-generator">
+    Generate professional headshots from a single photo
+  </Card>
+</CardGroup>
+

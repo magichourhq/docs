@@ -1,0 +1,215 @@
+---
+title: AI Image Upscaler
+sidebarTitle: Image Upscaler
+description: Enhance image resolution and quality using AI-powered upscaling.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+AI Image Upscaler enhances image resolution and quality using AI-powered upscaling technology. The API increases image size while preserving and improving details, reducing artifacts, and maintaining visual fidelity at higher resolutions.
+
+<ToolSection
+  title="AI Image Upscaler"
+  productSlug="ai-image-upscaler"
+  apiSlug="ai-image-upscaler"
+  type="image"
+  outputs={[
+    {
+      src: "/get-started/images/upscale-image-diff-1.jpg",
+    },
+    {
+      src: "/get-started/images/upscale-image-diff-2.jpg",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Provide a source image** - Upload the image you want to upscale
+2. **Choose scale factor** - Select how much to increase resolution
+3. **API enhances the image** - AI upscales while preserving and improving details
+4. **Download the result** - Retrieve your high-resolution image
+
+## Use Cases
+
+- **Print preparation** - Enhance low-res images for print quality
+- **E-commerce** - Improve product photo quality for web display
+- **Photo restoration** - Upscale old or degraded images
+- **Large format displays** - Prepare images for billboards or banners
+- **Archive enhancement** - Improve historical or archival images
+
+## Best Practices
+
+### Input Image Quality
+
+<Tip>
+**Start with the best quality available** - While AI upscaling is powerful, better input produces better output.
+</Tip>
+
+- **Avoid heavily compressed images** - JPEG artifacts will be amplified
+- **Use original files when possible** - Avoid screenshots of screenshots
+- **Check for existing blur** - AI can't recover details that aren't there
+
+### Scale Factor Selection
+
+| Scale Factor | Output Size | Best For |
+|:-------------|:------------|:---------|
+| 2x | 2× width, 2× height | Minor enhancement, web use |
+| 4x | 4× width, 4× height | Print preparation, large displays |
+
+### Image Types That Upscale Well
+
+✅ **Works great:**
+- Photographs with clear subjects
+- Artwork and illustrations
+- Product images
+- Portraits and faces
+
+⚠️ **May have limitations:**
+- Heavily compressed images (visible artifacts)
+- Very blurry images
+- Text-heavy images (use vector formats instead)
+
+## Code Examples
+
+### Basic 2x Upscaling
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+from os import getenv
+
+client = Client(token=getenv("API_TOKEN"))
+
+result = client.v1.ai_image_upscaler.generate(
+    assets={
+        "image_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sea.jpg"
+    },
+    scale_factor=2.0,
+    style={
+        "enhancement": "Creative"
+    },
+    name="Image Upscaler image",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ Upscale complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+import Client from 'magic-hour';
+
+const client = new Client({ token: process.env.API_TOKEN });
+
+const result = await client.v1.aiImageUpscaler.generate({
+  assets: {
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sea.jpg"
+  },
+  scaleFactor: 2.0,
+  style: {
+    enhancement: "Balanced"
+  },
+  name: "Image Upscaler image",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/"
+});
+
+console.log(`✅ Upscale complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+console.log(`Credits charged: ${result.creditsCharged}`);
+```
+
+</CodeGroup>
+
+### 4x Upscale
+
+<CodeGroup>
+
+```python Python
+result = client.v1.ai_image_upscaler.generate(
+    assets={
+        "image_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/eagle.jpg"
+    },
+    scale_factor=4.0,
+    style={
+        "enhancement": "Balanced"
+    },
+    name="Image Upscaler image",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ Upscale complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+const result = await client.v1.aiImageUpscaler.generate({
+  assets: {
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sea.jpg"
+  },
+  scaleFactor: 4.0,
+  style: {
+    enhancement: "Balanced"
+  },
+  name: "Image Upscaler image",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/"
+});
+
+console.log(`✅ Upscale complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+console.log(`Credits charged: ${result.creditsCharged}`);
+```
+
+</CodeGroup>
+
+## Pricing
+
+{/* TODO: Verify exact credit cost */}
+
+| Scale Factor | Credits |
+|:-------------|:--------|
+| 2x upscale | 50 credits |
+| 4x upscale | 200 credits |
+
+## API Reference
+
+<Card title="AI Image Upscaler API Reference" icon="webhook" href="/api-reference/image-projects/ai-image-upscaler">
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="AI Image Generator" icon="wand-magic-sparkles" href="/tools/image/image-generator">
+    Create images from text descriptions
+  </Card>
+  <Card title="Image Background Remover" icon="eraser" href="/tools/image/background-remover">
+    Remove image backgrounds
+  </Card>
+</CardGroup>
+

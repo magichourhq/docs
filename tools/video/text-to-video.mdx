@@ -1,0 +1,174 @@
+---
+title: Text to Video
+sidebarTitle: Text to Video
+description: Generate complete video content from text descriptions using AI.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+Text to Video generates complete video content from text descriptions using advanced AI video synthesis. The API creates original video scenes, animations, and visual narratives based on detailed text prompts with customizable styles and durations.
+
+<ToolSection
+  title="Text to Video"
+  productSlug="text-to-video"
+  apiSlug="text-to-video"
+  type="video"
+  outputs={[
+    {
+      src: "https://d28dkohlqf5vwj.cloudfront.net/products/text-to-video/examples/underwater-world.mp4",
+    },
+    {
+      src: "https://d28dkohlqf5vwj.cloudfront.net/products/text-to-video/examples/slow-motion-leopard-leap.mp4",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Write a prompt** - Describe the video you want to create
+2. **Set duration** - Choose how long the video should be
+3. **API generates the video** - AI creates original video content
+4. **Download the result** - Retrieve your generated video
+
+## Use Cases
+
+- **Social media content** - Create engaging videos from ideas
+- **Marketing videos** - Generate product and promotional content
+- **Concept visualization** - Bring written ideas to visual life
+- **Educational content** - Create explainer and demonstration videos
+- **Creative projects** - Artistic and experimental video creation
+
+## Best Practices
+
+### Writing Effective Prompts
+
+<Tip>
+**Be specific and descriptive** - Include subject, action, environment, style, and camera motion.
+</Tip>
+
+**✅ Good prompts:**
+- "A majestic lion walking through golden savanna grass at sunset, cinematic slow motion, warm golden lighting"
+- "Underwater scene with colorful tropical fish swimming around a coral reef, crystal clear blue water, nature documentary style"
+- "Futuristic city skyline at night with flying cars and neon lights, cyberpunk aesthetic, sweeping aerial shot"
+
+**❌ Avoid:**
+- Too vague: "A nice video"
+- No action: "A city" (add what's happening)
+- Conflicting instructions: "Fast and slow motion"
+
+### Prompt Structure
+
+For best results, include these elements:
+
+| Element | Description | Example |
+|:--------|:------------|:--------|
+| Subject | What/who is in the video | "A golden retriever puppy" |
+| Action | What's happening | "running through a meadow" |
+| Environment | Where it's happening | "with wildflowers and mountains in background" |
+| Style | Visual aesthetic | "cinematic, warm lighting" |
+| Camera | How it's filmed | "slow motion tracking shot" |
+
+### Duration Guidelines
+
+| Duration | Best For |
+|:---------|:---------|
+| 3-5 seconds | Social media clips, GIF-like content |
+| 5-10 seconds | Short-form content, product demos |
+| 10-15 seconds | Story segments, longer narratives |
+
+## Code Examples
+
+### Basic Text to Video
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+import os
+
+client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
+
+result = client.v1.text_to_video.generate(
+    end_seconds=5,
+    orientation="landscape",
+    style={
+        "prompt": "A majestic lion walking through golden savanna grass at sunset, cinematic slow motion"
+    },
+    name="Nature Video",
+    resolution="480p",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ Video complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+import Client from 'magic-hour';
+
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
+
+const result = await client.v1.textToVideo.generate({
+  endSeconds: 1.5,
+  orientation: "landscape",
+  style: {
+    prompt: "A majestic lion walking through golden savanna grass at sunset, cinematic slow motion"
+  },
+  name: "Nature Video",
+  resolution: "480p",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/"
+});
+
+console.log(`✅ Video complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+## Pricing
+
+Text to Video uses credits based on video duration:
+
+{/* TODO: Verify exact credit calculation */}
+
+| Duration | Approximate Credits |
+|:---------|:--------------------|
+| 5 seconds | ~150 credits |
+| 10 seconds | ~300 credits |
+
+Higher resolutions cost more per second.
+
+## Resolution Limits
+
+Text to Video has a maximum resolution of **1080p** (1920x1080 or 1080x1920).
+
+## API Reference
+
+<Card title="Text to Video API Reference" icon="webhook" href="/api-reference/video-projects/text-to-video">
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="Image to Video" icon="image" href="/tools/video/image-to-video">
+    Animate static images into videos
+  </Card>
+  <Card title="Animation" icon="film" href="/tools/video/animation">
+    Create animated videos with motion effects
+  </Card>
+</CardGroup>
+

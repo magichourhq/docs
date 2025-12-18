@@ -1,0 +1,157 @@
+---
+title: Auto Subtitle Generator
+sidebarTitle: Auto Subtitle
+description: Automatically generate and embed subtitles in videos with AI-powered transcription.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+Auto Subtitle Generator automatically transcribes speech in videos and embeds professional subtitles directly into the video file. The API uses Whisper AI for accurate speech recognition with automatic language detection, supporting multiple languages and delivering high-quality subtitle formatting.
+
+<ToolSection
+  title="Auto Subtitle Generator"
+  productSlug="auto-subtitle-generator"
+  apiSlug="auto-subtitle-generator"
+  type="video"
+  outputs={[
+    {
+      src: "/get-started/images/autosubtitlegeneratorexample1.mp4",
+    },
+    {
+      src: "/get-started/images/autosubtitlegeneratorexample2.mp4",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Upload video** - Provide a video with spoken content
+2. **AI transcribes** - Whisper AI automatically detects language and transcribes speech
+3. **Subtitles generated** - Formatted subtitles with accurate timing
+4. **Download video** - Retrieve video with embedded subtitles
+
+## Use Cases
+
+- **Social media content** - Add captions for better engagement and accessibility
+- **Educational videos** - Make content accessible to all learners
+- **Marketing videos** - Increase view time with subtitled content
+- **International content** - Transcribe videos in multiple languages
+- **Accessibility compliance** - Meet accessibility standards automatically
+
+## Best Practices
+
+### Video Quality
+
+<Tip>
+**Use clear audio** - Better audio quality produces more accurate transcriptions.
+</Tip>
+
+- **Minimize background noise** - Clean audio improves accuracy
+- **Clear speech** - Well-enunciated words transcribe better
+- **Single speaker preferred** - Best results with one speaker at a time
+- **Avoid music overlap** - Heavy music can interfere with transcription
+
+### Language Support
+
+Auto Subtitle Generator uses Whisper AI which supports 90+ languages with automatic detection:
+
+- **Automatic detection** - No need to specify language manually
+- **Multi-language support** - Works with most major languages
+- **Accent handling** - Handles various accents within languages
+
+## Code Examples
+
+### Basic Auto Subtitle
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+from os import getenv
+
+client = Client(token=getenv("API_TOKEN"))
+
+result = client.v1.auto_subtitle_generator.generate(
+    assets={
+        "video_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/jude_bellingham_greeting.mp4"
+    },
+    start_seconds=0,
+    end_seconds=8,
+    style={"template": "karaoke"},
+    name="Subtitled Video",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs"
+)
+
+if result.status == "complete":
+    print(f"✅ Subtitles complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+import Client from 'magic-hour';
+
+const client = new Client({ token: process.env.API_TOKEN });
+
+const result = await client.v1.autoSubtitleGenerator.generate({
+  assets: {
+    videoFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov"
+  },
+  startSeconds: 0,
+  endSeconds: 2,
+  name: "Subtitled Video",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "outputs"
+});
+
+console.log(`✅ Subtitles complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+## Output Format
+
+The Auto Subtitle Generator returns an **MP4 video file with embedded subtitles** (not separate SRT files). The subtitles are burned directly into the video for immediate use.
+
+## Pricing
+
+Auto Subtitle Generator uses credits based on video length:
+
+| Video Length | Approximate Credits |
+|:-------------|:-------------------|
+| 1 minute | ~60-100 credits |
+| 5 minutes | ~300-500 credits |
+| 10 minutes | ~600-1000 credits |
+
+<Info>
+Pricing scales with video duration. Longer videos consume more credits.
+</Info>
+
+## API Reference
+
+<Card title="Auto Subtitle Generator API Reference" icon="webhook" href="/api-reference/video-projects/auto-subtitle-generator">
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="Lip Sync" icon="lips" href="/tools/video/lip-sync">
+    Sync audio with video lip movements
+  </Card>
+  <Card title="Video-to-Video" icon="film" href="/tools/video/video-to-video">
+    Transform video styles and aesthetics
+  </Card>
+</CardGroup>
+

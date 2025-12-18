@@ -1,0 +1,199 @@
+---
+title: AI Clothes Changer
+sidebarTitle: Clothes Changer
+description: Virtually try on different clothing items with realistic results.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+AI Clothes Changer lets you virtually try on different clothing items on a person in an image. The API uses advanced AI to realistically change outfits, styles, and clothing accessories while preserving the person's pose, lighting, and background.
+
+<ToolSection
+  title="AI Clothes Changer"
+  productSlug="ai-clothes-changer"
+  apiSlug="ai-clothes-changer"
+  type="image"
+  outputs={[
+    {
+      src: "https://d28dkohlqf5vwj.cloudfront.net/products/ai-clothes-changer/professional-grade-outfit-changes.webp",
+    },
+    {
+      src: "https://d28dkohlqf5vwj.cloudfront.net/products/ai-clothes-changer/test-and-iterate-faster.webp",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Provide a person image** - Upload an image of the person you want to dress
+2. **Provide a garment image** - Upload an image of the clothing item you want to try on
+3. **Specify garment type** - Indicate whether it's upper_body, lower_body, or full_body
+4. **API generates the result** - AI applies the garment to the person realistically
+5. **Download the result** - Retrieve your image with the new outfit
+
+## Use Cases
+
+- **E-commerce virtual try-on** - Let customers preview outfits before buying
+- **Fashion design** - Prototype clothing designs on models
+- **Social media content** - Create outfit inspiration posts
+- **Personal styling apps** - Build virtual wardrobe features
+- **Marketing campaigns** - Generate product variations efficiently
+
+## Best Practices
+
+### Image Quality
+
+<Tip>
+**Use clear, full-body or half-body shots** - The AI works best when the person's clothing is clearly visible.
+</Tip>
+
+- **Good lighting** - Well-lit images produce more realistic results
+- **Visible clothing area** - Ensure the clothing you want to change is fully visible
+- **Minimal obstructions** - Avoid crossed arms or objects covering clothing
+- **Simple backgrounds** - Solid or simple backgrounds work best
+
+### Garment Image Requirements
+
+**✅ Good garment images:**
+- Clear, well-lit photos of the clothing item
+- Flat lay or on a mannequin works best
+- Minimal background distractions
+- Full view of the garment
+
+**Garment Types:**
+- `upper_body` - Shirts, jackets, tops, blouses
+- `lower_body` - Pants, skirts, shorts
+- `full_body` - Dresses, jumpsuits, full outfits
+
+## Code Examples
+
+### Basic Clothes Change
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+import os
+
+client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
+
+result = client.v1.ai_clothes_changer.generate(
+    assets={
+        "person_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/freedom.jpg",
+        "garment_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/michael-jackson-red-jacket.png",
+        "garment_type": "upper_body"
+    },
+    name="Clothes Changer image",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ Clothes change complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+import Client from 'magic-hour';
+
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
+
+const result = await client.v1.aiClothesChanger.generate({
+  assets: {
+    personFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/rookiesteph.jpg",
+    garmentFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/bullsjersey.webp",
+    garmentType: "upper_body"
+  },
+  name: "Clothes Changer image",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/"
+});
+
+console.log(`✅ Clothes change complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+### Different Garment
+
+<CodeGroup>
+
+```python Python
+result = client.v1.ai_clothes_changer.generate(
+    assets={
+        "person_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/bullsjersey.webp",
+        "garment_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/rookiesteph.jpg",
+        "garment_type": "upper_body"
+    },
+    name="Clothes Changer image",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ Clothes change complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+const result = await client.v1.aiClothesChanger.generate({
+  assets: {
+    personFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/bullsjersey.webp",
+    garmentFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/rookiesteph.jpg",
+    garmentType: "upper_body"
+  },
+  name: "Clothes Changer image",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/"
+});
+
+console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+## Pricing
+
+| Output | Credits |
+|:-------|:--------|
+| 1 clothes change | 25 credits |
+
+## Resolution Limits
+
+AI Clothes Changer has a maximum resolution of **1472px** (either width or height).
+
+## API Reference
+
+<Card title="AI Clothes Changer API Reference" icon="webhook" href="/api-reference/image-projects/ai-clothes-changer">
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="AI Headshot Generator" icon="user" href="/tools/image/headshot-generator">
+    Generate professional headshots
+  </Card>
+  <Card title="Image Background Remover" icon="image" href="/tools/image/background-remover">
+    Remove backgrounds from images
+  </Card>
+</CardGroup>
+

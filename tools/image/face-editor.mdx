@@ -1,0 +1,252 @@
+---
+title: AI Face Editor
+sidebarTitle: Face Editor
+description: Edit and enhance facial features with AI-powered precision and natural results.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+AI Face Editor provides advanced facial editing capabilities using AI to modify and enhance facial features with natural-looking results. The API can adjust expressions, features, and attributes while maintaining realistic proportions and lighting.
+
+<ToolSection
+  title="AI Face Editor"
+  productSlug="ai-face-editor"
+  apiSlug="ai-face-editor"
+  type="image"
+  outputs={[
+    {
+      src: "/get-started/images/aifaceeditorexample1.png",
+    },
+    {
+      src: "/get-started/images/aifaceeditorexample2.png",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Upload photo** - Provide an image with a clear face
+2. **Specify edits** - Describe desired facial modifications
+3. **AI processes** - AI applies edits while maintaining natural appearance
+4. **Download result** - Retrieve your edited image
+
+## Use Cases
+
+- **Portrait enhancement** - Improve and refine facial features
+- **Expression modification** - Adjust facial expressions
+- **Beauty editing** - Apply natural-looking enhancements
+- **Photo restoration** - Improve quality of facial photos
+- **Creative projects** - Experiment with facial modifications
+
+## Best Practices
+
+### Photo Requirements
+
+<Tip>
+**Use high-quality, well-lit photos** - Better source images produce superior editing results.
+</Tip>
+
+- **Clear facial features** - All features should be visible
+- **Good lighting** - Even lighting produces better results
+- **Front-facing preferred** - Works best with frontal angles
+- **High resolution** - At least 512x512 pixels recommended
+
+### Edit Guidelines
+
+| Edit Type | Best Practice |
+|:----------|:--------------|
+| Feature adjustments | Make subtle, natural changes |
+| Expression changes | Maintain facial structure |
+| Enhancements | Keep edits realistic |
+| Multiple edits | Apply one change at a time |
+
+## Code Examples
+
+### Add Natural Smile
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+from os import getenv
+
+client = Client(token=getenv("API_TOKEN"))
+
+result = client.v1.ai_face_editor.generate(
+    assets={
+        "image_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+    },
+    style={
+        "enhance_face": False,
+        "eye_gaze_horizontal": 0.0,
+        "eye_gaze_vertical": 0.0,
+        "eye_open_ratio": 0.0,
+        "eyebrow_direction": 100, # Raise eyebrows
+        "head_pitch": 0.0,
+        "head_roll": 0.0,
+        "head_yaw": 0.0,
+        "lip_open_ratio": 0.0,
+        "mouth_grim": 0.0,
+        "mouth_position_horizontal": 0.0,
+        "mouth_position_vertical": 0.0,
+        "mouth_pout": 0.0,  
+        "mouth_purse": 0.0,
+        "mouth_smile": 0.0, 
+    },
+    name="Face Editor image",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs"
+)
+
+if result.status == "complete":
+    print(f"✅ Face edit complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+import Client from 'magic-hour';
+
+const client = new Client({ token: process.env.API_TOKEN });
+
+const result = await client.v1.aiFaceEditor.generate({
+  assets: {
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+  },
+  style: {
+    enhanceFace: false,
+    eyeGazeHorizontal: 0.0,
+    eyeGazeVertical: 0.0,
+    eyeOpenRatio: 0.0,
+    eyebrowDirection: 100,  // Raise eyebrows
+    headPitch: 0.0,
+    headRoll: 0.0,
+    headYaw: 0.0,
+    lipOpenRatio: 0.0,
+    mouthGrim: 0.0,
+    mouthPositionHorizontal: 0.0,
+    mouthPositionVertical: 0.0,
+    mouthPout: 0.0,
+    mouthPurse: 0.0,
+    mouthSmile: 0.0
+  },
+  name: "Face Editor image",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "outputs"
+});
+
+console.log(`✅ Face edit complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+### Raise Eyebrows and Make Mouth Pout
+
+<CodeGroup>
+
+```python Python
+result = client.v1.ai_face_editor.generate(
+    assets={
+        "image_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+    },
+    style={
+        "enhance_face": False,
+        "eye_gaze_horizontal": 0.0,
+        "eye_gaze_vertical": 0.0,
+        "eye_open_ratio": 0.0,
+        "eyebrow_direction": 100, # Raise eyebrows
+        "head_pitch": 0.0,
+        "head_roll": 0.0,
+        "head_yaw": 0.0,
+        "lip_open_ratio": 0.0,
+        "mouth_grim": 0.0,
+        "mouth_position_horizontal": 0.0,
+        "mouth_position_vertical": 0.0,
+        "mouth_pout": 100, # Make Mouth Pout  
+        "mouth_purse": 0.0,
+        "mouth_smile": 0.0, 
+    },
+    name="Face Editor image",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs"
+)
+
+if result.status == "complete":
+    print(f"✅ Face edit complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+const result = await client.v1.aiFaceEditor.generate({
+  assets: {
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+  },
+  style: {
+    enhanceFace: false,
+    eyeGazeHorizontal: 0.0,
+    eyeGazeVertical: 0.0,
+    eyeOpenRatio: 0.0,
+    eyebrowDirection: 100,  // Raise eyebrows
+    headPitch: 0.0,
+    headRoll: 0.0,
+    headYaw: 0.0,
+    lipOpenRatio: 0.0,
+    mouthGrim: 0.0,
+    mouthPositionHorizontal: 0.0,
+    mouthPositionVertical: 0.0,
+    mouthPout: 100,  // Make Mouth Pout
+    mouthPurse: 0.0,
+    mouthSmile: 0.0
+  },
+  name: "Face Editor image",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "outputs"
+});
+
+console.log(`✅ Face edit complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+## Pricing
+
+| Output | Credits |
+|:-------|:--------|
+| 1 edited image | 1 credits |
+
+## API Reference
+
+<Card title="AI Face Editor API Reference" icon="webhook" href="/api-reference/image-projects/ai-face-editor">
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="AI Headshot Generator" icon="user" href="/tools/image/headshot-generator">
+    Generate professional headshots
+  </Card>
+  <Card title="AI Image Editor" icon="wand-magic-sparkles" href="/tools/image/image-editor">
+    Edit and modify full images
+  </Card>
+</CardGroup>
+

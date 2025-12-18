@@ -1,0 +1,202 @@
+---
+title: Image Background Remover
+sidebarTitle: Background Remover
+description: Automatically remove backgrounds from images with precision edge detection.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+Image Background Remover automatically removes backgrounds from images with precision edge detection and smart object recognition. The API isolates subjects from their backgrounds, creating clean cutouts perfect for compositing and design work.
+
+<ToolSection
+  title="Image Background Remover"
+  productSlug="image-background-remover"
+  apiSlug="image-background-remover"
+  type="image"
+  outputs={[
+    {
+      src: "/get-started/images/background-remover-diff-1.jpg",
+    },
+    {
+      src: "/get-started/images/background-remover-diff-2.jpg",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Provide an image** - Upload the image with the subject you want to isolate
+2. **API processes the image** - AI detects the subject and removes the background
+3. **Download the result** - Retrieve your transparent PNG
+
+## Use Cases
+
+- **E-commerce product photos** - Clean product images on white/transparent backgrounds
+- **Profile photos** - Professional headshots without distracting backgrounds
+- **Graphic design** - Isolate subjects for compositing and collages
+- **Social media content** - Create cutouts for creative posts
+- **Marketing materials** - Prepare images for various backgrounds
+
+## Best Practices
+
+### Image Quality
+
+<Tip>
+**Clear subject separation works best** - Images where the subject is clearly distinct from the background produce the cleanest results.
+</Tip>
+
+- **Good contrast** - Subject should be visually distinct from background
+- **Clear edges** - Sharp, well-defined subject boundaries help accuracy
+- **Minimal overlapping elements** - Avoid subjects blending with background
+
+### Subject Types That Work Well
+
+✅ **Excellent results:**
+- People and portraits
+- Products on simple backgrounds
+- Objects with clear edges
+- Animals and pets
+
+⚠️ **May need refinement:**
+- Hair against complex backgrounds (very fine details)
+- Transparent or semi-transparent objects
+- Subjects that blend with background colors
+
+### Output Format
+
+The API returns a **PNG with transparent background**, which:
+- Preserves subject with full quality
+- Has alpha channel for transparency
+- Can be placed on any new background
+- Works in most design software
+
+## Code Examples
+
+### Basic Background Removal
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+import os
+
+client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
+
+result = client.v1.image_background_remover.generate(
+    assets={
+        "image_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+    },
+    name="Product Cutout",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ Background removal complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+import Client from 'magic-hour';
+
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
+
+const result = await client.v1.imageBackgroundRemover.generate({
+  assets: {
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+  },
+  name: "Product Cutout",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/"
+});
+
+console.log(`✅ Background removal complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+### Batch Processing
+
+<CodeGroup>
+
+```python Python
+# Process multiple images
+images = [
+    "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+    "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+    "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+]
+
+for i, image_url in enumerate(images):
+    result = client.v1.image_background_remover.generate(
+        assets={
+            "image_file_path": image_url
+        },
+        name=f"Product Cutout {i+1}",
+        wait_for_completion=True,
+        download_outputs=True,
+        download_directory="./outputs/"
+    )
+    print(f"✅ Downloaded: {result.downloaded_paths}")
+```
+
+```javascript Node.js
+// Process multiple images
+const images = [
+  "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+  "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+  "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+];
+
+for (let i = 0; i < images.length; i++) {
+  const result = await client.v1.imageBackgroundRemover.generate({
+    assets: {
+      imageFilePath: images[i]
+    },
+    name: `Product Cutout ${i + 1}`,
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: "./outputs/"
+  });
+  console.log(`✅ Downloaded: ${result.downloadedPaths}`);
+}
+```
+
+</CodeGroup>
+
+## Pricing
+
+{/* TODO: Verify exact credit cost */}
+
+| Output | Credits |
+|:-------|:--------|
+| 1 background removal | 5 credits |
+
+## API Reference
+
+<Card title="Image Background Remover API Reference" icon="webhook" href="/api-reference/image-projects/image-background-remover">
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="AI Image Generator" icon="wand-magic-sparkles" href="/tools/image/image-generator">
+    Create images from text descriptions
+  </Card>
+  <Card title="AI Image Upscaler" icon="arrow-up" href="/tools/image/image-upscaler">
+    Enhance image resolution
+  </Card>
+</CardGroup>
+

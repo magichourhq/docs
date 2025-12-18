@@ -84,8 +84,45 @@
             ]
           },
           {
-            "group": "Available APIs",
-            "pages": ["tools/video-tools", "tools/image-tools", "tools/audio-apis"]
+            "group": "Tools",
+            "pages": [
+              {
+                "group": "Video",
+                "pages": [
+                  "tools/video/animation",
+                  "tools/video/auto-subtitle-generator",
+                  "tools/video/face-swap-video",
+                  "tools/video/image-to-video",
+                  "tools/video/lip-sync",
+                  "tools/video/talking-photo",
+                  "tools/video/text-to-video",
+                  "tools/video/video-to-video"
+                ]
+              },
+              {
+                "group": "Images",
+                "pages": [
+                  "tools/image/background-remover",
+                  "tools/image/clothes-changer",
+                  "tools/image/face-editor",
+                  "tools/image/face-swap-photo",
+                  "tools/image/gif-generator",
+                  "tools/image/headshot-generator",
+                  "tools/image/image-editor",
+                  "tools/image/image-generator",
+                  "tools/image/image-upscaler",
+                  "tools/image/meme-generator",
+                  "tools/image/photo-colorizer",
+                  "tools/image/qr-code-generator"
+                ]
+              },
+              {
+                "group": "Audio",
+                "pages": [
+                  "tools/audio/voice-generator"
+                ]
+              }
+            ]
           }
         ]
       },

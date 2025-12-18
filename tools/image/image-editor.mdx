@@ -1,0 +1,147 @@
+---
+title: AI Image Editor
+sidebarTitle: Image Editor
+description: Edit and modify images with AI-powered tools for comprehensive image manipulation.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+AI Image Editor provides comprehensive image editing capabilities using AI. Modify, enhance, and transform images with text-based instructions for natural-looking results without manual editing tools.
+
+<ToolSection
+  title="AI Image Editor"
+  productSlug="ai-image-editor"
+  apiSlug="ai-image-editor"
+  type="image"
+  outputs={[
+    {
+      src: "/get-started/images/aiimageeditorexample1.jpg",
+    },
+    {
+      src: "/get-started/images/aiimageeditorexample2.png",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Upload image** - Provide the image you want to edit
+2. **Describe changes** - Use text to specify desired modifications
+3. **AI processes** - AI applies edits intelligently
+4. **Download result** - Retrieve your edited image
+
+## Use Cases
+
+- **Photo editing** - Quick modifications without manual tools
+- **Object removal** - Remove unwanted elements from images
+- **Color adjustments** - Change colors and tones
+- **Style changes** - Modify image aesthetics
+- **Content addition** - Add new elements to images
+
+## Best Practices
+
+### Editing Instructions
+
+<Tip>
+**Be specific and clear** - Detailed instructions produce more accurate edits.
+</Tip>
+
+- **Describe precisely** - Specify exact changes wanted
+- **One edit at a time** - Better results with focused changes
+- **Use descriptive language** - Clear descriptions work best
+- **Reference locations** - Specify where changes should occur
+
+### Image Requirements
+
+| Requirement | Details |
+|:------------|:--------|
+| Resolution | Minimum 512x512 pixels |
+| Format | PNG, JPG, JPEG, WEBP |
+| Quality | Higher quality enables better edits |
+| Clarity | Clear images edit more accurately |
+
+## Code Examples
+
+### Basic Image Edit
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+from os import getenv
+
+client = Client(token=getenv("API_TOKEN"))
+
+result = client.v1.ai_image_editor.generate(
+    assets={
+        "image_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+    },
+    style={
+        "prompt": "Turn this image into studio ghibli style"
+    },
+    name="Image Editor image",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs"
+)
+
+if result.status == "complete":
+    print(f"✅ Image edit complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+import Client from 'magic-hour';
+
+const client = new Client({ token: process.env.API_TOKEN });
+
+const result = await client.v1.aiImageEditor.generate({
+  assets: {
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+  },
+  style: {
+    prompt: "Change the background to a sunset beach scene"
+  },
+  name: "Image Editor image",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "outputs"
+});
+
+console.log(`✅ Image edit complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+## Pricing
+
+| Output | Credits |
+|:-------|:--------|
+| 1 edited image | 10 credits |
+
+## API Reference
+
+<Card title="AI Image Editor API Reference" icon="webhook" href="/api-reference/image-projects/ai-image-editor">
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="AI Face Editor" icon="face-smile" href="/tools/image/face-editor">
+    Edit facial features specifically
+  </Card>
+  <Card title="Image Background Remover" icon="eraser" href="/tools/image/background-remover">
+    Remove image backgrounds
+  </Card>
+</CardGroup>
+

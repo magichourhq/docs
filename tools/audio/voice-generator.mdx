@@ -1,0 +1,309 @@
+---
+title: AI Voice Generator
+sidebarTitle: Voice Generator
+description: Generate realistic speech audio from text using celebrity and character voices.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+AI Voice Generator creates realistic speech audio from text using celebrity and character voices. The API produces high-quality voice synthesis with natural intonation, emotion, and speaking patterns that closely match famous personalities.
+
+<ToolSection
+  title="AI Voice Generator"
+  productSlug="ai-voice-generator"
+  apiSlug="ai-voice-generator"
+  type="audio"
+  outputs={[
+    {
+      src: "/get-started/images/voicegeneratorexample1.mp3",
+    },
+    {
+      src: "/get-started/images/voicegeneratorexample2.mp3",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Write the text** - Enter the text you want spoken
+2. **Select a voice** - Choose from available celebrity and character voices
+3. **API generates audio** - AI synthesizes natural-sounding speech
+4. **Download the result** - Retrieve your audio file
+
+## Use Cases
+
+- **Content creation** - Voice narration for videos and podcasts
+- **Personalized messages** - Custom voice messages and greetings
+- **Entertainment** - Create fun content with celebrity voices
+- **Accessibility** - Text-to-speech with engaging voices
+- **Marketing** - Voiceovers for ads and promotional content
+
+## Available Voices
+
+Magic Hour offers a variety of celebrity and character voices:
+
+- **Tech Leaders** - Elon Musk, Mark Zuckerberg
+- **Podcasters** - Joe Rogan
+- **Politicians** - Obama, Trump
+- **Entertainers** - Various celebrity voices
+- **Characters** - Fictional character voices
+
+{/* TODO: Add complete list of available voices */}
+
+<Note>
+For the complete list of available voices, check the [API Reference](/api-reference/audio-projects/ai-voice-generator).
+</Note>
+
+## Best Practices
+
+### Text Guidelines
+
+<Tip>
+**Write naturally** - Use conversational language that sounds good when spoken aloud.
+</Tip>
+
+- **Natural punctuation** - Use periods, commas, and question marks for natural pauses
+- **Avoid abbreviations** - Write out words fully (e.g., "Mister" not "Mr.")
+- **Short sentences** - Break long text into shorter, digestible sentences
+- **Read it aloud** - Test how text sounds before generating
+
+### Optimizing Output Quality
+
+| Technique | Why It Helps |
+|:----------|:-------------|
+| Natural punctuation | Creates appropriate pauses and intonation |
+| Phonetic spelling | Helps with unusual words or names |
+| Sentence breaks | Improves rhythm and comprehension |
+| Consistent tone | Matches voice personality |
+
+### Text Length Considerations
+
+- **Short clips** - 1-2 sentences work great for social media
+- **Medium content** - Paragraphs work well for narration
+- **Long content** - Consider breaking into multiple clips for variety
+
+## Code Examples
+
+### Basic Voice Generation
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+from os import getenv
+
+client = Client(token=getenv("API_TOKEN"))
+
+result = client.v1.ai_voice_generator.generate(
+    style={
+        "prompt": "Hello! This is a test of the Magic Hour voice generator. Pretty cool, right?",
+        "voice_name": "Morgan Freeman"
+    },
+    name="Voice Generator audio",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs"
+)
+
+if result.status == "complete":
+    print(f"✅ Voice generation complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+
+```
+
+```javascript Node.js
+import Client from 'magic-hour';
+
+const client = new Client({ token: process.env.API_TOKEN });
+
+const result = await client.v1.aiVoiceGenerator.generate({
+  style: {
+    prompt: "Hello! This is a test of the Magic Hour voice generator. Pretty cool, right?",
+    voiceName: "Morgan Freeman"
+  },
+  name: "Voice Generator audio",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "outputs"
+});
+
+console.log(`✅ Voice generation complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+### Podcast-Style Voice
+
+<CodeGroup>
+
+```python Python
+result = client.v1.ai_voice_generator.generate(
+    style={
+        "prompt": "Welcome to the show! Today we're going to talk about something really exciting.",
+        "voice_name": "Joe Rogan"
+    },
+    name="Voice Generator audio",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs"
+)
+
+if result.status == "complete":
+    print(f"✅ Voice generation complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+const result = await client.v1.aiVoiceGenerator.generate({
+  style: {
+    prompt: "Welcome to the show! Today we're going to talk about something really exciting.",
+    voiceName: "Joe Rogan"
+  },
+  name: "Voice Generator audio",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "outputs"
+});
+
+console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+### Professional Narration
+
+<CodeGroup>
+
+```python Python
+result = client.v1.ai_voice_generator.generate(
+    style={
+        "prompt": "In a world where technology meets creativity, Magic Hour brings your ideas to life.",
+        "voice_name": "Donald Trump"
+    },
+    name="Voice Generator audio",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs"
+)
+
+if result.status == "complete":
+    print(f"✅ Voice generation complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+const result = await client.v1.aiVoiceGenerator.generate({
+  style: {
+    prompt: "In a world where technology meets creativity, Magic Hour brings your ideas to life.",
+    voiceName: "Donald Trump"
+  },
+  name: "Voice Generator audio",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "outputs"
+});
+
+console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+### Combining with Lip Sync
+
+Generate a voice, then sync it to a video:
+
+```python Python
+from magic_hour import Client
+from os import getenv
+
+client = Client(token=getenv("API_TOKEN"))
+
+# Step 1: Generate the voice
+from pathlib import Path
+
+# Make sure download dirs exist
+Path("temp").mkdir(parents=True, exist_ok=True)
+Path("outputs").mkdir(parents=True, exist_ok=True)
+
+# Step 1: Generate the voice
+voice_result = client.v1.ai_voice_generator.generate(
+    style={
+        "prompt": "This is my custom voiceover for the video.",
+        "voice_name": "Elon Musk",
+    },
+    name="Voice Generator audio",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="temp",
+)
+
+# Step 2: Use the generated audio for lip sync
+lip_sync_result = client.v1.lip_sync.generate(
+    assets={
+        "video_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sideeyegirl.mp4",
+        "audio_file_path": voice_result.downloaded_paths[0],  # local path now exists
+        "video_source": "file",  # see note below
+    },
+    start_seconds=0,
+    end_seconds=2,
+    max_fps_limit=30,
+    style={"generation_mode": "lite"},
+    name="Lip Synced Video",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs",
+)
+
+print("voice_status:", voice_result.status, "paths:", getattr(voice_result, "downloaded_paths", None))
+print("lip_status:", lip_sync_result.status, "paths:", getattr(lip_sync_result, "downloaded_paths", None))
+
+```
+
+## Pricing
+
+{/* TODO: Verify exact credit calculation */}
+
+Voice generation uses credits based on text length:
+
+| Text Length | Approximate Credits |
+|:------------|:--------------------|
+| Short (1-2 sentences) | ~5 credits |
+| Medium (paragraph) | ~10-20 credits |
+| Long (multiple paragraphs) | ~30+ credits |
+
+## API Reference
+
+<Card title="AI Voice Generator API Reference" icon="webhook" href="/api-reference/audio-projects/ai-voice-generator">
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="Lip Sync" icon="lips" href="/tools/video/lip-sync">
+    Sync generated audio with video lip movements
+  </Card>
+  <Card title="Animation" icon="film" href="/tools/video/animation">
+    Create animated videos with audio
+  </Card>
+</CardGroup>
+

@@ -1,0 +1,178 @@
+---
+title: Image to Video
+sidebarTitle: Image to Video
+description: Convert static images into dynamic video content with AI-generated motion.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+Image to Video converts static images into dynamic video content with AI-generated motion and cinematic effects. The API analyzes images and creates realistic movement, camera motion, and environmental effects to bring still photos to life.
+
+<ToolSection
+  title="Image to Video"
+  productSlug="image-to-video"
+  apiSlug="image-to-video"
+  type="video"
+  outputs={[
+    {
+      src: "https://d28dkohlqf5vwj.cloudfront.net/products/image-to-video/examples/cinematic-2.mp4",
+    },
+    {
+      src: "https://d28dkohlqf5vwj.cloudfront.net/products/image-to-video/examples/halo.mp4",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Provide a source image** - Upload the image you want to animate
+2. **Describe the motion** - Use a text prompt to describe how it should move
+3. **API generates the video** - AI creates natural motion and effects
+4. **Download the result** - Retrieve your animated video
+
+## Use Cases
+
+- **Social media content** - Turn photos into engaging video posts
+- **Marketing videos** - Create dynamic content from product photos
+- **Storytelling** - Bring static images to life for narratives
+- **Real estate** - Animate property photos for virtual tours
+- **E-commerce** - Dynamic product showcases
+
+## Best Practices
+
+### Source Image Quality
+
+<Tip>
+**Use high-quality images with clear subjects** - Better images produce smoother, more realistic animations.
+</Tip>
+
+- **High resolution** - At least 720p for best results
+- **Clear subjects** - Well-defined elements animate better
+- **Good composition** - Leave "room" for motion in your frame
+- **Appropriate content** - Images with implied motion work well
+
+### Motion Prompts
+
+Describe the motion you want to see:
+
+**✅ Good prompts:**
+- "Camera slowly panning right, leaves gently swaying in wind"
+- "Zoom in on the subject with slight parallax effect"
+- "Water rippling, clouds moving slowly across the sky"
+- "Person walking forward, hair blowing in breeze"
+
+**❌ Avoid:**
+- No motion description: "A beautiful landscape"
+- Impossible physics: "Person flying through wall"
+- Conflicting motions: "Zoom in and zoom out simultaneously"
+
+### Image Types That Animate Well
+
+| Image Type | Animation Potential | Tips |
+|:-----------|:-------------------|:-----|
+| Landscapes | Excellent | Add wind, water, cloud motion |
+| Portraits | Good | Subtle movements, blinks, breathing |
+| Product photos | Moderate | Camera motion, lighting effects |
+| Abstract art | Excellent | Morphing, flowing effects |
+
+## Code Examples
+
+### Basic Image to Video
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+import os
+
+client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
+
+result = client.v1.image_to_video.generate(
+    assets={
+        "image_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sunset.jpg"
+    },
+    style={
+        "prompt":  "Sunset landscape with subtle parallax effect while panning, clouds moving cinematic depth"
+    },
+    end_seconds=5,
+    name="Sunset Animation",
+    resolution="480p",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ Video complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+import Client from 'magic-hour';
+
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
+
+const result = await client.v1.imageToVideo.generate({
+  assets: {
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sunset.jpg"
+  },
+  style: {
+    prompt: "Sunset landscape with subtle camera movement, gentle parallax effect, cinematic depth"
+  },
+  endSeconds: 1.5,
+  name: "Sunset Animation",
+  resolution: "480p",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/"
+});
+
+console.log(`✅ Video complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+
+## Pricing
+
+Image to Video uses credits based on video duration:
+
+{/* TODO: Verify exact credit calculation */}
+
+| Duration | Approximate Credits |
+|:---------|:--------------------|
+| 5 seconds | ~150 credits |
+| 10 seconds | ~300 credits |
+
+Higher resolutions cost more per second.
+
+## Resolution Limits
+
+Image to Video has a maximum resolution of **1080p** (1920x1080 or 1080x1920).
+
+## API Reference
+
+<Card title="Image to Video API Reference" icon="webhook" href="/api-reference/video-projects/image-to-video">
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="Text to Video" icon="text" href="/tools/video/text-to-video">
+    Generate videos from text descriptions
+  </Card>
+  <Card title="Animation" icon="film" href="/tools/video/animation">
+    Create animated videos with motion effects
+  </Card>
+</CardGroup>
+

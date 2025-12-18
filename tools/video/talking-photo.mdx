@@ -1,0 +1,199 @@
+---
+title: AI Talking Photo
+sidebarTitle: Talking Photo
+description: Animate static photos to speak with realistic lip-sync and facial movements.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+AI Talking Photo brings static photos to life by animating faces to speak with realistic lip-sync and natural facial movements. The API analyzes facial features and synchronizes mouth movements, head poses, and expressions with provided audio or generated speech.
+
+<ToolSection
+  title="AI Talking Photo"
+  productSlug="ai-talking-photo"
+  apiSlug="ai-talking-photo"
+  type="video"
+  outputs={[
+    {
+      src: "/get-started/images/talkingphotoexample1.mp4",
+    },
+    {
+      src: "/get-started/images/talkingphotoexample2.mp4",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Provide a photo** - Upload an image with a clear face
+2. **Add audio** - Upload audio or provide text for speech generation
+3. **API animates** - AI creates realistic lip-sync and facial movements
+4. **Download video** - Retrieve your animated talking photo
+
+## Use Cases
+
+- **Marketing videos** - Create spokesperson videos from headshots
+- **Educational content** - Animate historical figures or characters
+- **Personalized messages** - Send video messages from static photos
+- **Social media** - Create engaging content from profile pictures
+- **Presentations** - Add dynamic talking heads to slides
+
+## Best Practices
+
+### Photo Selection
+
+<Tip>
+**Use clear, front-facing photos** - Best results come from high-quality headshots with visible facial features.
+</Tip>
+
+- **Good lighting** - Well-lit faces produce better animations
+- **Front-facing angles** - Avoid extreme profile shots
+- **Clear features** - Eyes, nose, and mouth should be unobstructed
+- **High resolution** - At least 512x512 pixels recommended
+
+### Audio Guidelines
+
+| Audio Type | Best Practice |
+|:-----------|:--------------|
+| Voice recording | Clear speech without background noise |
+| Generated speech | Use natural-sounding text prompts |
+| Music/songs | Works best with clear vocals |
+| Length | Keep under 30 seconds for best results |
+
+## Code Examples
+
+### Basic Talking Photo with Text
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+from os import getenv
+
+client = Client(token=getenv("API_TOKEN"))
+
+result = client.v1.ai_talking_photo.generate(
+    assets={
+        "image_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+        "audio_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3"
+    },
+    name="Talking Photo",
+    start_seconds=0,
+    end_seconds=2,
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs"
+)
+
+if result.status == "complete":
+    print(f"✅ Talking photo complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+import Client from 'magic-hour';
+
+const client = new Client({ token: process.env.API_TOKEN });
+
+const result = await client.v1.aiTalkingPhoto.generate({
+  assets: {
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+    audioFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3"
+  },
+  name: "Talking Photo",
+  startSeconds: 0,
+  endSeconds: 2,
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "outputs"
+});
+
+console.log(`✅ Talking photo complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+### With Audio File
+
+<CodeGroup>
+
+```python Python
+result = client.v1.ai_talking_photo.generate(
+    assets={
+        "image_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+        "audio_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3"
+    },
+    name="Talking Photo",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs"
+)
+
+if result.status == "complete":
+    print(f"✅ Talking photo complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+const result = await client.v1.aiTalkingPhoto.generate({
+  assets: {
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+    audioFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3"
+  },
+  name: "Talking Photo",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "outputs"
+});
+
+console.log(`✅ Talking photo complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+## Pricing
+
+Talking Photo pricing varies by video length and resolution:
+
+| Configuration | Credits per Second |
+|:--------------|:-------------------|
+| 720p or lower | ~10-15 credits/sec |
+| Higher resolution | ~20-30 credits/sec |
+
+## Resolution Limits
+
+AI Talking Photo has a maximum resolution of **720p** across all subscription tiers due to computational requirements.
+
+## API Reference
+
+<Card title="AI Talking Photo API Reference" icon="webhook" href="/api-reference/video-projects/ai-talking-photo">
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="Lip Sync" icon="lips" href="/tools/video/lip-sync">
+    Sync audio with existing video lip movements
+  </Card>
+  <Card title="AI Voice Generator" icon="microphone" href="/tools/audio/voice-generator">
+    Generate speech audio for your talking photos
+  </Card>
+</CardGroup>
+
