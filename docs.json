@@ -80,7 +80,8 @@
             "pages": [
               "billing/overview",
               "billing/subscription-pricing",
-              "billing/usage-based-pricing"
+              "billing/usage-based-pricing",
+              "billing/resolution-limits"
             ]
           },
           {
