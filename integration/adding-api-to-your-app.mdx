@@ -95,36 +95,6 @@ result = client.v1.face_swap.generate(..., wait_for_completion=True)
 # SDK handles everything
 ```
 
-## Project structure
-
-Here's a recommended project structure for Magic Hour API integration:
-
-```
-my-app/
-├── src/
-│   ├── services/
-│   │   ├── magichour.js          # API client setup
-│   │   ├── video-processor.js    # Video generation logic
-│   │   └── file-manager.js       # Upload/download handling
-│   ├── models/
-│   │   └── job.js               # Job status tracking
-│   └── utils/
-│       ├── polling.js           # Smart polling logic
-│       └── webhooks.js          # Webhook handlers
-├── uploads/                     # Temporary file storage
-├── downloads/                   # Generated content
-├── .env                        # API keys (never commit!)
-└── package.json
-```
-
-**Key components:**
-
-- **API Client:** Centralized Magic Hour client configuration
-- **Service Layer:** Business logic for different content types
-- **File Management:** Handle uploads, downloads, and cleanup
-- **Job Tracking:** Monitor multiple concurrent jobs
-- **Webhook Handlers:** Real-time status updates
-
 ## Integration patterns
 
 Choose the right pattern based on your application needs:
@@ -226,7 +196,7 @@ def create_face_swap(face_image_url, video_url, start_time=0.0, end_time=10.0):
 
     return {
         "project_id": create_res.id,
-        "status": "queued",
+        "status": create_res.status,
         "credits_charged": create_res.credits_charged
     }
 ```
@@ -252,7 +222,7 @@ export async function createFaceSwap(faceImageUrl, videoUrl, startTime = 0.0, en
 
   return {
     projectId: createRes.id,
-    status: "queued",
+    status: createRes.status,
     creditsCharged: createRes.creditsCharged,
   };
 }
@@ -844,7 +814,6 @@ Generated files are stored indefinitely. Clean up completed jobs to manage stora
 <CodeGroup>
 ```python Python SDK
 client.v1.video_projects.delete(id="cuid")
-)
 ```
 
 ```typescript Node SDK
