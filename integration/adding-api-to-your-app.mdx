@@ -36,9 +36,11 @@ By the end of this guide, you'll have:
 Magic Hour APIs follow a simple 3-step pattern that applies to all content generation:
 
 ### Step 1: Create Job
+
 **Purpose:** Submit your generation request to the API
 
 **Relevant APIs:**
+
 - **Video APIs:** `POST /v1/face-swap`, `POST /v1/lip-sync`, `POST /v1/animation`, `POST /v1/text-to-video`, etc.
 - **Image APIs:** `POST /v1/ai-image-generator`, `POST /v1/face-swap-photo`, `POST /v1/ai-headshot-generator`, etc.
 - **Audio APIs:** `POST /v1/ai-voice-generator`
@@ -46,32 +48,38 @@ Magic Hour APIs follow a simple 3-step pattern that applies to all content gener
 **Returns:** Project ID and initial status (`queued`)
 
 ### Step 2: Monitor Status
+
 **Purpose:** Check if your job is complete
 
 **Relevant APIs:**
+
 - **Video projects:** `GET /v1/video-projects/{id}`
-- **Image projects:** `GET /v1/image-projects/{id}` 
+- **Image projects:** `GET /v1/image-projects/{id}`
 - **Audio projects:** `GET /v1/audio-projects/{id}`
 - **Webhooks:** Real-time notifications (recommended for production)
 
 **Returns:** Current status (`queued`, `rendering`, `complete`, `error`)
 
 ### Step 3: Download Results
+
 **Purpose:** Retrieve your generated content
 
 **Method:** Use download URLs from the status response
+
 - URLs are time-limited (24 hours)
 - No special API endpoints needed - direct HTTP download
 
 ## SDK Functions: `create` vs `generate`
 
 **`create()` function:**
+
 - Returns immediately with project ID
 - Requires manual polling or webhooks
 - Best for production apps with multiple concurrent jobs
 - Available in all SDKs
 
 **`generate()` function:**
+
 - Handles polling and downloading automatically
 - Blocks until completion
 - Best for simple scripts and prototyping
@@ -82,7 +90,7 @@ Magic Hour APIs follow a simple 3-step pattern that applies to all content gener
 create_res = client.v1.face_swap.create(...)
 # You handle polling and downloading
 
-# generate() - Automatic workflow  
+# generate() - Automatic workflow
 result = client.v1.face_swap.generate(..., wait_for_completion=True)
 # SDK handles everything
 ```
@@ -110,6 +118,7 @@ my-app/
 ```
 
 **Key components:**
+
 - **API Client:** Centralized Magic Hour client configuration
 - **Service Layer:** Business logic for different content types
 - **File Management:** Handle uploads, downloads, and cleanup
@@ -121,6 +130,7 @@ my-app/
 Choose the right pattern based on your application needs:
 
 ### Pattern 1: Simple Script (Quick Start)
+
 **Best for:** Prototypes, one-off tasks, learning
 
 ```python
@@ -134,6 +144,7 @@ print(f"Image saved to: {result.downloaded_paths}")
 ```
 
 ### Pattern 2: Production Application (Recommended)
+
 **Best for:** Web apps, APIs, multiple concurrent jobs
 
 ```python
@@ -176,8 +187,8 @@ def get_client():
 import Client from "magic-hour";
 
 // Initialize client with environment variable
-const client = new Client({ 
-  token: process.env.MAGIC_HOUR_API_KEY 
+const client = new Client({
+  token: process.env.MAGIC_HOUR_API_KEY,
 });
 
 export function getClient() {
@@ -200,7 +211,7 @@ from .magichour import get_client
 def create_face_swap(face_image_url, video_url, start_time=0.0, end_time=10.0):
     """Create a face swap job and return project ID"""
     client = get_client()
-    
+
     # Submit job to Magic Hour API
     create_res = client.v1.face_swap.create(
         name="Face swap job",
@@ -212,7 +223,7 @@ def create_face_swap(face_image_url, video_url, start_time=0.0, end_time=10.0):
         start_seconds=start_time,
         end_seconds=end_time,
     )
-    
+
     return {
         "project_id": create_res.id,
         "status": "queued",
@@ -226,7 +237,7 @@ import { getClient } from "./magichour.js";
 
 export async function createFaceSwap(faceImageUrl, videoUrl, startTime = 0.0, endTime = 10.0) {
   const client = getClient();
-  
+
   // Submit job to Magic Hour API
   const createRes = await client.v1.faceSwap.create({
     name: "Face swap job",
@@ -238,11 +249,11 @@ export async function createFaceSwap(faceImageUrl, videoUrl, startTime = 0.0, en
     startSeconds: startTime,
     endSeconds: endTime,
   });
-  
+
   return {
     projectId: createRes.id,
     status: "queued",
-    creditsCharged: createRes.creditsCharged
+    creditsCharged: createRes.creditsCharged,
   };
 }
 ```
@@ -259,11 +270,11 @@ export async function createFaceSwap(faceImageUrl, videoUrl, startTime = 0.0, en
 def check_job_status(project_id):
     """Check the current status of a video job"""
     client = get_client()
-    
+
     try:
         # Get current status from Magic Hour
         status_res = client.v1.video_projects.get(id=project_id)
-        
+
         return {
             "project_id": project_id,
             "status": status_res.status,
@@ -281,22 +292,22 @@ def check_job_status(project_id):
 ```typescript Node.js
 export async function checkJobStatus(projectId) {
   const client = getClient();
-  
+
   try {
     // Get current status from Magic Hour
     const statusRes = await client.v1.videoProjects.get({ id: projectId });
-    
+
     return {
       projectId,
       status: statusRes.status,
       downloads: statusRes.status === "complete" ? statusRes.downloads : null,
-      error: statusRes.status === "error" ? statusRes.error : null
+      error: statusRes.status === "error" ? statusRes.error : null,
     };
   } catch (error) {
     return {
       projectId,
       status: "error",
-      error: { message: error.message }
+      error: { message: error.message },
     };
   }
 }
@@ -320,21 +331,21 @@ def download_video(download_info, output_dir="./downloads"):
     """Download completed video to local storage"""
     # Create output directory if it doesn't exist
     Path(output_dir).mkdir(exist_ok=True)
-    
+
     # Generate unique filename
     filename = f"face_swap_{int(time.time())}.mp4"
     filepath = Path(output_dir) / filename
-    
+
     try:
         # Download the video file
         response = requests.get(download_info["url"], stream=True, timeout=60)
         response.raise_for_status()
-        
+
         # Save to disk
         with open(filepath, "wb") as file:
             for chunk in response.iter_content(chunk_size=8192):
                 file.write(chunk)
-        
+
         return {
             "success": True,
             "filepath": str(filepath),
@@ -357,32 +368,32 @@ export async function downloadVideo(downloadInfo, outputDir = "./downloads") {
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
   }
-  
+
   // Generate unique filename
   const filename = `face_swap_${Date.now()}.mp4`;
   const filepath = path.join(outputDir, filename);
-  
+
   try {
     // Download the video file
     const response = await fetch(downloadInfo.url);
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
-    
+
     // Save to disk
     const arrayBuffer = await response.arrayBuffer();
     fs.writeFileSync(filepath, Buffer.from(arrayBuffer));
-    
+
     const stats = fs.statSync(filepath);
     return {
       success: true,
       filepath,
-      sizeBytes: stats.size
+      sizeBytes: stats.size,
     };
   } catch (error) {
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 }
@@ -405,20 +416,20 @@ import time
 def process_face_swap(face_image_url, video_url):
     """Complete face swap workflow"""
     print("🚀 Starting face swap...")
-    
+
     # Step 1: Create the job
     job = create_face_swap(face_image_url, video_url)
     print(f"✅ Job created: {job['project_id']} (Cost: {job['credits_charged']} credits)")
-    
+
     # Step 2: Wait for completion
     print("⏳ Waiting for completion...")
     while True:
         status = check_job_status(job['project_id'])
         print(f"Status: {status['status']}")
-        
+
         if status['status'] == 'complete':
             print("🎉 Job completed successfully!")
-            
+
             # Step 3: Download result
             result = download_video(status['downloads'][0])
             if result['success']:
@@ -427,11 +438,11 @@ def process_face_swap(face_image_url, video_url):
             else:
                 print(f"❌ Download failed: {result['error']}")
                 return None
-                
+
         elif status['status'] == 'error':
             print(f"❌ Job failed: {status['error']}")
             return None
-            
+
         time.sleep(5)  # Wait 5 seconds before checking again
 
 # Usage
@@ -449,20 +460,20 @@ import { downloadVideo } from "./services/fileManager.js";
 
 export async function processFaceSwap(faceImageUrl, videoUrl) {
   console.log("🚀 Starting face swap...");
-  
+
   // Step 1: Create the job
   const job = await createFaceSwap(faceImageUrl, videoUrl);
   console.log(`✅ Job created: ${job.projectId} (Cost: ${job.creditsCharged} credits)`);
-  
+
   // Step 2: Wait for completion
   console.log("⏳ Waiting for completion...");
   while (true) {
     const status = await checkJobStatus(job.projectId);
     console.log(`Status: ${status.status}`);
-    
+
     if (status.status === "complete") {
       console.log("🎉 Job completed successfully!");
-      
+
       // Step 3: Download result
       const result = await downloadVideo(status.downloads[0]);
       if (result.success) {
@@ -476,16 +487,13 @@ export async function processFaceSwap(faceImageUrl, videoUrl) {
       console.log(`❌ Job failed: ${status.error}`);
       return null;
     }
-    
-    await new Promise(resolve => setTimeout(resolve, 5000)); // Wait 5 seconds
+
+    await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 5 seconds
   }
 }
 
 // Usage
-processFaceSwap(
-  "https://example.com/face.jpg",
-  "https://example.com/video.mp4"
-).then(result => {
+processFaceSwap("https://example.com/face.jpg", "https://example.com/video.mp4").then((result) => {
   console.log("Final result:", result);
 });
 ```
