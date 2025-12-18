@@ -95,10 +95,14 @@ result = client.v1.ai_qr_code_generator.generate(
     download_directory="./outputs/"
 )
 
-print(f"✅ QR code complete!")
-print(f"Status: {result.status}")
-print(f"Downloaded to: {result.downloaded_paths}")
-print(f"Credits charged: {result.credits_charged}")
+if result.status == "complete":
+    print(f"✅ QR code complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
 ```
 
 ```javascript Node.js
@@ -140,10 +144,14 @@ result = client.v1.ai_qr_code_generator.generate(
     download_directory="./outputs/"
 )
 
-print(f"✅ QR code complete!")
-print(f"Status: {result.status}")
-print(f"Downloaded to: {result.downloaded_paths}")
-print(f"Credits charged: {result.credits_charged}")
+if result.status == "complete":
+    print(f"✅ QR code complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
 ```
 
 ```javascript Node.js
