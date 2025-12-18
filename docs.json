@@ -54,10 +54,9 @@
       {
         "tab": "Documentation",
         "pages": [
-          "introduction",
           {
             "group": "Get Started",
-            "pages": ["get-started/quick-start", "get-started/model-context-protocol"]
+            "pages": ["introduction", "get-started/quick-start", "get-started/authentication"]
           },
           {
             "group": "Integration",
@@ -72,7 +71,8 @@
                   "integration/webhook/secure-handler",
                   "integration/webhook/event-types"
                 ]
-              }
+              },
+              "integration/model-context-protocol"
             ]
           },
           {
@@ -80,7 +80,8 @@
             "pages": [
               "billing/overview",
               "billing/subscription-pricing",
-              "billing/usage-based-pricing"
+              "billing/usage-based-pricing",
+              "billing/resolution-limits"
             ]
           },
           {
