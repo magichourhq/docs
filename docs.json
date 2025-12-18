@@ -61,6 +61,7 @@
           {
             "group": "Integration",
             "pages": [
+              "integration/overview",
               "integration/adding-api-to-your-app",
               "integration/input-files",
               {
