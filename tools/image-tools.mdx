@@ -1,14 +1,24 @@
 ---
-title: Image Tools
-description: Available image tools you can integrate in your application.
+title: Image APIs
+description: Available image generation and editing APIs you can integrate into your application.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
 
-## AI Clothes Changer
+## AI Clothes Changer API
+
+**What it does:** Virtually try on different clothing items on a person in an image. This API uses advanced AI to realistically change outfits, styles, and clothing accessories while preserving the person's pose, lighting, and background.
+
+**Use cases:**
+- E-commerce virtual try-on experiences
+- Fashion design and prototyping
+- Social media content creation
+- Personal styling applications
+
+**API Endpoint:** `POST /v1/ai-clothes-changer`
 
 <ToolSection
-  tool="AI Clothes Changer"
+  title="AI Clothes Changer"
   productSlug="ai-clothes-changer"
   apiSlug="ai-clothes-changer"
   type="image"
@@ -22,10 +32,20 @@ import { ToolSection } from "/snippets/tool-section.mdx";
   ]}
 />
 
-## AI Headshot Generator
+## AI Headshot Generator API
+
+**What it does:** Generate professional-quality headshots from a single photo. This API creates multiple high-resolution headshots with different backgrounds, lighting, and professional styling while maintaining the person's facial features and identity.
+
+**Use cases:**
+- Professional profile photos for LinkedIn, resumes
+- Corporate headshot generation at scale
+- Social media profile optimization
+- Acting and modeling portfolio creation
+
+**API Endpoint:** `POST /v1/ai-headshot-generator`
 
 <ToolSection
-  tool="AI Headshot Generator"
+  title="AI Headshot Generator"
   productSlug="ai-headshot-generator"
   apiSlug="ai-headshot-generator"
   type="image"
@@ -39,10 +59,21 @@ import { ToolSection } from "/snippets/tool-section.mdx";
   ]}
 />
 
-## AI Image Generator
+## AI Image Generator API
+
+**What it does:** Create high-quality images from text descriptions using advanced AI models. This API generates original artwork, photos, illustrations, and designs based on detailed text prompts with customizable styles, orientations, and resolutions.
+
+**Use cases:**
+- Content creation for marketing and social media
+- Concept art and design prototyping
+- Stock photo generation
+- Creative artwork and illustrations
+- Product visualization and mockups
+
+**API Endpoint:** `POST /v1/ai-image-generator`
 
 <ToolSection
-  tool="AI Image Generator"
+  title="AI Image Generator"
   productSlug="ai-image-generator"
   apiSlug="ai-image-generator"
   type="image"
@@ -56,27 +87,49 @@ import { ToolSection } from "/snippets/tool-section.mdx";
   ]}
 />
 
-## AI Image Upscaler
+## AI Image Upscaler API
+
+**What it does:** Enhance image resolution and quality using AI-powered upscaling technology. This API increases image size while preserving and improving details, reducing artifacts, and maintaining visual fidelity at higher resolutions.
+
+**Use cases:**
+- Enhancing low-resolution photos for print
+- Improving image quality for web display
+- Restoring old or degraded images
+- Preparing images for large format displays
+- E-commerce product image enhancement
+
+**API Endpoint:** `POST /v1/ai-image-upscaler`
 
 <ToolSection
-  tool="AI Image Upscaler"
+  title="AI Image Upscaler"
   productSlug="ai-image-upscaler"
   apiSlug="ai-image-upscaler"
   type="image"
   outputs={[
     {
-      src: "/get-started/images/upscale-image-diff-1.png",
+      src: "/get-started/images/upscale-image-diff-1.jpg",
     },
     {
-      src: "/get-started/images/upscale-image-diff-2.png",
+      src: "/get-started/images/upscale-image-diff-2.jpg",
     },
   ]}
 />
 
-## AI QR Code Generator
+## AI QR Code Generator API
+
+**What it does:** Create visually appealing, artistic QR codes that maintain full functionality while incorporating custom designs, colors, and artistic elements. This API generates QR codes that blend seamlessly with branding and creative designs.
+
+**Use cases:**
+- Branded marketing materials and campaigns
+- Event tickets and promotional materials
+- Restaurant menus and business cards
+- Social media and digital marketing
+- Product packaging and labels
+
+**API Endpoint:** `POST /v1/ai-qr-code-generator`
 
 <ToolSection
-  tool="AI QR Code Generator"
+  title="AI QR Code Generator"
   productSlug="ai-qr-code-generator"
   apiSlug="ai-qr-code-generator"
   type="image"
@@ -90,16 +143,27 @@ import { ToolSection } from "/snippets/tool-section.mdx";
   ]}
 />
 
-## Face Swap Photo
+## Face Swap Photo API
+
+**What it does:** Replace faces in static images with realistic precision and natural blending. This API swaps faces between two photos while preserving facial expressions, lighting conditions, and image quality for seamless results.
+
+**Use cases:**
+- Entertainment and social media content
+- Creative photo editing applications
+- Identity protection in media
+- Character replacement in digital art
+- Fun photo manipulation features
+
+**API Endpoint:** `POST /v1/face-swap-photo`
 
 <ToolSection
-  tool="Face Swap Photo"
+  title="Face Swap Photo"
   productSlug="face-swap?mode=photo"
   apiSlug="face-swap-photo"
   type="image"
   outputs={[
     {
-      src: "/get-started/images/obama-swap.png",
+      src: "/get-started/images/faceswapphotoexample1.jpg",
     },
     {
       src: "/get-started/images/mr-bean-swap.jpeg",
@@ -107,19 +171,30 @@ import { ToolSection } from "/snippets/tool-section.mdx";
   ]}
 />
 
-## Image Background Remover
+## Image Background Remover API
+
+**What it does:** Automatically remove backgrounds from images with precision edge detection and smart object recognition. This API isolates subjects from their backgrounds, creating clean cutouts perfect for compositing and design work.
+
+**Use cases:**
+- E-commerce product photography
+- Profile photo editing and cleanup
+- Graphic design and compositing
+- Social media content creation
+- Marketing material preparation
+
+**API Endpoint:** `POST /v1/image-background-remover`
 
 <ToolSection
-  tool="Image Background Remover"
+  title="Image Background Remover"
   productSlug="image-background-remover"
   apiSlug="image-background-remover"
   type="image"
   outputs={[
     {
-      src: "/get-started/images/background-remover-diff-1.png",
+      src: "/get-started/images/background-remover-diff-1.jpg",
     },
     {
-      src: "/get-started/images/background-remover-diff-2.png",
+      src: "/get-started/images/background-remover-diff-2.jpg",
     },
   ]}
 />

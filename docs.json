@@ -54,10 +54,9 @@
       {
         "tab": "Documentation",
         "pages": [
-          "introduction",
           {
             "group": "Get Started",
-            "pages": ["get-started/quick-start", "get-started/model-context-protocol"]
+            "pages": ["introduction", "get-started/quick-start", "get-started/authentication"]
           },
           {
             "group": "Integration",
@@ -72,7 +71,8 @@
                   "integration/webhook/secure-handler",
                   "integration/webhook/event-types"
                 ]
-              }
+              },
+              "integration/model-context-protocol"
             ]
           },
           {
@@ -84,8 +84,8 @@
             ]
           },
           {
-            "group": "Available Tools",
-            "pages": ["tools/video-tools", "tools/image-tools"]
+            "group": "Available APIs",
+            "pages": ["tools/video-tools", "tools/image-tools", "tools/audio-apis"]
           }
         ]
       },

@@ -1,14 +1,26 @@
 ---
-title: Video Tools
-description: Available video tools you can integrate in your application.
+title: Video APIs
+description: Available video generation and editing APIs you can integrate into your application.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
 
-## Animation
+## Animation API
+
+**What it does:** Transform static images into dynamic animated videos with smooth motion and camera effects. This API creates engaging stop-motion style animations, adding movement, depth, and visual interest. You can optionally provide an image as a starting point and add audio for synchronized effects.
+
+
+**Use cases:**
+- Music videos 
+- Social media content creation
+- B-roll video content
+- Creative video content for apps
+- Animated profile pictures and avatars
+
+**API Endpoint:** `POST /v1/animation`
 
 <ToolSection
-  tool="Animation"
+  title="Animation"
   productSlug="animation"
   apiSlug="animation"
   type="video"
@@ -22,10 +34,21 @@ import { ToolSection } from "/snippets/tool-section.mdx";
   ]}
 />
 
-## Face Swap
+## Face Swap Video API
+
+**What it does:** Replace faces in videos with frame-by-frame precision and temporal consistency. This API swaps faces throughout video sequences while maintaining natural expressions, head movements, and lighting for realistic results.
+
+**Use cases:**
+- Entertainment and viral content creation
+- Privacy protection in video content
+- Character replacement in film and media
+- Personalized video experiences
+- Creative video editing applications
+
+**API Endpoint:** `POST /v1/face-swap`
 
 <ToolSection
-  tool="Face Swap"
+  title="Face Swap"
   productSlug="face-swap?mode=video"
   apiSlug="face-swap-video"
   type="video"
@@ -39,10 +62,21 @@ import { ToolSection } from "/snippets/tool-section.mdx";
   ]}
 />
 
-## Image to Video
+## Image to Video API
+
+**What it does:** Convert static images into dynamic video content with AI-generated motion and cinematic effects. This API analyzes images and creates realistic movement, camera motion, and environmental effects to bring still photos to life.
+
+**Use cases:**
+- Social media content enhancement
+- Marketing video creation from product photos
+- Storytelling and narrative content
+- Real estate and travel video content
+- Creative video production workflows
+
+**API Endpoint:** `POST /v1/image-to-video`
 
 <ToolSection
-  tool="Image to Video"
+  title="Image to Video"
   productSlug="image-to-video"
   apiSlug="image-to-video"
   type="video"
@@ -56,10 +90,21 @@ import { ToolSection } from "/snippets/tool-section.mdx";
   ]}
 />
 
-## Lip Sync
+## Lip Sync API
+
+**What it does:** Synchronize lip movements in videos with new audio tracks using advanced AI motion analysis. This API creates realistic lip-sync animation that matches speech patterns, timing, and mouth movements for natural-looking results.
+
+**Use cases:**
+- Dubbing and localization for global content
+- Personalized video messages and greetings
+- Educational and training video production
+- Entertainment and social media content
+- Accessibility features for video content
+
+**API Endpoint:** `POST /v1/lip-sync`
 
 <ToolSection
-  tool="Lip Sync"
+  title="Lip Sync"
   productSlug="lip-sync"
   apiSlug="lip-sync"
   type="video"
@@ -73,10 +118,21 @@ import { ToolSection } from "/snippets/tool-section.mdx";
   ]}
 />
 
-## Text-to-Video
+## Text-to-Video API
+
+**What it does:** Generate complete video content from text descriptions using advanced AI video synthesis. This API creates original video scenes, animations, and visual narratives based on detailed text prompts with customizable styles and durations.
+
+**Use cases:**
+- Automated content creation for social media
+- Concept visualization and prototyping
+- Educational and explainer video production
+- Creative storytelling and narrative content
+- Marketing video generation at scale
+
+**API Endpoint:** `POST /v1/text-to-video`
 
 <ToolSection
-  tool="Text-to-Video"
+  title="Text-to-Video"
   productSlug="text-to-video"
   apiSlug="text-to-video"
   type="video"
@@ -90,10 +146,21 @@ import { ToolSection } from "/snippets/tool-section.mdx";
   ]}
 />
 
-## Video-to-Video
+## Video-to-Video API
+
+**What it does:** Transform existing videos by applying new styles, effects, and visual treatments while preserving the original motion and structure. This API enables style transfer, artistic effects, and visual enhancement of video content.
+
+**Use cases:**
+- Artistic style transfer and creative effects
+- Brand-consistent video styling
+- Visual enhancement and color grading
+- Creative video post-production
+- Automated video style standardization
+
+**API Endpoint:** `POST /v1/video-to-video`
 
 <ToolSection
-  tool="Video-to-Video"
+  title="Video-to-Video"
   productSlug="video-to-video"
   apiSlug="video-to-video"
   type="video"
@@ -107,15 +174,30 @@ import { ToolSection } from "/snippets/tool-section.mdx";
   ]}
 />
 
-## APIs coming soon
+## Auto Subtitle Generator API
 
-<CardGroup cols={2}>
-  <Card
-    title="Auto Subtitles Generator"
-    icon="video"
-    horizontal
-    href={`https://magichour.ai/products/auto-subtitle-generator`}
-  >
-    Learn more about Auto Subtitles Generator
-  </Card>
-</CardGroup>
+**What it does:** Automatically generate accurate subtitles and captions for video content using advanced speech recognition and natural language processing. This API creates properly timed, formatted subtitles in multiple languages with customizable styling.
+
+**Use cases:**
+- Accessibility compliance for video content
+- Multi-language content localization
+- Social media video optimization
+- Educational and training video enhancement
+- Automated video post-production workflows
+
+**API Endpoint:** `POST /v1/auto-subtitle-generator`
+
+<ToolSection
+  title="Auto Subtitle Generator"
+  productSlug="auto-subtitle-generator"
+  apiSlug="auto-subtitle-generator"
+  type="video"
+  outputs={[
+    {
+      src: "/get-started/images/autosubtitlegeneratorexample1.mp4",
+    },
+    {
+      src: "/get-started/images/autosubtitlegeneratorexample2.mp4",
+    },
+  ]}
+/>

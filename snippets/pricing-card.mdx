@@ -1,26 +1,34 @@
-export const PricingCard = ({ title, prices, benefits }) => {
+export const PricingCard = ({ 
+  title = "", 
+  prices = [], 
+  benefits = [] 
+}) => {
   return (
     <Card title={title}>
-      <div class="flex items-end mb-6 gap-2">
-        {prices.map((price, index) => {
-          return (
-            <>
-              <div class="flex items-end gap-2">
-                <div>
-                  <span class="text-2xl text-primary">${price.amount.toLocaleString()}</span>
-                  {price.label}
+      {prices && prices.length > 0 && (
+        <div class="flex items-end mb-6 gap-2">
+          {prices.map((price, index) => {
+            return (
+              <>
+                <div class="flex items-end gap-2">
+                  <div>
+                    <span class="text-2xl text-primary">${price?.amount?.toLocaleString() || '0'}</span>
+                    {price?.label || ''}
+                  </div>
                 </div>
-              </div>
-              {index < prices.length - 1 && <span class="">or</span>}
-            </>
-          );
-        })}
-      </div>
-      <ul class="flex flex-col space-y-2">
-        {benefits.map((benefit) => {
-          return <li>{benefit}</li>;
-        })}
-      </ul>
+                {index < prices.length - 1 && <span class="">or</span>}
+              </>
+            );
+          })}
+        </div>
+      )}
+      {benefits && benefits.length > 0 && (
+        <ul class="flex flex-col space-y-2">
+          {benefits.map((benefit, index) => {
+            return <li key={index}>{benefit}</li>;
+          })}
+        </ul>
+      )}
     </Card>
   );
 };
