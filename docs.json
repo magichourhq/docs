@@ -125,7 +125,7 @@
               },
               {
                 "group": "Audio",
-                "pages": ["tools/audio/voice-generator"]
+                "pages": ["tools/audio/voice-cloner", "tools/audio/voice-generator"]
               }
             ]
           }
@@ -224,7 +224,7 @@
         "pages": [
           {
             "group": "Product Updates",
-            "pages": ["changelog", "changelog/2024", "changelog/2023"]
+            "pages": ["changelog", "changelog/2025", "changelog/2024", "changelog/2023"]
           }
         ]
       }
