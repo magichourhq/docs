@@ -61,13 +61,14 @@
           {
             "group": "Integration",
             "pages": [
-              "integration/adding-api-to-your-app",
-              "integration/input-files",
+              "integration/overview",
+              "integration/first-integration",
+              "integration/inputs-and-outputs",
+              "integration/development-and-testing",
               {
                 "group": "Webhook",
                 "pages": [
-                  "integration/webhook/overview",
-                  "integration/webhook/create-handler",
+                  "integration/webhook/create-webhook",
                   "integration/webhook/secure-handler",
                   "integration/webhook/event-types"
                 ]
@@ -80,7 +81,8 @@
             "pages": [
               "billing/overview",
               "billing/subscription-pricing",
-              "billing/usage-based-pricing"
+              "billing/usage-based-pricing",
+              "billing/resolution-limits"
             ]
           },
           {
