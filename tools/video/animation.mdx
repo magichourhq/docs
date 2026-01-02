@@ -1,0 +1,304 @@
+---
+title: Animation
+sidebarTitle: Animation
+description: Transform static images into dynamic animated videos with smooth motion.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+Animation transforms static images into dynamic animated videos with smooth motion and camera effects. The API creates engaging stop-motion style animations, adding movement, depth, and visual effects. You can optionally provide an image as a starting point and add audio for synchronized effects.
+
+<ToolSection
+  title="Animation"
+  productSlug="animation"
+  apiSlug="animation"
+  type="video"
+  outputs={[
+    {
+      src: "https://videos.magichour.ai/clttnhtz5000bqp36hd2xrent/video.mp4",
+    },
+    {
+      src: "https://videos.magichour.ai/cltweykuq003lrck44hd2e5ty/video.mp4",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Provide a prompt** - Describe the animation you want to create
+2. **Optionally add an image** - Use a starting image for the animation
+3. **Optionally add audio** - Include audio for synchronized effects
+4. **API generates the animation** - AI creates smooth animated video
+5. **Download the result** - Retrieve your animation video
+
+## Use Cases
+
+- **Music videos** - Create visually engaging content for songs
+- **Social media content** - Eye-catching animated posts and stories
+- **B-roll footage** - Generate supplementary video content
+- **Creative projects** - Artistic animations and motion graphics
+- **Animated avatars** - Moving profile pictures and characters
+
+## Best Practices
+
+### Using Source Images
+
+When providing a starting image:
+
+- **Match the style** - The prompt should complement your image
+- **High quality** - Better images produce better animations
+- **Clear subjects** - Well-defined subjects animate more smoothly
+
+### Audio Synchronization
+
+When adding audio:
+
+- **Match the mood** - Audio should complement the visual style
+- **Consider timing** - Longer audio = longer video
+- **Supported formats** - MP3, WAV, AAC, FLAC
+
+## Code Examples
+
+### Basic Animation from Prompt
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+import os
+
+client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
+
+result = client.v1.animation.generate(
+    assets={
+        "audio_source": "none"
+    },
+    end_seconds=1.5,
+    fps=8,
+    height=256,
+    width=512,
+    style={
+        "art_style": "Studio Ghibli Film Still",
+        "camera_effect": "Dramatic Zoom In",
+        "prompt": "A majestic tiger walking through a misty jungle at sunset, magical atmosphere",
+        "prompt_type": "custom",
+        "transition_speed": 5
+    },
+    name="Tiger Animation",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ Animation complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+import Client from "magic-hour";
+
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
+
+const result = await client.v1.animation.generate({
+  assets: {
+    audioSource: "none",
+  },
+  endSeconds: 1.5,
+  fps: 8,
+  height: 256,
+  width: 512,
+  style: {
+    artStyle: "Studio Ghibli Film Still",
+    cameraEffect: "Dramatic Zoom In",
+    prompt: "A majestic tiger walking through a misty jungle at sunset, magical atmosphere",
+    promptType: "custom",
+    transitionSpeed: 5,
+  },
+  name: "Tiger Animation",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/",
+});
+
+console.log(`✅ Animation complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+### Animation from Image
+
+<CodeGroup>
+
+```python Python
+result = client.v1.animation.generate(
+    assets={
+        "audio_source": "none",
+        "image_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+    },
+    end_seconds=1.5,
+    fps=8.0,
+    height=256,
+    width=512,
+    style={
+        "art_style": "Van Gogh",
+        "camera_effect": "Spin Bounce",
+        "prompt": "Tom Cruise in an action pose, dramatic lighting, cinematic intensity",
+        "prompt_type": "custom",
+        "transition_speed": 5
+    },
+    name="Tom Cruise Animation",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ Animation complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+const result = await client.v1.animation.generate({
+  assets: {
+    audioSource: "none",
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+  },
+  endSeconds: 1.5,
+  fps: 8.0,
+  height: 288,
+  width: 288,
+  style: {
+    artStyle: "Van Gogh",
+    cameraEffect: "Spin Bounce",
+    prompt: "Tom Cruise in an action pose, dramatic lighting, cinematic intensity",
+    promptType: "custom",
+    transitionSpeed: 5,
+  },
+  name: "Tom Cruise Animation",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/",
+});
+
+console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+### Animation with Audio
+
+<CodeGroup>
+
+```python Python
+result = client.v1.animation.generate(
+    end_seconds=2.0,
+    fps=8.0,
+    height=256,
+    width=512,
+    assets={
+        "audio_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
+        "audio_source": "file"
+    },
+    style={
+        "art_style": "Cyberpunk",
+        "camera_effect": "Pulse - Audio Sync",
+        "prompt": "Digital code streams and neon circuits pulsing to the rhythm, futuristic tech aesthetic",
+        "prompt_type": "custom",
+        "transition_speed": 5
+    },
+    name="Code Audio Animation",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ Animation complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+const result = await client.v1.animation.generate({
+  endSeconds: 2.0,
+  fps: 8.0,
+  height: 256,
+  width: 512,
+  assets: {
+    audioFilePath:
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
+    audioSource: "file",
+  },
+  style: {
+    artStyle: "Cyberpunk",
+    cameraEffect: "Pulse - Audio Sync",
+    prompt:
+      "Digital code streams and neon circuits pulsing to the rhythm, futuristic tech aesthetic",
+    promptType: "custom",
+    transitionSpeed: 5,
+  },
+  name: "Code Audio Animation",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/",
+});
+
+console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+## Pricing
+
+Animation uses credits based on video duration:
+
+| Duration   | Approximate Credits |
+| :--------- | :------------------ |
+| 5 seconds  | ~150 credits        |
+| 10 seconds | ~300 credits        |
+
+## Resolution Limits
+
+Animation has a maximum resolution of **1472px** (either width or height).
+
+<Tip>
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
+</Tip>
+
+## API Reference
+
+<Card title="Animation API Reference" icon="webhook" href="/api-reference/video-projects/animation">
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="Image to Video" icon="image" href="/tools/video/image-to-video">
+    Convert static images to dynamic videos
+  </Card>
+  <Card title="Text to Video" icon="text" href="/tools/video/text-to-video">
+    Generate videos from text descriptions
+  </Card>
+</CardGroup>

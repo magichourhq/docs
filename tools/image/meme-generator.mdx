@@ -1,0 +1,259 @@
+---
+title: AI Meme Generator
+sidebarTitle: Meme Generator
+description: Create AI-generated memes using popular templates and custom topics.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+AI Meme Generator creates humorous memes by combining popular meme templates with your custom topics. The API automatically generates contextually appropriate text for both top and bottom panels that fits the chosen meme template and your specified topic.
+
+<ToolSection
+  title="AI Meme Generator"
+  productSlug="ai-meme-generator"
+  apiSlug="ai-meme-generator"
+  type="image"
+  outputs={[
+    {
+      src: "/get-started/images/ai-meme-generator-example1.jpg",
+    },
+    {
+      src: "/get-started/images/ai-meme-generator-example2.png",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Choose a template** - Select from popular meme formats (Drake, Distracted Boyfriend, etc.)
+2. **Provide a topic** - Describe what the meme should be about
+3. **Optional web search** - Enable AI to search for relevant context
+4. **API generates text** - AI creates appropriate text for the meme panels
+5. **Download** - Retrieve your completed meme
+
+## Use Cases
+
+- **Social media content** - Quick meme generation for engagement
+- **Marketing campaigns** - Relatable brand content
+- **Internal communications** - Team humor and culture building
+- **Educational content** - Making learning more engaging
+- **Community management** - Timely responses to trends
+
+## Best Practices
+
+### Topic Selection
+
+<Tip>**Be specific about your topic** - Clear topics generate more relevant and funny memes.</Tip>
+
+**✅ Good topics:**
+
+- "When the code finally works after 3 hours of debugging"
+- "Designers vs developers arguing about button placement"
+- "Coffee before and after the first sip"
+- "Me explaining my job to my parents"
+
+**❌ Avoid:**
+
+- Vague topics like "work" or "life"
+- Topics requiring extensive context
+- Offensive or controversial subjects
+
+### Template Selection
+
+Popular templates work best with their intended formats:
+
+| Template             | Best For              | Example Topic                     |
+| :------------------- | :-------------------- | :-------------------------------- |
+| Drake Hotline Bling  | Preferences, choices  | "Old code vs new refactored code" |
+| Distracted Boyfriend | Conflicting interests | "Me, my project, new framework"   |
+| Two Buttons          | Difficult decisions   | "Fix bug or add feature"          |
+| Expanding Brain      | Progressive ideas     | "Levels of code optimization"     |
+
+### Web Search Option
+
+- **Enable `search_web: true`** when your topic references current events or trends
+- **Disable `search_web: false`** for general topics that don't need context
+- Web search may add slight processing time but improves relevance
+
+## Code Examples
+
+### Basic Meme Generation
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+import os
+
+client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
+
+result = client.v1.ai_meme_generator.generate(
+    style={
+        "search_web": False,
+        "template": "Drake Hotline Bling",
+        "topic": "When the code finally works after hours of debugging"
+    },
+    name="Code Works Meme",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ Meme complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+import Client from "magic-hour";
+
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
+
+const result = await client.v1.aiMemeGenerator.generate({
+  style: {
+    searchWeb: false,
+    template: "Drake Hotline Bling",
+    topic: "When the code finally works after hours of debugging",
+  },
+  name: "Code Works Meme",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/",
+});
+
+console.log(`✅ Meme complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+### Random Template
+
+<CodeGroup>
+
+```python Python
+result = client.v1.ai_meme_generator.generate(
+    style={
+        "search_web": False,
+        "template": "Random",
+        "topic": "Forgetting to turn the stove off at 2am"
+    },
+    name="Stove Meme",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ Meme complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+const result = await client.v1.aiMemeGenerator.generate({
+  style: {
+    searchWeb: false,
+    template: "Distracted Boyfriend",
+    topic: "Developers and shiny new frameworks",
+  },
+  name: "Framework Meme",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/",
+});
+
+console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+### With Web Search
+
+<CodeGroup>
+
+```python Python
+result = client.v1.ai_meme_generator.generate(
+    style={
+        "search_web": True,
+        "template": "Two Buttons",
+        "topic": "The latest controversy in AI image generation"
+    },
+    name="AI Controversy Meme",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ Meme complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+const result = await client.v1.aiMemeGenerator.generate({
+  style: {
+    searchWeb: true,
+    template: "Two Buttons",
+    topic: "Latest tech trends in AI development",
+  },
+  name: "AI Trends Meme",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/",
+});
+
+console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+## Pricing
+
+| Output | Credits    |
+| :----- | :--------- |
+| 1 meme | 10 credits |
+
+<Tip>
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
+</Tip>
+
+## API Reference
+
+<Card
+  title="AI Meme Generator API Reference"
+  icon="webhook"
+  href="/api-reference/image-projects/ai-meme-generator"
+>
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="AI Image Generator" icon="wand-magic-sparkles" href="/tools/image/image-generator">
+    Create images from text descriptions
+  </Card>
+  <Card title="AI GIF Generator" icon="film" href="/api-reference/image-projects/ai-gif-generator">
+    Create animated GIFs
+  </Card>
+</CardGroup>

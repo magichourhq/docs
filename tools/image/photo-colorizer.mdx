@@ -1,0 +1,153 @@
+---
+title: Photo Colorizer
+sidebarTitle: Photo Colorizer
+description: Colorize black and white photos with AI-powered realistic color restoration.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+Photo Colorizer brings black and white photos to life by adding realistic, historically accurate colors using AI. The API analyzes image content and applies appropriate colors based on context, lighting, and typical color patterns.
+
+<ToolSection
+  title="Photo Colorizer"
+  productSlug="photo-colorizer"
+  apiSlug="photo-colorizer"
+  type="image"
+  outputs={[
+    {
+      src: "/get-started/images/photocolorizerexample1.gif",
+    },
+    {
+      src: "/get-started/images/photcolorizerexample2.jpg",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Upload B&W photo** - Provide a black and white or grayscale image
+2. **AI analyzes** - AI understands context and appropriate colors
+3. **Colors applied** - Realistic colors added throughout image
+4. **Download result** - Retrieve your colorized photo
+
+## Use Cases
+
+- **Photo restoration** - Restore color to family photos
+- **Historical archives** - Colorize historical photographs
+- **Artistic projects** - Add color to vintage imagery
+- **Documentation** - Modernize old photographic records
+- **Memory preservation** - Bring old memories to life
+
+## Best Practices
+
+### Photo Selection
+
+<Tip>**Use high-quality scans** - Better source images produce more accurate colorization.</Tip>
+
+- **Clear contrast** - Good grayscale contrast helps color accuracy
+- **High resolution** - More detail enables better colorization
+- **Clean scans** - Remove dust and damage first if possible
+- **Sharp focus** - Clearer images colorize more accurately
+
+### Colorization Quality
+
+| Photo Type     | Colorization Quality                      |
+| :------------- | :---------------------------------------- |
+| Portraits      | Excellent - faces colorize very naturally |
+| Landscapes     | Excellent - natural scenes work well      |
+| Architecture   | Good - buildings and structures           |
+| Objects        | Good - everyday items                     |
+| Complex scenes | Variable - depends on clarity             |
+
+## Code Examples
+
+### Colorize Black & White Photo
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+from os import getenv
+
+client = Client(token=getenv("API_TOKEN"))
+
+result = client.v1.photo_colorizer.generate(
+    assets={
+        "image_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/v-j-day-in-times-square.jpg"
+    },
+    name="Photo Colorizer image",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs"
+)
+
+if result.status == "complete":
+    print(f"✅ Colorization complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+import Client from "magic-hour";
+
+const client = new Client({ token: process.env.API_TOKEN });
+
+const result = await client.v1.photoColorizer.generate({
+  assets: {
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/bw-photo.jpg",
+  },
+  name: "Photo Colorizer image",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "outputs",
+});
+
+console.log(`✅ Colorization complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+## Pricing
+
+| Output            | Credits    |
+| :---------------- | :--------- |
+| 1 colorized image | 10 credits |
+
+<Tip>
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
+</Tip>
+
+## API Reference
+
+<Card
+  title="Photo Colorizer API Reference"
+  icon="webhook"
+  href="/api-reference/image-projects/photo-colorizer"
+>
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card
+    title="AI Image Upscaler"
+    icon="up-right-and-down-left-from-center"
+    href="/tools/image/image-upscaler"
+  >
+    Upscale and enhance old photos
+  </Card>
+  <Card title="AI Image Editor" icon="wand-magic-sparkles" href="/tools/image/image-editor">
+    Edit and modify images with AI
+  </Card>
+</CardGroup>

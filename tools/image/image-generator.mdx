@@ -1,0 +1,274 @@
+---
+title: AI Image Generator
+sidebarTitle: Image Generator
+description: Create high-quality images from text descriptions using AI.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+AI Image Generator creates high-quality images from text descriptions using advanced AI models. The API generates original artwork, photos, illustrations, and designs based on detailed text prompts with customizable styles, orientations, and resolutions.
+
+<ToolSection
+  title="AI Image Generator"
+  productSlug="ai-image-generator"
+  apiSlug="ai-image-generator"
+  type="image"
+  outputs={[
+    {
+      src: "/get-started/images/ai-image-generator-example1.jpeg",
+    },
+    {
+      src: "/get-started/images/ai-image-generator-example2.webp",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Write a prompt** - Describe the image you want to create
+2. **Choose a style** - Select from 30+ art styles and tools
+3. **Set orientation** - Choose square, landscape, or portrait
+4. **API generates images** - AI creates images matching your description
+5. **Download results** - Retrieve your generated images
+
+## Use Cases
+
+- **Content creation** - Generate images for blogs, social media, marketing
+- **Concept art** - Visualize ideas before production
+- **Stock photo replacement** - Create custom images on-demand
+- **Product mockups** - Generate product visualizations
+- **Creative projects** - Artwork, illustrations, and designs
+
+## Best Practices
+
+### Writing Effective Prompts
+
+<Tip>**Be specific and descriptive** - The more detail you provide, the better the results.</Tip>
+
+**✅ Good prompts:**
+
+- "A serene mountain landscape at sunset with vibrant orange and purple colors, dramatic clouds, photorealistic style"
+- "Minimalist logo design of a flying bird in blue gradient, vector art style, clean lines"
+- "Cozy coffee shop interior with warm lighting, wooden furniture, plants, cinematic photography"
+
+**❌ Avoid:**
+
+- Too vague: "A nice picture"
+- Too short: "Mountain"
+- Conflicting instructions: "Bright dark image"
+
+### Style Selection
+
+Magic Hour offers 30+ art styles. Match the style to your use case:
+
+| Use Case         | Recommended Styles         |
+| :--------------- | :------------------------- |
+| Marketing photos | Photorealistic, Cinematic  |
+| Illustrations    | Anime, Cartoon, Watercolor |
+| Logos & icons    | Vector, Minimalist         |
+| Concept art      | Digital Art, Fantasy       |
+
+### Orientation Guidelines
+
+| Orientation | Aspect Ratio | Best For                                   |
+| :---------- | :----------- | :----------------------------------------- |
+| `square`    | 1:1          | Profile pictures, thumbnails, social posts |
+| `landscape` | 16:9         | Banners, headers, desktop wallpapers       |
+| `portrait`  | 9:16         | Stories, mobile wallpapers, posters        |
+
+## Code Examples
+
+### Basic Image Generation
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+import os
+
+client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
+
+result = client.v1.ai_image_generator.generate(
+    image_count=1,
+    orientation="landscape",
+    style={
+        "prompt": "A serene mountain landscape at sunset with vibrant colors",
+        "tool": "ai-photo-generator"
+    },
+    name="Mountain Sunset",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ Image complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+import Client from "magic-hour";
+
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
+
+const result = await client.v1.aiImageGenerator.generate({
+  imageCount: 1,
+  orientation: "landscape",
+  style: {
+    prompt: "A serene mountain landscape at sunset with vibrant colors",
+    tool: "ai-photo-generator",
+  },
+  name: "Mountain Sunset",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/",
+});
+
+console.log(`✅ Image complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+console.log(`Credits charged: ${result.creditsCharged}`);
+```
+
+</CodeGroup>
+
+### Generate Multiple Images
+
+<CodeGroup>
+
+```python Python
+result = client.v1.ai_image_generator.generate(
+    image_count=4,  # Generate 4 variations
+    orientation="square",
+    style={
+        "prompt": "Cute cat wearing sunglasses, digital art style",
+        "tool": "ai-anime-generator"
+    },
+    name="Cat Variations",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ Image complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+const result = await client.v1.aiImageGenerator.generate({
+  imageCount: 4, // Generate 4 variations
+  orientation: "square",
+  style: {
+    prompt: "Cute cat wearing sunglasses, digital art style",
+    tool: "ai-anime-generator",
+  },
+  name: "Cat Variations",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/",
+});
+
+console.log(`✅ Image complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+console.log(`Credits charged: ${result.creditsCharged}`);
+```
+
+</CodeGroup>
+
+### Portrait Orientation
+
+<CodeGroup>
+
+```python Python
+result = client.v1.ai_image_generator.generate(
+    image_count=1,
+    orientation="portrait",
+    style={
+        "prompt": "Professional business woman in modern office",
+        "tool": "ai-photo-generator"
+    },
+    name="Business Portrait",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ Images complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+const result = await client.v1.aiImageGenerator.generate({
+  imageCount: 1,
+  orientation: "portrait",
+  style: {
+    prompt: "Professional business woman in modern office",
+    tool: "ai-photo-generator",
+  },
+  name: "Business Portrait",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/",
+});
+
+console.log(`✅ Image complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+console.log(`Credits charged: ${result.creditsCharged}`);
+```
+
+</CodeGroup>
+
+## Pricing
+
+| Quality     | Credits per Image |
+| :---------- | :---------------- |
+| Standard    | 5 credits         |
+| Pro quality | 30 credits        |
+
+<Tip>
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
+</Tip>
+
+## API Reference
+
+<Card
+  title="AI Image Generator API Reference"
+  icon="webhook"
+  href="/api-reference/image-projects/ai-image-generator"
+>
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="AI Image Upscaler" icon="arrow-up" href="/tools/image/image-upscaler">
+    Enhance image resolution
+  </Card>
+  <Card title="Image Background Remover" icon="eraser" href="/tools/image/background-remover">
+    Remove image backgrounds
+  </Card>
+</CardGroup>

@@ -1,0 +1,130 @@
+---
+title: AI GIF Generator
+sidebarTitle: GIF Generator
+description: Create animated GIFs from images or text prompts with AI-powered generation.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+AI GIF Generator creates animated GIFs using AI technology. Generate looping animations from static images or create entirely new animated content from text descriptions.
+
+<ToolSection
+  title="AI GIF Generator"
+  productSlug="ai-gif-generator"
+  apiSlug="ai-gif-generator"
+  type="image"
+  outputs={[
+    {
+      src: "/get-started/images/gifgeneratorexample1.gif",
+    },
+    {
+      src: "/get-started/images/gifgeneratorexample2.gif",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Provide input** - Upload an image or provide a text prompt
+2. **Set animation style** - Choose animation type and duration
+3. **AI generates** - AI creates smooth, looping animated GIF
+4. **Download GIF** - Retrieve your animated GIF file
+
+## Use Cases
+
+- **Social media content** - Create eye-catching animated posts
+- **Reactions and memes** - Generate custom reaction GIFs
+- **Marketing materials** - Animated graphics for campaigns
+- **Website elements** - Dynamic visual content
+- **Messaging** - Custom animated stickers and GIFs
+
+## Code Examples
+
+### Generate GIF from Image
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+from os import getenv
+
+client = Client(token=getenv("API_TOKEN"))
+result = client.v1.ai_gif_generator.generate(
+    style={"prompt": "Cat fighting a lion, pixel art"},
+    name="Ai Gif gif",
+    output_format="gif",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs"
+)
+
+if result.status == "complete":
+    print(f"✅ GIF complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+import Client from "magic-hour";
+
+const client = new Client({ token: process.env.API_TOKEN });
+
+const result = await client.v1.aiGifGenerator.generate({
+  assets: {
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+  },
+  style: {
+    prompt: "Create a smooth zoom and rotation animation",
+  },
+  outputFormat: "gif",
+  name: "GIF Generator image",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "outputs",
+});
+
+console.log(`✅ GIF complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+## Pricing
+
+| Output         | Credits    |
+| :------------- | :--------- |
+| 1 animated GIF | 15 credits |
+
+<Tip>
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
+</Tip>
+
+## API Reference
+
+<Card
+  title="AI GIF Generator API Reference"
+  icon="webhook"
+  href="/api-reference/image-projects/ai-gif-generator"
+>
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="Animation" icon="film" href="/tools/video/animation">
+    Create video animations with advanced effects
+  </Card>
+  <Card title="AI Meme Generator" icon="face-laugh" href="/tools/image/meme-generator">
+    Generate memes with text and templates
+  </Card>
+</CardGroup>

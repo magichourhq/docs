@@ -1,0 +1,213 @@
+---
+title: AI QR Code Generator
+sidebarTitle: QR Code Generator
+description: Create visually appealing, artistic QR codes that maintain functionality.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+AI QR Code Generator creates visually appealing, artistic QR codes that maintain full functionality while incorporating custom designs, colors, and artistic elements. The API generates QR codes that blend seamlessly with branding and creative designs.
+
+<ToolSection
+  title="AI QR Code Generator"
+  productSlug="ai-qr-code-generator"
+  apiSlug="ai-qr-code-generator"
+  type="image"
+  outputs={[
+    {
+      src: "https://d28dkohlqf5vwj.cloudfront.net/products/ai-qr-code-generator/stunning-qr-code.webp",
+    },
+    {
+      src: "https://d28dkohlqf5vwj.cloudfront.net/products/ai-qr-code-generator/unique-artwork.webp",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Provide QR content** - Enter the URL or text for the QR code
+2. **Describe the style** - Use a text prompt to describe the visual design
+3. **API generates the QR code** - AI creates an artistic QR code that still scans
+4. **Download and test** - Retrieve and verify your QR code works
+
+## Use Cases
+
+- **Marketing materials** - Branded QR codes for campaigns
+- **Event tickets** - Artistic codes that match event branding
+- **Restaurant menus** - Stylized codes that fit restaurant aesthetics
+- **Business cards** - Eye-catching professional QR codes
+- **Product packaging** - QR codes that complement packaging design
+
+## Best Practices
+
+### Style Prompts
+
+<Tip>
+  **Describe artistic elements, not the QR code itself** - Focus on colors, themes, and artistic
+  style.
+</Tip>
+
+**✅ Good prompts:**
+
+- "Ocean waves with blue and teal colors, flowing organic patterns"
+- "Forest landscape with trees and green nature elements"
+- "Abstract geometric art in corporate blue and white"
+- "Japanese cherry blossoms with pink and white colors"
+
+**❌ Avoid:**
+
+- "QR code" - The system already knows it's a QR code
+- Conflicting styles that would obscure the code pattern
+- Extremely dark or low-contrast designs
+
+### Ensuring Scannability
+
+- **Test every generated QR code** - Always verify it scans before using
+- **Maintain contrast** - Lighter backgrounds with darker patterns work best
+- **Avoid over-complexity** - Very busy designs may reduce scan reliability
+- **Use error correction** - The AI maintains error correction for reliability
+
+### Content Guidelines
+
+| Content Type | Example                | Best Practice                    |
+| :----------- | :--------------------- | :------------------------------- |
+| URLs         | `https://yoursite.com` | Use short URLs or URL shorteners |
+| Text         | Contact info           | Keep text concise                |
+| vCards       | Contact cards          | Minimize data for smaller codes  |
+
+## Code Examples
+
+### Basic QR Code Generation
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+import os
+
+client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
+
+result = client.v1.ai_qr_code_generator.generate(
+    content="https://magichour.ai",
+    style={"art_style": "Watercolor"},
+    name="Brand QR Code",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ QR code complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+import Client from "magic-hour";
+
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
+
+const result = await client.v1.aiQrCodeGenerator.generate({
+  content: "https://yourwebsite.com",
+  style: {
+    prompt: "Ocean waves with blue and teal colors, flowing organic patterns",
+  },
+  name: "Brand QR Code",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/",
+});
+
+console.log(`✅ QR code complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+### Custom Prompt
+
+<CodeGroup>
+
+```python Python
+result = client.v1.ai_qr_code_generator.generate(
+    content="https://openai.com",
+    style={
+        "art_style": "Studio Ghibli style scene of Shibuya streets at rush hour",
+    },
+    name="OpenAI QR Code",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ QR code complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+const result = await client.v1.aiQrCodeGenerator.generate({
+  content: "https://event.example.com/tickets",
+  style: {
+    prompt: "Elegant gold and black art deco patterns",
+  },
+  name: "Event QR Code",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/",
+});
+
+console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+## Pricing
+
+<Tip>
+  **Currently Free** - QR Code Generator is temporarily free to use. Normally, each QR code costs 5
+  credits.
+</Tip>
+
+| Output    | Credits                               |
+| :-------- | :------------------------------------ |
+| 1 QR code | Temporarily free (normally 5 credits) |
+
+<Tip>
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
+</Tip>
+
+## API Reference
+
+<Card
+  title="AI QR Code Generator API Reference"
+  icon="webhook"
+  href="/api-reference/image-projects/ai-qr-code-generator"
+>
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="AI Image Generator" icon="wand-magic-sparkles" href="/tools/image/image-generator">
+    Create images from text descriptions
+  </Card>
+  <Card title="Image Background Remover" icon="eraser" href="/tools/image/background-remover">
+    Remove image backgrounds
+  </Card>
+</CardGroup>

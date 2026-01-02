@@ -1,0 +1,177 @@
+---
+title: Lip Sync
+sidebarTitle: Lip Sync
+description: Synchronize lip movements in videos with new audio tracks.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+Lip Sync synchronizes lip movements in videos with new audio tracks using advanced AI motion analysis. The API creates realistic lip-sync animation that matches speech patterns, timing, and mouth movements for natural-looking results.
+
+<ToolSection
+  title="Lip Sync"
+  productSlug="lip-sync"
+  apiSlug="lip-sync"
+  type="video"
+  outputs={[
+    {
+      src: "https://videos.magichour.ai/cm9zpj13l06r16y0z70fklvm8/video.mp4",
+    },
+    {
+      src: "https://videos.magichour.ai/clvu7b0k802oq8ypu0wcvt8fu/video.mp4",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Provide a source video** - Upload the video with the person speaking
+2. **Provide audio** - Upload the new audio track to sync to
+3. **API processes the video** - AI analyzes audio and animates lip movements
+4. **Download the result** - Retrieve your lip-synced video
+
+## Use Cases
+
+- **Dubbing and localization** - Translate videos to new languages with matching lips
+- **Personalized messages** - Create custom video messages with any voice
+- **Educational content** - Produce training videos with voiceovers
+- **Entertainment** - Create fun lip-sync content for social media
+- **Accessibility** - Add voiceovers to silent video content
+
+## Best Practices
+
+### Video Requirements
+
+<Tip>
+  **Clear, front-facing footage works best** - Ensure the speaker's face and lips are clearly
+  visible throughout.
+</Tip>
+
+- **Face visibility** - Full face visible with minimal obstructions
+- **Good lighting** - Even lighting on the face
+- **Stable framing** - Face stays in frame throughout
+- **Moderate motion** - Avoid extreme head movements
+
+### Audio Requirements
+
+- **Clear speech** - Well-recorded audio without background noise
+- **Appropriate length** - Audio duration determines output length
+- **Supported formats** - MP3, WAV, AAC, FLAC
+- **Natural pacing** - Normal speaking pace for best results
+
+### Matching Audio to Video
+
+| Factor            | Recommendation                               |
+| :---------------- | :------------------------------------------- |
+| Duration          | Audio and video should be similar length     |
+| Expression        | Match emotional tone between audio and video |
+| Language          | Works across languages                       |
+| Multiple speakers | Best with single speaker                     |
+
+## Code Examples
+
+### Basic Lip Sync
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+import os
+
+client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
+
+result = client.v1.lip_sync.generate(
+    assets={
+        "audio_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
+        "video_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sideeyegirl.mp4",
+        "video_source": "file"
+    },
+    end_seconds=2,
+    start_seconds=0,
+    max_fps_limit=30,
+    style={
+        "generation_mode": "lite"
+    },
+    name="Side Eye Girl Code Lip Sync",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ Lip sync complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+import Client from "magic-hour";
+
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
+
+const result = await client.v1.lipSync.generate({
+  assets: {
+    audioFilePath:
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
+    videoFilePath:
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
+    videoSource: "file",
+  },
+  endSeconds: 2,
+  startSeconds: 0,
+  maxFpsLimit: 8,
+  style: {
+    generationMode: "lite",
+  },
+  name: "Obama Code Lip Sync",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/",
+});
+
+console.log(`✅ Lip sync complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+## Pricing
+
+Lip Sync uses credits based on video duration:
+
+{/* TODO: Verify exact credit calculation */}
+
+| Duration   | Approximate Credits |
+| :--------- | :------------------ |
+| 5 seconds  | ~150 credits        |
+| 10 seconds | ~300 credits        |
+
+<Tip>
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
+</Tip>
+
+## API Reference
+
+<Card title="Lip Sync API Reference" icon="webhook" href="/api-reference/video-projects/lip-sync">
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="AI Voice Generator" icon="microphone" href="/tools/audio/voice-generator">
+    Generate audio with celebrity voices
+  </Card>
+  <Card title="Face Swap Video" icon="user" href="/tools/video/face-swap-video">
+    Replace faces in videos
+  </Card>
+</CardGroup>

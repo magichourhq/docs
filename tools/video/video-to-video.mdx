@@ -1,0 +1,210 @@
+---
+title: Video to Video
+sidebarTitle: Video to Video
+description: Transform existing videos by applying new styles, effects, and visual treatments.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+Video to Video transforms existing videos by applying new styles, effects, and visual treatments while preserving the original motion and structure. The API enables style transfer, artistic effects, and visual enhancement of video content.
+
+<ToolSection
+  title="Video to Video"
+  productSlug="video-to-video"
+  apiSlug="video-to-video"
+  type="video"
+  outputs={[
+    {
+      src: "https://videos.magichour.ai/cm4104vtm0juefg9sfncm1ukz/video.mp4",
+    },
+    {
+      src: "https://videos.magichour.ai/clt68qas2001120vuergh7zyz/video.mp4",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Provide a source video** - Upload the video you want to transform
+2. **Describe the style** - Use a text prompt to describe the new visual style
+3. **API transforms the video** - AI applies the style while preserving motion
+4. **Download the result** - Retrieve your stylized video
+
+## Use Cases
+
+- **Style transfer** - Apply artistic styles to real footage
+- **Brand consistency** - Apply consistent visual treatments across videos
+- **Creative effects** - Transform videos into anime, painting, or other styles
+- **Post-production** - Apply visual effects and color grading
+- **Content repurposing** - Give old content a fresh visual look
+
+## Best Practices
+
+### Source Video Quality
+
+<Tip>
+  **Use stable, well-lit footage** - Consistent lighting and smooth motion produce the best style
+  transfers.
+</Tip>
+
+- **Good lighting** - Even, consistent lighting throughout
+- **Stable footage** - Tripod or stabilized footage works best
+- **Clear subjects** - Well-defined subjects transfer styles better
+- **Moderate motion** - Avoid extremely fast or chaotic motion
+
+### Style Prompts
+
+Describe the visual style you want to apply:
+
+**✅ Good prompts:**
+
+- "Studio Ghibli anime style, soft colors, hand-painted look"
+- "Oil painting style with thick brushstrokes and impressionist colors"
+- "Cyberpunk neon aesthetic with high contrast and purple/pink color grading"
+- "Vintage film look with grain, warm tones, and faded blacks"
+
+**❌ Avoid:**
+
+- Changing content: "Add a person" (this changes content, not style)
+- Vague descriptions: "Make it better"
+- Conflicting styles: "Realistic and cartoon"
+
+### Style Categories
+
+| Category      | Description              | Example Prompts                |
+| :------------ | :----------------------- | :----------------------------- |
+| Anime/Cartoon | Hand-drawn animated look | "Anime style, vibrant colors"  |
+| Painting      | Traditional art styles   | "Oil painting, impressionist"  |
+| Cinematic     | Film-like treatments     | "Vintage film, warm tones"     |
+| Futuristic    | Modern/sci-fi aesthetics | "Cyberpunk, neon lights"       |
+| Artistic      | Abstract/creative styles | "Abstract, geometric patterns" |
+
+## Code Examples
+
+### Basic Style Transfer
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+import os
+
+client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
+
+result = client.v1.video_to_video.generate(
+    assets={
+        "video_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
+        "video_source": "file"
+    },
+    end_seconds=2,
+    fps_resolution="HALF",
+    height=512,
+    width=576,
+    start_seconds=0,
+    style={
+        "art_style": "Retro Anime",
+        "prompt": "Obama's mic drop, on fire, burning, flames, retro anime, textured, symbolism, retrofuturism, (intricate:1.1), (detailed:1.1), (ornate:1.1), (aesthetic:1.1), (90's:1.1), (neon:1.0), (glowing:1.0), (flat colors:1.1), (flat texture:1.1)",
+        "prompt_type": "custom",
+        "version": "default"
+    },
+    name="Anime Mic Drop",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+if result.status == "complete":
+    print(f"✅ Video complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+
+```
+
+```javascript Node.js
+import Client from "magic-hour";
+
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
+
+const result = await client.v1.videoToVideo.generate({
+  assets: {
+    videoFilePath:
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
+    videoSource: "file",
+  },
+  endSeconds: 2,
+  fps: 8,
+  height: 512,
+  width: 512,
+  startSeconds: 0,
+  style: {
+    artStyle: "Studio Ghibli Film Still",
+    prompt: "Obama dropping the mic in anime style, soft pastel colors, whimsical and expressive",
+    promptType: "custom",
+    version: "default",
+  },
+  name: "Anime Mic Drop",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/",
+});
+
+console.log(`✅ Video complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+## Pricing
+
+Video to Video uses credits based on video duration and frame rate:
+
+{/* TODO: Verify exact credit calculation */}
+
+| Factor     | Impact                           |
+| :--------- | :------------------------------- |
+| Duration   | More seconds = more credits      |
+| Frame rate | Higher FPS = more credits        |
+| Resolution | Higher resolution = more credits |
+
+## Resolution Limits
+
+Video to Video has a maximum resolution of **1472px** (either width or height).
+
+<Note>
+  **64-Pixel Increments**: Video to Video requires resolution dimensions to be in increments of 64
+  pixels (e.g., 512, 576, 640, 704, etc.).
+</Note>
+
+<Tip>
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
+</Tip>
+
+## API Reference
+
+<Card
+  title="Video to Video API Reference"
+  icon="webhook"
+  href="/api-reference/video-projects/video-to-video"
+>
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="Animation" icon="film" href="/tools/video/animation">
+    Create animated videos from scratch
+  </Card>
+  <Card title="Image to Video" icon="image" href="/tools/video/image-to-video">
+    Animate static images into videos
+  </Card>
+</CardGroup>
