@@ -44,9 +44,7 @@ Photo Colorizer brings black and white photos to life by adding realistic, histo
 
 ### Photo Selection
 
-<Tip>
-**Use high-quality scans** - Better source images produce more accurate colorization.
-</Tip>
+<Tip>**Use high-quality scans** - Better source images produce more accurate colorization.</Tip>
 
 - **Clear contrast** - Good grayscale contrast helps color accuracy
 - **High resolution** - More detail enables better colorization
@@ -55,13 +53,13 @@ Photo Colorizer brings black and white photos to life by adding realistic, histo
 
 ### Colorization Quality
 
-| Photo Type | Colorization Quality |
-|:-----------|:---------------------|
-| Portraits | Excellent - faces colorize very naturally |
-| Landscapes | Excellent - natural scenes work well |
-| Architecture | Good - buildings and structures |
-| Objects | Good - everyday items |
-| Complex scenes | Variable - depends on clarity |
+| Photo Type     | Colorization Quality                      |
+| :------------- | :---------------------------------------- |
+| Portraits      | Excellent - faces colorize very naturally |
+| Landscapes     | Excellent - natural scenes work well      |
+| Architecture   | Good - buildings and structures           |
+| Objects        | Good - everyday items                     |
+| Complex scenes | Variable - depends on clarity             |
 
 ## Code Examples
 
@@ -96,18 +94,18 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.API_TOKEN });
 
 const result = await client.v1.photoColorizer.generate({
   assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/bw-photo.jpg"
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/bw-photo.jpg",
   },
   name: "Photo Colorizer image",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs"
+  downloadDirectory: "outputs",
 });
 
 console.log(`✅ Colorization complete!`);
@@ -119,28 +117,37 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 ## Pricing
 
-| Output | Credits |
-|:-------|:--------|
+| Output            | Credits    |
+| :---------------- | :--------- |
 | 1 colorized image | 10 credits |
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
-<Card title="Photo Colorizer API Reference" icon="webhook" href="/api-reference/image-projects/photo-colorizer">
+<Card
+  title="Photo Colorizer API Reference"
+  icon="webhook"
+  href="/api-reference/image-projects/photo-colorizer"
+>
   View full API specification
 </Card>
 
 ## Related Tools
 
 <CardGroup cols={2}>
-  <Card title="AI Image Upscaler" icon="up-right-and-down-left-from-center" href="/tools/image/image-upscaler">
+  <Card
+    title="AI Image Upscaler"
+    icon="up-right-and-down-left-from-center"
+    href="/tools/image/image-upscaler"
+  >
     Upscale and enhance old photos
   </Card>
   <Card title="AI Image Editor" icon="wand-magic-sparkles" href="/tools/image/image-editor">
     Edit and modify images with AI
   </Card>
 </CardGroup>
-

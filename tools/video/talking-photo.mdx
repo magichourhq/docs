@@ -45,7 +45,8 @@ AI Talking Photo brings static photos to life by animating faces to speak with r
 ### Photo Selection
 
 <Tip>
-**Use clear, front-facing photos** - Best results come from high-quality headshots with visible facial features.
+  **Use clear, front-facing photos** - Best results come from high-quality headshots with visible
+  facial features.
 </Tip>
 
 - **Good lighting** - Well-lit faces produce better animations
@@ -55,12 +56,12 @@ AI Talking Photo brings static photos to life by animating faces to speak with r
 
 ### Audio Guidelines
 
-| Audio Type | Best Practice |
-|:-----------|:--------------|
-| Voice recording | Clear speech without background noise |
-| Generated speech | Use natural-sounding text prompts |
-| Music/songs | Works best with clear vocals |
-| Length | Keep under 30 seconds for best results |
+| Audio Type       | Best Practice                          |
+| :--------------- | :------------------------------------- |
+| Voice recording  | Clear speech without background noise  |
+| Generated speech | Use natural-sounding text prompts      |
+| Music/songs      | Works best with clear vocals           |
+| Length           | Keep under 30 seconds for best results |
 
 ## Code Examples
 
@@ -98,21 +99,22 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.API_TOKEN });
 
 const result = await client.v1.aiTalkingPhoto.generate({
   assets: {
     imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
-    audioFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3"
+    audioFilePath:
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
   },
   name: "Talking Photo",
   startSeconds: 0,
   endSeconds: 2,
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs"
+  downloadDirectory: "outputs",
 });
 
 console.log(`✅ Talking photo complete!`);
@@ -152,12 +154,13 @@ else:
 const result = await client.v1.aiTalkingPhoto.generate({
   assets: {
     imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
-    audioFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3"
+    audioFilePath:
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
   },
   name: "Talking Photo",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs"
+  downloadDirectory: "outputs",
 });
 
 console.log(`✅ Talking photo complete!`);
@@ -171,9 +174,9 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 Talking Photo pricing varies by video length and resolution:
 
-| Configuration | Credits per Second |
-|:--------------|:-------------------|
-| 720p or lower | ~10-15 credits/sec |
+| Configuration     | Credits per Second |
+| :---------------- | :----------------- |
+| 720p or lower     | ~10-15 credits/sec |
 | Higher resolution | ~20-30 credits/sec |
 
 ## Resolution Limits
@@ -181,12 +184,18 @@ Talking Photo pricing varies by video length and resolution:
 AI Talking Photo has a maximum resolution of **720p** across all subscription tiers due to computational requirements.
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
-<Card title="AI Talking Photo API Reference" icon="webhook" href="/api-reference/video-projects/ai-talking-photo">
+<Card
+  title="AI Talking Photo API Reference"
+  icon="webhook"
+  href="/api-reference/video-projects/ai-talking-photo"
+>
   View full API specification
 </Card>
 
@@ -200,4 +209,3 @@ AI Talking Photo has a maximum resolution of **720p** across all subscription ti
     Generate speech audio for your talking photos
   </Card>
 </CardGroup>
-

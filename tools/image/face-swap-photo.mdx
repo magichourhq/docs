@@ -45,7 +45,8 @@ Face Swap Photo lets you replace faces in static images with realistic precision
 ### Image Quality
 
 <Tip>
-**Use high-resolution images** - Higher quality source images produce better results. Aim for at least 512x512 pixels for the face area.
+  **Use high-resolution images** - Higher quality source images produce better results. Aim for at
+  least 512x512 pixels for the face area.
 </Tip>
 
 - **Clear, well-lit faces** - Ensure faces are clearly visible with good lighting
@@ -61,12 +62,12 @@ Face Swap Photo lets you replace faces in static images with realistic precision
 
 ### Common Issues and Solutions
 
-| Issue | Cause | Solution |
-|:------|:------|:---------|
-| Face not detected | Face too small or obscured | Use a clearer, larger face image |
-| Unnatural blending | Lighting mismatch | Match lighting between source and target |
-| Distorted features | Extreme angle difference | Use more similar face angles |
-| Low quality output | Low resolution input | Use higher resolution images |
+| Issue              | Cause                      | Solution                                 |
+| :----------------- | :------------------------- | :--------------------------------------- |
+| Face not detected  | Face too small or obscured | Use a clearer, larger face image         |
+| Unnatural blending | Lighting mismatch          | Match lighting between source and target |
+| Distorted features | Extreme angle difference   | Use more similar face angles             |
+| Low quality output | Low resolution input       | Use higher resolution images             |
 
 ## Code Examples
 
@@ -102,19 +103,19 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 const result = await client.v1.faceSwapPhoto.generate({
   assets: {
     sourceFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
-    targetFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+    targetFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
   },
   name: "My Face Swap",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Face swap complete!`);
@@ -128,23 +129,29 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 Face Swap Photo uses a flat credit cost per image:
 
-| Output | Credits |
-|:-------|:--------|
+| Output            | Credits   |
+| :---------------- | :-------- |
 | 1 face swap image | 5 credits |
 
 <Info>
-Credits are charged when the job is created. If the job fails, credits are refunded automatically.
+  Credits are charged when the job is created. If the job fails, credits are refunded automatically.
 </Info>
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
 For complete API details including all parameters and response formats:
 
-<Card title="Face Swap Photo API Reference" icon="webhook" href="/api-reference/image-projects/face-swap-photo">
+<Card
+  title="Face Swap Photo API Reference"
+  icon="webhook"
+  href="/api-reference/image-projects/face-swap-photo"
+>
   View full API specification
 </Card>
 
@@ -152,12 +159,12 @@ For complete API details including all parameters and response formats:
 
 Common error codes and how to handle them:
 
-| Error Code | Description | Solution |
-|:-----------|:------------|:---------|
-| `no_source_face` | No face detected in source image | Use image with clear, visible face |
-| `no_target_face` | No face detected in target image | Use image with clear, visible face |
-| `invalid_file_format` | Unsupported file format | Use PNG, JPG, JPEG, or WEBP |
-| `file_too_large` | File exceeds size limit | Compress or resize the image |
+| Error Code            | Description                      | Solution                           |
+| :-------------------- | :------------------------------- | :--------------------------------- |
+| `no_source_face`      | No face detected in source image | Use image with clear, visible face |
+| `no_target_face`      | No face detected in target image | Use image with clear, visible face |
+| `invalid_file_format` | Unsupported file format          | Use PNG, JPG, JPEG, or WEBP        |
+| `file_too_large`      | File exceeds size limit          | Compress or resize the image       |
 
 ## Related Tools
 
@@ -169,4 +176,3 @@ Common error codes and how to handle them:
     Generate professional headshots from a single photo
   </Card>
 </CardGroup>
-

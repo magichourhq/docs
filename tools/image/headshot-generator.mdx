@@ -45,7 +45,8 @@ AI Headshot Generator creates professional-quality headshots from a single photo
 ### Source Photo Requirements
 
 <Tip>
-**Use a clear, front-facing photo** - The AI needs to clearly see the person's face for best results.
+  **Use a clear, front-facing photo** - The AI needs to clearly see the person's face for best
+  results.
 </Tip>
 
 - **Good lighting** - Even, natural lighting works best
@@ -59,6 +60,7 @@ AI Headshot Generator creates professional-quality headshots from a single photo
 You can customize the output with prompts:
 
 **✅ Good prompts:**
+
 - "Professional corporate headshot with neutral gray background"
 - "Friendly business casual with soft natural lighting"
 - "Executive portrait with dark blue suit"
@@ -99,21 +101,21 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 const result = await client.v1.aiHeadshotGenerator.generate({
   assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
   },
   style: {
-    prompt: "Professional corporate headshot with neutral gray background"
+    prompt: "Professional corporate headshot with neutral gray background",
   },
   name: "Professional Headshot",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Headshot complete!`);
@@ -127,8 +129,8 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 {/* TODO: Verify exact credit cost */}
 
-| Output | Credits |
-|:-------|:--------|
+| Output     | Credits    |
+| :--------- | :--------- |
 | 1 headshot | 50 credits |
 
 ## Resolution Limits
@@ -136,12 +138,18 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 AI Headshot Generator has a maximum resolution of **1344px** (either width or height).
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
-<Card title="AI Headshot Generator API Reference" icon="webhook" href="/api-reference/image-projects/ai-headshot-generator">
+<Card
+  title="AI Headshot Generator API Reference"
+  icon="webhook"
+  href="/api-reference/image-projects/ai-headshot-generator"
+>
   View full API specification
 </Card>
 
@@ -155,4 +163,3 @@ AI Headshot Generator has a maximum resolution of **1344px** (either width or he
     Change outfits in photos
   </Card>
 </CardGroup>
-

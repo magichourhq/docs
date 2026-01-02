@@ -45,16 +45,19 @@ AI QR Code Generator creates visually appealing, artistic QR codes that maintain
 ### Style Prompts
 
 <Tip>
-**Describe artistic elements, not the QR code itself** - Focus on colors, themes, and artistic style.
+  **Describe artistic elements, not the QR code itself** - Focus on colors, themes, and artistic
+  style.
 </Tip>
 
 **✅ Good prompts:**
+
 - "Ocean waves with blue and teal colors, flowing organic patterns"
 - "Forest landscape with trees and green nature elements"
 - "Abstract geometric art in corporate blue and white"
 - "Japanese cherry blossoms with pink and white colors"
 
 **❌ Avoid:**
+
 - "QR code" - The system already knows it's a QR code
 - Conflicting styles that would obscure the code pattern
 - Extremely dark or low-contrast designs
@@ -68,11 +71,11 @@ AI QR Code Generator creates visually appealing, artistic QR codes that maintain
 
 ### Content Guidelines
 
-| Content Type | Example | Best Practice |
-|:-------------|:--------|:--------------|
-| URLs | `https://yoursite.com` | Use short URLs or URL shorteners |
-| Text | Contact info | Keep text concise |
-| vCards | Contact cards | Minimize data for smaller codes |
+| Content Type | Example                | Best Practice                    |
+| :----------- | :--------------------- | :------------------------------- |
+| URLs         | `https://yoursite.com` | Use short URLs or URL shorteners |
+| Text         | Contact info           | Keep text concise                |
+| vCards       | Contact cards          | Minimize data for smaller codes  |
 
 ## Code Examples
 
@@ -106,19 +109,19 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 const result = await client.v1.aiQrCodeGenerator.generate({
   content: "https://yourwebsite.com",
   style: {
-    prompt: "Ocean waves with blue and teal colors, flowing organic patterns"
+    prompt: "Ocean waves with blue and teal colors, flowing organic patterns",
   },
   name: "Brand QR Code",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ QR code complete!`);
@@ -158,12 +161,12 @@ else:
 const result = await client.v1.aiQrCodeGenerator.generate({
   content: "https://event.example.com/tickets",
   style: {
-    prompt: "Elegant gold and black art deco patterns"
+    prompt: "Elegant gold and black art deco patterns",
   },
   name: "Event QR Code",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
@@ -174,20 +177,27 @@ console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
 ## Pricing
 
 <Tip>
-**Currently Free** - QR Code Generator is temporarily free to use. Normally, each QR code costs 5 credits.
+  **Currently Free** - QR Code Generator is temporarily free to use. Normally, each QR code costs 5
+  credits.
 </Tip>
 
-| Output | Credits |
-|:-------|:--------|
+| Output    | Credits                               |
+| :-------- | :------------------------------------ |
 | 1 QR code | Temporarily free (normally 5 credits) |
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
-<Card title="AI QR Code Generator API Reference" icon="webhook" href="/api-reference/image-projects/ai-qr-code-generator">
+<Card
+  title="AI QR Code Generator API Reference"
+  icon="webhook"
+  href="/api-reference/image-projects/ai-qr-code-generator"
+>
   View full API specification
 </Card>
 
@@ -201,4 +211,3 @@ console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
     Remove image backgrounds
   </Card>
 </CardGroup>
-

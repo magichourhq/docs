@@ -45,17 +45,17 @@ AI Meme Generator creates humorous memes by combining popular meme templates wit
 
 ### Topic Selection
 
-<Tip>
-**Be specific about your topic** - Clear topics generate more relevant and funny memes.
-</Tip>
+<Tip>**Be specific about your topic** - Clear topics generate more relevant and funny memes.</Tip>
 
 **✅ Good topics:**
+
 - "When the code finally works after 3 hours of debugging"
 - "Designers vs developers arguing about button placement"
 - "Coffee before and after the first sip"
 - "Me explaining my job to my parents"
 
 **❌ Avoid:**
+
 - Vague topics like "work" or "life"
 - Topics requiring extensive context
 - Offensive or controversial subjects
@@ -64,12 +64,12 @@ AI Meme Generator creates humorous memes by combining popular meme templates wit
 
 Popular templates work best with their intended formats:
 
-| Template | Best For | Example Topic |
-|:---------|:---------|:--------------|
-| Drake Hotline Bling | Preferences, choices | "Old code vs new refactored code" |
-| Distracted Boyfriend | Conflicting interests | "Me, my project, new framework" |
-| Two Buttons | Difficult decisions | "Fix bug or add feature" |
-| Expanding Brain | Progressive ideas | "Levels of code optimization" |
+| Template             | Best For              | Example Topic                     |
+| :------------------- | :-------------------- | :-------------------------------- |
+| Drake Hotline Bling  | Preferences, choices  | "Old code vs new refactored code" |
+| Distracted Boyfriend | Conflicting interests | "Me, my project, new framework"   |
+| Two Buttons          | Difficult decisions   | "Fix bug or add feature"          |
+| Expanding Brain      | Progressive ideas     | "Levels of code optimization"     |
 
 ### Web Search Option
 
@@ -112,7 +112,7 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
@@ -120,12 +120,12 @@ const result = await client.v1.aiMemeGenerator.generate({
   style: {
     searchWeb: false,
     template: "Drake Hotline Bling",
-    topic: "When the code finally works after hours of debugging"
+    topic: "When the code finally works after hours of debugging",
   },
   name: "Code Works Meme",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Meme complete!`);
@@ -167,12 +167,12 @@ const result = await client.v1.aiMemeGenerator.generate({
   style: {
     searchWeb: false,
     template: "Distracted Boyfriend",
-    topic: "Developers and shiny new frameworks"
+    topic: "Developers and shiny new frameworks",
   },
   name: "Framework Meme",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
@@ -212,12 +212,12 @@ const result = await client.v1.aiMemeGenerator.generate({
   style: {
     searchWeb: true,
     template: "Two Buttons",
-    topic: "Latest tech trends in AI development"
+    topic: "Latest tech trends in AI development",
   },
   name: "AI Trends Meme",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
@@ -227,17 +227,23 @@ console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
 
 ## Pricing
 
-| Output | Credits |
-|:-------|:--------|
+| Output | Credits    |
+| :----- | :--------- |
 | 1 meme | 10 credits |
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
-<Card title="AI Meme Generator API Reference" icon="webhook" href="/api-reference/image-projects/ai-meme-generator">
+<Card
+  title="AI Meme Generator API Reference"
+  icon="webhook"
+  href="/api-reference/image-projects/ai-meme-generator"
+>
   View full API specification
 </Card>
 
@@ -251,4 +257,3 @@ console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
     Create animated GIFs
   </Card>
 </CardGroup>
-

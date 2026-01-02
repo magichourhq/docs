@@ -53,16 +53,15 @@ Magic Hour offers a variety of celebrity and character voices:
 {/* TODO: Add complete list of available voices */}
 
 <Note>
-For the complete list of available voices, check the [API Reference](/api-reference/audio-projects/ai-voice-generator).
+  For the complete list of available voices, check the [API
+  Reference](/api-reference/audio-projects/ai-voice-generator).
 </Note>
 
 ## Best Practices
 
 ### Text Guidelines
 
-<Tip>
-**Write naturally** - Use conversational language that sounds good when spoken aloud.
-</Tip>
+<Tip>**Write naturally** - Use conversational language that sounds good when spoken aloud.</Tip>
 
 - **Natural punctuation** - Use periods, commas, and question marks for natural pauses
 - **Avoid abbreviations** - Write out words fully (e.g., "Mister" not "Mr.")
@@ -71,12 +70,12 @@ For the complete list of available voices, check the [API Reference](/api-refere
 
 ### Optimizing Output Quality
 
-| Technique | Why It Helps |
-|:----------|:-------------|
+| Technique           | Why It Helps                              |
+| :------------------ | :---------------------------------------- |
 | Natural punctuation | Creates appropriate pauses and intonation |
-| Phonetic spelling | Helps with unusual words or names |
-| Sentence breaks | Improves rhythm and comprehension |
-| Consistent tone | Matches voice personality |
+| Phonetic spelling   | Helps with unusual words or names         |
+| Sentence breaks     | Improves rhythm and comprehension         |
+| Consistent tone     | Matches voice personality                 |
 
 ### Text Length Considerations
 
@@ -119,19 +118,19 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.API_TOKEN });
 
 const result = await client.v1.aiVoiceGenerator.generate({
   style: {
     prompt: "Hello! This is a test of the Magic Hour voice generator. Pretty cool, right?",
-    voiceName: "Morgan Freeman"
+    voiceName: "Morgan Freeman",
   },
   name: "Voice Generator audio",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs"
+  downloadDirectory: "outputs",
 });
 
 console.log(`✅ Voice generation complete!`);
@@ -171,12 +170,12 @@ else:
 const result = await client.v1.aiVoiceGenerator.generate({
   style: {
     prompt: "Welcome to the show! Today we're going to talk about something really exciting.",
-    voiceName: "Joe Rogan"
+    voiceName: "Joe Rogan",
   },
   name: "Voice Generator audio",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs"
+  downloadDirectory: "outputs",
 });
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
@@ -214,12 +213,12 @@ else:
 const result = await client.v1.aiVoiceGenerator.generate({
   style: {
     prompt: "In a world where technology meets creativity, Magic Hour brings your ideas to life.",
-    voiceName: "Donald Trump"
+    voiceName: "Donald Trump",
   },
   name: "Voice Generator audio",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs"
+  downloadDirectory: "outputs",
 });
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
@@ -284,19 +283,25 @@ print("lip_status:", lip_sync_result.status, "paths:", getattr(lip_sync_result, 
 
 Voice generation uses credits based on text length:
 
-| Text Length | Approximate Credits |
-|:------------|:--------------------|
-| Short (1-2 sentences) | ~5 credits |
-| Medium (paragraph) | ~10-20 credits |
-| Long (multiple paragraphs) | ~30+ credits |
+| Text Length                | Approximate Credits |
+| :------------------------- | :------------------ |
+| Short (1-2 sentences)      | ~5 credits          |
+| Medium (paragraph)         | ~10-20 credits      |
+| Long (multiple paragraphs) | ~30+ credits        |
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
-<Card title="AI Voice Generator API Reference" icon="webhook" href="/api-reference/audio-projects/ai-voice-generator">
+<Card
+  title="AI Voice Generator API Reference"
+  icon="webhook"
+  href="/api-reference/audio-projects/ai-voice-generator"
+>
   View full API specification
 </Card>
 
@@ -310,4 +315,3 @@ Voice generation uses credits based on text length:
     Create animated videos with audio
   </Card>
 </CardGroup>
-

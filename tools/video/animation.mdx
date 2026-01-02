@@ -46,6 +46,7 @@ Animation transforms static images into dynamic animated videos with smooth moti
 ### Using Source Images
 
 When providing a starting image:
+
 - **Match the style** - The prompt should complement your image
 - **High quality** - Better images produce better animations
 - **Clear subjects** - Well-defined subjects animate more smoothly
@@ -53,6 +54,7 @@ When providing a starting image:
 ### Audio Synchronization
 
 When adding audio:
+
 - **Match the mood** - Audio should complement the visual style
 - **Consider timing** - Longer audio = longer video
 - **Supported formats** - MP3, WAV, AAC, FLAC
@@ -101,13 +103,13 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 const result = await client.v1.animation.generate({
   assets: {
-    audioSource: "none"
+    audioSource: "none",
   },
   endSeconds: 1.5,
   fps: 8,
@@ -118,12 +120,12 @@ const result = await client.v1.animation.generate({
     cameraEffect: "Dramatic Zoom In",
     prompt: "A majestic tiger walking through a misty jungle at sunset, magical atmosphere",
     promptType: "custom",
-    transitionSpeed: 5
+    transitionSpeed: 5,
   },
   name: "Tiger Animation",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Animation complete!`);
@@ -174,7 +176,7 @@ else:
 const result = await client.v1.animation.generate({
   assets: {
     audioSource: "none",
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
   },
   endSeconds: 1.5,
   fps: 8.0,
@@ -185,12 +187,12 @@ const result = await client.v1.animation.generate({
     cameraEffect: "Spin Bounce",
     prompt: "Tom Cruise in an action pose, dramatic lighting, cinematic intensity",
     promptType: "custom",
-    transitionSpeed: 5
+    transitionSpeed: 5,
   },
   name: "Tom Cruise Animation",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
@@ -242,20 +244,22 @@ const result = await client.v1.animation.generate({
   height: 256,
   width: 512,
   assets: {
-    audioFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
-    audioSource: "file"
+    audioFilePath:
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
+    audioSource: "file",
   },
   style: {
     artStyle: "Cyberpunk",
     cameraEffect: "Pulse - Audio Sync",
-    prompt: "Digital code streams and neon circuits pulsing to the rhythm, futuristic tech aesthetic",
+    prompt:
+      "Digital code streams and neon circuits pulsing to the rhythm, futuristic tech aesthetic",
     promptType: "custom",
-    transitionSpeed: 5
+    transitionSpeed: 5,
   },
   name: "Code Audio Animation",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
@@ -267,17 +271,19 @@ console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
 
 Animation uses credits based on video duration:
 
-| Duration | Approximate Credits |
-|:---------|:--------------------|
-| 5 seconds | ~150 credits |
-| 10 seconds | ~300 credits |
+| Duration   | Approximate Credits |
+| :--------- | :------------------ |
+| 5 seconds  | ~150 credits        |
+| 10 seconds | ~300 credits        |
 
 ## Resolution Limits
 
 Animation has a maximum resolution of **1472px** (either width or height).
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
@@ -296,4 +302,3 @@ Animation has a maximum resolution of **1472px** (either width or height).
     Generate videos from text descriptions
   </Card>
 </CardGroup>
-

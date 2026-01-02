@@ -45,7 +45,8 @@ Image to Video converts static images into dynamic video content with AI-generat
 ### Source Image Quality
 
 <Tip>
-**Use high-quality images with clear subjects** - Better images produce smoother, more realistic animations.
+  **Use high-quality images with clear subjects** - Better images produce smoother, more realistic
+  animations.
 </Tip>
 
 - **High resolution** - At least 720p for best results
@@ -58,24 +59,26 @@ Image to Video converts static images into dynamic video content with AI-generat
 Describe the motion you want to see:
 
 **✅ Good prompts:**
+
 - "Camera slowly panning right, leaves gently swaying in wind"
 - "Zoom in on the subject with slight parallax effect"
 - "Water rippling, clouds moving slowly across the sky"
 - "Person walking forward, hair blowing in breeze"
 
 **❌ Avoid:**
+
 - No motion description: "A beautiful landscape"
 - Impossible physics: "Person flying through wall"
 - Conflicting motions: "Zoom in and zoom out simultaneously"
 
 ### Image Types That Animate Well
 
-| Image Type | Animation Potential | Tips |
-|:-----------|:-------------------|:-----|
-| Landscapes | Excellent | Add wind, water, cloud motion |
-| Portraits | Good | Subtle movements, blinks, breathing |
-| Product photos | Moderate | Camera motion, lighting effects |
-| Abstract art | Excellent | Morphing, flowing effects |
+| Image Type     | Animation Potential | Tips                                |
+| :------------- | :------------------ | :---------------------------------- |
+| Landscapes     | Excellent           | Add wind, water, cloud motion       |
+| Portraits      | Good                | Subtle movements, blinks, breathing |
+| Product photos | Moderate            | Camera motion, lighting effects     |
+| Abstract art   | Excellent           | Morphing, flowing effects           |
 
 ## Code Examples
 
@@ -115,23 +118,23 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 const result = await client.v1.imageToVideo.generate({
   assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sunset.jpg"
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sunset.jpg",
   },
   style: {
-    prompt: "Sunset landscape with subtle camera movement, gentle parallax effect, cinematic depth"
+    prompt: "Sunset landscape with subtle camera movement, gentle parallax effect, cinematic depth",
   },
   endSeconds: 1.5,
   name: "Sunset Animation",
   resolution: "480p",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Video complete!`);
@@ -141,17 +144,16 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 </CodeGroup>
 
-
 ## Pricing
 
 Image to Video uses credits based on video duration:
 
 {/* TODO: Verify exact credit calculation */}
 
-| Duration | Approximate Credits |
-|:---------|:--------------------|
-| 5 seconds | ~150 credits |
-| 10 seconds | ~300 credits |
+| Duration   | Approximate Credits |
+| :--------- | :------------------ |
+| 5 seconds  | ~150 credits        |
+| 10 seconds | ~300 credits        |
 
 Higher resolutions cost more per second.
 
@@ -160,12 +162,18 @@ Higher resolutions cost more per second.
 Image to Video has a maximum resolution of **1080p** (1920x1080 or 1080x1920).
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
-<Card title="Image to Video API Reference" icon="webhook" href="/api-reference/video-projects/image-to-video">
+<Card
+  title="Image to Video API Reference"
+  icon="webhook"
+  href="/api-reference/video-projects/image-to-video"
+>
   View full API specification
 </Card>
 
@@ -179,4 +187,3 @@ Image to Video has a maximum resolution of **1080p** (1920x1080 or 1080x1920).
     Create animated videos with motion effects
   </Card>
 </CardGroup>
-

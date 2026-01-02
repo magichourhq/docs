@@ -45,7 +45,7 @@ AI Face Editor provides advanced facial editing capabilities using AI to modify 
 ### Photo Requirements
 
 <Tip>
-**Use high-quality, well-lit photos** - Better source images produce superior editing results.
+  **Use high-quality, well-lit photos** - Better source images produce superior editing results.
 </Tip>
 
 - **Clear facial features** - All features should be visible
@@ -55,12 +55,12 @@ AI Face Editor provides advanced facial editing capabilities using AI to modify 
 
 ### Edit Guidelines
 
-| Edit Type | Best Practice |
-|:----------|:--------------|
+| Edit Type           | Best Practice                |
+| :------------------ | :--------------------------- |
 | Feature adjustments | Make subtle, natural changes |
-| Expression changes | Maintain facial structure |
-| Enhancements | Keep edits realistic |
-| Multiple edits | Apply one change at a time |
+| Expression changes  | Maintain facial structure    |
+| Enhancements        | Keep edits realistic         |
+| Multiple edits      | Apply one change at a time   |
 
 ## Code Examples
 
@@ -91,9 +91,9 @@ result = client.v1.ai_face_editor.generate(
         "mouth_grim": 0.0,
         "mouth_position_horizontal": 0.0,
         "mouth_position_vertical": 0.0,
-        "mouth_pout": 0.0,  
+        "mouth_pout": 0.0,
         "mouth_purse": 0.0,
-        "mouth_smile": 0.0, 
+        "mouth_smile": 0.0,
     },
     name="Face Editor image",
     wait_for_completion=True,
@@ -112,20 +112,20 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.API_TOKEN });
 
 const result = await client.v1.aiFaceEditor.generate({
   assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
   },
   style: {
     enhanceFace: false,
     eyeGazeHorizontal: 0.0,
     eyeGazeVertical: 0.0,
     eyeOpenRatio: 0.0,
-    eyebrowDirection: 100,  // Raise eyebrows
+    eyebrowDirection: 100, // Raise eyebrows
     headPitch: 0.0,
     headRoll: 0.0,
     headYaw: 0.0,
@@ -135,12 +135,12 @@ const result = await client.v1.aiFaceEditor.generate({
     mouthPositionVertical: 0.0,
     mouthPout: 0.0,
     mouthPurse: 0.0,
-    mouthSmile: 0.0
+    mouthSmile: 0.0,
   },
   name: "Face Editor image",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs"
+  downloadDirectory: "outputs",
 });
 
 console.log(`✅ Face edit complete!`);
@@ -172,9 +172,9 @@ result = client.v1.ai_face_editor.generate(
         "mouth_grim": 0.0,
         "mouth_position_horizontal": 0.0,
         "mouth_position_vertical": 0.0,
-        "mouth_pout": 100, # Make Mouth Pout  
+        "mouth_pout": 100, # Make Mouth Pout
         "mouth_purse": 0.0,
-        "mouth_smile": 0.0, 
+        "mouth_smile": 0.0,
     },
     name="Face Editor image",
     wait_for_completion=True,
@@ -195,14 +195,14 @@ else:
 ```javascript Node.js
 const result = await client.v1.aiFaceEditor.generate({
   assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
   },
   style: {
     enhanceFace: false,
     eyeGazeHorizontal: 0.0,
     eyeGazeVertical: 0.0,
     eyeOpenRatio: 0.0,
-    eyebrowDirection: 100,  // Raise eyebrows
+    eyebrowDirection: 100, // Raise eyebrows
     headPitch: 0.0,
     headRoll: 0.0,
     headYaw: 0.0,
@@ -210,14 +210,14 @@ const result = await client.v1.aiFaceEditor.generate({
     mouthGrim: 0.0,
     mouthPositionHorizontal: 0.0,
     mouthPositionVertical: 0.0,
-    mouthPout: 100,  // Make Mouth Pout
+    mouthPout: 100, // Make Mouth Pout
     mouthPurse: 0.0,
-    mouthSmile: 0.0
+    mouthSmile: 0.0,
   },
   name: "Face Editor image",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs"
+  downloadDirectory: "outputs",
 });
 
 console.log(`✅ Face edit complete!`);
@@ -229,17 +229,23 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 ## Pricing
 
-| Output | Credits |
-|:-------|:--------|
+| Output         | Credits   |
+| :------------- | :-------- |
 | 1 edited image | 1 credits |
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
-<Card title="AI Face Editor API Reference" icon="webhook" href="/api-reference/image-projects/ai-face-editor">
+<Card
+  title="AI Face Editor API Reference"
+  icon="webhook"
+  href="/api-reference/image-projects/ai-face-editor"
+>
   View full API specification
 </Card>
 
@@ -253,4 +259,3 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
     Edit and modify full images
   </Card>
 </CardGroup>
-

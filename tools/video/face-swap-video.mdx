@@ -46,7 +46,8 @@ Face Swap Video replaces faces in videos with frame-by-frame precision and tempo
 ### Source Face Image
 
 <Tip>
-**Use a clear, high-quality face photo** - The better your source image, the better the swap quality.
+  **Use a clear, high-quality face photo** - The better your source image, the better the swap
+  quality.
 </Tip>
 
 - **Front-facing or slight angle** - Avoid extreme profile shots
@@ -64,11 +65,11 @@ Face Swap Video replaces faces in videos with frame-by-frame precision and tempo
 
 ### Video Segment Selection
 
-| Factor | Recommendation |
-|:-------|:---------------|
-| Duration | Start with 5-10 seconds to test quality |
-| Face size | Larger faces in frame = better results |
-| Motion | Moderate movement works best |
+| Factor     | Recommendation                              |
+| :--------- | :------------------------------------------ |
+| Duration   | Start with 5-10 seconds to test quality     |
+| Face size  | Larger faces in frame = better results      |
+| Motion     | Moderate movement works best                |
 | Occlusions | Avoid frames where face is partially hidden |
 
 ## Code Examples
@@ -108,22 +109,23 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 const result = await client.v1.faceSwap.generate({
   assets: {
     imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
-    videoFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
-    videoSource: "file"
+    videoFilePath:
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
+    videoSource: "file",
   },
   startSeconds: 0,
   endSeconds: 2,
   name: "Tom Cruise Face Swap",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Face swap complete!`);
@@ -139,11 +141,11 @@ Face Swap Video uses credits based on video duration and frame rate:
 
 {/* TODO: Verify exact credit calculation */}
 
-| Factor | Impact |
-|:-------|:-------|
-| Duration | More seconds = more credits |
-| Frame rate | Higher FPS = more credits |
-| Resolution | Affects quality, not cost |
+| Factor     | Impact                      |
+| :--------- | :-------------------------- |
+| Duration   | More seconds = more credits |
+| Frame rate | Higher FPS = more credits   |
+| Resolution | Affects quality, not cost   |
 
 **Example:** A 10-second video at 30 FPS ≈ 300 credits
 
@@ -151,19 +153,25 @@ Face Swap Video uses credits based on video duration and frame rate:
 
 Common error codes:
 
-| Error Code | Description | Solution |
-|:-----------|:------------|:---------|
-| `no_source_face` | No face detected in source image | Use image with clear, visible face |
-| `no_target_face` | No face detected in target video | Ensure face is visible in video |
-| `invalid_file_format` | Unsupported file format | Use MP4, MOV, or WEBM for video |
+| Error Code            | Description                      | Solution                           |
+| :-------------------- | :------------------------------- | :--------------------------------- |
+| `no_source_face`      | No face detected in source image | Use image with clear, visible face |
+| `no_target_face`      | No face detected in target video | Ensure face is visible in video    |
+| `invalid_file_format` | Unsupported file format          | Use MP4, MOV, or WEBM for video    |
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
-<Card title="Face Swap Video API Reference" icon="webhook" href="/api-reference/video-projects/face-swap-video">
+<Card
+  title="Face Swap Video API Reference"
+  icon="webhook"
+  href="/api-reference/video-projects/face-swap-video"
+>
   View full API specification
 </Card>
 
@@ -177,4 +185,3 @@ Common error codes:
     Sync audio with video lip movements
   </Card>
 </CardGroup>
-

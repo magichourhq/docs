@@ -46,7 +46,8 @@ AI Clothes Changer lets you virtually try on different clothing items on a perso
 ### Image Quality
 
 <Tip>
-**Use clear, full-body or half-body shots** - The AI works best when the person's clothing is clearly visible.
+  **Use clear, full-body or half-body shots** - The AI works best when the person's clothing is
+  clearly visible.
 </Tip>
 
 - **Good lighting** - Well-lit images produce more realistic results
@@ -57,12 +58,14 @@ AI Clothes Changer lets you virtually try on different clothing items on a perso
 ### Garment Image Requirements
 
 **✅ Good garment images:**
+
 - Clear, well-lit photos of the clothing item
 - Flat lay or on a mannequin works best
 - Minimal background distractions
 - Full view of the garment
 
 **Garment Types:**
+
 - `upper_body` - Shirts, jackets, tops, blouses
 - `lower_body` - Pants, skirts, shorts
 - `full_body` - Dresses, jumpsuits, full outfits
@@ -102,20 +105,22 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 const result = await client.v1.aiClothesChanger.generate({
   assets: {
-    personFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/rookiesteph.jpg",
-    garmentFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/bullsjersey.webp",
-    garmentType: "upper_body"
+    personFilePath:
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/rookiesteph.jpg",
+    garmentFilePath:
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/bullsjersey.webp",
+    garmentType: "upper_body",
   },
   name: "Clothes Changer image",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Clothes change complete!`);
@@ -155,14 +160,16 @@ else:
 ```javascript Node.js
 const result = await client.v1.aiClothesChanger.generate({
   assets: {
-    personFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/bullsjersey.webp",
-    garmentFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/rookiesteph.jpg",
-    garmentType: "upper_body"
+    personFilePath:
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/bullsjersey.webp",
+    garmentFilePath:
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/rookiesteph.jpg",
+    garmentType: "upper_body",
   },
   name: "Clothes Changer image",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
@@ -172,8 +179,8 @@ console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
 
 ## Pricing
 
-| Output | Credits |
-|:-------|:--------|
+| Output           | Credits    |
+| :--------------- | :--------- |
 | 1 clothes change | 25 credits |
 
 ## Resolution Limits
@@ -181,12 +188,18 @@ console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
 AI Clothes Changer has a maximum resolution of **1472px** (either width or height).
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
-<Card title="AI Clothes Changer API Reference" icon="webhook" href="/api-reference/image-projects/ai-clothes-changer">
+<Card
+  title="AI Clothes Changer API Reference"
+  icon="webhook"
+  href="/api-reference/image-projects/ai-clothes-changer"
+>
   View full API specification
 </Card>
 
@@ -200,4 +213,3 @@ AI Clothes Changer has a maximum resolution of **1472px** (either width or heigh
     Remove backgrounds from images
   </Card>
 </CardGroup>
-

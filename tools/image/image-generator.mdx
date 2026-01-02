@@ -45,16 +45,16 @@ AI Image Generator creates high-quality images from text descriptions using adva
 
 ### Writing Effective Prompts
 
-<Tip>
-**Be specific and descriptive** - The more detail you provide, the better the results.
-</Tip>
+<Tip>**Be specific and descriptive** - The more detail you provide, the better the results.</Tip>
 
 **✅ Good prompts:**
+
 - "A serene mountain landscape at sunset with vibrant orange and purple colors, dramatic clouds, photorealistic style"
 - "Minimalist logo design of a flying bird in blue gradient, vector art style, clean lines"
 - "Cozy coffee shop interior with warm lighting, wooden furniture, plants, cinematic photography"
 
 **❌ Avoid:**
+
 - Too vague: "A nice picture"
 - Too short: "Mountain"
 - Conflicting instructions: "Bright dark image"
@@ -63,20 +63,20 @@ AI Image Generator creates high-quality images from text descriptions using adva
 
 Magic Hour offers 30+ art styles. Match the style to your use case:
 
-| Use Case | Recommended Styles |
-|:---------|:-------------------|
-| Marketing photos | Photorealistic, Cinematic |
-| Illustrations | Anime, Cartoon, Watercolor |
-| Logos & icons | Vector, Minimalist |
-| Concept art | Digital Art, Fantasy |
+| Use Case         | Recommended Styles         |
+| :--------------- | :------------------------- |
+| Marketing photos | Photorealistic, Cinematic  |
+| Illustrations    | Anime, Cartoon, Watercolor |
+| Logos & icons    | Vector, Minimalist         |
+| Concept art      | Digital Art, Fantasy       |
 
 ### Orientation Guidelines
 
-| Orientation | Aspect Ratio | Best For |
-|:------------|:-------------|:---------|
-| `square` | 1:1 | Profile pictures, thumbnails, social posts |
-| `landscape` | 16:9 | Banners, headers, desktop wallpapers |
-| `portrait` | 9:16 | Stories, mobile wallpapers, posters |
+| Orientation | Aspect Ratio | Best For                                   |
+| :---------- | :----------- | :----------------------------------------- |
+| `square`    | 1:1          | Profile pictures, thumbnails, social posts |
+| `landscape` | 16:9         | Banners, headers, desktop wallpapers       |
+| `portrait`  | 9:16         | Stories, mobile wallpapers, posters        |
 
 ## Code Examples
 
@@ -114,7 +114,7 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
@@ -123,12 +123,12 @@ const result = await client.v1.aiImageGenerator.generate({
   orientation: "landscape",
   style: {
     prompt: "A serene mountain landscape at sunset with vibrant colors",
-    tool: "ai-photo-generator"
+    tool: "ai-photo-generator",
   },
   name: "Mountain Sunset",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Image complete!`);
@@ -169,16 +169,16 @@ else:
 
 ```javascript Node.js
 const result = await client.v1.aiImageGenerator.generate({
-  imageCount: 4,  // Generate 4 variations
+  imageCount: 4, // Generate 4 variations
   orientation: "square",
   style: {
     prompt: "Cute cat wearing sunglasses, digital art style",
-    tool: "ai-anime-generator"
+    tool: "ai-anime-generator",
   },
   name: "Cat Variations",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Image complete!`);
@@ -223,12 +223,12 @@ const result = await client.v1.aiImageGenerator.generate({
   orientation: "portrait",
   style: {
     prompt: "Professional business woman in modern office",
-    tool: "ai-photo-generator"
+    tool: "ai-photo-generator",
   },
   name: "Business Portrait",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Image complete!`);
@@ -241,18 +241,24 @@ console.log(`Credits charged: ${result.creditsCharged}`);
 
 ## Pricing
 
-| Quality | Credits per Image |
-|:--------|:------------------|
-| Standard | 5 credits |
-| Pro quality | 30 credits |
+| Quality     | Credits per Image |
+| :---------- | :---------------- |
+| Standard    | 5 credits         |
+| Pro quality | 30 credits        |
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
-<Card title="AI Image Generator API Reference" icon="webhook" href="/api-reference/image-projects/ai-image-generator">
+<Card
+  title="AI Image Generator API Reference"
+  icon="webhook"
+  href="/api-reference/image-projects/ai-image-generator"
+>
   View full API specification
 </Card>
 
@@ -266,4 +272,3 @@ console.log(`Credits charged: ${result.creditsCharged}`);
     Remove image backgrounds
   </Card>
 </CardGroup>
-

@@ -71,22 +71,22 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.API_TOKEN });
 
 const result = await client.v1.aiGifGenerator.generate({
   assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
   },
   style: {
-    prompt: "Create a smooth zoom and rotation animation"
+    prompt: "Create a smooth zoom and rotation animation",
   },
   outputFormat: "gif",
   name: "GIF Generator image",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs"
+  downloadDirectory: "outputs",
 });
 
 console.log(`✅ GIF complete!`);
@@ -98,17 +98,23 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 ## Pricing
 
-| Output | Credits |
-|:-------|:--------|
+| Output         | Credits    |
+| :------------- | :--------- |
 | 1 animated GIF | 15 credits |
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
-<Card title="AI GIF Generator API Reference" icon="webhook" href="/api-reference/image-projects/ai-gif-generator">
+<Card
+  title="AI GIF Generator API Reference"
+  icon="webhook"
+  href="/api-reference/image-projects/ai-gif-generator"
+>
   View full API specification
 </Card>
 
@@ -122,4 +128,3 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
     Generate memes with text and templates
   </Card>
 </CardGroup>
-

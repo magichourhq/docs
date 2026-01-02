@@ -44,7 +44,8 @@ Image Background Remover automatically removes backgrounds from images with prec
 ### Image Quality
 
 <Tip>
-**Clear subject separation works best** - Images where the subject is clearly distinct from the background produce the cleanest results.
+  **Clear subject separation works best** - Images where the subject is clearly distinct from the
+  background produce the cleanest results.
 </Tip>
 
 - **Good contrast** - Subject should be visually distinct from background
@@ -54,12 +55,14 @@ Image Background Remover automatically removes backgrounds from images with prec
 ### Subject Types That Work Well
 
 ✅ **Excellent results:**
+
 - People and portraits
 - Products on simple backgrounds
 - Objects with clear edges
 - Animals and pets
 
 ⚠️ **May need refinement:**
+
 - Hair against complex backgrounds (very fine details)
 - Transparent or semi-transparent objects
 - Subjects that blend with background colors
@@ -67,6 +70,7 @@ Image Background Remover automatically removes backgrounds from images with prec
 ### Output Format
 
 The API returns a **PNG with transparent background**, which:
+
 - Preserves subject with full quality
 - Has alpha channel for transparency
 - Can be placed on any new background
@@ -105,18 +109,18 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 const result = await client.v1.imageBackgroundRemover.generate({
   assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
   },
   name: "Product Cutout",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Background removal complete!`);
@@ -156,18 +160,18 @@ for i, image_url in enumerate(images):
 const images = [
   "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
   "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
-  "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+  "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
 ];
 
 for (let i = 0; i < images.length; i++) {
   const result = await client.v1.imageBackgroundRemover.generate({
     assets: {
-      imageFilePath: images[i]
+      imageFilePath: images[i],
     },
     name: `Product Cutout ${i + 1}`,
     waitForCompletion: true,
     downloadOutputs: true,
-    downloadDirectory: "./outputs/"
+    downloadDirectory: "./outputs/",
   });
   console.log(`✅ Downloaded: ${result.downloadedPaths}`);
 }
@@ -179,17 +183,23 @@ for (let i = 0; i < images.length; i++) {
 
 {/* TODO: Verify exact credit cost */}
 
-| Output | Credits |
-|:-------|:--------|
+| Output               | Credits   |
+| :------------------- | :-------- |
 | 1 background removal | 5 credits |
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
-<Card title="Image Background Remover API Reference" icon="webhook" href="/api-reference/image-projects/image-background-remover">
+<Card
+  title="Image Background Remover API Reference"
+  icon="webhook"
+  href="/api-reference/image-projects/image-background-remover"
+>
   View full API specification
 </Card>
 
@@ -203,4 +213,3 @@ for (let i = 0; i < images.length; i++) {
     Enhance image resolution
   </Card>
 </CardGroup>
-

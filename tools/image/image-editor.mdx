@@ -44,9 +44,7 @@ AI Image Editor provides comprehensive image editing capabilities using AI. Modi
 
 ### Editing Instructions
 
-<Tip>
-**Be specific and clear** - Detailed instructions produce more accurate edits.
-</Tip>
+<Tip>**Be specific and clear** - Detailed instructions produce more accurate edits.</Tip>
 
 - **Describe precisely** - Specify exact changes wanted
 - **One edit at a time** - Better results with focused changes
@@ -55,12 +53,12 @@ AI Image Editor provides comprehensive image editing capabilities using AI. Modi
 
 ### Image Requirements
 
-| Requirement | Details |
-|:------------|:--------|
-| Resolution | Minimum 512x512 pixels |
-| Format | PNG, JPG, JPEG, WEBP |
-| Quality | Higher quality enables better edits |
-| Clarity | Clear images edit more accurately |
+| Requirement | Details                             |
+| :---------- | :---------------------------------- |
+| Resolution  | Minimum 512x512 pixels              |
+| Format      | PNG, JPG, JPEG, WEBP                |
+| Quality     | Higher quality enables better edits |
+| Clarity     | Clear images edit more accurately   |
 
 ## Code Examples
 
@@ -98,21 +96,21 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.API_TOKEN });
 
 const result = await client.v1.aiImageEditor.generate({
   assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
   },
   style: {
-    prompt: "Change the background to a sunset beach scene"
+    prompt: "Change the background to a sunset beach scene",
   },
   name: "Image Editor image",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs"
+  downloadDirectory: "outputs",
 });
 
 console.log(`✅ Image edit complete!`);
@@ -124,17 +122,23 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 ## Pricing
 
-| Output | Credits |
-|:-------|:--------|
+| Output         | Credits    |
+| :------------- | :--------- |
 | 1 edited image | 10 credits |
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
-<Card title="AI Image Editor API Reference" icon="webhook" href="/api-reference/image-projects/ai-image-editor">
+<Card
+  title="AI Image Editor API Reference"
+  icon="webhook"
+  href="/api-reference/image-projects/ai-image-editor"
+>
   View full API specification
 </Card>
 
@@ -148,4 +152,3 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
     Remove image backgrounds
   </Card>
 </CardGroup>
-

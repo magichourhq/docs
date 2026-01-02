@@ -45,7 +45,8 @@ Video to Video transforms existing videos by applying new styles, effects, and v
 ### Source Video Quality
 
 <Tip>
-**Use stable, well-lit footage** - Consistent lighting and smooth motion produce the best style transfers.
+  **Use stable, well-lit footage** - Consistent lighting and smooth motion produce the best style
+  transfers.
 </Tip>
 
 - **Good lighting** - Even, consistent lighting throughout
@@ -58,25 +59,27 @@ Video to Video transforms existing videos by applying new styles, effects, and v
 Describe the visual style you want to apply:
 
 **✅ Good prompts:**
+
 - "Studio Ghibli anime style, soft colors, hand-painted look"
 - "Oil painting style with thick brushstrokes and impressionist colors"
 - "Cyberpunk neon aesthetic with high contrast and purple/pink color grading"
 - "Vintage film look with grain, warm tones, and faded blacks"
 
 **❌ Avoid:**
+
 - Changing content: "Add a person" (this changes content, not style)
 - Vague descriptions: "Make it better"
 - Conflicting styles: "Realistic and cartoon"
 
 ### Style Categories
 
-| Category | Description | Example Prompts |
-|:---------|:------------|:----------------|
-| Anime/Cartoon | Hand-drawn animated look | "Anime style, vibrant colors" |
-| Painting | Traditional art styles | "Oil painting, impressionist" |
-| Cinematic | Film-like treatments | "Vintage film, warm tones" |
-| Futuristic | Modern/sci-fi aesthetics | "Cyberpunk, neon lights" |
-| Artistic | Abstract/creative styles | "Abstract, geometric patterns" |
+| Category      | Description              | Example Prompts                |
+| :------------ | :----------------------- | :----------------------------- |
+| Anime/Cartoon | Hand-drawn animated look | "Anime style, vibrant colors"  |
+| Painting      | Traditional art styles   | "Oil painting, impressionist"  |
+| Cinematic     | Film-like treatments     | "Vintage film, warm tones"     |
+| Futuristic    | Modern/sci-fi aesthetics | "Cyberpunk, neon lights"       |
+| Artistic      | Abstract/creative styles | "Abstract, geometric patterns" |
 
 ## Code Examples
 
@@ -124,14 +127,15 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 const result = await client.v1.videoToVideo.generate({
   assets: {
-    videoFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
-    videoSource: "file"
+    videoFilePath:
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
+    videoSource: "file",
   },
   endSeconds: 2,
   fps: 8,
@@ -142,12 +146,12 @@ const result = await client.v1.videoToVideo.generate({
     artStyle: "Studio Ghibli Film Still",
     prompt: "Obama dropping the mic in anime style, soft pastel colors, whimsical and expressive",
     promptType: "custom",
-    version: "default"
+    version: "default",
   },
   name: "Anime Mic Drop",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Video complete!`);
@@ -157,17 +161,16 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 </CodeGroup>
 
-
 ## Pricing
 
 Video to Video uses credits based on video duration and frame rate:
 
 {/* TODO: Verify exact credit calculation */}
 
-| Factor | Impact |
-|:-------|:-------|
-| Duration | More seconds = more credits |
-| Frame rate | Higher FPS = more credits |
+| Factor     | Impact                           |
+| :--------- | :------------------------------- |
+| Duration   | More seconds = more credits      |
+| Frame rate | Higher FPS = more credits        |
 | Resolution | Higher resolution = more credits |
 
 ## Resolution Limits
@@ -175,16 +178,23 @@ Video to Video uses credits based on video duration and frame rate:
 Video to Video has a maximum resolution of **1472px** (either width or height).
 
 <Note>
-**64-Pixel Increments**: Video to Video requires resolution dimensions to be in increments of 64 pixels (e.g., 512, 576, 640, 704, etc.).
+  **64-Pixel Increments**: Video to Video requires resolution dimensions to be in increments of 64
+  pixels (e.g., 512, 576, 640, 704, etc.).
 </Note>
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
-<Card title="Video to Video API Reference" icon="webhook" href="/api-reference/video-projects/video-to-video">
+<Card
+  title="Video to Video API Reference"
+  icon="webhook"
+  href="/api-reference/video-projects/video-to-video"
+>
   View full API specification
 </Card>
 
@@ -198,4 +208,3 @@ Video to Video has a maximum resolution of **1472px** (either width or height).
     Animate static images into videos
   </Card>
 </CardGroup>
-

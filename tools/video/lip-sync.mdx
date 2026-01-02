@@ -45,7 +45,8 @@ Lip Sync synchronizes lip movements in videos with new audio tracks using advanc
 ### Video Requirements
 
 <Tip>
-**Clear, front-facing footage works best** - Ensure the speaker's face and lips are clearly visible throughout.
+  **Clear, front-facing footage works best** - Ensure the speaker's face and lips are clearly
+  visible throughout.
 </Tip>
 
 - **Face visibility** - Full face visible with minimal obstructions
@@ -62,12 +63,12 @@ Lip Sync synchronizes lip movements in videos with new audio tracks using advanc
 
 ### Matching Audio to Video
 
-| Factor | Recommendation |
-|:-------|:---------------|
-| Duration | Audio and video should be similar length |
-| Expression | Match emotional tone between audio and video |
-| Language | Works across languages |
-| Multiple speakers | Best with single speaker |
+| Factor            | Recommendation                               |
+| :---------------- | :------------------------------------------- |
+| Duration          | Audio and video should be similar length     |
+| Expression        | Match emotional tone between audio and video |
+| Language          | Works across languages                       |
+| Multiple speakers | Best with single speaker                     |
 
 ## Code Examples
 
@@ -110,26 +111,28 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 const result = await client.v1.lipSync.generate({
   assets: {
-    audioFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
-    videoFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
-    videoSource: "file"
+    audioFilePath:
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
+    videoFilePath:
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
+    videoSource: "file",
   },
   endSeconds: 2,
   startSeconds: 0,
   maxFpsLimit: 8,
   style: {
-    generationMode: "lite"
+    generationMode: "lite",
   },
   name: "Obama Code Lip Sync",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Lip sync complete!`);
@@ -145,13 +148,15 @@ Lip Sync uses credits based on video duration:
 
 {/* TODO: Verify exact credit calculation */}
 
-| Duration | Approximate Credits |
-|:---------|:--------------------|
-| 5 seconds | ~150 credits |
-| 10 seconds | ~300 credits |
+| Duration   | Approximate Credits |
+| :--------- | :------------------ |
+| 5 seconds  | ~150 credits        |
+| 10 seconds | ~300 credits        |
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
@@ -170,4 +175,3 @@ Lip Sync uses credits based on video duration:
     Replace faces in videos
   </Card>
 </CardGroup>
-

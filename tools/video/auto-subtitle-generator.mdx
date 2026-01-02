@@ -44,9 +44,7 @@ Auto Subtitle Generator automatically transcribes speech in videos and embeds pr
 
 ### Video Quality
 
-<Tip>
-**Use clear audio** - Better audio quality produces more accurate transcriptions.
-</Tip>
+<Tip>**Use clear audio** - Better audio quality produces more accurate transcriptions.</Tip>
 
 - **Minimize background noise** - Clean audio improves accuracy
 - **Clear speech** - Well-enunciated words transcribe better
@@ -97,20 +95,21 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.API_TOKEN });
 
 const result = await client.v1.autoSubtitleGenerator.generate({
   assets: {
-    videoFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov"
+    videoFilePath:
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
   },
   startSeconds: 0,
   endSeconds: 2,
   name: "Subtitled Video",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs"
+  downloadDirectory: "outputs",
 });
 
 console.log(`✅ Subtitles complete!`);
@@ -129,22 +128,26 @@ The Auto Subtitle Generator returns an **MP4 video file with embedded subtitles*
 Auto Subtitle Generator uses credits based on video length:
 
 | Video Length | Approximate Credits |
-|:-------------|:-------------------|
-| 1 minute | ~60-100 credits |
-| 5 minutes | ~300-500 credits |
-| 10 minutes | ~600-1000 credits |
+| :----------- | :------------------ |
+| 1 minute     | ~60-100 credits     |
+| 5 minutes    | ~300-500 credits    |
+| 10 minutes   | ~600-1000 credits   |
 
-<Info>
-Pricing scales with video duration. Longer videos consume more credits.
-</Info>
+<Info>Pricing scales with video duration. Longer videos consume more credits.</Info>
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
-<Card title="Auto Subtitle Generator API Reference" icon="webhook" href="/api-reference/video-projects/auto-subtitle-generator">
+<Card
+  title="Auto Subtitle Generator API Reference"
+  icon="webhook"
+  href="/api-reference/video-projects/auto-subtitle-generator"
+>
   View full API specification
 </Card>
 
@@ -158,4 +161,3 @@ Pricing scales with video duration. Longer videos consume more credits.
     Transform video styles and aesthetics
   </Card>
 </CardGroup>
-

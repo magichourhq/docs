@@ -45,15 +45,17 @@ Text to Video generates complete video content from text descriptions using adva
 ### Writing Effective Prompts
 
 <Tip>
-**Be specific and descriptive** - Include subject, action, environment, style, and camera motion.
+  **Be specific and descriptive** - Include subject, action, environment, style, and camera motion.
 </Tip>
 
 **✅ Good prompts:**
+
 - "A majestic lion walking through golden savanna grass at sunset, cinematic slow motion, warm golden lighting"
 - "Underwater scene with colorful tropical fish swimming around a coral reef, crystal clear blue water, nature documentary style"
 - "Futuristic city skyline at night with flying cars and neon lights, cyberpunk aesthetic, sweeping aerial shot"
 
 **❌ Avoid:**
+
 - Too vague: "A nice video"
 - No action: "A city" (add what's happening)
 - Conflicting instructions: "Fast and slow motion"
@@ -62,21 +64,21 @@ Text to Video generates complete video content from text descriptions using adva
 
 For best results, include these elements:
 
-| Element | Description | Example |
-|:--------|:------------|:--------|
-| Subject | What/who is in the video | "A golden retriever puppy" |
-| Action | What's happening | "running through a meadow" |
-| Environment | Where it's happening | "with wildflowers and mountains in background" |
-| Style | Visual aesthetic | "cinematic, warm lighting" |
-| Camera | How it's filmed | "slow motion tracking shot" |
+| Element     | Description              | Example                                        |
+| :---------- | :----------------------- | :--------------------------------------------- |
+| Subject     | What/who is in the video | "A golden retriever puppy"                     |
+| Action      | What's happening         | "running through a meadow"                     |
+| Environment | Where it's happening     | "with wildflowers and mountains in background" |
+| Style       | Visual aesthetic         | "cinematic, warm lighting"                     |
+| Camera      | How it's filmed          | "slow motion tracking shot"                    |
 
 ### Duration Guidelines
 
-| Duration | Best For |
-|:---------|:---------|
-| 3-5 seconds | Social media clips, GIF-like content |
-| 5-10 seconds | Short-form content, product demos |
-| 10-15 seconds | Story segments, longer narratives |
+| Duration      | Best For                             |
+| :------------ | :----------------------------------- |
+| 3-5 seconds   | Social media clips, GIF-like content |
+| 5-10 seconds  | Short-form content, product demos    |
+| 10-15 seconds | Story segments, longer narratives    |
 
 ## Code Examples
 
@@ -114,7 +116,7 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
@@ -122,13 +124,13 @@ const result = await client.v1.textToVideo.generate({
   endSeconds: 1.5,
   orientation: "landscape",
   style: {
-    prompt: "A majestic lion walking through golden savanna grass at sunset, cinematic slow motion"
+    prompt: "A majestic lion walking through golden savanna grass at sunset, cinematic slow motion",
   },
   name: "Nature Video",
   resolution: "480p",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Video complete!`);
@@ -144,10 +146,10 @@ Text to Video uses credits based on video duration:
 
 {/* TODO: Verify exact credit calculation */}
 
-| Duration | Approximate Credits |
-|:---------|:--------------------|
-| 5 seconds | ~150 credits |
-| 10 seconds | ~300 credits |
+| Duration   | Approximate Credits |
+| :--------- | :------------------ |
+| 5 seconds  | ~150 credits        |
+| 10 seconds | ~300 credits        |
 
 Higher resolutions cost more per second.
 
@@ -156,12 +158,18 @@ Higher resolutions cost more per second.
 Text to Video has a maximum resolution of **1080p** (1920x1080 or 1080x1920).
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
-<Card title="Text to Video API Reference" icon="webhook" href="/api-reference/video-projects/text-to-video">
+<Card
+  title="Text to Video API Reference"
+  icon="webhook"
+  href="/api-reference/video-projects/text-to-video"
+>
   View full API specification
 </Card>
 
@@ -175,4 +183,3 @@ Text to Video has a maximum resolution of **1080p** (1920x1080 or 1080x1920).
     Create animated videos with motion effects
   </Card>
 </CardGroup>
-

@@ -45,7 +45,8 @@ AI Image Upscaler enhances image resolution and quality using AI-powered upscali
 ### Input Image Quality
 
 <Tip>
-**Start with the best quality available** - While AI upscaling is powerful, better input produces better output.
+  **Start with the best quality available** - While AI upscaling is powerful, better input produces
+  better output.
 </Tip>
 
 - **Avoid heavily compressed images** - JPEG artifacts will be amplified
@@ -54,20 +55,22 @@ AI Image Upscaler enhances image resolution and quality using AI-powered upscali
 
 ### Scale Factor Selection
 
-| Scale Factor | Output Size | Best For |
-|:-------------|:------------|:---------|
-| 2x | 2× width, 2× height | Minor enhancement, web use |
-| 4x | 4× width, 4× height | Print preparation, large displays |
+| Scale Factor | Output Size         | Best For                          |
+| :----------- | :------------------ | :-------------------------------- |
+| 2x           | 2× width, 2× height | Minor enhancement, web use        |
+| 4x           | 4× width, 4× height | Print preparation, large displays |
 
 ### Image Types That Upscale Well
 
 ✅ **Works great:**
+
 - Photographs with clear subjects
 - Artwork and illustrations
 - Product images
 - Portraits and faces
 
 ⚠️ **May have limitations:**
+
 - Heavily compressed images (visible artifacts)
 - Very blurry images
 - Text-heavy images (use vector formats instead)
@@ -109,22 +112,22 @@ else:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import Client from "magic-hour";
 
 const client = new Client({ token: process.env.API_TOKEN });
 
 const result = await client.v1.aiImageUpscaler.generate({
   assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sea.jpg"
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sea.jpg",
   },
   scaleFactor: 2.0,
   style: {
-    enhancement: "Balanced"
+    enhancement: "Balanced",
   },
   name: "Image Upscaler image",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Upscale complete!`);
@@ -167,16 +170,16 @@ else:
 ```javascript Node.js
 const result = await client.v1.aiImageUpscaler.generate({
   assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sea.jpg"
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sea.jpg",
   },
   scaleFactor: 4.0,
   style: {
-    enhancement: "Balanced"
+    enhancement: "Balanced",
   },
   name: "Image Upscaler image",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Upscale complete!`);
@@ -191,18 +194,24 @@ console.log(`Credits charged: ${result.creditsCharged}`);
 
 {/* TODO: Verify exact credit cost */}
 
-| Scale Factor | Credits |
-|:-------------|:--------|
-| 2x upscale | 50 credits |
-| 4x upscale | 200 credits |
+| Scale Factor | Credits     |
+| :----------- | :---------- |
+| 2x upscale   | 50 credits  |
+| 4x upscale   | 200 credits |
 
 <Tip>
-  **Try this in our Google Colab Cookbook:** [Run this API with sample code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just add your API key.
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
 </Tip>
 
 ## API Reference
 
-<Card title="AI Image Upscaler API Reference" icon="webhook" href="/api-reference/image-projects/ai-image-upscaler">
+<Card
+  title="AI Image Upscaler API Reference"
+  icon="webhook"
+  href="/api-reference/image-projects/ai-image-upscaler"
+>
   View full API specification
 </Card>
 
@@ -216,4 +225,3 @@ console.log(`Credits charged: ${result.creditsCharged}`);
     Remove image backgrounds
   </Card>
 </CardGroup>
-
