@@ -20,6 +20,7 @@
     "mintlify",
     "pyngrok",
     "reqwest",
+    "Seedream",
     "urlopen",
     "uvicorn"
   ],
