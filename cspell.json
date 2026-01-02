@@ -4,6 +4,7 @@
   "dictionaryDefinitions": [],
   "dictionaries": [],
   "words": [
+    "Colab",
     "fastapi",
     "flac",
     "getenv",
@@ -16,8 +17,10 @@
     "magick",
     "metatags",
     "mintlify",
+    "pyngrok",
     "reqwest",
-    "urlopen"
+    "urlopen",
+    "uvicorn"
   ],
   "ignoreWords": [],
   "import": []
