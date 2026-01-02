@@ -1,0 +1,327 @@
+---
+title: AI Voice Cloner
+sidebarTitle: Voice Cloner
+description: Clone any voice and generate realistic speech audio from text using custom voice samples.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+AI Voice Cloner creates realistic speech audio from text by cloning voices from sample audio files. The API analyzes the unique characteristics of a voice sample and produces high-quality voice synthesis with natural intonation, emotion, and speaking patterns that closely match the original voice.
+
+## How It Works
+
+1. **Upload voice sample** - Provide an audio file of the voice you want to clone
+2. **Write the text** - Enter the text you want spoken in the cloned voice
+3. **API clones and generates** - AI analyzes the voice and synthesizes speech
+4. **Download the result** - Retrieve your audio file with the cloned voice
+
+## Use Cases
+
+- **Content creation** - Clone your own voice for consistent narration
+- **Voice preservation** - Preserve voices of loved ones or historical figures
+- **Multilingual content** - Create content in your voice across languages
+- **Personalized assistants** - Custom voice for virtual assistants and chatbots
+- **Accessibility** - Text-to-speech with your own voice
+- **Entertainment** - Create audio content with specific voice characteristics
+
+## Voice Sample Requirements
+
+For best results, your voice sample should:
+
+- **Be clear and high-quality** - Minimal background noise
+- **Be 10-30 seconds long** - Enough audio for the AI to learn the voice
+- **Contain natural speech** - Conversational tone works best
+- **Be single-speaker** - Only one person speaking in the sample
+- **Have good enunciation** - Clear pronunciation of words
+
+<Tip>
+  **Quality tip** - Use a quiet environment and a good microphone for recording your voice sample.
+</Tip>
+
+## Best Practices
+
+### Voice Sample Guidelines
+
+<Tip>
+  **Record naturally** - Speak in your natural tone and pace for the most authentic cloning.
+</Tip>
+
+- **Natural speech** - Read naturally, not robotically
+- **Good audio quality** - Use proper recording equipment
+- **Consistent volume** - Maintain steady speaking volume
+- **No background noise** - Record in a quiet environment
+- **Varied intonation** - Include different emotions and tones
+
+### Text Guidelines
+
+- **Natural punctuation** - Use periods, commas, and question marks for natural pauses
+- **Avoid abbreviations** - Write out words fully (e.g., "Mister" not "Mr.")
+- **Short sentences** - Break long text into shorter, digestible sentences
+- **Read it aloud** - Test how text sounds before generating
+
+### Optimizing Output Quality
+
+| Technique           | Why It Helps                              |
+| :------------------ | :---------------------------------------- |
+| High-quality sample | Better voice characteristics captured     |
+| Natural punctuation | Creates appropriate pauses and intonation |
+| Phonetic spelling   | Helps with unusual words or names         |
+| Sentence breaks     | Improves rhythm and comprehension         |
+
+### Text Length Considerations
+
+- **Short clips** - 1-2 sentences work great for social media
+- **Medium content** - Paragraphs work well for narration
+- **Long content** - Consider breaking into multiple clips for variety
+
+## Code Examples
+
+### Basic Voice Cloning
+
+<CodeGroup>
+
+```python Python
+from magic_hour import Client
+from os import getenv
+
+client = Client(token=getenv("API_TOKEN"))
+
+result = client.v1.ai_voice_cloner.generate(
+    assets={
+        "audio_file_path": "path/to/voice_sample.mp3"
+    },
+    style={
+        "prompt": "Hello! This is a test of the Magic Hour voice cloner. Pretty cool, right?"
+    },
+    name="Voice Cloner audio",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs"
+)
+
+if result.status == "complete":
+    print(f"✅ Voice cloning complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+
+```
+
+```javascript Node.js
+import Client from "magic-hour";
+
+const client = new Client({ token: process.env.API_TOKEN });
+
+const result = await client.v1.aiVoiceCloner.generate({
+  assets: {
+    audioFilePath: "path/to/voice_sample.mp3",
+  },
+  style: {
+    prompt: "Hello! This is a test of the Magic Hour voice cloner. Pretty cool, right?",
+  },
+  name: "Voice Cloner audio",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "outputs",
+});
+
+console.log(`✅ Voice cloning complete!`);
+console.log(`Status: ${result.status}`);
+console.log(`Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+### Clone Voice with URL
+
+<CodeGroup>
+
+```python Python
+result = client.v1.ai_voice_cloner.generate(
+    assets={
+        "audio_file_path": "https://example.com/voice_sample.mp3"
+    },
+    style={
+        "prompt": "Welcome to the show! Today we're going to talk about something really exciting."
+    },
+    name: "Voice Cloner audio",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs"
+)
+
+if result.status == "complete":
+    print(f"✅ Voice cloning complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+const result = await client.v1.aiVoiceCloner.generate({
+  assets: {
+    audioFilePath: "https://example.com/voice_sample.mp3",
+  },
+  style: {
+    prompt: "Welcome to the show! Today we're going to talk about something really exciting.",
+  },
+  name: "Voice Cloner audio",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "outputs",
+});
+
+console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+### Professional Narration
+
+<CodeGroup>
+
+```python Python
+result = client.v1.ai_voice_cloner.generate(
+    assets={
+        "audio_file_path": "path/to/narrator_voice.mp3"
+    },
+    style={
+        "prompt": "In a world where technology meets creativity, Magic Hour brings your ideas to life."
+    },
+    name="Voice Cloner audio",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs"
+)
+
+if result.status == "complete":
+    print(f"✅ Voice cloning complete!")
+    print(f"Downloaded to: {result.downloaded_paths}")
+    print(f"Credits charged: {result.credits_charged}")
+else:
+    print(f"❌ Job failed with status: {result.status}")
+    if hasattr(result, 'error_message'):
+        print(f"Error: {result.error_message}")
+```
+
+```javascript Node.js
+const result = await client.v1.aiVoiceCloner.generate({
+  assets: {
+    audioFilePath: "path/to/narrator_voice.mp3",
+  },
+  style: {
+    prompt: "In a world where technology meets creativity, Magic Hour brings your ideas to life.",
+  },
+  name: "Voice Cloner audio",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "outputs",
+});
+
+console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+### Combining with Lip Sync
+
+Clone a voice, then sync it to a video:
+
+```python Python
+from magic_hour import Client
+from os import getenv
+
+client = Client(token=getenv("API_TOKEN"))
+
+# Step 1: Clone the voice
+from pathlib import Path
+
+# Make sure download dirs exist
+Path("temp").mkdir(parents=True, exist_ok=True)
+Path("outputs").mkdir(parents=True, exist_ok=True)
+
+# Step 1: Clone the voice
+voice_result = client.v1.ai_voice_cloner.generate(
+    assets={
+        "audio_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3"
+    },
+    style={
+        "prompt": "This is my custom voiceover for the video."
+    },
+    name="Voice Cloner audio",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="temp",
+)
+
+# Step 2: Use the generated audio for lip sync
+lip_sync_result = client.v1.lip_sync.generate(
+    assets={
+        "video_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sideeyegirl.mp4",
+        "audio_file_path": voice_result.downloaded_paths[0],  # local path now exists
+        "video_source": "file",  # see note below
+    },
+    start_seconds=0,
+    end_seconds=2,
+    max_fps_limit=30,
+    style={"generation_mode": "lite"},
+    name="Lip Synced Video",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs",
+)
+
+print("voice_status:", voice_result.status, "paths:", getattr(voice_result, "downloaded_paths", None))
+print("lip_status:", lip_sync_result.status, "paths:", getattr(lip_sync_result, "downloaded_paths", None))
+
+```
+
+## Pricing
+
+{/* TODO: Verify exact credit calculation */}
+
+Voice cloning uses credits based on text length and processing:
+
+| Text Length                | Approximate Credits |
+| :------------------------- | :------------------ |
+| Short (1-2 sentences)      | ~10 credits         |
+| Medium (paragraph)         | ~20-30 credits      |
+| Long (multiple paragraphs) | ~50+ credits        |
+
+<Tip>
+  **Try this in our Google Colab Cookbook:** [Run this API with sample
+  code](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing). Just
+  add your API key.
+</Tip>
+
+## API Reference
+
+<Card
+  title="AI Voice Cloner API Reference"
+  icon="webhook"
+  href="/api-reference/audio-projects/ai-voice-cloner"
+>
+  View full API specification
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="Voice Generator" icon="microphone" href="/tools/audio/voice-generator">
+    Generate speech with celebrity and character voices
+  </Card>
+  <Card title="Lip Sync" icon="lips" href="/tools/video/lip-sync">
+    Sync generated audio with video lip movements
+  </Card>
+  <Card title="Animation" icon="film" href="/tools/video/animation">
+    Create animated videos with audio
+  </Card>
+</CardGroup>
