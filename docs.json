@@ -62,13 +62,13 @@
             "group": "Integration",
             "pages": [
               "integration/overview",
-              "integration/adding-api-to-your-app",
-              "integration/input-files",
+              "integration/first-integration",
+              "integration/inputs-and-outputs",
+              "integration/development-and-testing",
               {
                 "group": "Webhook",
                 "pages": [
-                  "integration/webhook/overview",
-                  "integration/webhook/create-handler",
+                  "integration/webhook/create-webhook",
                   "integration/webhook/secure-handler",
                   "integration/webhook/event-types"
                 ]

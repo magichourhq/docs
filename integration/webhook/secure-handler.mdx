@@ -1,73 +1,82 @@
 ---
 title: Securing Your Webhook Handler
 sidebarTitle: Securing Handler
-description: Verify webhook authenticity with signature validation to prevent malicious requests.
+description: Verify webhook authenticity with HMAC-SHA256 signature validation to prevent malicious requests.
 ---
 
 ## Why Webhook Security Matters
 
-Without signature verification, anyone who discovers your webhook URL could send fake events to your application. This could lead to:
+Without signature verification, anyone who discovers your webhook URL could send fake events to your application, potentially causing:
 
-- ❌ **Fake completion events** triggering incorrect business logic
-- ❌ **Malicious payloads** attempting to exploit your system
-- ❌ **Spam requests** overwhelming your servers
-- ❌ **Data corruption** from processing invalid events
+- ❌ Fake completion events triggering incorrect business logic
+- ❌ Data corruption from processing invalid events
+- ❌ Unauthorized access to your application
+- ❌ Security vulnerabilities
 
-**✅ Solution**: Verify that webhooks are actually from Magic Hour using cryptographic signatures.
+**✅ Solution**: Verify that every webhook is actually from Magic Hour using cryptographic signatures.
 
 <Warning>
-  **Production Requirement**: Always verify webhook signatures in production environments. This is
-  critical for security.
+  **Production Requirement**: Always verify webhook signatures in production. This is critical for
+  security.
 </Warning>
 
 ## How Signature Verification Works
 
-Magic Hour signs every webhook with your secret key using HMAC-SHA256:
+Magic Hour signs every webhook using HMAC-SHA256 with your webhook secret:
 
-```mermaid
-sequenceDiagram
-    participant MH as Magic Hour
-    participant App as Your App
+1. **Magic Hour creates** a signed payload: `{timestamp}.{json_payload}`
+2. **Magic Hour computes** HMAC-SHA256 signature using your webhook secret
+3. **Magic Hour sends** the webhook with signature and timestamp in headers
+4. **Your app recreates** the same signed payload
+5. **Your app computes** the same HMAC-SHA256 signature
+6. **Your app compares** signatures - if they match, the webhook is authentic
 
-    MH->>MH: 1. Create event payload
-    MH->>MH: 2. Generate timestamp
-    MH->>MH: 3. Create signed_payload = timestamp + "." + payload
-    MH->>MH: 4. Compute HMAC-SHA256(secret, signed_payload)
-    MH->>App: 5. Send webhook with signature & timestamp headers
-    App->>App: 6. Recreate signed_payload
-    App->>App: 7. Compute HMAC-SHA256(secret, signed_payload)
-    App->>App: 8. Compare signatures → Accept/Reject
-```
+## Security Headers
 
-## Signature Headers
-
-Every webhook includes two security headers:
+Every webhook includes two security headers to help you verify authenticity:
 
 ### `magic-hour-event-signature`
 
-The HMAC-SHA256 signature of the payload using your webhook secret:
+The HMAC-SHA256 signature computed using your webhook secret and the signed payload.
+
+**Example:**
 
 ```http
 magic-hour-event-signature: d1747eb9491aadeac6173f1c9fd5f4aff87c8981ac53d87b0830199221ff50af
 ```
 
+**What it is**: A 64-character hexadecimal string representing the HMAC-SHA256 hash.
+
 ### `magic-hour-event-timestamp`
 
-Unix timestamp (seconds since epoch) when the webhook was sent:
+Unix timestamp (seconds since epoch) when Magic Hour sent the webhook.
+
+**Example:**
 
 ```http
 magic-hour-event-timestamp: 1729314984
 ```
 
+**What it's for**:
+
+- Prevents replay attacks by rejecting old webhooks
+- Recommended tolerance: Accept webhooks within 5 minutes of current time
+- If timestamp is too old or too far in the future, reject the webhook
+
 <Info>
-  **Header Case**: HTTP headers are case-insensitive, so `Magic-Hour-Event-Signature` and
+  **Header Case**: HTTP headers are case-insensitive. `Magic-Hour-Event-Signature` and
   `magic-hour-event-signature` are equivalent.
 </Info>
 
-## Step-by-Step Verification
+<Note>
+  **Optional but Recommended**: Signature verification is not required to receive webhooks, but it's
+  strongly recommended for production to ensure authenticity.
+</Note>
 
 <Steps>
+
 <Step title="Extract Headers and Payload">
+
 Get the signature, timestamp, and raw JSON payload from the incoming request:
 
 ```python
@@ -78,24 +87,63 @@ raw_payload = await request.body()  # Raw JSON bytes, not parsed
 
 </Step>
 
-<Step title="Create the Signed Payload">
-Concatenate the timestamp, a dot, and the raw JSON payload:
+<Step title="Extract the headers and payload">
+
+**What to do**: Get three pieces of information from the incoming webhook request:
+
+1. **Signature header**: `magic-hour-event-signature`
+2. **Timestamp header**: `magic-hour-event-timestamp`
+3. **Raw JSON body**: The entire request body as a string (not parsed yet)
+
+**Code example:**
+
+```python
+signature = request.headers.get('magic-hour-event-signature')
+timestamp = request.headers.get('magic-hour-event-timestamp')
+raw_body = await request.body()  # Raw bytes, not parsed JSON
+```
+
+<Warning>
+  **Critical**: You must use the raw request body exactly as received. Do NOT parse the JSON and
+  re-stringify it, as this can change formatting and break signature verification.
+</Warning>
+
+</Step>
+
+<Step title="Create the signed payload">
+
+**What to do**: Combine the timestamp and raw payload into a single string for signature computation.
 
 **Format**: `{timestamp}.{raw_json_payload}`
 
-**Example**:
+**Example signed payload:**
 
 ```
 1729314984.{"type":"video.completed","payload":{"id":"clx123","status":"complete","downloads":[{"url":"https://videos.magichour.ai/output.mp4"}]}}
 ```
 
-<Warning>
-**Critical**: Use the raw JSON payload exactly as received. Don't parse and re-stringify it, as this can change formatting and break signature verification.
-</Warning>
+**Code example:**
+
+```python
+# Convert raw body to string if it's bytes
+payload_string = raw_body.decode('utf-8') if isinstance(raw_body, bytes) else raw_body
+
+# Create signed payload
+signed_payload = f"{timestamp}.{payload_string}"
+```
+
+**Why**: The signed payload is what Magic Hour used to create the signature. You need to recreate it exactly the same way.
+
 </Step>
 
-<Step title="Compute Your Signature">
-Generate HMAC-SHA256 using your webhook secret and the signed payload:
+<Step title="Compute your signature">
+
+**What to do**: Generate an HMAC-SHA256 hash using:
+
+- **Key**: Your webhook secret (from Magic Hour Developer Hub)
+- **Message**: The signed payload you just created
+
+**Algorithm**: HMAC-SHA256 (Hash-based Message Authentication Code with SHA-256)
 
 <CodeGroup>
 
@@ -104,17 +152,28 @@ import hmac
 import hashlib
 import os
 
-def compute_signature(signed_payload: str, webhook_secret: str) -> str:
-    """Compute HMAC-SHA256 signature for webhook verification"""
+# Get your webhook secret from environment variable
+webhook_secret = os.getenv("MAGIC_HOUR_WEBHOOK_SECRET")
+
+def compute_signature(signed_payload: str, secret: str) -> str:
+    """
+    Compute HMAC-SHA256 signature
+
+    Args:
+        signed_payload: The timestamp.payload string
+        secret: Your webhook secret from Magic Hour
+
+    Returns:
+        64-character hexadecimal signature string
+    """
     return hmac.new(
-        webhook_secret.encode('utf-8'),
-        signed_payload.encode('utf-8'),
-        hashlib.sha256
-    ).hexdigest()
+        secret.encode('utf-8'),      # Convert secret to bytes
+        signed_payload.encode('utf-8'),  # Convert payload to bytes
+        hashlib.sha256                # Use SHA256 hash
+    ).hexdigest()                     # Return as hex string
 
 # Usage
-webhook_secret = os.getenv("MAGIC_HOUR_WEBHOOK_SECRET")
-signature = compute_signature(signed_payload, webhook_secret)
+expected_signature = compute_signature(signed_payload, webhook_secret)
 ```
 
 ```typescript Node.js
@@ -178,105 +237,168 @@ fn main() {
 
 </Step>
 
-<Step title="Verify Signature and Timestamp">
-Compare your computed signature with the received signature and check the timestamp:
+<Step title="Verify the signature">
+
+**What to do**: Compare your computed signature with the signature Magic Hour sent in the header.
+
+**Important**: Use a constant-time comparison to prevent timing attacks:
+
+```python
+import hmac
+import time
+
+# Get the signature from headers
+received_signature = request.headers.get('magic-hour-event-signature')
+
+# Compare signatures (constant-time comparison for security)
+is_valid = hmac.compare_digest(expected_signature, received_signature)
+
+if not is_valid:
+    # Signature doesn't match - reject the webhook
+    raise HTTPException(status_code=401, detail="Invalid signature")
+```
+
+**Why constant-time comparison**: Regular string comparison (`==`) can leak timing information that attackers could exploit. `hmac.compare_digest()` prevents this.
+
+</Step>
+
+<Step title="Verify the timestamp">
+
+**What to do**: Check that the webhook was sent recently (within 5 minutes is recommended).
+
+**Why**: Prevents replay attacks where someone could resend an old valid webhook.
 
 ```python
 import time
 
-# Compare signatures (constant-time comparison for security)
-if not hmac.compare_digest(signature, computed_signature):
-    raise HTTPException(status_code=401, detail="Invalid signature")
-
-# Verify timestamp is recent (within 5 minutes)
+# Get current time
 current_time = int(time.time())
-if abs(current_time - int(timestamp)) > 300:
+
+# Check if timestamp is within 5 minutes (300 seconds)
+timestamp_age = abs(current_time - int(timestamp))
+
+if timestamp_age > 300:
+    # Timestamp too old or too far in future - reject
     raise HTTPException(status_code=401, detail="Timestamp too old")
 ```
 
-<Info>
-**Security Tip**: Use `hmac.compare_digest()` for signature comparison to prevent timing attacks.
-</Info>
+**Adjust tolerance**: You can adjust the 300-second (5-minute) window based on your needs, but keep it reasonable for security.
+
 </Step>
 
 </Steps>
 
-## Complete Implementation Examples
+## Complete Secure Handler Implementation
 
 <CodeGroup>
 
-```python Python (FastAPI)
+```python Python (FastAPI - Complete)
 from fastapi import FastAPI, Request, HTTPException
 import hmac
 import hashlib
 import time
-import os
 import json
+import os
 
 app = FastAPI()
 
-def verify_webhook_signature(
-    signature: str,
-    timestamp: str,
-    raw_payload: bytes,
-    webhook_secret: str
-) -> bool:
-    """Verify webhook signature and timestamp"""
+# Get webhook secret from environment
+WEBHOOK_SECRET = os.getenv("MAGIC_HOUR_WEBHOOK_SECRET")
 
-    # Check timestamp is recent (within 5 minutes)
+def verify_webhook(signature: str, timestamp: str, raw_body: bytes) -> bool:
+    """
+    Verify webhook signature and timestamp
+
+    Args:
+        signature: The magic-hour-event-signature header value
+        timestamp: The magic-hour-event-timestamp header value
+        raw_body: The raw request body as bytes
+
+    Returns:
+        True if webhook is valid, False otherwise
+    """
+
+    # Step 1: Verify timestamp is recent (within 5 minutes)
     current_time = int(time.time())
-    if abs(current_time - int(timestamp)) > 300:
+    timestamp_age = abs(current_time - int(timestamp))
+
+    if timestamp_age > 300:  # 5 minutes in seconds
+        print(f"❌ Timestamp too old: {timestamp_age} seconds")
         return False
 
-    # Create signed payload
-    signed_payload = f"{timestamp}.{raw_payload.decode('utf-8')}"
+    # Step 2: Create signed payload
+    # Format: "{timestamp}.{raw_json_payload}"
+    payload_string = raw_body.decode('utf-8')
+    signed_payload = f"{timestamp}.{payload_string}"
 
-    # Compute expected signature
+    # Step 3: Compute expected signature
     expected_signature = hmac.new(
-        webhook_secret.encode('utf-8'),
-        signed_payload.encode('utf-8'),
-        hashlib.sha256
-    ).hexdigest()
+        WEBHOOK_SECRET.encode('utf-8'),  # Secret as bytes
+        signed_payload.encode('utf-8'),   # Signed payload as bytes
+        hashlib.sha256                    # SHA256 hash function
+    ).hexdigest()                         # Convert to hex string
 
-    # Compare signatures (constant-time comparison)
-    return hmac.compare_digest(signature, expected_signature)
+    # Step 4: Compare signatures (constant-time comparison)
+    is_valid = hmac.compare_digest(signature, expected_signature)
+
+    if not is_valid:
+        print(f"❌ Signature mismatch")
+        print(f"   Received:  {signature}")
+        print(f"   Expected:  {expected_signature}")
+
+    return is_valid
 
 @app.post("/webhook")
 async def secure_webhook_handler(request: Request):
-    # Get headers
+    """Secure webhook endpoint with signature verification"""
+
+    # Extract headers
     signature = request.headers.get('magic-hour-event-signature')
     timestamp = request.headers.get('magic-hour-event-timestamp')
 
+    # Validate headers exist
     if not signature or not timestamp:
-        raise HTTPException(status_code=401, detail="Missing signature headers")
+        raise HTTPException(
+            status_code=401,
+            detail="Missing security headers"
+        )
 
-    # Get raw payload (important: don't parse JSON yet)
-    raw_payload = await request.body()
-    webhook_secret = os.getenv("MAGIC_HOUR_WEBHOOK_SECRET")
+    # Get raw body for signature verification
+    raw_body = await request.body()
 
-    if not webhook_secret:
-        raise HTTPException(status_code=500, detail="Webhook secret not configured")
+    # Verify webhook authenticity
+    if not verify_webhook(signature, timestamp, raw_body):
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid signature or timestamp"
+        )
 
-    # Verify signature
-    if not verify_webhook_signature(signature, timestamp, raw_payload, webhook_secret):
-        raise HTTPException(status_code=401, detail="Invalid signature or timestamp")
+    # Now it's safe to parse and process the JSON
+    event = json.loads(raw_body)
 
-    # Now it's safe to parse the JSON
-    event = json.loads(raw_payload)
-
-    # Process the verified webhook
     print(f"✅ Verified webhook: {event['type']}")
 
-    # Your business logic here
+    # Process the event
     match event['type']:
         case 'video.completed':
-            print("Video processing completed!")
+            print("Video is ready!")
+            # Your business logic here
         case 'image.completed':
-            print("Image processing completed!")
+            print("Image is ready!")
+            # Your business logic here
         case _:
-            print(f"Received event: {event['type']}")
+            print(f"Received: {event['type']}")
 
     return {"success": True}
+
+# Run the server
+if __name__ == "__main__":
+    import uvicorn
+
+    if not WEBHOOK_SECRET:
+        raise ValueError("MAGIC_HOUR_WEBHOOK_SECRET must be set")
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 ```
 
 ```typescript Node.js (Express)
@@ -285,36 +407,24 @@ const crypto = require("crypto");
 
 const app = express();
 
-// Custom middleware to capture raw body
-app.use("/webhook", express.raw({ type: "application/json" }));
+// IMPORTANT: Use express.raw() or express.text() to get raw body for signature verification
+// Do NOT use express.json() if you need raw body for signature verification
+app.use(express.text({ type: "application/json" }));
 
-function verifyWebhookSignature(signature, timestamp, rawPayload, webhookSecret) {
-  // Check timestamp is recent (within 5 minutes)
-  const currentTime = Math.floor(Date.now() / 1000);
-  if (Math.abs(currentTime - parseInt(timestamp)) > 300) {
-    return false;
-  }
+const webhookSecret = process.env.MAGIC_HOUR_WEBHOOK_SECRET;
 
-  // Create signed payload
-  const signedPayload = `${timestamp}.${rawPayload.toString("utf8")}`;
-
-  // Compute expected signature
-  const expectedSignature = crypto
-    .createHmac("sha256", webhookSecret)
-    .update(signedPayload, "utf8")
-    .digest("hex");
-
-  // Compare signatures (constant-time comparison)
-  return crypto.timingSafeEqual(
-    Buffer.from(signature, "hex"),
-    Buffer.from(expectedSignature, "hex")
-  );
+function computeSignature(signedPayload) {
+  return crypto.createHmac("sha256", webhookSecret).update(signedPayload).digest("hex");
 }
 
 app.post("/webhook", (req, res) => {
   // Get headers
   const signature = req.headers["magic-hour-event-signature"];
   const timestamp = req.headers["magic-hour-event-timestamp"];
+
+  if (!signature || !timestamp) {
+    return res.status(401).json({ error: "Missing security headers" });
+  }
 
   if (!signature || !timestamp) {
     return res.status(401).json({ error: "Missing signature headers" });
@@ -325,35 +435,31 @@ app.post("/webhook", (req, res) => {
     return res.status(500).json({ error: "Webhook secret not configured" });
   }
 
-  // Verify signature using raw body
-  if (!verifyWebhookSignature(signature, timestamp, req.body, webhookSecret)) {
-    return res.status(401).json({ error: "Invalid signature or timestamp" });
+  // Get raw body (req.body is now a string, not parsed JSON)
+  const rawBody = req.body;
+
+  // Create signed payload and verify signature
+  const signedPayload = `${timestamp}.${rawBody}`;
+  const computedSignature = computeSignature(signedPayload);
+
+  // Constant-time comparison
+  if (signature !== computedSignature) {
+    return res.status(401).json({ error: "Invalid signature" });
   }
 
   // Now it's safe to parse the JSON
-  const event = JSON.parse(req.body.toString("utf8"));
+  const event = JSON.parse(rawBody);
+  const { type, payload } = event;
 
-  // Process the verified webhook
-  console.log(`✅ Verified webhook: ${event.type}`);
+  // Process webhook event
+  console.log(`✅ Verified webhook: ${type}`);
 
   // Your business logic here
-  switch (event.type) {
-    case "video.completed":
-      console.log("Video processing completed!");
-      break;
-    case "image.completed":
-      console.log("Image processing completed!");
-      break;
-    default:
-      console.log(`Received event: ${event.type}`);
+  if (type === "video.completed") {
+    console.log("Video is ready!");
   }
 
   res.status(200).json({ success: true });
-});
-
-const port = process.env.PORT || 8000;
-app.listen(port, () => {
-  console.log(`🔒 Secure webhook server running on port ${port}`);
 });
 ```
 

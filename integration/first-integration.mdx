@@ -1,0 +1,666 @@
+---
+title: Creating Your First Integration
+sidebarTitle: Creating Your First Integration
+description: Build a complete Magic Hour integration from scratch in this hands-on tutorial.
+---
+
+## What You'll Build
+
+In this tutorial, you'll create a working application that generates an AI image using the Magic Hour API. By the end, you'll have:
+
+- ✅ A complete project structure ready for development
+- ✅ Code that creates a job, monitors its progress, and downloads the result
+- ✅ Proper file handling for inputs and outputs
+- ✅ Error handling for production use
+- ✅ A downloadable GitHub repository to reference
+
+<Note>
+  **Estimated time**: 15-20 minutes **Prerequisites**: API key from [Developer
+  Hub](https://magichour.ai/developer), Python 3.8+ or Node.js 16+ installed
+</Note>
+
+## Choose Your Language
+
+<Tabs>
+<Tab title="Python">
+
+### Step 1: Set Up Your Project
+
+Create a new directory and set up your project structure:
+
+```bash
+# Create project directory
+mkdir magic-hour-tutorial
+cd magic-hour-tutorial
+
+# Create necessary directories
+mkdir outputs
+mkdir assets
+
+# Create main script file
+touch main.py
+
+# Create environment file for your API key
+touch .env
+```
+
+Your project structure should now look like this:
+
+```
+magic-hour-tutorial/
+├── main.py          # Your main script
+├── .env             # API key storage
+├── outputs/         # Downloaded results go here
+└── assets/          # Input files (if needed)
+```
+
+### Step 2: Install Dependencies
+
+Install the Magic Hour Python SDK and python-dotenv for managing API keys:
+
+```bash
+pip install magic-hour python-dotenv requests
+```
+
+<Info>
+  **SDK Documentation**: Full Python SDK docs available at
+  [github.com/magichourhq/magic-hour-python](https://github.com/magichourhq/magic-hour-python)
+</Info>
+
+### Step 3: Configure Your API Key
+
+Open `.env` and add your API key:
+
+```bash
+MAGIC_HOUR_API_KEY=your_api_key_here
+```
+
+<Warning>
+**Security**: Never commit `.env` to version control. Add it to `.gitignore` immediately:
+```bash
+echo ".env" >> .gitignore
+```
+</Warning>
+
+### Step 4: Write the Integration Code
+
+Open `main.py` and add the following code. We'll build it section by section:
+
+```python
+import os
+import time
+import requests
+from pathlib import Path
+from dotenv import load_dotenv
+from magic_hour import Client
+
+# Load environment variables
+load_dotenv()
+
+# Initialize the Magic Hour client
+API_KEY = os.getenv("MAGIC_HOUR_API_KEY")
+if not API_KEY:
+    raise ValueError("MAGIC_HOUR_API_KEY not found in environment variables")
+
+client = Client(token=API_KEY)
+
+def main():
+    """Generate an AI image using Magic Hour API"""
+
+    print("🚀 Starting Magic Hour Integration Tutorial")
+    print("-" * 50)
+
+    # Step 1: Create the generation job
+    print("\n📝 Creating AI image generation job...")
+    try:
+        create_response = client.v1.ai_image_generator.create(
+            image_count=1,
+            orientation="landscape",
+            style={
+                "prompt": "A serene mountain landscape at sunset with vibrant colors",
+                "tool": "ai-anime-generator"
+            },
+            name="Tutorial Image"
+        )
+
+        job_id = create_response.id
+        credits_charged = create_response.credits_charged
+
+        print(f"✅ Job created successfully!")
+        print(f"   Job ID: {job_id}")
+        print(f"   Credits charged: {credits_charged}")
+
+    except Exception as e:
+        print(f"❌ Failed to create job: {e}")
+        return
+
+    # Step 2: Poll for completion
+    print(f"\n⏳ Waiting for job to complete...")
+    print("   This usually takes 5-15 seconds for images")
+
+    max_attempts = 60  # Maximum 60 attempts (3 minutes)
+    attempt = 0
+
+    while attempt < max_attempts:
+        try:
+            # Check job status
+            status_response = client.v1.image_projects.get(id=job_id)
+            status = status_response.status
+
+            print(f"   Status: {status} (attempt {attempt + 1}/{max_attempts})")
+
+            if status == "complete":
+                print("✅ Job completed successfully!")
+
+                # Step 3: Download the result
+                download_url = status_response.downloads[0].url
+                download_image(download_url, job_id)
+                break
+
+            elif status == "error":
+                error_info = status_response.error
+                print(f"❌ Job failed with error:")
+                print(f"   Code: {error_info.get('code', 'unknown')}")
+                print(f"   Message: {error_info.get('message', 'No error message')}")
+                return
+
+            elif status in ["queued", "rendering"]:
+                # Still processing, wait before next check
+                time.sleep(3)
+                attempt += 1
+
+            else:
+                print(f"⚠️  Unexpected status: {status}")
+                time.sleep(3)
+                attempt += 1
+
+        except Exception as e:
+            print(f"❌ Error checking status: {e}")
+            return
+
+    if attempt >= max_attempts:
+        print(f"⏰ Timeout: Job did not complete within {max_attempts * 3} seconds")
+        return
+
+    print("\n✨ Tutorial completed successfully!")
+    print(f"📁 Check the 'outputs/' directory for your generated image")
+
+def download_image(url, job_id):
+    """Download the generated image"""
+
+    print(f"\n📥 Downloading result...")
+
+    try:
+        # Create outputs directory if it doesn't exist
+        output_dir = Path("outputs")
+        output_dir.mkdir(exist_ok=True)
+
+        # Download the file
+        response = requests.get(url, stream=True, timeout=30)
+        response.raise_for_status()
+
+        # Save with job ID in filename
+        filename = f"generated_image_{job_id}.png"
+        filepath = output_dir / filename
+
+        with open(filepath, "wb") as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+
+        file_size = filepath.stat().st_size
+        file_size_mb = file_size / (1024 * 1024)
+
+        print(f"✅ Downloaded: {filepath}")
+        print(f"   Size: {file_size_mb:.2f} MB")
+
+    except requests.exceptions.RequestException as e:
+        print(f"❌ Download failed: {e}")
+    except Exception as e:
+        print(f"❌ Unexpected error during download: {e}")
+
+if __name__ == "__main__":
+    main()
+```
+
+### Step 5: Run Your Integration
+
+Execute your script:
+
+```bash
+python main.py
+```
+
+You should see output like this:
+
+```
+🚀 Starting Magic Hour Integration Tutorial
+--------------------------------------------------
+
+📝 Creating AI image generation job...
+✅ Job created successfully!
+   Job ID: clx7uu86w0a5qp55yxz315r6r
+   Credits charged: 5
+
+⏳ Waiting for job to complete...
+   This usually takes 5-15 seconds for images
+   Status: queued (attempt 1/60)
+   Status: rendering (attempt 2/60)
+   Status: complete (attempt 3/60)
+✅ Job completed successfully!
+
+📥 Downloading result...
+✅ Downloaded: outputs/generated_image_clx7uu86w0a5qp55yxz315r6r.png
+   Size: 1.23 MB
+
+✨ Tutorial completed successfully!
+📁 Check the 'outputs/' directory for your generated image
+```
+
+</Tab>
+
+<Tab title="Node.js">
+
+### Step 1: Set Up Your Project
+
+Create a new directory and initialize a Node.js project:
+
+```bash
+# Create project directory
+mkdir magic-hour-tutorial
+cd magic-hour-tutorial
+
+# Initialize npm project
+npm init -y
+
+# Create necessary directories
+mkdir outputs
+mkdir assets
+
+# Create main script file
+touch index.js
+
+# Create environment file for your API key
+touch .env
+```
+
+Your project structure should now look like this:
+
+```
+magic-hour-tutorial/
+├── index.js         # Your main script
+├── package.json     # npm configuration
+├── .env             # API key storage
+├── outputs/         # Downloaded results go here
+└── assets/          # Input files (if needed)
+```
+
+### Step 2: Install Dependencies
+
+Install the Magic Hour Node SDK and dotenv for managing API keys:
+
+```bash
+npm install magic-hour dotenv
+```
+
+<Info>
+  **SDK Documentation**: Full Node.js SDK docs available at
+  [github.com/magichourhq/magic-hour-node](https://github.com/magichourhq/magic-hour-node)
+</Info>
+
+### Step 3: Configure Your API Key
+
+Open `.env` and add your API key:
+
+```bash
+MAGIC_HOUR_API_KEY=your_api_key_here
+```
+
+<Warning>
+**Security**: Never commit `.env` to version control. Add it to `.gitignore` immediately:
+```bash
+echo ".env" >> .gitignore
+```
+</Warning>
+
+### Step 4: Write the Integration Code
+
+Open `index.js` and add the following code:
+
+```javascript
+import "dotenv/config";
+import Client from "magic-hour";
+import { writeFileSync, mkdirSync } from "fs";
+import { join } from "path";
+
+// Initialize the Magic Hour client
+const API_KEY = process.env.MAGIC_HOUR_API_KEY;
+if (!API_KEY) {
+  throw new Error("MAGIC_HOUR_API_KEY not found in environment variables");
+}
+
+const client = new Client({ token: API_KEY });
+
+async function main() {
+  console.log("🚀 Starting Magic Hour Integration Tutorial");
+  console.log("-".repeat(50));
+
+  try {
+    // Step 1: Create the generation job
+    console.log("\n📝 Creating AI image generation job...");
+
+    const createResponse = await client.v1.aiImageGenerator.create({
+      imageCount: 1,
+      orientation: "landscape",
+      style: {
+        prompt: "A serene mountain landscape at sunset with vibrant colors",
+        tool: "ai-anime-generator",
+      },
+      name: "Tutorial Image",
+    });
+
+    const jobId = createResponse.id;
+    const creditsCharged = createResponse.creditsCharged;
+
+    console.log("✅ Job created successfully!");
+    console.log(`   Job ID: ${jobId}`);
+    console.log(`   Credits charged: ${creditsCharged}`);
+
+    // Step 2: Poll for completion
+    console.log("\n⏳ Waiting for job to complete...");
+    console.log("   This usually takes 5-15 seconds for images");
+
+    const maxAttempts = 60; // Maximum 60 attempts (3 minutes)
+    let attempt = 0;
+
+    while (attempt < maxAttempts) {
+      // Check job status
+      const statusResponse = await client.v1.imageProjects.get({ id: jobId });
+      const status = statusResponse.status;
+
+      console.log(`   Status: ${status} (attempt ${attempt + 1}/${maxAttempts})`);
+
+      if (status === "complete") {
+        console.log("✅ Job completed successfully!");
+
+        // Step 3: Download the result
+        const downloadUrl = statusResponse.downloads[0].url;
+        await downloadImage(downloadUrl, jobId);
+        break;
+      } else if (status === "error") {
+        const errorInfo = statusResponse.error;
+        console.log("❌ Job failed with error:");
+        console.log(`   Code: ${errorInfo?.code || "unknown"}`);
+        console.log(`   Message: ${errorInfo?.message || "No error message"}`);
+        return;
+      } else if (status === "queued" || status === "rendering") {
+        // Still processing, wait before next check
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        attempt++;
+      } else {
+        console.log(`⚠️  Unexpected status: ${status}`);
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        attempt++;
+      }
+    }
+
+    if (attempt >= maxAttempts) {
+      console.log(`⏰ Timeout: Job did not complete within ${maxAttempts * 3} seconds`);
+      return;
+    }
+
+    console.log("\n✨ Tutorial completed successfully!");
+    console.log("📁 Check the 'outputs/' directory for your generated image");
+  } catch (error) {
+    console.log(`❌ Error: ${error.message}`);
+  }
+}
+
+async function downloadImage(url, jobId) {
+  console.log("\n📥 Downloading result...");
+
+  try {
+    // Create outputs directory if it doesn't exist
+    try {
+      mkdirSync("outputs", { recursive: true });
+    } catch (e) {
+      // Directory already exists
+    }
+
+    // Download the file
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    // Save with job ID in filename
+    const filename = `generated_image_${jobId}.png`;
+    const filepath = join("outputs", filename);
+
+    writeFileSync(filepath, buffer);
+
+    const fileSizeMB = (buffer.length / (1024 * 1024)).toFixed(2);
+
+    console.log(`✅ Downloaded: ${filepath}`);
+    console.log(`   Size: ${fileSizeMB} MB`);
+  } catch (error) {
+    console.log(`❌ Download failed: ${error.message}`);
+  }
+}
+
+// Run the main function
+main();
+```
+
+### Step 5: Update package.json
+
+Add `"type": "module"` to your `package.json` to enable ES modules:
+
+```json
+{
+  "name": "magic-hour-tutorial",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "magic-hour": "^0.42.0"
+  }
+}
+```
+
+### Step 6: Run Your Integration
+
+Execute your script:
+
+```bash
+node index.js
+```
+
+You should see similar output to the Python example showing the job creation, polling, and download process.
+
+</Tab>
+</Tabs>
+
+## Understanding the Code
+
+Let's break down what each part does:
+
+### 1. Job Creation
+
+```python
+create_response = client.v1.ai_image_generator.create(...)
+```
+
+- Sends a request to Magic Hour to start generating an image
+- Returns immediately with a `job_id` and `credits_charged`
+- The actual generation happens asynchronously on Magic Hour's servers
+
+### 2. Status Polling
+
+```python
+while attempt < max_attempts:
+    status_response = client.v1.image_projects.get(id=job_id)
+```
+
+- Periodically checks if the job is complete
+- Polls every 3 seconds (appropriate for image generation)
+- Handles different statuses: queued, rendering, complete, error
+
+### 3. File Download
+
+```python
+response = requests.get(url, stream=True)
+```
+
+- Downloads the generated image from the provided URL
+- Uses streaming to handle large files efficiently
+- Saves to the `outputs/` directory with a unique filename
+
+### 4. Error Handling
+
+- Checks for API errors and displays helpful messages
+- Implements timeouts to prevent infinite loops
+- Validates API key exists before making requests
+
+## Using the Simpler `generate()` Function
+
+The SDK also provides a `generate()` function that handles polling and downloading automatically:
+
+<CodeGroup>
+
+```python Python
+# All-in-one generate function
+result = client.v1.ai_image_generator.generate(
+    image_count=1,
+    orientation="landscape",
+    style={
+        "prompt": "A serene mountain landscape at sunset",
+        "tool": "ai-anime-generator"
+    },
+    name="Tutorial Image",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="./outputs/"
+)
+
+print(f"✅ Complete! Files: {result.downloaded_paths}")
+```
+
+```javascript Node.js
+// All-in-one generate function
+const result = await client.v1.aiImageGenerator.generate({
+  imageCount: 1,
+  orientation: "landscape",
+  style: {
+    prompt: "A serene mountain landscape at sunset",
+    tool: "ai-anime-generator",
+  },
+  name: "Tutorial Image",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: "./outputs/",
+});
+
+console.log(`✅ Complete! Files: ${result.downloadedPaths}`);
+```
+
+</CodeGroup>
+
+**When to use each approach:**
+
+- Use `create()` + polling: Production apps, webhook integration, custom monitoring
+- Use `generate()`: Quick scripts, testing, simple integrations
+
+## Download the Complete Project
+
+Get the full working example from GitHub:
+
+<CardGroup cols={2}>
+  <Card
+    title="Python Example"
+    icon="python"
+    href="https://github.com/magichourhq/magic-hour-python/tree/main/examples"
+  >
+    Complete Python tutorial project
+  </Card>
+  <Card
+    title="Node.js Example"
+    icon="node-js"
+    href="https://github.com/magichourhq/magic-hour-node/tree/main/examples"
+  >
+    Complete Node.js tutorial project
+  </Card>
+</CardGroup>
+
+## Working with Video Generation
+
+For video generation, the process is identical but uses different endpoints:
+
+<CodeGroup>
+
+```python Python
+# Create video job
+create_response = client.v1.face_swap.create(
+    assets={
+        "source_file_path": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU_%28cropped%29.jpg",
+        "video_file_path": "https://svs.gsfc.nasa.gov/vis/a010000/a014300/a014327/john_bolten_no_graphics.mp4",
+        "video_source": "file"
+    },
+    start_seconds=0.0,
+    end_seconds=10.0
+)
+
+# Poll using video_projects endpoint
+status = client.v1.video_projects.get(id=create_response.id)
+```
+
+```javascript Node.js
+// Create video job
+const createResponse = await client.v1.faceSwap.create({
+  assets: {
+    sourceFilePath:
+      "https://upload.wikimedia.org/wikipedia/commons/e/ec/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU_%28cropped%29.jpg",
+    videoFilePath:
+      "https://svs.gsfc.nasa.gov/vis/a010000/a014300/a014327/john_bolten_no_graphics.mp4",
+    videoSource: "file",
+  },
+  startSeconds: 0.0,
+  endSeconds: 10.0,
+});
+
+// Poll using videoProjects endpoint
+const status = await client.v1.videoProjects.get({ id: createResponse.id });
+```
+
+</CodeGroup>
+
+<Note>
+  **Video Processing Times**: Videos take 2-10 minutes depending on length. Use longer poll
+  intervals (5-10 seconds) for video jobs.
+</Note>
+
+## Next Steps
+
+Now that you have a working integration:
+
+<CardGroup cols={2}>
+  <Card title="Handling Files" icon="file" href="/integration/inputs-and-outputs">
+    Learn advanced file upload and download techniques
+  </Card>
+  <Card title="Development & Testing" icon="flask" href="/integration/development-and-testing">
+    Best practices for testing without using credits
+  </Card>
+  <Card title="Webhooks" icon="webhook" href="/integration/webhook/create-webhook">
+    Set up real-time notifications instead of polling
+  </Card>
+  <Card title="API Reference" icon="book" href="/api-reference">
+    Explore all available endpoints and parameters
+  </Card>
+</CardGroup>
+
+---
+
+**Need help?** Join our [Discord community](https://discord.com/invite/JX5rgsZaJp) or email [support@magichour.ai](mailto:support@magichour.ai)
