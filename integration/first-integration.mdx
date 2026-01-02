@@ -15,8 +15,8 @@ In this tutorial, you'll create a working application that generates an AI image
 - ✅ A downloadable GitHub repository to reference
 
 <Note>
-**Estimated time**: 15-20 minutes  
-**Prerequisites**: API key from [Developer Hub](https://magichour.ai/developer), Python 3.8+ or Node.js 16+ installed
+  **Estimated time**: 15-20 minutes **Prerequisites**: API key from [Developer
+  Hub](https://magichour.ai/developer), Python 3.8+ or Node.js 16+ installed
 </Note>
 
 ## Choose Your Language
@@ -63,7 +63,8 @@ pip install magic-hour python-dotenv requests
 ```
 
 <Info>
-**SDK Documentation**: Full Python SDK docs available at [github.com/magichourhq/magic-hour-python](https://github.com/magichourhq/magic-hour-python)
+  **SDK Documentation**: Full Python SDK docs available at
+  [github.com/magichourhq/magic-hour-python](https://github.com/magichourhq/magic-hour-python)
 </Info>
 
 ### Step 3: Configure Your API Key
@@ -105,10 +106,10 @@ client = Client(token=API_KEY)
 
 def main():
     """Generate an AI image using Magic Hour API"""
-    
+
     print("🚀 Starting Magic Hour Integration Tutorial")
     print("-" * 50)
-    
+
     # Step 1: Create the generation job
     print("\n📝 Creating AI image generation job...")
     try:
@@ -121,97 +122,97 @@ def main():
             },
             name="Tutorial Image"
         )
-        
+
         job_id = create_response.id
         credits_charged = create_response.credits_charged
-        
+
         print(f"✅ Job created successfully!")
         print(f"   Job ID: {job_id}")
         print(f"   Credits charged: {credits_charged}")
-        
+
     except Exception as e:
         print(f"❌ Failed to create job: {e}")
         return
-    
+
     # Step 2: Poll for completion
     print(f"\n⏳ Waiting for job to complete...")
     print("   This usually takes 5-15 seconds for images")
-    
+
     max_attempts = 60  # Maximum 60 attempts (3 minutes)
     attempt = 0
-    
+
     while attempt < max_attempts:
         try:
             # Check job status
             status_response = client.v1.image_projects.get(id=job_id)
             status = status_response.status
-            
+
             print(f"   Status: {status} (attempt {attempt + 1}/{max_attempts})")
-            
+
             if status == "complete":
                 print("✅ Job completed successfully!")
-                
+
                 # Step 3: Download the result
                 download_url = status_response.downloads[0].url
                 download_image(download_url, job_id)
                 break
-                
+
             elif status == "error":
                 error_info = status_response.error
                 print(f"❌ Job failed with error:")
                 print(f"   Code: {error_info.get('code', 'unknown')}")
                 print(f"   Message: {error_info.get('message', 'No error message')}")
                 return
-                
+
             elif status in ["queued", "rendering"]:
                 # Still processing, wait before next check
                 time.sleep(3)
                 attempt += 1
-                
+
             else:
                 print(f"⚠️  Unexpected status: {status}")
                 time.sleep(3)
                 attempt += 1
-                
+
         except Exception as e:
             print(f"❌ Error checking status: {e}")
             return
-    
+
     if attempt >= max_attempts:
         print(f"⏰ Timeout: Job did not complete within {max_attempts * 3} seconds")
         return
-    
+
     print("\n✨ Tutorial completed successfully!")
     print(f"📁 Check the 'outputs/' directory for your generated image")
 
 def download_image(url, job_id):
     """Download the generated image"""
-    
+
     print(f"\n📥 Downloading result...")
-    
+
     try:
         # Create outputs directory if it doesn't exist
         output_dir = Path("outputs")
         output_dir.mkdir(exist_ok=True)
-        
+
         # Download the file
         response = requests.get(url, stream=True, timeout=30)
         response.raise_for_status()
-        
+
         # Save with job ID in filename
         filename = f"generated_image_{job_id}.png"
         filepath = output_dir / filename
-        
+
         with open(filepath, "wb") as f:
             for chunk in response.iter_content(chunk_size=8192):
                 f.write(chunk)
-        
+
         file_size = filepath.stat().st_size
         file_size_mb = file_size / (1024 * 1024)
-        
+
         print(f"✅ Downloaded: {filepath}")
         print(f"   Size: {file_size_mb:.2f} MB")
-        
+
     except requests.exceptions.RequestException as e:
         print(f"❌ Download failed: {e}")
     except Exception as e:
@@ -302,7 +303,8 @@ npm install magic-hour dotenv
 ```
 
 <Info>
-**SDK Documentation**: Full Node.js SDK docs available at [github.com/magichourhq/magic-hour-node](https://github.com/magichourhq/magic-hour-node)
+  **SDK Documentation**: Full Node.js SDK docs available at
+  [github.com/magichourhq/magic-hour-node](https://github.com/magichourhq/magic-hour-node)
 </Info>
 
 ### Step 3: Configure Your API Key
@@ -325,10 +327,10 @@ echo ".env" >> .gitignore
 Open `index.js` and add the following code:
 
 ```javascript
-import 'dotenv/config';
-import Client from 'magic-hour';
-import { writeFileSync, mkdirSync } from 'fs';
-import { join } from 'path';
+import "dotenv/config";
+import Client from "magic-hour";
+import { writeFileSync, mkdirSync } from "fs";
+import { join } from "path";
 
 // Initialize the Magic Hour client
 const API_KEY = process.env.MAGIC_HOUR_API_KEY;
@@ -341,45 +343,45 @@ const client = new Client({ token: API_KEY });
 async function main() {
   console.log("🚀 Starting Magic Hour Integration Tutorial");
   console.log("-".repeat(50));
-  
+
   try {
     // Step 1: Create the generation job
     console.log("\n📝 Creating AI image generation job...");
-    
+
     const createResponse = await client.v1.aiImageGenerator.create({
       imageCount: 1,
       orientation: "landscape",
       style: {
         prompt: "A serene mountain landscape at sunset with vibrant colors",
-        tool: "ai-anime-generator"
+        tool: "ai-anime-generator",
       },
-      name: "Tutorial Image"
+      name: "Tutorial Image",
     });
-    
+
     const jobId = createResponse.id;
     const creditsCharged = createResponse.creditsCharged;
-    
+
     console.log("✅ Job created successfully!");
     console.log(`   Job ID: ${jobId}`);
     console.log(`   Credits charged: ${creditsCharged}`);
-    
+
     // Step 2: Poll for completion
     console.log("\n⏳ Waiting for job to complete...");
     console.log("   This usually takes 5-15 seconds for images");
-    
-    const maxAttempts = 60;  // Maximum 60 attempts (3 minutes)
+
+    const maxAttempts = 60; // Maximum 60 attempts (3 minutes)
     let attempt = 0;
-    
+
     while (attempt < maxAttempts) {
       // Check job status
       const statusResponse = await client.v1.imageProjects.get({ id: jobId });
       const status = statusResponse.status;
-      
+
       console.log(`   Status: ${status} (attempt ${attempt + 1}/${maxAttempts})`);
-      
+
       if (status === "complete") {
         console.log("✅ Job completed successfully!");
-        
+
         // Step 3: Download the result
         const downloadUrl = statusResponse.downloads[0].url;
         await downloadImage(downloadUrl, jobId);
@@ -387,28 +389,27 @@ async function main() {
       } else if (status === "error") {
         const errorInfo = statusResponse.error;
         console.log("❌ Job failed with error:");
-        console.log(`   Code: ${errorInfo?.code || 'unknown'}`);
-        console.log(`   Message: ${errorInfo?.message || 'No error message'}`);
+        console.log(`   Code: ${errorInfo?.code || "unknown"}`);
+        console.log(`   Message: ${errorInfo?.message || "No error message"}`);
         return;
       } else if (status === "queued" || status === "rendering") {
         // Still processing, wait before next check
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        await new Promise((resolve) => setTimeout(resolve, 3000));
         attempt++;
       } else {
         console.log(`⚠️  Unexpected status: ${status}`);
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        await new Promise((resolve) => setTimeout(resolve, 3000));
         attempt++;
       }
     }
-    
+
     if (attempt >= maxAttempts) {
       console.log(`⏰ Timeout: Job did not complete within ${maxAttempts * 3} seconds`);
       return;
     }
-    
+
     console.log("\n✨ Tutorial completed successfully!");
     console.log("📁 Check the 'outputs/' directory for your generated image");
-    
   } catch (error) {
     console.log(`❌ Error: ${error.message}`);
   }
@@ -416,7 +417,7 @@ async function main() {
 
 async function downloadImage(url, jobId) {
   console.log("\n📥 Downloading result...");
-  
+
   try {
     // Create outputs directory if it doesn't exist
     try {
@@ -424,27 +425,26 @@ async function downloadImage(url, jobId) {
     } catch (e) {
       // Directory already exists
     }
-    
+
     // Download the file
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
-    
+
     const arrayBuffer = await response.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-    
+
     // Save with job ID in filename
     const filename = `generated_image_${jobId}.png`;
     const filepath = join("outputs", filename);
-    
+
     writeFileSync(filepath, buffer);
-    
+
     const fileSizeMB = (buffer.length / (1024 * 1024)).toFixed(2);
-    
+
     console.log(`✅ Downloaded: ${filepath}`);
     console.log(`   Size: ${fileSizeMB} MB`);
-    
   } catch (error) {
     console.log(`❌ Download failed: ${error.message}`);
   }
@@ -489,31 +489,38 @@ You should see similar output to the Python example showing the job creation, po
 Let's break down what each part does:
 
 ### 1. Job Creation
+
 ```python
 create_response = client.v1.ai_image_generator.create(...)
 ```
+
 - Sends a request to Magic Hour to start generating an image
 - Returns immediately with a `job_id` and `credits_charged`
 - The actual generation happens asynchronously on Magic Hour's servers
 
 ### 2. Status Polling
+
 ```python
 while attempt < max_attempts:
     status_response = client.v1.image_projects.get(id=job_id)
 ```
+
 - Periodically checks if the job is complete
 - Polls every 3 seconds (appropriate for image generation)
 - Handles different statuses: queued, rendering, complete, error
 
 ### 3. File Download
+
 ```python
 response = requests.get(url, stream=True)
 ```
+
 - Downloads the generated image from the provided URL
 - Uses streaming to handle large files efficiently
 - Saves to the `outputs/` directory with a unique filename
 
 ### 4. Error Handling
+
 - Checks for API errors and displays helpful messages
 - Implements timeouts to prevent infinite loops
 - Validates API key exists before making requests
@@ -549,12 +556,12 @@ const result = await client.v1.aiImageGenerator.generate({
   orientation: "landscape",
   style: {
     prompt: "A serene mountain landscape at sunset",
-    tool: "ai-anime-generator"
+    tool: "ai-anime-generator",
   },
   name: "Tutorial Image",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/"
+  downloadDirectory: "./outputs/",
 });
 
 console.log(`✅ Complete! Files: ${result.downloadedPaths}`);
@@ -563,6 +570,7 @@ console.log(`✅ Complete! Files: ${result.downloadedPaths}`);
 </CodeGroup>
 
 **When to use each approach:**
+
 - Use `create()` + polling: Production apps, webhook integration, custom monitoring
 - Use `generate()`: Quick scripts, testing, simple integrations
 
@@ -571,10 +579,18 @@ console.log(`✅ Complete! Files: ${result.downloadedPaths}`);
 Get the full working example from GitHub:
 
 <CardGroup cols={2}>
-  <Card title="Python Example" icon="python" href="https://github.com/magichourhq/magic-hour-python/tree/main/examples">
+  <Card
+    title="Python Example"
+    icon="python"
+    href="https://github.com/magichourhq/magic-hour-python/tree/main/examples"
+  >
     Complete Python tutorial project
   </Card>
-  <Card title="Node.js Example" icon="node-js" href="https://github.com/magichourhq/magic-hour-node/tree/main/examples">
+  <Card
+    title="Node.js Example"
+    icon="node-js"
+    href="https://github.com/magichourhq/magic-hour-node/tree/main/examples"
+  >
     Complete Node.js tutorial project
   </Card>
 </CardGroup>
@@ -605,12 +621,14 @@ status = client.v1.video_projects.get(id=create_response.id)
 // Create video job
 const createResponse = await client.v1.faceSwap.create({
   assets: {
-    sourceFilePath: "https://upload.wikimedia.org/wikipedia/commons/e/ec/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU_%28cropped%29.jpg",
-    videoFilePath: "https://svs.gsfc.nasa.gov/vis/a010000/a014300/a014327/john_bolten_no_graphics.mp4",
-    videoSource: "file"
+    sourceFilePath:
+      "https://upload.wikimedia.org/wikipedia/commons/e/ec/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU_%28cropped%29.jpg",
+    videoFilePath:
+      "https://svs.gsfc.nasa.gov/vis/a010000/a014300/a014327/john_bolten_no_graphics.mp4",
+    videoSource: "file",
   },
   startSeconds: 0.0,
-  endSeconds: 10.0
+  endSeconds: 10.0,
 });
 
 // Poll using videoProjects endpoint
@@ -620,7 +638,8 @@ const status = await client.v1.videoProjects.get({ id: createResponse.id });
 </CodeGroup>
 
 <Note>
-**Video Processing Times**: Videos take 2-10 minutes depending on length. Use longer poll intervals (5-10 seconds) for video jobs.
+  **Video Processing Times**: Videos take 2-10 minutes depending on length. Use longer poll
+  intervals (5-10 seconds) for video jobs.
 </Note>
 
 ## Next Steps
@@ -645,4 +664,3 @@ Now that you have a working integration:
 ---
 
 **Need help?** Join our [Discord community](https://discord.com/invite/JX5rgsZaJp) or email [support@magichour.ai](mailto:support@magichour.ai)
-
