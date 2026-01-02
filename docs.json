@@ -56,7 +56,12 @@
         "pages": [
           {
             "group": "Get Started",
-            "pages": ["introduction", "get-started/quick-start", "get-started/authentication", "get-started/cookbook"]
+            "pages": [
+              "introduction",
+              "get-started/quick-start",
+              "get-started/authentication",
+              "get-started/cookbook"
+            ]
           },
           {
             "group": "Integration",
@@ -120,9 +125,7 @@
               },
               {
                 "group": "Audio",
-                "pages": [
-                  "tools/audio/voice-generator"
-                ]
+                "pages": ["tools/audio/voice-generator"]
               }
             ]
           }
@@ -180,6 +183,7 @@
             "pages": [
               "api-reference/audio-projects/get-audio-details",
               "api-reference/audio-projects/delete-audio",
+              "api-reference/audio-projects/ai-voice-cloner",
               "api-reference/audio-projects/ai-voice-generator"
             ]
           }
