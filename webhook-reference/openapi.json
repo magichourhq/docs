@@ -1,0 +1,1850 @@
+{
+  "openapi": "3.1.0",
+  "paths": {
+    "/video.started": {
+      "post": {
+        "description": "The request example illustrates what your webhook endpoint should expect.",
+        "summary": "Video Started",
+        "tags": ["Video Events"],
+        "parameters": [
+          {
+            "name": "magic-hour-event-signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256",
+              "example": "3e771b50c..."
+            }
+          },
+          {
+            "name": "magic-hour-event-timestamp",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.",
+              "example": "1730742038"
+            }
+          }
+        ],
+        "operationId": "video.started",
+        "requestBody": {
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": { "type": "string", "enum": ["video.started"] },
+                  "payload": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "cuid-example",
+                        "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
+                      },
+                      "name": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "The name of the video.",
+                        "example": "Example Name"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": ["draft", "queued", "rendering", "complete", "error", "canceled"],
+                        "description": "The status of the video.",
+                        "example": "complete"
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "The type of the video project. Possible values are ANIMATION, IMAGE_TO_VIDEO, VIDEO_TO_VIDEO, TEXT_TO_VIDEO, FACE_SWAP, LIP_SYNC, AUTO_SUBTITLE, TALKING_PHOTO, UGC_AD, VIDEO_UPSCALER",
+                        "example": "FACE_SWAP"
+                      },
+                      "created_at": { "type": "string", "format": "date-time" },
+                      "width": {
+                        "type": "integer",
+                        "description": "The width of the final output video. A value of -1 indicates the width can be ignored.",
+                        "example": 512
+                      },
+                      "height": {
+                        "type": "integer",
+                        "description": "The height of the final output video. A value of -1 indicates the height can be ignored.",
+                        "example": 960
+                      },
+                      "enabled": {
+                        "type": "boolean",
+                        "description": "Whether this resource is active. If false, it is deleted."
+                      },
+                      "start_seconds": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Start time of your clip (seconds). Must be ≥ 0.",
+                        "format": "float",
+                        "example": 0
+                      },
+                      "end_seconds": {
+                        "type": "number",
+                        "minimum": 0.1,
+                        "description": "End time of your clip (seconds). Must be greater than start_seconds.",
+                        "format": "float",
+                        "example": 15
+                      },
+                      "total_frame_cost": {
+                        "type": "integer",
+                        "example": 450,
+                        "deprecated": true,
+                        "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for video generation. Use 'credits_charged' instead.\n\nThe amount of frames used to generate the video. If the status is not 'complete', the cost is an estimate and will be adjusted when the video completes."
+                      },
+                      "credits_charged": {
+                        "type": "integer",
+                        "description": "The amount of credits deducted from your account to generate the video. If the status is not 'complete', this value is an estimate and may be adjusted upon completion based on the actual FPS of the output video. \n\nIf video generation fails, credits will be refunded, and this field will be updated to include the refund.",
+                        "example": 450
+                      },
+                      "fps": {
+                        "type": "number",
+                        "description": "Frame rate of the video. If the status is not 'complete', the frame rate is an estimate and will be adjusted when the video completes.",
+                        "example": 30
+                      },
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string",
+                            "description": "Details on the reason why a failure happened.",
+                            "example": "Please use an image with a detectable face"
+                          },
+                          "code": {
+                            "type": "string",
+                            "example": "no_source_face",
+                            "description": "An error code to indicate why a failure happened."
+                          }
+                        },
+                        "required": ["message", "code"],
+                        "nullable": true,
+                        "description": "In the case of an error, this object will contain the error encountered during video render",
+                        "example": null
+                      },
+                      "downloads": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "url": {
+                              "type": "string",
+                              "format": "uri",
+                              "example": "https://videos.magichour.ai/id/output.mp4"
+                            },
+                            "expires_at": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-10-19T05:16:19.027Z"
+                            }
+                          },
+                          "required": ["url", "expires_at"],
+                          "description": "The download url and expiration date of the image project"
+                        }
+                      },
+                      "download": {
+                        "type": "object",
+                        "properties": {
+                          "url": {
+                            "type": "string",
+                            "format": "uri",
+                            "example": "https://videos.magichour.ai/id/output.mp4"
+                          },
+                          "expires_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2024-10-19T05:16:19.027Z"
+                          }
+                        },
+                        "required": ["url", "expires_at"],
+                        "nullable": true,
+                        "description": "Deprecated: Please use `.downloads` instead. The download url and expiration date of the video project",
+                        "deprecated": true
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "status",
+                      "type",
+                      "created_at",
+                      "width",
+                      "height",
+                      "enabled",
+                      "start_seconds",
+                      "end_seconds",
+                      "total_frame_cost",
+                      "credits_charged",
+                      "fps",
+                      "error",
+                      "downloads",
+                      "download"
+                    ],
+                    "description": "Success"
+                  }
+                },
+                "required": ["type", "payload"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Success message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/video.completed": {
+      "post": {
+        "description": "The request example illustrates what your webhook endpoint should expect.",
+        "summary": "Video Completed",
+        "tags": ["Video Events"],
+        "parameters": [
+          {
+            "name": "magic-hour-event-signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256",
+              "example": "3e771b50c..."
+            }
+          },
+          {
+            "name": "magic-hour-event-timestamp",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.",
+              "example": "1730742038"
+            }
+          }
+        ],
+        "operationId": "video.completed",
+        "requestBody": {
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": { "type": "string", "enum": ["video.completed"] },
+                  "payload": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "cuid-example",
+                        "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
+                      },
+                      "name": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "The name of the video.",
+                        "example": "Example Name"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": ["draft", "queued", "rendering", "complete", "error", "canceled"],
+                        "description": "The status of the video.",
+                        "example": "complete"
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "The type of the video project. Possible values are ANIMATION, IMAGE_TO_VIDEO, VIDEO_TO_VIDEO, TEXT_TO_VIDEO, FACE_SWAP, LIP_SYNC, AUTO_SUBTITLE, TALKING_PHOTO, UGC_AD, VIDEO_UPSCALER",
+                        "example": "FACE_SWAP"
+                      },
+                      "created_at": { "type": "string", "format": "date-time" },
+                      "width": {
+                        "type": "integer",
+                        "description": "The width of the final output video. A value of -1 indicates the width can be ignored.",
+                        "example": 512
+                      },
+                      "height": {
+                        "type": "integer",
+                        "description": "The height of the final output video. A value of -1 indicates the height can be ignored.",
+                        "example": 960
+                      },
+                      "enabled": {
+                        "type": "boolean",
+                        "description": "Whether this resource is active. If false, it is deleted."
+                      },
+                      "start_seconds": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Start time of your clip (seconds). Must be ≥ 0.",
+                        "format": "float",
+                        "example": 0
+                      },
+                      "end_seconds": {
+                        "type": "number",
+                        "minimum": 0.1,
+                        "description": "End time of your clip (seconds). Must be greater than start_seconds.",
+                        "format": "float",
+                        "example": 15
+                      },
+                      "total_frame_cost": {
+                        "type": "integer",
+                        "example": 450,
+                        "deprecated": true,
+                        "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for video generation. Use 'credits_charged' instead.\n\nThe amount of frames used to generate the video. If the status is not 'complete', the cost is an estimate and will be adjusted when the video completes."
+                      },
+                      "credits_charged": {
+                        "type": "integer",
+                        "description": "The amount of credits deducted from your account to generate the video. If the status is not 'complete', this value is an estimate and may be adjusted upon completion based on the actual FPS of the output video. \n\nIf video generation fails, credits will be refunded, and this field will be updated to include the refund.",
+                        "example": 450
+                      },
+                      "fps": {
+                        "type": "number",
+                        "description": "Frame rate of the video. If the status is not 'complete', the frame rate is an estimate and will be adjusted when the video completes.",
+                        "example": 30
+                      },
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string",
+                            "description": "Details on the reason why a failure happened.",
+                            "example": "Please use an image with a detectable face"
+                          },
+                          "code": {
+                            "type": "string",
+                            "example": "no_source_face",
+                            "description": "An error code to indicate why a failure happened."
+                          }
+                        },
+                        "required": ["message", "code"],
+                        "nullable": true,
+                        "description": "In the case of an error, this object will contain the error encountered during video render",
+                        "example": null
+                      },
+                      "downloads": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "url": {
+                              "type": "string",
+                              "format": "uri",
+                              "example": "https://videos.magichour.ai/id/output.mp4"
+                            },
+                            "expires_at": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-10-19T05:16:19.027Z"
+                            }
+                          },
+                          "required": ["url", "expires_at"],
+                          "description": "The download url and expiration date of the image project"
+                        }
+                      },
+                      "download": {
+                        "type": "object",
+                        "properties": {
+                          "url": {
+                            "type": "string",
+                            "format": "uri",
+                            "example": "https://videos.magichour.ai/id/output.mp4"
+                          },
+                          "expires_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2024-10-19T05:16:19.027Z"
+                          }
+                        },
+                        "required": ["url", "expires_at"],
+                        "nullable": true,
+                        "description": "Deprecated: Please use `.downloads` instead. The download url and expiration date of the video project",
+                        "deprecated": true
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "status",
+                      "type",
+                      "created_at",
+                      "width",
+                      "height",
+                      "enabled",
+                      "start_seconds",
+                      "end_seconds",
+                      "total_frame_cost",
+                      "credits_charged",
+                      "fps",
+                      "error",
+                      "downloads",
+                      "download"
+                    ],
+                    "description": "Success"
+                  }
+                },
+                "required": ["type", "payload"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Success message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/video.errored": {
+      "post": {
+        "description": "The request example illustrates what your webhook endpoint should expect.",
+        "summary": "Video Errored",
+        "tags": ["Video Events"],
+        "parameters": [
+          {
+            "name": "magic-hour-event-signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256",
+              "example": "3e771b50c..."
+            }
+          },
+          {
+            "name": "magic-hour-event-timestamp",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.",
+              "example": "1730742038"
+            }
+          }
+        ],
+        "operationId": "video.errored",
+        "requestBody": {
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": { "type": "string", "enum": ["video.errored"] },
+                  "payload": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "cuid-example",
+                        "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
+                      },
+                      "name": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "The name of the video.",
+                        "example": "Example Name"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": ["draft", "queued", "rendering", "complete", "error", "canceled"],
+                        "description": "The status of the video.",
+                        "example": "complete"
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "The type of the video project. Possible values are ANIMATION, IMAGE_TO_VIDEO, VIDEO_TO_VIDEO, TEXT_TO_VIDEO, FACE_SWAP, LIP_SYNC, AUTO_SUBTITLE, TALKING_PHOTO, UGC_AD, VIDEO_UPSCALER",
+                        "example": "FACE_SWAP"
+                      },
+                      "created_at": { "type": "string", "format": "date-time" },
+                      "width": {
+                        "type": "integer",
+                        "description": "The width of the final output video. A value of -1 indicates the width can be ignored.",
+                        "example": 512
+                      },
+                      "height": {
+                        "type": "integer",
+                        "description": "The height of the final output video. A value of -1 indicates the height can be ignored.",
+                        "example": 960
+                      },
+                      "enabled": {
+                        "type": "boolean",
+                        "description": "Whether this resource is active. If false, it is deleted."
+                      },
+                      "start_seconds": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Start time of your clip (seconds). Must be ≥ 0.",
+                        "format": "float",
+                        "example": 0
+                      },
+                      "end_seconds": {
+                        "type": "number",
+                        "minimum": 0.1,
+                        "description": "End time of your clip (seconds). Must be greater than start_seconds.",
+                        "format": "float",
+                        "example": 15
+                      },
+                      "total_frame_cost": {
+                        "type": "integer",
+                        "example": 450,
+                        "deprecated": true,
+                        "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for video generation. Use 'credits_charged' instead.\n\nThe amount of frames used to generate the video. If the status is not 'complete', the cost is an estimate and will be adjusted when the video completes."
+                      },
+                      "credits_charged": {
+                        "type": "integer",
+                        "description": "The amount of credits deducted from your account to generate the video. If the status is not 'complete', this value is an estimate and may be adjusted upon completion based on the actual FPS of the output video. \n\nIf video generation fails, credits will be refunded, and this field will be updated to include the refund.",
+                        "example": 450
+                      },
+                      "fps": {
+                        "type": "number",
+                        "description": "Frame rate of the video. If the status is not 'complete', the frame rate is an estimate and will be adjusted when the video completes.",
+                        "example": 30
+                      },
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string",
+                            "description": "Details on the reason why a failure happened.",
+                            "example": "Please use an image with a detectable face"
+                          },
+                          "code": {
+                            "type": "string",
+                            "example": "no_source_face",
+                            "description": "An error code to indicate why a failure happened."
+                          }
+                        },
+                        "required": ["message", "code"],
+                        "nullable": true,
+                        "description": "In the case of an error, this object will contain the error encountered during video render",
+                        "example": null
+                      },
+                      "downloads": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "url": {
+                              "type": "string",
+                              "format": "uri",
+                              "example": "https://videos.magichour.ai/id/output.mp4"
+                            },
+                            "expires_at": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-10-19T05:16:19.027Z"
+                            }
+                          },
+                          "required": ["url", "expires_at"],
+                          "description": "The download url and expiration date of the image project"
+                        }
+                      },
+                      "download": {
+                        "type": "object",
+                        "properties": {
+                          "url": {
+                            "type": "string",
+                            "format": "uri",
+                            "example": "https://videos.magichour.ai/id/output.mp4"
+                          },
+                          "expires_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2024-10-19T05:16:19.027Z"
+                          }
+                        },
+                        "required": ["url", "expires_at"],
+                        "nullable": true,
+                        "description": "Deprecated: Please use `.downloads` instead. The download url and expiration date of the video project",
+                        "deprecated": true
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "status",
+                      "type",
+                      "created_at",
+                      "width",
+                      "height",
+                      "enabled",
+                      "start_seconds",
+                      "end_seconds",
+                      "total_frame_cost",
+                      "credits_charged",
+                      "fps",
+                      "error",
+                      "downloads",
+                      "download"
+                    ],
+                    "description": "Success"
+                  }
+                },
+                "required": ["type", "payload"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Success message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/image.started": {
+      "post": {
+        "description": "The request example illustrates what your webhook endpoint should expect.",
+        "summary": "Image Started",
+        "tags": ["Image Events"],
+        "parameters": [
+          {
+            "name": "magic-hour-event-signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256",
+              "example": "3e771b50c..."
+            }
+          },
+          {
+            "name": "magic-hour-event-timestamp",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.",
+              "example": "1730742038"
+            }
+          }
+        ],
+        "operationId": "image.started",
+        "requestBody": {
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": { "type": "string", "enum": ["image.started"] },
+                  "payload": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "cuid-example",
+                        "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
+                      },
+                      "name": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "The name of the image.",
+                        "example": "Example Name"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": ["draft", "queued", "rendering", "complete", "error", "canceled"],
+                        "description": "The status of the image.",
+                        "example": "complete"
+                      },
+                      "image_count": {
+                        "type": "integer",
+                        "description": "Number of images generated",
+                        "example": 1
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "The type of the image project. Possible values are AI_HEADSHOT, AI_IMAGE, IMAGE_UPSCALER, FACE_SWAP, PHOTO_EDITOR, QR_CODE, BACKGROUND_REMOVER, CLOTHES_CHANGER, AI_MEME, FACE_EDITOR, PHOTO_COLORIZER, AI_GIF, AI_SELFIE, AI_IMAGE_EDITOR, HEAD_SWAP",
+                        "example": "AI_IMAGE"
+                      },
+                      "created_at": { "type": "string", "format": "date-time" },
+                      "enabled": {
+                        "type": "boolean",
+                        "description": "Whether this resource is active. If false, it is deleted."
+                      },
+                      "total_frame_cost": {
+                        "type": "integer",
+                        "example": 5,
+                        "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
+                        "deprecated": true
+                      },
+                      "credits_charged": {
+                        "type": "integer",
+                        "example": 5,
+                        "description": "The amount of credits deducted from your account to generate the image. We charge credits right when the request is made. \n\nIf an error occurred while generating the image(s), credits will be refunded and this field will be updated to include the refund."
+                      },
+                      "downloads": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "url": {
+                              "type": "string",
+                              "format": "uri",
+                              "example": "https://videos.magichour.ai/id/output.png"
+                            },
+                            "expires_at": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-10-19T05:16:19.027Z"
+                            }
+                          },
+                          "required": ["url", "expires_at"],
+                          "description": "The download url and expiration date of the image project"
+                        }
+                      },
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string",
+                            "description": "Details on the reason why a failure happened.",
+                            "example": "Please use an image with a detectable face"
+                          },
+                          "code": {
+                            "type": "string",
+                            "example": "no_source_face",
+                            "description": "An error code to indicate why a failure happened."
+                          }
+                        },
+                        "required": ["message", "code"],
+                        "nullable": true,
+                        "description": "In the case of an error, this object will contain the error encountered during video render",
+                        "example": null
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "status",
+                      "image_count",
+                      "type",
+                      "created_at",
+                      "enabled",
+                      "total_frame_cost",
+                      "credits_charged",
+                      "downloads",
+                      "error"
+                    ],
+                    "description": "Success"
+                  }
+                },
+                "required": ["type", "payload"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Success message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/image.completed": {
+      "post": {
+        "description": "The request example illustrates what your webhook endpoint should expect.",
+        "summary": "Image Completed",
+        "tags": ["Image Events"],
+        "parameters": [
+          {
+            "name": "magic-hour-event-signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256",
+              "example": "3e771b50c..."
+            }
+          },
+          {
+            "name": "magic-hour-event-timestamp",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.",
+              "example": "1730742038"
+            }
+          }
+        ],
+        "operationId": "image.completed",
+        "requestBody": {
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": { "type": "string", "enum": ["image.completed"] },
+                  "payload": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "cuid-example",
+                        "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
+                      },
+                      "name": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "The name of the image.",
+                        "example": "Example Name"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": ["draft", "queued", "rendering", "complete", "error", "canceled"],
+                        "description": "The status of the image.",
+                        "example": "complete"
+                      },
+                      "image_count": {
+                        "type": "integer",
+                        "description": "Number of images generated",
+                        "example": 1
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "The type of the image project. Possible values are AI_HEADSHOT, AI_IMAGE, IMAGE_UPSCALER, FACE_SWAP, PHOTO_EDITOR, QR_CODE, BACKGROUND_REMOVER, CLOTHES_CHANGER, AI_MEME, FACE_EDITOR, PHOTO_COLORIZER, AI_GIF, AI_SELFIE, AI_IMAGE_EDITOR, HEAD_SWAP",
+                        "example": "AI_IMAGE"
+                      },
+                      "created_at": { "type": "string", "format": "date-time" },
+                      "enabled": {
+                        "type": "boolean",
+                        "description": "Whether this resource is active. If false, it is deleted."
+                      },
+                      "total_frame_cost": {
+                        "type": "integer",
+                        "example": 5,
+                        "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
+                        "deprecated": true
+                      },
+                      "credits_charged": {
+                        "type": "integer",
+                        "example": 5,
+                        "description": "The amount of credits deducted from your account to generate the image. We charge credits right when the request is made. \n\nIf an error occurred while generating the image(s), credits will be refunded and this field will be updated to include the refund."
+                      },
+                      "downloads": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "url": {
+                              "type": "string",
+                              "format": "uri",
+                              "example": "https://videos.magichour.ai/id/output.png"
+                            },
+                            "expires_at": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-10-19T05:16:19.027Z"
+                            }
+                          },
+                          "required": ["url", "expires_at"],
+                          "description": "The download url and expiration date of the image project"
+                        }
+                      },
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string",
+                            "description": "Details on the reason why a failure happened.",
+                            "example": "Please use an image with a detectable face"
+                          },
+                          "code": {
+                            "type": "string",
+                            "example": "no_source_face",
+                            "description": "An error code to indicate why a failure happened."
+                          }
+                        },
+                        "required": ["message", "code"],
+                        "nullable": true,
+                        "description": "In the case of an error, this object will contain the error encountered during video render",
+                        "example": null
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "status",
+                      "image_count",
+                      "type",
+                      "created_at",
+                      "enabled",
+                      "total_frame_cost",
+                      "credits_charged",
+                      "downloads",
+                      "error"
+                    ],
+                    "description": "Success"
+                  }
+                },
+                "required": ["type", "payload"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Success message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/image.errored": {
+      "post": {
+        "description": "The request example illustrates what your webhook endpoint should expect.",
+        "summary": "Image Errored",
+        "tags": ["Image Events"],
+        "parameters": [
+          {
+            "name": "magic-hour-event-signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256",
+              "example": "3e771b50c..."
+            }
+          },
+          {
+            "name": "magic-hour-event-timestamp",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.",
+              "example": "1730742038"
+            }
+          }
+        ],
+        "operationId": "image.errored",
+        "requestBody": {
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": { "type": "string", "enum": ["image.errored"] },
+                  "payload": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "cuid-example",
+                        "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
+                      },
+                      "name": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "The name of the image.",
+                        "example": "Example Name"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": ["draft", "queued", "rendering", "complete", "error", "canceled"],
+                        "description": "The status of the image.",
+                        "example": "complete"
+                      },
+                      "image_count": {
+                        "type": "integer",
+                        "description": "Number of images generated",
+                        "example": 1
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "The type of the image project. Possible values are AI_HEADSHOT, AI_IMAGE, IMAGE_UPSCALER, FACE_SWAP, PHOTO_EDITOR, QR_CODE, BACKGROUND_REMOVER, CLOTHES_CHANGER, AI_MEME, FACE_EDITOR, PHOTO_COLORIZER, AI_GIF, AI_SELFIE, AI_IMAGE_EDITOR, HEAD_SWAP",
+                        "example": "AI_IMAGE"
+                      },
+                      "created_at": { "type": "string", "format": "date-time" },
+                      "enabled": {
+                        "type": "boolean",
+                        "description": "Whether this resource is active. If false, it is deleted."
+                      },
+                      "total_frame_cost": {
+                        "type": "integer",
+                        "example": 5,
+                        "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
+                        "deprecated": true
+                      },
+                      "credits_charged": {
+                        "type": "integer",
+                        "example": 5,
+                        "description": "The amount of credits deducted from your account to generate the image. We charge credits right when the request is made. \n\nIf an error occurred while generating the image(s), credits will be refunded and this field will be updated to include the refund."
+                      },
+                      "downloads": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "url": {
+                              "type": "string",
+                              "format": "uri",
+                              "example": "https://videos.magichour.ai/id/output.png"
+                            },
+                            "expires_at": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-10-19T05:16:19.027Z"
+                            }
+                          },
+                          "required": ["url", "expires_at"],
+                          "description": "The download url and expiration date of the image project"
+                        }
+                      },
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string",
+                            "description": "Details on the reason why a failure happened.",
+                            "example": "Please use an image with a detectable face"
+                          },
+                          "code": {
+                            "type": "string",
+                            "example": "no_source_face",
+                            "description": "An error code to indicate why a failure happened."
+                          }
+                        },
+                        "required": ["message", "code"],
+                        "nullable": true,
+                        "description": "In the case of an error, this object will contain the error encountered during video render",
+                        "example": null
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "status",
+                      "image_count",
+                      "type",
+                      "created_at",
+                      "enabled",
+                      "total_frame_cost",
+                      "credits_charged",
+                      "downloads",
+                      "error"
+                    ],
+                    "description": "Success"
+                  }
+                },
+                "required": ["type", "payload"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Success message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/audio.started": {
+      "post": {
+        "description": "The request example illustrates what your webhook endpoint should expect.",
+        "summary": "Audio Started",
+        "tags": ["Audio Events"],
+        "parameters": [
+          {
+            "name": "magic-hour-event-signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256",
+              "example": "3e771b50c..."
+            }
+          },
+          {
+            "name": "magic-hour-event-timestamp",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.",
+              "example": "1730742038"
+            }
+          }
+        ],
+        "operationId": "audio.started",
+        "requestBody": {
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": { "type": "string", "enum": ["audio.started"] },
+                  "payload": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "cuid-example",
+                        "description": "Unique ID of the audio. Use it with the [Get audio Project API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
+                      },
+                      "name": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "The name of the audio.",
+                        "example": "Example Name"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": ["draft", "queued", "rendering", "complete", "error", "canceled"],
+                        "description": "The status of the audio.",
+                        "example": "complete"
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "The type of the audio project. Possible values are VOICE_GENERATOR, VOICE_CHANGER, VOICE_CLONER",
+                        "example": "VOICE_GENERATOR"
+                      },
+                      "created_at": { "type": "string", "format": "date-time" },
+                      "enabled": {
+                        "type": "boolean",
+                        "description": "Whether this resource is active. If false, it is deleted."
+                      },
+                      "credits_charged": {
+                        "type": "integer",
+                        "example": 2,
+                        "description": "The amount of credits deducted from your account to generate the audio. We charge credits right when the request is made. \n\nIf an error occurred while generating the audio, credits will be refunded and this field will be updated to include the refund."
+                      },
+                      "downloads": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "url": {
+                              "type": "string",
+                              "format": "uri",
+                              "example": "https://videos.magichour.ai/id/output.wav"
+                            },
+                            "expires_at": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-10-19T05:16:19.027Z"
+                            }
+                          },
+                          "required": ["url", "expires_at"],
+                          "description": "The download url and expiration date of the audio project"
+                        }
+                      },
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string",
+                            "description": "Details on the reason why a failure happened.",
+                            "example": "Please use an image with a detectable face"
+                          },
+                          "code": {
+                            "type": "string",
+                            "example": "no_source_face",
+                            "description": "An error code to indicate why a failure happened."
+                          }
+                        },
+                        "required": ["message", "code"],
+                        "nullable": true,
+                        "description": "In the case of an error, this object will contain the error encountered during video render",
+                        "example": null
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "status",
+                      "type",
+                      "created_at",
+                      "enabled",
+                      "credits_charged",
+                      "downloads",
+                      "error"
+                    ],
+                    "description": "Success"
+                  }
+                },
+                "required": ["type", "payload"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Success message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/audio.completed": {
+      "post": {
+        "description": "The request example illustrates what your webhook endpoint should expect.",
+        "summary": "Audio Completed",
+        "tags": ["Audio Events"],
+        "parameters": [
+          {
+            "name": "magic-hour-event-signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256",
+              "example": "3e771b50c..."
+            }
+          },
+          {
+            "name": "magic-hour-event-timestamp",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.",
+              "example": "1730742038"
+            }
+          }
+        ],
+        "operationId": "audio.completed",
+        "requestBody": {
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": { "type": "string", "enum": ["audio.completed"] },
+                  "payload": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "cuid-example",
+                        "description": "Unique ID of the audio. Use it with the [Get audio Project API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
+                      },
+                      "name": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "The name of the audio.",
+                        "example": "Example Name"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": ["draft", "queued", "rendering", "complete", "error", "canceled"],
+                        "description": "The status of the audio.",
+                        "example": "complete"
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "The type of the audio project. Possible values are VOICE_GENERATOR, VOICE_CHANGER, VOICE_CLONER",
+                        "example": "VOICE_GENERATOR"
+                      },
+                      "created_at": { "type": "string", "format": "date-time" },
+                      "enabled": {
+                        "type": "boolean",
+                        "description": "Whether this resource is active. If false, it is deleted."
+                      },
+                      "credits_charged": {
+                        "type": "integer",
+                        "example": 2,
+                        "description": "The amount of credits deducted from your account to generate the audio. We charge credits right when the request is made. \n\nIf an error occurred while generating the audio, credits will be refunded and this field will be updated to include the refund."
+                      },
+                      "downloads": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "url": {
+                              "type": "string",
+                              "format": "uri",
+                              "example": "https://videos.magichour.ai/id/output.wav"
+                            },
+                            "expires_at": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-10-19T05:16:19.027Z"
+                            }
+                          },
+                          "required": ["url", "expires_at"],
+                          "description": "The download url and expiration date of the audio project"
+                        }
+                      },
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string",
+                            "description": "Details on the reason why a failure happened.",
+                            "example": "Please use an image with a detectable face"
+                          },
+                          "code": {
+                            "type": "string",
+                            "example": "no_source_face",
+                            "description": "An error code to indicate why a failure happened."
+                          }
+                        },
+                        "required": ["message", "code"],
+                        "nullable": true,
+                        "description": "In the case of an error, this object will contain the error encountered during video render",
+                        "example": null
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "status",
+                      "type",
+                      "created_at",
+                      "enabled",
+                      "credits_charged",
+                      "downloads",
+                      "error"
+                    ],
+                    "description": "Success"
+                  }
+                },
+                "required": ["type", "payload"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Success message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/audio.errored": {
+      "post": {
+        "description": "The request example illustrates what your webhook endpoint should expect.",
+        "summary": "Audio Errored",
+        "tags": ["Audio Events"],
+        "parameters": [
+          {
+            "name": "magic-hour-event-signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256",
+              "example": "3e771b50c..."
+            }
+          },
+          {
+            "name": "magic-hour-event-timestamp",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.",
+              "example": "1730742038"
+            }
+          }
+        ],
+        "operationId": "audio.errored",
+        "requestBody": {
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": { "type": "string", "enum": ["audio.errored"] },
+                  "payload": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "cuid-example",
+                        "description": "Unique ID of the audio. Use it with the [Get audio Project API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
+                      },
+                      "name": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "The name of the audio.",
+                        "example": "Example Name"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": ["draft", "queued", "rendering", "complete", "error", "canceled"],
+                        "description": "The status of the audio.",
+                        "example": "complete"
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "The type of the audio project. Possible values are VOICE_GENERATOR, VOICE_CHANGER, VOICE_CLONER",
+                        "example": "VOICE_GENERATOR"
+                      },
+                      "created_at": { "type": "string", "format": "date-time" },
+                      "enabled": {
+                        "type": "boolean",
+                        "description": "Whether this resource is active. If false, it is deleted."
+                      },
+                      "credits_charged": {
+                        "type": "integer",
+                        "example": 2,
+                        "description": "The amount of credits deducted from your account to generate the audio. We charge credits right when the request is made. \n\nIf an error occurred while generating the audio, credits will be refunded and this field will be updated to include the refund."
+                      },
+                      "downloads": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "url": {
+                              "type": "string",
+                              "format": "uri",
+                              "example": "https://videos.magichour.ai/id/output.wav"
+                            },
+                            "expires_at": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-10-19T05:16:19.027Z"
+                            }
+                          },
+                          "required": ["url", "expires_at"],
+                          "description": "The download url and expiration date of the audio project"
+                        }
+                      },
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string",
+                            "description": "Details on the reason why a failure happened.",
+                            "example": "Please use an image with a detectable face"
+                          },
+                          "code": {
+                            "type": "string",
+                            "example": "no_source_face",
+                            "description": "An error code to indicate why a failure happened."
+                          }
+                        },
+                        "required": ["message", "code"],
+                        "nullable": true,
+                        "description": "In the case of an error, this object will contain the error encountered during video render",
+                        "example": null
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "status",
+                      "type",
+                      "created_at",
+                      "enabled",
+                      "credits_charged",
+                      "downloads",
+                      "error"
+                    ],
+                    "description": "Success"
+                  }
+                },
+                "required": ["type", "payload"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Success message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                  },
+                  "required": ["message"],
+                  "description": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "Magic Hour Webhook",
+    "version": "beta",
+    "description": "## Introduction \n\nConfiguring a webhook allow Magic Hour to notify you whenever an event occurs in your account. To get started, create a webhook [here](https://magichour.ai/developer).\n\nAPI documentation can be found [here](https://docs.magichour.ai/webhook-reference).\n\nIf you have any questions, please reach out to us via [discord](https://discord.gg/JX5rgsZaJp).\n\n## Securing your endpoint\n\nEvents includes two headers to help verify the authenticity of the payload. \n- `magic-hour-event-signature` - A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256\n- `magic-hour-event-timestamp` - Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.\n\nUsing the header to verify the request ensures that the request is authentic. However, the header verification is optional. \n\nTo compute the signature to verify:\n1. create a `signed_payload` by concatenating:\n      - the timestamp as a string\n      - the character `.`\n      - the payload JSON (stringified)\n\nFor example, \n```txt\n1729314984.{\"type\":\"video.started\",\"object\":{\"id\":\"cm2fphlo3000dmfhu8m0dh63z\",\"name\":\"Video\",\"status\":\"rendering\",\"type\":\"TEXT_TO_VIDEO\",\"created_at\":\"2024-10-19T05:16:19.027Z\",\"width\":720,\"height\":1280,\"total_frame_cost\":300,\"start_seconds\":0,\"end_seconds\":5,\"fps\":30,\"download\":null}}\n```\n\n2. Compute an HMAC with the SHA256 Hash function. Using the webhook secret as the key, and use the `signed_payload` as the message.\n3. Compare the computed hash value against the header and verify that the timestamp is within a reasonable window.\n\n## Retry behavior\n\nIf event delivery failed, meaning the response from your endpoint does not have a status code of `2XX`, we will retry delivery up to 24 hours with exponential backoff. After 24 hours, the event will be marked as failed and will not be retried.\n\nIn the case where the webhook is disabled, pending events for the webhook will be skipped. Please note that these events will also be marked as failed after 24 hours.\n",
+    "termsOfService": "https://magichour.ai/terms-of-service"
+  },
+  "servers": [{ "url": "https://your-webhook.com" }],
+  "tags": [
+    { "name": "Image Events", "description": "Events related to image" },
+    { "name": "Video Events", "description": "Events related to video" },
+    { "name": "Audio Events", "description": "Events related to audio" }
+  ]
+}
