@@ -28,7 +28,11 @@ function stripDeprecated(value) {
   return value;
 }
 
-const spec = JSON.parse(fs.readFileSync("openapi.json", "utf8"));
-const cleaned = stripDeprecated(spec);
+// Process both OpenAPI specs
+const specs = ["api-reference/openapi.json", "webhook-reference/openapi.json"];
 
-fs.writeFileSync("openapi.json", JSON.stringify(cleaned));
+specs.forEach((specPath) => {
+  const spec = JSON.parse(fs.readFileSync(specPath, "utf8"));
+  const cleaned = stripDeprecated(spec);
+  fs.writeFileSync(specPath, JSON.stringify(cleaned));
+});
