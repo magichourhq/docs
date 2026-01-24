@@ -133,7 +133,7 @@
       },
       {
         "tab": "API Reference",
-        "openapi": "openapi.json",
+        "openapi": "api-reference/openapi.json",
         "pages": [
           {
             "group": "Files",
@@ -190,7 +190,7 @@
       },
       {
         "tab": "Webhook Reference",
-        "openapi": "https://magichour.ai/docs/webhook/openapi.json",
+        "openapi": "webhook-reference/openapi.json",
         "pages": [
           {
             "group": "Video Events",
