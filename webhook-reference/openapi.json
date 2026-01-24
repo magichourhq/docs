@@ -91,12 +91,6 @@
                         "format": "float",
                         "example": 15
                       },
-                      "total_frame_cost": {
-                        "type": "integer",
-                        "example": 450,
-                        "deprecated": true,
-                        "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for video generation. Use 'credits_charged' instead.\n\nThe amount of frames used to generate the video. If the status is not 'complete', the cost is an estimate and will be adjusted when the video completes."
-                      },
                       "credits_charged": {
                         "type": "integer",
                         "description": "The amount of credits deducted from your account to generate the video. If the status is not 'complete', this value is an estimate and may be adjusted upon completion based on the actual FPS of the output video. \n\nIf video generation fails, credits will be refunded, and this field will be updated to include the refund.",
@@ -145,25 +139,6 @@
                           "required": ["url", "expires_at"],
                           "description": "The download url and expiration date of the image project"
                         }
-                      },
-                      "download": {
-                        "type": "object",
-                        "properties": {
-                          "url": {
-                            "type": "string",
-                            "format": "uri",
-                            "example": "https://videos.magichour.ai/id/output.mp4"
-                          },
-                          "expires_at": {
-                            "type": "string",
-                            "format": "date-time",
-                            "example": "2024-10-19T05:16:19.027Z"
-                          }
-                        },
-                        "required": ["url", "expires_at"],
-                        "nullable": true,
-                        "description": "Deprecated: Please use `.downloads` instead. The download url and expiration date of the video project",
-                        "deprecated": true
                       }
                     },
                     "required": [
@@ -331,12 +306,6 @@
                         "format": "float",
                         "example": 15
                       },
-                      "total_frame_cost": {
-                        "type": "integer",
-                        "example": 450,
-                        "deprecated": true,
-                        "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for video generation. Use 'credits_charged' instead.\n\nThe amount of frames used to generate the video. If the status is not 'complete', the cost is an estimate and will be adjusted when the video completes."
-                      },
                       "credits_charged": {
                         "type": "integer",
                         "description": "The amount of credits deducted from your account to generate the video. If the status is not 'complete', this value is an estimate and may be adjusted upon completion based on the actual FPS of the output video. \n\nIf video generation fails, credits will be refunded, and this field will be updated to include the refund.",
@@ -385,25 +354,6 @@
                           "required": ["url", "expires_at"],
                           "description": "The download url and expiration date of the image project"
                         }
-                      },
-                      "download": {
-                        "type": "object",
-                        "properties": {
-                          "url": {
-                            "type": "string",
-                            "format": "uri",
-                            "example": "https://videos.magichour.ai/id/output.mp4"
-                          },
-                          "expires_at": {
-                            "type": "string",
-                            "format": "date-time",
-                            "example": "2024-10-19T05:16:19.027Z"
-                          }
-                        },
-                        "required": ["url", "expires_at"],
-                        "nullable": true,
-                        "description": "Deprecated: Please use `.downloads` instead. The download url and expiration date of the video project",
-                        "deprecated": true
                       }
                     },
                     "required": [
@@ -571,12 +521,6 @@
                         "format": "float",
                         "example": 15
                       },
-                      "total_frame_cost": {
-                        "type": "integer",
-                        "example": 450,
-                        "deprecated": true,
-                        "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for video generation. Use 'credits_charged' instead.\n\nThe amount of frames used to generate the video. If the status is not 'complete', the cost is an estimate and will be adjusted when the video completes."
-                      },
                       "credits_charged": {
                         "type": "integer",
                         "description": "The amount of credits deducted from your account to generate the video. If the status is not 'complete', this value is an estimate and may be adjusted upon completion based on the actual FPS of the output video. \n\nIf video generation fails, credits will be refunded, and this field will be updated to include the refund.",
@@ -625,25 +569,6 @@
                           "required": ["url", "expires_at"],
                           "description": "The download url and expiration date of the image project"
                         }
-                      },
-                      "download": {
-                        "type": "object",
-                        "properties": {
-                          "url": {
-                            "type": "string",
-                            "format": "uri",
-                            "example": "https://videos.magichour.ai/id/output.mp4"
-                          },
-                          "expires_at": {
-                            "type": "string",
-                            "format": "date-time",
-                            "example": "2024-10-19T05:16:19.027Z"
-                          }
-                        },
-                        "required": ["url", "expires_at"],
-                        "nullable": true,
-                        "description": "Deprecated: Please use `.downloads` instead. The download url and expiration date of the video project",
-                        "deprecated": true
                       }
                     },
                     "required": [
@@ -791,12 +716,6 @@
                       "enabled": {
                         "type": "boolean",
                         "description": "Whether this resource is active. If false, it is deleted."
-                      },
-                      "total_frame_cost": {
-                        "type": "integer",
-                        "example": 5,
-                        "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
-                        "deprecated": true
                       },
                       "credits_charged": {
                         "type": "integer",
@@ -984,12 +903,6 @@
                         "type": "boolean",
                         "description": "Whether this resource is active. If false, it is deleted."
                       },
-                      "total_frame_cost": {
-                        "type": "integer",
-                        "example": 5,
-                        "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
-                        "deprecated": true
-                      },
                       "credits_charged": {
                         "type": "integer",
                         "example": 5,
@@ -1175,12 +1088,6 @@
                       "enabled": {
                         "type": "boolean",
                         "description": "Whether this resource is active. If false, it is deleted."
-                      },
-                      "total_frame_cost": {
-                        "type": "integer",
-                        "example": 5,
-                        "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
-                        "deprecated": true
                       },
                       "credits_charged": {
                         "type": "integer",
