@@ -31,4 +31,4 @@ function stripDeprecated(value) {
 const spec = JSON.parse(fs.readFileSync("openapi.json", "utf8"));
 const cleaned = stripDeprecated(spec);
 
-fs.writeFileSync("openapi.json", JSON.stringify(cleaned, null, 2));
+fs.writeFileSync("openapi.json", JSON.stringify(cleaned));

@@ -592,12 +592,6 @@
                       "format": "float",
                       "example": 15
                     },
-                    "total_frame_cost": {
-                      "type": "integer",
-                      "example": 450,
-                      "deprecated": true,
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for video generation. Use 'credits_charged' instead.\n\nThe amount of frames used to generate the video. If the status is not 'complete', the cost is an estimate and will be adjusted when the video completes."
-                    },
                     "credits_charged": {
                       "type": "integer",
                       "description": "The amount of credits deducted from your account to generate the video. If the status is not 'complete', this value is an estimate and may be adjusted upon completion based on the actual FPS of the output video. \n\nIf video generation fails, credits will be refunded, and this field will be updated to include the refund.",
@@ -646,25 +640,6 @@
                         "required": ["url", "expires_at"],
                         "description": "The download url and expiration date of the image project"
                       }
-                    },
-                    "download": {
-                      "type": "object",
-                      "properties": {
-                        "url": {
-                          "type": "string",
-                          "format": "uri",
-                          "example": "https://videos.magichour.ai/id/output.mp4"
-                        },
-                        "expires_at": {
-                          "type": "string",
-                          "format": "date-time",
-                          "example": "2024-10-19T05:16:19.027Z"
-                        }
-                      },
-                      "required": ["url", "expires_at"],
-                      "nullable": true,
-                      "description": "Deprecated: Please use `.downloads` instead. The download url and expiration date of the video project",
-                      "deprecated": true
                     }
                   },
                   "required": [
@@ -973,12 +948,6 @@
                       "type": "string",
                       "example": "cuid-example",
                       "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
-                    },
-                    "estimated_frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for video generation. Use 'credits_charged' instead.\n\nThe amount of frames used to generate the video. If the status is not 'complete', the cost is an estimate and will be adjusted when the video completes.",
-                      "example": 450,
-                      "deprecated": true
                     },
                     "credits_charged": {
                       "type": "integer",
@@ -1321,12 +1290,6 @@
                       "example": "cuid-example",
                       "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
                     },
-                    "estimated_frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for video generation. Use 'credits_charged' instead.\n\nThe amount of frames used to generate the video. If the status is not 'complete', the cost is an estimate and will be adjusted when the video completes.",
-                      "example": 450,
-                      "deprecated": true
-                    },
                     "credits_charged": {
                       "type": "integer",
                       "description": "The amount of credits deducted from your account to generate the video. If the status is not 'complete', this value is an estimate and may be adjusted upon completion based on the actual FPS of the output video. \n\nIf video generation fails, credits will be refunded, and this field will be updated to include the refund.",
@@ -1559,12 +1522,6 @@
                       "example": "cuid-example",
                       "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
                     },
-                    "estimated_frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for video generation. Use 'credits_charged' instead.\n\nThe amount of frames used to generate the video. If the status is not 'complete', the cost is an estimate and will be adjusted when the video completes.",
-                      "example": 450,
-                      "deprecated": true
-                    },
                     "credits_charged": {
                       "type": "integer",
                       "description": "The amount of credits deducted from your account to generate the video. If the status is not 'complete', this value is an estimate and may be adjusted upon completion based on the actual FPS of the output video. \n\nIf video generation fails, credits will be refunded, and this field will be updated to include the refund.",
@@ -1689,18 +1646,6 @@
                     "example": "My Face Swap video",
                     "default": "Face Swap - dateTime"
                   },
-                  "height": {
-                    "nullable": true,
-                    "description": "`height` is deprecated and no longer influences the output video's resolution.\n\nOutput resolution is determined by the **minimum** of:\n- The resolution of the input video\n- The maximum resolution allowed by your subscription tier. See our [pricing page](https://magichour.ai/pricing) for more details.\n\nThis field is retained only for backward compatibility and will be removed in a future release.",
-                    "deprecated": true,
-                    "type": "integer"
-                  },
-                  "width": {
-                    "nullable": true,
-                    "description": "`width` is deprecated and no longer influences the output video's resolution.\n\nOutput resolution is determined by the **minimum** of:\n- The resolution of the input video\n- The maximum resolution allowed by your subscription tier. See our [pricing page](https://magichour.ai/pricing) for more details.\n\nThis field is retained only for backward compatibility and will be removed in a future release.",
-                    "deprecated": true,
-                    "type": "integer"
-                  },
                   "start_seconds": {
                     "type": "number",
                     "minimum": 0,
@@ -1808,12 +1753,6 @@
                       "type": "string",
                       "example": "cuid-example",
                       "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
-                    },
-                    "estimated_frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for video generation. Use 'credits_charged' instead.\n\nThe amount of frames used to generate the video. If the status is not 'complete', the cost is an estimate and will be adjusted when the video completes.",
-                      "example": 450,
-                      "deprecated": true
                     },
                     "credits_charged": {
                       "type": "integer",
@@ -1947,18 +1886,6 @@
                     "format": "float",
                     "example": 5
                   },
-                  "height": {
-                    "nullable": true,
-                    "description": "`height` is deprecated and no longer influences the output video's resolution.\n\nOutput resolution is determined by the **minimum** of:\n- The resolution of the input video\n- The maximum resolution allowed by your subscription tier. See our [pricing page](https://magichour.ai/pricing) for more details.\n\nThis field is retained only for backward compatibility and will be removed in a future release.",
-                    "deprecated": true,
-                    "type": "integer"
-                  },
-                  "width": {
-                    "nullable": true,
-                    "description": "`width` is deprecated and no longer influences the output video's resolution.\n\nOutput resolution is determined by the **minimum** of:\n- The resolution of the input video\n- The maximum resolution allowed by your subscription tier. See our [pricing page](https://magichour.ai/pricing) for more details.\n\nThis field is retained only for backward compatibility and will be removed in a future release.",
-                    "deprecated": true,
-                    "type": "integer"
-                  },
                   "model": {
                     "default": "default",
                     "type": "string",
@@ -1987,17 +1914,6 @@
                         "type": "string",
                         "example": "a dog running",
                         "description": "The prompt used for the video."
-                      },
-                      "high_quality": {
-                        "type": "boolean",
-                        "description": "Deprecated: Please use `resolution` instead. For backward compatibility, \n* `false` maps to 720p resolution\n* `true` maps to 1080p resolution\n\nThis field will be removed in a future version. Use the `resolution` field to directly specify the resolution.",
-                        "deprecated": true
-                      },
-                      "quality_mode": {
-                        "type": "string",
-                        "enum": ["quick", "studio"],
-                        "deprecated": true,
-                        "description": "DEPRECATED: Please use `resolution` field instead. For backward compatibility:\n* `quick` maps to 720p resolution\n* `studio` maps to 1080p resolution\n\nThis field will be removed in a future version. Use the `resolution` field to directly to specify the resolution."
                       }
                     },
                     "description": "Attributed used to dictate the style of the output"
@@ -2033,12 +1949,6 @@
                       "type": "string",
                       "example": "cuid-example",
                       "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
-                    },
-                    "estimated_frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for video generation. Use 'credits_charged' instead.\n\nThe amount of frames used to generate the video. If the status is not 'complete', the cost is an estimate and will be adjusted when the video completes.",
-                      "example": 450,
-                      "deprecated": true
                     },
                     "credits_charged": {
                       "type": "integer",
@@ -2164,18 +2074,6 @@
                     "example": "My Lip Sync video",
                     "default": "Lip Sync - dateTime"
                   },
-                  "height": {
-                    "nullable": true,
-                    "description": "`height` is deprecated and no longer influences the output video's resolution.\n\nOutput resolution is determined by the **minimum** of:\n- The resolution of the input video\n- The maximum resolution allowed by your subscription tier. See our [pricing page](https://magichour.ai/pricing) for more details.\n\nThis field is retained only for backward compatibility and will be removed in a future release.",
-                    "deprecated": true,
-                    "type": "integer"
-                  },
-                  "width": {
-                    "nullable": true,
-                    "description": "`width` is deprecated and no longer influences the output video's resolution.\n\nOutput resolution is determined by the **minimum** of:\n- The resolution of the input video\n- The maximum resolution allowed by your subscription tier. See our [pricing page](https://magichour.ai/pricing) for more details.\n\nThis field is retained only for backward compatibility and will be removed in a future release.",
-                    "deprecated": true,
-                    "type": "integer"
-                  },
                   "start_seconds": {
                     "type": "number",
                     "minimum": 0,
@@ -2256,12 +2154,6 @@
                       "type": "string",
                       "example": "cuid-example",
                       "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
-                    },
-                    "estimated_frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for video generation. Use 'credits_charged' instead.\n\nThe amount of frames used to generate the video. If the status is not 'complete', the cost is an estimate and will be adjusted when the video completes.",
-                      "example": 450,
-                      "deprecated": true
                     },
                     "credits_charged": {
                       "type": "integer",
@@ -2400,18 +2292,6 @@
                     "description": "End time of your clip (seconds). Must be greater than start_seconds.",
                     "format": "float",
                     "example": 15
-                  },
-                  "height": {
-                    "nullable": true,
-                    "description": "`height` is deprecated and no longer influences the output video's resolution.\n\nOutput resolution is determined by the **minimum** of:\n- The resolution of the input video\n- The maximum resolution allowed by your subscription tier. See our [pricing page](https://magichour.ai/pricing) for more details.\n\nThis field is retained only for backward compatibility and will be removed in a future release.",
-                    "deprecated": true,
-                    "type": "integer"
-                  },
-                  "width": {
-                    "nullable": true,
-                    "description": "`width` is deprecated and no longer influences the output video's resolution.\n\nOutput resolution is determined by the **minimum** of:\n- The resolution of the input video\n- The maximum resolution allowed by your subscription tier. See our [pricing page](https://magichour.ai/pricing) for more details.\n\nThis field is retained only for backward compatibility and will be removed in a future release.",
-                    "deprecated": true,
-                    "type": "integer"
                   },
                   "fps_resolution": {
                     "default": "HALF",
@@ -2583,12 +2463,6 @@
                       "example": "cuid-example",
                       "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
                     },
-                    "estimated_frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for video generation. Use 'credits_charged' instead.\n\nThe amount of frames used to generate the video. If the status is not 'complete', the cost is an estimate and will be adjusted when the video completes.",
-                      "example": 450,
-                      "deprecated": true
-                    },
                     "credits_charged": {
                       "type": "integer",
                       "description": "The amount of credits deducted from your account to generate the video. If the status is not 'complete', this value is an estimate and may be adjusted upon completion based on the actual FPS of the output video. \n\nIf video generation fails, credits will be refunded, and this field will be updated to include the refund.",
@@ -2727,13 +2601,6 @@
                     "description": "Determines the aspect ratio of the output video.\n* **Seedance**: Supports `9:16`, `16:9`, `1:1`.\n* **Kling 2.5 Audio**: Supports `9:16`, `16:9`, `1:1`.\n* **Sora 2**: Supports `9:16`, `16:9`.\n* **Veo 3.1 Audio**: Supports `9:16`, `16:9`.\n* **Veo 3.1**: Supports `9:16`, `16:9`.\n* **Kling 1.6**: Supports `9:16`, `16:9`, `1:1`.",
                     "example": "16:9"
                   },
-                  "orientation": {
-                    "type": "string",
-                    "enum": ["portrait", "landscape", "square"],
-                    "description": "Deprecated. Use `aspect_ratio` instead.",
-                    "deprecated": true,
-                    "example": "landscape"
-                  },
                   "resolution": {
                     "type": "string",
                     "enum": ["480p", "720p", "1080p"],
@@ -2764,12 +2631,6 @@
                         "maxLength": 2000,
                         "example": "a dog running",
                         "description": "The prompt used for the video."
-                      },
-                      "quality_mode": {
-                        "type": "string",
-                        "enum": ["quick", "studio"],
-                        "deprecated": true,
-                        "description": "DEPRECATED: Please use `resolution` field instead. For backward compatibility:\n* `quick` maps to 720p resolution\n* `studio` maps to 1080p resolution\n\nThis field will be removed in a future version. Use the `resolution` field to directly to specify the resolution."
                       }
                     },
                     "required": ["prompt"]
@@ -2792,12 +2653,6 @@
                       "type": "string",
                       "example": "cuid-example",
                       "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
-                    },
-                    "estimated_frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for video generation. Use 'credits_charged' instead.\n\nThe amount of frames used to generate the video. If the status is not 'complete', the cost is an estimate and will be adjusted when the video completes.",
-                      "example": 450,
-                      "deprecated": true
                     },
                     "credits_charged": {
                       "type": "integer",
@@ -2956,12 +2811,6 @@
                     "enabled": {
                       "type": "boolean",
                       "description": "Whether this resource is active. If false, it is deleted."
-                    },
-                    "total_frame_cost": {
-                      "type": "integer",
-                      "example": 5,
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
-                      "deprecated": true
                     },
                     "credits_charged": {
                       "type": "integer",
@@ -3258,12 +3107,6 @@
                       "example": "cuid-example",
                       "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
                     },
-                    "frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
-                      "example": 25,
-                      "deprecated": true
-                    },
                     "credits_charged": {
                       "type": "integer",
                       "description": "The amount of credits deducted from your account to generate the image. We charge credits right when the request is made. \n\nIf an error occurred while generating the image(s), credits will be refunded and this field will be updated to include the refund.",
@@ -3558,12 +3401,6 @@
                       "example": "cuid-example",
                       "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
                     },
-                    "frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
-                      "example": 1,
-                      "deprecated": true
-                    },
                     "credits_charged": {
                       "type": "integer",
                       "description": "The amount of credits deducted from your account to generate the image. We charge credits right when the request is made. \n\nIf an error occurred while generating the image(s), credits will be refunded and this field will be updated to include the refund.",
@@ -3727,12 +3564,6 @@
                       "example": "cuid-example",
                       "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
                     },
-                    "frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
-                      "example": 50,
-                      "deprecated": true
-                    },
                     "credits_charged": {
                       "type": "integer",
                       "description": "The amount of credits deducted from your account to generate the image. We charge credits right when the request is made. \n\nIf an error occurred while generating the image(s), credits will be refunded and this field will be updated to include the refund.",
@@ -3879,13 +3710,6 @@
                   "assets": {
                     "type": "object",
                     "properties": {
-                      "image_file_path": {
-                        "type": "string",
-                        "minLength": 1,
-                        "description": "Deprecated: Please use `image_file_paths` instead as edits with multiple images are now supported. The image used in the edit. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
-                        "example": "api-assets/id/1234.png",
-                        "deprecated": true
-                      },
                       "image_file_paths": {
                         "type": "array",
                         "items": { "type": "string", "minLength": 1 },
@@ -3914,12 +3738,6 @@
                       "type": "string",
                       "example": "cuid-example",
                       "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
-                    },
-                    "frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
-                      "example": 50,
-                      "deprecated": true
                     },
                     "credits_charged": {
                       "type": "integer",
@@ -4085,12 +3903,6 @@
                       "type": "string",
                       "example": "cuid-example",
                       "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
-                    },
-                    "frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
-                      "example": 50,
-                      "deprecated": true
                     },
                     "credits_charged": {
                       "type": "integer",
@@ -4309,12 +4121,6 @@
                       "example": "cuid-example",
                       "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
                     },
-                    "frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
-                      "example": 5,
-                      "deprecated": true
-                    },
                     "credits_charged": {
                       "type": "integer",
                       "description": "The amount of credits deducted from your account to generate the image. We charge credits right when the request is made. \n\nIf an error occurred while generating the image(s), credits will be refunded and this field will be updated to include the refund.",
@@ -4489,12 +4295,6 @@
                       "type": "string",
                       "example": "cuid-example",
                       "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
-                    },
-                    "frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
-                      "example": 50,
-                      "deprecated": true
                     },
                     "credits_charged": {
                       "type": "integer",
@@ -4677,12 +4477,6 @@
                       "example": "cuid-example",
                       "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
                     },
-                    "frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
-                      "example": 10,
-                      "deprecated": true
-                    },
                     "credits_charged": {
                       "type": "integer",
                       "description": "The amount of credits deducted from your account to generate the image. We charge credits right when the request is made. \n\nIf an error occurred while generating the image(s), credits will be refunded and this field will be updated to include the refund.",
@@ -4807,13 +4601,6 @@
                     "example": "My Photo Editor image",
                     "default": "Photo Editor - dateTime"
                   },
-                  "steps": {
-                    "type": "integer",
-                    "minimum": 3,
-                    "maximum": 6,
-                    "description": "Deprecated: Please use `.style.steps` instead. Number of iterations used to generate the output. Higher values improve quality and increase the strength of the prompt but increase processing time.",
-                    "deprecated": true
-                  },
                   "resolution": {
                     "type": "integer",
                     "minimum": 512,
@@ -4914,12 +4701,6 @@
                       "type": "string",
                       "example": "cuid-example",
                       "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
-                    },
-                    "frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
-                      "example": 10,
-                      "deprecated": true
                     },
                     "credits_charged": {
                       "type": "integer",
@@ -5080,12 +4861,6 @@
                       "type": "string",
                       "example": "cuid-example",
                       "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
-                    },
-                    "frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
-                      "example": 0,
-                      "deprecated": true
                     },
                     "credits_charged": {
                       "type": "integer",
@@ -5283,12 +5058,6 @@
                       "example": "cuid-example",
                       "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
                     },
-                    "frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
-                      "example": 5,
-                      "deprecated": true
-                    },
                     "credits_charged": {
                       "type": "integer",
                       "description": "The amount of credits deducted from your account to generate the image. We charge credits right when the request is made. \n\nIf an error occurred while generating the image(s), credits will be refunded and this field will be updated to include the refund.",
@@ -5449,12 +5218,6 @@
                       "example": "cuid-example",
                       "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
                     },
-                    "frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
-                      "example": 5,
-                      "deprecated": true
-                    },
                     "credits_charged": {
                       "type": "integer",
                       "description": "The amount of credits deducted from your account to generate the image. We charge credits right when the request is made. \n\nIf an error occurred while generating the image(s), credits will be refunded and this field will be updated to include the refund.",
@@ -5610,12 +5373,6 @@
                       "type": "string",
                       "example": "cuid-example",
                       "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
-                    },
-                    "frame_cost": {
-                      "type": "integer",
-                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for image generation. Use 'credits_charged' instead.",
-                      "example": 10,
-                      "deprecated": true
                     },
                     "credits_charged": {
                       "type": "integer",

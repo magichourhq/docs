@@ -1,0 +1,48 @@
+name: Update OpenAPI Spec
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: "0 2 * * *"
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-openapi:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: "yarn"
+
+      - name: Download latest OpenAPI spec
+        run: |
+          curl -o openapi.json https://magichour.ai/docs/api/openapi.json
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Cleanup deprecated fields
+        run: node cleanup-deprecated-fields.js
+
+      - name: Format with Prettier
+        run: yarn prettier --write openapi.json
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          commit-message: "chore: update OpenAPI spec"
+          title: "chore: update OpenAPI spec"
+          body: |
+            Automated update of OpenAPI spec from https://magichour.ai/docs/api/openapi.json
+
+            - Downloaded latest spec
+            - Cleaned up deprecated fields
+            - Formatted with Prettier
+          branch: update-openapi-spec
+          delete-branch: true
