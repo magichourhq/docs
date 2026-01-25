@@ -4009,7 +4009,7 @@
     },
     "/v1/ai-image-generator": {
       "post": {
-        "description": "Create an AI image. Each standard image costs 5 credits. Pro quality images cost 30 credits.",
+        "description": "Create an AI image with advanced model selection and quality controls.",
         "summary": "AI Image Generator",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -4031,15 +4031,34 @@
                   "image_count": {
                     "type": "integer",
                     "minimum": 1,
-                    "maximum": 4,
-                    "description": "Number of images to generate.",
+                    "maximum": 16,
+                    "description": "Number of images to generate. Maximum varies by model.",
                     "example": 1
                   },
-                  "orientation": {
+                  "model": {
                     "type": "string",
-                    "enum": ["square", "landscape", "portrait"],
-                    "description": "The orientation of the output image(s).",
-                    "example": "landscape"
+                    "enum": [
+                      "default",
+                      "flux-schnell",
+                      "z-image-turbo",
+                      "seedream",
+                      "nano-banana-pro"
+                    ],
+                    "description": "The AI model to use for image generation. Each model has different capabilities and costs.\n\n**Models:**\n- `default` - Use the model we recommend, which will change over time. This is recommended unless you need a specific model. This is the default behavior.\n- `flux-schnell` - 5 credits/image\n  - Supported resolutions: auto\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `z-image-turbo` - 5 credits/image\n  - Supported resolutions: auto, 2k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `seedream` - 30 credits/image\n  - Supported resolutions: auto, 2k, 4k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `nano-banana-pro` - 150 credits/image\n  - Supported resolutions: auto\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 4, 9, 16\n",
+                    "example": "default"
+                  },
+                  "aspect_ratio": {
+                    "type": "string",
+                    "enum": ["1:1", "16:9", "9:16"],
+                    "description": "The aspect ratio of the output image(s). If not specified, defaults to `1:1` (square).",
+                    "example": "1:1"
+                  },
+                  "resolution": {
+                    "default": "auto",
+                    "type": "string",
+                    "enum": ["auto", "2k", "4k"],
+                    "description": "Maximum resolution for the generated image.\n\n**Options:**\n- `auto` - Automatic resolution (all tiers, default)\n- `2k` - Up to 2048px (requires Pro or Business tier)\n- `4k` - Up to 4096px (requires Business tier)\n\nNote: Resolution availability depends on the model and your subscription tier. See `model` field for which resolutions each model supports. Defaults to `auto` if not specified.",
+                    "example": "auto"
                   },
                   "style": {
                     "type": "object",
@@ -4091,19 +4110,13 @@
                         ],
                         "description": "The art style to use for image generation. Defaults to 'general' if not provided.",
                         "example": "ai-anime-generator"
-                      },
-                      "quality_mode": {
-                        "type": "string",
-                        "enum": ["standard", "pro"],
-                        "description": "Controls the quality of the generated image. Defaults to 'standard' if not specified.\n\n**Options:**\n- `standard` - Standard quality generation. Cost: 5 credits per image.\n- `pro` - Pro quality generation with enhanced details and quality. Cost: 30 credits per image.\n\nNote: Pro mode is available for users on Creator, Pro, or Business tier.",
-                        "example": "standard"
                       }
                     },
                     "required": ["prompt"],
                     "description": "The art style to use for image generation."
                   }
                 },
-                "required": ["image_count", "orientation", "style"]
+                "required": ["image_count", "style"]
               }
             }
           }
