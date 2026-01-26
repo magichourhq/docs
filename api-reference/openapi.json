@@ -906,20 +906,22 @@
                     "type": "object",
                     "properties": {
                       "generation_mode": {
-                        "default": "pro",
+                        "default": "realistic",
                         "type": "string",
-                        "enum": ["standard", "pro", "stable", "expressive"],
-                        "description": "Controls overall motion style.\n* `pro` -  Higher fidelity, realistic detail, accurate lip sync, and faster generation.\n* `standard` -  More expressive motion, but lower visual fidelity.\n\n* `expressive` - More motion and facial expressiveness; may introduce visual artifacts. (Deprecated: passing this value will be treated as `standard`)\n* `stable` -  Reduced motion for cleaner output; may result in minimal animation. (Deprecated: passing this value will be treated as `pro`)",
-                        "example": "pro"
+                        "enum": [
+                          "prompted",
+                          "realistic",
+                          "pro",
+                          "standard",
+                          "stable",
+                          "expressive"
+                        ],
+                        "description": "Controls overall motion style.\n* `realistic` - Maintains likeness well, high quality, and reliable.\n* `prompted` - Slightly lower likeness; allows option to prompt scene.\n\n**Deprecated values (maintained for backward compatibility):**\n* `pro` - Deprecated: use `realistic`\n* `standard` - Deprecated: use `prompted`\n* `stable` - Deprecated: use `realistic`\n* `expressive` - Deprecated: use `prompted`",
+                        "example": "realistic"
                       },
-                      "intensity": {
-                        "default": 1.5,
-                        "type": "number",
-                        "minimum": 0.1,
-                        "maximum": 2,
-                        "multipleOf": 0.01,
-                        "description": "Note: this value is only applicable when generation_mode is `expressive`. The value can include up to 2 decimal places.\n* Lower values yield more stability but can suppress mouth movement.\n* Higher values increase motion and expressiveness, with a higher risk of distortion.",
-                        "example": 1.5
+                      "prompt": {
+                        "type": "string",
+                        "description": "A text prompt to guide the generation. Only applicable when generation_mode is `prompted`.\nThis field is ignored for other modes."
                       }
                     },
                     "description": "Attributes used to dictate the style of the output"
