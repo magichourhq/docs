@@ -74,7 +74,7 @@ client = Client(token=getenv("API_TOKEN"))
 
 result = client.v1.ai_image_editor.generate(
     assets={
-        "image_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"
+        "image_file_paths": ["https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"]
     },
     style={
         "prompt": "Turn this image into studio ghibli style"
@@ -102,7 +102,9 @@ const client = new Client({ token: process.env.API_TOKEN });
 
 const result = await client.v1.aiImageEditor.generate({
   assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+    imageFilePaths: [
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+    ],
   },
   style: {
     prompt: "Change the background to a sunset beach scene",
