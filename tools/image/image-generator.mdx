@@ -92,7 +92,7 @@ client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
 
 result = client.v1.ai_image_generator.generate(
     image_count=1,
-    orientation="landscape",
+    aspect_ratio="16:9",
     style={
         "prompt": "A serene mountain landscape at sunset with vibrant colors",
         "tool": "ai-photo-generator"
@@ -120,7 +120,7 @@ const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 const result = await client.v1.aiImageGenerator.generate({
   imageCount: 1,
-  orientation: "landscape",
+  aspectRatio: "16:9",
   style: {
     prompt: "A serene mountain landscape at sunset with vibrant colors",
     tool: "ai-photo-generator",
@@ -146,7 +146,7 @@ console.log(`Credits charged: ${result.creditsCharged}`);
 ```python Python
 result = client.v1.ai_image_generator.generate(
     image_count=4,  # Generate 4 variations
-    orientation="square",
+    aspect_ratio="1:1",
     style={
         "prompt": "Cute cat wearing sunglasses, digital art style",
         "tool": "ai-anime-generator"
@@ -170,7 +170,7 @@ else:
 ```javascript Node.js
 const result = await client.v1.aiImageGenerator.generate({
   imageCount: 4, // Generate 4 variations
-  orientation: "square",
+  aspectRatio: "1:1",
   style: {
     prompt: "Cute cat wearing sunglasses, digital art style",
     tool: "ai-anime-generator",
@@ -196,7 +196,7 @@ console.log(`Credits charged: ${result.creditsCharged}`);
 ```python Python
 result = client.v1.ai_image_generator.generate(
     image_count=1,
-    orientation="portrait",
+    aspect_ratio="9:16",
     style={
         "prompt": "Professional business woman in modern office",
         "tool": "ai-photo-generator"
@@ -220,7 +220,7 @@ else:
 ```javascript Node.js
 const result = await client.v1.aiImageGenerator.generate({
   imageCount: 1,
-  orientation: "portrait",
+  aspectRatio: "9:16",
   style: {
     prompt: "Professional business woman in modern office",
     tool: "ai-photo-generator",

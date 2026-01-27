@@ -9,6 +9,7 @@
     "flac",
     "getenv",
     "gifs",
+    "hasattr",
     "hashlib",
     "Headshot",
     "headshots",
