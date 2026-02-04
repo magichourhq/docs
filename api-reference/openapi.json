@@ -1884,7 +1884,7 @@
                     "type": "number",
                     "minimum": 2,
                     "maximum": 60,
-                    "description": "The total duration of the output video in seconds.\n\nSupported durations depend on the chosen model:\n* **Default**: 5-60 seconds (either 5 or 10 for 480p).\n* **Seedance**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **Kling 2.5 Audio**: 5, 10\n* **Sora 2**: 4, 8, 12, 24, 36, 48, 60\n* **Veo 3.1 Audio**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **Veo 3.1**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **Kling 1.6**: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60",
+                    "description": "The total duration of the output video in seconds.\n\nSupported durations depend on the chosen model:\n* **Default**: 5-60 seconds (2-12 seconds for 480p).\n* **Seedance**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **Kling 2.5 Audio**: 5, 10\n* **Sora 2**: 4, 8, 12, 24, 36, 48, 60\n* **Veo 3.1 Audio**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **Veo 3.1**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **Kling 1.6**: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60",
                     "format": "float",
                     "example": 5
                   },
@@ -2593,7 +2593,7 @@
                     "type": "number",
                     "minimum": 2,
                     "maximum": 60,
-                    "description": "The total duration of the output video in seconds.\n\nSupported durations depend on the chosen model:\n* **Default**: 5-60 seconds (either 5 or 10 for 480p).\n* **Seedance**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **Kling 2.5 Audio**: 5, 10\n* **Sora 2**: 4, 8, 12, 24, 36, 48, 60\n* **Veo 3.1 Audio**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **Veo 3.1**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **Kling 1.6**: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60",
+                    "description": "The total duration of the output video in seconds.\n\nSupported durations depend on the chosen model:\n* **Default**: 5-60 seconds (2-12 seconds for 480p).\n* **Seedance**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **Kling 2.5 Audio**: 5, 10\n* **Sora 2**: 4, 8, 12, 24, 36, 48, 60\n* **Veo 3.1 Audio**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **Veo 3.1**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **Kling 1.6**: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60",
                     "format": "float",
                     "example": 5
                   },
@@ -3671,7 +3671,7 @@
     },
     "/v1/ai-image-editor": {
       "post": {
-        "description": "Edit images with AI. Each edit costs 50 credits.",
+        "description": "Edit images with AI.",
         "summary": "AI Image Editor",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -3690,6 +3690,32 @@
                     "example": "My Ai Image Editor image",
                     "default": "Ai Image Editor - dateTime"
                   },
+                  "image_count": {
+                    "type": "number",
+                    "enum": [1, 4, 9, 16],
+                    "description": "Number of images to generate. Maximum varies by model. Defaults to 1 if not specified.",
+                    "example": 1,
+                    "default": 1
+                  },
+                  "model": {
+                    "type": "string",
+                    "enum": [
+                      "default",
+                      "qwen-edit",
+                      "nano-banana",
+                      "seedream-v4",
+                      "nano-banana-pro",
+                      "seedream-v4.5"
+                    ],
+                    "description": "The AI model to use for image editing. Each model has different capabilities and costs.\n\n**Models:**\n- `default` - Use the model we recommend, which will change over time. This is recommended unless you need a specific model. This is the default behavior.\n- `qwen-edit` - 10 credits/image\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1\n  - Max additional input images: 2\n- `nano-banana` - 50 credits/image\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1\n  - Max additional input images: 9\n- `seedream-v4` - 50 credits/image\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1\n  - Max additional input images: 9\n- `nano-banana-pro` - 150 credits/image\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 4, 9, 16\n  - Max additional input images: 9\n- `seedream-v4.5` - 100 credits/image\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1\n  - Max additional input images: 9\n",
+                    "example": "default"
+                  },
+                  "aspect_ratio": {
+                    "type": "string",
+                    "enum": ["auto", "16:9", "9:16", "4:3", "3:2", "1:1", "4:5", "2:3"],
+                    "description": "The aspect ratio of the output image(s). If not specified, defaults to `auto`.",
+                    "example": "1:1"
+                  },
                   "style": {
                     "type": "object",
                     "properties": {
@@ -3699,12 +3725,6 @@
                         "maxLength": 15000,
                         "description": "The prompt used to edit the image.",
                         "example": "Give me sunglasses"
-                      },
-                      "model": {
-                        "type": "string",
-                        "enum": ["Nano Banana", "Seedream", "default"],
-                        "description": "The AI model to use for image editing.\n* `Nano Banana` - Precise, realistic edits with consistent results\n* `Seedream` - Creative, imaginative images with artistic freedom\n* `default` - Use the model we recommend, which will change over time. This is recommended unless you need a specific model. This is the default behavior.",
-                        "example": "Nano Banana"
                       }
                     },
                     "required": ["prompt"]
