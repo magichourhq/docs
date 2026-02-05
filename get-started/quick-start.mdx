@@ -225,7 +225,7 @@ print(f"created image with id {result.id}, spent {result.credits_charged} credit
 
 ```typescript Node SDK
 import { writeFileSync } from "fs";
-import Client from "magic-hour";
+import { Client } from "magic-hour";
 
 // Use environment variable for security
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
@@ -487,7 +487,7 @@ print(f"created face swap video with id {result.id}, spent {result.credits_charg
 
 ```typescript Node SDK
 import { writeFileSync } from "fs";
-import Client from "magic-hour";
+import { Client } from "magic-hour";
 
 // Use environment variable for security
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
@@ -798,5 +798,6 @@ If you encounter HTTP errors, here's what they mean:
 
 <Tip>
   Prefer fast iteration inside your editor? Install this documentation as an MCP server to get
-  contextual help while integrating the Magic Hour API. [Learn more](/integration/model-context-protocol).
+  contextual help while integrating the Magic Hour API. [Learn
+  more](/integration/model-context-protocol).
 </Tip>
