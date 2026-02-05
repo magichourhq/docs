@@ -41,24 +41,25 @@ import Client, { Environment } from "magic-hour";
 
 // Use mock server for development
 const client = new Client({
-  token: "YOUR_API_KEY",  // Can use any value for mock mode
-  environment: Environment.MockServer
+  token: "YOUR_API_KEY", // Can use any value for mock mode
+  environment: Environment.MockServer,
 });
 
 // All API calls return mock data instantly
 const result = await client.v1.aiImageGenerator.create({
   imageCount: 1,
   orientation: "landscape",
-  style: { prompt: "Test image", tool: "ai-anime-generator" }
+  style: { prompt: "Test image", tool: "ai-anime-generator" },
 });
 
-console.log(`Job ID: ${result.id}`);  // Returns mock ID
+console.log(`Job ID: ${result.id}`); // Returns mock ID
 // No credits charged, no actual processing
 ```
 
 </CodeGroup>
 
 **Benefits:**
+
 - ✅ No credit consumption
 - ✅ Instant responses (no waiting)
 - ✅ Realistic sample data
@@ -66,6 +67,7 @@ console.log(`Job ID: ${result.id}`);  // Returns mock ID
 - ✅ Validate integration logic
 
 **When to use:**
+
 - Unit testing
 - Integration testing
 - Local development
@@ -93,23 +95,23 @@ client = Client(
 ```
 
 ```javascript Node.js
-import Client, { Environment } from 'magic-hour';
+import Client, { Environment } from "magic-hour";
 
 // Switch environments based on NODE_ENV
-const environment = process.env.NODE_ENV === "development" 
-  ? Environment.MockServer 
-  : Environment.Production;
+const environment =
+  process.env.NODE_ENV === "development" ? Environment.MockServer : Environment.Production;
 
 const client = new Client({
   token: process.env.MAGIC_HOUR_API_KEY,
-  environment
+  environment,
 });
 ```
 
 </CodeGroup>
 
 <Tip>
-**Development Workflow**: Use mock server during development, then switch to production environment for final testing and deployment.
+  **Development Workflow**: Use mock server during development, then switch to production
+  environment for final testing and deployment.
 </Tip>
 
 ## Error Handling Best Practices
@@ -154,7 +156,7 @@ except Exception as e:
 ```
 
 ```javascript Node.js
-import Client from 'magic-hour';
+import { Client } from "magic-hour";
 
 const client = new Client({ token: "YOUR_API_KEY" });
 
@@ -162,21 +164,17 @@ try {
   const result = await client.v1.aiImageGenerator.create({
     imageCount: 1,
     orientation: "landscape",
-    style: { prompt: "Test", tool: "ai-anime-generator" }
+    style: { prompt: "Test", tool: "ai-anime-generator" },
   });
-  
 } catch (error) {
   if (error.statusCode === 401) {
     console.log("❌ Invalid API key. Check your credentials.");
-    
   } else if (error.statusCode === 422) {
     console.log(`❌ Invalid parameters: ${error.message}`);
     // Fix your request parameters
-    
   } else if (error.statusCode === 429) {
     console.log("❌ Rate limit exceeded. Wait before retrying.");
     // Implement exponential backoff
-    
   } else {
     console.log(`❌ API error: ${error.message}`);
     // Log error and alert monitoring system
@@ -235,7 +233,7 @@ if not download_url:
 // Poll for completion with error handling
 while (true) {
   const status = await client.v1.imageProjects.get({ id: jobId });
-  
+
   if (status.status === "complete") {
     // Success - download result
     const downloadUrl = status.downloads[0].url;
@@ -244,7 +242,7 @@ while (true) {
     // Job failed during processing
     const errorCode = status.error?.code || "unknown";
     const errorMsg = status.error?.message || "Unknown error";
-    
+
     // Handle specific error codes
     switch (errorCode) {
       case "no_source_face":
@@ -262,11 +260,11 @@ while (true) {
       default:
         console.log(`❌ Error (${errorCode}): ${errorMsg}`);
     }
-    
+
     return null;
   }
-  
-  await new Promise(resolve => setTimeout(resolve, 3000));
+
+  await new Promise((resolve) => setTimeout(resolve, 3000));
 }
 ```
 
@@ -274,18 +272,16 @@ while (true) {
 
 ### Common Error Codes
 
-| Error Code | Meaning | Solution |
-|:-----------|:--------|:---------|
-| `no_source_face` | No face detected in image | Use image with clear, visible face |
-| `invalid_file_format` | Unsupported file type | Check supported formats list |
-| `file_too_large` | File exceeds size limit | Compress file or upgrade tier |
-| `insufficient_credits` | Not enough credits | Add credits to account |
-| `invalid_parameters` | Invalid request parameters | Check API reference for valid values |
-| `unknown_error` | Unexpected error | Contact support with job ID |
+| Error Code             | Meaning                    | Solution                             |
+| :--------------------- | :------------------------- | :----------------------------------- |
+| `no_source_face`       | No face detected in image  | Use image with clear, visible face   |
+| `invalid_file_format`  | Unsupported file type      | Check supported formats list         |
+| `file_too_large`       | File exceeds size limit    | Compress file or upgrade tier        |
+| `insufficient_credits` | Not enough credits         | Add credits to account               |
+| `invalid_parameters`   | Invalid request parameters | Check API reference for valid values |
+| `unknown_error`        | Unexpected error           | Contact support with job ID          |
 
-<Note>
-**Credits Not Charged**: When a job fails with an error, you are never charged credits.
-</Note>
+<Note>**Credits Not Charged**: When a job fails with an error, you are never charged credits.</Note>
 
 ## Status Monitoring Strategies
 
@@ -296,7 +292,7 @@ Adjust polling frequency based on content type:
 ```python
 def get_poll_interval(project_type, duration=None):
     """Return appropriate polling interval in seconds"""
-    
+
     if project_type == "image":
         return 3  # Images process quickly
     elif project_type == "audio":
@@ -305,7 +301,7 @@ def get_poll_interval(project_type, duration=None):
         if duration and duration > 30:
             return 10  # Longer videos need more time
         return 5  # Short videos
-    
+
     return 5  # Default
 
 # Usage
@@ -323,20 +319,20 @@ from datetime import datetime, timedelta
 
 def wait_for_completion(client, job_id, timeout_minutes=10):
     """Wait for job with timeout"""
-    
+
     start_time = datetime.now()
     timeout = timedelta(minutes=timeout_minutes)
-    
+
     while datetime.now() - start_time < timeout:
         status = client.v1.image_projects.get(id=job_id)
-        
+
         if status.status == "complete":
             return status
         elif status.status == "error":
             raise Exception(f"Job failed: {status.error}")
-        
+
         time.sleep(3)
-    
+
     raise TimeoutError(f"Job did not complete within {timeout_minutes} minutes")
 ```
 
@@ -351,7 +347,7 @@ import unittest
 from unittest.mock import Mock, patch
 
 class TestMagicHourIntegration(unittest.TestCase):
-    
+
     @patch('magic_hour.Client')
     def test_successful_image_generation(self, mock_client):
         # Mock the API responses
@@ -360,17 +356,17 @@ class TestMagicHourIntegration(unittest.TestCase):
             status="complete",
             downloads=[Mock(url="https://upload.wikimedia.org/wikipedia/commons/e/ec/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU_%28cropped%29.jpg")]
         ))
-        
+
         mock_client.v1.ai_image_generator.create = mock_create
         mock_client.v1.image_projects.get = mock_status
-        
+
         # Test your integration function
         result = generate_image(mock_client, "test prompt")
-        
+
         # Verify calls were made
         mock_create.assert_called_once()
         mock_status.assert_called_once()
-        
+
         # Verify result
         self.assertEqual(result.id, "test123")
 ```
@@ -386,12 +382,12 @@ def test_with_mock_server():
         token="test-key",
         environment=Environment.MOCK_SERVER
     )
-    
+
     # Test the full workflow
     result = client.v1.ai_image_generator.create(...)
     assert result.id is not None
     assert result.credits_charged > 0
-    
+
     # Test status checking
     status = client.v1.image_projects.get(id=result.id)
     assert status.status in ["queued", "rendering", "complete"]
@@ -421,25 +417,31 @@ result = client.v1.ai_image_generator.create(
 ### Recommended Development Process
 
 **Phase 1: Local Development**
+
 ```bash
 ENV=development python main.py  # Uses mock server
 ```
+
 - Use mock server exclusively
 - Build integration logic
 - Test error handling
 
 **Phase 2: Staging Testing**
+
 ```bash
 ENV=staging python main.py  # Uses real API with test key
 ```
+
 - Test with real API using minimal credits
 - Validate end-to-end workflow
 - Test error scenarios
 
 **Phase 3: Production**
+
 ```bash
 ENV=production python main.py  # Uses production API key
 ```
+
 - Deploy with production credentials
 - Monitor for errors
 - Set up logging and alerts
@@ -477,25 +479,20 @@ Cancel video jobs to get full credit refunds (image jobs complete too quickly to
 
 <Steps>
   <Step title="Open project details">
-    Visit the project in your library:
-    - **Videos**: `https://magichour.ai/my-library?videoId={project_id}`
-    - **Images**: `https://magichour.ai/my-library?imageId={project_id}`
-    - **Audio**: `https://magichour.ai/my-library?audioId={project_id}`
+    Visit the project in your library: - **Videos**: `https://magichour.ai/my-library?videoId=
+    {project_id}` - **Images**: `https://magichour.ai/my-library?imageId={project_id}` - **Audio**:
+    `https://magichour.ai/my-library?audioId={project_id}`
   </Step>
-  <Step title="Click cancel render">
-    ![Cancel Render Button](./images/cancel-1.jpg)
-  </Step>
-  <Step title="Confirm cancellation">
-    ![Confirm Cancel Button](./images/cancel-2.jpg)
-  </Step>
+  <Step title="Click cancel render">![Cancel Render Button](./images/cancel-1.jpg)</Step>
+  <Step title="Confirm cancellation">![Confirm Cancel Button](./images/cancel-2.jpg)</Step>
   <Step title="Cancellation complete">
-    ![Cancel Success](./images/cancel-3.jpg)
-    
-    Full credit refund is provided for cancelled video jobs.
+    ![Cancel Success](./images/cancel-3.jpg) Full credit refund is provided for cancelled video
+    jobs.
   </Step>
 </Steps>
 
 **Important notes:**
+
 - Image jobs cannot be cancelled (they complete too quickly)
 - API-based cancellation is not currently available
 - Full credit refund is provided for cancelled video jobs
@@ -506,12 +503,14 @@ Cancel video jobs to get full credit refunds (image jobs complete too quickly to
 Before deploying to production:
 
 ### Security
+
 - ✅ API keys stored in environment variables (not hardcoded)
 - ✅ API keys not committed to version control
 - ✅ Different API keys for development/staging/production
 - ✅ Webhook signatures verified (if using webhooks)
 
 ### Error Handling
+
 - ✅ All API calls wrapped in try/catch blocks
 - ✅ Specific error codes handled appropriately
 - ✅ Retry logic with exponential backoff
@@ -519,6 +518,7 @@ Before deploying to production:
 - ✅ Logging for all errors
 
 ### Monitoring
+
 - ✅ Credit usage tracking
 - ✅ Error rate monitoring
 - ✅ Job completion time tracking
@@ -526,12 +526,14 @@ Before deploying to production:
 - ✅ Download success/failure tracking
 
 ### File Management
+
 - ✅ Downloaded files stored in reliable storage
 - ✅ Cleanup of old generated files
 - ✅ Handling of download URL expiration
 - ✅ Disk space monitoring
 
 ### Performance
+
 - ✅ Appropriate polling intervals implemented
 - ✅ Concurrent job limits configured
 - ✅ Rate limiting respected
@@ -542,12 +544,14 @@ Before deploying to production:
 Before deploying, verify:
 
 ### Basic Functionality
+
 - ✅ Job creation succeeds
 - ✅ Status polling works correctly
 - ✅ File downloads successfully
 - ✅ Multiple concurrent jobs handle correctly
 
 ### Error Scenarios
+
 - ✅ Invalid API key handling
 - ✅ Insufficient credits handling
 - ✅ Invalid parameters rejection
@@ -555,6 +559,7 @@ Before deploying, verify:
 - ✅ Timeout handling
 
 ### Edge Cases
+
 - ✅ Very large files
 - ✅ Very small files
 - ✅ Multiple output files
@@ -566,11 +571,13 @@ Before deploying, verify:
 ### Issue: Jobs Stay in "queued" Status
 
 **Possible causes:**
+
 - High server load
 - Invalid input files
 - Account issues
 
 **Solutions:**
+
 - Wait longer (up to 5 minutes)
 - Check input file validity
 - Verify account has sufficient credits
@@ -579,11 +586,13 @@ Before deploying, verify:
 ### Issue: Download URLs Return 404
 
 **Possible causes:**
+
 - URLs expired (24+ hours old)
 - Job was deleted
 - Invalid job ID
 
 **Solutions:**
+
 - Request fresh URLs using GET endpoint
 - Verify job ID is correct
 - Download files within 24 hours of completion
@@ -591,6 +600,7 @@ Before deploying, verify:
 ### Issue: High Credit Usage During Testing
 
 **Solutions:**
+
 - Switch to mock server for development
 - Use minimum resolution/duration for tests
 - Implement proper cleanup of test jobs
@@ -616,4 +626,3 @@ Before deploying, verify:
 ---
 
 **Questions?** Join our [Discord community](https://discord.com/invite/JX5rgsZaJp) or email [support@magichour.ai](mailto:support@magichour.ai)
-

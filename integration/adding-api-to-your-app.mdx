@@ -110,7 +110,7 @@ def get_client():
 
 ```typescript Node.js
 // services/magichour.js
-import Client from "magic-hour";
+import { Client } from "magic-hour";
 
 // Initialize client with environment variable
 const client = new Client({
@@ -168,8 +168,10 @@ export async function createFaceSwap(faceImageUrl, videoUrl, startTime = 0.0, en
   const createRes = await client.v1.faceSwap.create({
     name: "Face swap job",
     assets: {
-      imageFilePath: "https://upload.wikimedia.org/wikipedia/commons/e/ec/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU_%28cropped%29.jpg",
-      videoFilePath: "https://svs.gsfc.nasa.gov/vis/a010000/a014300/a014327/john_bolten_no_graphics.mp4",
+      imageFilePath:
+        "https://upload.wikimedia.org/wikipedia/commons/e/ec/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU_%28cropped%29.jpg",
+      videoFilePath:
+        "https://svs.gsfc.nasa.gov/vis/a010000/a014300/a014327/john_bolten_no_graphics.mp4",
       videoSource: "file",
     },
     startSeconds: startTime,
@@ -829,10 +831,9 @@ Cancel video jobs (with full refund) via the web dashboard:
 
 <Steps>
   <Step title="Open project details">
-    Visit the project in your library:
-    - **Videos**: `https://magichour.ai/my-library?videoId={project_id}`
-    - **Images**: `https://magichour.ai/my-library?imageId={project_id}`
-    - **Audio**: `https://magichour.ai/my-library?audioId={project_id}`
+    Visit the project in your library: - **Videos**: `https://magichour.ai/my-library?videoId=
+    {project_id}` - **Images**: `https://magichour.ai/my-library?imageId={project_id}` - **Audio**:
+    `https://magichour.ai/my-library?audioId={project_id}`
   </Step>
   <Step title="Click cancel render">![Cancel Render Button](./images/cancel-1.jpg)</Step>
   <Step title="Confirm cancellation">![Confirm Cancel Button](./images/cancel-2.jpg)</Step>
@@ -854,7 +855,12 @@ Notes:
   <Card title="API Reference" icon="code" href="/api-reference">
     Explore all available endpoints and parameters
   </Card>
-  <Card title="Google Colab Cookbook" icon="code" href="https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing" openInNewTab>
+  <Card
+    title="Google Colab Cookbook"
+    icon="code"
+    href="https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing"
+    openInNewTab
+  >
     Try all 22 APIs with ready-to-run examples
   </Card>
   <Card title="File Management" icon="file" href="/integration/input-files">
