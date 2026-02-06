@@ -6,6 +6,168 @@ rss: true
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2026-01-31">
+
+## M4A Audio Support
+
+Added support for `.m4a` audio uploads so you can upload more types of audio files. This feature is available to all modes with audio input.
+
+</Update>
+
+<Update label="2026-01-29">
+
+## Lip Sync Mode Improvements
+
+We made some internal improvements to Lip Sync standard and pro modes for smoother, more reliable results.
+
+<VideoPlayer src="/changelog/images/2026/01/lip-sync-improvement-before-after.mp4" />
+
+Try it out now: https://magichour.ai/create/lip-sync
+
+Note: This feature is currently available to users with a subscription.
+
+</Update>
+
+<Update label="2026-01-26">
+
+## Video Upscaler Dashboard Tool
+
+Added a new dashboard tool to upscale videos.
+
+<Frame>
+  ![Video Upscaler Dashboard Tool](/changelog/images/2026/01/video-upscaler-dashboard-tool.jpg)
+</Frame>
+
+Try it out now: https://magichour.ai/create/video-upscaler
+
+Note: This feature is currently available to users with a subscription.
+
+</Update>
+
+<Update label="2026-01-24">
+
+## AI Image Generator API Model Selection
+
+The AI Image Generator API now accepts a `model` parameter so users can choose between available models.
+
+```python
+res = client.v1.image_to_video.create(
+    ...
+    model="z-image-turbo",
+)
+```
+
+Try it out now by upgrading to the latest version of the SDK.
+
+</Update>
+
+<Update label="2026-01-23">
+
+## Improved Head Swap Dashboard
+
+We added Head Swap to the dashboard experience.
+
+<Frame>![Head Swap Dashboard](/changelog/images/2026/01/head-swap-dashboard.jpg)</Frame>
+
+Try it out now: https://magichour.ai/products/head-swap
+
+</Update>
+
+<Update label="2026-01-22">
+
+## Model Selection for Image-to-Video and Text-to-Video APIs
+
+Added a `model` parameter to the Image-to-Video and Text-to-Video APIs so users can choose between available models. This brings the same model selection experience to the API as the create page.
+
+```python
+res = client.v1.image_to_video.create(
+    ...
+    model="sora-2",
+)
+```
+
+Try it out now by upgrading to the latest version of the SDK.
+
+</Update>
+
+<Update label="2026-01-21">
+
+## Head Swap Free Tool
+
+Launched the free Head Swap tool at `/products/head-swap` for quick, zero-cost swaps.
+
+<Frame>![Head Swap Free Tool](/changelog/images/2026/01/head-swap-free-tool.jpg)</Frame>
+
+Try it out now: https://magichour.ai/products/head-swap
+
+</Update>
+
+<Update label="2026-01-19">
+
+## New Usage Page
+
+Added a dedicated `/usage` page so users can track their consumption at a glance.
+
+<Frame>![Usage Page](/changelog/images/2026/01/usage-page.jpg)</Frame>
+
+</Update>
+
+<Update label="2026-01-14">
+
+## Node SDK URL Inputs
+
+The Node SDK now supports URL inputs for `.generate` functions in v0.45.0, previously it only supported local file paths.
+
+## Added `max_resolution` to AI Talking Photo API
+
+We added a new `max_resolution` param to the AI Talking Photo API. You can now specify the maximum resolution of the output video if you want a specific resolution.
+
+```python
+res = client.v1.ai_talking_photo.generate(
+    ...
+    max_resolution="576"
+)
+```
+
+</Update>
+
+<Update label="2026-01-09">
+
+## Added Nano Banana Pro to AI Image Generator
+
+AI Image Generator now includes Nano Banana Pro as a new model option.
+
+<Frame>
+  ![Nano Banana Pro in AI Image
+  Generator](/changelog/images/2026/01/nano-banana-pro-ai-image-generator.jpg)
+</Frame>
+
+Try it out now: https://magichour.ai/create/ai-image-generator
+
+</Update>
+
+<Update label="2026-01-05">
+
+## Higher Free User Resolution
+
+Free users can now generate sharper outputs with a higher max resolution of 576px (up from 512px).
+
+</Update>
+
+<Update label="2026-01-04">
+
+## Improved AI Clothes Changer
+
+We improved the AI Clothes Changer to use Qwen for better results.
+
+<Frame>
+  ![Improved AI Clothes Changer](/changelog/images/2026/01/improved-ai-clothes-changer.jpg)
+</Frame>
+
+Try it out now: https://magichour.ai/create/ai-clothes-changer
+
+</Update>
+
 <Update label="2026-01-02">
 
 ## Improved Photo Colorizer
