@@ -104,7 +104,7 @@ result = client.v1.image_to_video.generate(
     resolution="480p",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="./outputs/"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -134,7 +134,7 @@ const result = await client.v1.imageToVideo.generate({
   resolution: "480p",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Video complete!`);

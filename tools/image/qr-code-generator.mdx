@@ -95,7 +95,7 @@ result = client.v1.ai_qr_code_generator.generate(
     name="Brand QR Code",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="./outputs/"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -121,7 +121,7 @@ const result = await client.v1.aiQrCodeGenerator.generate({
   name: "Brand QR Code",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ QR code complete!`);
@@ -144,7 +144,7 @@ result = client.v1.ai_qr_code_generator.generate(
     name="OpenAI QR Code",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="./outputs/"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -166,7 +166,7 @@ const result = await client.v1.aiQrCodeGenerator.generate({
   name: "Event QR Code",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);

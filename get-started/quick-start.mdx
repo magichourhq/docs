@@ -217,7 +217,7 @@ result = client.v1.ai_image_generator.generate(
     },
     wait_for_completion=True, # wait for the render to complete
     download_outputs=True, # download the outputs to local disk
-    download_directory="outputs", # save the outputs to the "outputs" directory
+    download_directory=".", # save the outputs to the current directory
 )
 
 print(f"created image with id {result.id}, spent {result.credits_charged} credits. Outputs are saved at {result.downloaded_paths}")
@@ -242,7 +242,7 @@ async function main() {
     {
       waitForCompletion: true, // wait for the render to complete
       downloadOutputs: true, // download the outputs to local disk
-      downloadDirectory: "outputs", // save the outputs to the "outputs" directory
+      downloadDirectory: ".", // save the outputs to the "outputs" directory
     }
   );
 

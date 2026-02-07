@@ -85,7 +85,7 @@ result = client.v1.ai_talking_photo.generate(
     end_seconds=2,
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="outputs"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -114,7 +114,7 @@ const result = await client.v1.aiTalkingPhoto.generate({
   endSeconds: 2,
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Talking photo complete!`);
@@ -137,7 +137,7 @@ result = client.v1.ai_talking_photo.generate(
     name="Talking Photo",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="outputs"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -160,7 +160,7 @@ const result = await client.v1.aiTalkingPhoto.generate({
   name: "Talking Photo",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Talking photo complete!`);

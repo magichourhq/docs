@@ -89,7 +89,7 @@ result = client.v1.animation.generate(
     name="Tiger Animation",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="./outputs/"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -125,7 +125,7 @@ const result = await client.v1.animation.generate({
   name: "Tiger Animation",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Animation complete!`);
@@ -159,7 +159,7 @@ result = client.v1.animation.generate(
     name="Tom Cruise Animation",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="./outputs/"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -192,7 +192,7 @@ const result = await client.v1.animation.generate({
   name: "Tom Cruise Animation",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
@@ -224,7 +224,7 @@ result = client.v1.animation.generate(
     name="Code Audio Animation",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="./outputs/"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -259,7 +259,7 @@ const result = await client.v1.animation.generate({
   name: "Code Audio Animation",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);

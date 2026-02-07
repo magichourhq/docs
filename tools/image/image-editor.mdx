@@ -82,7 +82,7 @@ result = client.v1.ai_image_editor.generate(
     name="Image Editor image",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="outputs"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -112,7 +112,7 @@ const result = await client.v1.aiImageEditor.generate({
   name: "Image Editor image",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Image edit complete!`);

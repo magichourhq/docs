@@ -95,7 +95,7 @@ result = client.v1.image_background_remover.generate(
     name="Product Cutout",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="./outputs/"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -120,7 +120,7 @@ const result = await client.v1.imageBackgroundRemover.generate({
   name: "Product Cutout",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Background removal complete!`);
@@ -150,7 +150,7 @@ for i, image_url in enumerate(images):
         name=f"Product Cutout {i+1}",
         wait_for_completion=True,
         download_outputs=True,
-        download_directory="./outputs/"
+        download_directory="."
     )
     print(f"✅ Downloaded: {result.downloaded_paths}")
 ```
@@ -171,7 +171,7 @@ for (let i = 0; i < images.length; i++) {
     name: `Product Cutout ${i + 1}`,
     waitForCompletion: true,
     downloadOutputs: true,
-    downloadDirectory: "./outputs/",
+    downloadDirectory: ".",
   });
   console.log(`✅ Downloaded: ${result.downloadedPaths}`);
 }
