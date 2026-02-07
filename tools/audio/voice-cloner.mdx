@@ -98,7 +98,7 @@ result = client.v1.ai_voice_cloner.generate(
     name="Voice Cloner audio",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="outputs"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -127,7 +127,7 @@ const result = await client.v1.aiVoiceCloner.generate({
   name: "Voice Cloner audio",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Voice cloning complete!`);
@@ -152,7 +152,7 @@ result = client.v1.ai_voice_cloner.generate(
     name: "Voice Cloner audio",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="outputs"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -176,7 +176,7 @@ const result = await client.v1.aiVoiceCloner.generate({
   name: "Voice Cloner audio",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
@@ -199,7 +199,7 @@ result = client.v1.ai_voice_cloner.generate(
     name="Voice Cloner audio",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="outputs"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -223,7 +223,7 @@ const result = await client.v1.aiVoiceCloner.generate({
   name: "Voice Cloner audio",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
@@ -259,7 +259,7 @@ voice_result = client.v1.ai_voice_cloner.generate(
     name="Voice Cloner audio",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="temp",
+    download_directory=".",
 )
 
 # Step 2: Use the generated audio for lip sync
@@ -276,7 +276,7 @@ lip_sync_result = client.v1.lip_sync.generate(
     name="Lip Synced Video",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="outputs",
+    download_directory=".",
 )
 
 print("voice_status:", voice_result.status, "paths:", getattr(voice_result, "downloaded_paths", None))

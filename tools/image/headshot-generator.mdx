@@ -87,7 +87,7 @@ result = client.v1.ai_headshot_generator.generate(
     name="Professional Headshot",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="./outputs/"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -115,7 +115,7 @@ const result = await client.v1.aiHeadshotGenerator.generate({
   name: "Professional Headshot",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Headshot complete!`);

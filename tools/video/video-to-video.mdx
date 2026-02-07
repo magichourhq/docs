@@ -112,7 +112,7 @@ result = client.v1.video_to_video.generate(
     name="Anime Mic Drop",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="./outputs/"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -151,7 +151,7 @@ const result = await client.v1.videoToVideo.generate({
   name: "Anime Mic Drop",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Video complete!`);

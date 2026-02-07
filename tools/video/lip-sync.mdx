@@ -97,7 +97,7 @@ result = client.v1.lip_sync.generate(
     name="Side Eye Girl Code Lip Sync",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="./outputs/"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -132,7 +132,7 @@ const result = await client.v1.lipSync.generate({
   name: "Obama Code Lip Sync",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Lip sync complete!`);

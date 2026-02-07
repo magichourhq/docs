@@ -98,7 +98,7 @@ result = client.v1.ai_meme_generator.generate(
     name="Code Works Meme",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="./outputs/"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -125,7 +125,7 @@ const result = await client.v1.aiMemeGenerator.generate({
   name: "Code Works Meme",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Meme complete!`);
@@ -149,7 +149,7 @@ result = client.v1.ai_meme_generator.generate(
     name="Stove Meme",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="./outputs/"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -172,7 +172,7 @@ const result = await client.v1.aiMemeGenerator.generate({
   name: "Framework Meme",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
@@ -194,7 +194,7 @@ result = client.v1.ai_meme_generator.generate(
     name="AI Controversy Meme",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="./outputs/"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -217,7 +217,7 @@ const result = await client.v1.aiMemeGenerator.generate({
   name: "AI Trends Meme",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "./outputs/",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);

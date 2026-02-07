@@ -80,7 +80,7 @@ result = client.v1.photo_colorizer.generate(
     name="Photo Colorizer image",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="outputs"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -105,7 +105,7 @@ const result = await client.v1.photoColorizer.generate({
   name: "Photo Colorizer image",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Colorization complete!`);

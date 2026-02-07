@@ -81,7 +81,7 @@ result = client.v1.auto_subtitle_generator.generate(
     name="Subtitled Video",
     wait_for_completion=True,
     download_outputs=True,
-    download_directory="outputs"
+    download_directory="."
 )
 
 if result.status == "complete":
@@ -109,7 +109,7 @@ const result = await client.v1.autoSubtitleGenerator.generate({
   name: "Subtitled Video",
   waitForCompletion: true,
   downloadOutputs: true,
-  downloadDirectory: "outputs",
+  downloadDirectory: ".",
 });
 
 console.log(`✅ Subtitles complete!`);
