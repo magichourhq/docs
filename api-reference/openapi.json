@@ -489,11 +489,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.face_detection.generate(\n    assets={\"target_file_path\": \"/path/to/1234.png\"}, confidence_score=0.5\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.face_detection.generate(\n    assets={\"target_file_path\": \"/path/to/1234.png\"}, confidence_score=0.5\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.faceDetection.generate(\n  {\n    assets: { targetFilePath: \"/path/to/1234.png\" },\n    confidenceScore: 0.5,\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n});"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.faceDetection.generate(\n  {\n    assets: { targetFilePath: \"/path/to/1234.png\" },\n    confidenceScore: 0.5,\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n});"
           },
           {
             "lang": "go",
@@ -1025,11 +1025,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_talking_photo.generate(\n    assets={\n        \"audio_file_path\": \"/path/to/1234.mp3\",\n        \"image_file_path\": \"/path/to/1234.png\",\n    },\n    end_seconds=15.0,\n    start_seconds=0.0,\n    name=\"Talking Photo image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_talking_photo.generate(\n    assets={\n        \"audio_file_path\": \"/path/to/1234.mp3\",\n        \"image_file_path\": \"/path/to/1234.png\",\n    },\n    end_seconds=15.0,\n    start_seconds=0.0,\n    name=\"Talking Photo image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiTalkingPhoto.generate(\n  {\n    assets: {\n      audioFilePath: \"/path/to/1234.mp3\",\n      imageFilePath: \"/path/to/1234.png\",\n    },\n    endSeconds: 15.0,\n    name: \"Talking Photo image\",\n    startSeconds: 0.0,\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiTalkingPhoto.generate(\n  {\n    assets: {\n      audioFilePath: \"/path/to/1234.mp3\",\n      imageFilePath: \"/path/to/1234.png\",\n    },\n    endSeconds: 15.0,\n    name: \"Talking Photo image\",\n    startSeconds: 0.0,\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -1366,11 +1366,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.animation.generate(\n    assets={\n        \"audio_file_path\": \"/path/to/1234.mp3\",\n        \"audio_source\": \"file\",\n        \"image_file_path\": \"/path/to/1234.png\",\n    },\n    end_seconds=15.0,\n    fps=12.0,\n    height=960,\n    style={\n        \"art_style\": \"Painterly Illustration\",\n        \"camera_effect\": \"Simple Zoom In\",\n        \"prompt\": \"Cyberpunk city\",\n        \"prompt_type\": \"custom\",\n        \"transition_speed\": 5,\n    },\n    width=512,\n    name=\"Animation video\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.animation.generate(\n    assets={\n        \"audio_file_path\": \"/path/to/1234.mp3\",\n        \"audio_source\": \"file\",\n        \"image_file_path\": \"/path/to/1234.png\",\n    },\n    end_seconds=15.0,\n    fps=12.0,\n    height=960,\n    style={\n        \"art_style\": \"Painterly Illustration\",\n        \"camera_effect\": \"Simple Zoom In\",\n        \"prompt\": \"Cyberpunk city\",\n        \"prompt_type\": \"custom\",\n        \"transition_speed\": 5,\n    },\n    width=512,\n    name=\"Animation video\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.animation.generate(\n  {\n    assets: {\n      audioFilePath: \"/path/to/1234.mp3\",\n      audioSource: \"file\",\n      imageFilePath: \"/path/to/1234.png\",\n    },\n    endSeconds: 15.0,\n    fps: 12.0,\n    height: 960,\n    name: \"Animation video\",\n    style: {\n      artStyle: \"Painterly Illustration\",\n      cameraEffect: \"Simple Zoom In\",\n      prompt: \"Cyberpunk city\",\n      promptType: \"custom\",\n      transitionSpeed: 5,\n    },\n    width: 512,\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.animation.generate(\n  {\n    assets: {\n      audioFilePath: \"/path/to/1234.mp3\",\n      audioSource: \"file\",\n      imageFilePath: \"/path/to/1234.png\",\n    },\n    endSeconds: 15.0,\n    fps: 12.0,\n    height: 960,\n    name: \"Animation video\",\n    style: {\n      artStyle: \"Painterly Illustration\",\n      cameraEffect: \"Simple Zoom In\",\n      prompt: \"Cyberpunk city\",\n      promptType: \"custom\",\n      transitionSpeed: 5,\n    },\n    width: 512,\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -1598,11 +1598,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.auto_subtitle_generator.generate(\n    assets={\"video_file_path\": \"/path/to/1234.mp4\"},\n    end_seconds=15.0,\n    start_seconds=0.0,\n    style={},\n    name=\"Auto Subtitle video\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.auto_subtitle_generator.generate(\n    assets={\"video_file_path\": \"/path/to/1234.mp4\"},\n    end_seconds=15.0,\n    start_seconds=0.0,\n    style={},\n    name=\"Auto Subtitle video\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.autoSubtitleGenerator.generate(\n  {\n    assets: { videoFilePath: \"/path/to/1234.mp4\" },\n    endSeconds: 15.0,\n    name: \"Auto Subtitle video\",\n    startSeconds: 0.0,\n    style: {},\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.autoSubtitleGenerator.generate(\n  {\n    assets: { videoFilePath: \"/path/to/1234.mp4\" },\n    endSeconds: 15.0,\n    name: \"Auto Subtitle video\",\n    startSeconds: 0.0,\n    style: {},\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -1830,11 +1830,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.face_swap.generate(\n    assets={\n        \"face_mappings\": [\n            {\n                \"new_face\": \"/path/to/1234.png\",\n                \"original_face\": \"api-assets/id/0-0.png\",\n            }\n        ],\n        \"face_swap_mode\": \"all-faces\",\n        \"image_file_path\": \"image/id/1234.png\",\n        \"video_file_path\": \"/path/to/1234.mp4\",\n        \"video_source\": \"file\",\n    },\n    end_seconds=15.0,\n    start_seconds=0.0,\n    name=\"Face Swap video\",\n    style={\"version\": \"default\"},\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.face_swap.generate(\n    assets={\n        \"face_mappings\": [\n            {\n                \"new_face\": \"/path/to/1234.png\",\n                \"original_face\": \"api-assets/id/0-0.png\",\n            }\n        ],\n        \"face_swap_mode\": \"all-faces\",\n        \"image_file_path\": \"image/id/1234.png\",\n        \"video_file_path\": \"/path/to/1234.mp4\",\n        \"video_source\": \"file\",\n    },\n    end_seconds=15.0,\n    start_seconds=0.0,\n    name=\"Face Swap video\",\n    style={\"version\": \"default\"},\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.faceSwap.generate(\n  {\n    assets: {\n      faceMappings: [\n        {\n          newFace: \"api-assets/id/1234.png\",\n          originalFace: \"api-assets/id/0-0.png\",\n        },\n      ],\n      faceSwapMode: \"all-faces\",\n      imageFilePath: \"image/id/1234.png\",\n      videoFilePath: \"/path/to/1234.mp4\",\n      videoSource: \"file\",\n    },\n    endSeconds: 15.0,\n    name: \"Face Swap video\",\n    startSeconds: 0.0,\n    style: { version: \"default\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.faceSwap.generate(\n  {\n    assets: {\n      faceMappings: [\n        {\n          newFace: \"api-assets/id/1234.png\",\n          originalFace: \"api-assets/id/0-0.png\",\n        },\n      ],\n      faceSwapMode: \"all-faces\",\n      imageFilePath: \"image/id/1234.png\",\n      videoFilePath: \"/path/to/1234.mp4\",\n      videoSource: \"file\",\n    },\n    endSeconds: 15.0,\n    name: \"Face Swap video\",\n    startSeconds: 0.0,\n    style: { version: \"default\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -2026,11 +2026,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.image_to_video.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    end_seconds=5.0,\n    name=\"Image To Video video\",\n    resolution=\"720p\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.image_to_video.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    end_seconds=5.0,\n    name=\"Image To Video video\",\n    resolution=\"720p\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.imageToVideo.generate(\n  {\n    assets: { imageFilePath: \"/path/to/1234.png\" },\n    endSeconds: 5.0,\n    name: \"Image To Video video\",\n    resolution: \"720p\",\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.imageToVideo.generate(\n  {\n    assets: { imageFilePath: \"/path/to/1234.png\" },\n    endSeconds: 5.0,\n    name: \"Image To Video video\",\n    resolution: \"720p\",\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -2231,11 +2231,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.lip_sync.generate(\n    assets={\n        \"audio_file_path\": \"/path/to/1234.mp3\",\n        \"video_file_path\": \"/path/to/1234.mp4\",\n        \"video_source\": \"file\",\n    },\n    style={\n        \"generation_mode\": \"lite\",\n    },\n    end_seconds=15.0,\n    start_seconds=0.0,\n    max_fps_limit=12.0,\n    name=\"Lip Sync video\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.lip_sync.generate(\n    assets={\n        \"audio_file_path\": \"/path/to/1234.mp3\",\n        \"video_file_path\": \"/path/to/1234.mp4\",\n        \"video_source\": \"file\",\n    },\n    style={\n        \"generation_mode\": \"lite\",\n    },\n    end_seconds=15.0,\n    start_seconds=0.0,\n    max_fps_limit=12.0,\n    name=\"Lip Sync video\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.lipSync.generate(\n  {\n    assets: {\n      audioFilePath: \"/path/to/1234.mp3\",\n      videoFilePath: \"/path/to/1234.mp4\",\n      videoSource: \"file\",\n    },\n    endSeconds: 15.0,\n    maxFpsLimit: 12.0,\n    name: \"Lip Sync video\",\n    startSeconds: 0.0,\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.lipSync.generate(\n  {\n    assets: {\n      audioFilePath: \"/path/to/1234.mp3\",\n      videoFilePath: \"/path/to/1234.mp4\",\n      videoSource: \"file\",\n    },\n    endSeconds: 15.0,\n    maxFpsLimit: 12.0,\n    name: \"Lip Sync video\",\n    startSeconds: 0.0,\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -2539,11 +2539,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.video_to_video.generate(\n    assets={\"video_file_path\": \"/path/to/1234.mp4\", \"video_source\": \"file\"},\n    end_seconds=15.0,\n    start_seconds=0.0,\n    style={\n        \"art_style\": \"3D Render\",\n        \"model\": \"default\",\n        \"prompt\": \"string\",\n        \"prompt_type\": \"default\",\n        \"version\": \"default\",\n    },\n    fps_resolution=\"HALF\",\n    name=\"Video To Video video\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.video_to_video.generate(\n    assets={\"video_file_path\": \"/path/to/1234.mp4\", \"video_source\": \"file\"},\n    end_seconds=15.0,\n    start_seconds=0.0,\n    style={\n        \"art_style\": \"3D Render\",\n        \"model\": \"default\",\n        \"prompt\": \"string\",\n        \"prompt_type\": \"default\",\n        \"version\": \"default\",\n    },\n    fps_resolution=\"HALF\",\n    name=\"Video To Video video\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.videoToVideo.generate(\n  {\n    assets: { videoFilePath: \"/path/to/1234.mp4\", videoSource: \"file\" },\n    endSeconds: 15.0,\n    fpsResolution: \"HALF\",\n    name: \"Video To Video video\",\n    startSeconds: 0.0,\n    style: {\n      artStyle: \"3D Render\",\n      model: \"default\",\n      prompt: \"string\",\n      promptType: \"default\",\n      version: \"default\",\n    },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.videoToVideo.generate(\n  {\n    assets: { videoFilePath: \"/path/to/1234.mp4\", videoSource: \"file\" },\n    endSeconds: 15.0,\n    fpsResolution: \"HALF\",\n    name: \"Video To Video video\",\n    startSeconds: 0.0,\n    style: {\n      artStyle: \"3D Render\",\n      model: \"default\",\n      prompt: \"string\",\n      promptType: \"default\",\n      version: \"default\",\n    },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -2730,11 +2730,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.text_to_video.generate(\n    end_seconds=5.0,\n    orientation=\"landscape\",\n    style={\"prompt\": \"a dog running\"},\n    name=\"Text To Video video\",\n    resolution=\"720p\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.text_to_video.generate(\n    end_seconds=5.0,\n    orientation=\"landscape\",\n    style={\"prompt\": \"a dog running\"},\n    name=\"Text To Video video\",\n    resolution=\"720p\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.textToVideo.generate(\n  {\n    endSeconds: 5.0,\n    name: \"Text To Video video\",\n    orientation: \"landscape\",\n    resolution: \"720p\",\n    style: { prompt: \"a dog running\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.textToVideo.generate(\n  {\n    endSeconds: 5.0,\n    name: \"Text To Video video\",\n    orientation: \"landscape\",\n    resolution: \"720p\",\n    style: { prompt: \"a dog running\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -3183,11 +3183,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_clothes_changer.generate(\n    assets={\n        \"garment_file_path\": \"/path/to/outfit.png\",\n        \"garment_type\": \"upper_body\",\n        \"person_file_path\": \"/path/to/model.png\",\n    },\n    name=\"Clothes Changer image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\",\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_clothes_changer.generate(\n    assets={\n        \"garment_file_path\": \"/path/to/outfit.png\",\n        \"garment_type\": \"upper_body\",\n        \"person_file_path\": \"/path/to/model.png\",\n    },\n    name=\"Clothes Changer image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\",\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiClothesChanger.generate(\n  {\n    assets: {\n      garmentFilePath: \"/path/to/outfit.png\",\n      garmentType: \"upper_body\",\n      personFilePath: \"/path/to/model.png\",\n    },\n    name: \"Clothes Changer image\",\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiClothesChanger.generate(\n  {\n    assets: {\n      garmentFilePath: \"/path/to/outfit.png\",\n      garmentType: \"upper_body\",\n      personFilePath: \"/path/to/model.png\",\n    },\n    name: \"Clothes Changer image\",\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -3477,11 +3477,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_face_editor.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    style={\n        \"enhance_face\": False,\n        \"eye_gaze_horizontal\": 0.0,\n        \"eye_gaze_vertical\": 0.0,\n        \"eye_open_ratio\": 0.0,\n        \"eyebrow_direction\": 0.0,\n        \"head_pitch\": 0.0,\n        \"head_roll\": 0.0,\n        \"head_yaw\": 0.0,\n        \"lip_open_ratio\": 0.0,\n        \"mouth_grim\": 0.0,\n        \"mouth_position_horizontal\": 0.0,\n        \"mouth_position_vertical\": 0.0,\n        \"mouth_pout\": 0.0,\n        \"mouth_purse\": 0.0,\n        \"mouth_smile\": 0.0,\n    },\n    name=\"Face Editor image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_face_editor.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    style={\n        \"enhance_face\": False,\n        \"eye_gaze_horizontal\": 0.0,\n        \"eye_gaze_vertical\": 0.0,\n        \"eye_open_ratio\": 0.0,\n        \"eyebrow_direction\": 0.0,\n        \"head_pitch\": 0.0,\n        \"head_roll\": 0.0,\n        \"head_yaw\": 0.0,\n        \"lip_open_ratio\": 0.0,\n        \"mouth_grim\": 0.0,\n        \"mouth_position_horizontal\": 0.0,\n        \"mouth_position_vertical\": 0.0,\n        \"mouth_pout\": 0.0,\n        \"mouth_purse\": 0.0,\n        \"mouth_smile\": 0.0,\n    },\n    name=\"Face Editor image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiFaceEditor.generate(\n  {\n    assets: { imageFilePath: \"/path/to/1234.png\" },\n    name: \"Face Editor image\",\n    style: {\n      enhanceFace: false,\n      eyeGazeHorizontal: 0.0,\n      eyeGazeVertical: 0.0,\n      eyeOpenRatio: 0.0,\n      eyebrowDirection: 0.0,\n      headPitch: 0.0,\n      headRoll: 0.0,\n      headYaw: 0.0,\n      lipOpenRatio: 0.0,\n      mouthGrim: 0.0,\n      mouthPositionHorizontal: 0.0,\n      mouthPositionVertical: 0.0,\n      mouthPout: 0.0,\n      mouthPurse: 0.0,\n      mouthSmile: 0.0,\n    },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiFaceEditor.generate(\n  {\n    assets: { imageFilePath: \"/path/to/1234.png\" },\n    name: \"Face Editor image\",\n    style: {\n      enhanceFace: false,\n      eyeGazeHorizontal: 0.0,\n      eyeGazeVertical: 0.0,\n      eyeOpenRatio: 0.0,\n      eyebrowDirection: 0.0,\n      headPitch: 0.0,\n      headRoll: 0.0,\n      headYaw: 0.0,\n      lipOpenRatio: 0.0,\n      mouthGrim: 0.0,\n      mouthPositionHorizontal: 0.0,\n      mouthPositionVertical: 0.0,\n      mouthPout: 0.0,\n      mouthPurse: 0.0,\n      mouthSmile: 0.0,\n    },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -3640,11 +3640,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_gif_generator.generate(\n    style={\"prompt\": \"Cute dancing cat, pixel art\"},\n    name=\"Ai Gif gif\",\n    output_format=\"gif\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_gif_generator.generate(\n    style={\"prompt\": \"Cute dancing cat, pixel art\"},\n    name=\"Ai Gif gif\",\n    output_format=\"gif\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiGifGenerator.generate(\n  {\n    name: \"Ai Gif gif\",\n    style: { prompt: \"Cute dancing cat, pixel art\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiGifGenerator.generate(\n  {\n    name: \"Ai Gif gif\",\n    style: { prompt: \"Cute dancing cat, pixel art\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -3835,11 +3835,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_image_editor.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    style={\"prompt\": \"Give me sunglasses\"},\n    name=\"Ai Image Editor image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_image_editor.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    style={\"prompt\": \"Give me sunglasses\"},\n    name=\"Ai Image Editor image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiImageEditor.generate(\n  {\n    assets: { imageFilePaths: [\"/path/to/1234.png\", \"/path/to/1235.png\"] },\n    name: \"Ai Image Editor image\",\n    style: { prompt: \"Give me sunglasses\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiImageEditor.generate(\n  {\n    assets: { imageFilePaths: [\"/path/to/1234.png\", \"/path/to/1235.png\"] },\n    name: \"Ai Image Editor image\",\n    style: { prompt: \"Give me sunglasses\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -4000,11 +4000,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_headshot_generator.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"}, name=\"Ai Headshot image\"\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_headshot_generator.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"}, name=\"Ai Headshot image\"\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiHeadshotGenerator.generate(\n  {\n    assets: { imageFilePath: \"/path/to/1234.png\" },\n    name: \"Ai Headshot image\",\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiHeadshotGenerator.generate(\n  {\n    assets: { imageFilePath: \"/path/to/1234.png\" },\n    name: \"Ai Headshot image\",\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -4230,11 +4230,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_image_generator.generate(\n    image_count=1,\n    style={\n        \"prompt\": \"Cool image\",\n        \"tool\": \"ai-anime-generator\",\n    },\n    aspect_ratio=\"1:1\",\n    model=\"default\",\n    name=\"My Ai Image image\",\n    resolution=\"auto\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_image_generator.generate(\n    image_count=1,\n    style={\n        \"prompt\": \"Cool image\",\n        \"tool\": \"ai-anime-generator\",\n    },\n    aspect_ratio=\"1:1\",\n    model=\"default\",\n    name=\"My Ai Image image\",\n    resolution=\"auto\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiImageGenerator.generate(\n  {\n    aspectRatio: \"1:1\",\n    imageCount: 1,\n    model: \"default\",\n    name: \"My Ai Image image\",\n    resolution: \"auto\",\n    style: { prompt: \"Cool image\", tool: \"ai-anime-generator\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiImageGenerator.generate(\n  {\n    aspectRatio: \"1:1\",\n    imageCount: 1,\n    model: \"default\",\n    name: \"My Ai Image image\",\n    resolution: \"auto\",\n    style: { prompt: \"Cool image\", tool: \"ai-anime-generator\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -4405,11 +4405,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_image_upscaler.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    scale_factor=2.0,\n    style={\"enhancement\": \"Balanced\"},\n    name=\"Image Upscaler image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_image_upscaler.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    scale_factor=2.0,\n    style={\"enhancement\": \"Balanced\"},\n    name=\"Image Upscaler image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiImageUpscaler.generate(\n  {\n    assets: { imageFilePath: \"/path/to/1234.png\" },\n    name: \"Image Upscaler image\",\n    scaleFactor: 2.0,\n    style: { enhancement: \"Balanced\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiImageUpscaler.generate(\n  {\n    assets: { imageFilePath: \"/path/to/1234.png\" },\n    name: \"Image Upscaler image\",\n    scaleFactor: 2.0,\n    style: { enhancement: \"Balanced\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -4586,11 +4586,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_meme_generator.generate(\n    style={\n        \"search_web\": False,\n        \"template\": \"Drake Hotline Bling\",\n        \"topic\": \"When the code finally works\",\n    },\n    name=\"My Funny Meme\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_meme_generator.generate(\n    style={\n        \"search_web\": False,\n        \"template\": \"Drake Hotline Bling\",\n        \"topic\": \"When the code finally works\",\n    },\n    name=\"My Funny Meme\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiMemeGenerator.generate(\n  {\n    name: \"My Funny Meme\",\n    style: {\n      searchWeb: false,\n      template: \"Drake Hotline Bling\",\n      topic: \"When the code finally works\",\n    },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiMemeGenerator.generate(\n  {\n    name: \"My Funny Meme\",\n    style: {\n      searchWeb: false,\n      template: \"Drake Hotline Bling\",\n      topic: \"When the code finally works\",\n    },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -4745,11 +4745,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_qr_code_generator.generate(\n    content=\"https://magichour.ai\",\n    style={\"art_style\": \"Watercolor\"},\n    name=\"Qr Code image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_qr_code_generator.generate(\n    content=\"https://magichour.ai\",\n    style={\"art_style\": \"Watercolor\"},\n    name=\"Qr Code image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiQrCodeGenerator.generate(\n  {\n    content: \"https://magichour.ai\",\n    name: \"Qr Code image\",\n    style: { artStyle: \"Watercolor\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiQrCodeGenerator.generate(\n  {\n    content: \"https://magichour.ai\",\n    name: \"Qr Code image\",\n    style: { artStyle: \"Watercolor\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -4941,11 +4941,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.face_swap_photo.generate(\n    assets={\n        \"face_mappings\": [\n            {\n                \"new_face\": \"/path/to/1234.png\",\n                \"original_face\": \"api-assets/id/0-0.png\",\n            }\n        ],\n        \"face_swap_mode\": \"all-faces\",\n        \"source_file_path\": \"/path/to/1234.png\",\n        \"target_file_path\": \"/path/to/1234.png\",\n    },\n    name=\"Face Swap image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.face_swap_photo.generate(\n    assets={\n        \"face_mappings\": [\n            {\n                \"new_face\": \"/path/to/1234.png\",\n                \"original_face\": \"api-assets/id/0-0.png\",\n            }\n        ],\n        \"face_swap_mode\": \"all-faces\",\n        \"source_file_path\": \"/path/to/1234.png\",\n        \"target_file_path\": \"/path/to/1234.png\",\n    },\n    name=\"Face Swap image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.faceSwapPhoto.generate(\n  {\n    assets: {\n      faceMappings: [\n        {\n          newFace: \"api-assets/id/1234.png\",\n          originalFace: \"api-assets/id/0-0.png\",\n        },\n      ],\n      faceSwapMode: \"all-faces\",\n      sourceFilePath: \"/path/to/1234.png\",\n      targetFilePath: \"/path/to/1234.png\",\n    },\n    name: \"Face Swap image\",\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.faceSwapPhoto.generate(\n  {\n    assets: {\n      faceMappings: [\n        {\n          newFace: \"api-assets/id/1234.png\",\n          originalFace: \"api-assets/id/0-0.png\",\n        },\n      ],\n      faceSwapMode: \"all-faces\",\n      sourceFilePath: \"/path/to/1234.png\",\n      targetFilePath: \"/path/to/1234.png\",\n    },\n    name: \"Face Swap image\",\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -5101,11 +5101,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.image_background_remover.generate(\n    assets={\n        \"background_image_file_path\": \"/path/to/1234.png\",\n        \"image_file_path\": \"/path/to/1234.png\",\n    },\n    name=\"Background Remover image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.image_background_remover.generate(\n    assets={\n        \"background_image_file_path\": \"/path/to/1234.png\",\n        \"image_file_path\": \"/path/to/1234.png\",\n    },\n    name=\"Background Remover image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.imageBackgroundRemover.generate(\n  {\n    assets: {\n      backgroundImageFilePath: \"/path/to/1234.png\",\n      imageFilePath: \"/path/to/1234.png\",\n    },\n    name: \"Background Remover image\",\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.imageBackgroundRemover.generate(\n  {\n    assets: {\n      backgroundImageFilePath: \"/path/to/1234.png\",\n      imageFilePath: \"/path/to/1234.png\",\n    },\n    name: \"Background Remover image\",\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -5257,11 +5257,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.photo_colorizer.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"}, name=\"Photo Colorizer image\"\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.photo_colorizer.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"}, name=\"Photo Colorizer image\"\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.photoColorizer.generate(\n  {\n    assets: { imageFilePath: \"/path/to/1234.png\" },\n    name: \"Photo Colorizer image\",\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.photoColorizer.generate(\n  {\n    assets: { imageFilePath: \"/path/to/1234.png\" },\n    name: \"Photo Colorizer image\",\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -5899,11 +5899,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_voice_generator.generate(\n    style={\"prompt\": \"Hello, how are you?\", \"voice_name\": \"Elon Musk\"},\n    name=\"Voice Generator audio\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\"outputs\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_voice_generator.generate(\n    style={\"prompt\": \"Hello, how are you?\", \"voice_name\": \"Elon Musk\"},\n    name=\"Voice Generator audio\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiVoiceGenerator.generate(\n  {\n    name: \"Voice Generator audio\",\n    style: { prompt: \"Hello, how are you?\", voiceName: \"Elon Musk\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiVoiceGenerator.generate(\n  {\n    name: \"Voice Generator audio\",\n    style: { prompt: \"Hello, how are you?\", voiceName: \"Elon Musk\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -6072,7 +6072,7 @@
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiVoiceCloner.generate(\n  {\n    assets: { audioFilePath: \"/path/to/audio.mp3\" },\n    name: \"Voice Cloner audio\",\n    style: { prompt: \"Hello, this is my cloned voice.\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \"outputs\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiVoiceCloner.generate(\n  {\n    assets: { audioFilePath: \"/path/to/audio.mp3\" },\n    name: \"Voice Cloner audio\",\n    style: { prompt: \"Hello, this is my cloned voice.\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
