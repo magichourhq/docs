@@ -1884,7 +1884,7 @@
                     "type": "number",
                     "minimum": 2,
                     "maximum": 60,
-                    "description": "The total duration of the output video in seconds.\n\nSupported durations depend on the chosen model:\n* **Default**: 5-60 seconds (2-12 seconds for 480p).\n* **Seedance**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **Kling 2.5 Audio**: 5, 10\n* **Sora 2**: 4, 8, 12, 24, 36, 48, 60\n* **Veo 3.1 Audio**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **Veo 3.1**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **Kling 1.6**: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60",
+                    "description": "The total duration of the output video in seconds.\n\nSupported durations depend on the chosen model:\n* **Default**: 5-60 seconds (2-12 seconds for 480p).\n* **Seedance**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **Kling 2.5**: 5, 10\n* **Sora 2**: 4, 8, 12, 24, 36, 48, 60\n* **Veo 3.1**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **Kling 1.6**: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60",
                     "format": "float",
                     "example": 5
                   },
@@ -1894,20 +1894,21 @@
                     "enum": [
                       "default",
                       "seedance",
-                      "kling-2.5-audio",
+                      "kling-2.5",
                       "veo3.1",
-                      "veo3.1-audio",
                       "sora-2",
-                      "kling-1.6"
+                      "kling-1.6",
+                      "kling-2.5-audio",
+                      "veo3.1-audio"
                     ],
-                    "description": "The AI model to use for video generation.\n* `default`: Our recommended model for general use (Kling 2.5 Audio). Note: For backward compatibility, if you use default and end_seconds > 10, we'll fall back to Kling 1.6.\n* `seedance`: Great for fast iteration and start/end frame\n* `kling-2.5-audio`: Great for motion, action, and camera control\n* `sora-2`: Great for story-telling, dialogue & creativity\n* `veo3.1-audio`: Great for dialogue + SFX generated natively\n* `veo3.1`: Great for realism, polish, & prompt adherence\n* `kling-1.6`: Great for dependable clips with smooth motion",
+                    "description": "The AI model to use for video generation.\n* `default`: Our recommended model for general use (Kling 2.5 Audio). Note: For backward compatibility, if you use default and end_seconds > 10, we'll fall back to Kling 1.6.\n* `seedance`: Great for fast iteration and start/end frame\n* `kling-2.5`: Great for motion, action, and camera control\n* `sora-2`: Great for story-telling, dialogue & creativity\n* `veo3.1`: Great for realism, polish, & prompt adherence\n* `kling-1.6`: Great for dependable clips with smooth motion",
                     "example": "kling-2.5-audio"
                   },
                   "resolution": {
                     "type": "string",
                     "enum": ["480p", "720p", "1080p"],
                     "example": "720p",
-                    "description": "Controls the output video resolution. Defaults to `720p` if not specified.\n\n* **Default**: Supports `480p`, `720p`, and `1080p`.\n* **Seedance**: Supports `480p`, `720p`, `1080p`.\n* **Kling 2.5 Audio**: Supports `720p`, `1080p`.\n* **Sora 2**: Supports `720p`.\n* **Veo 3.1 Audio**: Supports `720p`, `1080p`.\n* **Veo 3.1**: Supports `720p`, `1080p`.\n* **Kling 1.6**: Supports `720p`, `1080p`."
+                    "description": "Controls the output video resolution. Defaults to `720p` if not specified.\n\n* **Default**: Supports `480p`, `720p`, and `1080p`.\n* **Seedance**: Supports `480p`, `720p`, `1080p`.\n* **Kling 2.5**: Supports `720p`, `1080p`.\n* **Sora 2**: Supports `720p`.\n* **Veo 3.1**: Supports `720p`, `1080p`.\n* **Kling 1.6**: Supports `720p`, `1080p`."
                   },
                   "style": {
                     "type": "object",
@@ -2593,21 +2594,21 @@
                     "type": "number",
                     "minimum": 2,
                     "maximum": 60,
-                    "description": "The total duration of the output video in seconds.\n\nSupported durations depend on the chosen model:\n* **Default**: 5-60 seconds (2-12 seconds for 480p).\n* **Seedance**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **Kling 2.5 Audio**: 5, 10\n* **Sora 2**: 4, 8, 12, 24, 36, 48, 60\n* **Veo 3.1 Audio**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **Veo 3.1**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **Kling 1.6**: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60",
+                    "description": "The total duration of the output video in seconds.\n\nSupported durations depend on the chosen model:\n* **Default**: 5-60 seconds (2-12 seconds for 480p).\n* **Seedance**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **Kling 2.5**: 5, 10\n* **Sora 2**: 4, 8, 12, 24, 36, 48, 60\n* **Veo 3.1**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **Kling 1.6**: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60",
                     "format": "float",
                     "example": 5
                   },
                   "aspect_ratio": {
                     "type": "string",
                     "enum": ["9:16", "1:1", "16:9"],
-                    "description": "Determines the aspect ratio of the output video.\n* **Seedance**: Supports `9:16`, `16:9`, `1:1`.\n* **Kling 2.5 Audio**: Supports `9:16`, `16:9`, `1:1`.\n* **Sora 2**: Supports `9:16`, `16:9`.\n* **Veo 3.1 Audio**: Supports `9:16`, `16:9`.\n* **Veo 3.1**: Supports `9:16`, `16:9`.\n* **Kling 1.6**: Supports `9:16`, `16:9`, `1:1`.",
+                    "description": "Determines the aspect ratio of the output video.\n* **Seedance**: Supports `9:16`, `16:9`, `1:1`.\n* **Kling 2.5**: Supports `9:16`, `16:9`, `1:1`.\n* **Sora 2**: Supports `9:16`, `16:9`.\n* **Veo 3.1**: Supports `9:16`, `16:9`.\n* **Kling 1.6**: Supports `9:16`, `16:9`, `1:1`.",
                     "example": "16:9"
                   },
                   "resolution": {
                     "type": "string",
                     "enum": ["480p", "720p", "1080p"],
                     "example": "720p",
-                    "description": "Controls the output video resolution. Defaults to `720p` if not specified.\n\n* **Default**: Supports `480p`, `720p`, and `1080p`.\n* **Seedance**: Supports `480p`, `720p`, `1080p`.\n* **Kling 2.5 Audio**: Supports `720p`, `1080p`.\n* **Sora 2**: Supports `720p`.\n* **Veo 3.1 Audio**: Supports `720p`, `1080p`.\n* **Veo 3.1**: Supports `720p`, `1080p`.\n* **Kling 1.6**: Supports `720p`, `1080p`."
+                    "description": "Controls the output video resolution. Defaults to `720p` if not specified.\n\n* **Default**: Supports `480p`, `720p`, and `1080p`.\n* **Seedance**: Supports `480p`, `720p`, `1080p`.\n* **Kling 2.5**: Supports `720p`, `1080p`.\n* **Sora 2**: Supports `720p`.\n* **Veo 3.1**: Supports `720p`, `1080p`.\n* **Kling 1.6**: Supports `720p`, `1080p`."
                   },
                   "model": {
                     "default": "default",
@@ -2615,13 +2616,14 @@
                     "enum": [
                       "default",
                       "seedance",
-                      "kling-2.5-audio",
+                      "kling-2.5",
                       "veo3.1",
-                      "veo3.1-audio",
                       "sora-2",
-                      "kling-1.6"
+                      "kling-1.6",
+                      "kling-2.5-audio",
+                      "veo3.1-audio"
                     ],
-                    "description": "The AI model to use for video generation.\n* `default`: Our recommended model for general use (Kling 2.5 Audio). Note: For backward compatibility, if you use default and end_seconds > 10, we'll fall back to Kling 1.6.\n* `seedance`: Great for fast iteration and start/end frame\n* `kling-2.5-audio`: Great for motion, action, and camera control\n* `sora-2`: Great for story-telling, dialogue & creativity\n* `veo3.1-audio`: Great for dialogue + SFX generated natively\n* `veo3.1`: Great for realism, polish, & prompt adherence\n* `kling-1.6`: Great for dependable clips with smooth motion",
+                    "description": "The AI model to use for video generation.\n* `default`: Our recommended model for general use (Kling 2.5 Audio). Note: For backward compatibility, if you use default and end_seconds > 10, we'll fall back to Kling 1.6.\n* `seedance`: Great for fast iteration and start/end frame\n* `kling-2.5`: Great for motion, action, and camera control\n* `sora-2`: Great for story-telling, dialogue & creativity\n* `veo3.1`: Great for realism, polish, & prompt adherence\n* `kling-1.6`: Great for dependable clips with smooth motion",
                     "example": "kling-2.5-audio"
                   },
                   "style": {
