@@ -6,6 +6,105 @@ rss: true
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2026-02-12">
+
+## Added Kling 3.0 support to APIs
+
+We now added Kling 3.0 to our API and released it for all SDKs.
+
+```python
+res = client.v1.image_to_video.generate(
+    ...
+    model="kling-3.0",
+)
+```
+
+Try it out now by upgrading to the latest version of the SDK.
+
+</Update>
+
+<Update label="2026-02-11">
+
+## Added Kling 3.0 To Image-to-Video and Text-to-Video
+
+We introduced Kling 3.0 to Image-to-Video and Text-to-Video. It is a new model that is faster, sharper, and has better results.
+
+<Frame>
+  ![Kling 3.0 in Image-to-Video](/changelog/images/2026/02/kling-3.0-image-to-video.jpg)
+</Frame>
+
+You can try it now by visiting https://magichour.ai/create/image-to-video and https://magichour.ai/create/text-to-video.
+
+</Update>
+
+<Update label="2026-02-05">
+
+## Named export for Client in Node SDK
+
+To resolve import issues between cjs/esm modules, we have added a named export for the Client class in the Node SDK. This fixes the issue "TypeError: Client is not a constructor" when importing the Client class in a Node.js environment.
+
+```ts
+const { Client } = require("magic-hour");
+
+import { Client } from "magic-hour";
+```
+
+Try it out now by upgrading to the latest version of the SDK.
+
+</Update>
+
+<Update label="2026-02-04">
+
+## Updated AI Image Editor API to include models param
+
+You can now specify the following models for AI Image Editor:
+
+- `qwen-edit`
+- `nano-banana`
+- `nano-banana-pro`
+- `seedream-v4`
+- `seedream-v4.5`
+
+```python
+res = client.v1.ai_image_editor.generate(
+    ...
+    model="nano-banana",
+)
+```
+
+Try it out now by upgrading to the latest version of the SDK.
+
+</Update>
+
+<Update label="2026-02-03">
+
+## AI Storyboard Generator
+
+We launched a new tool called AI Storyboard Generator. It allows you to generate a storyboard for your video project.
+
+<Frame>![AI Storyboard Generator](/changelog/images/2026/02/ai-storyboard-generator.jpg)</Frame>
+
+Try it out now: https://magichour.ai/create/ai-storyboard-generator
+
+</Update>
+
+<Update label="2026-02-01">
+
+## Cheaper AI Image Upscaler
+
+We introduced a new mode for AI Image Upscaler that is 50% cheaper. We are calling it `Pro` mode.
+
+| Mode     | Scale Factor | Credits |
+| :------- | :----------- | :------ |
+| Pro      | 2x           | 25      |
+| Creative | 2x           | 50      |
+| Pro      | 4x           | 100     |
+| Creative | 4x           | 200     |
+
+Try it out now: https://magichour.ai/create/ai-image-upscaler
+
+</Update>
+
 <Update label="2026-01-31">
 
 ## M4A Audio Support
