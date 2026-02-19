@@ -560,7 +560,7 @@
                     },
                     "type": {
                       "type": "string",
-                      "description": "The type of the video project. Possible values are ANIMATION, IMAGE_TO_VIDEO, VIDEO_TO_VIDEO, TEXT_TO_VIDEO, FACE_SWAP, LIP_SYNC, AUTO_SUBTITLE, TALKING_PHOTO, UGC_AD, VIDEO_UPSCALER",
+                      "description": "The type of the video project. Possible values are ANIMATION, IMAGE_TO_VIDEO, VIDEO_TO_VIDEO, TEXT_TO_VIDEO, FACE_SWAP, LIP_SYNC, AUTO_SUBTITLE, TALKING_PHOTO, UGC_AD, VIDEO_UPSCALER, EXTEND, AUDIO_TO_VIDEO",
                       "example": "FACE_SWAP"
                     },
                     "created_at": { "type": "string", "format": "date-time" },
@@ -1884,7 +1884,7 @@
                     "type": "number",
                     "minimum": 2,
                     "maximum": 60,
-                    "description": "The total duration of the output video in seconds.\n\nSupported durations depend on the chosen model:\n* **Default**: 5-60 seconds (2-12 seconds for 480p).\n* **ltx-2**: 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **seedance**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **kling-2.5**: 5, 10\n* **kling-3.0**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **sora-2**: 4, 8, 12, 24, 36, 48, 60\n* **veo3.1**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **kling-1.6**: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60",
+                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`seedance`**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`kling-2.5`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n\nLegacy models:\n* **`kling-1.6`**: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60",
                     "format": "float",
                     "example": 5
                   },
@@ -1903,18 +1903,18 @@
                       "kling-2.5-audio",
                       "veo3.1-audio"
                     ],
-                    "description": "The AI model to use for video generation.\n* `default`: Our recommended model for general use (Kling 2.5 Audio). Note: For backward compatibility, if you use `default` and `end_seconds` > 10, we'll fall back to kling-1.6.\n* `ltx-2`: Great for fast iteration with audio, lip-sync, and expressive faces\n* `seedance`: Great for fast iteration and start/end frame\n* `kling-2.5`: Great for motion, action, and camera control\n* `kling-3.0`: Great for cinematic, multi-scene storytelling with control\n* `sora-2`: Great for story-telling, dialogue & creativity\n* `veo3.1`: Great for realism, polish, & prompt adherence\n* `kling-1.6`: Great for dependable clips with smooth motion",
+                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-2.5`. For free tiers, it defaults to `ltx-2`.\n* `ltx-2`: Great for fast iteration with audio, lip-sync, and expressive faces\n* `seedance`: Great for fast iteration and start/end frame\n* `kling-2.5`: Great for motion, action, and camera control\n* `kling-3.0`: Great for cinematic, multi-scene storytelling with control\n* `sora-2`: Great for story-telling, dialogue & creativity\n* `veo3.1`: Great for realism, polish, & prompt adherence\n\nLegacy models:\n* `kling-1.6`: Great for dependable clips with smooth motion\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
                     "example": "kling-2.5-audio"
                   },
                   "resolution": {
                     "type": "string",
                     "enum": ["480p", "720p", "1080p"],
                     "example": "720p",
-                    "description": "Controls the output video resolution. Defaults to `720p` if not specified.\n\n* **Default**: Supports `480p`, `720p`, and `1080p`.\n* **ltx-2**: Supports `480p`, `720p`, `1080p`.\n* **seedance**: Supports `480p`, `720p`, `1080p`.\n* **kling-2.5**: Supports `720p`, `1080p`.\n* **kling-3.0**: Supports `720p`, `1080p`.\n* **sora-2**: Supports `720p`.\n* **veo3.1**: Supports `720p`, `1080p`.\n* **kling-1.6**: Supports `720p`, `1080p`."
+                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`ltx-2`**: Supports 480p, 720p, 1080p.\n* **`seedance`**: Supports 480p, 720p, 1080p.\n* **`kling-2.5`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p.\n* **`sora-2`**: Supports 720p.\n* **`veo3.1`**: Supports 720p, 1080p.\n\n* **`kling-1.6`**: Supports 720p, 1080p."
                   },
                   "audio": {
                     "type": "boolean",
-                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **ltx-2**: Always included (cannot be disabled)\n* **seedance**: Not supported\n* **kling-2.5**: Always included (cannot be disabled)\n* **kling-3.0**: Toggle-able (can enable/disable)\n* **sora-2**: Always included (cannot be disabled)\n* **veo3.1**: Toggle-able (can enable/disable)\n* **kling-1.6**: Not supported",
+                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`ltx-2`**: Automatically included with no extra credits\n* **`seedance`**: Not supported\n* **`kling-2.5`**: Automatically included with no extra credits\n* **`kling-3.0`**: Toggle-able (can enable/disable)\n* **`sora-2`**: Automatically included with no extra credits\n* **`veo3.1`**: Toggle-able (can enable/disable)\n\n* **`kling-1.6`**: Not supported",
                     "example": true
                   },
                   "style": {
@@ -2601,21 +2601,21 @@
                     "type": "number",
                     "minimum": 2,
                     "maximum": 60,
-                    "description": "The total duration of the output video in seconds.\n\nSupported durations depend on the chosen model:\n* **Default**: 5-60 seconds (2-12 seconds for 480p).\n* **ltx-2**: 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **seedance**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **kling-2.5**: 5, 10\n* **kling-3.0**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **sora-2**: 4, 8, 12, 24, 36, 48, 60\n* **veo3.1**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **kling-1.6**: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60",
+                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`seedance`**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`kling-2.5`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n\nLegacy models:\n* **`kling-1.6`**: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60",
                     "format": "float",
                     "example": 5
                   },
                   "aspect_ratio": {
                     "type": "string",
                     "enum": ["16:9", "9:16", "1:1"],
-                    "description": "Determines the aspect ratio of the output video.\n* **ltx-2**: Supports `9:16`, `16:9`, `1:1`.\n* **seedance**: Supports `9:16`, `16:9`, `1:1`.\n* **kling-2.5**: Supports `9:16`, `16:9`, `1:1`.\n* **kling-3.0**: Supports `9:16`, `16:9`, `1:1`.\n* **sora-2**: Supports `9:16`, `16:9`.\n* **veo3.1**: Supports `9:16`, `16:9`.\n* **kling-1.6**: Supports `9:16`, `16:9`, `1:1`.",
+                    "description": "Determines the aspect ratio of the output video.\n\n* **`ltx-2`**: Supports 9:16, 16:9, 1:1.\n* **`seedance`**: Supports 9:16, 16:9, 1:1.\n* **`kling-2.5`**: Supports 9:16, 16:9, 1:1.\n* **`kling-3.0`**: Supports 9:16, 16:9, 1:1.\n* **`sora-2`**: Supports 9:16, 16:9.\n* **`veo3.1`**: Supports 9:16, 16:9.\n\nLegacy models:\n* **`kling-1.6`**: Supports 9:16, 16:9, 1:1.",
                     "example": "16:9"
                   },
                   "resolution": {
                     "type": "string",
                     "enum": ["480p", "720p", "1080p"],
                     "example": "720p",
-                    "description": "Controls the output video resolution. Defaults to `720p` if not specified.\n\n* **Default**: Supports `480p`, `720p`, and `1080p`.\n* **ltx-2**: Supports `480p`, `720p`, `1080p`.\n* **seedance**: Supports `480p`, `720p`, `1080p`.\n* **kling-2.5**: Supports `720p`, `1080p`.\n* **kling-3.0**: Supports `720p`, `1080p`.\n* **sora-2**: Supports `720p`.\n* **veo3.1**: Supports `720p`, `1080p`.\n* **kling-1.6**: Supports `720p`, `1080p`."
+                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`ltx-2`**: Supports 480p, 720p, 1080p.\n* **`seedance`**: Supports 480p, 720p, 1080p.\n* **`kling-2.5`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p.\n* **`sora-2`**: Supports 720p.\n* **`veo3.1`**: Supports 720p, 1080p.\n\n* **`kling-1.6`**: Supports 720p, 1080p."
                   },
                   "model": {
                     "default": "default",
@@ -2632,12 +2632,12 @@
                       "kling-2.5-audio",
                       "veo3.1-audio"
                     ],
-                    "description": "The AI model to use for video generation.\n* `default`: Our recommended model for general use (Kling 2.5 Audio). Note: For backward compatibility, if you use `default` and `end_seconds` > 10, we'll fall back to kling-1.6.\n* `ltx-2`: Great for fast iteration with audio, lip-sync, and expressive faces\n* `seedance`: Great for fast iteration and start/end frame\n* `kling-2.5`: Great for motion, action, and camera control\n* `kling-3.0`: Great for cinematic, multi-scene storytelling with control\n* `sora-2`: Great for story-telling, dialogue & creativity\n* `veo3.1`: Great for realism, polish, & prompt adherence\n* `kling-1.6`: Great for dependable clips with smooth motion",
+                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-2.5`. For free tiers, it defaults to `ltx-2`.\n* `ltx-2`: Great for fast iteration with audio, lip-sync, and expressive faces\n* `seedance`: Great for fast iteration and start/end frame\n* `kling-2.5`: Great for motion, action, and camera control\n* `kling-3.0`: Great for cinematic, multi-scene storytelling with control\n* `sora-2`: Great for story-telling, dialogue & creativity\n* `veo3.1`: Great for realism, polish, & prompt adherence\n\nLegacy models:\n* `kling-1.6`: Great for dependable clips with smooth motion\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
                     "example": "kling-2.5-audio"
                   },
                   "audio": {
                     "type": "boolean",
-                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **ltx-2**: Always included (cannot be disabled)\n* **seedance**: Not supported\n* **kling-2.5**: Always included (cannot be disabled)\n* **kling-3.0**: Toggle-able (can enable/disable)\n* **sora-2**: Always included (cannot be disabled)\n* **veo3.1**: Toggle-able (can enable/disable)\n* **kling-1.6**: Not supported",
+                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`ltx-2`**: Automatically included with no extra credits\n* **`seedance`**: Not supported\n* **`kling-2.5`**: Automatically included with no extra credits\n* **`kling-3.0`**: Toggle-able (can enable/disable)\n* **`sora-2`**: Automatically included with no extra credits\n* **`veo3.1`**: Toggle-able (can enable/disable)\n\n* **`kling-1.6`**: Not supported",
                     "example": true
                   },
                   "style": {

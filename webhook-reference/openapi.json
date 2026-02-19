@@ -59,7 +59,7 @@
                       },
                       "type": {
                         "type": "string",
-                        "description": "The type of the video project. Possible values are ANIMATION, IMAGE_TO_VIDEO, VIDEO_TO_VIDEO, TEXT_TO_VIDEO, FACE_SWAP, LIP_SYNC, AUTO_SUBTITLE, TALKING_PHOTO, UGC_AD, VIDEO_UPSCALER",
+                        "description": "The type of the video project. Possible values are ANIMATION, IMAGE_TO_VIDEO, VIDEO_TO_VIDEO, TEXT_TO_VIDEO, FACE_SWAP, LIP_SYNC, AUTO_SUBTITLE, TALKING_PHOTO, UGC_AD, VIDEO_UPSCALER, EXTEND, AUDIO_TO_VIDEO",
                         "example": "FACE_SWAP"
                       },
                       "created_at": { "type": "string", "format": "date-time" },
@@ -274,7 +274,7 @@
                       },
                       "type": {
                         "type": "string",
-                        "description": "The type of the video project. Possible values are ANIMATION, IMAGE_TO_VIDEO, VIDEO_TO_VIDEO, TEXT_TO_VIDEO, FACE_SWAP, LIP_SYNC, AUTO_SUBTITLE, TALKING_PHOTO, UGC_AD, VIDEO_UPSCALER",
+                        "description": "The type of the video project. Possible values are ANIMATION, IMAGE_TO_VIDEO, VIDEO_TO_VIDEO, TEXT_TO_VIDEO, FACE_SWAP, LIP_SYNC, AUTO_SUBTITLE, TALKING_PHOTO, UGC_AD, VIDEO_UPSCALER, EXTEND, AUDIO_TO_VIDEO",
                         "example": "FACE_SWAP"
                       },
                       "created_at": { "type": "string", "format": "date-time" },
@@ -489,7 +489,7 @@
                       },
                       "type": {
                         "type": "string",
-                        "description": "The type of the video project. Possible values are ANIMATION, IMAGE_TO_VIDEO, VIDEO_TO_VIDEO, TEXT_TO_VIDEO, FACE_SWAP, LIP_SYNC, AUTO_SUBTITLE, TALKING_PHOTO, UGC_AD, VIDEO_UPSCALER",
+                        "description": "The type of the video project. Possible values are ANIMATION, IMAGE_TO_VIDEO, VIDEO_TO_VIDEO, TEXT_TO_VIDEO, FACE_SWAP, LIP_SYNC, AUTO_SUBTITLE, TALKING_PHOTO, UGC_AD, VIDEO_UPSCALER, EXTEND, AUDIO_TO_VIDEO",
                         "example": "FACE_SWAP"
                       },
                       "created_at": { "type": "string", "format": "date-time" },
