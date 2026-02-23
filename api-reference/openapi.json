@@ -1910,11 +1910,11 @@
                     "type": "string",
                     "enum": ["480p", "720p", "1080p"],
                     "example": "720p",
-                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`ltx-2`**: Supports 480p, 720p, 1080p.\n* **`seedance`**: Supports 480p, 720p, 1080p.\n* **`kling-2.5`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p.\n* **`sora-2`**: Supports 720p.\n* **`veo3.1`**: Supports 720p, 1080p.\n\n* **`kling-1.6`**: Supports 720p, 1080p."
+                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`ltx-2`**: Supports 480p, 720p, 1080p.\n* **`seedance`**: Supports 480p, 720p, 1080p.\n* **`kling-2.5`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p.\n* **`sora-2`**: Supports 720p.\n* **`veo3.1`**: Supports 720p, 1080p.\n\nLegacy models:\n* **`kling-1.6`**: Supports 720p, 1080p."
                   },
                   "audio": {
                     "type": "boolean",
-                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`ltx-2`**: Automatically included with no extra credits\n* **`seedance`**: Not supported\n* **`kling-2.5`**: Automatically included with no extra credits\n* **`kling-3.0`**: Toggle-able (can enable/disable)\n* **`sora-2`**: Automatically included with no extra credits\n* **`veo3.1`**: Toggle-able (can enable/disable)\n\n* **`kling-1.6`**: Not supported",
+                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`ltx-2`**: Automatically included with no extra credits\n* **`seedance`**: Not supported\n* **`kling-2.5`**: Automatically included with no extra credits\n* **`kling-3.0`**: Toggle-able (can enable/disable)\n* **`sora-2`**: Automatically included with no extra credits\n* **`veo3.1`**: Toggle-able (can enable/disable)\n\nLegacy models:\n* **`kling-1.6`**: Not supported",
                     "example": true
                   },
                   "style": {
@@ -2615,7 +2615,7 @@
                     "type": "string",
                     "enum": ["480p", "720p", "1080p"],
                     "example": "720p",
-                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`ltx-2`**: Supports 480p, 720p, 1080p.\n* **`seedance`**: Supports 480p, 720p, 1080p.\n* **`kling-2.5`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p.\n* **`sora-2`**: Supports 720p.\n* **`veo3.1`**: Supports 720p, 1080p.\n\n* **`kling-1.6`**: Supports 720p, 1080p."
+                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`ltx-2`**: Supports 480p, 720p, 1080p.\n* **`seedance`**: Supports 480p, 720p, 1080p.\n* **`kling-2.5`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p.\n* **`sora-2`**: Supports 720p.\n* **`veo3.1`**: Supports 720p, 1080p.\n\nLegacy models:\n* **`kling-1.6`**: Supports 720p, 1080p."
                   },
                   "model": {
                     "default": "default",
@@ -2637,7 +2637,7 @@
                   },
                   "audio": {
                     "type": "boolean",
-                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`ltx-2`**: Automatically included with no extra credits\n* **`seedance`**: Not supported\n* **`kling-2.5`**: Automatically included with no extra credits\n* **`kling-3.0`**: Toggle-able (can enable/disable)\n* **`sora-2`**: Automatically included with no extra credits\n* **`veo3.1`**: Toggle-able (can enable/disable)\n\n* **`kling-1.6`**: Not supported",
+                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`ltx-2`**: Automatically included with no extra credits\n* **`seedance`**: Not supported\n* **`kling-2.5`**: Automatically included with no extra credits\n* **`kling-3.0`**: Toggle-able (can enable/disable)\n* **`sora-2`**: Automatically included with no extra credits\n* **`veo3.1`**: Toggle-able (can enable/disable)\n\nLegacy models:\n* **`kling-1.6`**: Not supported",
                     "example": true
                   },
                   "style": {
@@ -5344,7 +5344,7 @@
                     },
                     "type": {
                       "type": "string",
-                      "description": "The type of the audio project. Possible values are VOICE_GENERATOR, VOICE_CHANGER, VOICE_CLONER",
+                      "description": "The type of the audio project. Possible values are VOICE_GENERATOR, VOICE_CHANGER, VOICE_CLONER, VIDEO_TO_AUDIO",
                       "example": "VOICE_GENERATOR"
                     },
                     "created_at": { "type": "string", "format": "date-time" },

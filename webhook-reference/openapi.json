@@ -1262,7 +1262,7 @@
                       },
                       "type": {
                         "type": "string",
-                        "description": "The type of the audio project. Possible values are VOICE_GENERATOR, VOICE_CHANGER, VOICE_CLONER",
+                        "description": "The type of the audio project. Possible values are VOICE_GENERATOR, VOICE_CHANGER, VOICE_CLONER, VIDEO_TO_AUDIO",
                         "example": "VOICE_GENERATOR"
                       },
                       "created_at": { "type": "string", "format": "date-time" },
@@ -1441,7 +1441,7 @@
                       },
                       "type": {
                         "type": "string",
-                        "description": "The type of the audio project. Possible values are VOICE_GENERATOR, VOICE_CHANGER, VOICE_CLONER",
+                        "description": "The type of the audio project. Possible values are VOICE_GENERATOR, VOICE_CHANGER, VOICE_CLONER, VIDEO_TO_AUDIO",
                         "example": "VOICE_GENERATOR"
                       },
                       "created_at": { "type": "string", "format": "date-time" },
@@ -1620,7 +1620,7 @@
                       },
                       "type": {
                         "type": "string",
-                        "description": "The type of the audio project. Possible values are VOICE_GENERATOR, VOICE_CHANGER, VOICE_CLONER",
+                        "description": "The type of the audio project. Possible values are VOICE_GENERATOR, VOICE_CHANGER, VOICE_CLONER, VIDEO_TO_AUDIO",
                         "example": "VOICE_GENERATOR"
                       },
                       "created_at": { "type": "string", "format": "date-time" },
