@@ -13,8 +13,8 @@
     "scrape:webhook": "mintlify-scrape openapi-file webhook-reference/openapi.json -o webhook-reference"
   },
   "devDependencies": {
-    "@mintlify/scraping": "4.0.588",
-    "mintlify": "4.2.348",
+    "@mintlify/scraping": "4.0.610",
+    "mintlify": "4.2.374",
     "prettier": "3.8.1",
     "typescript": "5.9.3"
   }
