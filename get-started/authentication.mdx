@@ -20,18 +20,21 @@ Authorization: Bearer your_api_key_here
 Visit [magichour.ai](https://magichour.ai/sign-up) and sign in to your account. If you don't have an account yet, you can create one for free.
 
 ![Sign in page](./images/sign-in-to-magic-hour.jpg)
+
 </Step>
 
 <Step title="Navigate to Developer Hub">
 Once signed in, go to the [Developer Hub](https://magichour.ai/developer) from your dashboard or account menu. The API Keys section will be displayed by default.
 
 ![Developer Hub with API Keys](./images/navigate-to-developer-hub.jpg)
+
 </Step>
 
 <Step title="Create New API Key">
 Click the **"Create API Key"** button to generate a new key.
 
 ![Create API Key button](./images/create-new-api-key.jpg)
+
 </Step>
 
 <Step title="Configure Your API Key">
@@ -43,6 +46,7 @@ Give your API key a descriptive name to help you identify its purpose later:
 ![API Key configuration](./images/configure-your-api-key.jpg)
 
 Click **"Create Key"** to generate your new API key.
+
 </Step>
 
 <Step title="Copy and Store Your API Key">
@@ -56,12 +60,12 @@ Click **"Create Key"** to generate your new API key.
 </Step>
 </Steps>
 
-
 ## Managing Your API Keys
 
 ### Viewing API Keys
 
 In the Developer Hub, you can see all your API keys with:
+
 - **Name**: The descriptive name you gave the key
 - **Last 4 Characters**: The last 4 characters of the key
 - **Created**: When the key was created
@@ -79,7 +83,8 @@ To revoke an API key:
 ![Revoke API Key](./images/revoking-api-keys.jpg)
 
 <Warning>
-**Immediate Effect**: Revoked keys stop working immediately. Any applications using the revoked key will start receiving authentication errors.
+  **Immediate Effect**: Revoked keys stop working immediately. Any applications using the revoked
+  key will start receiving authentication errors.
 </Warning>
 
 ### Rotating API Keys
@@ -109,16 +114,16 @@ client = magic_hour.Client(api_key=os.getenv("MAGIC_HOUR_API_KEY"))
 ```
 
 ```javascript Node.js SDK
-import MagicHour from 'magic-hour';
+import MagicHour from "magic-hour";
 
 // Initialize client with your API key
 const client = new MagicHour({
-  apiKey: 'your_api_key_here'
+  apiKey: "your_api_key_here",
 });
 
 // Or use environment variable
 const client = new MagicHour({
-  apiKey: process.env.MAGIC_HOUR_API_KEY
+  apiKey: process.env.MAGIC_HOUR_API_KEY,
 });
 ```
 
@@ -178,10 +183,12 @@ set MAGIC_HOUR_API_KEY=your_api_key_here
 ### Key Storage Solutions
 
 **For Development:**
+
 - Environment variables (`.env` files)
 - Local configuration files (excluded from version control)
 
 **For Production:**
+
 - AWS Secrets Manager
 - Azure Key Vault
 - Google Secret Manager
@@ -193,8 +200,10 @@ set MAGIC_HOUR_API_KEY=your_api_key_here
 Common authentication errors and how to resolve them:
 
 ### `401 Unauthorized`
+
 **Cause**: Invalid or missing API key
 **Solutions**:
+
 - Check that your API key is correct
 - Ensure the `Authorization` header is properly formatted
 - Verify the key hasn't been revoked
@@ -202,7 +211,9 @@ Common authentication errors and how to resolve them:
 ## Monitoring Usage
 
 <Note>
-**Usage-Based Pricing Only**: Analytics & Billing monitoring is only available for users on a usage-based pricing plan. Subscription users can view basic key information in the API Keys section.
+  **Usage-Based Pricing Only**: Analytics & Billing monitoring is only available for users on a
+  usage-based pricing plan. Subscription users can view basic key information in the API Keys
+  section.
 </Note>
 
 For usage-based pricing users, track your API key usage in the Developer Hub:
@@ -210,6 +221,7 @@ For usage-based pricing users, track your API key usage in the Developer Hub:
 - **Credit Usage**: Credits consumed by your requests
 
 This helps you:
+
 - Detect unusual activity that might indicate a compromised key
 - Plan for capacity and billing
 
@@ -221,7 +233,12 @@ This helps you:
   Make your first API call with your new API key
 </Card>
 
-<Card title="Google Colab Cookbook" icon="code" href="https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing" openInNewTab>
+<Card
+  title="Google Colab Cookbook"
+  icon="code"
+  href="https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing"
+  openInNewTab
+>
   Try all 22 APIs with sample code. Just add your API key.
 </Card>
 
@@ -248,5 +265,6 @@ If you're having trouble with authentication:
 - Join our community on [Discord](https://discord.gg/QNsVxKYz)
 
 <Info>
-**Security Concern?** If you believe your API key has been compromised, revoke it immediately in the Developer Hub and create a new one.
+  **Security Concern?** If you believe your API key has been compromised, revoke it immediately in
+  the Developer Hub and create a new one.
 </Info>

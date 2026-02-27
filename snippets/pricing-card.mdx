@@ -1,8 +1,4 @@
-export const PricingCard = ({ 
-  title = "", 
-  prices = [], 
-  benefits = [] 
-}) => {
+export const PricingCard = ({ title = "", prices = [], benefits = [] }) => {
   return (
     <Card title={title}>
       {prices && prices.length > 0 && (
@@ -12,8 +8,10 @@ export const PricingCard = ({
               <>
                 <div class="flex items-end gap-2">
                   <div>
-                    <span class="text-2xl text-primary">${price?.amount?.toLocaleString() || '0'}</span>
-                    {price?.label || ''}
+                    <span class="text-2xl text-primary">
+                      ${price?.amount?.toLocaleString() || "0"}
+                    </span>
+                    {price?.label || ""}
                   </div>
                 </div>
                 {index < prices.length - 1 && <span class="">or</span>}

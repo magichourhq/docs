@@ -4,6 +4,7 @@ description: Set up and test your first webhook end-to-end to receive real-time 
 ---
 
 By the end of this guide, you'll have:
+
 - ✅ Created a webhook endpoint in your application
 - ✅ Registered it with Magic Hour
 - ✅ Tested it with a real API call
@@ -17,7 +18,7 @@ Webhooks let you receive real-time notifications when your API requests complete
 sequenceDiagram
     participant App as Your Application
     participant MH as Magic Hour
-    
+
     App->>MH: 1. Create video/image job
     MH-->>App: 2. Job ID returned immediately
     MH->>MH: 3. Process job in background
@@ -26,6 +27,7 @@ sequenceDiagram
 ```
 
 **Benefits:**
+
 - ✅ Real-time notifications (no polling delays)
 - ✅ Efficient resource usage (no constant polling)
 - ✅ Better user experience (instant updates)
@@ -36,7 +38,8 @@ sequenceDiagram
 First, create a simple webhook handler that can receive and process events.
 
 <Note>
-**Using Jupyter/Colab?** See the "Colab/Jupyter" tab below for notebook-compatible code, or use [webhook.site](https://webhook.site) for instant testing without any code.
+  **Using Jupyter/Colab?** See the "Colab/Jupyter" tab below for notebook-compatible code, or use
+  [webhook.site](https://webhook.site) for instant testing without any code.
 </Note>
 
 <CodeGroup>
@@ -51,11 +54,11 @@ app = FastAPI()
 async def webhook_handler(request: Request):
     # Get the event data
     event = await request.json()
-    
+
     # Log the event for testing
     print(f"Received event: {event['type']}")
     print(f"Payload: {json.dumps(event['payload'], indent=2)}")
-    
+
     # Handle different event types
     match event['type']:
         case 'video.started':
@@ -69,7 +72,7 @@ async def webhook_handler(request: Request):
             print('🖼️ Image processing completed')
         case 'image.errored':
             print('❌ Image processing failed')
-    
+
     # Always return success
     return {"success": True}
 
@@ -86,11 +89,11 @@ app.use(express.json());
 
 app.post("/webhook", (req, res) => {
   const { type, payload } = req.body;
-  
+
   // Log the event for testing
   console.log(`Received event: ${type}`);
   console.log(`Payload:`, JSON.stringify(payload, null, 2));
-  
+
   // Handle different event types
   switch (type) {
     case "video.started":
@@ -110,7 +113,7 @@ app.post("/webhook", (req, res) => {
       console.log("❌ Image processing failed");
       break;
   }
-  
+
   // Always return success
   res.status(200).json({ success: true });
 });
@@ -142,11 +145,11 @@ app = FastAPI()
 async def webhook_handler(request: Request):
     # Get the event data
     event = await request.json()
-    
+
     # Log the event for testing
     print(f"Received event: {event['type']}")
     print(f"Payload: {json.dumps(event['payload'], indent=2)}")
-    
+
     # Handle different event types
     match event['type']:
         case 'video.completed':
@@ -155,7 +158,7 @@ async def webhook_handler(request: Request):
             print('🖼️ Image processing completed')
         case _:
             print(f'Event: {event["type"]}')
-    
+
     return {"success": True}
 
 # Notebook-friendly server startup
@@ -193,6 +196,7 @@ Your webhook endpoint needs to be accessible from the internet. Choose one of th
 **Perfect for local development and testing**
 
 **Install ngrok:**
+
 ```bash
 # macOS
 brew install ngrok
@@ -201,6 +205,7 @@ brew install ngrok
 ```
 
 **Start your server:**
+
 <CodeGroup>
 ```bash Python
 python webhook_server.py
@@ -211,9 +216,11 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 ```bash Node.js
 node webhook_server.js
 ```
+
 </CodeGroup>
 
 **Expose it publicly:**
+
 ```bash
 ngrok http 8000
 ```
@@ -242,11 +249,13 @@ ngrok http 8000
 **For production deployments:**
 
 Deploy your webhook handler to:
+
 - **Cloud platforms**: AWS Lambda, Google Cloud Functions, Azure Functions
 - **Server hosting**: DigitalOcean, Heroku, Railway
 - **Container services**: Docker, Kubernetes
 
 Ensure your production server:
+
 - Has a valid SSL certificate (HTTPS required)
 - Can handle incoming POST requests
 - Returns responses within 10 seconds
@@ -262,6 +271,7 @@ Ensure your production server:
 Go to Magic Hour [Developer Hub](https://magichour.ai/developer?tab=webhooks), and click **Create Webhook**
 
 ![Webhook Table](./images/webhook-1.png)
+
 </Step>
 
 <Step title="Configure webhook">
@@ -270,7 +280,7 @@ Enter your webhook details:
 - **Endpoint URL**: Your public HTTPS URL (e.g., `https://abc123.ngrok.io/webhook`)
 - **Events**: Select the events you want to receive:
   - `video.started` - When video processing begins
-  - `video.completed` - When video is ready for download  
+  - `video.completed` - When video is ready for download
   - `video.errored` - When video processing fails
   - `image.completed` - When image is ready for download
   - `image.errored` - When image processing fails
@@ -280,6 +290,7 @@ Enter your webhook details:
 ![Create webhook modal](./images/webhook-2.png)
 
 Click **Create Webhook**
+
 </Step>
 
 <Step title="Save webhook secret">
@@ -308,6 +319,7 @@ Now let's verify everything works by making a real API call and watching for the
 **If using Colab/Jupyter**: Watch the cell output for webhook events
 
 **If using webhook.site**: Keep the browser tab open to see incoming requests in real-time
+
 </Step>
 
 <Step title="Make a test API call">
@@ -388,6 +400,7 @@ Within seconds, you should see webhook events in your console or webhook.site:
 ```
 
 **Success!** 🎉 Your webhook is working end-to-end.
+
 </Step>
 </Steps>
 
@@ -400,18 +413,21 @@ If your endpoint doesn't respond with a 2xx status code, Magic Hour will retry d
 - **After 24 hours**: Event marked as failed, no more retries
 
 <Info>
-**Disabled Webhooks**: If a webhook is disabled, pending events are skipped and marked as failed after 24 hours.
+  **Disabled Webhooks**: If a webhook is disabled, pending events are skipped and marked as failed
+  after 24 hours.
 </Info>
 
 ### Best Practices for Reliable Webhooks
 
 ✅ **Do:**
+
 - Return 2xx status codes within 10 seconds
 - Process events asynchronously (respond fast, process later)
 - Implement idempotent processing (handle duplicate events)
 - Log all webhook events for debugging
 
 ❌ **Don't:**
+
 - Perform long-running operations before responding
 - Return non-2xx codes for successful receipt
 - Assume events are delivered exactly once
@@ -434,17 +450,17 @@ logger = logging.getLogger(__name__)
 async def webhook_handler(request: Request, background_tasks: BackgroundTasks):
     try:
         event = await request.json()
-        
+
         # Log the event
         logger.info(f"Received webhook: {event['type']}", extra={
             'job_id': event['payload'].get('id'),
             'status': event['payload'].get('status')
         })
-        
+
         # Respond immediately
         background_tasks.add_task(process_webhook_event, event)
         return {"success": True}
-        
+
     except Exception as e:
         logger.error(f"Webhook error: {e}")
         return {"error": "Internal error"}, 500
@@ -454,18 +470,18 @@ async def process_webhook_event(event):
     try:
         event_type = event['type']
         payload = event['payload']
-        
+
         if event_type == 'video.completed':
             # Update database
             await update_job_status(payload['id'], 'completed')
             # Notify user
             await notify_user_completion(payload)
-            
+
         elif event_type == 'video.errored':
             # Handle error
             await update_job_status(payload['id'], 'failed')
             await notify_user_error(payload)
-            
+
     except Exception as e:
         logger.error(f"Background processing failed: {e}")
 ```
@@ -476,12 +492,9 @@ const { createLogger, format, transports } = require("winston");
 
 const app = express();
 const logger = createLogger({
-  level: 'info',
+  level: "info",
   format: format.json(),
-  transports: [
-    new transports.File({ filename: 'webhook.log' }),
-    new transports.Console()
-  ]
+  transports: [new transports.File({ filename: "webhook.log" }), new transports.Console()],
 });
 
 app.use(express.json());
@@ -489,20 +502,19 @@ app.use(express.json());
 app.post("/webhook", async (req, res) => {
   try {
     const { type, payload } = req.body;
-    
+
     // Log the event
     logger.info("Received webhook", {
       eventType: type,
       jobId: payload.id,
-      status: payload.status
+      status: payload.status,
     });
-    
+
     // Respond immediately
     res.status(200).json({ success: true });
-    
+
     // Process asynchronously
     processWebhookEvent(type, payload);
-    
   } catch (error) {
     logger.error("Webhook error", { error: error.message });
     res.status(500).json({ error: "Internal error" });
@@ -513,16 +525,14 @@ async function processWebhookEvent(type, payload) {
   try {
     if (type === "video.completed") {
       // Update database
-      await updateJobStatus(payload.id, 'completed');
+      await updateJobStatus(payload.id, "completed");
       // Notify user
       await notifyUserCompletion(payload);
-      
     } else if (type === "video.errored") {
       // Handle error
-      await updateJobStatus(payload.id, 'failed');
+      await updateJobStatus(payload.id, "failed");
       await notifyUserError(payload);
     }
-    
   } catch (error) {
     logger.error("Background processing failed", { error: error.message });
   }
@@ -569,6 +579,7 @@ You should see the event logged in your server console.
 Your webhook endpoint must:
 
 ### 1. Accept POST Requests
+
 ```python
 @app.post("/webhook")  # Must be POST
 async def webhook_handler(request: Request):
@@ -576,18 +587,21 @@ async def webhook_handler(request: Request):
 ```
 
 ### 2. Parse JSON Payload
+
 ```python
 event = await request.json()
 # event = { "type": "...", "payload": {...} }
 ```
 
 ### 3. Return 2xx Status Code
+
 ```python
 return {"success": True}  # Returns 200
 # Magic Hour interprets this as successful delivery
 ```
 
 ### 4. Respond Within 10 Seconds
+
 ```python
 # ✅ Good: Respond fast, process later
 background_tasks.add_task(process_event, event)
@@ -601,6 +615,7 @@ return {"success": True}
 ## Troubleshooting
 
 **Webhook not receiving events?**
+
 - ✅ Check your endpoint URL is publicly accessible
 - ✅ Ensure your server returns HTTP 2xx status codes
 - ✅ Verify the webhook is enabled in Developer Hub
@@ -608,12 +623,14 @@ return {"success": True}
 - ✅ Test with ngrok or webhook.site first
 
 **Colab/Jupyter specific issues:**
+
 - ✅ Install required packages: `!pip install fastapi uvicorn nest-asyncio pyngrok`
 - ✅ Make sure the server thread started successfully
 - ✅ Check if ngrok tunnel is active and accessible
 - ✅ Try webhook.site as an alternative for quick testing
 
 **AsyncIO errors in notebooks?**
+
 - ✅ Use the Colab/Jupyter code version with `nest_asyncio.apply()`
 - ✅ Don't run `uvicorn.run()` directly in notebooks - use the threading approach
 
@@ -639,4 +656,3 @@ Now that your webhook is working:
 ---
 
 **Need help?** Join our [Discord community](https://discord.com/invite/JX5rgsZaJp) or email [support@magichour.ai](mailto:support@magichour.ai)
-
