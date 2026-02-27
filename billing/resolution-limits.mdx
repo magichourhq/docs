@@ -9,7 +9,7 @@ Your subscription tier determines the maximum width and height available for ima
 
 | Subscription Tier | Maximum Dimension | Example Dimensions              |
 | :---------------- | :---------------- | :------------------------------ |
-| **Free**          | 512px             | 512x512, 512x256, 256x512       |
+| **Free**          | 576px             | 576x576, 576x324, 324x576       |
 | **Creator**       | 1024px            | 1024x1024, 1024x576, 576x1024   |
 | **Pro**           | 1472px            | 1472x1472, 1472x828, 828x1472   |
 | **Business**      | 4096px            | 4096x4096, 4096x2304, 2304x4096 |
@@ -60,18 +60,18 @@ These APIs require both width and height to be divisible by 64:
 ### **Examples by Tier**
 
 <Tabs>
-<Tab title="Free (512px)">
+<Tab title="Free (576px)">
 
 **Valid dimensions:**
 
-- 512x512 (square)
-- 640x480 (4:3 ratio)
-- 720x360 (2:1 ratio)
+- 576x576 (square)
+- 576x324 (16:9 ratio)
+- 576x432 (4:3 ratio)
 
 **Invalid dimensions:**
 
-- 1024x256 ❌ (width exceeds 512px limit)
-- 600x600 ❌ (both dimensions exceed 512px limit)
+- 1024x256 ❌ (width exceeds 576px limit)
+- 640x640 ❌ (both dimensions exceed 576px limit)
 
 </Tab>
 
@@ -164,9 +164,9 @@ These APIs have maximum resolution limits regardless of subscription tier:
 
 Need higher resolution? [Upgrade your subscription](https://magichour.ai/pricing) to unlock:
 
-- **Creator**: 2x larger dimensions (1024px vs 512px)
-- **Pro**: 3x larger dimensions (1472px vs 512px)
-- **Business**: 8x larger dimensions (4096px vs 512px), supports true 4K
+- **Creator**: 2x larger dimensions (1024px vs 576px)
+- **Pro**: 2.5x larger dimensions (1472px vs 576px)
+- **Business**: 7x larger dimensions (4096px vs 576px), supports true 4K
 
 <Card title="View Pricing Plans" icon="credit-card" href="/billing/subscription-pricing">
   Compare all subscription tiers and their benefits
