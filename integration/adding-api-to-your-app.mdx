@@ -49,10 +49,9 @@ Magic Hour APIs follow a simple 3-step pattern that applies to all content gener
 
 ```python Python SDK
 from magic_hour import Client
-import time
-import requests
+import os
 
-**Purpose:** Check if your job is complete
+client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
 
 # 1. Create job
 print("Creating face swap job...")
@@ -66,7 +65,7 @@ create_res = client.v1.face_swap.create(
     start_seconds=0.0,
     end_seconds=10.0,
 )
-print(f"Image saved to: {result.downloaded_paths}")
+print(f"Job created with ID: {create_res.id}, status: {create_res.status}")
 ```
 
 ### Pattern 2: Production Application (Recommended)
