@@ -556,7 +556,7 @@ func main() {
 		return
 	}
 
-	fmt.Printf("queued video with id %s, spent %d credits based on 30fps. This value be adjusted after render completes if fps is different.\n", createRes.Id, createRes.CreditsCharged)
+	fmt.Printf("queued video with id %s, spent %d credits based on 30fps. This value will be adjusted after render completes if fps is different.\n", createRes.Id, createRes.CreditsCharged)
 
 	for {
 		res, err := client.V1.VideoProjects.Get(video_projects.GetRequest{Id: createRes.Id})
@@ -637,7 +637,7 @@ async fn main() {
         .unwrap();
     let project_id = create_res.id;
     let credits_charged = create_res.credits_charged;
-    println!("queued face swap video with id {project_id}, spent {credits_charged} credits based on 30fps. This value be updated after render completes if fps is different.");
+    println!("queued face swap video with id {project_id}, spent {credits_charged} credits based on 30fps. This value will be updated after render completes if fps is different.");
 
     loop {
         let res = client
@@ -658,7 +658,7 @@ async fn main() {
 
                 tokio::task::block_in_place(move || {
                     let response = reqwest::blocking::get(url).unwrap();
-                    let output_path = "output.png";
+                    let output_path = "output.mp4";
                     if response.status().is_success() {
                         let mut output_file = std::fs::File::create(output_path).unwrap();
                         std::io::copy(&mut response.take(1_000_000), &mut output_file).unwrap();
@@ -713,7 +713,7 @@ create_response=$(curl -s $URL \
 project_id=$(echo $create_response | jq -r '.id')
 credits_charged=$(echo $create_response | jq -r '.credits_charged')
 
-echo "queued face swap video with id $project_id, spent an estimated $credits_charged credits based on 30fps. This value be adjusted after render completes if fps is different."
+echo "queued face swap video with id $project_id, spent an estimated $credits_charged credits based on 30fps. This value will be adjusted after render completes if fps is different."
 while true; do
     status_response=$(curl -s $STATUS_URL/$project_id --header "Authorization: Bearer $API_KEY")
 

@@ -2,7 +2,7 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Magic Hour API",
-  "description": "Easily generate videos using Magic Hour's API. Follow our documentation to seamlessly integrate video creation into your applications.",
+  "description": "Easily generate videos, images, and audio using Magic Hour's API. Follow our documentation to seamlessly integrate AI content creation into your applications.",
   "colors": {
     "primary": "#3b82f6",
     "light": "#0564ff",
@@ -73,8 +73,10 @@
               {
                 "group": "Webhook",
                 "pages": [
+                  "integration/webhook/overview",
                   "integration/webhook/create-webhook",
                   "integration/webhook/secure-handler",
+                  "integration/webhook/create-handler",
                   "integration/webhook/event-types"
                 ]
               },
