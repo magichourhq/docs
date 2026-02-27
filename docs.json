@@ -73,10 +73,8 @@
               {
                 "group": "Webhook",
                 "pages": [
-                  "integration/webhook/overview",
                   "integration/webhook/create-webhook",
                   "integration/webhook/secure-handler",
-                  "integration/webhook/create-handler",
                   "integration/webhook/event-types"
                 ]
               },
