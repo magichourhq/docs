@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@ai-sdk/openai": "3.0.33",
-    "@linear/sdk": "75.0.0",
+    "@linear/sdk": "76.0.0",
     "@mintlify/scraping": "4.0.614",
     "ai": "6.0.99",
     "dotenv": "17.3.1",
