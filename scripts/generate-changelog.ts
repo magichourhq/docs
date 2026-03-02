@@ -207,7 +207,7 @@ Rules:
 - End with a "Try it out now:" link if there's a product URL in the description, otherwise omit it
 - If multiple issues are provided for the same day, write a separate "## " section for each
 - Do NOT include the <Update label="..."> wrapper — just the inner MDX content
-- Do NOT include placeholder image tags — those will be added separately
+- Do NOT include any image or Frame tags — those will be added automatically
 - Do NOT hallucinate details not present in the issue
 
 Existing changelog style examples:
@@ -244,19 +244,15 @@ function addImagePlaceholders(content: string, dateStr: string): string {
   for (let i = 0; i < lines.length; i++) {
     result.push(lines[i]);
 
-    // After a ## heading, insert a placeholder image on the next blank line
+    // After a ## heading, insert a placeholder image frame
     if (lines[i].startsWith("## ")) {
-      const slug = lines[i]
-        .replace(/^##\s+/, "")
+      const title = lines[i].replace(/^##\s+/, "");
+      const slug = title
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-|-$/g, "")
         .slice(0, 60);
-      // Insert the placeholder after a blank line following the heading
-      result.push(
-        "",
-        `<Frame>![TODO: Add screenshot](/changelog/images/${year}/${month}/${slug}.jpg)</Frame>`
-      );
+      result.push("", `<Frame>![${title}](/changelog/images/${year}/${month}/${slug}.jpg)</Frame>`);
     }
   }
 
