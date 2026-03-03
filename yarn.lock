@@ -1090,12 +1090,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@linear/sdk@npm:75.0.0":
-  version: 75.0.0
-  resolution: "@linear/sdk@npm:75.0.0"
+"@linear/sdk@npm:76.0.0":
+  version: 76.0.0
+  resolution: "@linear/sdk@npm:76.0.0"
   dependencies:
     "@graphql-typed-document-node/core": "npm:^3.2.0"
-  checksum: 10/9e639abf5d684ab56562cbbc183880042f281e798333da7fa797bc7871517cde8c1b76fd6405dad512ae29e99d5affefea35de3691847a3dad4ba0acde426e9c
+  checksum: 10/2456a51cf0dec281127ab6c3f61992c2a227f03e435f99cb1c47f1bdb4ff41db15f9a86f0239a6679a3a40bcb12d501366cf5181c19a1573080e31116f64138e
   languageName: node
   linkType: hard
 
@@ -3475,7 +3475,7 @@ __metadata:
   resolution: "docs@workspace:."
   dependencies:
     "@ai-sdk/openai": "npm:3.0.33"
-    "@linear/sdk": "npm:75.0.0"
+    "@linear/sdk": "npm:76.0.0"
     "@mintlify/scraping": "npm:4.0.614"
     ai: "npm:6.0.99"
     dotenv: "npm:17.3.1"
