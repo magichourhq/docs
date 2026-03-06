@@ -131,6 +131,20 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -296,6 +310,20 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -451,6 +479,20 @@
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
                   "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
                 }
               }
             }
@@ -693,6 +735,20 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -780,6 +836,20 @@
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
                   "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
                 }
               }
             }
@@ -987,6 +1057,20 @@
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
                   "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
                 }
               }
             }
@@ -1332,6 +1416,20 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -1560,6 +1658,20 @@
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
                   "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
                 }
               }
             }
@@ -1796,6 +1908,20 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -1996,6 +2122,20 @@
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
                   "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
                 }
               }
             }
@@ -2201,6 +2341,20 @@
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
                   "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
                 }
               }
             }
@@ -2513,6 +2667,20 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -2708,6 +2876,20 @@
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
                   "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
                 }
               }
             }
@@ -2921,6 +3103,20 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -3008,6 +3204,20 @@
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
                   "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
                 }
               }
             }
@@ -3161,6 +3371,20 @@
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
                   "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
                 }
               }
             }
@@ -3459,6 +3683,20 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -3618,6 +3856,20 @@
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
                   "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
                 }
               }
             }
@@ -3818,6 +4070,20 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -3979,6 +4245,20 @@
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
                   "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
                 }
               }
             }
@@ -4215,6 +4495,20 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -4386,6 +4680,20 @@
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
                   "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
                 }
               }
             }
@@ -4571,6 +4879,20 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -4726,6 +5048,20 @@
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
                   "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
                 }
               }
             }
@@ -4926,6 +5262,20 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -5086,6 +5436,20 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -5238,6 +5602,20 @@
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
                   "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
                 }
               }
             }
@@ -5444,6 +5822,20 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -5531,6 +5923,20 @@
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
                   "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
                 }
               }
             }
@@ -5884,6 +6290,20 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -6049,6 +6469,20 @@
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
                   "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
                 }
               }
             }
