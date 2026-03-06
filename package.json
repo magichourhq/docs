@@ -14,12 +14,12 @@
     "changelog": "tsx scripts/generate-changelog.ts"
   },
   "devDependencies": {
-    "@ai-sdk/openai": "3.0.33",
+    "@ai-sdk/openai": "3.0.37",
     "@linear/sdk": "76.0.0",
-    "@mintlify/scraping": "4.0.614",
-    "ai": "6.0.99",
+    "@mintlify/scraping": "4.0.626",
+    "ai": "6.0.105",
     "dotenv": "17.3.1",
-    "mintlify": "4.2.378",
+    "mintlify": "4.2.391",
     "prettier": "3.8.1",
     "tsx": "4.21.0",
     "typescript": "5.9.3",
