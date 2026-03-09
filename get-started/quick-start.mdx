@@ -137,7 +137,7 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 - `orientation: "landscape"` - 16:9 aspect ratio
 - `wait_for_completion: true` - SDK polls until done
 - `download_outputs: true` - Automatically download to local disk
-- `download_directory: "outputs"` - Save to the outputs folder we created
+- `download_directory: "."` - Save to the current directory
 
 ### Copy the code and run it
 
@@ -224,7 +224,6 @@ print(f"created image with id {result.id}, spent {result.credits_charged} credit
 ```
 
 ```typescript Node SDK
-import { writeFileSync } from "fs";
 import { Client } from "magic-hour";
 
 // Use environment variable for security
@@ -242,7 +241,7 @@ async function main() {
     {
       waitForCompletion: true, // wait for the render to complete
       downloadOutputs: true, // download the outputs to local disk
-      downloadDirectory: ".", // save the outputs to the "outputs" directory
+      downloadDirectory: ".", // save the outputs to the current directory
     }
   );
 
@@ -378,7 +377,7 @@ async fn main() {
                     let output_path = "output.png";
                     if response.status().is_success() {
                         let mut output_file = std::fs::File::create(output_path).unwrap();
-                        std::io::copy(&mut response.take(1_000_000), &mut output_file).unwrap();
+                        std::io::copy(&mut response, &mut output_file).unwrap();
                         println!("file downloaded successfully to {}", output_path);
                     } else {
                         println!("failed to download file: {}", response.status());
@@ -486,7 +485,6 @@ print(f"created face swap video with id {result.id}, spent {result.credits_charg
 ```
 
 ```typescript Node SDK
-import { writeFileSync } from "fs";
 import { Client } from "magic-hour";
 
 // Use environment variable for security
@@ -538,7 +536,7 @@ import (
 
 func main() {
 	// Use environment variable for security
-	client := sdk.NewClient(os.Getenv("MAGIC_HOUR_API_KEY"))
+	client := sdk.NewClient(sdk.WithBearerAuth(os.Getenv("MAGIC_HOUR_API_KEY")))
 	createRes, err := client.V1.FaceSwap.Create(face_swap.CreateRequest{
 		Name: nullable.NewValue("Swap Tom Cruise into Iron Man scene"),
 		Assets: types.PostV1FaceSwapBodyAssets{
@@ -661,7 +659,7 @@ async fn main() {
                     let output_path = "output.mp4";
                     if response.status().is_success() {
                         let mut output_file = std::fs::File::create(output_path).unwrap();
-                        std::io::copy(&mut response.take(1_000_000), &mut output_file).unwrap();
+                        std::io::copy(&mut response, &mut output_file).unwrap();
                         println!("file downloaded successfully to {}", output_path);
                     } else {
                         println!("failed to download file: {}", response.status());
@@ -790,7 +788,7 @@ If you encounter HTTP errors, here's what they mean:
 
 - **Use the Web App:** Try more tools and experiment interactively at [magichour.ai](https://magichour.ai).
 
-- **Handle Results at Scale:** Set up [webhooks](https://docs.magichour.ai/webhook-reference/image-events/image-started) to process results async and avoid polling.
+- **Handle Results at Scale:** Set up [webhooks](https://docs.magichour.ai/integration/webhook/overview) to process results async and avoid polling.
 
 - **Join the Community:** Get help, share projects, and see what others are building in [Discord](https://discord.gg/JX5rgsZaJp).
 

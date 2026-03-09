@@ -191,12 +191,12 @@ response=$(curl https://api.magichour.ai/v1/files/upload-urls \
   --data '{
   "items": [
     { "type": "video", "extension": "mp4" }
-    # if you have multiple files to upload, you can request multiple upload urls
-    # the order of the response will be in the same order as the request
-    # { "type": "audio", "extension": "mp3" },
-    # { "type": "image", "extension": "png" },
   ]
 }')
+# if you have multiple files to upload, you can request multiple upload urls
+# the order of the response will be in the same order as the request
+# { "type": "audio", "extension": "mp3" },
+# { "type": "image", "extension": "png" },
 
 local_path="/path/to/file/video.mp4" # change to your local file path
 
