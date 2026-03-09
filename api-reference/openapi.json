@@ -213,7 +213,7 @@
     },
     "/v1/face-detection/{id}": {
       "get": {
-        "description": "Get the details of a face detection task. \n\nUse this API to get the list of faces detected in the image or video to use in the [face swap photo](/api-reference/image-projects/face-swap-photo) or [face swap video](/api-reference/video-projects/face-swap-video) API calls for multi-face swaps.",
+        "description": "Get the details of a face detection task. \n\nUse this API to get the list of faces detected in the image or video to use in the [face swap photo](https://docs.magichour.ai/api-reference/image-projects/face-swap-photo) or [face swap video](https://docs.magichour.ai/api-reference/video-projects/face-swap-video) API calls for multi-face swaps.",
         "summary": "Get face detection details",
         "tags": ["Files"],
         "parameters": [
@@ -222,7 +222,7 @@
             "in": "path",
             "required": true,
             "schema": { "type": "string", "example": "uuid-example" },
-            "description": "The id of the task. This value is returned by the [face detection API](/api-reference/files/face-detection#response-id)."
+            "description": "The id of the task. This value is returned by the [face detection API](https://docs.magichour.ai/api-reference/files/face-detection#response-id)."
           }
         ],
         "operationId": "faceDetection.getDetails",
@@ -236,7 +236,7 @@
                   "properties": {
                     "id": {
                       "type": "string",
-                      "description": "The id of the task. This value is returned by the [face detection API](/api-reference/files/face-detection#response-id).",
+                      "description": "The id of the task. This value is returned by the [face detection API](https://docs.magichour.ai/api-reference/files/face-detection#response-id).",
                       "example": "uuid-example"
                     },
                     "credits_charged": {
@@ -392,7 +392,7 @@
     },
     "/v1/face-detection": {
       "post": {
-        "description": "Detect faces in an image or video. \n      \nUse this API to get the list of faces detected in the image or video to use in the [face swap photo](/api-reference/image-projects/face-swap-photo) or [face swap video](/api-reference/video-projects/face-swap-video) API calls for multi-face swaps.\n\nNote: Face detection is free to use for the near future. Pricing may change in the future.",
+        "description": "Detect faces in an image or video. \n      \nUse this API to get the list of faces detected in the image or video to use in the [face swap photo](https://docs.magichour.ai/api-reference/face-swap-photo/face-swap-photo) or [face swap video](https://docs.magichour.ai/api-reference/face-swap/face-swap-video) API calls for multi-face swaps.\n\nNote: Face detection is free to use for the near future. Pricing may change in the future.",
         "summary": "Face Detection",
         "tags": ["Files"],
         "parameters": [],
@@ -442,7 +442,7 @@
                   "properties": {
                     "id": {
                       "type": "string",
-                      "description": "The id of the task. Use this value in the [get face detection details API](/api-reference/files/get-face-detection-details) to get the details of the face detection task.",
+                      "description": "The id of the task. Use this value in the [get face detection details API](https://docs.magichour.ai/api-reference/files/get-face-detection-details) to get the details of the face detection task.",
                       "example": "uuid-example"
                     },
                     "credits_charged": {
@@ -3454,7 +3454,7 @@
     },
     "/v1/ai-face-editor": {
       "post": {
-        "description": "Edit facial features of an image using AI. Each edit costs 1 frame. The height/width of the output image depends on your subscription. Please refer to our [pricing](https://magichour.ai/pricing) page for more details",
+        "description": "Edit facial features of an image using AI. Each edit costs 1 frame. The height/width of the output image depends on your subscription. Please refer to our [pricing](/pricing) page for more details",
         "summary": "AI Face Editor",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -4386,6 +4386,7 @@
                     "properties": {
                       "prompt": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "The prompt used for the image(s).",
                         "example": "Cool image"
                       },
@@ -6016,7 +6017,7 @@
                       "prompt": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "Text used to generate speech. Starter tier users can use up to 1000 characters, while Creator, Pro, or Business users can use up to 1000.",
+                        "description": "Text used to generate speech. The character limit is 1000 characters.",
                         "example": "Hello, how are you?"
                       },
                       "voice_name": {
