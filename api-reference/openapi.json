@@ -2062,6 +2062,12 @@
                         "minLength": 1,
                         "description": "The path of the image file. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.png"
+                      },
+                      "end_image_file_path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The image to use as the last frame of the video.\n\n* **`ltx-2`**: Not supported\n* **`seedance`**: Supports 480p, 720p, 1080p.\n* **`kling-2.5`**: Supports 1080p.\n* **`kling-3.0`**: Supports 1080p.\n* **`sora-2`**: Not supported\n* **`veo3.1`**: Not supported\n\nLegacy models:\n* **`kling-1.6`**: Not supported",
+                        "example": "api-assets/id/1234.png"
                       }
                     },
                     "required": ["image_file_path"],
