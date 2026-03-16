@@ -5,41 +5,41 @@ __metadata:
   version: 8
   cacheKey: 10
 
-"@ai-sdk/gateway@npm:3.0.59":
-  version: 3.0.59
-  resolution: "@ai-sdk/gateway@npm:3.0.59"
+"@ai-sdk/gateway@npm:3.0.66":
+  version: 3.0.66
+  resolution: "@ai-sdk/gateway@npm:3.0.66"
   dependencies:
     "@ai-sdk/provider": "npm:3.0.8"
-    "@ai-sdk/provider-utils": "npm:4.0.16"
+    "@ai-sdk/provider-utils": "npm:4.0.19"
     "@vercel/oidc": "npm:3.1.0"
   peerDependencies:
     zod: ^3.25.76 || ^4.1.8
-  checksum: 10/803659699bd7e66aa01ae6cc8b26aad1e7fd9b0bc8d18f77e720537ae69ce9421add39e81f1b98d703925125074b598175c99e46d805c2512999c406607b224e
+  checksum: 10/e49da0e109e49d8218da8a9b09bd183650e70bbeed0f491a79554779a25f21ec8f6ef43bf747fd0273aac6ff763bf1b11c40329821b2f331712cda9feae5bde7
   languageName: node
   linkType: hard
 
-"@ai-sdk/openai@npm:3.0.37":
-  version: 3.0.37
-  resolution: "@ai-sdk/openai@npm:3.0.37"
+"@ai-sdk/openai@npm:3.0.41":
+  version: 3.0.41
+  resolution: "@ai-sdk/openai@npm:3.0.41"
   dependencies:
     "@ai-sdk/provider": "npm:3.0.8"
-    "@ai-sdk/provider-utils": "npm:4.0.16"
+    "@ai-sdk/provider-utils": "npm:4.0.19"
   peerDependencies:
     zod: ^3.25.76 || ^4.1.8
-  checksum: 10/56fda4da618c20caeacb9bd252d0aedd68d3741577090e5b3330260a4a0969ed16497ea63a3f27c7e0f9da89ce5398cbd2dc0eefe79163242a5f21e4cbd0c37c
+  checksum: 10/c4a696aeebcc621c02636fee9d03fb780d1d03c611fda1801924a5a07ed4a7b03faa48749094cb9084633d374ec70a11d0880905188b94d5b74b494b09670adc
   languageName: node
   linkType: hard
 
-"@ai-sdk/provider-utils@npm:4.0.16":
-  version: 4.0.16
-  resolution: "@ai-sdk/provider-utils@npm:4.0.16"
+"@ai-sdk/provider-utils@npm:4.0.19":
+  version: 4.0.19
+  resolution: "@ai-sdk/provider-utils@npm:4.0.19"
   dependencies:
     "@ai-sdk/provider": "npm:3.0.8"
     "@standard-schema/spec": "npm:^1.1.0"
     eventsource-parser: "npm:^3.0.6"
   peerDependencies:
     zod: ^3.25.76 || ^4.1.8
-  checksum: 10/89cf9888339c3bcd2663bd962107be7214cdb8c1347a9237e6eec16367d79fbd4ccb54f346696179f707aac99f2e4f35cda1d40732f7089ba5f4203a89adbc42
+  checksum: 10/7f3822c7820a46d49800f3e9582164486f4d5a6ec87ca0d0042e350cd9872727eeb6a1ee8c6496cd712e741aea2c2ce90a8fbddf672dd0c3ce3f39ab9740dd1d
   languageName: node
   linkType: hard
 
@@ -1090,12 +1090,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@linear/sdk@npm:76.0.0":
-  version: 76.0.0
-  resolution: "@linear/sdk@npm:76.0.0"
+"@linear/sdk@npm:77.0.0":
+  version: 77.0.0
+  resolution: "@linear/sdk@npm:77.0.0"
   dependencies:
     "@graphql-typed-document-node/core": "npm:^3.2.0"
-  checksum: 10/2456a51cf0dec281127ab6c3f61992c2a227f03e435f99cb1c47f1bdb4ff41db15f9a86f0239a6679a3a40bcb12d501366cf5181c19a1573080e31116f64138e
+  checksum: 10/fa8eed42dacf1cffb303b8ccf328f3482b329dd46f1ec7861dbed2b6b30ae5999ac12dbe0838527328ec2a6b526e5731997dce8fd588d34a5a68e8b621679cbb
   languageName: node
   linkType: hard
 
@@ -2266,17 +2266,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ai@npm:6.0.105":
-  version: 6.0.105
-  resolution: "ai@npm:6.0.105"
+"ai@npm:6.0.116":
+  version: 6.0.116
+  resolution: "ai@npm:6.0.116"
   dependencies:
-    "@ai-sdk/gateway": "npm:3.0.59"
+    "@ai-sdk/gateway": "npm:3.0.66"
     "@ai-sdk/provider": "npm:3.0.8"
-    "@ai-sdk/provider-utils": "npm:4.0.16"
+    "@ai-sdk/provider-utils": "npm:4.0.19"
     "@opentelemetry/api": "npm:1.9.0"
   peerDependencies:
     zod: ^3.25.76 || ^4.1.8
-  checksum: 10/8903e77468936cabb3bf1d8d9859b39188d42732f629f27a8c570a7484030a3c738152bc487e777c1612d4c7578e9420b36582ffbedf3a41415042d261842814
+  checksum: 10/bd684653cae4fde9198fdda880e636dbd622c279ba15a9fea070f5658c6518a002e4a38b80f1c658143d7d688bdea64d73e38dc0d4a33d1826cae988ac421408
   languageName: node
   linkType: hard
 
@@ -3489,10 +3489,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "docs@workspace:."
   dependencies:
-    "@ai-sdk/openai": "npm:3.0.37"
-    "@linear/sdk": "npm:76.0.0"
+    "@ai-sdk/openai": "npm:3.0.41"
+    "@linear/sdk": "npm:77.0.0"
     "@mintlify/scraping": "npm:4.0.626"
-    ai: "npm:6.0.105"
+    ai: "npm:6.0.116"
     dotenv: "npm:17.3.1"
     mintlify: "npm:4.2.391"
     prettier: "npm:3.8.1"
