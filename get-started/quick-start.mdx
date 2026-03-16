@@ -141,58 +141,7 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 
 ### Copy the code and run it
 
-1. **Copy the code** from your preferred language tab below
-2. **Paste it into your file** (`main.py`, `main.js`, `main.go`, etc.)
-3. **Run the code:**
-
-<CodeGroup>
-
-```bash Python
-# Make sure you're in your project directory
-cd magic-hour-quickstart
-
-# Run the script
-python main.py
-```
-
-```bash Node.js
-# Make sure you're in your project directory
-cd magic-hour-quickstart
-
-# Run the script
-node main.js
-```
-
-```bash Go
-# Make sure you're in your project directory
-cd magic-hour-quickstart
-
-# Run the program
-go run main.go
-```
-
-```bash Rust
-# Make sure you're in your project directory
-cd magic-hour-quickstart
-
-# Run the program
-cargo run
-```
-
-</CodeGroup>
-
-**Expected output:**
-
-```
-queued image with id clx1234567890, spent 5 credits
-render complete!
-created image with id clx1234567890, spent 5 credits. Outputs are saved at ['outputs/output-1.png']
-```
-
-<Note>
-  **SDK Versions:** The `.generate()` helper function requires Python SDK v0.36.0+ or Node SDK
-  v0.37.0+. Other SDKs use the manual create/poll/download pattern shown in the examples.
-</Note>
+1. **Copy the code** from your preferred language tab below. You can choose from two types of output
 
 <Tabs>
 
@@ -743,6 +692,58 @@ done
 </Tab>
 </Tabs>
 
+2. **Paste it into your file** (`main.py`, `main.js`, `main.go`, etc.)
+3. **Run the code:**
+
+<CodeGroup>
+
+```bash Python
+# Make sure you're in your project directory
+cd magic-hour-quickstart
+
+# Run the script
+python main.py
+```
+
+```bash Node.js
+# Make sure you're in your project directory
+cd magic-hour-quickstart
+
+# Run the script
+node main.js
+```
+
+```bash Go
+# Make sure you're in your project directory
+cd magic-hour-quickstart
+
+# Run the program
+go run main.go
+```
+
+```bash Rust
+# Make sure you're in your project directory
+cd magic-hour-quickstart
+
+# Run the program
+cargo run
+```
+
+</CodeGroup>
+
+**Expected output:**
+
+```
+queued image with id clx1234567890, spent 5 credits
+render complete!
+created image with id clx1234567890, spent 5 credits. Outputs are saved at ['outputs/output-1.png']
+```
+
+<Note>
+  **SDK Versions:** The `.generate()` helper function requires Python SDK v0.36.0+ or Node SDK
+  v0.37.0+. Other SDKs use the manual create/poll/download pattern shown in the examples.
+</Note>
+
 ## Troubleshooting
 
 ### Common Issues
@@ -759,9 +760,24 @@ mkdir outputs
 
 **Solution:** Make sure you've set your API key as an environment variable:
 
-```bash
+<CodeGroup>
+
+```bash macOS/Linux
+# Add to your ~/.bashrc or ~/.zshrc file
 export MAGIC_HOUR_API_KEY="your_api_key_here"
 ```
+
+```cmd Windows
+# Set environment variable (Command Prompt)
+setx MAGIC_HOUR_API_KEY "your_api_key_here"
+```
+
+```powershell PowerShell
+# Set environment variable (PowerShell)
+[Environment]::SetEnvironmentVariable("MAGIC_HOUR_API_KEY", "your_api_key_here", "User")
+```
+
+</CodeGroup>
 
 ### HTTP Error Codes
 
