@@ -137,62 +137,11 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 - `orientation: "landscape"` - 16:9 aspect ratio
 - `wait_for_completion: true` - SDK polls until done
 - `download_outputs: true` - Automatically download to local disk
-- `download_directory: "."` - Save to the current directory
+- `download_directory: "./outputs"` - Save to the outputs directory
 
 ### Copy the code and run it
 
-1. **Copy the code** from your preferred language tab below
-2. **Paste it into your file** (`main.py`, `main.js`, `main.go`, etc.)
-3. **Run the code:**
-
-<CodeGroup>
-
-```bash Python
-# Make sure you're in your project directory
-cd magic-hour-quickstart
-
-# Run the script
-python main.py
-```
-
-```bash Node.js
-# Make sure you're in your project directory
-cd magic-hour-quickstart
-
-# Run the script
-node main.js
-```
-
-```bash Go
-# Make sure you're in your project directory
-cd magic-hour-quickstart
-
-# Run the program
-go run main.go
-```
-
-```bash Rust
-# Make sure you're in your project directory
-cd magic-hour-quickstart
-
-# Run the program
-cargo run
-```
-
-</CodeGroup>
-
-**Expected output:**
-
-```
-queued image with id clx1234567890, spent 5 credits
-render complete!
-created image with id clx1234567890, spent 5 credits. Outputs are saved at ['outputs/output-1.png']
-```
-
-<Note>
-  **SDK Versions:** The `.generate()` helper function requires Python SDK v0.36.0+ or Node SDK
-  v0.37.0+. Other SDKs use the manual create/poll/download pattern shown in the examples.
-</Note>
+1. **Copy the code** from your preferred language tab below. You can choose from two types of output
 
 <Tabs>
 
@@ -217,7 +166,7 @@ result = client.v1.ai_image_generator.generate(
     },
     wait_for_completion=True, # wait for the render to complete
     download_outputs=True, # download the outputs to local disk
-    download_directory=".", # save the outputs to the current directory
+    download_directory="./outputs", # save to the outputs directory we created earlier
 )
 
 print(f"created image with id {result.id}, spent {result.credits_charged} credits. Outputs are saved at {result.downloaded_paths}")
@@ -241,7 +190,7 @@ async function main() {
     {
       waitForCompletion: true, // wait for the render to complete
       downloadOutputs: true, // download the outputs to local disk
-      downloadDirectory: ".", // save the outputs to the current directory
+      downloadDirectory: "./outputs", // save to the outputs directory we created earlier
     }
   );
 
@@ -296,7 +245,7 @@ func main() {
 		if res.Status == "complete" {
 			println("render complete!")
 			url := res.Downloads[0].Url
-			outputFile := "output.png"
+			outputFile := "./outputs/output.png"
 
 			resp, err := http.Get(url)
 			if err != nil {
@@ -374,7 +323,7 @@ async fn main() {
 
                 tokio::task::block_in_place(move || {
                     let response = reqwest::blocking::get(url).unwrap();
-                    let output_path = "output.png";
+                    let output_path = "./outputs/output.png";
                     if response.status().is_success() {
                         let mut output_file = std::fs::File::create(output_path).unwrap();
                         std::io::copy(&mut response, &mut output_file).unwrap();
@@ -407,7 +356,7 @@ URL="https://api.magichour.ai/v1/ai-image-generator"
 STATUS_URL="https://api.magichour.ai/v1/image-projects"
 # Use environment variable for security
 API_KEY="$MAGIC_HOUR_API_KEY"
-OUTPUT_PATH="output.png"
+OUTPUT_PATH="./outputs/output.png"
 
 create_response=$(curl -s $URL \
   --request POST \
@@ -477,7 +426,7 @@ result = client.v1.face_swap.generate(
     end_seconds=8.5,
     wait_for_completion=True, # wait for the render to complete
     download_outputs=True, # download the outputs to local disk
-    download_directory=".", # save the outputs to the current directory
+    download_directory="./outputs", # save to the outputs directory we created earlier
 )
 
 print(f"created face swap video with id {result.id}, spent {result.credits_charged} credits. Outputs are saved at {result.downloaded_paths}")
@@ -505,7 +454,7 @@ async function main() {
     {
       waitForCompletion: true, // wait for the render to complete
       downloadOutputs: true, // download the outputs to local disk
-      downloadDirectory: ".", // save the outputs to the current directory
+      downloadDirectory: "./outputs", // save to the outputs directory we created earlier
     }
   );
 
@@ -565,7 +514,7 @@ func main() {
 		if res.Status == "complete" {
 			fmt.Printf("render complete! Final credits charged is %d, actual fps is %f.\n", res.CreditsCharged, res.Fps)
 			url := res.Downloads[0].Url
-			outputFile := "output.mp4"
+			outputFile := "./outputs/output.mp4"
 
 			resp, err := http.Get(url)
 			if err != nil {
@@ -656,7 +605,7 @@ async fn main() {
 
                 tokio::task::block_in_place(move || {
                     let response = reqwest::blocking::get(url).unwrap();
-                    let output_path = "output.mp4";
+                    let output_path = "./outputs/output.mp4";
                     if response.status().is_success() {
                         let mut output_file = std::fs::File::create(output_path).unwrap();
                         std::io::copy(&mut response, &mut output_file).unwrap();
@@ -689,7 +638,7 @@ URL="https://api.magichour.ai/v1/face-swap"
 STATUS_URL="https://api.magichour.ai/v1/video-projects"
 # Use environment variable for security
 API_KEY="$MAGIC_HOUR_API_KEY"
-OUTPUT_PATH="output.mp4"
+OUTPUT_PATH="./outputs/output.mp4"
 
 create_response=$(curl -s $URL \
   --request POST \
@@ -743,6 +692,58 @@ done
 </Tab>
 </Tabs>
 
+2. **Paste it into your file** (`main.py`, `main.js`, `main.go`, etc.)
+3. **Run the code:**
+
+<CodeGroup>
+
+```bash Python
+# Make sure you're in your project directory
+cd magic-hour-quickstart
+
+# Run the script
+python main.py
+```
+
+```bash Node.js
+# Make sure you're in your project directory
+cd magic-hour-quickstart
+
+# Run the script
+node main.js
+```
+
+```bash Go
+# Make sure you're in your project directory
+cd magic-hour-quickstart
+
+# Run the program
+go run main.go
+```
+
+```bash Rust
+# Make sure you're in your project directory
+cd magic-hour-quickstart
+
+# Run the program
+cargo run
+```
+
+</CodeGroup>
+
+**Expected output:**
+
+```
+queued image with id clx1234567890, spent 5 credits
+render complete!
+created image with id clx1234567890, spent 5 credits. Outputs are saved at ['outputs/output-1.png']
+```
+
+<Note>
+  **SDK Versions:** The `.generate()` helper function requires Python SDK v0.36.0+ or Node SDK
+  v0.37.0+. Other SDKs use the manual create/poll/download pattern shown in the examples.
+</Note>
+
 ## Troubleshooting
 
 ### Common Issues
@@ -759,9 +760,24 @@ mkdir outputs
 
 **Solution:** Make sure you've set your API key as an environment variable:
 
-```bash
+<CodeGroup>
+
+```bash macOS/Linux
+# Add to your ~/.bashrc or ~/.zshrc file
 export MAGIC_HOUR_API_KEY="your_api_key_here"
 ```
+
+```cmd Windows
+# Set environment variable (Command Prompt)
+setx MAGIC_HOUR_API_KEY "your_api_key_here"
+```
+
+```powershell PowerShell
+# Set environment variable (PowerShell)
+[Environment]::SetEnvironmentVariable("MAGIC_HOUR_API_KEY", "your_api_key_here", "User")
+```
+
+</CodeGroup>
 
 ### HTTP Error Codes
 
