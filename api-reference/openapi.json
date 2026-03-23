@@ -392,7 +392,7 @@
     },
     "/v1/face-detection": {
       "post": {
-        "description": "Detect faces in an image or video. \n      \nUse this API to get the list of faces detected in the image or video to use in the [face swap photo](https://docs.magichour.ai/api-reference/image-projects/face-swap-photo) or [face swap video](https://docs.magichour.ai/api-reference/video-projects/face-swap-video) API calls for multi-face swaps.\n\nNote: Face detection is free to use for the near future. Pricing may change in the future.",
+        "description": "Detect faces in an image or video. \n      \nUse this API to get the list of faces detected in the image or video to use in the [face swap photo](https://docs.magichour.ai/api-reference/face-swap-photo/face-swap-photo) or [face swap video](https://docs.magichour.ai/api-reference/face-swap/face-swap-video) API calls for multi-face swaps.\n\nNote: Face detection is free to use for the near future. Pricing may change in the future.",
         "summary": "Face Detection",
         "tags": ["Files"],
         "parameters": [],
@@ -2188,23 +2188,23 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\timage_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/image_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"API_TOKEN\")),\n\t)\n\tres, err := client.V1.ImageToVideo.Create(image_to_video.CreateRequest{\n\t\tAssets: types.V1ImageToVideoCreateBodyAssets{\n\t\t\tImageFilePath: \"api-assets/id/1234.png\",\n\t\t},\n\t\tAudio:      nullable.NewValue(true),\n\t\tEndSeconds: 5.0,\n\t\tModel:      nullable.NewValue(types.V1ImageToVideoCreateBodyModelEnumKling25Audio),\n\t\tName:       nullable.NewValue(\"My Image To Video video\"),\n\t\tResolution: nullable.NewValue(types.V1ImageToVideoCreateBodyResolutionEnum720p),\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\timage_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/image_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"API_TOKEN\")),\n\t)\n\tres, err := client.V1.ImageToVideo.Create(image_to_video.CreateRequest{\n\t\tAssets: types.V1ImageToVideoCreateBodyAssets{\n\t\t\tEndImageFilePath: nullable.NewValue(\"api-assets/id/1234.png\"),\n\t\t\tImageFilePath:    \"api-assets/id/1234.png\",\n\t\t},\n\t\tAudio:      nullable.NewValue(true),\n\t\tEndSeconds: 5.0,\n\t\tModel:      nullable.NewValue(types.V1ImageToVideoCreateBodyModelEnumKling25Audio),\n\t\tName:       nullable.NewValue(\"My Image To Video video\"),\n\t\tResolution: nullable.NewValue(types.V1ImageToVideoCreateBodyResolutionEnum720p),\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"API_TOKEN\").unwrap());\nlet res = client\n    .v1()\n    .image_to_video()\n    .create(magic_hour::resources::v1::image_to_video::CreateRequest {\n        assets: magic_hour::models::V1ImageToVideoCreateBodyAssets {\n            image_file_path: \"api-assets/id/1234.png\".to_string(),\n        },\n        audio: Some(true),\n        end_seconds: 5.0,\n        model: Some(\n            magic_hour::models::V1ImageToVideoCreateBodyModelEnum::Kling25Audio,\n        ),\n        name: Some(\"My Image To Video video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1ImageToVideoCreateBodyResolutionEnum::Enum720p,\n        ),\n        ..Default::default()\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"API_TOKEN\").unwrap());\nlet res = client\n    .v1()\n    .image_to_video()\n    .create(magic_hour::resources::v1::image_to_video::CreateRequest {\n        assets: magic_hour::models::V1ImageToVideoCreateBodyAssets {\n            end_image_file_path: Some(\"api-assets/id/1234.png\".to_string()),\n            image_file_path: \"api-assets/id/1234.png\".to_string(),\n        },\n        audio: Some(true),\n        end_seconds: 5.0,\n        model: Some(\n            magic_hour::models::V1ImageToVideoCreateBodyModelEnum::Kling25Audio,\n        ),\n        name: Some(\"My Image To Video video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1ImageToVideoCreateBodyResolutionEnum::Enum720p,\n        ),\n        ..Default::default()\n    })\n    .await;"
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/image-to-video \\\n     --header 'accept: application/json' \\\n     --header 'authorization: Bearer <token>' \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Image To Video video\",\n  \"end_seconds\": 5,\n  \"model\": \"kling-2.5-audio\",\n  \"resolution\": \"720p\",\n  \"audio\": true,\n  \"style\": {\n    \"prompt\": \"a dog running\"\n  },\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/1234.png\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/image-to-video \\\n     --header 'accept: application/json' \\\n     --header 'authorization: Bearer <token>' \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Image To Video video\",\n  \"end_seconds\": 5,\n  \"model\": \"kling-2.5-audio\",\n  \"resolution\": \"720p\",\n  \"audio\": true,\n  \"style\": {\n    \"prompt\": \"a dog running\"\n  },\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/1234.png\",\n    \"end_image_file_path\": \"api-assets/id/1234.png\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/image-to-video\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Image To Video video',\n    'end_seconds' => 5,\n    'model' => 'kling-2.5-audio',\n    'resolution' => '720p',\n    'audio' => true,\n    'style' => [\n        'prompt' => 'a dog running'\n    ],\n    'assets' => [\n        'image_file_path' => 'api-assets/id/1234.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/image-to-video\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Image To Video video',\n    'end_seconds' => 5,\n    'model' => 'kling-2.5-audio',\n    'resolution' => '720p',\n    'audio' => true,\n    'style' => [\n        'prompt' => 'a dog running'\n    ],\n    'assets' => [\n        'image_file_path' => 'api-assets/id/1234.png',\n        'end_image_file_path' => 'api-assets/id/1234.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/image-to-video\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Image To Video video\\\",\\\"end_seconds\\\":5,\\\"model\\\":\\\"kling-2.5-audio\\\",\\\"resolution\\\":\\\"720p\\\",\\\"audio\\\":true,\\\"style\\\":{\\\"prompt\\\":\\\"a dog running\\\"},\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/image-to-video\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Image To Video video\\\",\\\"end_seconds\\\":5,\\\"model\\\":\\\"kling-2.5-audio\\\",\\\"resolution\\\":\\\"720p\\\",\\\"audio\\\":true,\\\"style\\\":{\\\"prompt\\\":\\\"a dog running\\\"},\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\",\\\"end_image_file_path\\\":\\\"api-assets/id/1234.png\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -3460,7 +3460,7 @@
     },
     "/v1/ai-face-editor": {
       "post": {
-        "description": "Edit facial features of an image using AI. Each edit costs 1 frame. The height/width of the output image depends on your subscription. Please refer to https://magichour.ai/pricing for more details",
+        "description": "Edit facial features of an image using AI. Each edit costs 1 frame. The height/width of the output image depends on your subscription. Please refer to our [pricing](/pricing) page for more details",
         "summary": "AI Face Editor",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -3991,6 +3991,12 @@
                     "description": "The aspect ratio of the output image(s). If not specified, defaults to `auto`.",
                     "example": "1:1"
                   },
+                  "resolution": {
+                    "type": "string",
+                    "enum": ["auto", "2k", "4k"],
+                    "description": "Maximum resolution for the generated image.\n\n**Options:**\n- `auto` - Automatic resolution (all tiers, default)\n- `2k` - Up to 2048px (requires Pro or Business tier)\n- `4k` - Up to 4096px (requires Business tier)\n\nNote: Resolution availability depends on your subscription tier. Defaults to `auto` if not specified.",
+                    "example": "auto"
+                  },
                   "style": {
                     "type": "object",
                     "properties": {
@@ -4140,15 +4146,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-image-editor \\\n     --header 'accept: application/json' \\\n     --header 'authorization: Bearer <token>' \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Ai Image Editor image\",\n  \"image_count\": 1,\n  \"model\": \"default\",\n  \"aspect_ratio\": \"1:1\",\n  \"style\": {\n    \"prompt\": \"Give me sunglasses\"\n  },\n  \"assets\": {\n    \"image_file_paths\": [\n      \"api-assets/id/1234.png\",\n      \"api-assets/id/1235.png\"\n    ]\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-image-editor \\\n     --header 'accept: application/json' \\\n     --header 'authorization: Bearer <token>' \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Ai Image Editor image\",\n  \"image_count\": 1,\n  \"model\": \"default\",\n  \"aspect_ratio\": \"1:1\",\n  \"resolution\": \"auto\",\n  \"style\": {\n    \"prompt\": \"Give me sunglasses\"\n  },\n  \"assets\": {\n    \"image_file_paths\": [\n      \"api-assets/id/1234.png\",\n      \"api-assets/id/1235.png\"\n    ]\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-image-editor\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Ai Image Editor image',\n    'image_count' => 1,\n    'model' => 'default',\n    'aspect_ratio' => '1:1',\n    'style' => [\n        'prompt' => 'Give me sunglasses'\n    ],\n    'assets' => [\n        'image_file_paths' => [\n                'api-assets/id/1234.png',\n                'api-assets/id/1235.png'\n        ]\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-image-editor\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Ai Image Editor image',\n    'image_count' => 1,\n    'model' => 'default',\n    'aspect_ratio' => '1:1',\n    'resolution' => 'auto',\n    'style' => [\n        'prompt' => 'Give me sunglasses'\n    ],\n    'assets' => [\n        'image_file_paths' => [\n                'api-assets/id/1234.png',\n                'api-assets/id/1235.png'\n        ]\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-image-editor\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Ai Image Editor image\\\",\\\"image_count\\\":1,\\\"model\\\":\\\"default\\\",\\\"aspect_ratio\\\":\\\"1:1\\\",\\\"style\\\":{\\\"prompt\\\":\\\"Give me sunglasses\\\"},\\\"assets\\\":{\\\"image_file_paths\\\":[\\\"api-assets/id/1234.png\\\",\\\"api-assets/id/1235.png\\\"]}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-image-editor\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Ai Image Editor image\\\",\\\"image_count\\\":1,\\\"model\\\":\\\"default\\\",\\\"aspect_ratio\\\":\\\"1:1\\\",\\\"resolution\\\":\\\"auto\\\",\\\"style\\\":{\\\"prompt\\\":\\\"Give me sunglasses\\\"},\\\"assets\\\":{\\\"image_file_paths\\\":[\\\"api-assets/id/1234.png\\\",\\\"api-assets/id/1235.png\\\"]}}\")\n  .asString();"
           }
         ]
       }
@@ -4371,7 +4377,7 @@
                       "nano-banana-2",
                       "nano-banana-pro"
                     ],
-                    "description": "The AI model to use for image generation. Each model has different capabilities and costs.\n\n**Models:**\n- `default` - Use the model we recommend, which will change over time. This is recommended unless you need a specific model. This is the default behavior.\n- `flux-schnell` - 5 credits/image\n  - Supported resolutions: auto\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `z-image-turbo` - 5 credits/image\n  - Supported resolutions: auto, 2k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `seedream` - 30 credits/image\n  - Supported resolutions: auto, 2k, 4k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `nano-banana` - 50 credits/image\n  - Supported resolutions: auto\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `nano-banana-2` - 100 credits/image\n  - Supported resolutions: auto\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `nano-banana-pro` - 150 credits/image\n  - Supported resolutions: auto\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 4, 9, 16\n",
+                    "description": "The AI model to use for image generation. Each model has different capabilities and costs.\n\n**Models:**\n- `default` - Use the model we recommend, which will change over time. This is recommended unless you need a specific model. This is the default behavior.\n- `flux-schnell` - 5 credits/image\n  - Supported resolutions: auto\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `z-image-turbo` - 5 credits/image\n  - Supported resolutions: auto, 2k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `seedream` - 30 credits/image\n  - Supported resolutions: auto, 2k, 4k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `nano-banana` - 50 credits/image\n  - Supported resolutions: auto\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `nano-banana-2` - 100 credits/image\n  - Supported resolutions: auto, 2k, 4k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `nano-banana-pro` - 150 credits/image\n  - Supported resolutions: auto, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 4, 9, 16\n",
                     "example": "default"
                   },
                   "aspect_ratio": {
@@ -4625,7 +4631,7 @@
                       "image_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The image to upscale. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "The image to upscale. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n. The maximum input image size is 4096x4096px.",
                         "example": "api-assets/id/1234.png"
                       }
                     },
@@ -5138,7 +5144,7 @@
     },
     "/v1/face-swap-photo": {
       "post": {
-        "description": "Create a face swap photo. Each photo costs 5 credits. The height/width of the output image depends on your subscription. Please refer to our [pricing](https://magichour.ai/pricing) page for more details",
+        "description": "Create a face swap photo. Each photo costs 10 credits. The height/width of the output image depends on your subscription. Please refer to our [pricing](https://magichour.ai/pricing) page for more details",
         "summary": "Face Swap Photo",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -5232,7 +5238,7 @@
                     "credits_charged": {
                       "type": "integer",
                       "description": "The amount of credits deducted from your account to generate the image. We charge credits right when the request is made. \n\nIf an error occurred while generating the image(s), credits will be refunded and this field will be updated to include the refund.",
-                      "example": 5
+                      "example": 10
                     }
                   },
                   "required": ["id", "frame_cost", "credits_charged"],
