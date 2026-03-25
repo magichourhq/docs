@@ -125,7 +125,10 @@
               },
               {
                 "group": "Audio",
-                "pages": ["tools/audio/voice-cloner", "tools/audio/voice-generator"]
+                "pages": [
+                  "tools/audio/voice-cloner",
+                  "tools/audio/voice-generator"
+                ]
               }
             ]
           }
@@ -173,6 +176,7 @@
               "api-reference/image-projects/ai-meme-generator",
               "api-reference/image-projects/ai-qr-code-generator",
               "api-reference/image-projects/face-swap-photo",
+              "api-reference/image-projects/head-swap",
               "api-reference/image-projects/image-background-remover",
               "api-reference/image-projects/photo-colorizer"
             ]
@@ -223,7 +227,12 @@
         "pages": [
           {
             "group": "Product Updates",
-            "pages": ["changelog", "changelog/2025", "changelog/2024", "changelog/2023"]
+            "pages": [
+              "changelog",
+              "changelog/2025",
+              "changelog/2024",
+              "changelog/2023"
+            ]
           }
         ]
       }
@@ -253,6 +262,15 @@
     }
   },
   "contextual": {
-    "options": ["chatgpt", "claude", "perplexity", "mcp", "cursor", "vscode", "copy", "view"]
+    "options": [
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode",
+      "copy",
+      "view"
+    ]
   }
 }
