@@ -5352,6 +5352,157 @@
         ]
       }
     },
+    "/v1/head-swap": {
+      "post": {
+        "description": "Swap a head onto a body image. Each image costs 10 credits. Output resolution depends on your subscription; you may set `max_resolution` lower than your plan maximum if desired.",
+        "summary": "Head Swap",
+        "tags": ["Image Projects"],
+        "parameters": [],
+        "operationId": "headSwap.createImage",
+        "requestBody": {
+          "required": true,
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Give your image a custom name for easy identification.",
+                    "example": "My Head Swap image",
+                    "default": "Head Swap - dateTime"
+                  },
+                  "max_resolution": {
+                    "type": "integer",
+                    "description": "Constrains the larger dimension (height or width) of the output. Omit to use the maximum allowed for your plan (capped at 2048px). Values above your plan maximum are clamped down to your plan's maximum.",
+                    "example": 1024
+                  },
+                  "assets": {
+                    "type": "object",
+                    "properties": {
+                      "body_file_path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Image that receives the swapped head. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "example": "api-assets/id/1234.png"
+                      },
+                      "head_file_path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Image of the head to place on the body. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "example": "api-assets/id/5678.png"
+                      }
+                    },
+                    "required": ["body_file_path", "head_file_path"],
+                    "description": "Provide the body and head images for head swap"
+                  }
+                },
+                "required": ["assets"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "cuid-example",
+                      "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
+                    },
+                    "credits_charged": {
+                      "type": "integer",
+                      "description": "The amount of credits deducted from your account to generate the image. We charge credits right when the request is made. \n\nIf an error occurred while generating the image(s), credits will be refunded and this field will be updated to include the refund.",
+                      "example": 10
+                    }
+                  },
+                  "required": ["id", "frame_cost", "credits_charged"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request is invalid",
+                  "example": { "message": "Missing request body" }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "required": ["message"],
+                  "description": "The request is not properly authenticated",
+                  "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "required": ["message"],
+                  "description": "Requested resource is not found",
+                  "example": { "message": "Not Found" }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Unable to create image" }
+                  },
+                  "required": ["message"],
+                  "description": "Unprocessable Entity"
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
     "/v1/image-background-remover": {
       "post": {
         "description": "Remove background from image. Each image costs 5 credits.",
