@@ -4138,11 +4138,11 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_image_editor \"github.com/magichourhq/magic-hour-go/resources/v1/ai_image_editor\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"API_TOKEN\")),\n\t)\n\tres, err := client.V1.AiImageEditor.Create(ai_image_editor.CreateRequest{\n\t\tAspectRatio: nullable.NewValue(types.V1AiImageEditorCreateBodyAspectRatioEnum11),\n\t\tAssets: types.V1AiImageEditorCreateBodyAssets{\n\t\t\tImageFilePaths: nullable.NewValue([]string{\n\t\t\t\t\"api-assets/id/1234.png\",\n\t\t\t\t\"api-assets/id/1235.png\",\n\t\t\t}),\n\t\t},\n\t\tImageCount: nullable.NewValue(1.0),\n\t\tModel:      nullable.NewValue(types.V1AiImageEditorCreateBodyModelEnumDefault),\n\t\tName:       nullable.NewValue(\"My Ai Image Editor image\"),\n\t\tStyle: types.V1AiImageEditorCreateBodyStyle{\n\t\t\tPrompt: \"Give me sunglasses\",\n\t\t},\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_image_editor \"github.com/magichourhq/magic-hour-go/resources/v1/ai_image_editor\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"API_TOKEN\")),\n\t)\n\tres, err := client.V1.AiImageEditor.Create(ai_image_editor.CreateRequest{\n\t\tAspectRatio: nullable.NewValue(types.V1AiImageEditorCreateBodyAspectRatioEnum11),\n\t\tAssets: types.V1AiImageEditorCreateBodyAssets{\n\t\t\tImageFilePaths: nullable.NewValue([]string{\n\t\t\t\t\"api-assets/id/1234.png\",\n\t\t\t\t\"api-assets/id/1235.png\",\n\t\t\t}),\n\t\t},\n\t\tImageCount: nullable.NewValue(1.0),\n\t\tModel:      nullable.NewValue(types.V1AiImageEditorCreateBodyModelEnumDefault),\n\t\tName:       nullable.NewValue(\"My Ai Image Editor image\"),\n\t\tResolution: nullable.NewValue(types.V1AiImageEditorCreateBodyResolutionEnumAuto),\n\t\tStyle: types.V1AiImageEditorCreateBodyStyle{\n\t\t\tPrompt: \"Give me sunglasses\",\n\t\t},\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"API_TOKEN\").unwrap());\nlet res = client\n    .v1()\n    .ai_image_editor()\n    .create(magic_hour::resources::v1::ai_image_editor::CreateRequest {\n        aspect_ratio: Some(\n            magic_hour::models::V1AiImageEditorCreateBodyAspectRatioEnum::Enum11,\n        ),\n        assets: magic_hour::models::V1AiImageEditorCreateBodyAssets {\n            image_file_paths: Some(\n                vec![\n                    \"api-assets/id/1234.png\".to_string(), \"api-assets/id/1235.png\"\n                    .to_string()\n                ],\n            ),\n            ..Default::default()\n        },\n        image_count: Some(1.0),\n        model: Some(magic_hour::models::V1AiImageEditorCreateBodyModelEnum::Default),\n        name: Some(\"My Ai Image Editor image\".to_string()),\n        style: magic_hour::models::V1AiImageEditorCreateBodyStyle {\n            prompt: \"Give me sunglasses\".to_string(),\n            ..Default::default()\n        },\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"API_TOKEN\").unwrap());\nlet res = client\n    .v1()\n    .ai_image_editor()\n    .create(magic_hour::resources::v1::ai_image_editor::CreateRequest {\n        aspect_ratio: Some(\n            magic_hour::models::V1AiImageEditorCreateBodyAspectRatioEnum::Enum11,\n        ),\n        assets: magic_hour::models::V1AiImageEditorCreateBodyAssets {\n            image_file_paths: Some(\n                vec![\n                    \"api-assets/id/1234.png\".to_string(), \"api-assets/id/1235.png\"\n                    .to_string()\n                ],\n            ),\n            ..Default::default()\n        },\n        image_count: Some(1.0),\n        model: Some(magic_hour::models::V1AiImageEditorCreateBodyModelEnum::Default),\n        name: Some(\"My Ai Image Editor image\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1AiImageEditorCreateBodyResolutionEnum::Auto,\n        ),\n        style: magic_hour::models::V1AiImageEditorCreateBodyStyle {\n            prompt: \"Give me sunglasses\".to_string(),\n            ..Default::default()\n        },\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -5500,7 +5500,37 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }]
+        "security": [{ "bearerAuth": [] }],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.head_swap.generate(\n    assets={\n        \"body_file_path\": \"/path/to/body.png\",\n        \"head_file_path\": \"/path/to/head.png\",\n    },\n    max_resolution=1024,\n    name=\"My Head Swap image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\",\n)"
+          },
+          {
+            "lang": "javascript",
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.headSwap.create({\n  assets: {\n    bodyFilePath: \"api-assets/id/1234.png\",\n    headFilePath: \"api-assets/id/5678.png\",\n  },\n  maxResolution: 1024,\n  name: \"My Head Swap image\",\n});"
+          },
+          {
+            "lang": "go",
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\thead_swap \"github.com/magichourhq/magic-hour-go/resources/v1/head_swap\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"API_TOKEN\")),\n\t)\n\tres, err := client.V1.HeadSwap.Create(head_swap.CreateRequest{\n\t\tAssets: types.V1HeadSwapCreateBodyAssets{\n\t\t\tBodyFilePath: \"api-assets/id/1234.png\",\n\t\t\tHeadFilePath: \"api-assets/id/5678.png\",\n\t\t},\n\t\tMaxResolution: nullable.NewValue(1024),\n\t\tName:          nullable.NewValue(\"My Head Swap image\"),\n\t})\n}"
+          },
+          {
+            "lang": "rust",
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"API_TOKEN\").unwrap());\nlet res = client\n    .v1()\n    .head_swap()\n    .create(magic_hour::resources::v1::head_swap::CreateRequest {\n        assets: magic_hour::models::V1HeadSwapCreateBodyAssets {\n            body_file_path: \"api-assets/id/1234.png\".to_string(),\n            head_file_path: \"api-assets/id/5678.png\".to_string(),\n        },\n        max_resolution: Some(1024),\n        name: Some(\"My Head Swap image\".to_string()),\n    })\n    .await;"
+          },
+          {
+            "lang": "curl",
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/head-swap \\\n     --header 'accept: application/json' \\\n     --header 'authorization: Bearer <token>' \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Head Swap image\",\n  \"max_resolution\": 1024,\n  \"assets\": {\n    \"body_file_path\": \"api-assets/id/1234.png\",\n    \"head_file_path\": \"api-assets/id/5678.png\"\n  }\n}\n'"
+          },
+          {
+            "lang": "php",
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/head-swap\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Head Swap image',\n    'max_resolution' => 1024,\n    'assets' => [\n        'body_file_path' => 'api-assets/id/1234.png',\n        'head_file_path' => 'api-assets/id/5678.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+          },
+          {
+            "lang": "java",
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/head-swap\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Head Swap image\\\",\\\"max_resolution\\\":1024,\\\"assets\\\":{\\\"body_file_path\\\":\\\"api-assets/id/1234.png\\\",\\\"head_file_path\\\":\\\"api-assets/id/5678.png\\\"}}\")\n  .asString();"
+          }
+        ]
       }
     },
     "/v1/image-background-remover": {
