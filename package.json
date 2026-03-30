@@ -16,10 +16,10 @@
   "devDependencies": {
     "@ai-sdk/openai": "3.0.48",
     "@linear/sdk": "80.0.0",
-    "@mintlify/scraping": "4.0.673",
+    "@mintlify/scraping": "4.0.681",
     "ai": "6.0.116",
     "dotenv": "17.3.1",
-    "mintlify": "4.2.442",
+    "mintlify": "4.2.453",
     "prettier": "3.8.1",
     "tsx": "4.21.0",
     "typescript": "6.0.2",
