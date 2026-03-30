@@ -2010,7 +2010,7 @@
                     "type": "number",
                     "minimum": 2,
                     "maximum": 60,
-                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`seedance`**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`kling-2.5`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n\nLegacy models:\n* **`kling-1.6`**: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60",
+                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`seedance`**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`kling-2.5`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n\nLegacy models:\n* **`kling-1.6`**: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60",
                     "format": "float",
                     "example": 5
                   },
@@ -2020,6 +2020,7 @@
                     "enum": [
                       "default",
                       "ltx-2",
+                      "wan-2.2",
                       "seedance",
                       "kling-2.5",
                       "kling-3.0",
@@ -2029,18 +2030,18 @@
                       "kling-2.5-audio",
                       "veo3.1-audio"
                     ],
-                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-2.5`. For free tiers, it defaults to `ltx-2`.\n* `ltx-2`: Great for fast iteration with audio, lip-sync, and expressive faces\n* `seedance`: Great for fast iteration and start/end frame\n* `kling-2.5`: Great for motion, action, and camera control\n* `kling-3.0`: Great for cinematic, multi-scene storytelling with control\n* `sora-2`: Great for story-telling, dialogue & creativity\n* `veo3.1`: Great for realism, polish, & prompt adherence\n\nLegacy models:\n* `kling-1.6`: Great for dependable clips with smooth motion\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
-                    "example": "kling-2.5-audio"
+                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2`.\n* `ltx-2`: Great for fast iteration with audio, lip-sync, and expressive faces\n* `wan-2.2`: Fast, medium-quality model with strong visuals and effect support.\n* `seedance`: Great for fast iteration and start/end frame\n* `kling-2.5`: Great for motion, action, and camera control\n* `kling-3.0`: Great for cinematic, multi-scene storytelling with control\n* `sora-2`: Great for story-telling, dialogue & creativity\n* `veo3.1`: Great for realism, polish, & prompt adherence\n\nLegacy models:\n* `kling-1.6`: Great for dependable clips with smooth motion\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
+                    "example": "kling-3.0"
                   },
                   "resolution": {
                     "type": "string",
                     "enum": ["480p", "720p", "1080p"],
                     "example": "720p",
-                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`ltx-2`**: Supports 480p, 720p, 1080p.\n* **`seedance`**: Supports 480p, 720p, 1080p.\n* **`kling-2.5`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p.\n* **`sora-2`**: Supports 720p.\n* **`veo3.1`**: Supports 720p, 1080p.\n\nLegacy models:\n* **`kling-1.6`**: Supports 720p, 1080p."
+                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`ltx-2`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`seedance`**: Supports 480p, 720p, 1080p.\n* **`kling-2.5`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p.\n* **`sora-2`**: Supports 720p.\n* **`veo3.1`**: Supports 720p, 1080p.\n\nLegacy models:\n* **`kling-1.6`**: Supports 720p, 1080p."
                   },
                   "audio": {
                     "type": "boolean",
-                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`ltx-2`**: Automatically included with no extra credits\n* **`seedance`**: Not supported\n* **`kling-2.5`**: Automatically included with no extra credits\n* **`kling-3.0`**: Toggle-able (can enable/disable)\n* **`sora-2`**: Automatically included with no extra credits\n* **`veo3.1`**: Toggle-able (can enable/disable)\n\nLegacy models:\n* **`kling-1.6`**: Not supported",
+                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`ltx-2`**: Automatically included with no extra credits\n* **`wan-2.2`**: Not supported\n* **`seedance`**: Not supported\n* **`kling-2.5`**: Automatically included with no extra credits\n* **`kling-3.0`**: Toggle-able (can enable/disable)\n* **`sora-2`**: Automatically included with no extra credits\n* **`veo3.1`**: Toggle-able (can enable/disable)\n\nLegacy models:\n* **`kling-1.6`**: Not supported",
                     "example": true
                   },
                   "style": {
@@ -2066,7 +2067,7 @@
                       "end_image_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The image to use as the last frame of the video.\n\n* **`ltx-2`**: Not supported\n* **`seedance`**: Supports 480p, 720p, 1080p.\n* **`kling-2.5`**: Supports 1080p.\n* **`kling-3.0`**: Supports 1080p.\n* **`sora-2`**: Not supported\n* **`veo3.1`**: Not supported\n\nLegacy models:\n* **`kling-1.6`**: Not supported",
+                        "description": "The image to use as the last frame of the video.\n\n* **`ltx-2`**: Not supported\n* **`wan-2.2`**: Not supported\n* **`seedance`**: Supports 480p, 720p, 1080p.\n* **`kling-2.5`**: Supports 1080p.\n* **`kling-3.0`**: Supports 1080p.\n* **`sora-2`**: Not supported\n* **`veo3.1`**: Not supported\n\nLegacy models:\n* **`kling-1.6`**: Not supported",
                         "example": "api-assets/id/1234.png"
                       }
                     },
@@ -2775,21 +2776,21 @@
                     "type": "number",
                     "minimum": 2,
                     "maximum": 60,
-                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`seedance`**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`kling-2.5`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n\nLegacy models:\n* **`kling-1.6`**: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60",
+                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`seedance`**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`kling-2.5`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n\nLegacy models:\n* **`kling-1.6`**: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60",
                     "format": "float",
                     "example": 5
                   },
                   "aspect_ratio": {
                     "type": "string",
                     "enum": ["16:9", "9:16", "1:1"],
-                    "description": "Determines the aspect ratio of the output video.\n\n* **`ltx-2`**: Supports 9:16, 16:9, 1:1.\n* **`seedance`**: Supports 9:16, 16:9, 1:1.\n* **`kling-2.5`**: Supports 9:16, 16:9, 1:1.\n* **`kling-3.0`**: Supports 9:16, 16:9, 1:1.\n* **`sora-2`**: Supports 9:16, 16:9.\n* **`veo3.1`**: Supports 9:16, 16:9.\n\nLegacy models:\n* **`kling-1.6`**: Supports 9:16, 16:9, 1:1.",
+                    "description": "Determines the aspect ratio of the output video.\n\n* **`ltx-2`**: Supports 9:16, 16:9, 1:1.\n* **`wan-2.2`**: Supports 9:16, 16:9, 1:1.\n* **`seedance`**: Supports 9:16, 16:9, 1:1.\n* **`kling-2.5`**: Supports 9:16, 16:9, 1:1.\n* **`kling-3.0`**: Supports 9:16, 16:9, 1:1.\n* **`sora-2`**: Supports 9:16, 16:9.\n* **`veo3.1`**: Supports 9:16, 16:9.\n\nLegacy models:\n* **`kling-1.6`**: Supports 9:16, 16:9, 1:1.",
                     "example": "16:9"
                   },
                   "resolution": {
                     "type": "string",
                     "enum": ["480p", "720p", "1080p"],
                     "example": "720p",
-                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`ltx-2`**: Supports 480p, 720p, 1080p.\n* **`seedance`**: Supports 480p, 720p, 1080p.\n* **`kling-2.5`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p.\n* **`sora-2`**: Supports 720p.\n* **`veo3.1`**: Supports 720p, 1080p.\n\nLegacy models:\n* **`kling-1.6`**: Supports 720p, 1080p."
+                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`ltx-2`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`seedance`**: Supports 480p, 720p, 1080p.\n* **`kling-2.5`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p.\n* **`sora-2`**: Supports 720p.\n* **`veo3.1`**: Supports 720p, 1080p.\n\nLegacy models:\n* **`kling-1.6`**: Supports 720p, 1080p."
                   },
                   "model": {
                     "default": "default",
@@ -2797,6 +2798,7 @@
                     "enum": [
                       "default",
                       "ltx-2",
+                      "wan-2.2",
                       "seedance",
                       "kling-2.5",
                       "kling-3.0",
@@ -2806,12 +2808,12 @@
                       "kling-2.5-audio",
                       "veo3.1-audio"
                     ],
-                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-2.5`. For free tiers, it defaults to `ltx-2`.\n* `ltx-2`: Great for fast iteration with audio, lip-sync, and expressive faces\n* `seedance`: Great for fast iteration and start/end frame\n* `kling-2.5`: Great for motion, action, and camera control\n* `kling-3.0`: Great for cinematic, multi-scene storytelling with control\n* `sora-2`: Great for story-telling, dialogue & creativity\n* `veo3.1`: Great for realism, polish, & prompt adherence\n\nLegacy models:\n* `kling-1.6`: Great for dependable clips with smooth motion\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
-                    "example": "kling-2.5-audio"
+                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2`.\n* `ltx-2`: Great for fast iteration with audio, lip-sync, and expressive faces\n* `wan-2.2`: Fast, medium-quality model with strong visuals and effect support.\n* `seedance`: Great for fast iteration and start/end frame\n* `kling-2.5`: Great for motion, action, and camera control\n* `kling-3.0`: Great for cinematic, multi-scene storytelling with control\n* `sora-2`: Great for story-telling, dialogue & creativity\n* `veo3.1`: Great for realism, polish, & prompt adherence\n\nLegacy models:\n* `kling-1.6`: Great for dependable clips with smooth motion\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
+                    "example": "kling-3.0"
                   },
                   "audio": {
                     "type": "boolean",
-                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`ltx-2`**: Automatically included with no extra credits\n* **`seedance`**: Not supported\n* **`kling-2.5`**: Automatically included with no extra credits\n* **`kling-3.0`**: Toggle-able (can enable/disable)\n* **`sora-2`**: Automatically included with no extra credits\n* **`veo3.1`**: Toggle-able (can enable/disable)\n\nLegacy models:\n* **`kling-1.6`**: Not supported",
+                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`ltx-2`**: Automatically included with no extra credits\n* **`wan-2.2`**: Not supported\n* **`seedance`**: Not supported\n* **`kling-2.5`**: Automatically included with no extra credits\n* **`kling-3.0`**: Toggle-able (can enable/disable)\n* **`sora-2`**: Automatically included with no extra credits\n* **`veo3.1`**: Toggle-able (can enable/disable)\n\nLegacy models:\n* **`kling-1.6`**: Not supported",
                     "example": true
                   },
                   "style": {
@@ -6257,7 +6259,6 @@
                           "Ben Whishaw",
                           "Billie Joe Armstrong",
                           "Bingbing Li",
-                          "Bob Barker",
                           "Booboo Stewart",
                           "Bradley Steven Perry",
                           "Bruno Mars",
@@ -6417,7 +6418,7 @@
                           "J.J. Abrams",
                           "Zoe Saldana"
                         ],
-                        "description": "The voice to use for the speech. Available voices: Elon Musk, Mark Zuckerberg, Joe Rogan, Barack Obama, Morgan Freeman, Kanye West, Donald Trump, Joe Biden, Kim Kardashian, Taylor Swift, James Earl Jones, Samuel L. Jackson, Jeff Goldblum, David Attenborough, Sean Connery, Cillian Murphy, Anne Hathaway, Julia Roberts, Natalie Portman, Steve Carell, Amy Poehler, Stephen Colbert, Jimmy Fallon, David Letterman, Alex Trebek, Katy Perry, Prince, Kevin Bacon, Tom Hiddleston, Adam Driver, Alan Rickman, Alexz Johnson, Ana Gasteyer, Andrew Rannells, Arden Cho, Bear Grylls, Ben McKenzie, Ben Stiller, Ben Whishaw, Billie Joe Armstrong, Bingbing Li, Bob Barker, Booboo Stewart, Bradley Steven Perry, Bruno Mars, Caity Lotz, Cameron Boyce, Candice Accola, Carrie Underwood, Casey Affleck, Caterina Scorsone, Cedric the Entertainer, Chace Crawford, Chadwick Boseman, Charlie Day, Chris Hemsworth, Chris Martin, Christopher Mintz-Plasse, Dan Fogler, Dan Stevens, Daniel Dae Kim, Danielle Panabaker, Dave Bautista, David Schwimmer, Denis Leary, Derek Mears, Diego Luna, Donald Glover, Donnie Yen, Doutzen Kroes, Dove Cameron, Dr. Dre, Drake Bell, Elle Fanning, Ernie Hudson, Fergie, Forest Whitaker, Francia Raisa, Freddie Highmore, Gillian Jacobs, Gina Carano, Ginnifer Goodwin, Gordon Ramsay, Guy Pearce, Gwendoline Christie, Hailee Steinfeld, Howie Mandel, Hugh Jackman, Hugh Laurie, J. K. Simmons, Jack Black, Jared Leto, Jennifer Carpenter, Kesha, Kris Jenner, Kristen Bell, Lorde, Matt Smith, Marilyn Monroe, Charlie Chaplin, Albert Einstein, Abraham Lincoln, John F. Kennedy, Lucille Ball, A.R. Rahman, Aamir Khan, Ajay Devgn, Akshay Kumar, Alain Delon, Alan Alda, Alan Cumming, Amitabh Bachchan, Ang Lee, Ansel Elgort, Anthony Anderson, Anthony Mackie, Armie Hammer, Asa Butterfield, B.J. Novak, Barbara Eden, Betty White, Bill Nighy, Bill Pullman, Blake Shelton, Bonnie Wright, Brad Paisley, Brendan Gleeson, Brian Cox, Bruno Ganz, Burt Reynolds, Carrie Fisher, Charles Dance, Chiwetel Ejiofor, Chris Pine, Christina Hendricks, Christina Ricci, Cyndi Lauper, Dakota Fanning, Damian Lewis, Dan Aykroyd, Daniel Craig, David Oyelowo, David Tennant, Diane Keaton, Diane Kruger, Dick Van Dyke, Domhnall Gleeson, Dominic Cooper, Donald Sutherland, Drew Carey, Eartha Kitt, Eddie Izzard, Edward Asner, Eli Roth, Elisabeth Moss, Ellen Burstyn, Emile Hirsch, Ezra Miller, Felicity Jones, Fiona Shaw, Florence Henderson, Freida Pinto, Geena Davis, Gemma Arterton, Geri Halliwell, Glenn Close, Gloria Steinem, Greta Gerwig, Gugu Mbatha-Raw, Hans Zimmer, Harry Connick Jr., Harvey Keitel, Helena Bonham Carter, Henry Cavill, Hilary Swank, Hugh Bonneville, Idina Menzel, Imelda Staunton, Ingrid Bergman, Irrfan Khan, Isla Fisher, Iwan Rheon, Jack Lemmon, Janet Jackson, Jason Bateman, Jason Segel, Jennifer Coolidge, Johnny Galecki, Jon Favreau, Joseph Gordon-Levitt, Josh Brolin, Josh Gad, Josh Groban, Julia Louis-Dreyfus, Kristen Stewart, Kristen Wiig, Rooney Mara, Caitriona Balfe, J.J. Abrams, Zoe Saldana",
+                        "description": "The voice to use for the speech. Available voices: Elon Musk, Mark Zuckerberg, Joe Rogan, Barack Obama, Morgan Freeman, Kanye West, Donald Trump, Joe Biden, Kim Kardashian, Taylor Swift, James Earl Jones, Samuel L. Jackson, Jeff Goldblum, David Attenborough, Sean Connery, Cillian Murphy, Anne Hathaway, Julia Roberts, Natalie Portman, Steve Carell, Amy Poehler, Stephen Colbert, Jimmy Fallon, David Letterman, Alex Trebek, Katy Perry, Prince, Kevin Bacon, Tom Hiddleston, Adam Driver, Alan Rickman, Alexz Johnson, Ana Gasteyer, Andrew Rannells, Arden Cho, Bear Grylls, Ben McKenzie, Ben Stiller, Ben Whishaw, Billie Joe Armstrong, Bingbing Li, Booboo Stewart, Bradley Steven Perry, Bruno Mars, Caity Lotz, Cameron Boyce, Candice Accola, Carrie Underwood, Casey Affleck, Caterina Scorsone, Cedric the Entertainer, Chace Crawford, Chadwick Boseman, Charlie Day, Chris Hemsworth, Chris Martin, Christopher Mintz-Plasse, Dan Fogler, Dan Stevens, Daniel Dae Kim, Danielle Panabaker, Dave Bautista, David Schwimmer, Denis Leary, Derek Mears, Diego Luna, Donald Glover, Donnie Yen, Doutzen Kroes, Dove Cameron, Dr. Dre, Drake Bell, Elle Fanning, Ernie Hudson, Fergie, Forest Whitaker, Francia Raisa, Freddie Highmore, Gillian Jacobs, Gina Carano, Ginnifer Goodwin, Gordon Ramsay, Guy Pearce, Gwendoline Christie, Hailee Steinfeld, Howie Mandel, Hugh Jackman, Hugh Laurie, J. K. Simmons, Jack Black, Jared Leto, Jennifer Carpenter, Kesha, Kris Jenner, Kristen Bell, Lorde, Matt Smith, Marilyn Monroe, Charlie Chaplin, Albert Einstein, Abraham Lincoln, John F. Kennedy, Lucille Ball, A.R. Rahman, Aamir Khan, Ajay Devgn, Akshay Kumar, Alain Delon, Alan Alda, Alan Cumming, Amitabh Bachchan, Ang Lee, Ansel Elgort, Anthony Anderson, Anthony Mackie, Armie Hammer, Asa Butterfield, B.J. Novak, Barbara Eden, Betty White, Bill Nighy, Bill Pullman, Blake Shelton, Bonnie Wright, Brad Paisley, Brendan Gleeson, Brian Cox, Bruno Ganz, Burt Reynolds, Carrie Fisher, Charles Dance, Chiwetel Ejiofor, Chris Pine, Christina Hendricks, Christina Ricci, Cyndi Lauper, Dakota Fanning, Damian Lewis, Dan Aykroyd, Daniel Craig, David Oyelowo, David Tennant, Diane Keaton, Diane Kruger, Dick Van Dyke, Domhnall Gleeson, Dominic Cooper, Donald Sutherland, Drew Carey, Eartha Kitt, Eddie Izzard, Edward Asner, Eli Roth, Elisabeth Moss, Ellen Burstyn, Emile Hirsch, Ezra Miller, Felicity Jones, Fiona Shaw, Florence Henderson, Freida Pinto, Geena Davis, Gemma Arterton, Geri Halliwell, Glenn Close, Gloria Steinem, Greta Gerwig, Gugu Mbatha-Raw, Hans Zimmer, Harry Connick Jr., Harvey Keitel, Helena Bonham Carter, Henry Cavill, Hilary Swank, Hugh Bonneville, Idina Menzel, Imelda Staunton, Ingrid Bergman, Irrfan Khan, Isla Fisher, Iwan Rheon, Jack Lemmon, Janet Jackson, Jason Bateman, Jason Segel, Jennifer Coolidge, Johnny Galecki, Jon Favreau, Joseph Gordon-Levitt, Josh Brolin, Josh Gad, Josh Groban, Julia Louis-Dreyfus, Kristen Stewart, Kristen Wiig, Rooney Mara, Caitriona Balfe, J.J. Abrams, Zoe Saldana",
                         "example": "Elon Musk"
                       }
                     },
