@@ -14,11 +14,16 @@ updates:
     schedule:
       interval: "weekly"
     groups:
-      dev:
-        dependency-type: "development"
+      mintlify:
         patterns:
-          - "*"
-      prod:
-        dependency-type: "production"
+          - "mintlify"
+          - "@mintlify/*"
+      changelog-generator:
         patterns:
-          - "*"
+          - "@ai-sdk/openai"
+          - "@linear/sdk"
+          - "tsx"
+          - "typescript"
+          - "zod"
+          - "dotenv"
+          - "prettier"
