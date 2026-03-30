@@ -18,15 +18,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ai-sdk/openai@npm:3.0.41":
-  version: 3.0.41
-  resolution: "@ai-sdk/openai@npm:3.0.41"
+"@ai-sdk/openai@npm:3.0.48":
+  version: 3.0.48
+  resolution: "@ai-sdk/openai@npm:3.0.48"
   dependencies:
     "@ai-sdk/provider": "npm:3.0.8"
-    "@ai-sdk/provider-utils": "npm:4.0.19"
+    "@ai-sdk/provider-utils": "npm:4.0.21"
   peerDependencies:
     zod: ^3.25.76 || ^4.1.8
-  checksum: 10/c4a696aeebcc621c02636fee9d03fb780d1d03c611fda1801924a5a07ed4a7b03faa48749094cb9084633d374ec70a11d0880905188b94d5b74b494b09670adc
+  checksum: 10/210b351a2a7a9bd2e84b22a8374d7dc42eaaa54916ca62a1090e1b6c4c55617f271bead1da6a05edfe41d926146d39d0eeb75cc9dc9229c32612e035cf0e6258
   languageName: node
   linkType: hard
 
@@ -40,6 +40,19 @@ __metadata:
   peerDependencies:
     zod: ^3.25.76 || ^4.1.8
   checksum: 10/7f3822c7820a46d49800f3e9582164486f4d5a6ec87ca0d0042e350cd9872727eeb6a1ee8c6496cd712e741aea2c2ce90a8fbddf672dd0c3ce3f39ab9740dd1d
+  languageName: node
+  linkType: hard
+
+"@ai-sdk/provider-utils@npm:4.0.21":
+  version: 4.0.21
+  resolution: "@ai-sdk/provider-utils@npm:4.0.21"
+  dependencies:
+    "@ai-sdk/provider": "npm:3.0.8"
+    "@standard-schema/spec": "npm:^1.1.0"
+    eventsource-parser: "npm:^3.0.6"
+  peerDependencies:
+    zod: ^3.25.76 || ^4.1.8
+  checksum: 10/b601d56c7ddec08ee8040cb423c00c76ced816b2f1e0e4ca640e7357431ab977822830052668d3835bf2fa05b3cf02b766d15de71c1fa7f2d7d1401ed71730bd
   languageName: node
   linkType: hard
 
@@ -1090,12 +1103,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@linear/sdk@npm:77.0.0":
-  version: 77.0.0
-  resolution: "@linear/sdk@npm:77.0.0"
+"@linear/sdk@npm:80.0.0":
+  version: 80.0.0
+  resolution: "@linear/sdk@npm:80.0.0"
   dependencies:
     "@graphql-typed-document-node/core": "npm:^3.2.0"
-  checksum: 10/fa8eed42dacf1cffb303b8ccf328f3482b329dd46f1ec7861dbed2b6b30ae5999ac12dbe0838527328ec2a6b526e5731997dce8fd588d34a5a68e8b621679cbb
+  checksum: 10/a3ba12a77e52bf3e5af269654cd04f4585521025cb40d076b70ac64c1b26e912b59a497aa83388cdd74dc1e2544e50a930121dbd536bb397d39465972b8856e9
   languageName: node
   linkType: hard
 
@@ -3491,15 +3504,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "docs@workspace:."
   dependencies:
-    "@ai-sdk/openai": "npm:3.0.41"
-    "@linear/sdk": "npm:77.0.0"
+    "@ai-sdk/openai": "npm:3.0.48"
+    "@linear/sdk": "npm:80.0.0"
     "@mintlify/scraping": "npm:4.0.673"
     ai: "npm:6.0.116"
     dotenv: "npm:17.3.1"
     mintlify: "npm:4.2.442"
     prettier: "npm:3.8.1"
     tsx: "npm:4.21.0"
-    typescript: "npm:5.9.3"
+    typescript: "npm:6.0.2"
     zod: "npm:4.3.6"
   languageName: unknown
   linkType: soft
@@ -9252,23 +9265,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.9.3":
-  version: 5.9.3
-  resolution: "typescript@npm:5.9.3"
+"typescript@npm:6.0.2":
+  version: 6.0.2
+  resolution: "typescript@npm:6.0.2"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/c089d9d3da2729fd4ac517f9b0e0485914c4b3c26f80dc0cffcb5de1719a17951e92425d55db59515c1a7ddab65808466debb864d0d56dcf43f27007d0709594
+  checksum: 10/b9fc2fcee7ee8e5ca6f5138181964550531e18e2d20ecb71b802d4d495881e3444e0ef94cbb6e84eb2ba41e913f6feae3ca33cc722b32e6e6dfadb32d23b80e6
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>":
-  version: 5.9.3
-  resolution: "typescript@patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"
+"typescript@patch:typescript@npm%3A6.0.2#optional!builtin<compat/typescript>":
+  version: 6.0.2
+  resolution: "typescript@patch:typescript@npm%3A6.0.2#optional!builtin<compat/typescript>::version=6.0.2&hash=5786d5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/696e1b017bc2635f4e0c94eb4435357701008e2f272f553d06e35b494b8ddc60aa221145e286c28ace0c89ee32827a28c2040e3a69bdc108b1a5dc8fb40b72e3
+  checksum: 10/e5501dfcf8c5b6b9a61f6fa53decc40187cebe3a2b7b2bd51c615007ad4cf6d58298461fef63294f6be9d5f2f33019b2a2e2bf02d9cb7d7f6ec94372bf24ffa2
   languageName: node
   linkType: hard
 
