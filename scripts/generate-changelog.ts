@@ -11,6 +11,7 @@
  *   yarn changelog --since 2026-01-01  # override start date
  *   yarn changelog --list-teams     # print available Linear team IDs and exit
  *   yarn changelog --dry-run        # print generated MDX without writing files
+ *   yarn changelog --skip-select    # include all fetched issues (no multiselect prompt)
  */
 
 import * as fs from "fs";
@@ -77,6 +78,7 @@ Added a dedicated \`/usage\` page so users can track their consumption at a glan
 const args = process.argv.slice(2);
 const listTeams = args.includes("--list-teams");
 const dryRun = args.includes("--dry-run");
+const skipSelect = args.includes("--skip-select");
 const sinceIdx = args.indexOf("--since");
 const sinceOverride = sinceIdx !== -1 ? args[sinceIdx + 1] : undefined;
 
@@ -301,6 +303,36 @@ async function confirm(question: string): Promise<boolean> {
   });
 }
 
+/** Space toggles selection; Enter confirms. Toggle off issues to exclude from the changelog. */
+async function promptIssueSelection(issues: LinearIssue[]): Promise<LinearIssue[]> {
+  if (skipSelect || !process.stdin.isTTY) {
+    if (!skipSelect && !process.stdin.isTTY) {
+      console.log("stdin is not a TTY — including all issues (use --skip-select to silence this).");
+    }
+    return issues;
+  }
+
+  const { cancel, isCancel, multiselect } = await import("@clack/prompts");
+  const selectedIds = await multiselect({
+    message: "Include these issues in the changelog (toggle to exclude)",
+    options: issues.map((issue) => ({
+      value: issue.id,
+      label: `[${toDateStr(issue.completedAt)}] ${issue.title}`,
+    })),
+    initialValues: issues.map((i) => i.id),
+    required: true,
+    maxItems: Math.min(issues.length, 15),
+  });
+
+  if (isCancel(selectedIds)) {
+    cancel("Changelog generation cancelled.");
+    process.exit(0);
+  }
+
+  const idSet = new Set(selectedIds);
+  return issues.filter((issue) => idSet.has(issue.id));
+}
+
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
@@ -344,8 +376,17 @@ async function main(): Promise<void> {
     console.log(`  [${toDateStr(issue.completedAt)}] ${issue.title}`);
   }
 
+  const selectedIssues = await promptIssueSelection(issues);
+  if (selectedIssues.length === 0) {
+    console.log("No issues selected. Exiting.");
+    return;
+  }
+  if (selectedIssues.length < issues.length) {
+    console.log(`Including ${selectedIssues.length} of ${issues.length} issue(s).`);
+  }
+
   // Group by date
-  const groups = groupByDate(issues);
+  const groups = groupByDate(selectedIssues);
   console.log(`\nGenerating ${groups.size} <Update> block(s) via GPT-5...`);
 
   const newBlocks: string[] = [];
