@@ -2,8 +2,9 @@
 /**
  * Automatic changelog generator for Magic Hour docs.
  *
- * Fetches Linear issues with the "feature" label completed after the last
- * changelog entry, rewrites each into polished MDX prose via GPT-5, and
+ * Fetches Linear issues with the "feature" label (then keeps only issues whose
+ * completion calendar day in America/Los_Angeles is after the top <Update> label),
+ * rewrites each into polished MDX prose via GPT-5, and
  * prepends the new <Update> blocks to changelog.mdx.
  *
  * Usage:
@@ -97,19 +98,16 @@ function requireEnv(name: string): string {
 }
 
 // ---------------------------------------------------------------------------
-// Parse the last changelog date from changelog.mdx
+// Parse the last changelog label from changelog.mdx
 // ---------------------------------------------------------------------------
 
-function parseLastChangelogDate(): Date {
+function parseLastChangelogLabel(): string {
   const content = fs.readFileSync(CHANGELOG_PATH, "utf-8");
   const match = content.match(/<Update\s+label="(\d{4}-\d{2}-\d{2})"/);
   if (!match) {
     throw new Error(`Could not find any <Update label="..."> in ${CHANGELOG_PATH}`);
   }
-  const [, dateStr] = match;
-  const date = new Date(`${dateStr}T00:00:00.000Z`);
-  console.log(`Last changelog entry date: ${dateStr}`);
-  return date;
+  return match[1]!;
 }
 
 // ---------------------------------------------------------------------------
@@ -135,14 +133,13 @@ interface LinearIssue {
 async function fetchFeatureIssues(
   client: LinearClient,
   teamId: string,
-  since: Date
+  completedOnOrAfterUtc: Date
 ): Promise<LinearIssue[]> {
-  // Linear SDK filter: issues in the team, with the "feature" label, completed after since
   const issueConnection = await client.issues({
     filter: {
       team: { id: { eq: teamId } },
       labels: { name: { eq: LABEL_NAME } },
-      completedAt: { gt: since.toISOString() },
+      completedAt: { gte: completedOnOrAfterUtc.toISOString() },
     },
     // Fetch up to 100 issues; pagination not expected to be needed
     first: 100,
@@ -351,20 +348,25 @@ async function main(): Promise<void> {
 
   const teamId = requireEnv("LINEAR_TEAM_ID");
 
-  // Determine the date cutoff
-  let since: Date;
+  // Loose UTC bound for Linear; real cutoff matches <Update> labels via toDateStr (LA).
+  let completedOnOrAfterUtc: Date;
+  let changelogDayOk: (issue: LinearIssue) => boolean;
   if (sinceOverride) {
-    since = new Date(`${sinceOverride}T00:00:00.000Z`);
-    console.log(`Using provided start date: ${sinceOverride}`);
+    completedOnOrAfterUtc = new Date(`${sinceOverride}T00:00:00.000Z`);
+    changelogDayOk = (i) => toDateStr(i.completedAt) >= sinceOverride;
+    console.log(`Using --since ${sinceOverride} (LA calendar day ≥ this after fetch)`);
   } else {
-    since = parseLastChangelogDate();
+    const lastLabel = parseLastChangelogLabel();
+    completedOnOrAfterUtc = new Date(`${lastLabel}T00:00:00.000Z`);
+    changelogDayOk = (i) => toDateStr(i.completedAt) > lastLabel;
+    console.log(`Last changelog <Update>: ${lastLabel}`);
   }
 
-  // Fetch issues from Linear
   console.log(
-    `\nFetching Linear issues with label "${LABEL_NAME}" completed after ${toDateStr(since)}...`
+    `\nFetching Linear issues with label "${LABEL_NAME}" completed on or after ${completedOnOrAfterUtc.toISOString()} (UTC)...`
   );
-  const issues = await fetchFeatureIssues(client, teamId, since);
+  const raw = await fetchFeatureIssues(client, teamId, completedOnOrAfterUtc);
+  const issues = raw.filter(changelogDayOk);
 
   if (issues.length === 0) {
     console.log("No new issues found. Changelog is up to date.");
