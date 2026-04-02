@@ -159,6 +159,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@clack/core@npm:1.1.0":
+  version: 1.1.0
+  resolution: "@clack/core@npm:1.1.0"
+  dependencies:
+    sisteransi: "npm:^1.0.5"
+  checksum: 10/572828cf198350ddc05fc7429fec2eefff48e76b73c053678e70237dae5d56d9853cc5d5a884104e2df458ffd871537337d1d37a90289d81457e3f675531459c
+  languageName: node
+  linkType: hard
+
+"@clack/prompts@npm:1.1.0":
+  version: 1.1.0
+  resolution: "@clack/prompts@npm:1.1.0"
+  dependencies:
+    "@clack/core": "npm:1.1.0"
+    sisteransi: "npm:^1.0.5"
+  checksum: 10/a8bf871716d0250902a8fcc45cdd1674205ed5c6390f9e6a13e4368926af5fdfa85500195cb21aa7f0ebaa1dc812bebde560a1bd038442343d8ef166d92dd54d
+  languageName: node
+  linkType: hard
+
 "@emnapi/runtime@npm:^1.2.0, @emnapi/runtime@npm:^1.5.0":
   version: 1.5.0
   resolution: "@emnapi/runtime@npm:1.5.0"
@@ -3505,6 +3524,7 @@ __metadata:
   resolution: "docs@workspace:."
   dependencies:
     "@ai-sdk/openai": "npm:3.0.48"
+    "@clack/prompts": "npm:1.1.0"
     "@linear/sdk": "npm:80.0.0"
     "@mintlify/scraping": "npm:4.0.681"
     ai: "npm:6.0.116"
@@ -8615,6 +8635,13 @@ __metadata:
   dependencies:
     is-arrayish: "npm:^0.3.1"
   checksum: 10/c6dffff17aaa383dae7e5c056fbf10cf9855a9f79949f20ee225c04f06ddde56323600e0f3d6797e82d08d006e93761122527438ee9531620031c08c9e0d73cc
+  languageName: node
+  linkType: hard
+
+"sisteransi@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "sisteransi@npm:1.0.5"
+  checksum: 10/aba6438f46d2bfcef94cf112c835ab395172c75f67453fe05c340c770d3c402363018ae1ab4172a1026a90c47eaccf3af7b6ff6fa749a680c2929bd7fa2b37a4
   languageName: node
   linkType: hard
 
