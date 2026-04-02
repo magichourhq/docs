@@ -6,6 +6,223 @@ rss: true
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2026-03-30">
+
+## WAN 2.2 Model in Text-to-Video and Image-to-Video API
+
+We've added the WAN 2.2 model to both the Text-to-Video and Image-to-Video APIs, giving you another high-quality option for generation.
+
+Choose it by setting the model to "wan-2.2" in your request.
+
+```ts
+// Text-to-Video
+await client.v1.textToVideo.generate({
+  model: "wan-2.2",
+  prompt: "A cinematic timelapse over snow-capped mountains at sunrise",
+});
+
+// Image-to-Video
+await client.v1.imageToVideo.generate({
+  model: "wan-2.2",
+  imageUrl: "https://example.com/source-image.jpg",
+});
+```
+
+</Update>
+
+<Update label="2026-03-27">
+
+## Added Wan 2.2 for Image-to-Video and Text-to-Video
+
+<Frame>
+  ![Added Wan 2.2 for Image-to-Video and
+  Text-to-Video](/changelog/images/2026/03/added-wan-2-2-for-image-to-video-and-text-to-video.jpg)
+</Frame>
+
+Wan 2.2 is now available for Image-to-Video and Text-to-Video. Expect visibly higher quality compared to LTX-2.
+
+Try it out now: https://magichour.ai/create/image-to-video, https://magichour.ai/create/text-to-video
+
+</Update>
+
+<Update label="2026-03-25">
+
+## Storyboard Generator Upgraded to Nano Banana 2; Nano Banana Deprecated
+
+Nano Banana 2 (NB2) is now available in the Storyboard Generator. NB2 supports 4K and delivers higher quality results than the original Nano Banana.
+
+The original Nano Banana model is deprecated.
+
+Try it out now: https://magichour.ai/create/ai-storyboard-generator
+
+</Update>
+
+<Update label="2026-03-24">
+
+## Head Swap in the API
+
+Head swap is now available in the Magic Hour API, enabling you to programmatically swap heads in your content.
+
+Use it to automate personalized creatives and power interactive experiences directly from your app or workflow.
+
+Try it out now: https://docs.magichour.ai/api-reference/image-projects/head-swap
+
+</Update>
+
+<Update label="2026-03-22">
+
+## One-Step Lip Sync Creation
+
+<Frame>
+  ![One-Step Lip Sync Creation](/changelog/images/2026/03/one-step-lip-sync-creation.jpg)
+</Frame>
+
+We simplified the Lip Sync creation flow to a single step, so you can get from idea to result faster with fewer clicks.
+
+Try it out now: https://magichour.ai/create/lip-sync
+
+</Update>
+
+<Update label="2026-03-20">
+
+## Previously Used Images in AI Image Editor (Desktop)
+
+<Frame>
+  ![Previously Used Images in AI Image Editor
+  (Desktop)](/changelog/images/2026/03/previously-used-images-in-ai-image-editor-desktop.jpg)
+</Frame>
+
+On desktop, the AI Image Editor now surfaces your previously used images during the creation flow so you can quickly pick up where you left off or reuse a reference.
+
+Try it out now: https://magichour.ai/create/ai-image-editor
+
+</Update>
+
+<Update label="2026-03-19">
+
+## Specifying Language in Voice Tools
+
+<Frame>
+  ![TTS v2: Optional Language Parameter (Auto by
+  default)](/changelog/images/2026/03/language-parameter-auto-by-default.jpg)
+</Frame>
+
+You can now specify a language when using the voice tools. If you don’t provide a value, we’ll use Auto detection by default.
+
+Try it out now: https://magichour.ai/create/ai-voice-generator
+
+</Update>
+
+<Update label="2026-03-16">
+
+## Choose Output Resolution in AI Image Editor
+
+<Frame>
+  ![Choose Output Resolution in AI Image Editor
+  v2](/changelog/images/2026/03/choose-output-resolution-in-ai-image-editor.jpg)
+</Frame>
+
+You can now select the output resolution directly in the AI Image Editor tool.
+
+Try it out now: https://magichour.ai/create/ai-image-editor
+
+</Update>
+
+<Update label="2026-03-12">
+
+## End-Frame Support in Image-to-Video API
+
+We added end-frame support to the Image-to-Video API. Now, you can provide an end frame to use as the last frame of the video.
+
+```python
+res = client.v1.image_to_video.generate(
+    assets={
+      "image_file_path": "/path/to/1234.png",
+      "end_image_file_path": "/path/to/1234.png",
+    },
+    end_seconds=5.0,
+)
+```
+
+</Update>
+
+<Update label="2026-03-05">
+
+## Out-of-credit API errors now return HTTP 402
+
+Our API now returns HTTP 402 Payment Required when a request fails due to insufficient credits (previously 422). This better reflects the billing-related nature of the error.
+
+If you check for specific status codes, update your error handling to look for 402.
+
+```ts
+// Example: handle out-of-credit responses
+const res = await fetch(url, options);
+
+if (res.status === 402) {
+  // Payment Required — prompt user to add credits or update billing
+  throw new Error("Payment required: please add credits to continue.");
+}
+
+if (!res.ok) {
+  // Handle other errors
+  const err = await res.text();
+  throw new Error(`Request failed: ${res.status} ${err}`);
+}
+
+// Proceed with success path
+const data = await res.json();
+```
+
+## Refreshed Lip Sync free tool UI
+
+<Frame>
+  ![Refreshed Lip Sync free tool UI](/changelog/images/2026/03/refreshed-lip-sync-free-tool-ui.jpg)
+</Frame>
+
+We updated the Lip Sync free tool with a cleaner, more consistent interface. The refreshed layout makes common actions easier to find and use.
+
+Try it out now: https://magichour.ai/products/lip-sync
+
+## Revamped Talking Photo free tool UI
+
+<Frame>
+  ![Revamped Talking Photo free tool
+  UI](/changelog/images/2026/03/revamped-talking-photo-free-tool-ui.jpg)
+</Frame>
+
+The Talking Photo free tool now sports an updated UI for a more streamlined experience. The refreshed visuals align it with the rest of the Magic Hour toolkit.
+
+Try it out now: https://magichour.ai/products/ai-talking-photo
+
+</Update>
+
+<Update label="2026-03-04">
+
+## Audio-to-Video Comes to the Dashboard
+
+<Frame>
+  ![Audio-to-Video Comes to the
+  Dashboard](/changelog/images/2026/03/audio-to-video-comes-to-the-dashboard.jpg)
+</Frame>
+
+Turn any audio clip into a stylized video right from the Video section of the dashboard.
+
+Try it out now: https://magichour.ai/create/audio-to-video
+
+</Update>
+
+<Update label="2026-03-03">
+
+## Free Video Extender
+
+<Frame>![Free Video Extender ](/changelog/images/2026/03/free-video-extender-5s.jpg)</Frame>
+
+We launched a Video Extender that appends 5 seconds to your uploaded clip—no prompt or audio needed.
+
+Try it out now: https://magichour.ai/products/ai-video-extender
+
+</Update>
+
 <Update label="2026-03-01">
 
 ## New AI Video Extender
