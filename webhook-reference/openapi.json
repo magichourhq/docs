@@ -59,7 +59,7 @@
                       },
                       "type": {
                         "type": "string",
-                        "description": "The type of the video project. Possible values are ANIMATION, IMAGE_TO_VIDEO, VIDEO_TO_VIDEO, TEXT_TO_VIDEO, FACE_SWAP, LIP_SYNC, AUTO_SUBTITLE, TALKING_PHOTO, UGC_AD, VIDEO_UPSCALER, EXTEND, AUDIO_TO_VIDEO",
+                        "description": "The type of the video project. Possible values are ANIMATION, AUTO_SUBTITLE, VIDEO_TO_VIDEO, FACE_SWAP, TEXT_TO_VIDEO, IMAGE_TO_VIDEO, LIP_SYNC, TALKING_PHOTO, VIDEO_UPSCALER, EXTEND, AUDIO_TO_VIDEO, UGC_AD",
                         "example": "FACE_SWAP"
                       },
                       "created_at": { "type": "string", "format": "date-time" },
@@ -274,7 +274,7 @@
                       },
                       "type": {
                         "type": "string",
-                        "description": "The type of the video project. Possible values are ANIMATION, IMAGE_TO_VIDEO, VIDEO_TO_VIDEO, TEXT_TO_VIDEO, FACE_SWAP, LIP_SYNC, AUTO_SUBTITLE, TALKING_PHOTO, UGC_AD, VIDEO_UPSCALER, EXTEND, AUDIO_TO_VIDEO",
+                        "description": "The type of the video project. Possible values are ANIMATION, AUTO_SUBTITLE, VIDEO_TO_VIDEO, FACE_SWAP, TEXT_TO_VIDEO, IMAGE_TO_VIDEO, LIP_SYNC, TALKING_PHOTO, VIDEO_UPSCALER, EXTEND, AUDIO_TO_VIDEO, UGC_AD",
                         "example": "FACE_SWAP"
                       },
                       "created_at": { "type": "string", "format": "date-time" },
@@ -489,7 +489,7 @@
                       },
                       "type": {
                         "type": "string",
-                        "description": "The type of the video project. Possible values are ANIMATION, IMAGE_TO_VIDEO, VIDEO_TO_VIDEO, TEXT_TO_VIDEO, FACE_SWAP, LIP_SYNC, AUTO_SUBTITLE, TALKING_PHOTO, UGC_AD, VIDEO_UPSCALER, EXTEND, AUDIO_TO_VIDEO",
+                        "description": "The type of the video project. Possible values are ANIMATION, AUTO_SUBTITLE, VIDEO_TO_VIDEO, FACE_SWAP, TEXT_TO_VIDEO, IMAGE_TO_VIDEO, LIP_SYNC, TALKING_PHOTO, VIDEO_UPSCALER, EXTEND, AUDIO_TO_VIDEO, UGC_AD",
                         "example": "FACE_SWAP"
                       },
                       "created_at": { "type": "string", "format": "date-time" },
@@ -709,7 +709,7 @@
                       },
                       "type": {
                         "type": "string",
-                        "description": "The type of the image project. Possible values are AI_HEADSHOT, AI_IMAGE, IMAGE_UPSCALER, FACE_SWAP, PHOTO_EDITOR, QR_CODE, BACKGROUND_REMOVER, CLOTHES_CHANGER, AI_MEME, FACE_EDITOR, PHOTO_COLORIZER, AI_GIF, AI_SELFIE, AI_IMAGE_EDITOR, HEAD_SWAP, STORYBOARD, BODY_SWAP",
+                        "description": "The type of the image project. Possible values are FACE_EDITOR, AI_IMAGE_EDITOR, AI_SELFIE, AI_HEADSHOT, AI_IMAGE, AI_MEME, CLOTHES_CHANGER, BACKGROUND_REMOVER, FACE_SWAP, IMAGE_UPSCALER, AI_GIF, QR_CODE, PHOTO_EDITOR, PHOTO_COLORIZER, HEAD_SWAP, BODY_SWAP, STORYBOARD",
                         "example": "AI_IMAGE"
                       },
                       "created_at": { "type": "string", "format": "date-time" },
@@ -895,7 +895,7 @@
                       },
                       "type": {
                         "type": "string",
-                        "description": "The type of the image project. Possible values are AI_HEADSHOT, AI_IMAGE, IMAGE_UPSCALER, FACE_SWAP, PHOTO_EDITOR, QR_CODE, BACKGROUND_REMOVER, CLOTHES_CHANGER, AI_MEME, FACE_EDITOR, PHOTO_COLORIZER, AI_GIF, AI_SELFIE, AI_IMAGE_EDITOR, HEAD_SWAP, STORYBOARD, BODY_SWAP",
+                        "description": "The type of the image project. Possible values are FACE_EDITOR, AI_IMAGE_EDITOR, AI_SELFIE, AI_HEADSHOT, AI_IMAGE, AI_MEME, CLOTHES_CHANGER, BACKGROUND_REMOVER, FACE_SWAP, IMAGE_UPSCALER, AI_GIF, QR_CODE, PHOTO_EDITOR, PHOTO_COLORIZER, HEAD_SWAP, BODY_SWAP, STORYBOARD",
                         "example": "AI_IMAGE"
                       },
                       "created_at": { "type": "string", "format": "date-time" },
@@ -1081,7 +1081,7 @@
                       },
                       "type": {
                         "type": "string",
-                        "description": "The type of the image project. Possible values are AI_HEADSHOT, AI_IMAGE, IMAGE_UPSCALER, FACE_SWAP, PHOTO_EDITOR, QR_CODE, BACKGROUND_REMOVER, CLOTHES_CHANGER, AI_MEME, FACE_EDITOR, PHOTO_COLORIZER, AI_GIF, AI_SELFIE, AI_IMAGE_EDITOR, HEAD_SWAP, STORYBOARD, BODY_SWAP",
+                        "description": "The type of the image project. Possible values are FACE_EDITOR, AI_IMAGE_EDITOR, AI_SELFIE, AI_HEADSHOT, AI_IMAGE, AI_MEME, CLOTHES_CHANGER, BACKGROUND_REMOVER, FACE_SWAP, IMAGE_UPSCALER, AI_GIF, QR_CODE, PHOTO_EDITOR, PHOTO_COLORIZER, HEAD_SWAP, BODY_SWAP, STORYBOARD",
                         "example": "AI_IMAGE"
                       },
                       "created_at": { "type": "string", "format": "date-time" },
