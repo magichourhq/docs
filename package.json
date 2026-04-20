@@ -14,14 +14,14 @@
     "changelog": "tsx scripts/generate-changelog.ts"
   },
   "devDependencies": {
-    "@ai-sdk/openai": "3.0.52",
+    "@ai-sdk/openai": "3.0.53",
     "@clack/prompts": "1.2.0",
     "@linear/sdk": "81.0.0",
     "@mintlify/scraping": "4.0.708",
     "ai": "6.0.153",
-    "dotenv": "17.4.1",
+    "dotenv": "17.4.2",
     "mintlify": "4.2.500",
-    "prettier": "3.8.1",
+    "prettier": "3.8.3",
     "tsx": "4.21.0",
     "typescript": "6.0.2",
     "zod": "4.3.6"
