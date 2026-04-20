@@ -18,15 +18,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ai-sdk/openai@npm:3.0.52":
-  version: 3.0.52
-  resolution: "@ai-sdk/openai@npm:3.0.52"
+"@ai-sdk/openai@npm:3.0.53":
+  version: 3.0.53
+  resolution: "@ai-sdk/openai@npm:3.0.53"
   dependencies:
     "@ai-sdk/provider": "npm:3.0.8"
     "@ai-sdk/provider-utils": "npm:4.0.23"
   peerDependencies:
     zod: ^3.25.76 || ^4.1.8
-  checksum: 10/c14135f63947c2d56dd19d5f0942c1e077f16744fced81326ab20140d3ce29134307a645ab9fd8cf05a28a1479a8e9b22f5b183932df2e77b96a41127e787257
+  checksum: 10/130661858d0ad48d8eeeb112764e6af52401c3b586791cdbfb086a9c9d7335df6365ff4bd9d66bd03303e798bd4c95682246c27851666b547de006bb77b4e8b2
   languageName: node
   linkType: hard
 
@@ -3554,24 +3554,24 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "docs@workspace:."
   dependencies:
-    "@ai-sdk/openai": "npm:3.0.52"
+    "@ai-sdk/openai": "npm:3.0.53"
     "@clack/prompts": "npm:1.2.0"
     "@linear/sdk": "npm:81.0.0"
     "@mintlify/scraping": "npm:4.0.708"
     ai: "npm:6.0.153"
-    dotenv: "npm:17.4.1"
+    dotenv: "npm:17.4.2"
     mintlify: "npm:4.2.500"
-    prettier: "npm:3.8.1"
+    prettier: "npm:3.8.3"
     tsx: "npm:4.21.0"
     typescript: "npm:6.0.2"
     zod: "npm:4.3.6"
   languageName: unknown
   linkType: soft
 
-"dotenv@npm:17.4.1":
-  version: 17.4.1
-  resolution: "dotenv@npm:17.4.1"
-  checksum: 10/addbff54aed55b80b5d4527ba0a221a63718835c10a2ed7d949f5caeab96995796a4c88f30263724aa71014aa4e3092a1ef551559ddef44d68c429494e13ff68
+"dotenv@npm:17.4.2":
+  version: 17.4.2
+  resolution: "dotenv@npm:17.4.2"
+  checksum: 10/ca1b6f54d58e39914901e1518958e86083aca8deb5aa2e7f2a51acd53291d97852479b0ab26ed949b6a45a0e9adcc7b0d1c3c72375e8ea670f7005e341c6daba
   languageName: node
   linkType: hard
 
@@ -7717,12 +7717,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:3.8.1":
-  version: 3.8.1
-  resolution: "prettier@npm:3.8.1"
+"prettier@npm:3.8.3":
+  version: 3.8.3
+  resolution: "prettier@npm:3.8.3"
   bin:
     prettier: bin/prettier.cjs
-  checksum: 10/3da1cf8c1ef9bea828aa618553696c312e951f810bee368f6887109b203f18ee869fe88f66e65f9cf60b7cb1f2eae859892c860a300c062ff8ec69c381fc8dbd
+  checksum: 10/4b3b12cbb29e4c96bed936e5d070167552500c18d37676fb3e0caae6199c42860662608e4dc116230698f6e2bb0267ef2548158224c92d40f188d309d72fdd6f
   languageName: node
   linkType: hard
 
