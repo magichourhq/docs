@@ -18,12 +18,12 @@
     "@clack/prompts": "1.2.0",
     "@linear/sdk": "81.0.0",
     "@mintlify/scraping": "4.0.708",
-    "ai": "6.0.153",
+    "ai": "6.0.168",
     "dotenv": "17.4.2",
     "mintlify": "4.2.500",
     "prettier": "3.8.3",
     "tsx": "4.21.0",
-    "typescript": "6.0.2",
+    "typescript": "6.0.3",
     "zod": "4.3.6"
   }
 }
