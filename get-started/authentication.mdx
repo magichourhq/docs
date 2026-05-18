@@ -103,27 +103,27 @@ For security best practices, regularly rotate your API keys:
 <CodeGroup>
 
 ```python Python SDK
-import magic_hour
+from magic_hour import Client
 
 # Initialize client with your API key
-client = magic_hour.Client(api_key="your_api_key_here")
+client = Client(token="your_api_key_here")
 
 # Or use environment variable
 import os
-client = magic_hour.Client(api_key=os.getenv("MAGIC_HOUR_API_KEY"))
+client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
 ```
 
 ```javascript Node.js SDK
-import MagicHour from "magic-hour";
+import { Client } from "magic-hour";
 
 // Initialize client with your API key
-const client = new MagicHour({
-  apiKey: "your_api_key_here",
+const client = new Client({
+  token: "your_api_key_here",
 });
 
 // Or use environment variable
-const client = new MagicHour({
-  apiKey: process.env.MAGIC_HOUR_API_KEY,
+const client = new Client({
+  token: process.env.MAGIC_HOUR_API_KEY,
 });
 ```
 
@@ -132,9 +132,11 @@ curl -X POST "https://api.magichour.ai/v1/ai-image-generator" \
   -H "Authorization: Bearer your_api_key_here" \
   -H "Content-Type: application/json" \
   -d '{
-    "prompt": "A beautiful sunset over mountains",
-    "width": 1024,
-    "height": 1024
+    "image_count": 1,
+    "orientation": "landscape",
+    "style": {
+      "prompt": "A beautiful sunset over mountains"
+    }
   }'
 ```
 
