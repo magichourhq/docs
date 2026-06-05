@@ -3,7 +3,7 @@
   "paths": {
     "/v1/files/upload-urls": {
       "post": {
-        "description": "Generates a list of pre-signed upload URLs for the assets required. This API is only necessary if you want to upload to Magic Hour's storage. Refer to the [Input Files Guide](/integration/input-files) for more details.\n\nThe response array will match the order of items in the request body.\n\n**Valid file extensions per asset type**:\n- video: mp4, m4v, mov, webm\n- audio: mp3, wav, aac, flac, webm, m4a\n- image: png, jpg, jpeg, heic, heif, webp, avif, jp2, tiff, bmp\n- gif: gif, webp, webm\n\n> Note: `gif` is only supported for face swap API `video_file_path` field.\n\nOnce you receive an upload URL, send a `PUT` request to upload the file directly.\n\nExample:\n\n```\ncurl -X PUT --data '@/path/to/file/video.mp4' \\\n  https://videos.magichour.ai/api-assets/id/video.mp4?<auth params from the API response>\n```\n",
+        "description": "Generates a list of pre-signed upload URLs for the assets required. This API is only necessary if you want to upload to Magic Hour's storage. Refer to the [Input Files Guide](/integration/input-files) for more details.\n\nThe response array will match the order of items in the request body.\n\n**Valid file extensions per asset type**:\n- video: mp4, m4v, mov, webm\n- audio: mp3, wav, aac, flac, webm, m4a, opus, ogg, aiff, amr\n- image: png, jpg, jpeg, heic, heif, webp, avif, jp2, tiff, bmp\n- gif: gif, webp, webm\n\n> Note: `gif` is only supported for face swap API `video_file_path` field.\n\nOnce you receive an upload URL, send a `PUT` request to upload the file directly.\n\nExample:\n\n```\ncurl -X PUT --data '@/path/to/file/video.mp4' \\\n  https://videos.magichour.ai/api-assets/id/video.mp4?<auth params from the API response>\n```\n",
         "summary": "Generate asset upload urls",
         "tags": ["Files"],
         "parameters": [],
@@ -30,7 +30,7 @@
                         "extension": {
                           "type": "string",
                           "pattern": "^[a-z0-9]+$",
-                          "description": "The extension of the file to upload. Do not include the dot (.) before the extension. Possible extensions are mp4,m4v,mov,webm,mp3,wav,aac,flac,webm,m4a,png,jpg,jpeg,heic,heif,webp,avif,jp2,tiff,bmp,gif,webp,webm",
+                          "description": "The extension of the file to upload. Do not include the dot (.) before the extension. Possible extensions are mp4,m4v,mov,webm,mp3,wav,aac,flac,webm,m4a,opus,ogg,aiff,amr,png,jpg,jpeg,heic,heif,webp,avif,jp2,tiff,bmp,gif,webp,webm",
                           "example": "mp4"
                         }
                       },
@@ -168,7 +168,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "'mp4' is an invalid audio extension. Possible extensions are 'mp3, wav, aac, flac, webm, m4a'"
+                      "example": "'mp4' is an invalid audio extension. Possible extensions are 'mp3, wav, aac, flac, webm, m4a, opus, ogg, aiff, amr'"
                     }
                   },
                   "required": ["message"],
@@ -942,14 +942,14 @@
                   "start_seconds": {
                     "type": "number",
                     "minimum": 0,
-                    "description": "The start time of the input audio in seconds. The maximum duration allowed is 60 seconds.",
+                    "description": "The start time of the input audio in seconds. Maximum clip length depends on style.generation_mode: realistic 180s, prompted 45s.",
                     "format": "float",
                     "example": 0
                   },
                   "end_seconds": {
                     "type": "number",
                     "minimum": 0.1,
-                    "description": "The end time of the input audio in seconds. The maximum duration allowed is 60 seconds.",
+                    "description": "The end time of the input audio in seconds. Maximum clip length depends on style.generation_mode: realistic 180s, prompted 45s.",
                     "format": "float",
                     "example": 15
                   },
@@ -1493,6 +1493,184 @@
         ]
       }
     },
+    "/v1/audio-to-video": {
+      "post": {
+        "description": "**What this API does**\n\nCreate the same Audio To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding audio to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a audio to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/audio-to-video).",
+        "summary": "Audio-to-Video",
+        "tags": ["Video Projects"],
+        "parameters": [],
+        "operationId": "audioToVideo.createVideo",
+        "requestBody": {
+          "required": true,
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Give your video a custom name for easy identification.",
+                    "example": "My Audio To Video video",
+                    "default": "Audio To Video - dateTime"
+                  },
+                  "start_seconds": {
+                    "default": 0,
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Start time of your clip (seconds). Must be ≥ 0.",
+                    "format": "float",
+                    "example": 0
+                  },
+                  "end_seconds": {
+                    "type": "number",
+                    "minimum": 0.1,
+                    "description": "End time of your clip (seconds). Must be greater than start_seconds.",
+                    "format": "float",
+                    "example": 15
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "enum": ["480p", "720p", "1080p"],
+                    "description": "Output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.",
+                    "example": "720p"
+                  },
+                  "assets": {
+                    "type": "object",
+                    "properties": {
+                      "audio_file_path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The path of the audio file. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "example": "api-assets/id/1234.mp3"
+                      },
+                      "image_file_path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Reference image for the initial frame of the video. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "example": "api-assets/id/1234.png"
+                      }
+                    },
+                    "required": ["audio_file_path"],
+                    "description": "Provide the audio file and an optional reference image."
+                  },
+                  "style": {
+                    "type": "object",
+                    "properties": {
+                      "prompt": {
+                        "type": "string",
+                        "example": "Car driving through a city",
+                        "description": "Prompt to guide the visual style of the video."
+                      }
+                    },
+                    "description": "Attributes used to dictate the style of the output"
+                  }
+                },
+                "required": ["end_seconds", "assets"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "cuid-example",
+                      "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
+                    },
+                    "credits_charged": {
+                      "type": "integer",
+                      "description": "The amount of credits deducted from your account to generate the video. If the status is not 'complete', this value is an estimate and may be adjusted upon completion based on the actual FPS of the output video. \n\nIf video generation fails, credits will be refunded, and this field will be updated to include the refund.",
+                      "example": 450
+                    }
+                  },
+                  "required": ["id", "estimated_frame_cost", "credits_charged"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request is invalid",
+                  "example": { "message": "Missing request body" }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "required": ["message"],
+                  "description": "The request is not properly authenticated",
+                  "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "required": ["message"],
+                  "description": "Requested resource is not found",
+                  "example": { "message": "Not Found" }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Unable to create video" }
+                  },
+                  "required": ["message"],
+                  "description": "Unprocessable Entity"
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
     "/v1/auto-subtitle-generator": {
       "post": {
         "description": "Automatically generate subtitles for your video in multiple languages.",
@@ -2010,7 +2188,7 @@
                     "type": "number",
                     "minimum": 1,
                     "maximum": 60,
-                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2.3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`kling-2.5`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`veo3.1-lite`**: 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`seedance`**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`seedance-2.0`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n",
+                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2.3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`kling-2.5`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`veo3.1-lite`**: 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`seedance`**: 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`seedance-2.0`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n",
                     "format": "float",
                     "example": 5
                   },
@@ -2033,7 +2211,7 @@
                       "kling-2.5-audio",
                       "veo3.1-audio"
                     ],
-                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `ltx-2.3`: Fast iteration with lip-sync & end frame\n* `wan-2.2`: Fast, strong visuals with effects\n* `kling-2.5`: Motion, action, and camera control\n* `kling-3.0`: Cinematic, multi-scene storytelling\n* `veo3.1-lite`: Fast, affordable, high-quality\n* `veo3.1`: Realistic visuals and prompt adherence\n* `seedance`: Fast iteration and start/end frames\n* `seedance-2.0`: State-of-the-art quality and consistency\n* `sora-2`: Story-first concepts and creativity\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
+                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `ltx-2.3`: Fast iteration with lip-sync & end frame\n* `wan-2.2`: Fast, strong visuals with effects\n* `kling-2.5`: Motion, action, and camera control\n* `kling-3.0`: Cinematic, multi-scene storytelling\n* `veo3.1-lite`: Fast, affordable, high-quality\n* `veo3.1`: Realistic visuals and prompt adherence\n* `seedance`: Fast iteration\n* `seedance-2.0`: State-of-the-art quality and consistency\n* `sora-2`: Story-first concepts and creativity\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
                     "example": "kling-3.0"
                   },
                   "resolution": {
@@ -2070,7 +2248,7 @@
                       "end_image_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The image to use as the last frame of the video.\n\n* **`ltx-2.3`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Not supported\n* **`kling-2.5`**: Supports 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`veo3.1-lite`**: Not supported\n* **`veo3.1`**: Not supported\n* **`seedance`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0`**: Supports 480p, 720p.\n* **`sora-2`**: Not supported\n",
+                        "description": "The image to use as the last frame of the video.\n\n* **`ltx-2.3`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Not supported\n* **`kling-2.5`**: Supports 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`veo3.1-lite`**: Not supported\n* **`veo3.1`**: Not supported\n* **`seedance`**: Not supported\n* **`seedance-2.0`**: Supports 480p, 720p.\n* **`sora-2`**: Not supported\n",
                         "example": "api-assets/id/1234.png"
                       }
                     },
@@ -2779,7 +2957,7 @@
                     "type": "number",
                     "minimum": 1,
                     "maximum": 60,
-                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2.3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`kling-2.5`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`veo3.1-lite`**: 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`seedance`**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`seedance-2.0`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n",
+                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2.3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`kling-2.5`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`veo3.1-lite`**: 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`seedance`**: 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`seedance-2.0`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n",
                     "format": "float",
                     "example": 5
                   },
@@ -2814,7 +2992,7 @@
                       "kling-2.5-audio",
                       "veo3.1-audio"
                     ],
-                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `ltx-2.3`: Fast iteration with lip-sync & end frame\n* `wan-2.2`: Fast, strong visuals with effects\n* `kling-2.5`: Motion, action, and camera control\n* `kling-3.0`: Cinematic, multi-scene storytelling\n* `veo3.1-lite`: Fast, affordable, high-quality\n* `veo3.1`: Realistic visuals and prompt adherence\n* `seedance`: Fast iteration and start/end frames\n* `seedance-2.0`: State-of-the-art quality and consistency\n* `sora-2`: Story-first concepts and creativity\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
+                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `ltx-2.3`: Fast iteration with lip-sync & end frame\n* `wan-2.2`: Fast, strong visuals with effects\n* `kling-2.5`: Motion, action, and camera control\n* `kling-3.0`: Cinematic, multi-scene storytelling\n* `veo3.1-lite`: Fast, affordable, high-quality\n* `veo3.1`: Realistic visuals and prompt adherence\n* `seedance`: Fast iteration\n* `seedance-2.0`: State-of-the-art quality and consistency\n* `sora-2`: Story-first concepts and creativity\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
                     "example": "kling-3.0"
                   },
                   "audio": {
@@ -3984,6 +4162,7 @@
                     "enum": [
                       "default",
                       "qwen-edit",
+                      "flux-2-klein",
                       "nano-banana",
                       "nano-banana-2",
                       "seedream-v4",
@@ -3991,7 +4170,7 @@
                       "seedream-v4.5",
                       "gpt-image-2"
                     ],
-                    "description": "The AI model to use for image editing. Each model has different capabilities and costs.\n\n**Models:**\n- `default` - Use the model we recommend, which will change over time. This is recommended unless you need a specific model. This is the default behavior.\n- `qwen-edit` - from 10 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Max additional input images: 2\n- `nano-banana` - from 50 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: free, creator, pro, business\n  - Max additional input images: 9\n- `nano-banana-2` - from 100 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `seedream-v4` - from 40 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: free, creator, pro, business\n  - Max additional input images: 9\n- `nano-banana-pro` - from 150 credits/image\n  - Supported resolutions: 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `seedream-v4.5` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `gpt-image-2` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n",
+                    "description": "The AI model to use for image editing. Each model has different capabilities and costs.\n\n**Models:**\n- `default` - Use the model we recommend, which will change over time. This is recommended unless you need a specific model. This is the default behavior.\n- `qwen-edit` - from 10 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Max additional input images: 2\n- `flux-2-klein` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Max additional input images: 5\n- `nano-banana` - from 50 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `nano-banana-2` - from 100 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `seedream-v4` - from 40 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `nano-banana-pro` - from 150 credits/image\n  - Supported resolutions: 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `seedream-v4.5` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `gpt-image-2` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n",
                     "example": "default"
                   },
                   "aspect_ratio": {
@@ -4003,7 +4182,7 @@
                   "resolution": {
                     "type": "string",
                     "enum": ["auto", "640px", "1k", "2k", "4k"],
-                    "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` — up to 640px\n- `1k` — up to 1024px\n- `2k` — up to 2048px\n- `4k` — up to 4096px\n- `auto` — **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `qwen-edit` - 640px, 1k, 2k\n- `nano-banana` - 640px, 1k\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `nano-banana-pro` - 1k, 2k, 4k\n- `seedream-v4.5` - 640px, 1k, 2k, 4k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n\nNote: Resolution availability depends on the model and your subscription tier.",
+                    "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` — up to 640px\n- `1k` — up to 1024px\n- `2k` — up to 2048px\n- `4k` — up to 4096px\n- `auto` — **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `qwen-edit` - 640px, 1k, 2k\n- `flux-2-klein` - 640px, 1k, 2k\n- `nano-banana` - 640px, 1k\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `nano-banana-pro` - 1k, 2k, 4k\n- `seedream-v4.5` - 640px, 1k, 2k, 4k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n\nNote: Resolution availability depends on the model and your subscription tier.",
                     "example": "1k"
                   },
                   "style": {
@@ -4380,6 +4559,7 @@
                     "enum": [
                       "default",
                       "flux-schnell",
+                      "flux-2-klein",
                       "z-image-turbo",
                       "seedream-v4",
                       "nano-banana",
@@ -4388,7 +4568,7 @@
                       "gpt-image-2",
                       "seedream"
                     ],
-                    "description": "The AI model to use for image generation. Each model has different capabilities and costs.\n\n**Models:**\n- `default` - Use the model we recommend, which will change over time. This is recommended unless you need a specific model. This is the default behavior.\n- `flux-schnell` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `z-image-turbo` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `seedream-v4` - from 40 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `nano-banana` - from 50 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `nano-banana-2` - from 100 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 4, 9, 16\n- `nano-banana-pro` - from 150 credits/image\n  - Supported resolutions: 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 4, 9, 16\n- `gpt-image-2` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n\n**Deprecated Enum Values:**\n- `seedream` - Use `seedream-v4` instead.\n",
+                    "description": "The AI model to use for image generation. Each model has different capabilities and costs.\n\n**Models:**\n- `default` - Use the model we recommend, which will change over time. This is recommended unless you need a specific model. This is the default behavior.\n- `flux-schnell` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `flux-2-klein` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1\n- `z-image-turbo` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `seedream-v4` - from 40 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `nano-banana` - from 50 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `nano-banana-2` - from 100 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 4, 9, 16\n- `nano-banana-pro` - from 150 credits/image\n  - Supported resolutions: 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 4, 9, 16\n- `gpt-image-2` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n\n**Deprecated Enum Values:**\n- `seedream` - Use `seedream-v4` instead.\n",
                     "example": "default"
                   },
                   "aspect_ratio": {
@@ -4401,7 +4581,7 @@
                     "default": "auto",
                     "type": "string",
                     "enum": ["auto", "640px", "1k", "2k", "4k"],
-                    "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` — up to 640px\n- `1k` — up to 1024px\n- `2k` — up to 2048px\n- `4k` — up to 4096px\n- `auto` — **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `flux-schnell` - 640px, 1k, 2k\n- `z-image-turbo` - 640px, 1k, 2k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `nano-banana` - 640px, 1k\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `nano-banana-pro` - 1k, 2k, 4k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n\nNote: Resolution availability depends on the model and your subscription tier.",
+                    "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` — up to 640px\n- `1k` — up to 1024px\n- `2k` — up to 2048px\n- `4k` — up to 4096px\n- `auto` — **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `flux-schnell` - 640px, 1k, 2k\n- `flux-2-klein` - 640px, 1k, 2k\n- `z-image-turbo` - 640px, 1k, 2k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `nano-banana` - 640px, 1k\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `nano-banana-pro` - 1k, 2k, 4k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n\nNote: Resolution availability depends on the model and your subscription tier.",
                     "example": "auto"
                   },
                   "style": {
@@ -4625,6 +4805,12 @@
                   "style": {
                     "type": "object",
                     "properties": {
+                      "mode": {
+                        "type": "string",
+                        "enum": ["pro", "creative"],
+                        "description": "The upscaling mode. `\"pro\"` is faster and does not require `enhancement`. `\"creative\"` requires `enhancement`. Defaults to `\"creative\"`.",
+                        "example": "creative"
+                      },
                       "enhancement": {
                         "type": "string",
                         "enum": ["Resemblance", "Balanced", "Creative"]
@@ -4634,7 +4820,7 @@
                         "description": "A prompt to guide the final image. This value is ignored if `enhancement` is not Creative"
                       }
                     },
-                    "required": ["enhancement"]
+                    "description": "Style settings for the upscale. Use `mode` to select between `\"pro\"` (faster, no enhancement required) and `\"creative\"` (defaults to `\"Balanced\"` enhancement). Defaults to `\"creative\"`."
                   },
                   "assets": {
                     "type": "object",
@@ -6112,7 +6298,7 @@
                     },
                     "type": {
                       "type": "string",
-                      "description": "The type of the audio project. Possible values are VOICE_GENERATOR, VOICE_CHANGER, VOICE_CLONER, VIDEO_TO_AUDIO",
+                      "description": "The type of the audio project. Possible values are VOICE_GENERATOR, VOICE_CHANGER, VOICE_CLONER, VIDEO_TO_AUDIO, MUSIC_GENERATOR",
                       "example": "VOICE_GENERATOR"
                     },
                     "created_at": { "type": "string", "format": "date-time" },
@@ -6607,9 +6793,304 @@
                           "Rooney Mara",
                           "Caitriona Balfe",
                           "J.J. Abrams",
-                          "Zoe Saldana"
+                          "Zoe Saldana",
+                          "SpongeBob SquarePants",
+                          "Patrick Star",
+                          "Squidward Tentacles",
+                          "Homer Simpson",
+                          "Bart Simpson",
+                          "Peter Griffin",
+                          "Stewie Griffin",
+                          "Eric Cartman",
+                          "Rick Sanchez",
+                          "Bugs Bunny",
+                          "Mickey Mouse",
+                          "Donald Duck",
+                          "Shrek",
+                          "Donkey (Shrek)",
+                          "Elsa (Frozen)",
+                          "Woody (Toy Story)",
+                          "Buzz Lightyear",
+                          "Scooby-Doo",
+                          "Shaggy Rogers",
+                          "Bender (Futurama)",
+                          "Optimus Prime",
+                          "Batman (Animated)",
+                          "The Joker (Animated)",
+                          "Darth Vader",
+                          "Yoda",
+                          "Gollum Smeagol",
+                          "Gandalf",
+                          "Winnie the Pooh",
+                          "Kermit the Frog",
+                          "Elmo",
+                          "SpiderMan (Tom Holland ver.)",
+                          "Mario",
+                          "Luigi",
+                          "Sonic the Hedgehog",
+                          "Naruto Uzumaki",
+                          "Goku",
+                          "Vegeta",
+                          "Light Yagami",
+                          "Luffy (One Piece)",
+                          "Edward Elric",
+                          "Eren Jaeger",
+                          "Levi Ackerman",
+                          "Tanjiro Kamado",
+                          "All Might",
+                          "GLaDOS",
+                          "Master Chief",
+                          "Kratos",
+                          "Arthur Morgan",
+                          "Geralt of Rivia",
+                          "Dwayne 'The Rock' Johnson",
+                          "LeBron James",
+                          "Shaquille O'Neal",
+                          "Conor McGregor",
+                          "Mike Tyson",
+                          "Kobe Bryant",
+                          "Floyd Mayweather",
+                          "Cristiano Ronaldo",
+                          "Lionel Messi",
+                          "Serena Williams",
+                          "Tom Brady",
+                          "Stephen Curry",
+                          "John Cena",
+                          "Hulk Hogan",
+                          "Stone Cold Steve Austin",
+                          "The Undertaker",
+                          "Nate Diaz",
+                          "Charles Barkley",
+                          "Shannon Sharpe",
+                          "Drake",
+                          "Beyonce",
+                          "Rihanna",
+                          "Eminem",
+                          "Snoop Dogg",
+                          "Jay-Z",
+                          "Ed Sheeran",
+                          "Billie Eilish",
+                          "Ariana Grande",
+                          "Adele",
+                          "Post Malone",
+                          "Travis Scott",
+                          "Nicki Minaj",
+                          "Cardi B",
+                          "Doja Cat",
+                          "Bad Bunny",
+                          "Shakira",
+                          "Justin Bieber",
+                          "Sabrina Carpenter",
+                          "Chappell Roan",
+                          "Dua Lipa",
+                          "The Weeknd",
+                          "Miley Cyrus",
+                          "Lady Gaga",
+                          "Kendrick Lamar",
+                          "Ozzy Osbourne",
+                          "Freddie Mercury",
+                          "Elvis Presley",
+                          "Bob Marley",
+                          "Frank Sinatra",
+                          "MrBeast",
+                          "PewDiePie",
+                          "Kai Cenat",
+                          "IShowSpeed",
+                          "Markiplier",
+                          "Jacksepticeye",
+                          "KSI",
+                          "Logan Paul",
+                          "Jake Paul",
+                          "Dream (Minecraft)",
+                          "Corpse Husband",
+                          "xQc",
+                          "Pokimane",
+                          "Valkyrae",
+                          "Ninja",
+                          "Joe Scott",
+                          "Linus (LTT)",
+                          "Ryan Reynolds",
+                          "Tom Hanks",
+                          "Robert Downey Jr.",
+                          "Will Smith",
+                          "Denzel Washington",
+                          "Leonardo DiCaprio",
+                          "Brad Pitt",
+                          "Keanu Reeves",
+                          "Nicolas Cage",
+                          "Al Pacino",
+                          "Robert De Niro",
+                          "Arnold Schwarzenegger",
+                          "Sylvester Stallone",
+                          "Vin Diesel",
+                          "Jason Statham",
+                          "Tom Cruise",
+                          "Johnny Depp",
+                          "Scarlett Johansson",
+                          "Angelina Jolie",
+                          "Jennifer Aniston",
+                          "Emma Watson",
+                          "Margot Robbie",
+                          "Sydney Sweeney",
+                          "Zendaya",
+                          "Timothee Chalamet",
+                          "Pedro Pascal",
+                          "Oscar Isaac",
+                          "Benedict Cumberbatch",
+                          "Ian McKellen",
+                          "Patrick Stewart",
+                          "Christopher Walken",
+                          "Matthew McConaughey",
+                          "Harrison Ford",
+                          "Mark Wahlberg",
+                          "Owen Wilson",
+                          "Seth Rogen",
+                          "Kevin Hart",
+                          "Adam Sandler",
+                          "Jim Carrey",
+                          "Eddie Murphy",
+                          "Robin Williams",
+                          "Will Ferrell",
+                          "Melissa McCarthy",
+                          "Awkwafina",
+                          "Jason Momoa",
+                          "Idris Elba",
+                          "Tom Hardy",
+                          "Michael B. Jordan",
+                          "Austin Butler",
+                          "Glen Powell",
+                          "Paul Giamatti",
+                          "Bryan Cranston",
+                          "Bob Odenkirk",
+                          "Vladimir Putin",
+                          "Queen Elizabeth II",
+                          "Winston Churchill",
+                          "Martin Luther King Jr.",
+                          "Kamala Harris",
+                          "Bernie Sanders",
+                          "Alexandria Ocasio-Cortez",
+                          "Narendra Modi",
+                          "Oprah Winfrey",
+                          "Ellen DeGeneres",
+                          "Dr. Phil",
+                          "Steve Harvey",
+                          "Trevor Noah",
+                          "John Oliver",
+                          "James Corden",
+                          "Ryan Seacrest",
+                          "Howard Stern",
+                          "Conan O'Brien",
+                          "Seth Meyers",
+                          "Bill Nye",
+                          "Neil deGrasse Tyson",
+                          "Guy Fieri",
+                          "Dave Chappelle",
+                          "Chris Rock",
+                          "Jerry Seinfeld",
+                          "Ali Wong",
+                          "John Mulaney",
+                          "Hasan Minhaj",
+                          "Nikki Glaser",
+                          "Matt Rife",
+                          "Gabriel Iglesias",
+                          "Bo Burnham",
+                          "Jeff Bezos",
+                          "Bill Gates",
+                          "Steve Jobs",
+                          "Tim Cook",
+                          "Sam Altman",
+                          "Jensen Huang",
+                          "Gilbert Gottfried",
+                          "James May",
+                          "Jeremy Clarkson",
+                          "Richard Hammond",
+                          "Bob Ross",
+                          "Anthony Bourdain",
+                          "David Goggins",
+                          "Jordan Peterson",
+                          "Joe Pesci",
+                          "Danny DeVito",
+                          "Seth MacFarlane",
+                          "Patrick Warburton",
+                          "Keith David",
+                          "Mark Hamill",
+                          "Liam Neeson",
+                          "Antonio Banderas",
+                          "Sofia Vergara",
+                          "Penelope Cruz",
+                          "Gal Gadot",
+                          "Cate Blanchett",
+                          "Viola Davis",
+                          "Meryl Streep",
+                          "Sandra Bullock",
+                          "Reese Witherspoon",
+                          "Salma Hayek",
+                          "Lupita Nyong'o",
+                          "Florence Pugh",
+                          "Jenna Ortega",
+                          "Ana de Armas",
+                          "Jacob Elordi",
+                          "Barry White",
+                          "Dolly Parton",
+                          "Willie Nelson",
+                          "Lil Wayne",
+                          "50 Cent",
+                          "Ice Cube",
+                          "Tupac Shakur",
+                          "Notorious B.I.G.",
+                          "Bob Dylan",
+                          "David Bowie",
+                          "Michael Jackson",
+                          "Whitney Houston",
+                          "Amy Winehouse",
+                          "SZA",
+                          "Tyler, The Creator",
+                          "Thanos",
+                          "Tony Stark",
+                          "Captain Jack Sparrow",
+                          "Walter White",
+                          "Tommy Shelby",
+                          "Michael Scott",
+                          "Dwight Schrute",
+                          "Bowser",
+                          "Usain Bolt",
+                          "Tyson Fury",
+                          "Dana White",
+                          "Pat McAfee",
+                          "Giannis Antetokounmpo",
+                          "Lex Fridman",
+                          "Ben Shapiro",
+                          "Tucker Carlson",
+                          "Martha Stewart",
+                          "Gordon Lightfoot",
+                          "Lizzo",
+                          "Megan Thee Stallion",
+                          "Ice Spice",
+                          "21 Savage",
+                          "Metro Boomin",
+                          "Jack Harlow",
+                          "Peso Pluma",
+                          "BTS Jungkook",
+                          "Quentin Tarantino",
+                          "Werner Herzog",
+                          "Anderson Cooper",
+                          "Rachel Maddow",
+                          "Mahatma Gandhi",
+                          "Muhammad Ali",
+                          "Princess Diana",
+                          "Nelson Mandela",
+                          "Steve Irwin",
+                          "Morty Smith",
+                          "Andrew Huberman",
+                          "Willem Dafoe",
+                          "Mike Rowe",
+                          "Terminator",
+                          "Deadpool",
+                          "Plankton",
+                          "Mr. Krabs",
+                          "Picard"
                         ],
-                        "description": "The voice to use for the speech. Available voices: Elon Musk, Mark Zuckerberg, Joe Rogan, Barack Obama, Morgan Freeman, Kanye West, Donald Trump, Joe Biden, Kim Kardashian, Taylor Swift, James Earl Jones, Samuel L. Jackson, Jeff Goldblum, David Attenborough, Sean Connery, Cillian Murphy, Anne Hathaway, Julia Roberts, Natalie Portman, Steve Carell, Amy Poehler, Stephen Colbert, Jimmy Fallon, David Letterman, Alex Trebek, Katy Perry, Prince, Kevin Bacon, Tom Hiddleston, Adam Driver, Alan Rickman, Alexz Johnson, Ana Gasteyer, Andrew Rannells, Arden Cho, Bear Grylls, Ben McKenzie, Ben Stiller, Ben Whishaw, Billie Joe Armstrong, Bingbing Li, Booboo Stewart, Bradley Steven Perry, Bruno Mars, Caity Lotz, Cameron Boyce, Candice Accola, Carrie Underwood, Casey Affleck, Caterina Scorsone, Cedric the Entertainer, Chace Crawford, Chadwick Boseman, Charlie Day, Chris Hemsworth, Chris Martin, Christopher Mintz-Plasse, Dan Fogler, Dan Stevens, Daniel Dae Kim, Danielle Panabaker, Dave Bautista, David Schwimmer, Denis Leary, Derek Mears, Diego Luna, Donald Glover, Donnie Yen, Doutzen Kroes, Dove Cameron, Dr. Dre, Drake Bell, Elle Fanning, Ernie Hudson, Fergie, Forest Whitaker, Francia Raisa, Freddie Highmore, Gillian Jacobs, Gina Carano, Ginnifer Goodwin, Gordon Ramsay, Guy Pearce, Gwendoline Christie, Hailee Steinfeld, Howie Mandel, Hugh Jackman, Hugh Laurie, J. K. Simmons, Jack Black, Jared Leto, Jennifer Carpenter, Kesha, Kris Jenner, Kristen Bell, Lorde, Matt Smith, Marilyn Monroe, Charlie Chaplin, Albert Einstein, Abraham Lincoln, John F. Kennedy, Lucille Ball, A.R. Rahman, Aamir Khan, Ajay Devgn, Akshay Kumar, Alain Delon, Alan Alda, Alan Cumming, Amitabh Bachchan, Ang Lee, Ansel Elgort, Anthony Anderson, Anthony Mackie, Armie Hammer, Asa Butterfield, B.J. Novak, Barbara Eden, Betty White, Bill Nighy, Bill Pullman, Blake Shelton, Bonnie Wright, Brad Paisley, Brendan Gleeson, Brian Cox, Bruno Ganz, Burt Reynolds, Carrie Fisher, Charles Dance, Chiwetel Ejiofor, Chris Pine, Christina Hendricks, Christina Ricci, Cyndi Lauper, Dakota Fanning, Damian Lewis, Dan Aykroyd, Daniel Craig, David Oyelowo, David Tennant, Diane Keaton, Diane Kruger, Dick Van Dyke, Domhnall Gleeson, Dominic Cooper, Donald Sutherland, Drew Carey, Eartha Kitt, Eddie Izzard, Edward Asner, Eli Roth, Elisabeth Moss, Ellen Burstyn, Emile Hirsch, Ezra Miller, Felicity Jones, Fiona Shaw, Florence Henderson, Freida Pinto, Geena Davis, Gemma Arterton, Geri Halliwell, Glenn Close, Gloria Steinem, Greta Gerwig, Gugu Mbatha-Raw, Hans Zimmer, Harry Connick Jr., Harvey Keitel, Helena Bonham Carter, Henry Cavill, Hilary Swank, Hugh Bonneville, Idina Menzel, Imelda Staunton, Ingrid Bergman, Irrfan Khan, Isla Fisher, Iwan Rheon, Jack Lemmon, Janet Jackson, Jason Bateman, Jason Segel, Jennifer Coolidge, Johnny Galecki, Jon Favreau, Joseph Gordon-Levitt, Josh Brolin, Josh Gad, Josh Groban, Julia Louis-Dreyfus, Kristen Stewart, Kristen Wiig, Rooney Mara, Caitriona Balfe, J.J. Abrams, Zoe Saldana",
+                        "description": "The voice to use for the speech. Available voices: Elon Musk, Mark Zuckerberg, Joe Rogan, Barack Obama, Morgan Freeman, Kanye West, Donald Trump, Joe Biden, Kim Kardashian, Taylor Swift, James Earl Jones, Samuel L. Jackson, Jeff Goldblum, David Attenborough, Sean Connery, Cillian Murphy, Anne Hathaway, Julia Roberts, Natalie Portman, Steve Carell, Amy Poehler, Stephen Colbert, Jimmy Fallon, David Letterman, Alex Trebek, Katy Perry, Prince, Kevin Bacon, Tom Hiddleston, Adam Driver, Alan Rickman, Alexz Johnson, Ana Gasteyer, Andrew Rannells, Arden Cho, Bear Grylls, Ben McKenzie, Ben Stiller, Ben Whishaw, Billie Joe Armstrong, Bingbing Li, Booboo Stewart, Bradley Steven Perry, Bruno Mars, Caity Lotz, Cameron Boyce, Candice Accola, Carrie Underwood, Casey Affleck, Caterina Scorsone, Cedric the Entertainer, Chace Crawford, Chadwick Boseman, Charlie Day, Chris Hemsworth, Chris Martin, Christopher Mintz-Plasse, Dan Fogler, Dan Stevens, Daniel Dae Kim, Danielle Panabaker, Dave Bautista, David Schwimmer, Denis Leary, Derek Mears, Diego Luna, Donald Glover, Donnie Yen, Doutzen Kroes, Dove Cameron, Dr. Dre, Drake Bell, Elle Fanning, Ernie Hudson, Fergie, Forest Whitaker, Francia Raisa, Freddie Highmore, Gillian Jacobs, Gina Carano, Ginnifer Goodwin, Gordon Ramsay, Guy Pearce, Gwendoline Christie, Hailee Steinfeld, Howie Mandel, Hugh Jackman, Hugh Laurie, J. K. Simmons, Jack Black, Jared Leto, Jennifer Carpenter, Kesha, Kris Jenner, Kristen Bell, Lorde, Matt Smith, Marilyn Monroe, Charlie Chaplin, Albert Einstein, Abraham Lincoln, John F. Kennedy, Lucille Ball, A.R. Rahman, Aamir Khan, Ajay Devgn, Akshay Kumar, Alain Delon, Alan Alda, Alan Cumming, Amitabh Bachchan, Ang Lee, Ansel Elgort, Anthony Anderson, Anthony Mackie, Armie Hammer, Asa Butterfield, B.J. Novak, Barbara Eden, Betty White, Bill Nighy, Bill Pullman, Blake Shelton, Bonnie Wright, Brad Paisley, Brendan Gleeson, Brian Cox, Bruno Ganz, Burt Reynolds, Carrie Fisher, Charles Dance, Chiwetel Ejiofor, Chris Pine, Christina Hendricks, Christina Ricci, Cyndi Lauper, Dakota Fanning, Damian Lewis, Dan Aykroyd, Daniel Craig, David Oyelowo, David Tennant, Diane Keaton, Diane Kruger, Dick Van Dyke, Domhnall Gleeson, Dominic Cooper, Donald Sutherland, Drew Carey, Eartha Kitt, Eddie Izzard, Edward Asner, Eli Roth, Elisabeth Moss, Ellen Burstyn, Emile Hirsch, Ezra Miller, Felicity Jones, Fiona Shaw, Florence Henderson, Freida Pinto, Geena Davis, Gemma Arterton, Geri Halliwell, Glenn Close, Gloria Steinem, Greta Gerwig, Gugu Mbatha-Raw, Hans Zimmer, Harry Connick Jr., Harvey Keitel, Helena Bonham Carter, Henry Cavill, Hilary Swank, Hugh Bonneville, Idina Menzel, Imelda Staunton, Ingrid Bergman, Irrfan Khan, Isla Fisher, Iwan Rheon, Jack Lemmon, Janet Jackson, Jason Bateman, Jason Segel, Jennifer Coolidge, Johnny Galecki, Jon Favreau, Joseph Gordon-Levitt, Josh Brolin, Josh Gad, Josh Groban, Julia Louis-Dreyfus, Kristen Stewart, Kristen Wiig, Rooney Mara, Caitriona Balfe, J.J. Abrams, Zoe Saldana, SpongeBob SquarePants, Patrick Star, Squidward Tentacles, Homer Simpson, Bart Simpson, Peter Griffin, Stewie Griffin, Eric Cartman, Rick Sanchez, Bugs Bunny, Mickey Mouse, Donald Duck, Shrek, Donkey (Shrek), Elsa (Frozen), Woody (Toy Story), Buzz Lightyear, Scooby-Doo, Shaggy Rogers, Bender (Futurama), Optimus Prime, Batman (Animated), The Joker (Animated), Darth Vader, Yoda, Gollum Smeagol, Gandalf, Winnie the Pooh, Kermit the Frog, Elmo, SpiderMan (Tom Holland ver.), Mario, Luigi, Sonic the Hedgehog, Naruto Uzumaki, Goku, Vegeta, Light Yagami, Luffy (One Piece), Edward Elric, Eren Jaeger, Levi Ackerman, Tanjiro Kamado, All Might, GLaDOS, Master Chief, Kratos, Arthur Morgan, Geralt of Rivia, Dwayne 'The Rock' Johnson, LeBron James, Shaquille O'Neal, Conor McGregor, Mike Tyson, Kobe Bryant, Floyd Mayweather, Cristiano Ronaldo, Lionel Messi, Serena Williams, Tom Brady, Stephen Curry, John Cena, Hulk Hogan, Stone Cold Steve Austin, The Undertaker, Nate Diaz, Charles Barkley, Shannon Sharpe, Drake, Beyonce, Rihanna, Eminem, Snoop Dogg, Jay-Z, Ed Sheeran, Billie Eilish, Ariana Grande, Adele, Post Malone, Travis Scott, Nicki Minaj, Cardi B, Doja Cat, Bad Bunny, Shakira, Justin Bieber, Sabrina Carpenter, Chappell Roan, Dua Lipa, The Weeknd, Miley Cyrus, Lady Gaga, Kendrick Lamar, Ozzy Osbourne, Freddie Mercury, Elvis Presley, Bob Marley, Frank Sinatra, MrBeast, PewDiePie, Kai Cenat, IShowSpeed, Markiplier, Jacksepticeye, KSI, Logan Paul, Jake Paul, Dream (Minecraft), Corpse Husband, xQc, Pokimane, Valkyrae, Ninja, Joe Scott, Linus (LTT), Ryan Reynolds, Tom Hanks, Robert Downey Jr., Will Smith, Denzel Washington, Leonardo DiCaprio, Brad Pitt, Keanu Reeves, Nicolas Cage, Al Pacino, Robert De Niro, Arnold Schwarzenegger, Sylvester Stallone, Vin Diesel, Jason Statham, Tom Cruise, Johnny Depp, Scarlett Johansson, Angelina Jolie, Jennifer Aniston, Emma Watson, Margot Robbie, Sydney Sweeney, Zendaya, Timothee Chalamet, Pedro Pascal, Oscar Isaac, Benedict Cumberbatch, Ian McKellen, Patrick Stewart, Christopher Walken, Matthew McConaughey, Harrison Ford, Mark Wahlberg, Owen Wilson, Seth Rogen, Kevin Hart, Adam Sandler, Jim Carrey, Eddie Murphy, Robin Williams, Will Ferrell, Melissa McCarthy, Awkwafina, Jason Momoa, Idris Elba, Tom Hardy, Michael B. Jordan, Austin Butler, Glen Powell, Paul Giamatti, Bryan Cranston, Bob Odenkirk, Vladimir Putin, Queen Elizabeth II, Winston Churchill, Martin Luther King Jr., Kamala Harris, Bernie Sanders, Alexandria Ocasio-Cortez, Narendra Modi, Oprah Winfrey, Ellen DeGeneres, Dr. Phil, Steve Harvey, Trevor Noah, John Oliver, James Corden, Ryan Seacrest, Howard Stern, Conan O'Brien, Seth Meyers, Bill Nye, Neil deGrasse Tyson, Guy Fieri, Dave Chappelle, Chris Rock, Jerry Seinfeld, Ali Wong, John Mulaney, Hasan Minhaj, Nikki Glaser, Matt Rife, Gabriel Iglesias, Bo Burnham, Jeff Bezos, Bill Gates, Steve Jobs, Tim Cook, Sam Altman, Jensen Huang, Gilbert Gottfried, James May, Jeremy Clarkson, Richard Hammond, Bob Ross, Anthony Bourdain, David Goggins, Jordan Peterson, Joe Pesci, Danny DeVito, Seth MacFarlane, Patrick Warburton, Keith David, Mark Hamill, Liam Neeson, Antonio Banderas, Sofia Vergara, Penelope Cruz, Gal Gadot, Cate Blanchett, Viola Davis, Meryl Streep, Sandra Bullock, Reese Witherspoon, Salma Hayek, Lupita Nyong'o, Florence Pugh, Jenna Ortega, Ana de Armas, Jacob Elordi, Barry White, Dolly Parton, Willie Nelson, Lil Wayne, 50 Cent, Ice Cube, Tupac Shakur, Notorious B.I.G., Bob Dylan, David Bowie, Michael Jackson, Whitney Houston, Amy Winehouse, SZA, Tyler, The Creator, Thanos, Tony Stark, Captain Jack Sparrow, Walter White, Tommy Shelby, Michael Scott, Dwight Schrute, Bowser, Usain Bolt, Tyson Fury, Dana White, Pat McAfee, Giannis Antetokounmpo, Lex Fridman, Ben Shapiro, Tucker Carlson, Martha Stewart, Gordon Lightfoot, Lizzo, Megan Thee Stallion, Ice Spice, 21 Savage, Metro Boomin, Jack Harlow, Peso Pluma, BTS Jungkook, Quentin Tarantino, Werner Herzog, Anderson Cooper, Rachel Maddow, Mahatma Gandhi, Muhammad Ali, Princess Diana, Nelson Mandela, Steve Irwin, Morty Smith, Andrew Huberman, Willem Dafoe, Mike Rowe, Terminator, Deadpool, Plankton, Mr. Krabs, Picard",
                         "example": "Elon Musk"
                       }
                     },
