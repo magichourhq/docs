@@ -75,9 +75,6 @@ setx MAGIC_HOUR_API_KEY "your_api_key_here"
 mkdir magic-hour-quickstart
 cd magic-hour-quickstart
 
-# Create outputs directory (prevents FileNotFoundError)
-mkdir outputs
-
 # Create your Python file
 touch main.py
 ```
@@ -89,9 +86,6 @@ cd magic-hour-quickstart
 
 # Initialize npm project
 npm init -y
-
-# Create outputs directory (prevents FileNotFoundError)
-mkdir outputs
 
 # Create your JavaScript file
 touch main.js
@@ -137,7 +131,7 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 - `aspect_ratio: "16:9"` - Widescreen (landscape) output; also supports `1:1` and `9:16`
 - `wait_for_completion: true` - SDK polls until done
 - `download_outputs: true` - Automatically download to local disk
-- `download_directory: "outputs"` - Save into the `outputs` directory you created above
+- `download_directory: "."` - Save to the current directory
 
 ### Copy the code and run it
 
@@ -166,7 +160,7 @@ result = client.v1.ai_image_generator.generate(
     },
     wait_for_completion=True, # wait for the render to complete
     download_outputs=True, # download the outputs to local disk
-    download_directory="outputs", # save the outputs to the ./outputs directory
+    download_directory=".", # save the outputs to the current directory
 )
 
 print(f"created image with id {result.id}, spent {result.credits_charged} credits. Outputs are saved at {result.downloaded_paths}")
@@ -190,7 +184,7 @@ async function main() {
     {
       waitForCompletion: true, // wait for the render to complete
       downloadOutputs: true, // download the outputs to local disk
-      downloadDirectory: "outputs", // save the outputs to the ./outputs directory
+      downloadDirectory: ".", // save the outputs to the current directory
     }
   );
 
@@ -428,7 +422,7 @@ result = client.v1.face_swap.generate(
     end_seconds=8.5,
     wait_for_completion=True, # wait for the render to complete
     download_outputs=True, # download the outputs to local disk
-    download_directory="outputs", # save the outputs to the ./outputs directory
+    download_directory=".", # save the outputs to the current directory
 )
 
 print(f"created face swap video with id {result.id}, spent {result.credits_charged} credits. Outputs are saved at {result.downloaded_paths}")
@@ -456,7 +450,7 @@ async function main() {
     {
       waitForCompletion: true, // wait for the render to complete
       downloadOutputs: true, // download the outputs to local disk
-      downloadDirectory: "outputs", // save the outputs to the ./outputs directory
+      downloadDirectory: ".", // save the outputs to the current directory
     }
   );
 
@@ -738,7 +732,7 @@ cargo run
 ```
 queued image with id clx1234567890, spent 5 credits
 render complete!
-created image with id clx1234567890, spent 5 credits. Outputs are saved at ['outputs/output-1.png']
+created image with id clx1234567890, spent 5 credits. Outputs are saved at ['./output-0.png']
 ```
 
 <Note>
@@ -750,9 +744,9 @@ created image with id clx1234567890, spent 5 credits. Outputs are saved at ['out
 
 ### Common Issues
 
-**FileNotFoundError: No such file or directory: 'outputs/output-1.png'**
+**FileNotFoundError when using a custom `download_directory`**
 
-**Solution:** Create the outputs directory before running:
+The SDK saves outputs into `download_directory` but does **not** create the folder for you. The default (`"."`) always works. If you point it at a folder that doesn't exist yet (e.g. `"outputs"`), create it first:
 
 ```bash
 mkdir outputs
