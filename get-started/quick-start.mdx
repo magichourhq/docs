@@ -134,10 +134,10 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 **Why these parameters:**
 
 - `image_count: 1` - Generate one image (costs 5 credits)
-- `orientation: "landscape"` - 16:9 aspect ratio
+- `aspect_ratio: "16:9"` - Widescreen (landscape) output; also supports `1:1` and `9:16`
 - `wait_for_completion: true` - SDK polls until done
 - `download_outputs: true` - Automatically download to local disk
-- `download_directory: "."` - Save to the current directory
+- `download_directory: "outputs"` - Save into the `outputs` directory you created above
 
 ### Copy the code and run it
 
@@ -160,13 +160,13 @@ client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
 
 result = client.v1.ai_image_generator.generate(
     image_count=1,
-    orientation="landscape",
+    aspect_ratio="16:9",
     style={
         "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'"
     },
     wait_for_completion=True, # wait for the render to complete
     download_outputs=True, # download the outputs to local disk
-    download_directory=".", # save the outputs to the current directory
+    download_directory="outputs", # save the outputs to the ./outputs directory
 )
 
 print(f"created image with id {result.id}, spent {result.credits_charged} credits. Outputs are saved at {result.downloaded_paths}")
@@ -182,7 +182,7 @@ async function main() {
   const createRes = await client.v1.aiImageGenerator.generate(
     {
       imageCount: 1,
-      orientation: "landscape",
+      aspectRatio: "16:9",
       style: {
         prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
       },
@@ -190,7 +190,7 @@ async function main() {
     {
       waitForCompletion: true, // wait for the render to complete
       downloadOutputs: true, // download the outputs to local disk
-      downloadDirectory: ".", // save the outputs to the current directory
+      downloadDirectory: "outputs", // save the outputs to the ./outputs directory
     }
   );
 
@@ -213,6 +213,7 @@ import (
 	"time"
 
 	sdk "github.com/magichourhq/magic-hour-go/client"
+	nullable "github.com/magichourhq/magic-hour-go/nullable"
 	"github.com/magichourhq/magic-hour-go/resources/v1/ai_image_generator"
 	"github.com/magichourhq/magic-hour-go/resources/v1/image_projects"
 	"github.com/magichourhq/magic-hour-go/types"
@@ -223,8 +224,8 @@ func main() {
 	client := sdk.NewClient(sdk.WithBearerAuth(os.Getenv("MAGIC_HOUR_API_KEY")))
 	createRes, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{
 		ImageCount:  1,
-		Orientation: types.PostV1AiImageGeneratorBodyOrientationEnumLandscape,
-		Style: types.PostV1AiImageGeneratorBodyStyle{
+		AspectRatio: nullable.NewValue(types.V1AiImageGeneratorCreateBodyAspectRatioEnum169),
+		Style: types.V1AiImageGeneratorCreateBodyStyle{
 			Prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
 		},
 	})
@@ -296,9 +297,10 @@ async fn main() {
         .ai_image_generator()
         .create(magic_hour::resources::v1::ai_image_generator::CreateRequest {
             image_count: 1,
-            orientation: magic_hour::models::PostV1AiImageGeneratorBodyOrientationEnum::Landscape,
-            style: magic_hour::models::PostV1AiImageGeneratorBodyStyle {
+            aspect_ratio: Some(magic_hour::models::V1AiImageGeneratorCreateBodyAspectRatioEnum::Enum169),
+            style: magic_hour::models::V1AiImageGeneratorCreateBodyStyle {
                 prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'".to_string(),
+                ..Default::default()
             },
             ..Default::default()
         })
@@ -364,7 +366,7 @@ create_response=$(curl -s $URL \
   --header "Authorization: Bearer $API_KEY" \
   --data '{
     "image_count": 1,
-    "orientation": "landscape",
+    "aspect_ratio": "16:9",
     "style": {
       "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says \"Magic Hour\""
     }
@@ -426,7 +428,7 @@ result = client.v1.face_swap.generate(
     end_seconds=8.5,
     wait_for_completion=True, # wait for the render to complete
     download_outputs=True, # download the outputs to local disk
-    download_directory=".", # save the outputs to the current directory
+    download_directory="outputs", # save the outputs to the ./outputs directory
 )
 
 print(f"created face swap video with id {result.id}, spent {result.credits_charged} credits. Outputs are saved at {result.downloaded_paths}")
@@ -454,7 +456,7 @@ async function main() {
     {
       waitForCompletion: true, // wait for the render to complete
       downloadOutputs: true, // download the outputs to local disk
-      downloadDirectory: ".", // save the outputs to the current directory
+      downloadDirectory: "outputs", // save the outputs to the ./outputs directory
     }
   );
 
@@ -781,7 +783,7 @@ setx MAGIC_HOUR_API_KEY "your_api_key_here"
 
 ### HTTP Error Codes
 
-If you encounter HTTP errors, here's what they mean:
+If you encounter HTTP errors, here's what they mean. For the full list of HTTP statuses **and** application error codes (with causes and fixes), see the [Errors reference](/get-started/errors).
 
 | Error Code | Meaning               | Solution                                                                          |
 | :--------- | :-------------------- | :-------------------------------------------------------------------------------- |

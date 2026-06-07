@@ -60,6 +60,7 @@
               "introduction",
               "get-started/quick-start",
               "get-started/authentication",
+              "get-started/errors",
               "get-started/cookbook"
             ]
           },
