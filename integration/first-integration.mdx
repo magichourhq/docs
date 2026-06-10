@@ -76,11 +76,12 @@ MAGIC_HOUR_API_KEY=your_api_key_here
 ```
 
 <Warning>
-**Security**: Never commit `.env` to version control. Add it to `.gitignore` immediately:
+  **Security**: Never commit `.env` to version control. Add it to `.gitignore` immediately.
+</Warning>
+
 ```bash
 echo ".env" >> .gitignore
 ```
-</Warning>
 
 ### Step 4: Write the Integration Code
 
@@ -316,11 +317,12 @@ MAGIC_HOUR_API_KEY=your_api_key_here
 ```
 
 <Warning>
-**Security**: Never commit `.env` to version control. Add it to `.gitignore` immediately:
+  **Security**: Never commit `.env` to version control. Add it to `.gitignore` immediately.
+</Warning>
+
 ```bash
 echo ".env" >> .gitignore
 ```
-</Warning>
 
 ### Step 4: Write the Integration Code
 
@@ -605,7 +607,7 @@ For video generation, the process is identical but uses different endpoints:
 # Create video job
 create_response = client.v1.face_swap.create(
     assets={
-        "source_file_path": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU_%28cropped%29.jpg",
+        "image_file_path": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU_%28cropped%29.jpg",
         "video_file_path": "https://svs.gsfc.nasa.gov/vis/a010000/a014300/a014327/john_bolten_no_graphics.mp4",
         "video_source": "file"
     },
@@ -621,7 +623,7 @@ status = client.v1.video_projects.get(id=create_response.id)
 // Create video job
 const createResponse = await client.v1.faceSwap.create({
   assets: {
-    sourceFilePath:
+    imageFilePath:
       "https://upload.wikimedia.org/wikipedia/commons/e/ec/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU_%28cropped%29.jpg",
     videoFilePath:
       "https://svs.gsfc.nasa.gov/vis/a010000/a014300/a014327/john_bolten_no_graphics.mp4",

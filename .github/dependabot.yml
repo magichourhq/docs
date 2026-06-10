@@ -20,7 +20,8 @@ updates:
           - "@mintlify/*"
       changelog-generator:
         patterns:
-          - "@ai-sdk/openai"
+          - "ai"
+          - "@ai-sdk/*"
           - "@linear/sdk"
           - "tsx"
           - "typescript"
