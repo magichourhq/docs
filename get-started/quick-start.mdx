@@ -49,11 +49,18 @@ setx MAGIC_HOUR_API_KEY "your_api_key_here"
 ```
 
 ```powershell PowerShell
-# Set environment variable (PowerShell)
+# Option A: Set permanently (requires terminal restart)
 [Environment]::SetEnvironmentVariable("MAGIC_HOUR_API_KEY", "your_api_key_here", "User")
 
-# Restart your terminal after running this command
+# Option B: Set for current session only (no restart needed)
+$env:MAGIC_HOUR_API_KEY = "your_api_key_here"
 ```
+
+<Warning>
+  **PowerShell:** `SetEnvironmentVariable` only takes effect in **new** terminal sessions. If you
+  run your script in the same terminal, use `$env:MAGIC_HOUR_API_KEY` instead to set it for the
+  current session.
+</Warning>
 
 </CodeGroup>
 
@@ -86,6 +93,9 @@ cd magic-hour-quickstart
 
 # Initialize npm project
 npm init -y
+
+# Enable ES module support (required for the SDK)
+echo '{"type":"module"}' > package.json
 
 # Create your JavaScript file
 touch main.js
@@ -769,8 +779,11 @@ setx MAGIC_HOUR_API_KEY "your_api_key_here"
 ```
 
 ```powershell PowerShell
-# Set environment variable (PowerShell)
+# Option A: Set permanently (requires terminal restart)
 [Environment]::SetEnvironmentVariable("MAGIC_HOUR_API_KEY", "your_api_key_here", "User")
+
+# Option B: Set for current session only (no restart needed)
+$env:MAGIC_HOUR_API_KEY = "your_api_key_here"
 ```
 
 </CodeGroup>
