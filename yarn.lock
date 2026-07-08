@@ -1112,12 +1112,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@linear/sdk@npm:81.0.0":
-  version: 81.0.0
-  resolution: "@linear/sdk@npm:81.0.0"
+"@linear/sdk@npm:88.0.0":
+  version: 88.0.0
+  resolution: "@linear/sdk@npm:88.0.0"
   dependencies:
     "@graphql-typed-document-node/core": "npm:^3.2.0"
-  checksum: 10/334879d034334cc534c929cbeeddc7402d1e50ab21b2a4f19b871a915843c39c49a0f7322d93f553ced7e6a0fac8939aa2faecc596617e7cf513ed5c59c6a5b0
+  checksum: 10/ffc1e6c4d0e6ac44881051a4a159a3a7522ae9bc95c6e313c61a55cef04ad1d81109e6185e211f5ee1cc5e06138751f012de39484bc8ef82b9b78934e35a6d54
   languageName: node
   linkType: hard
 
@@ -3556,15 +3556,15 @@ __metadata:
   dependencies:
     "@ai-sdk/openai": "npm:3.0.53"
     "@clack/prompts": "npm:1.2.0"
-    "@linear/sdk": "npm:81.0.0"
+    "@linear/sdk": "npm:88.0.0"
     "@mintlify/scraping": "npm:4.0.708"
     ai: "npm:6.0.153"
     dotenv: "npm:17.4.2"
     mintlify: "npm:4.2.500"
-    prettier: "npm:3.8.3"
+    prettier: "npm:3.9.4"
     tsx: "npm:4.21.0"
-    typescript: "npm:6.0.2"
-    zod: "npm:4.3.6"
+    typescript: "npm:6.0.3"
+    zod: "npm:4.4.3"
   languageName: unknown
   linkType: soft
 
@@ -7717,12 +7717,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:3.8.3":
-  version: 3.8.3
-  resolution: "prettier@npm:3.8.3"
+"prettier@npm:3.9.4":
+  version: 3.9.4
+  resolution: "prettier@npm:3.9.4"
   bin:
     prettier: bin/prettier.cjs
-  checksum: 10/4b3b12cbb29e4c96bed936e5d070167552500c18d37676fb3e0caae6199c42860662608e4dc116230698f6e2bb0267ef2548158224c92d40f188d309d72fdd6f
+  checksum: 10/4a0dc4389d442f5aca0beb12778c90b6ceb9831940b01a1df5eba9150b5ce96fa52eda9074a10a370e732adc03e2f645597dfd8b7e3f1e94dee28df01004a0fd
   languageName: node
   linkType: hard
 
@@ -9583,23 +9583,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:6.0.2":
-  version: 6.0.2
-  resolution: "typescript@npm:6.0.2"
+"typescript@npm:6.0.3":
+  version: 6.0.3
+  resolution: "typescript@npm:6.0.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/b9fc2fcee7ee8e5ca6f5138181964550531e18e2d20ecb71b802d4d495881e3444e0ef94cbb6e84eb2ba41e913f6feae3ca33cc722b32e6e6dfadb32d23b80e6
+  checksum: 10/0ef2357a4cffd916b52b683a021cdab0f81eea4e9aa35f2d254581c9a5106da02224e3392e1b0ed42b7a48f80c966e5f52b8e1a27941fa0523c1705a9c2e0330
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A6.0.2#optional!builtin<compat/typescript>":
-  version: 6.0.2
-  resolution: "typescript@patch:typescript@npm%3A6.0.2#optional!builtin<compat/typescript>::version=6.0.2&hash=5786d5"
+"typescript@patch:typescript@npm%3A6.0.3#optional!builtin<compat/typescript>":
+  version: 6.0.3
+  resolution: "typescript@patch:typescript@npm%3A6.0.3#optional!builtin<compat/typescript>::version=6.0.3&hash=5786d5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/e5501dfcf8c5b6b9a61f6fa53decc40187cebe3a2b7b2bd51c615007ad4cf6d58298461fef63294f6be9d5f2f33019b2a2e2bf02d9cb7d7f6ec94372bf24ffa2
+  checksum: 10/22b67a18dafedf9b1468b64ca20d9aa02ea61d449b65413d8aa6552aeb63f52ef369e86beb25b6b4c91a803d9726ee5c196f391a9b64201263263410a4223ee6
   languageName: node
   linkType: hard
 
@@ -10271,7 +10271,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:4.3.6, zod@npm:^4.3.6":
+"zod@npm:4.4.3":
+  version: 4.4.3
+  resolution: "zod@npm:4.4.3"
+  checksum: 10/804b9a42aa8f35f2b3c5a8dff906291cb749115f83ee2afe3576d70b5b5c53c965365c7f4967690647a9c54af9838ff232a85ff9577a0a36c44b68bc6cdefe36
+  languageName: node
+  linkType: hard
+
+"zod@npm:^4.3.6":
   version: 4.3.6
   resolution: "zod@npm:4.3.6"
   checksum: 10/25fc0f62e01b557b4644bf0b393bbaf47542ab30877c37837ea8caf314a8713d220c7d7fe51f68ffa72f0e1018ddfa34d96f1973d23033f5a2a5a9b6b9d9da01
