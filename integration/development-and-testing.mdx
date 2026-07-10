@@ -28,7 +28,8 @@ client = Client(
 # All API calls return mock data instantly
 result = client.v1.ai_image_generator.create(
     image_count=1,
-    orientation="landscape",
+    aspect_ratio="16:9",
+    resolution="1k",
     style={"prompt": "Test image", "tool": "ai-anime-generator"}
 )
 
@@ -48,7 +49,8 @@ const client = new Client({
 // All API calls return mock data instantly
 const result = await client.v1.aiImageGenerator.create({
   imageCount: 1,
-  orientation: "landscape",
+  aspectRatio: "16:9",
+  resolution: "1k",
   style: { prompt: "Test image", tool: "ai-anime-generator" },
 });
 
@@ -57,6 +59,11 @@ console.log(`Job ID: ${result.id}`); // Returns mock ID
 ```
 
 </CodeGroup>
+
+<Note>
+  **`style.tool` is optional.** It selects an art-style preset; `ai-anime-generator` requests an
+  anime look. Omit it to use the default `general` style.
+</Note>
 
 **Benefits:**
 
@@ -131,8 +138,9 @@ client = Client(token="YOUR_API_KEY")
 try:
     result = client.v1.ai_image_generator.create(
         image_count=1,
-        orientation="landscape",
-        style={"prompt": "Test", "tool": "ai-anime-generator"},
+        aspect_ratio="16:9",
+        resolution="1k",
+        style={"prompt": "Test"},
     )
 
 except httpx.HTTPStatusError as e:
@@ -163,8 +171,9 @@ const client = new Client({ token: "YOUR_API_KEY" });
 try {
   const result = await client.v1.aiImageGenerator.create({
     imageCount: 1,
-    orientation: "landscape",
-    style: { prompt: "Test", tool: "ai-anime-generator" },
+    aspectRatio: "16:9",
+    resolution: "1k",
+    style: { prompt: "Test" },
   });
 } catch (error) {
   if (error.statusCode === 401) {
@@ -406,8 +415,9 @@ Before going live, test with minimal credits:
 # Minimal credit test
 result = client.v1.ai_image_generator.create(
     image_count=1,
-    orientation="square",  # 512x512 uses minimal credits
-    style={"prompt": "Simple test", "tool": "ai-anime-generator"}
+    aspect_ratio="1:1",
+    resolution="1k",
+    style={"prompt": "Simple test"}
 )
 # Uses ~5 credits
 ```
@@ -460,12 +470,13 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-logger.info("Creating AI image job", extra={"orientation": "landscape", "image_count": 1})
+logger.info("Creating AI image job", extra={"aspect_ratio": "16:9", "image_count": 1})
 
 result = client.v1.ai_image_generator.create(
     image_count=1,
-    orientation="landscape",
-    style={"prompt": "Test", "tool": "ai-anime-generator"},
+    aspect_ratio="16:9",
+    resolution="1k",
+    style={"prompt": "Test"},
     name="Logging Example",
 )
 
