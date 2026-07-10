@@ -141,8 +141,8 @@ result. Choose the example that matches what you want to build:
 
 | Example | Best for | Typical cost | Typical wait |
 | :------ | :------- | :----------- | :----------- |
-| **Face swap video** | Our most popular API path | ~200 credits for the sample clip | 2-5 minutes |
 | **Generate image** | Cheapest first success | 5 credits | 30-60 seconds |
+| **Face swap video** | Our most popular API path | ~200 credits for the sample clip | 2-5 minutes |
 
 ### Copy the code and run it
 
@@ -156,10 +156,298 @@ result. Choose the example that matches what you want to build:
 
 <Tabs>
 
+<Tab title="Generate image (~5 credits)">
+
+Create an image from a text prompt. This is the cheapest way to verify your setup end to end.
+
+**Why these parameters:**
+
+- `image_count: 1` - Generate one image (costs 5 credits)
+- `aspect_ratio: "16:9"` - Widescreen (landscape) output; also supports `1:1` and `9:16`
+- `resolution: "1k"` - Request an explicit supported resolution instead of deprecated `auto`
+- `wait_for_completion: true` - SDK polls until done
+- `download_outputs: true` - Automatically download to local disk
+- `download_directory: "."` - Save to the current directory
+
+<CodeGroup>
+
+```python Python SDK
+from magic_hour import Client
+import os
+
+# Use environment variable for security
+client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
+
+result = client.v1.ai_image_generator.generate(
+    image_count=1,
+    aspect_ratio="16:9",
+    resolution="1k",
+    style={
+        "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'"
+    },
+    wait_for_completion=True, # wait for the render to complete
+    download_outputs=True, # download the outputs to local disk
+    download_directory=".", # save the outputs to the current directory
+)
+
+print(f"created image with id {result.id}, spent {result.credits_charged} credits. Outputs are saved at {result.downloaded_paths}")
+```
+
+```typescript Node SDK
+import { Client } from "magic-hour";
+
+// Use environment variable for security
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
+
+async function main() {
+  const createRes = await client.v1.aiImageGenerator.generate(
+    {
+      imageCount: 1,
+      aspectRatio: "16:9",
+      resolution: "1k",
+      style: {
+        prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
+      },
+    },
+    {
+      waitForCompletion: true, // wait for the render to complete
+      downloadOutputs: true, // download the outputs to local disk
+      downloadDirectory: ".", // save the outputs to the current directory
+    }
+  );
+
+  console.log(
+    `created image with id ${createRes.id}, spent ${createRes.creditsCharged} credits. Outputs are saved at ${createRes.downloadedPaths}`
+  );
+}
+
+main();
+```
+
+```go Go SDK
+package main
+
+import (
+	"fmt"
+	"io"
+	"net/http"
+	"os"
+	"time"
+
+	sdk "github.com/magichourhq/magic-hour-go/client"
+	nullable "github.com/magichourhq/magic-hour-go/nullable"
+	"github.com/magichourhq/magic-hour-go/resources/v1/ai_image_generator"
+	"github.com/magichourhq/magic-hour-go/resources/v1/image_projects"
+	"github.com/magichourhq/magic-hour-go/types"
+)
+
+func main() {
+	// Use environment variable for security
+	client := sdk.NewClient(sdk.WithBearerAuth(os.Getenv("MAGIC_HOUR_API_KEY")))
+	createRes, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{
+		ImageCount:  1,
+		AspectRatio: nullable.NewValue(types.V1AiImageGeneratorCreateBodyAspectRatioEnum169),
+		Resolution:  nullable.NewValue(types.V1AiImageGeneratorCreateBodyResolutionEnum1k),
+		Style: types.V1AiImageGeneratorCreateBodyStyle{
+			Prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
+		},
+	})
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Printf("queued image with id %s, spent %d credits\n", createRes.Id, createRes.CreditsCharged)
+
+	for {
+		res, err := client.V1.ImageProjects.Get(image_projects.GetRequest{Id: createRes.Id})
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		if res.Status == "complete" {
+			println("render complete!")
+			url := res.Downloads[0].Url
+			outputFile := "output.png"
+
+			resp, err := http.Get(url)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			defer resp.Body.Close()
+
+			out, err := os.Create(outputFile)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			defer out.Close()
+
+			_, err = io.Copy(out, resp.Body)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			fmt.Printf("file downloaded successfully to %s\n", outputFile)
+			break
+		} else if res.Status == "error" {
+			println("render failed")
+			break
+		} else {
+			fmt.Printf("render in progress: %s\n", res.Status)
+			time.Sleep(1 * time.Second)
+		}
+	}
+}
+```
+
+```rust Rust SDK
+use magic_hour;
+use reqwest;
+use std::io::Read;
+
+#[tokio::main]
+async fn main() {
+    // Use environment variable for security
+    let api_key = std::env::var("MAGIC_HOUR_API_KEY")
+        .expect("MAGIC_HOUR_API_KEY environment variable not set");
+    let mut client = magic_hour::Client::default().with_bearer_auth(&api_key);
+
+    let create_res = client
+        .v1()
+        .ai_image_generator()
+        .create(magic_hour::resources::v1::ai_image_generator::CreateRequest {
+            image_count: 1,
+            aspect_ratio: Some(magic_hour::models::V1AiImageGeneratorCreateBodyAspectRatioEnum::Enum169),
+            resolution: Some(magic_hour::models::V1AiImageGeneratorCreateBodyResolutionEnum::Enum1k),
+            style: magic_hour::models::V1AiImageGeneratorCreateBodyStyle {
+                prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'".to_string(),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+        .await
+        .unwrap();
+    let project_id = create_res.id;
+    let credits_charged = create_res.credits_charged;
+    println!("queued image with id {project_id}, spent {credits_charged} credits");
+    loop {
+        let res = client
+            .v1()
+            .image_projects()
+            .get(magic_hour::resources::v1::image_projects::GetRequest {
+                id: project_id.clone(),
+            })
+            .await
+            .unwrap();
+        match res.status {
+            magic_hour::models::GetV1ImageProjectsIdResponseStatusEnum::Complete => {
+                println!("render complete!");
+                let url = res.downloads[0].url.clone();
+
+                tokio::task::block_in_place(move || {
+                    let response = reqwest::blocking::get(url).unwrap();
+                    let output_path = "output.png";
+                    if response.status().is_success() {
+                        let mut output_file = std::fs::File::create(output_path).unwrap();
+                        std::io::copy(&mut response, &mut output_file).unwrap();
+                        println!("file downloaded successfully to {}", output_path);
+                    } else {
+                        println!("failed to download file: {}", response.status());
+                    }
+                });
+
+                return;
+            }
+            magic_hour::models::GetV1ImageProjectsIdResponseStatusEnum::Error => {
+                println!("render failed");
+                return;
+            }
+            _ => {
+                println!("render in progress: {}", res.status);
+                std::thread::sleep(std::time::Duration::from_secs(1));
+            }
+        }
+    }
+}
+```
+
+```sh cURL
+#!/bin/bash
+set -e
+
+URL="https://api.magichour.ai/v1/ai-image-generator"
+STATUS_URL="https://api.magichour.ai/v1/image-projects"
+# Use environment variable for security
+API_KEY="$MAGIC_HOUR_API_KEY"
+OUTPUT_PATH="output.png"
+
+create_response=$(curl -s $URL \
+  --request POST \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer $API_KEY" \
+  --data '{
+    "image_count": 1,
+    "aspect_ratio": "16:9",
+    "resolution": "1k",
+    "style": {
+      "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says \"Magic Hour\""
+    }
+  }')
+
+project_id=$(echo $create_response | jq -r '.id')
+credits_charged=$(echo $create_response | jq -r '.credits_charged')
+
+echo "queued image with id $project_id, spent $credits_charged credits"
+while true; do
+    status_response=$(curl -s $STATUS_URL/$project_id --header "Authorization: Bearer $API_KEY")
+
+    status=$(echo $status_response | jq -r '.status')
+
+    if [ "$status" == "complete" ]; then
+        echo "render complete!"
+        download_url=$(echo $status_response | jq -r '.downloads[0].url')
+
+        echo "downloading image from $download_url..."
+        curl -s $download_url -o $OUTPUT_PATH
+
+        echo "file downloaded successfully to $OUTPUT_PATH"
+        break
+    elif [ "$status" == "error" ]; then
+        echo "render failed"
+        break
+    else
+        echo "render in progress"
+        sleep 1
+    fi
+done
+```
+
+</CodeGroup>
+
+**Expected output for Python and Node.js:**
+
+```
+created image with id clx1234567890, spent 5 credits. Outputs are saved at ['./output-0.png']
+```
+
+**Expected output for Go, Rust, and cURL:**
+
+```
+queued image with id clx1234567890, spent 5 credits
+render complete!
+file downloaded successfully to output.png
+```
+
+</Tab>
+
 <Tab title="Face swap video (~200 credits)">
 
-Swap a face into a video clip. This sample uses a 6.2-second segment (`start_seconds` to
-`end_seconds`). Video pricing is duration-based, so longer clips cost more.
+Swap a face into a video clip. This is our most popular API path. The sample uses a 6.2-second
+segment (`start_seconds` to `end_seconds`). Video pricing is duration-based, so longer clips cost
+more.
 
 <CodeGroup>
 
@@ -446,293 +734,6 @@ done
 
 ```
 created face swap video with id clx1234567890, spent 186 credits. Outputs are saved at ['./output.mp4']
-```
-
-</Tab>
-
-<Tab title="Generate image (~5 credits)">
-
-Create an image from a text prompt. This is the cheapest way to verify your setup end to end.
-
-**Why these parameters:**
-
-- `image_count: 1` - Generate one image (costs 5 credits)
-- `aspect_ratio: "16:9"` - Widescreen (landscape) output; also supports `1:1` and `9:16`
-- `resolution: "1k"` - Request an explicit supported resolution instead of deprecated `auto`
-- `wait_for_completion: true` - SDK polls until done
-- `download_outputs: true` - Automatically download to local disk
-- `download_directory: "."` - Save to the current directory
-
-<CodeGroup>
-
-```python Python SDK
-from magic_hour import Client
-import os
-
-# Use environment variable for security
-client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
-
-result = client.v1.ai_image_generator.generate(
-    image_count=1,
-    aspect_ratio="16:9",
-    resolution="1k",
-    style={
-        "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'"
-    },
-    wait_for_completion=True, # wait for the render to complete
-    download_outputs=True, # download the outputs to local disk
-    download_directory=".", # save the outputs to the current directory
-)
-
-print(f"created image with id {result.id}, spent {result.credits_charged} credits. Outputs are saved at {result.downloaded_paths}")
-```
-
-```typescript Node SDK
-import { Client } from "magic-hour";
-
-// Use environment variable for security
-const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
-
-async function main() {
-  const createRes = await client.v1.aiImageGenerator.generate(
-    {
-      imageCount: 1,
-      aspectRatio: "16:9",
-      resolution: "1k",
-      style: {
-        prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
-      },
-    },
-    {
-      waitForCompletion: true, // wait for the render to complete
-      downloadOutputs: true, // download the outputs to local disk
-      downloadDirectory: ".", // save the outputs to the current directory
-    }
-  );
-
-  console.log(
-    `created image with id ${createRes.id}, spent ${createRes.creditsCharged} credits. Outputs are saved at ${createRes.downloadedPaths}`
-  );
-}
-
-main();
-```
-
-```go Go SDK
-package main
-
-import (
-	"fmt"
-	"io"
-	"net/http"
-	"os"
-	"time"
-
-	sdk "github.com/magichourhq/magic-hour-go/client"
-	nullable "github.com/magichourhq/magic-hour-go/nullable"
-	"github.com/magichourhq/magic-hour-go/resources/v1/ai_image_generator"
-	"github.com/magichourhq/magic-hour-go/resources/v1/image_projects"
-	"github.com/magichourhq/magic-hour-go/types"
-)
-
-func main() {
-	// Use environment variable for security
-	client := sdk.NewClient(sdk.WithBearerAuth(os.Getenv("MAGIC_HOUR_API_KEY")))
-	createRes, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{
-		ImageCount:  1,
-		AspectRatio: nullable.NewValue(types.V1AiImageGeneratorCreateBodyAspectRatioEnum169),
-		Resolution:  nullable.NewValue(types.V1AiImageGeneratorCreateBodyResolutionEnum1k),
-		Style: types.V1AiImageGeneratorCreateBodyStyle{
-			Prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
-		},
-	})
-
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Printf("queued image with id %s, spent %d credits\n", createRes.Id, createRes.CreditsCharged)
-
-	for {
-		res, err := client.V1.ImageProjects.Get(image_projects.GetRequest{Id: createRes.Id})
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		if res.Status == "complete" {
-			println("render complete!")
-			url := res.Downloads[0].Url
-			outputFile := "output.png"
-
-			resp, err := http.Get(url)
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-			defer resp.Body.Close()
-
-			out, err := os.Create(outputFile)
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-			defer out.Close()
-
-			_, err = io.Copy(out, resp.Body)
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-			fmt.Printf("file downloaded successfully to %s\n", outputFile)
-			break
-		} else if res.Status == "error" {
-			println("render failed")
-			break
-		} else {
-			fmt.Printf("render in progress: %s\n", res.Status)
-			time.Sleep(1 * time.Second)
-		}
-	}
-}
-```
-
-```rust Rust SDK
-use magic_hour;
-use reqwest;
-use std::io::Read;
-
-#[tokio::main]
-async fn main() {
-    // Use environment variable for security
-    let api_key = std::env::var("MAGIC_HOUR_API_KEY")
-        .expect("MAGIC_HOUR_API_KEY environment variable not set");
-    let mut client = magic_hour::Client::default().with_bearer_auth(&api_key);
-
-    let create_res = client
-        .v1()
-        .ai_image_generator()
-        .create(magic_hour::resources::v1::ai_image_generator::CreateRequest {
-            image_count: 1,
-            aspect_ratio: Some(magic_hour::models::V1AiImageGeneratorCreateBodyAspectRatioEnum::Enum169),
-            resolution: Some(magic_hour::models::V1AiImageGeneratorCreateBodyResolutionEnum::Enum1k),
-            style: magic_hour::models::V1AiImageGeneratorCreateBodyStyle {
-                prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'".to_string(),
-                ..Default::default()
-            },
-            ..Default::default()
-        })
-        .await
-        .unwrap();
-    let project_id = create_res.id;
-    let credits_charged = create_res.credits_charged;
-    println!("queued image with id {project_id}, spent {credits_charged} credits");
-    loop {
-        let res = client
-            .v1()
-            .image_projects()
-            .get(magic_hour::resources::v1::image_projects::GetRequest {
-                id: project_id.clone(),
-            })
-            .await
-            .unwrap();
-        match res.status {
-            magic_hour::models::GetV1ImageProjectsIdResponseStatusEnum::Complete => {
-                println!("render complete!");
-                let url = res.downloads[0].url.clone();
-
-                tokio::task::block_in_place(move || {
-                    let response = reqwest::blocking::get(url).unwrap();
-                    let output_path = "output.png";
-                    if response.status().is_success() {
-                        let mut output_file = std::fs::File::create(output_path).unwrap();
-                        std::io::copy(&mut response, &mut output_file).unwrap();
-                        println!("file downloaded successfully to {}", output_path);
-                    } else {
-                        println!("failed to download file: {}", response.status());
-                    }
-                });
-
-                return;
-            }
-            magic_hour::models::GetV1ImageProjectsIdResponseStatusEnum::Error => {
-                println!("render failed");
-                return;
-            }
-            _ => {
-                println!("render in progress: {}", res.status);
-                std::thread::sleep(std::time::Duration::from_secs(1));
-            }
-        }
-    }
-}
-```
-
-```sh cURL
-#!/bin/bash
-set -e
-
-URL="https://api.magichour.ai/v1/ai-image-generator"
-STATUS_URL="https://api.magichour.ai/v1/image-projects"
-# Use environment variable for security
-API_KEY="$MAGIC_HOUR_API_KEY"
-OUTPUT_PATH="output.png"
-
-create_response=$(curl -s $URL \
-  --request POST \
-  --header "Content-Type: application/json" \
-  --header "Authorization: Bearer $API_KEY" \
-  --data '{
-    "image_count": 1,
-    "aspect_ratio": "16:9",
-    "resolution": "1k",
-    "style": {
-      "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says \"Magic Hour\""
-    }
-  }')
-
-project_id=$(echo $create_response | jq -r '.id')
-credits_charged=$(echo $create_response | jq -r '.credits_charged')
-
-echo "queued image with id $project_id, spent $credits_charged credits"
-while true; do
-    status_response=$(curl -s $STATUS_URL/$project_id --header "Authorization: Bearer $API_KEY")
-
-    status=$(echo $status_response | jq -r '.status')
-
-    if [ "$status" == "complete" ]; then
-        echo "render complete!"
-        download_url=$(echo $status_response | jq -r '.downloads[0].url')
-
-        echo "downloading image from $download_url..."
-        curl -s $download_url -o $OUTPUT_PATH
-
-        echo "file downloaded successfully to $OUTPUT_PATH"
-        break
-    elif [ "$status" == "error" ]; then
-        echo "render failed"
-        break
-    else
-        echo "render in progress"
-        sleep 1
-    fi
-done
-```
-
-</CodeGroup>
-
-**Expected output for Python and Node.js:**
-
-```
-created image with id clx1234567890, spent 5 credits. Outputs are saved at ['./output-0.png']
-```
-
-**Expected output for Go, Rust, and cURL:**
-
-```
-queued image with id clx1234567890, spent 5 credits
-render complete!
-file downloaded successfully to output.png
 ```
 
 </Tab>
