@@ -775,29 +775,9 @@ mkdir outputs
 
 **Error: MAGIC_HOUR_API_KEY environment variable not set**
 
-**Solution:** Make sure you've set your API key as an environment variable:
-
-<CodeGroup>
-
-```bash macOS/Linux
-# Add to your ~/.bashrc or ~/.zshrc file
-export MAGIC_HOUR_API_KEY="your_api_key_here"
-```
-
-```cmd Windows
-# Set environment variable (Command Prompt)
-setx MAGIC_HOUR_API_KEY "your_api_key_here"
-```
-
-```powershell PowerShell
-# Option A: Set permanently (requires terminal restart)
-[Environment]::SetEnvironmentVariable("MAGIC_HOUR_API_KEY", "your_api_key_here", "User")
-
-# Option B: Set for current session only (no restart needed)
-$env:MAGIC_HOUR_API_KEY = "your_api_key_here"
-```
-
-</CodeGroup>
+**Solution:** Set your API key as an environment variable. See
+[Environment Variables](/get-started/authentication#environment-variables) in the
+Authentication guide for platform-specific setup steps.
 
 ### HTTP Error Codes
 
