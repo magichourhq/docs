@@ -21,47 +21,29 @@ Magic Hour is an AI video and image generation platform. You submit a job, we re
 
 **Why:** API keys authenticate your requests and track your usage.
 
-1. Visit the [Magic Hour Developer Hub](https://magichour.ai/developer?tab=api-keys) and sign in.
-   ![Create API Key](/get-started/images/api-key-1.jpg)
-2. Name the key (e.g., "My First Project"), then click `Create key`.
-   ![Create API Key Modal](/get-started/images/api-key-2.jpg)
-3. **Copy the API key immediately** - you won't be able to see it again.
-   ![Copy API Key](/get-started/images/api-key-3.jpg)
+1. Open the [API Keys section of the Developer Hub](https://magichour.ai/developer?tab=api-keys) and sign in.
+2. Click **Create key**, give it a name (e.g., "My First Project"), and create it.
+3. **Copy the API key immediately** — you won't be able to see it again.
 
-### Save your API key securely
+<Card title="Need the full walkthrough?" icon="key" href="/get-started/authentication#creating-your-first-api-key">
+  See screenshots, permissions, and key-management guidance in the Authentication guide.
+</Card>
 
-**Important:** Store your API key as an environment variable for security:
+Store your API key as an environment variable:
 
 <CodeGroup>
 
 ```bash macOS/Linux
-# Add to your ~/.bashrc or ~/.zshrc file
 export MAGIC_HOUR_API_KEY="your_api_key_here"
-
-# Reload your shell
-source ~/.bashrc  # or source ~/.zshrc
 ```
 
 ```cmd Windows
-# Set environment variable (Command Prompt)
 setx MAGIC_HOUR_API_KEY "your_api_key_here"
-
-# Restart your terminal after running this command
 ```
 
 ```powershell PowerShell
-# Option A: Set permanently (requires terminal restart)
-[Environment]::SetEnvironmentVariable("MAGIC_HOUR_API_KEY", "your_api_key_here", "User")
-
-# Option B: Set for current session only (no restart needed)
 $env:MAGIC_HOUR_API_KEY = "your_api_key_here"
 ```
-
-<Warning>
-  **PowerShell:** `SetEnvironmentVariable` only takes effect in **new** terminal sessions. If you
-  run your script in the same terminal, use `$env:MAGIC_HOUR_API_KEY` instead to set it for the
-  current session.
-</Warning>
 
 </CodeGroup>
 
