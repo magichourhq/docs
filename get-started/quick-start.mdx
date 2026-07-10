@@ -9,11 +9,11 @@ Magic Hour is an AI video and image generation platform. You submit a job, we re
 
 1. **Create an API key** - Get credentials to authenticate with our API
 2. **Set up your development environment** - Install SDK and create project files
-3. **Generate your first image** - Make an API call and download the result (costs ~100 credits)
+3. **Generate your first image** - Make an API call and download the result (costs 5 credits)
 
 <Note>
-  **Credit Cost:** The examples in this guide will use approximately 100 credits. New accounts get
-  400 free credits plus 100 daily credits if you claim them in the web app.
+  **Credit Cost:** The image example in this guide costs 5 credits. New accounts get 400 free
+  credits plus 100 daily credits if you claim them in the web app.
 </Note>
 
 ## 1. Create your API key
@@ -127,9 +127,15 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 
 <SdkInstallation />
 
+<Tip>
+  Want to test your integration without spending credits? The SDKs include a
+  [mock server](/integration/development-and-testing#mock-server-recommended-for-development) that
+  returns sample responses instantly.
+</Tip>
+
 ## 3. Generate your first image
 
-**What we're doing:** Creating an AI-generated image using a text prompt. The API will:
+**What we're doing:** Create an image from a text prompt. The API will:
 
 1. Queue your job and return a project ID
 2. Process your request (usually takes 30-60 seconds)
@@ -139,25 +145,26 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 
 - `image_count: 1` - Generate one image (costs 5 credits)
 - `aspect_ratio: "16:9"` - Widescreen (landscape) output; also supports `1:1` and `9:16`
+- `resolution: "1k"` - Request an explicit supported resolution instead of deprecated `auto`
 - `wait_for_completion: true` - SDK polls until done
 - `download_outputs: true` - Automatically download to local disk
 - `download_directory: "."` - Save to the current directory
 
 ### Copy the code and run it
 
-1. **Copy the code** from your preferred language tab below. You can choose from two types of output
+<Note>
+  **SDK version required for `generate()`:** Use Python SDK v0.36.0+ or Node SDK v0.37.0+. Older
+  versions do not include this helper. Go and Rust use the manual create/poll/download pattern shown
+  below.
+</Note>
 
-<Tabs>
-
-<Tab title="Generate image">
+1. **Copy the code** from your preferred language tab below.
 
 <CodeGroup>
 
 ```python Python SDK
 from magic_hour import Client
-import time
 import os
-import urllib.request
 
 # Use environment variable for security
 client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
@@ -165,6 +172,7 @@ client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
 result = client.v1.ai_image_generator.generate(
     image_count=1,
     aspect_ratio="16:9",
+    resolution="1k",
     style={
         "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'"
     },
@@ -187,6 +195,7 @@ async function main() {
     {
       imageCount: 1,
       aspectRatio: "16:9",
+      resolution: "1k",
       style: {
         prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
       },
@@ -229,6 +238,7 @@ func main() {
 	createRes, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{
 		ImageCount:  1,
 		AspectRatio: nullable.NewValue(types.V1AiImageGeneratorCreateBodyAspectRatioEnum169),
+		Resolution:  nullable.NewValue(types.V1AiImageGeneratorCreateBodyResolutionEnum1k),
 		Style: types.V1AiImageGeneratorCreateBodyStyle{
 			Prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
 		},
@@ -302,6 +312,7 @@ async fn main() {
         .create(magic_hour::resources::v1::ai_image_generator::CreateRequest {
             image_count: 1,
             aspect_ratio: Some(magic_hour::models::V1AiImageGeneratorCreateBodyAspectRatioEnum::Enum169),
+            resolution: Some(magic_hour::models::V1AiImageGeneratorCreateBodyResolutionEnum::Enum1k),
             style: magic_hour::models::V1AiImageGeneratorCreateBodyStyle {
                 prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'".to_string(),
                 ..Default::default()
@@ -371,6 +382,7 @@ create_response=$(curl -s $URL \
   --data '{
     "image_count": 1,
     "aspect_ratio": "16:9",
+    "resolution": "1k",
     "style": {
       "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says \"Magic Hour\""
     }
@@ -405,298 +417,6 @@ done
 ```
 
 </CodeGroup>
-
-</Tab>
-
-<Tab title="Swap Faces in a Video">
-
-<CodeGroup>
-
-```python Python SDK
-from magic_hour import Client
-import time
-import os
-import urllib.request
-
-# Use environment variable for security
-client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
-
-result = client.v1.face_swap.generate(
-    name="Swap Tom Cruise into Iron Man scene",
-    assets={
-        "image_file_path": "https://videos.magichour.ai/api-assets/sample/tom-cruise.png",
-        "video_file_path": "https://videos.magichour.ai/api-assets/sample/iron-man.mp4",
-        "video_source": "file",
-    },
-    start_seconds=2.3,
-    end_seconds=8.5,
-    wait_for_completion=True, # wait for the render to complete
-    download_outputs=True, # download the outputs to local disk
-    download_directory=".", # save the outputs to the current directory
-)
-
-print(f"created face swap video with id {result.id}, spent {result.credits_charged} credits. Outputs are saved at {result.downloaded_paths}")
-
-```
-
-```typescript Node SDK
-import { Client } from "magic-hour";
-
-// Use environment variable for security
-const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
-
-async function main() {
-  const createRes = await client.v1.faceSwap.generate(
-    {
-      name: "Swap Tom Cruise into Iron Man scene",
-      assets: {
-        imageFilePath: "https://videos.magichour.ai/api-assets/sample/tom-cruise.png",
-        videoFilePath: "https://videos.magichour.ai/api-assets/sample/iron-man.mp4",
-        videoSource: "file",
-      },
-      startSeconds: 2.3,
-      endSeconds: 8.5,
-    },
-    {
-      waitForCompletion: true, // wait for the render to complete
-      downloadOutputs: true, // download the outputs to local disk
-      downloadDirectory: ".", // save the outputs to the current directory
-    }
-  );
-
-  console.log(
-    `created face swap video with id ${createRes.id}, spent ${createRes.creditsCharged} credits. Outputs are saved at ${createRes.downloadedPaths}`
-  );
-}
-
-main();
-```
-
-```go Go SDK
-package main
-
-import (
-	"fmt"
-	"io"
-	"net/http"
-	"os"
-	"time"
-
-	sdk "github.com/magichourhq/magic-hour-go/client"
-	nullable "github.com/magichourhq/magic-hour-go/nullable"
-	"github.com/magichourhq/magic-hour-go/resources/v1/face_swap"
-	"github.com/magichourhq/magic-hour-go/resources/v1/video_projects"
-	"github.com/magichourhq/magic-hour-go/types"
-)
-
-func main() {
-	// Use environment variable for security
-	client := sdk.NewClient(sdk.WithBearerAuth(os.Getenv("MAGIC_HOUR_API_KEY")))
-	createRes, err := client.V1.FaceSwap.Create(face_swap.CreateRequest{
-		Name: nullable.NewValue("Swap Tom Cruise into Iron Man scene"),
-		Assets: types.PostV1FaceSwapBodyAssets{
-			ImageFilePath: "https://videos.magichour.ai/api-assets/sample/tom-cruise.png",
-			VideoFilePath: nullable.NewValue("https://videos.magichour.ai/api-assets/sample/iron-man.mp4"),
-			VideoSource:   types.PostV1FaceSwapBodyAssetsVideoSourceEnumFile,
-		},
-		StartSeconds: 2.3,
-		EndSeconds:   8.5,
-		Height:       288,
-		Width:        512,
-	})
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Printf("queued video with id %s, spent %d credits based on 30fps. This value will be adjusted after render completes if fps is different.\n", createRes.Id, createRes.CreditsCharged)
-
-	for {
-		res, err := client.V1.VideoProjects.Get(video_projects.GetRequest{Id: createRes.Id})
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		if res.Status == "complete" {
-			fmt.Printf("render complete! Final credits charged is %d, actual fps is %f.\n", res.CreditsCharged, res.Fps)
-			url := res.Downloads[0].Url
-			outputFile := "output.mp4"
-
-			resp, err := http.Get(url)
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-			defer resp.Body.Close()
-
-			out, err := os.Create(outputFile)
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-			defer out.Close()
-
-			_, err = io.Copy(out, resp.Body)
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-			fmt.Printf("file downloaded successfully to %s\n", outputFile)
-			break
-		} else if res.Status == "error" {
-			println("render failed")
-			break
-		} else {
-			fmt.Printf("render in progress: %s\n", res.Status)
-			time.Sleep(1 * time.Second)
-		}
-	}
-}
-```
-
-```rust Rust SDK
-use magic_hour;
-use reqwest;
-use std::io::Read;
-
-#[tokio::main]
-async fn main() {
-    // Use environment variable for security
-    let api_key = std::env::var("MAGIC_HOUR_API_KEY")
-        .expect("MAGIC_HOUR_API_KEY environment variable not set");
-    let mut client = magic_hour::Client::default().with_bearer_auth(&api_key);
-
-    let create_res = client
-        .v1()
-        .face_swap()
-        .create(magic_hour::resources::v1::face_swap::CreateRequest {
-            name: Some("Swap Tom Cruise into Iron Man scene".to_string()),
-            assets: magic_hour::models::PostV1FaceSwapBodyAssets {
-                image_file_path: "https://videos.magichour.ai/api-assets/sample/tom-cruise.png"
-                    .to_string(),
-                video_file_path: Some(
-                    "https://videos.magichour.ai/api-assets/sample/iron-man.mp4".to_string(),
-                ),
-                video_source: magic_hour::models::PostV1FaceSwapBodyAssetsVideoSourceEnum::File,
-                ..Default::default()
-            },
-            start_seconds: 2.3,
-            end_seconds: 8.5,
-            height: 288,
-            width: 512,
-            ..Default::default()
-        })
-        .await
-        .unwrap();
-    let project_id = create_res.id;
-    let credits_charged = create_res.credits_charged;
-    println!("queued face swap video with id {project_id}, spent {credits_charged} credits based on 30fps. This value will be updated after render completes if fps is different.");
-
-    loop {
-        let res = client
-            .v1()
-            .video_projects()
-            .get(magic_hour::resources::v1::video_projects::GetRequest {
-                id: project_id.clone(),
-            })
-            .await
-            .unwrap();
-        match res.status {
-            magic_hour::models::GetV1VideoProjectsIdResponseStatusEnum::Complete => {
-                println!(
-                    "render complete! Final credit charged is {}, actual fps is {}",
-                    res.credits_charged, res.fps
-                );
-                let url = res.downloads[0].url.clone();
-
-                tokio::task::block_in_place(move || {
-                    let response = reqwest::blocking::get(url).unwrap();
-                    let output_path = "output.mp4";
-                    if response.status().is_success() {
-                        let mut output_file = std::fs::File::create(output_path).unwrap();
-                        std::io::copy(&mut response, &mut output_file).unwrap();
-                        println!("file downloaded successfully to {}", output_path);
-                    } else {
-                        println!("failed to download file: {}", response.status());
-                    }
-                });
-
-                return;
-            }
-            magic_hour::models::GetV1VideoProjectsIdResponseStatusEnum::Error => {
-                println!("render failed");
-                return;
-            }
-            _ => {
-                println!("render in progress: {}", res.status);
-                std::thread::sleep(std::time::Duration::from_secs(1));
-            }
-        }
-    }
-}
-```
-
-```sh cURL
-#!/bin/bash
-set -e
-
-URL="https://api.magichour.ai/v1/face-swap"
-STATUS_URL="https://api.magichour.ai/v1/video-projects"
-# Use environment variable for security
-API_KEY="$MAGIC_HOUR_API_KEY"
-OUTPUT_PATH="output.mp4"
-
-create_response=$(curl -s $URL \
-  --request POST \
-  --header "Content-Type: application/json" \
-  --header "Authorization: Bearer $API_KEY" \
-  --data '{
-    "name": "Swap Tom Cruise into Iron Man scene",
-    "assets": {
-        "image_file_path": "https://videos.magichour.ai/api-assets/sample/tom-cruise.png",
-        "video_file_path": "https://videos.magichour.ai/api-assets/sample/iron-man.mp4",
-        "video_source": "file"
-    },
-    "start_seconds": 2.3,
-    "end_seconds": 8.5,
-    "height": 288,
-    "width": 512
-  }')
-
-project_id=$(echo $create_response | jq -r '.id')
-credits_charged=$(echo $create_response | jq -r '.credits_charged')
-
-echo "queued face swap video with id $project_id, spent an estimated $credits_charged credits based on 30fps. This value will be adjusted after render completes if fps is different."
-while true; do
-    status_response=$(curl -s $STATUS_URL/$project_id --header "Authorization: Bearer $API_KEY")
-
-    status=$(echo $status_response | jq -r '.status')
-
-    if [ "$status" == "complete" ]; then
-        credits_charged=$(echo $status_response | jq -r '.credits_charged')
-        fps=$(echo $status_response | jq -r '.fps')
-        download_url=$(echo $status_response | jq -r '.downloads[0].url')
-        echo "render complete! Final credit charged is $credits_charged, actual fps is $fps."
-
-        echo "downloading video from $download_url..."
-        curl -s $download_url -o $OUTPUT_PATH
-
-        echo "file downloaded successfully to $OUTPUT_PATH"
-        break
-    elif [ "$status" == "error" ]; then
-        echo "render failed"
-        break
-    else
-        echo "render in progress: $status"
-        sleep 3
-    fi
-done
-```
-
-</CodeGroup>
-
-</Tab>
-</Tabs>
 
 2. **Paste it into your file** (`main.py`, `main.js`, `main.go`, etc.)
 3. **Run the code:**
@@ -737,18 +457,11 @@ cargo run
 
 </CodeGroup>
 
-**Expected output:**
+**Expected output for Python and Node.js:**
 
 ```
-queued image with id clx1234567890, spent 5 credits
-render complete!
 created image with id clx1234567890, spent 5 credits. Outputs are saved at ['./output-0.png']
 ```
-
-<Note>
-  **SDK Versions:** The `.generate()` helper function requires Python SDK v0.36.0+ or Node SDK
-  v0.37.0+. Other SDKs use the manual create/poll/download pattern shown in the examples.
-</Note>
 
 ## Troubleshooting
 
@@ -803,11 +516,14 @@ If you encounter HTTP errors, here's what they mean:
 
 **For persistent errors:** Contact [support@magichour.ai](mailto:support@magichour.ai) with your project ID.
 
-<Check>🎉 Congratulations! You have successfully created an image and a video on Magic Hour!</Check>
+<Check>🎉 Congratulations! You have successfully created your first Magic Hour project.</Check>
 
 ## Next Steps
 
 - **Explore the API Reference:** Learn how to generate and edit videos and images programmatically. [API Reference →](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls)
+
+- **Build a Video Workflow:** Follow the [Face Swap Video guide](/tools/video/face-swap-video) when
+  you're ready to work with video inputs, duration-based pricing, and longer render times.
 
 - **Try All APIs in Google Colab:** [Run our complete cookbook](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing) with sample code for all 22 APIs. Just add your API key and start experimenting.
 

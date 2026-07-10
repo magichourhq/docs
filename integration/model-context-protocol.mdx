@@ -49,12 +49,13 @@ To connect the Magic Hour MCP server to VS Code, click the button below.
 
 To manually connect the MCP server:
 
-Created a file `.vscode/mcp.json` and add the following:
+Create a `.vscode/mcp.json` file and add:
 
 ```json
 {
-  "mcpServers": {
+  "servers": {
     "Magic Hour": {
+      "type": "http",
       "url": "https://docs.magichour.ai/mcp"
     }
   }

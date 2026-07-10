@@ -33,6 +33,16 @@ By the end of this guide, you'll have:
 
 ## Integration overview
 
+Choose the workflow that matches what you are building:
+
+- **Start with `generate()`** for quick scripts and prototypes. It creates the job, polls for
+  completion, and can download the output for you.
+- **Use `create()` with webhooks or background polling** for production apps. It returns immediately
+  so your server can track multiple jobs without holding requests open.
+
+This guide uses the production `create()` workflow. If you are still learning the API, complete the
+[Quick Start](/get-started/quick-start) with `generate()` first.
+
 Magic Hour APIs follow a simple 3-step pattern that applies to all content generation:
 
 ### Step 1: Create Job
@@ -68,7 +78,7 @@ create_res = client.v1.face_swap.create(
 print(f"Job created with ID: {create_res.id}, status: {create_res.status}")
 ```
 
-### Pattern 2: Production Application (Recommended)
+### Production application pattern
 
 **Best for:** Web apps, APIs, multiple concurrent jobs
 
@@ -446,9 +456,12 @@ The simplest approach is to pass file URLs:
 
 **Supported formats:**
 
-- **Images**: PNG, JPG, JPEG, WEBP, AVIF
-- **Videos**: MP4, MOV, WEBM
-- **Audio**: MP3, WAV, AAC, FLAC
+- **Images**: PNG, JPG, JPEG, HEIC, HEIF, WEBP, AVIF, JP2, TIFF, BMP
+- **Videos**: MP4, M4V, MOV, WEBM
+- **Audio**: MP3, WAV, AAC, FLAC, WEBM, M4A, OPUS, OGG, AIFF, AMR
+
+See [Handling Inputs and Outputs](/integration/inputs-and-outputs#supported-file-formats) for the
+canonical format list and special-case support.
 
 ### Option 2: Upload to Magic Hour
 
