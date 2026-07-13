@@ -93,7 +93,7 @@ result = client.v1.ai_image_upscaler.generate(
     },
     scale_factor=2.0,
     style={
-        "enhancement": "Creative"
+        "mode": "balanced"
     },
     name="Image Upscaler image",
     wait_for_completion=True,
@@ -122,7 +122,7 @@ const result = await client.v1.aiImageUpscaler.generate({
   },
   scaleFactor: 2.0,
   style: {
-    enhancement: "Balanced",
+    mode: "balanced",
   },
   name: "Image Upscaler image",
   waitForCompletion: true,
@@ -149,7 +149,7 @@ result = client.v1.ai_image_upscaler.generate(
     },
     scale_factor=4.0,
     style={
-        "enhancement": "Balanced"
+        "mode": "balanced"
     },
     name="Image Upscaler image",
     wait_for_completion=True,
@@ -174,7 +174,7 @@ const result = await client.v1.aiImageUpscaler.generate({
   },
   scaleFactor: 4.0,
   style: {
-    enhancement: "Balanced",
+    mode: "balanced",
   },
   name: "Image Upscaler image",
   waitForCompletion: true,
@@ -192,12 +192,10 @@ console.log(`Credits charged: ${result.creditsCharged}`);
 
 ## Pricing
 
-{/* TODO: Verify exact credit cost */}
-
-| Scale Factor | Credits     |
-| :----------- | :---------- |
-| 2x upscale   | 50 credits  |
-| 4x upscale   | 200 credits |
+| Scale Factor | `preserve`  | `balanced` / `creative` |
+| :----------- | :---------- | :---------------------- |
+| 2x upscale   | 25 credits  | 50 credits              |
+| 4x upscale   | 100 credits | 200 credits             |
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample

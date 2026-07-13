@@ -4778,7 +4778,7 @@
     },
     "/v1/ai-image-upscaler": {
       "post": {
-        "description": "Upscale your image using AI. Each 2x upscale costs 50 credits, and 4x upscale costs 200 credits.",
+        "description": "Upscale your image using AI.\n\n### Modes\n\n- `preserve`: Keeps the image faithful using the v2 pipeline with a 1x credit multiplier.\n- `balanced`: Applies natural improvements using the v1 pipeline with creativity set to 0.2 and a 2x credit multiplier.\n- `creative`: Reimagines details using the v1 pipeline with creativity set to 0.35, accepts `style.prompt`, and has a 2x credit multiplier.\n\nIf `style` or `style.mode` is omitted, the mode defaults to `balanced`.\n\n### Costs\n\n- 2x `preserve`: 25 credits.\n- 2x `balanced` or `creative`: 50 credits.\n- 4x `preserve`: 100 credits.\n- 4x `balanced` or `creative`: 200 credits.\n\n4x upscaling is available only on Creator, Pro, or Business plans.\n\n### Backward compatibility\n\n`style.mode: \"pro\"` is deprecated and maps to `preserve`. `style.enhancement` is also deprecated: `Resemblance` maps to `preserve`, `Balanced` maps to `balanced`, and `Creative` maps to `creative`. `style.mode: \"creative\"` without `enhancement` resolves to `creative`.",
         "summary": "AI Image Upscaler",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -4807,20 +4807,23 @@
                     "properties": {
                       "mode": {
                         "type": "string",
-                        "enum": ["pro", "creative"],
-                        "description": "The upscaling mode. `\"pro\"` is faster and does not require `enhancement`. `\"creative\"` requires `enhancement`. Defaults to `\"creative\"`.",
-                        "example": "creative"
+                        "enum": ["preserve", "balanced", "creative", "pro"],
+                        "default": "balanced",
+                        "example": "balanced",
+                        "description": "The upscaling mode. `preserve` keeps the image faithful using the v2 pipeline with a 1x credit multiplier. `balanced` applies natural improvements using the v1 pipeline with creativity set to 0.2 and a 2x credit multiplier. `creative` reimagines details using the v1 pipeline with creativity set to 0.35, accepts `prompt`, and has a 2x credit multiplier. `pro` is deprecated and maps to `preserve`. Defaults to `balanced`."
                       },
                       "enhancement": {
                         "type": "string",
-                        "enum": ["Resemblance", "Balanced", "Creative"]
+                        "enum": ["Resemblance", "Balanced", "Creative"],
+                        "deprecated": true,
+                        "description": "Deprecated. Use `mode` instead. `Resemblance` maps to `preserve`, `Balanced` maps to `balanced`, and `Creative` maps to `creative`."
                       },
                       "prompt": {
                         "type": "string",
-                        "description": "A prompt to guide the final image. This value is ignored if `enhancement` is not Creative"
+                        "description": "A prompt to guide the final image. This value is used only when the resolved mode is `creative`; it is ignored in `preserve` and `balanced` modes."
                       }
                     },
-                    "description": "Style settings for the upscale. Use `mode` to select between `\"pro\"` (faster, no enhancement required) and `\"creative\"` (defaults to `\"Balanced\"` enhancement). Defaults to `\"creative\"`."
+                    "description": "Optional style settings for the upscale. If `style` or `mode` is omitted, `mode` defaults to `balanced`."
                   },
                   "assets": {
                     "type": "object",
@@ -4836,7 +4839,7 @@
                     "description": "Provide the assets for upscaling"
                   }
                 },
-                "required": ["scale_factor", "style", "assets"]
+                "required": ["scale_factor", "assets"]
               }
             }
           }
@@ -4942,31 +4945,31 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_image_upscaler.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    scale_factor=2.0,\n    style={\"enhancement\": \"Balanced\"},\n    name=\"Image Upscaler image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_image_upscaler.generate(\n    assets={\"image_file_path\": \"api-assets/id/1234.png\"},\n    scale_factor=2.0,\n    style={\"mode\": \"balanced\"},\n    name=\"Upscale\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiImageUpscaler.generate(\n  {\n    assets: { imageFilePath: \"/path/to/1234.png\" },\n    name: \"Image Upscaler image\",\n    scaleFactor: 2.0,\n    style: { enhancement: \"Balanced\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiImageUpscaler.generate(\n  {\n    assets: { imageFilePath: \"api-assets/id/1234.png\" },\n    name: \"Upscale\",\n    scaleFactor: 2.0,\n    style: { mode: \"balanced\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_image_upscaler \"github.com/magichourhq/magic-hour-go/resources/v1/ai_image_upscaler\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"API_TOKEN\")),\n\t)\n\tres, err := client.V1.AiImageUpscaler.Create(ai_image_upscaler.CreateRequest{\n\t\tAssets: types.V1AiImageUpscalerCreateBodyAssets{\n\t\t\tImageFilePath: \"api-assets/id/1234.png\",\n\t\t},\n\t\tName:        nullable.NewValue(\"My Image Upscaler image\"),\n\t\tScaleFactor: 2.0,\n\t\tStyle: types.V1AiImageUpscalerCreateBodyStyle{\n\t\t\tEnhancement: types.V1AiImageUpscalerCreateBodyStyleEnhancementEnumBalanced,\n\t\t},\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_image_upscaler \"github.com/magichourhq/magic-hour-go/resources/v1/ai_image_upscaler\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"API_TOKEN\")),\n\t)\n\tres, err := client.V1.AiImageUpscaler.Create(ai_image_upscaler.CreateRequest{\n\t\tAssets: types.V1AiImageUpscalerCreateBodyAssets{\n\t\t\tImageFilePath: \"api-assets/id/1234.png\",\n\t\t},\n\t\tName:        nullable.NewValue(\"Upscale\"),\n\t\tScaleFactor: 2.0,\n\t\tStyle: types.V1AiImageUpscalerCreateBodyStyle{\n\t\t\tMode: types.V1AiImageUpscalerCreateBodyStyleModeEnumBalanced,\n\t\t},\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"API_TOKEN\").unwrap());\nlet res = client\n    .v1()\n    .ai_image_upscaler()\n    .create(magic_hour::resources::v1::ai_image_upscaler::CreateRequest {\n        assets: magic_hour::models::V1AiImageUpscalerCreateBodyAssets {\n            image_file_path: \"api-assets/id/1234.png\".to_string(),\n        },\n        name: Some(\"My Image Upscaler image\".to_string()),\n        scale_factor: 2.0,\n        style: magic_hour::models::V1AiImageUpscalerCreateBodyStyle {\n            enhancement: magic_hour::models::V1AiImageUpscalerCreateBodyStyleEnhancementEnum::Balanced,\n            ..Default::default()\n        },\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"API_TOKEN\").unwrap());\nlet res = client\n    .v1()\n    .ai_image_upscaler()\n    .create(magic_hour::resources::v1::ai_image_upscaler::CreateRequest {\n        assets: magic_hour::models::V1AiImageUpscalerCreateBodyAssets {\n            image_file_path: \"api-assets/id/1234.png\".to_string(),\n        },\n        name: Some(\"Upscale\".to_string()),\n        scale_factor: 2.0,\n        style: magic_hour::models::V1AiImageUpscalerCreateBodyStyle {\n            mode: magic_hour::models::V1AiImageUpscalerCreateBodyStyleModeEnum::Balanced,\n            ..Default::default()\n        },\n    })\n    .await;"
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-image-upscaler \\\n     --header 'accept: application/json' \\\n     --header 'authorization: Bearer <token>' \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Image Upscaler image\",\n  \"scale_factor\": 2,\n  \"style\": {\n    \"enhancement\": \"Resemblance\",\n    \"prompt\": \"string\"\n  },\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/1234.png\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-image-upscaler \\\n     --header 'accept: application/json' \\\n     --header 'authorization: Bearer <token>' \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"Upscale\",\n  \"scale_factor\": 2,\n  \"style\": {\n    \"mode\": \"balanced\"\n  },\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/1234.png\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-image-upscaler\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Image Upscaler image',\n    'scale_factor' => 2,\n    'style' => [\n        'enhancement' => 'Resemblance',\n        'prompt' => 'string'\n    ],\n    'assets' => [\n        'image_file_path' => 'api-assets/id/1234.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-image-upscaler\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'Upscale',\n    'scale_factor' => 2,\n    'style' => [\n        'mode' => 'balanced'\n    ],\n    'assets' => [\n        'image_file_path' => 'api-assets/id/1234.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-image-upscaler\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Image Upscaler image\\\",\\\"scale_factor\\\":2,\\\"style\\\":{\\\"enhancement\\\":\\\"Resemblance\\\",\\\"prompt\\\":\\\"string\\\"},\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-image-upscaler\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"Upscale\\\",\\\"scale_factor\\\":2,\\\"style\\\":{\\\"mode\\\":\\\"balanced\\\"},\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\"}}\")\n  .asString();"
           }
         ]
       }
