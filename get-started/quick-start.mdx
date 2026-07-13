@@ -9,58 +9,41 @@ Magic Hour is an AI video and image generation platform. You submit a job, we re
 
 1. **Create an API key** - Get credentials to authenticate with our API
 2. **Set up your development environment** - Install SDK and create project files
-3. **Generate your first image** - Make an API call and download the result (costs ~100 credits)
+3. **Generate your first output** - Make an API call and download the result
 
 <Note>
-  **Credit Cost:** The examples in this guide will use approximately 100 credits. New accounts get
-  400 free credits plus 100 daily credits if you claim them in the web app.
+  **Credit Cost:** Pick the example that matches your goal. The image tab costs about 5 credits; the
+  face swap video tab costs about 200 credits for the sample clip. New accounts get 400 free credits
+  plus 100 daily credits if you claim them in the web app.
 </Note>
 
 ## 1. Create your API key
 
 **Why:** API keys authenticate your requests and track your usage.
 
-1. Visit the [Magic Hour Developer Hub](https://magichour.ai/developer?tab=api-keys) and sign in.
-   ![Create API Key](/get-started/images/api-key-1.jpg)
-2. Name the key (e.g., "My First Project"), then click `Create key`.
-   ![Create API Key Modal](/get-started/images/api-key-2.jpg)
-3. **Copy the API key immediately** - you won't be able to see it again.
-   ![Copy API Key](/get-started/images/api-key-3.jpg)
+1. Open the [API Keys section of the Developer Hub](https://magichour.ai/developer?tab=api-keys) and sign in.
+2. Click **Create key**, give it a name (e.g., "My First Project"), and create it.
+3. **Copy the API key immediately** — you won't be able to see it again.
 
-### Save your API key securely
+<Card title="Need the full walkthrough?" icon="key" href="/get-started/authentication#creating-your-first-api-key">
+  See screenshots, permissions, and key-management guidance in the Authentication guide.
+</Card>
 
-**Important:** Store your API key as an environment variable for security:
+Store your API key as an environment variable:
 
 <CodeGroup>
 
 ```bash macOS/Linux
-# Add to your ~/.bashrc or ~/.zshrc file
 export MAGIC_HOUR_API_KEY="your_api_key_here"
-
-# Reload your shell
-source ~/.bashrc  # or source ~/.zshrc
 ```
 
 ```cmd Windows
-# Set environment variable (Command Prompt)
 setx MAGIC_HOUR_API_KEY "your_api_key_here"
-
-# Restart your terminal after running this command
 ```
 
 ```powershell PowerShell
-# Option A: Set permanently (requires terminal restart)
-[Environment]::SetEnvironmentVariable("MAGIC_HOUR_API_KEY", "your_api_key_here", "User")
-
-# Option B: Set for current session only (no restart needed)
 $env:MAGIC_HOUR_API_KEY = "your_api_key_here"
 ```
-
-<Warning>
-  **PowerShell:** `SetEnvironmentVariable` only takes effect in **new** terminal sessions. If you
-  run your script in the same terminal, use `$env:MAGIC_HOUR_API_KEY` instead to set it for the
-  current session.
-</Warning>
 
 </CodeGroup>
 
@@ -127,37 +110,52 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 
 <SdkInstallation />
 
-## 3. Generate your first image
+<Tip>
+  Want to test your integration without spending credits? The SDKs include a
+  [mock server](/integration/development-and-testing#mock-server-recommended-for-development) that
+  returns sample responses instantly.
+</Tip>
 
-**What we're doing:** Creating an AI-generated image using a text prompt. The API will:
+## 3. Generate your first output
 
-1. Queue your job and return a project ID
-2. Process your request (usually takes 30-60 seconds)
-3. Make the result available for download
+**What we're doing:** Submit a generation job, wait for Magic Hour to render it, then download the
+result. Choose the example that matches what you want to build:
+
+| Example | Best for | Typical cost | Typical wait |
+| :------ | :------- | :----------- | :----------- |
+| **Generate image** | Cheapest first success | 5 credits | 30-60 seconds |
+| **Face swap video** | Our most popular API path | ~200 credits for the sample clip | 2-5 minutes |
+
+### Copy the code and run it
+
+<Note>
+  **SDK version required for `generate()`:** Use Python SDK v0.36.0+ or Node SDK v0.37.0+. Older
+  versions do not include this helper. Go and Rust use the manual create/poll/download pattern shown
+  below.
+</Note>
+
+1. **Choose an example tab**, then copy the code from your preferred language tab below.
+
+<Tabs>
+
+<Tab title="Generate image (~5 credits)">
+
+Create an image from a text prompt. This is the cheapest way to verify your setup end to end.
 
 **Why these parameters:**
 
 - `image_count: 1` - Generate one image (costs 5 credits)
 - `aspect_ratio: "16:9"` - Widescreen (landscape) output; also supports `1:1` and `9:16`
+- `resolution: "1k"` - Request an explicit supported resolution instead of deprecated `auto`
 - `wait_for_completion: true` - SDK polls until done
 - `download_outputs: true` - Automatically download to local disk
 - `download_directory: "."` - Save to the current directory
-
-### Copy the code and run it
-
-1. **Copy the code** from your preferred language tab below. You can choose from two types of output
-
-<Tabs>
-
-<Tab title="Generate image">
 
 <CodeGroup>
 
 ```python Python SDK
 from magic_hour import Client
-import time
 import os
-import urllib.request
 
 # Use environment variable for security
 client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
@@ -165,6 +163,7 @@ client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
 result = client.v1.ai_image_generator.generate(
     image_count=1,
     aspect_ratio="16:9",
+    resolution="1k",
     style={
         "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'"
     },
@@ -187,6 +186,7 @@ async function main() {
     {
       imageCount: 1,
       aspectRatio: "16:9",
+      resolution: "1k",
       style: {
         prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
       },
@@ -229,6 +229,7 @@ func main() {
 	createRes, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{
 		ImageCount:  1,
 		AspectRatio: nullable.NewValue(types.V1AiImageGeneratorCreateBodyAspectRatioEnum169),
+		Resolution:  nullable.NewValue(types.V1AiImageGeneratorCreateBodyResolutionEnum1k),
 		Style: types.V1AiImageGeneratorCreateBodyStyle{
 			Prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
 		},
@@ -302,6 +303,7 @@ async fn main() {
         .create(magic_hour::resources::v1::ai_image_generator::CreateRequest {
             image_count: 1,
             aspect_ratio: Some(magic_hour::models::V1AiImageGeneratorCreateBodyAspectRatioEnum::Enum169),
+            resolution: Some(magic_hour::models::V1AiImageGeneratorCreateBodyResolutionEnum::Enum1k),
             style: magic_hour::models::V1AiImageGeneratorCreateBodyStyle {
                 prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'".to_string(),
                 ..Default::default()
@@ -371,6 +373,7 @@ create_response=$(curl -s $URL \
   --data '{
     "image_count": 1,
     "aspect_ratio": "16:9",
+    "resolution": "1k",
     "style": {
       "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says \"Magic Hour\""
     }
@@ -406,17 +409,33 @@ done
 
 </CodeGroup>
 
+**Expected output for Python and Node.js:**
+
+```
+created image with id clx1234567890, spent 5 credits. Outputs are saved at ['./output-0.png']
+```
+
+**Expected output for Go, Rust, and cURL:**
+
+```
+queued image with id clx1234567890, spent 5 credits
+render complete!
+file downloaded successfully to output.png
+```
+
 </Tab>
 
-<Tab title="Swap Faces in a Video">
+<Tab title="Face swap video (~200 credits)">
+
+Swap a face into a video clip. This is our most popular API path. The sample uses a 6.2-second
+segment (`start_seconds` to `end_seconds`). Video pricing is duration-based, so longer clips cost
+more.
 
 <CodeGroup>
 
 ```python Python SDK
 from magic_hour import Client
-import time
 import os
-import urllib.request
 
 # Use environment variable for security
 client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
@@ -436,7 +455,6 @@ result = client.v1.face_swap.generate(
 )
 
 print(f"created face swap video with id {result.id}, spent {result.credits_charged} credits. Outputs are saved at {result.downloaded_paths}")
-
 ```
 
 ```typescript Node SDK
@@ -557,7 +575,6 @@ func main() {
 ```rust Rust SDK
 use magic_hour;
 use reqwest;
-use std::io::Read;
 
 #[tokio::main]
 async fn main() {
@@ -695,7 +712,14 @@ done
 
 </CodeGroup>
 
+**Expected output for Python and Node.js:**
+
+```
+created face swap video with id clx1234567890, spent 186 credits. Outputs are saved at ['./output.mp4']
+```
+
 </Tab>
+
 </Tabs>
 
 2. **Paste it into your file** (`main.py`, `main.js`, `main.go`, etc.)
@@ -737,19 +761,6 @@ cargo run
 
 </CodeGroup>
 
-**Expected output:**
-
-```
-queued image with id clx1234567890, spent 5 credits
-render complete!
-created image with id clx1234567890, spent 5 credits. Outputs are saved at ['./output-0.png']
-```
-
-<Note>
-  **SDK Versions:** The `.generate()` helper function requires Python SDK v0.36.0+ or Node SDK
-  v0.37.0+. Other SDKs use the manual create/poll/download pattern shown in the examples.
-</Note>
-
 ## Troubleshooting
 
 ### Common Issues
@@ -764,29 +775,9 @@ mkdir outputs
 
 **Error: MAGIC_HOUR_API_KEY environment variable not set**
 
-**Solution:** Make sure you've set your API key as an environment variable:
-
-<CodeGroup>
-
-```bash macOS/Linux
-# Add to your ~/.bashrc or ~/.zshrc file
-export MAGIC_HOUR_API_KEY="your_api_key_here"
-```
-
-```cmd Windows
-# Set environment variable (Command Prompt)
-setx MAGIC_HOUR_API_KEY "your_api_key_here"
-```
-
-```powershell PowerShell
-# Option A: Set permanently (requires terminal restart)
-[Environment]::SetEnvironmentVariable("MAGIC_HOUR_API_KEY", "your_api_key_here", "User")
-
-# Option B: Set for current session only (no restart needed)
-$env:MAGIC_HOUR_API_KEY = "your_api_key_here"
-```
-
-</CodeGroup>
+**Solution:** Set your API key as an environment variable. See
+[Environment Variables](/get-started/authentication#environment-variables) in the
+Authentication guide for platform-specific setup steps.
 
 ### HTTP Error Codes
 
@@ -803,11 +794,14 @@ If you encounter HTTP errors, here's what they mean:
 
 **For persistent errors:** Contact [support@magichour.ai](mailto:support@magichour.ai) with your project ID.
 
-<Check>🎉 Congratulations! You have successfully created an image and a video on Magic Hour!</Check>
+<Check>🎉 Congratulations! You have successfully created your first Magic Hour project.</Check>
 
 ## Next Steps
 
 - **Explore the API Reference:** Learn how to generate and edit videos and images programmatically. [API Reference →](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls)
+
+- **Explore Face Swap Video:** See parameter details, pricing, and production patterns in the
+  [Face Swap Video guide](/tools/video/face-swap-video).
 
 - **Try All APIs in Google Colab:** [Run our complete cookbook](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing) with sample code for all 22 APIs. Just add your API key and start experimenting.
 

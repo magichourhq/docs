@@ -24,7 +24,7 @@ Visit [magichour.ai](https://magichour.ai/sign-up) and sign in to your account. 
 </Step>
 
 <Step title="Navigate to Developer Hub">
-Once signed in, go to the [Developer Hub](https://magichour.ai/developer) from your dashboard or account menu. The API Keys section will be displayed by default.
+Once signed in, go directly to the [API Keys section of the Developer Hub](https://magichour.ai/developer?tab=api-keys).
 
 ![Developer Hub with API Keys](./images/navigate-to-developer-hub.jpg)
 
@@ -133,7 +133,8 @@ curl -X POST "https://api.magichour.ai/v1/ai-image-generator" \
   -H "Content-Type: application/json" \
   -d '{
     "image_count": 1,
-    "orientation": "landscape",
+    "aspect_ratio": "16:9",
+    "resolution": "1k",
     "style": {
       "prompt": "A beautiful sunset over mountains"
     }
