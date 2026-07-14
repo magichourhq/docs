@@ -151,6 +151,11 @@ Create an image from a text prompt. This is the cheapest way to verify your setu
 - `download_outputs: true` - Automatically download to local disk
 - `download_directory: "."` - Save to the current directory
 
+<Note>
+  **`style.tool` is optional.** Omit it to use the default `general` style, or set a preset such as
+  `ai-anime-generator` when you want a specific art style.
+</Note>
+
 <CodeGroup>
 
 ```python Python SDK
@@ -165,7 +170,7 @@ result = client.v1.ai_image_generator.generate(
     aspect_ratio="16:9",
     resolution="1k",
     style={
-        "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'"
+        "prompt": "A wizard casting a cosmic spell in the sky that says 'Magic Hour'"
     },
     wait_for_completion=True, # wait for the render to complete
     download_outputs=True, # download the outputs to local disk
@@ -188,7 +193,7 @@ async function main() {
       aspectRatio: "16:9",
       resolution: "1k",
       style: {
-        prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
+        prompt: "A wizard casting a cosmic spell in the sky that says 'Magic Hour'",
       },
     },
     {
@@ -231,7 +236,7 @@ func main() {
 		AspectRatio: nullable.NewValue(types.V1AiImageGeneratorCreateBodyAspectRatioEnum169),
 		Resolution:  nullable.NewValue(types.V1AiImageGeneratorCreateBodyResolutionEnum1k),
 		Style: types.V1AiImageGeneratorCreateBodyStyle{
-			Prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
+			Prompt: "A wizard casting a cosmic spell in the sky that says 'Magic Hour'",
 		},
 	})
 
@@ -305,7 +310,7 @@ async fn main() {
             aspect_ratio: Some(magic_hour::models::V1AiImageGeneratorCreateBodyAspectRatioEnum::Enum169),
             resolution: Some(magic_hour::models::V1AiImageGeneratorCreateBodyResolutionEnum::Enum1k),
             style: magic_hour::models::V1AiImageGeneratorCreateBodyStyle {
-                prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'".to_string(),
+                prompt: "A wizard casting a cosmic spell in the sky that says 'Magic Hour'".to_string(),
                 ..Default::default()
             },
             ..Default::default()
@@ -375,7 +380,7 @@ create_response=$(curl -s $URL \
     "aspect_ratio": "16:9",
     "resolution": "1k",
     "style": {
-      "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says \"Magic Hour\""
+      "prompt": "A wizard casting a cosmic spell in the sky that says \"Magic Hour\""
     }
   }')
 
