@@ -49,6 +49,12 @@
       "youtube": "https://youtube.com/@magichourai"
     }
   },
+  "redirects": [
+    {
+      "source": "/integration/input-files",
+      "destination": "/integration/inputs-and-outputs"
+    }
+  ],
   "navigation": {
     "tabs": [
       {
