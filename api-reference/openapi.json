@@ -1138,6 +1138,173 @@
         ]
       }
     },
+    "/v1/ai-video-editor": {
+      "post": {
+        "description": "**What this API does**\n\nCreate the same Video Editor you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video editor into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video editor job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-editor).",
+        "summary": "AI Video Editor",
+        "tags": ["Video Projects"],
+        "parameters": [],
+        "operationId": "aiVideoEditor.createVideo",
+        "requestBody": {
+          "required": true,
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Give your video a custom name for easy identification.",
+                    "example": "My Video Editor video",
+                    "default": "Video Editor - dateTime"
+                  },
+                  "start_seconds": {
+                    "default": 0,
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Start time of your clip (seconds). Must be ≥ 0.",
+                    "format": "float",
+                    "example": 0
+                  },
+                  "end_seconds": {
+                    "type": "number",
+                    "minimum": 0.1,
+                    "description": "End time of your clip in seconds. Must be greater than `start_seconds`. Duration must be between 3 and 10 seconds.",
+                    "format": "float",
+                    "example": 5
+                  },
+                  "style": {
+                    "type": "object",
+                    "properties": {
+                      "prompt": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The prompt used to edit the video.",
+                        "example": "Change the car color to blue"
+                      }
+                    },
+                    "required": ["prompt"]
+                  },
+                  "assets": {
+                    "type": "object",
+                    "properties": {
+                      "video_file_path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The video to edit. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "example": "api-assets/id/1234.mp4"
+                      }
+                    },
+                    "required": ["video_file_path"],
+                    "description": "Provide the assets for video editing."
+                  }
+                },
+                "required": ["end_seconds", "style", "assets"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "cuid-example",
+                      "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
+                    },
+                    "credits_charged": {
+                      "type": "integer",
+                      "description": "The amount of credits deducted from your account to generate the video. If the status is not 'complete', this value is an estimate and may be adjusted upon completion based on the actual FPS of the output video. \n\nIf video generation fails, credits will be refunded, and this field will be updated to include the refund.",
+                      "example": 450
+                    }
+                  },
+                  "required": ["id", "estimated_frame_cost", "credits_charged"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request is invalid",
+                  "example": { "message": "Missing request body" }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "required": ["message"],
+                  "description": "The request is not properly authenticated",
+                  "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "required": ["message"],
+                  "description": "Requested resource is not found",
+                  "example": { "message": "Not Found" }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Unable to edit video" }
+                  },
+                  "required": ["message"],
+                  "description": "Unprocessable Entity"
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
     "/v1/animation": {
       "post": {
         "description": "Create a Animation video. The estimated frame cost is calculated based on the `fps` and `end_seconds` input.",
@@ -1917,6 +2084,219 @@
         ]
       }
     },
+    "/v1/character-replace": {
+      "post": {
+        "description": "**What this API does**\n\nCreate the same Character Replace you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding character replace into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a character replace job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/character-replace).",
+        "summary": "Character Replace",
+        "tags": ["Video Projects"],
+        "parameters": [],
+        "operationId": "characterReplace.createVideo",
+        "requestBody": {
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Give your video a custom name for easy identification.",
+                    "example": "My Character Replace video",
+                    "default": "Character Replace - dateTime"
+                  },
+                  "start_seconds": {
+                    "default": 0,
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Start time of your clip (seconds). Must be ≥ 0.",
+                    "format": "float",
+                    "example": 0
+                  },
+                  "end_seconds": {
+                    "type": "number",
+                    "minimum": 0.1,
+                    "description": "End time of your clip (seconds). Must be greater than start_seconds.",
+                    "format": "float",
+                    "example": 15
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "enum": ["480p", "720p"],
+                    "description": "Output video resolution. Defaults to 480p, the lowest resolution available on your plan.",
+                    "example": "720p"
+                  },
+                  "assets": {
+                    "type": "object",
+                    "properties": {
+                      "video_file_path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Source video containing the subject to replace or animate. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "example": "api-assets/id/1234.mp4"
+                      },
+                      "image_file_path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Reference character image used as the replacement or animation target. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "example": "api-assets/id/5678.png"
+                      }
+                    },
+                    "required": ["video_file_path", "image_file_path"],
+                    "description": "Source video and reference character image for the job."
+                  },
+                  "style": {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "type": "string",
+                        "enum": ["replace", "animate"],
+                        "description": "Processing mode. `replace` swaps the detected subject with your reference character. `animate` transfers motion from the video onto your character image.",
+                        "example": "replace"
+                      },
+                      "selection_mode": {
+                        "type": "string",
+                        "enum": ["auto", "point"],
+                        "description": "How to locate the subject in the source video. `auto` detects a person automatically. `point` uses your `points` to mark the subject. Defaults to `auto`.",
+                        "example": "auto"
+                      },
+                      "points": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "position_x": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "description": "Horizontal pixel coordinate in the source video frame at `time_seconds`, measured from the left edge.",
+                              "example": 320
+                            },
+                            "position_y": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "description": "Vertical pixel coordinate in the source video frame at `time_seconds`, measured from the top edge.",
+                              "example": 180
+                            },
+                            "time_seconds": {
+                              "type": "number",
+                              "minimum": 0,
+                              "description": "Timestamp on the source video timeline in seconds. Uses the same clock as `start_seconds` and `end_seconds`.",
+                              "format": "float",
+                              "example": 2.5
+                            }
+                          },
+                          "required": ["position_x", "position_y", "time_seconds"]
+                        },
+                        "description": "On-frame markers for manual subject selection. Required when `selection_mode` is `point`. Ignored when `selection_mode` is `auto` or omitted."
+                      }
+                    },
+                    "description": "Optional style controls for replace vs animate mode and subject selection."
+                  }
+                },
+                "required": ["end_seconds", "assets"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "cuid-example",
+                      "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
+                    },
+                    "credits_charged": {
+                      "type": "integer",
+                      "description": "The amount of credits deducted from your account to generate the video. If the status is not 'complete', this value is an estimate and may be adjusted upon completion based on the actual FPS of the output video. \n\nIf video generation fails, credits will be refunded, and this field will be updated to include the refund.",
+                      "example": 450
+                    }
+                  },
+                  "required": ["id", "estimated_frame_cost", "credits_charged"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request is invalid",
+                  "example": { "message": "Missing request body" }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "required": ["message"],
+                  "description": "The request is not properly authenticated",
+                  "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "required": ["message"],
+                  "description": "Requested resource is not found",
+                  "example": { "message": "Not Found" }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Unable to create video" }
+                  },
+                  "required": ["message"],
+                  "description": "Unprocessable Entity"
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
     "/v1/face-swap": {
       "post": {
         "description": "**What this API does**\n\nCreate the same Face Swap you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding face swap into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a face swap job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/face-swap).",
@@ -2612,6 +2992,225 @@
         ]
       }
     },
+    "/v1/text-to-video": {
+      "post": {
+        "description": "**What this API does**\n\nCreate the same Text To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding text to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a text to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/text-to-video).",
+        "summary": "Text-to-Video",
+        "tags": ["Video Projects"],
+        "parameters": [],
+        "operationId": "textToVideo.createVideo",
+        "requestBody": {
+          "required": true,
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Give your video a custom name for easy identification.",
+                    "example": "My Text To Video video",
+                    "default": "Text To Video - dateTime"
+                  },
+                  "end_seconds": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 60,
+                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2.3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`kling-2.5`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`veo3.1-lite`**: 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`seedance-1.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`seedance-2.0-mini`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.0`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n",
+                    "format": "float",
+                    "example": 5
+                  },
+                  "aspect_ratio": {
+                    "type": "string",
+                    "enum": ["16:9", "9:16", "1:1"],
+                    "description": "Determines the aspect ratio of the output video.\n\n* **`ltx-2.3`**: Supports 9:16, 16:9, 1:1.\n* **`wan-2.2`**: Supports 9:16, 16:9, 1:1.\n* **`kling-2.5`**: Supports 9:16, 16:9, 1:1.\n* **`kling-3.0`**: Supports 9:16, 16:9, 1:1.\n* **`veo3.1-lite`**: Supports 9:16, 16:9.\n* **`veo3.1`**: Supports 9:16, 16:9.\n* **`seedance-1.5`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0-mini`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0`**: Supports 9:16, 16:9, 1:1.\n* **`sora-2`**: Supports 9:16, 16:9.\n",
+                    "example": "16:9"
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "enum": ["480p", "720p", "1080p", "4k"],
+                    "example": "720p",
+                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`ltx-2.3`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`kling-2.5`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`veo3.1-lite`**: Supports 720p, 1080p.\n* **`veo3.1`**: Supports 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.0`**: Supports 480p, 720p.\n* **`sora-2`**: Supports 720p.\n"
+                  },
+                  "model": {
+                    "default": "default",
+                    "type": "string",
+                    "enum": [
+                      "default",
+                      "ltx-2",
+                      "ltx-2.3",
+                      "wan-2.2",
+                      "seedance-1.5",
+                      "seedance-2.0",
+                      "seedance-2.0-mini",
+                      "kling-2.5",
+                      "kling-3.0",
+                      "veo3.1",
+                      "veo3.1-lite",
+                      "sora-2",
+                      "kling-1.6",
+                      "seedance",
+                      "kling-2.5-audio",
+                      "veo3.1-audio"
+                    ],
+                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `ltx-2.3`: Fastest output. Best for rapid iteration.\n* `wan-2.2`: Strong physics, camera moves, and motion.\n* `kling-2.5`: Great for action, motion blur, and camera moves.\n* `kling-3.0`: Best overall quality for cinematic storytelling.\n* `veo3.1-lite`: Veo quality at a more accessible cost.\n* `veo3.1`: Google's model. Highest realism and detail.\n* `seedance-1.5`: Smooth, consistent motion with precision.\n* `seedance-2.0-mini`: Fast, consistent video with strong motion quality\n* `seedance-2.0`: Top quality with reference-to-video control.\n* `sora-2`: Open AI's model. Great for creativity and viral clips.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
+                    "example": "kling-3.0"
+                  },
+                  "audio": {
+                    "type": "boolean",
+                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`ltx-2.3`**: Toggle-able: no additional credits for audio\n* **`wan-2.2`**: Not supported\n* **`kling-2.5`**: Toggle-able: no additional credits for audio\n* **`kling-3.0`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1-lite`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-1.5`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0-mini`**: Toggle-able: no additional credits for audio\n* **`seedance-2.0`**: Toggle-able: no additional credits for audio\n* **`sora-2`**: Toggle-able: no additional credits for audio\n",
+                    "example": true
+                  },
+                  "style": {
+                    "type": "object",
+                    "properties": {
+                      "prompt": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000,
+                        "example": "a dog running",
+                        "description": "The prompt used for the video."
+                      }
+                    },
+                    "required": ["prompt"]
+                  }
+                },
+                "required": ["end_seconds", "style"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "cuid-example",
+                      "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
+                    },
+                    "credits_charged": {
+                      "type": "integer",
+                      "description": "The amount of credits deducted from your account to generate the video. If the status is not 'complete', this value is an estimate and may be adjusted upon completion based on the actual FPS of the output video. \n\nIf video generation fails, credits will be refunded, and this field will be updated to include the refund.",
+                      "example": 450
+                    }
+                  },
+                  "required": ["id", "estimated_frame_cost", "credits_charged"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request is invalid",
+                  "example": { "message": "Missing request body" }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "required": ["message"],
+                  "description": "The request is not properly authenticated",
+                  "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "required": ["message"],
+                  "description": "Requested resource is not found",
+                  "example": { "message": "Not Found" }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Unable to create video" }
+                  },
+                  "required": ["message"],
+                  "description": "Unprocessable Entity"
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.text_to_video.generate(\n    end_seconds=5.0,\n    orientation=\"landscape\",\n    style={\"prompt\": \"a dog running\"},\n    name=\"Text To Video video\",\n    resolution=\"720p\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+          },
+          {
+            "lang": "javascript",
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.textToVideo.generate(\n  {\n    endSeconds: 5.0,\n    name: \"Text To Video video\",\n    orientation: \"landscape\",\n    resolution: \"720p\",\n    style: { prompt: \"a dog running\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
+          },
+          {
+            "lang": "go",
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\ttext_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/text_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"API_TOKEN\")),\n\t)\n\tres, err := client.V1.TextToVideo.Create(text_to_video.CreateRequest{\n\t\tAspectRatio: nullable.NewValue(types.V1TextToVideoCreateBodyAspectRatioEnum169),\n\t\tAudio:       nullable.NewValue(true),\n\t\tEndSeconds:  5.0,\n\t\tModel:       nullable.NewValue(types.V1TextToVideoCreateBodyModelEnumKling30),\n\t\tName:        nullable.NewValue(\"My Text To Video video\"),\n\t\tOrientation: nullable.NewValue(types.V1TextToVideoCreateBodyOrientationEnumLandscape),\n\t\tResolution:  nullable.NewValue(types.V1TextToVideoCreateBodyResolutionEnum720p),\n\t\tStyle: types.V1TextToVideoCreateBodyStyle{\n\t\t\tPrompt: \"a dog running\",\n\t\t},\n\t})\n}"
+          },
+          {
+            "lang": "rust",
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"API_TOKEN\").unwrap());\nlet res = client\n    .v1()\n    .text_to_video()\n    .create(magic_hour::resources::v1::text_to_video::CreateRequest {\n        aspect_ratio: Some(\n            magic_hour::models::V1TextToVideoCreateBodyAspectRatioEnum::Enum169,\n        ),\n        audio: Some(true),\n        end_seconds: 5.0,\n        model: Some(magic_hour::models::V1TextToVideoCreateBodyModelEnum::Kling30),\n        name: Some(\"My Text To Video video\".to_string()),\n        orientation: Some(\n            magic_hour::models::V1TextToVideoCreateBodyOrientationEnum::Landscape,\n        ),\n        resolution: Some(\n            magic_hour::models::V1TextToVideoCreateBodyResolutionEnum::Enum720p,\n        ),\n        style: magic_hour::models::V1TextToVideoCreateBodyStyle {\n            prompt: \"a dog running\".to_string(),\n            ..Default::default()\n        },\n    })\n    .await;"
+          },
+          {
+            "lang": "curl",
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/text-to-video \\\n     --header 'accept: application/json' \\\n     --header 'authorization: Bearer <token>' \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Text To Video video\",\n  \"end_seconds\": 5,\n  \"aspect_ratio\": \"16:9\",\n  \"resolution\": \"720p\",\n  \"model\": \"kling-3.0\",\n  \"audio\": true,\n  \"style\": {\n    \"prompt\": \"a dog running\"\n  }\n}\n'"
+          },
+          {
+            "lang": "php",
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/text-to-video\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Text To Video video',\n    'end_seconds' => 5,\n    'aspect_ratio' => '16:9',\n    'resolution' => '720p',\n    'model' => 'kling-3.0',\n    'audio' => true,\n    'style' => [\n        'prompt' => 'a dog running'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+          },
+          {
+            "lang": "java",
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/text-to-video\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Text To Video video\\\",\\\"end_seconds\\\":5,\\\"aspect_ratio\\\":\\\"16:9\\\",\\\"resolution\\\":\\\"720p\\\",\\\"model\\\":\\\"kling-3.0\\\",\\\"audio\\\":true,\\\"style\\\":{\\\"prompt\\\":\\\"a dog running\\\"}}\")\n  .asString();"
+          }
+        ]
+      }
+    },
     "/v1/video-to-video": {
       "post": {
         "description": "**What this API does**\n\nCreate the same Video To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-to-video).",
@@ -2930,225 +3529,6 @@
           {
             "lang": "java",
             "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/video-to-video\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Video To Video video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":15,\\\"fps_resolution\\\":\\\"HALF\\\",\\\"style\\\":{\\\"art_style\\\":\\\"Minecraft\\\",\\\"version\\\":\\\"default\\\",\\\"prompt_type\\\":\\\"default\\\",\\\"prompt\\\":\\\"string\\\",\\\"model\\\":\\\"default\\\"},\\\"assets\\\":{\\\"video_source\\\":\\\"file\\\",\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\",\\\"youtube_url\\\":\\\"string\\\"}}\")\n  .asString();"
-          }
-        ]
-      }
-    },
-    "/v1/text-to-video": {
-      "post": {
-        "description": "**What this API does**\n\nCreate the same Text To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding text to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a text to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/text-to-video).",
-        "summary": "Text-to-Video",
-        "tags": ["Video Projects"],
-        "parameters": [],
-        "operationId": "textToVideo.createVideo",
-        "requestBody": {
-          "required": true,
-          "description": "Body",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "description": "Give your video a custom name for easy identification.",
-                    "example": "My Text To Video video",
-                    "default": "Text To Video - dateTime"
-                  },
-                  "end_seconds": {
-                    "type": "number",
-                    "minimum": 1,
-                    "maximum": 60,
-                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2.3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`kling-2.5`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`veo3.1-lite`**: 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`seedance-1.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`seedance-2.0-mini`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.0`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n",
-                    "format": "float",
-                    "example": 5
-                  },
-                  "aspect_ratio": {
-                    "type": "string",
-                    "enum": ["16:9", "9:16", "1:1"],
-                    "description": "Determines the aspect ratio of the output video.\n\n* **`ltx-2.3`**: Supports 9:16, 16:9, 1:1.\n* **`wan-2.2`**: Supports 9:16, 16:9, 1:1.\n* **`kling-2.5`**: Supports 9:16, 16:9, 1:1.\n* **`kling-3.0`**: Supports 9:16, 16:9, 1:1.\n* **`veo3.1-lite`**: Supports 9:16, 16:9.\n* **`veo3.1`**: Supports 9:16, 16:9.\n* **`seedance-1.5`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0-mini`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0`**: Supports 9:16, 16:9, 1:1.\n* **`sora-2`**: Supports 9:16, 16:9.\n",
-                    "example": "16:9"
-                  },
-                  "resolution": {
-                    "type": "string",
-                    "enum": ["480p", "720p", "1080p", "4k"],
-                    "example": "720p",
-                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`ltx-2.3`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`kling-2.5`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`veo3.1-lite`**: Supports 720p, 1080p.\n* **`veo3.1`**: Supports 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.0`**: Supports 480p, 720p.\n* **`sora-2`**: Supports 720p.\n"
-                  },
-                  "model": {
-                    "default": "default",
-                    "type": "string",
-                    "enum": [
-                      "default",
-                      "ltx-2",
-                      "ltx-2.3",
-                      "wan-2.2",
-                      "seedance-1.5",
-                      "seedance-2.0",
-                      "seedance-2.0-mini",
-                      "kling-2.5",
-                      "kling-3.0",
-                      "veo3.1",
-                      "veo3.1-lite",
-                      "sora-2",
-                      "kling-1.6",
-                      "seedance",
-                      "kling-2.5-audio",
-                      "veo3.1-audio"
-                    ],
-                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `ltx-2.3`: Fastest output. Best for rapid iteration.\n* `wan-2.2`: Strong physics, camera moves, and motion.\n* `kling-2.5`: Great for action, motion blur, and camera moves.\n* `kling-3.0`: Best overall quality for cinematic storytelling.\n* `veo3.1-lite`: Veo quality at a more accessible cost.\n* `veo3.1`: Google's model. Highest realism and detail.\n* `seedance-1.5`: Smooth, consistent motion with precision.\n* `seedance-2.0-mini`: Fast, consistent video with strong motion quality\n* `seedance-2.0`: Top quality with reference-to-video control.\n* `sora-2`: Open AI's model. Great for creativity and viral clips.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
-                    "example": "kling-3.0"
-                  },
-                  "audio": {
-                    "type": "boolean",
-                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`ltx-2.3`**: Toggle-able: no additional credits for audio\n* **`wan-2.2`**: Not supported\n* **`kling-2.5`**: Toggle-able: no additional credits for audio\n* **`kling-3.0`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1-lite`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-1.5`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0-mini`**: Toggle-able: no additional credits for audio\n* **`seedance-2.0`**: Toggle-able: no additional credits for audio\n* **`sora-2`**: Toggle-able: no additional credits for audio\n",
-                    "example": true
-                  },
-                  "style": {
-                    "type": "object",
-                    "properties": {
-                      "prompt": {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 2000,
-                        "example": "a dog running",
-                        "description": "The prompt used for the video."
-                      }
-                    },
-                    "required": ["prompt"]
-                  }
-                },
-                "required": ["end_seconds", "style"]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "cuid-example",
-                      "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
-                    },
-                    "credits_charged": {
-                      "type": "integer",
-                      "description": "The amount of credits deducted from your account to generate the video. If the status is not 'complete', this value is an estimate and may be adjusted upon completion based on the actual FPS of the output video. \n\nIf video generation fails, credits will be refunded, and this field will be updated to include the refund.",
-                      "example": 450
-                    }
-                  },
-                  "required": ["id", "estimated_frame_cost", "credits_charged"],
-                  "description": "Success"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": { "message": { "type": "string" } },
-                  "required": ["message"],
-                  "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
-                  "required": ["message"],
-                  "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
-                }
-              }
-            }
-          },
-          "402": {
-            "description": "Payment Required",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": { "message": { "type": "string" } },
-                  "required": ["message"],
-                  "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
-                  "required": ["message"],
-                  "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": { "type": "string", "example": "Unable to create video" }
-                  },
-                  "required": ["message"],
-                  "description": "Unprocessable Entity"
-                }
-              }
-            }
-          }
-        },
-        "security": [{ "bearerAuth": [] }],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.text_to_video.generate(\n    end_seconds=5.0,\n    orientation=\"landscape\",\n    style={\"prompt\": \"a dog running\"},\n    name=\"Text To Video video\",\n    resolution=\"720p\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
-          },
-          {
-            "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.textToVideo.generate(\n  {\n    endSeconds: 5.0,\n    name: \"Text To Video video\",\n    orientation: \"landscape\",\n    resolution: \"720p\",\n    style: { prompt: \"a dog running\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
-          },
-          {
-            "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\ttext_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/text_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"API_TOKEN\")),\n\t)\n\tres, err := client.V1.TextToVideo.Create(text_to_video.CreateRequest{\n\t\tAspectRatio: nullable.NewValue(types.V1TextToVideoCreateBodyAspectRatioEnum169),\n\t\tAudio:       nullable.NewValue(true),\n\t\tEndSeconds:  5.0,\n\t\tModel:       nullable.NewValue(types.V1TextToVideoCreateBodyModelEnumKling30),\n\t\tName:        nullable.NewValue(\"My Text To Video video\"),\n\t\tOrientation: nullable.NewValue(types.V1TextToVideoCreateBodyOrientationEnumLandscape),\n\t\tResolution:  nullable.NewValue(types.V1TextToVideoCreateBodyResolutionEnum720p),\n\t\tStyle: types.V1TextToVideoCreateBodyStyle{\n\t\t\tPrompt: \"a dog running\",\n\t\t},\n\t})\n}"
-          },
-          {
-            "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"API_TOKEN\").unwrap());\nlet res = client\n    .v1()\n    .text_to_video()\n    .create(magic_hour::resources::v1::text_to_video::CreateRequest {\n        aspect_ratio: Some(\n            magic_hour::models::V1TextToVideoCreateBodyAspectRatioEnum::Enum169,\n        ),\n        audio: Some(true),\n        end_seconds: 5.0,\n        model: Some(magic_hour::models::V1TextToVideoCreateBodyModelEnum::Kling30),\n        name: Some(\"My Text To Video video\".to_string()),\n        orientation: Some(\n            magic_hour::models::V1TextToVideoCreateBodyOrientationEnum::Landscape,\n        ),\n        resolution: Some(\n            magic_hour::models::V1TextToVideoCreateBodyResolutionEnum::Enum720p,\n        ),\n        style: magic_hour::models::V1TextToVideoCreateBodyStyle {\n            prompt: \"a dog running\".to_string(),\n            ..Default::default()\n        },\n    })\n    .await;"
-          },
-          {
-            "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/text-to-video \\\n     --header 'accept: application/json' \\\n     --header 'authorization: Bearer <token>' \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Text To Video video\",\n  \"end_seconds\": 5,\n  \"aspect_ratio\": \"16:9\",\n  \"resolution\": \"720p\",\n  \"model\": \"kling-3.0\",\n  \"audio\": true,\n  \"style\": {\n    \"prompt\": \"a dog running\"\n  }\n}\n'"
-          },
-          {
-            "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/text-to-video\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Text To Video video',\n    'end_seconds' => 5,\n    'aspect_ratio' => '16:9',\n    'resolution' => '720p',\n    'model' => 'kling-3.0',\n    'audio' => true,\n    'style' => [\n        'prompt' => 'a dog running'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
-          },
-          {
-            "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/text-to-video\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Text To Video video\\\",\\\"end_seconds\\\":5,\\\"aspect_ratio\\\":\\\"16:9\\\",\\\"resolution\\\":\\\"720p\\\",\\\"model\\\":\\\"kling-3.0\\\",\\\"audio\\\":true,\\\"style\\\":{\\\"prompt\\\":\\\"a dog running\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -5344,7 +5724,7 @@
     },
     "/v1/body-swap": {
       "post": {
-        "description": "Swap a person into a scene image using Nano Banana 2. Credits depend on `resolution` (from 100 credits at 640px upward).",
+        "description": "Swap a person into a scene image using Nano Banana 2. Credits depend on `resolution` (from 50 credits at 640px upward).",
         "summary": "Body Swap",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -5410,7 +5790,7 @@
                     "credits_charged": {
                       "type": "integer",
                       "description": "The amount of credits deducted from your account to generate the image. We charge credits right when the request is made. \n\nIf an error occurred while generating the image(s), credits will be refunded and this field will be updated to include the refund.",
-                      "example": 100
+                      "example": 50
                     }
                   },
                   "required": ["id", "frame_cost", "credits_charged"],
