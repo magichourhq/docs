@@ -1302,7 +1302,37 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }]
+        "security": [{ "bearerAuth": [] }],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_video_editor.generate(\n    assets={\"video_file_path\": \"/path/to/1234.mp4\"},\n    end_seconds=5.0,\n    style={\"prompt\": \"Change the car color to blue\"},\n    name=\"My Video Editor video\",\n    start_seconds=0.0,\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\",\n)"
+          },
+          {
+            "lang": "javascript",
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiVideoEditor.generate(\n  {\n    assets: { videoFilePath: \"/path/to/1234.mp4\" },\n    endSeconds: 5.0,\n    name: \"My Video Editor video\",\n    startSeconds: 0.0,\n    style: { prompt: \"Change the car color to blue\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
+          },
+          {
+            "lang": "go",
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_video_editor \"github.com/magichourhq/magic-hour-go/resources/v1/ai_video_editor\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"API_TOKEN\")),\n\t)\n\tres, err := client.V1.AiVideoEditor.Create(ai_video_editor.CreateRequest{\n\t\tAssets: types.V1AiVideoEditorCreateBodyAssets{\n\t\t\tVideoFilePath: \"api-assets/id/1234.mp4\",\n\t\t},\n\t\tEndSeconds:   5.0,\n\t\tName:         nullable.NewValue(\"My Video Editor video\"),\n\t\tStartSeconds: nullable.NewValue(0.0),\n\t\tStyle: types.V1AiVideoEditorCreateBodyStyle{\n\t\t\tPrompt: \"Change the car color to blue\",\n\t\t},\n\t})\n}"
+          },
+          {
+            "lang": "rust",
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"API_TOKEN\").unwrap());\nlet res = client\n    .v1()\n    .ai_video_editor()\n    .create(magic_hour::resources::v1::ai_video_editor::CreateRequest {\n        assets: magic_hour::models::V1AiVideoEditorCreateBodyAssets {\n            video_file_path: \"api-assets/id/1234.mp4\".to_string(),\n        },\n        end_seconds: 5.0,\n        name: Some(\"My Video Editor video\".to_string()),\n        start_seconds: Some(0.0),\n        style: magic_hour::models::V1AiVideoEditorCreateBodyStyle {\n            prompt: \"Change the car color to blue\".to_string(),\n        },\n    })\n    .await;"
+          },
+          {
+            "lang": "curl",
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-video-editor \\\n     --header 'accept: application/json' \\\n     --header 'authorization: Bearer <token>' \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Video Editor video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"style\": {\n    \"prompt\": \"Change the car color to blue\"\n  },\n  \"assets\": {\n    \"video_file_path\": \"api-assets/id/1234.mp4\"\n  }\n}\n'"
+          },
+          {
+            "lang": "php",
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-video-editor\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Video Editor video',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'style' => [\n        'prompt' => 'Change the car color to blue'\n    ],\n    'assets' => [\n        'video_file_path' => 'api-assets/id/1234.mp4'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+          },
+          {
+            "lang": "java",
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-video-editor\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Video Editor video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"style\\\":{\\\"prompt\\\":\\\"Change the car color to blue\\\"},\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\"}}\")\n  .asString();"
+          }
+        ]
       }
     },
     "/v1/animation": {
@@ -1835,7 +1865,37 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }]
+        "security": [{ "bearerAuth": [] }],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.audio_to_video.generate(\n    assets={\n        \"audio_file_path\": \"/path/to/1234.mp3\",\n        \"image_file_path\": \"/path/to/1234.png\",\n    },\n    end_seconds=15.0,\n    name=\"My Audio To Video video\",\n    resolution=\"720p\",\n    start_seconds=0.0,\n    style={\"prompt\": \"Car driving through a city\"},\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+          },
+          {
+            "lang": "javascript",
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.audioToVideo.generate(\n  {\n    assets: {\n      audioFilePath: \"/path/to/1234.mp3\",\n      imageFilePath: \"/path/to/1234.png\",\n    },\n    endSeconds: 15.0,\n    name: \"Audio To Video video\",\n    resolution: \"720p\",\n    startSeconds: 0.0,\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
+          },
+          {
+            "lang": "go",
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\taudio_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/audio_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"API_TOKEN\")),\n\t)\n\tres, err := client.V1.AudioToVideo.Create(audio_to_video.CreateRequest{\n\t\tAssets: types.V1AudioToVideoCreateBodyAssets{\n\t\t\tAudioFilePath: \"api-assets/id/1234.mp3\",\n\t\t\tImageFilePath: nullable.NewValue(\"api-assets/id/1234.png\"),\n\t\t},\n\t\tEndSeconds:   15.0,\n\t\tName:         nullable.NewValue(\"My Audio To Video video\"),\n\t\tResolution:   nullable.NewValue(types.V1AudioToVideoCreateBodyResolutionEnum720p),\n\t\tStartSeconds: nullable.NewValue(0.0),\n\t})\n}"
+          },
+          {
+            "lang": "rust",
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"API_TOKEN\").unwrap());\nlet res = client\n    .v1()\n    .audio_to_video()\n    .create(magic_hour::resources::v1::audio_to_video::CreateRequest {\n        assets: magic_hour::models::V1AudioToVideoCreateBodyAssets {\n            audio_file_path: \"api-assets/id/1234.mp3\".to_string(),\n            image_file_path: Some(\"api-assets/id/1234.png\".to_string()),\n        },\n        end_seconds: 15.0,\n        name: Some(\"My Audio To Video video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1AudioToVideoCreateBodyResolutionEnum::Enum720p,\n        ),\n        start_seconds: Some(0.0),\n        ..Default::default()\n    })\n    .await;"
+          },
+          {
+            "lang": "curl",
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/audio-to-video \\\n     --header 'accept: application/json' \\\n     --header 'authorization: Bearer <token>' \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Audio To Video video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 15,\n  \"resolution\": \"720p\",\n  \"assets\": {\n    \"audio_file_path\": \"api-assets/id/1234.mp3\",\n    \"image_file_path\": \"api-assets/id/1234.png\"\n  },\n  \"style\": {\n    \"prompt\": \"Car driving through a city\"\n  }\n}\n'"
+          },
+          {
+            "lang": "php",
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/audio-to-video\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Audio To Video video',\n    'start_seconds' => 0,\n    'end_seconds' => 15,\n    'resolution' => '720p',\n    'assets' => [\n        'audio_file_path' => 'api-assets/id/1234.mp3',\n        'image_file_path' => 'api-assets/id/1234.png'\n    ],\n    'style' => [\n        'prompt' => 'Car driving through a city'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+          },
+          {
+            "lang": "java",
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/audio-to-video\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Audio To Video video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":15,\\\"resolution\\\":\\\"720p\\\",\\\"assets\\\":{\\\"audio_file_path\\\":\\\"api-assets/id/1234.mp3\\\",\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\"},\\\"style\\\":{\\\"prompt\\\":\\\"Car driving through a city\\\"}}\")\n  .asString();"
+          }
+        ]
       }
     },
     "/v1/auto-subtitle-generator": {
@@ -2295,7 +2355,37 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }]
+        "security": [{ "bearerAuth": [] }],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.character_replace.generate(\n    data={\n        \"assets\": {\n            \"image_file_path\": \"/path/to/5678.png\",\n            \"video_file_path\": \"/path/to/1234.mp4\",\n        },\n        \"end_seconds\": 15.0,\n        \"name\": \"My Character Replace video\",\n        \"resolution\": \"720p\",\n        \"start_seconds\": 0.0,\n        \"style\": {\"mode\": \"replace\", \"selection_mode\": \"auto\"},\n    },\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\",\n)"
+          },
+          {
+            "lang": "javascript",
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.characterReplace.generate(\n  {\n    assets: {\n      imageFilePath: \"/path/to/5678.png\",\n      videoFilePath: \"/path/to/1234.mp4\",\n    },\n    endSeconds: 15.0,\n    name: \"My Character Replace video\",\n    resolution: \"720p\",\n    startSeconds: 0.0,\n    style: { mode: \"replace\", selectionMode: \"auto\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
+          },
+          {
+            "lang": "go",
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tcharacter_replace \"github.com/magichourhq/magic-hour-go/resources/v1/character_replace\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"API_TOKEN\")),\n\t)\n\tres, err := client.V1.CharacterReplace.Create(character_replace.CreateRequest{\n\t\tAssets: types.V1CharacterReplaceCreateBodyAssets{\n\t\t\tImageFilePath: \"api-assets/id/5678.png\",\n\t\t\tVideoFilePath: \"api-assets/id/1234.mp4\",\n\t\t},\n\t\tEndSeconds:   15.0,\n\t\tName:         nullable.NewValue(\"My Character Replace video\"),\n\t\tResolution:   nullable.NewValue(types.V1CharacterReplaceCreateBodyResolutionEnum720p),\n\t\tStartSeconds: nullable.NewValue(0.0),\n\t})\n}"
+          },
+          {
+            "lang": "rust",
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"API_TOKEN\").unwrap());\nlet res = client\n    .v1()\n    .character_replace()\n    .create(magic_hour::resources::v1::character_replace::CreateRequest {\n        assets: magic_hour::models::V1CharacterReplaceCreateBodyAssets {\n            image_file_path: \"api-assets/id/5678.png\".to_string(),\n            video_file_path: \"api-assets/id/1234.mp4\".to_string(),\n        },\n        end_seconds: 15.0,\n        name: Some(\"My Character Replace video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1CharacterReplaceCreateBodyResolutionEnum::Enum720p,\n        ),\n        start_seconds: Some(0.0),\n        ..Default::default()\n    })\n    .await;"
+          },
+          {
+            "lang": "curl",
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/character-replace \\\n     --header 'accept: application/json' \\\n     --header 'authorization: Bearer <token>' \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Character Replace video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 15,\n  \"resolution\": \"720p\",\n  \"assets\": {\n    \"video_file_path\": \"api-assets/id/1234.mp4\",\n    \"image_file_path\": \"api-assets/id/5678.png\"\n  },\n  \"style\": {\n    \"mode\": \"replace\",\n    \"selection_mode\": \"auto\",\n    \"points\": [\n      {\n        \"position_x\": 320,\n        \"position_y\": 180,\n        \"time_seconds\": 2.5\n      }\n    ]\n  }\n}\n'"
+          },
+          {
+            "lang": "php",
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/character-replace\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Character Replace video',\n    'start_seconds' => 0,\n    'end_seconds' => 15,\n    'resolution' => '720p',\n    'assets' => [\n        'video_file_path' => 'api-assets/id/1234.mp4',\n        'image_file_path' => 'api-assets/id/5678.png'\n    ],\n    'style' => [\n        'mode' => 'replace',\n        'selection_mode' => 'auto',\n        'points' => [\n                [\n                                'position_x' => 320,\n                                'position_y' => 180,\n                                'time_seconds' => 2.5\n                ]\n        ]\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+          },
+          {
+            "lang": "java",
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/character-replace\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Character Replace video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":15,\\\"resolution\\\":\\\"720p\\\",\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\",\\\"image_file_path\\\":\\\"api-assets/id/5678.png\\\"},\\\"style\\\":{\\\"mode\\\":\\\"replace\\\",\\\"selection_mode\\\":\\\"auto\\\",\\\"points\\\":[{\\\"position_x\\\":320,\\\"position_y\\\":180,\\\"time_seconds\\\":2.5}]}}\")\n  .asString();"
+          }
+        ]
       }
     },
     "/v1/face-swap": {
@@ -2569,7 +2659,7 @@
                     "type": "number",
                     "minimum": 1,
                     "maximum": 60,
-                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2.3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`kling-2.5`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`veo3.1-lite`**: 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`seedance-1.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`seedance-2.0-mini`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.0`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n",
+                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2.3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`kling-2.5`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`veo3.1-lite`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`seedance-1.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`seedance-2.0-mini`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.0`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n",
                     "format": "float",
                     "example": 5
                   },
@@ -2631,7 +2721,7 @@
                       "end_image_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The image to use as the last frame of the video.\n\n* **`ltx-2.3`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Not supported\n* **`kling-2.5`**: Supports 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`veo3.1-lite`**: Not supported\n* **`veo3.1`**: Not supported\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.0`**: Supports 480p, 720p.\n* **`sora-2`**: Not supported\n",
+                        "description": "The image to use as the last frame of the video.\n\n* **`ltx-2.3`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Not supported\n* **`kling-2.5`**: Supports 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`veo3.1-lite`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`veo3.1`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.0`**: Supports 480p, 720p.\n* **`sora-2`**: Not supported\n",
                         "example": "api-assets/id/1234.png"
                       }
                     },
@@ -3018,7 +3108,7 @@
                     "type": "number",
                     "minimum": 1,
                     "maximum": 60,
-                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2.3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`kling-2.5`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`veo3.1-lite`**: 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`seedance-1.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`seedance-2.0-mini`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.0`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n",
+                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2.3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`kling-2.5`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`veo3.1-lite`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`seedance-1.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`seedance-2.0-mini`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.0`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n",
                     "format": "float",
                     "example": 5
                   },
@@ -5334,23 +5424,23 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_image_upscaler \"github.com/magichourhq/magic-hour-go/resources/v1/ai_image_upscaler\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"API_TOKEN\")),\n\t)\n\tres, err := client.V1.AiImageUpscaler.Create(ai_image_upscaler.CreateRequest{\n\t\tAssets: types.V1AiImageUpscalerCreateBodyAssets{\n\t\t\tImageFilePath: \"api-assets/id/1234.png\",\n\t\t},\n\t\tName:        nullable.NewValue(\"My Image Upscaler image\"),\n\t\tScaleFactor: 2.0,\n\t\tStyle: types.V1AiImageUpscalerCreateBodyStyle{\n\t\t\tEnhancement: types.V1AiImageUpscalerCreateBodyStyleEnhancementEnumBalanced,\n\t\t},\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_image_upscaler \"github.com/magichourhq/magic-hour-go/resources/v1/ai_image_upscaler\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"API_TOKEN\")),\n\t)\n\tres, err := client.V1.AiImageUpscaler.Create(ai_image_upscaler.CreateRequest{\n\t\tAssets: types.V1AiImageUpscalerCreateBodyAssets{\n\t\t\tImageFilePath: \"api-assets/id/1234.png\",\n\t\t},\n\t\tName:        nullable.NewValue(\"My Image Upscaler image\"),\n\t\tScaleFactor: 2.0,\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"API_TOKEN\").unwrap());\nlet res = client\n    .v1()\n    .ai_image_upscaler()\n    .create(magic_hour::resources::v1::ai_image_upscaler::CreateRequest {\n        assets: magic_hour::models::V1AiImageUpscalerCreateBodyAssets {\n            image_file_path: \"api-assets/id/1234.png\".to_string(),\n        },\n        name: Some(\"My Image Upscaler image\".to_string()),\n        scale_factor: 2.0,\n        style: magic_hour::models::V1AiImageUpscalerCreateBodyStyle {\n            enhancement: magic_hour::models::V1AiImageUpscalerCreateBodyStyleEnhancementEnum::Balanced,\n            ..Default::default()\n        },\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"API_TOKEN\").unwrap());\nlet res = client\n    .v1()\n    .ai_image_upscaler()\n    .create(magic_hour::resources::v1::ai_image_upscaler::CreateRequest {\n        assets: magic_hour::models::V1AiImageUpscalerCreateBodyAssets {\n            image_file_path: \"api-assets/id/1234.png\".to_string(),\n        },\n        name: Some(\"My Image Upscaler image\".to_string()),\n        scale_factor: 2.0,\n        ..Default::default()\n    })\n    .await;"
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-image-upscaler \\\n     --header 'accept: application/json' \\\n     --header 'authorization: Bearer <token>' \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Image Upscaler image\",\n  \"scale_factor\": 2,\n  \"style\": {\n    \"enhancement\": \"Resemblance\",\n    \"prompt\": \"string\"\n  },\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/1234.png\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-image-upscaler \\\n     --header 'accept: application/json' \\\n     --header 'authorization: Bearer <token>' \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Image Upscaler image\",\n  \"scale_factor\": 2,\n  \"style\": {},\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/1234.png\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-image-upscaler\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Image Upscaler image',\n    'scale_factor' => 2,\n    'style' => [\n        'enhancement' => 'Resemblance',\n        'prompt' => 'string'\n    ],\n    'assets' => [\n        'image_file_path' => 'api-assets/id/1234.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-image-upscaler\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Image Upscaler image',\n    'scale_factor' => 2,\n    'style' => [\n        \n    ],\n    'assets' => [\n        'image_file_path' => 'api-assets/id/1234.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-image-upscaler\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Image Upscaler image\\\",\\\"scale_factor\\\":2,\\\"style\\\":{\\\"enhancement\\\":\\\"Resemblance\\\",\\\"prompt\\\":\\\"string\\\"},\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-image-upscaler\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Image Upscaler image\\\",\\\"scale_factor\\\":2,\\\"style\\\":{},\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\"}}\")\n  .asString();"
           }
         ]
       }
