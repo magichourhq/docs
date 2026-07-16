@@ -7798,6 +7798,240 @@
           }
         ]
       }
+    },
+    "/v1/character-replace": {
+      "post": {
+        "description": "**What this API does**\n\nSwap a person in a source video with a reference character image, or animate a still character image using motion from a source video.\n\n**Good for**\n- Automation and batch processing\n- Adding character replace into apps, pipelines, or tools\n\n**How it works (3 steps)**\n1) Upload your inputs (video and character image) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.\n2) Send a request to `POST /v1/character-replace` with the basic fields.\n3) Poll the [Get Video Details API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) until status is `complete`, then download the result from `downloads`.\n\n**Key options**\n- `style.mode`: `replace` swaps the detected subject with your reference character; `animate` transfers motion onto your character image\n- `style.selection_mode`: `auto` detects the subject automatically; `point` uses on-frame markers in `style.points`\n- `resolution`: defaults to 480p (lowest on your plan). Free tier cannot use 720p (422)\n- Trim your clip with `start_seconds` / `end_seconds`\n\n**Cost**\nOutput is rendered at 24 fps.\n- **480p**: 48 credits/second (all tiers)\n- **720p**: 96 credits/second (paid tiers only)\n\nCredits are charged for rendered output duration. You'll see an estimate when the job is queued, and the final total after it's done.\n\nTry it in the browser: [Character Replace](https://magichour.ai/create/character-replace)\n\nFor detailed examples, see the [API product page](https://magichour.ai/api/character-replace).",
+        "summary": "Character Replace",
+        "tags": ["Video Projects"],
+        "parameters": [],
+        "operationId": "characterReplace.createVideo",
+        "requestBody": {
+          "required": true,
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Give your video a custom name for easy identification.",
+                    "example": "My Character Replace video",
+                    "default": "Character Replace - dateTime"
+                  },
+                  "start_seconds": {
+                    "default": 0,
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Start time of your clip (seconds). Must be ≥ 0.",
+                    "format": "float",
+                    "example": 0
+                  },
+                  "end_seconds": {
+                    "type": "number",
+                    "minimum": 0.1,
+                    "description": "End time of your clip (seconds). Must be greater than start_seconds.",
+                    "format": "float",
+                    "example": 15
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "enum": ["480p", "720p"],
+                    "description": "Output video resolution. Defaults to 480p, the lowest resolution available on your plan.",
+                    "example": "720p"
+                  },
+                  "assets": {
+                    "type": "object",
+                    "properties": {
+                      "video_file_path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Source video containing the subject to replace or animate. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "example": "api-assets/id/1234.mp4"
+                      },
+                      "image_file_path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Reference character image used as the replacement or animation target. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "example": "api-assets/id/5678.png"
+                      }
+                    },
+                    "required": ["video_file_path", "image_file_path"],
+                    "description": "Source video and reference character image for the job."
+                  },
+                  "style": {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "type": "string",
+                        "enum": ["replace", "animate"],
+                        "description": "Processing mode. `replace` swaps the detected subject with your reference character. `animate` transfers motion from the video onto your character image.",
+                        "example": "replace"
+                      },
+                      "selection_mode": {
+                        "type": "string",
+                        "enum": ["auto", "point"],
+                        "description": "How to locate the subject in the source video. `auto` detects a person automatically. `point` uses your `points` to mark the subject. Defaults to `auto`.",
+                        "example": "auto"
+                      },
+                      "points": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "position_x": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "description": "Horizontal pixel coordinate in the source video frame at `time_seconds`, measured from the left edge.",
+                              "example": 320
+                            },
+                            "position_y": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "description": "Vertical pixel coordinate in the source video frame at `time_seconds`, measured from the top edge.",
+                              "example": 180
+                            },
+                            "time_seconds": {
+                              "type": "number",
+                              "minimum": 0,
+                              "description": "Timestamp on the source video timeline in seconds. Uses the same clock as `start_seconds` and `end_seconds`.",
+                              "format": "float",
+                              "example": 2.5
+                            }
+                          },
+                          "required": ["position_x", "position_y", "time_seconds"]
+                        },
+                        "description": "On-frame markers for manual subject selection. Required when `selection_mode` is `point`. Ignored when `selection_mode` is `auto` or omitted."
+                      }
+                    },
+                    "description": "Optional style controls for replace vs animate mode and subject selection."
+                  }
+                },
+                "required": ["end_seconds", "assets"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "cuid-example",
+                      "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
+                    },
+                    "estimated_frame_cost": {
+                      "type": "integer",
+                      "description": "Deprecated: Previously represented the number of frames (original name of our credit system) used for video generation. Use 'credits_charged' instead.\n\nThe amount of frames used to generate the video. If the status is not 'complete', the cost is an estimate and will be adjusted when the video completes.",
+                      "example": 450,
+                      "deprecated": true
+                    },
+                    "credits_charged": {
+                      "type": "integer",
+                      "description": "The amount of credits deducted from your account to generate the video. If the status is not 'complete', this value is an estimate and may be adjusted upon completion based on the actual FPS of the output video. \n\nIf video generation fails, credits will be refunded, and this field will be updated to include the refund.",
+                      "example": 450
+                    }
+                  },
+                  "required": ["id", "estimated_frame_cost", "credits_charged"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request is invalid",
+                  "example": { "message": "Missing request body" }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "required": ["message"],
+                  "description": "The request is not properly authenticated",
+                  "example": { "message": "Unauthorized" }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } },
+                  "required": ["message"],
+                  "description": "The request requires payment",
+                  "example": { "message": "Payment required" }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "required": ["message"],
+                  "description": "Requested resource is not found",
+                  "example": { "message": "Not Found" }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Unable to create video" }
+                  },
+                  "required": ["message"],
+                  "description": "Unprocessable Entity"
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/character-replace \\\n     --header 'accept: application/json' \\\n     --header 'authorization: Bearer <token>' \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"Character replace\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"resolution\": \"480p\",\n  \"assets\": {\n    \"video_file_path\": \"api-assets/id/video.mp4\",\n    \"image_file_path\": \"api-assets/id/character.png\"\n  },\n  \"style\": {\n    \"mode\": \"replace\",\n    \"selection_mode\": \"auto\"\n  }\n}\n'"
+          },
+          {
+            "lang": "php",
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/character-replace\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'Character replace',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'resolution' => '480p',\n    'assets' => [\n        'video_file_path' => 'api-assets/id/video.mp4',\n        'image_file_path' => 'api-assets/id/character.png'\n    ],\n    'style' => [\n        'mode' => 'replace',\n        'selection_mode' => 'auto'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+          },
+          {
+            "lang": "java",
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/character-replace\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"Character replace\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"resolution\\\":\\\"480p\\\",\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/video.mp4\\\",\\\"image_file_path\\\":\\\"api-assets/id/character.png\\\"},\\\"style\\\":{\\\"mode\\\":\\\"replace\\\",\\\"selection_mode\\\":\\\"auto\\\"}}\")\n  .asString();"
+          }
+        ]
+      }
     }
   },
   "info": {
