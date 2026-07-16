@@ -156,14 +156,16 @@
               "api-reference/video-projects/get-video-details",
               "api-reference/video-projects/delete-video",
               "api-reference/video-projects/ai-talking-photo",
+              "api-reference/video-projects/ai-video-editor",
               "api-reference/video-projects/animation",
+              "api-reference/video-projects/audio-to-video",
               "api-reference/video-projects/auto-subtitle-generator",
-              "api-reference/video-projects/face-swap-video",
               "api-reference/video-projects/character-replace",
+              "api-reference/video-projects/face-swap-video",
               "api-reference/video-projects/image-to-video",
               "api-reference/video-projects/lip-sync",
-              "api-reference/video-projects/video-to-video",
-              "api-reference/video-projects/text-to-video"
+              "api-reference/video-projects/text-to-video",
+              "api-reference/video-projects/video-to-video"
             ]
           },
           {
@@ -192,8 +194,8 @@
             "pages": [
               "api-reference/audio-projects/get-audio-details",
               "api-reference/audio-projects/delete-audio",
-              "api-reference/audio-projects/ai-voice-cloner",
-              "api-reference/audio-projects/ai-voice-generator"
+              "api-reference/audio-projects/ai-voice-generator",
+              "api-reference/audio-projects/ai-voice-cloner"
             ]
           }
         ]
