@@ -35,8 +35,11 @@ jobs:
       - name: Cleanup deprecated fields
         run: node cleanup-deprecated-fields.js
 
+      - name: Apply documentation overrides
+        run: yarn apply:doc-overrides
+
       - name: Format with Prettier
-        run: yarn prettier --write api-reference/openapi.json webhook-reference/openapi.json
+        run: yarn prettier --write api-reference/openapi.json webhook-reference/openapi.json api-reference/processing-times.mdx
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
@@ -49,6 +52,7 @@ jobs:
             - Downloaded latest API spec from https://magichour.ai/docs/api/openapi.json
             - Downloaded latest webhook spec from https://magichour.ai/docs/webhook/openapi.json
             - Cleaned up deprecated fields
+            - Applied documentation overrides
             - Formatted with Prettier
           branch: update-openapi-spec
           delete-branch: true

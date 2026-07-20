@@ -332,27 +332,16 @@ const result = await client.v1.aiImageGenerator.create({...});
 
 ## Processing Times
 
-Typical processing times based on actual usage data (median times):
+Processing time varies significantly by endpoint. See customer-observed **p50 and p95 end-to-end
+times**, including queueing, before setting polling intervals and timeouts.
 
-| Content Type   | Median Processing Time | Recommended Polling Interval | Example Tools                                                                                                                         |
-| :------------- | :--------------------- | :--------------------------- | :------------------------------------------------------------------------------------------------------------------------------------ |
-| Fast Image     | 2-15 seconds           | Every 2-3 seconds            | Face Editor, Photo Colorizer, Face Swap Photo, AI Image Generator, Background Remover, Clothes Changer, AI Meme, QR Code, AI Headshot |
-| Medium Image   | 15-30 seconds          | Every 3-5 seconds            | Photo Editor, AI Image Editor, AI Selfie, Image Upscaler, AI GIF                                                                      |
-| Simple Video   | 30 seconds - 2 minutes | Every 5 seconds              | Text to Video (v1), Image to Video (v1), Auto Subtitle Generator                                                                      |
-| Standard Video | 2-4 minutes            | Every 5-10 seconds           | Face Swap Video (v2), Lip Sync, Talking Photo (v3), Image to Video, Animation, Text to Video (v2)                                     |
-| Complex Video  | 8-11 minutes           | Every 10-15 seconds          | Video to Video (v2, v3), Talking Photo (v2)                                                                                           |
-| Long Video     | 60+ minutes            | Every 30 seconds             | Video to Video (v1) — very long videos                                                                                                |
-| Audio          | 3-12 seconds           | Every 2-3 seconds            | Voice Changer (3s), Voice Generator (10s), Voice Cloner (12s)                                                                         |
+<Card title="View processing times by endpoint" icon="clock" href="/api-reference/processing-times">
+  Compare rolling 30-day p50 and p95 times for video, image, and audio APIs.
+</Card>
 
 <Note>
-**Processing times are median values** and can vary based on:
-- Video/image length and resolution
-- Current server load
-- Complexity of the requested operation
-- Input file size and format
-
-Always implement timeout handling and appropriate polling intervals based on your specific use case.
-
+  Processing times are not an SLA. They vary with input duration and resolution, current queue load,
+  model complexity, file size, and format. Always implement timeout handling.
 </Note>
 
 ## Next Steps

@@ -39,8 +39,14 @@
                     "minItems": 1,
                     "description": "The list of assets to upload. The response array will match the order of items in the request body.",
                     "example": [
-                      { "type": "video", "extension": "mp4" },
-                      { "type": "audio", "extension": "mp3" }
+                      {
+                        "type": "video",
+                        "extension": "mp4"
+                      },
+                      {
+                        "type": "audio",
+                        "extension": "mp3"
+                      }
                     ]
                   }
                 },
@@ -109,10 +115,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -123,10 +135,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -137,10 +156,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -151,10 +176,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -178,7 +210,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -221,7 +257,10 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "example": "uuid-example" },
+            "schema": {
+              "type": "string",
+              "example": "uuid-example"
+            },
             "description": "The id of the task. This value is returned by the [face detection API](https://docs.magichour.ai/api-reference/files/face-detection#response-id)."
           }
         ],
@@ -288,10 +327,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -302,10 +347,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -316,10 +368,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -330,10 +388,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -357,7 +422,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -461,10 +530,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -475,10 +550,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -489,10 +571,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -503,10 +591,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -518,7 +613,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to trigger face detection" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to trigger face detection"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -527,7 +625,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -570,7 +672,10 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "example": "cuid-example" },
+            "schema": {
+              "type": "string",
+              "example": "cuid-example"
+            },
             "description": "Unique ID of the video project. This value is returned by all of the POST APIs that create a video."
           }
         ],
@@ -605,7 +710,10 @@
                       "description": "The type of the video project. Possible values are ANIMATION, AUTO_SUBTITLE, VIDEO_TO_VIDEO, FACE_SWAP, TEXT_TO_VIDEO, IMAGE_TO_VIDEO, LIP_SYNC, TALKING_PHOTO, VIDEO_UPSCALER, VIDEO_EDITOR, CHARACTER_REPLACE, EXTEND, AUDIO_TO_VIDEO, VIDEO_EXPANDER, UGC_AD",
                       "example": "FACE_SWAP"
                     },
-                    "created_at": { "type": "string", "format": "date-time" },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
                     "width": {
                       "type": "integer",
                       "description": "The width of the final output video. A value of -1 indicates the width can be ignored.",
@@ -695,12 +803,10 @@
                     "enabled",
                     "start_seconds",
                     "end_seconds",
-                    "total_frame_cost",
                     "credits_charged",
                     "fps",
                     "error",
-                    "downloads",
-                    "download"
+                    "downloads"
                   ],
                   "description": "Success"
                 }
@@ -713,10 +819,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -727,10 +839,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -741,10 +860,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -755,16 +880,27 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -805,23 +941,34 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "example": "cuid-example" },
+            "schema": {
+              "type": "string",
+              "example": "cuid-example"
+            },
             "description": "Unique ID of the video project. This value is returned by all of the POST APIs that create a video."
           }
         ],
         "operationId": "videoProjects.delete",
         "responses": {
-          "204": { "description": "204" },
+          "204": {
+            "description": "204"
+          },
           "400": {
             "description": "Invalid Request",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -832,10 +979,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -846,10 +1000,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -860,10 +1020,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -874,7 +1041,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "When a request fails validations",
                   "example": {
@@ -885,7 +1056,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -920,7 +1095,7 @@
     },
     "/v1/ai-talking-photo": {
       "post": {
-        "description": "Create a talking photo from an image and audio or text input.",
+        "description": "Create a talking photo from an image and audio or text input.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 2m 54s; p95 37m 43s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Talking Photo",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -1027,7 +1202,7 @@
                       "example": 450
                     }
                   },
-                  "required": ["id", "estimated_frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -1039,10 +1214,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -1053,10 +1234,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -1067,10 +1255,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -1081,10 +1275,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -1096,7 +1297,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create talking photo" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create talking photo"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -1105,7 +1309,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -1140,7 +1348,7 @@
     },
     "/v1/ai-video-editor": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Video Editor you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video editor into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video editor job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-editor).",
+        "description": "**What this API does**\n\nCreate the same Video Editor you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video editor into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video editor job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-editor).\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 1m 25s; p95 3m 41s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Video Editor",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -1224,7 +1432,7 @@
                       "example": 450
                     }
                   },
-                  "required": ["id", "estimated_frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -1236,10 +1444,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -1250,10 +1464,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -1264,10 +1485,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -1278,10 +1505,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -1293,7 +1527,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to edit video" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to edit video"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -1302,7 +1539,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -1337,7 +1578,7 @@
     },
     "/v1/animation": {
       "post": {
-        "description": "Create a Animation video. The estimated frame cost is calculated based on the `fps` and `end_seconds` input.",
+        "description": "Create a Animation video. The estimated frame cost is calculated based on the `fps` and `end_seconds` input.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 9m 56s; p95 52m 00s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Animation",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -1579,7 +1820,7 @@
                       "example": 450
                     }
                   },
-                  "required": ["id", "estimated_frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -1591,10 +1832,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -1605,10 +1852,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -1619,10 +1873,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -1633,10 +1893,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -1648,7 +1915,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create video" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create video"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -1657,7 +1927,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -1692,7 +1966,7 @@
     },
     "/v1/audio-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Audio To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding audio to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a audio to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/audio-to-video).",
+        "description": "**What this API does**\n\nCreate the same Audio To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding audio to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a audio to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/audio-to-video).\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 1m 57s; p95 49m 32s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Audio-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -1787,7 +2061,7 @@
                       "example": 450
                     }
                   },
-                  "required": ["id", "estimated_frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -1799,10 +2073,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -1813,10 +2093,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -1827,10 +2114,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -1841,10 +2134,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -1856,7 +2156,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create video" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create video"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -1865,7 +2168,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -1900,7 +2207,7 @@
     },
     "/v1/auto-subtitle-generator": {
       "post": {
-        "description": "Automatically generate subtitles for your video in multiple languages.",
+        "description": "Automatically generate subtitles for your video in multiple languages.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 45s; p95 2m 33s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Auto Subtitle Generator",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2033,7 +2340,7 @@
                       "example": 450
                     }
                   },
-                  "required": ["id", "estimated_frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -2045,10 +2352,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -2059,10 +2372,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -2073,10 +2393,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -2087,10 +2413,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -2102,7 +2435,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create video" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create video"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -2111,7 +2447,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -2146,7 +2486,7 @@
     },
     "/v1/character-replace": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Character Replace you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding character replace into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a character replace job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/character-replace).",
+        "description": "**What this API does**\n\nCreate the same Character Replace you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding character replace into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a character replace job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/character-replace).\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 7m 26s; p95 41m 18s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Character Replace",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2277,7 +2617,7 @@
                       "example": 450
                     }
                   },
-                  "required": ["id", "estimated_frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -2289,10 +2629,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -2303,10 +2649,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -2317,10 +2670,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -2331,10 +2690,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -2346,7 +2712,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create video" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create video"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -2355,7 +2724,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -2390,7 +2763,7 @@
     },
     "/v1/face-swap": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Face Swap you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding face swap into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a face swap job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/face-swap).",
+        "description": "**What this API does**\n\nCreate the same Face Swap you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding face swap into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a face swap job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/face-swap).\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 1m 36s; p95 15m 36s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Face Swap Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2434,7 +2807,9 @@
                       }
                     },
                     "description": "Style of the face swap video.",
-                    "example": { "version": "default" }
+                    "example": {
+                      "version": "default"
+                    }
                   },
                   "assets": {
                     "type": "object",
@@ -2523,7 +2898,7 @@
                       "example": 450
                     }
                   },
-                  "required": ["id", "estimated_frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -2535,10 +2910,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -2549,10 +2930,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -2563,10 +2951,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -2577,10 +2971,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -2592,7 +2993,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create video" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create video"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -2601,7 +3005,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -2636,7 +3044,7 @@
     },
     "/v1/image-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Image To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding image to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a image to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/image-to-video).",
+        "description": "**What this API does**\n\nCreate the same Image To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding image to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a image to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/image-to-video).\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 1m 14s; p95 7m 49s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Image-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2753,7 +3161,7 @@
                       "example": 450
                     }
                   },
-                  "required": ["id", "estimated_frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -2765,10 +3173,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -2779,10 +3193,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -2793,10 +3214,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -2807,10 +3234,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -2822,7 +3256,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create video" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create video"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -2831,7 +3268,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -2866,7 +3307,7 @@
     },
     "/v1/lip-sync": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Lip Sync you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding lip sync into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a lip sync job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/lip-sync).",
+        "description": "**What this API does**\n\nCreate the same Lip Sync you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding lip sync into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a lip sync job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/lip-sync).\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 3m 49s; p95 14m 58s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Lip Sync",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2972,7 +3413,7 @@
                       "example": 450
                     }
                   },
-                  "required": ["id", "estimated_frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -2984,10 +3425,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -2998,10 +3445,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -3012,10 +3466,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -3026,10 +3486,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -3041,7 +3508,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create video" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create video"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -3050,7 +3520,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -3085,7 +3559,7 @@
     },
     "/v1/text-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Text To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding text to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a text to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/text-to-video).",
+        "description": "**What this API does**\n\nCreate the same Text To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding text to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a text to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/text-to-video).\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 51s; p95 7m 13s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Text-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -3191,7 +3665,7 @@
                       "example": 450
                     }
                   },
-                  "required": ["id", "estimated_frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -3203,10 +3677,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -3217,10 +3697,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -3231,10 +3718,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -3245,10 +3738,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -3260,7 +3760,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create video" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create video"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -3269,7 +3772,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -3304,7 +3811,7 @@
     },
     "/v1/video-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Video To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-to-video).",
+        "description": "**What this API does**\n\nCreate the same Video To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-to-video).\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 12m 52s; p95 1h 55m 28s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Video-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -3513,7 +4020,7 @@
                       "example": 450
                     }
                   },
-                  "required": ["id", "estimated_frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -3525,10 +4032,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -3539,10 +4052,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -3553,10 +4073,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -3567,10 +4093,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -3582,7 +4115,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create video" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create video"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -3591,7 +4127,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -3634,7 +4174,10 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "example": "cuid-example" },
+            "schema": {
+              "type": "string",
+              "example": "cuid-example"
+            },
             "description": "Unique ID of the image project. This value is returned by all of the POST APIs that create an image."
           }
         ],
@@ -3674,7 +4217,10 @@
                       "description": "The type of the image project. Possible values are FACE_EDITOR, AI_IMAGE_EDITOR, AI_SELFIE, AI_HEADSHOT, AI_IMAGE, AI_MEME, CLOTHES_CHANGER, BACKGROUND_REMOVER, FACE_SWAP, IMAGE_UPSCALER, AI_GIF, QR_CODE, PHOTO_EDITOR, PHOTO_COLORIZER, HEAD_SWAP, BODY_SWAP, STORYBOARD, IMAGE_EXPANDER",
                       "example": "AI_IMAGE"
                     },
-                    "created_at": { "type": "string", "format": "date-time" },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
                     "enabled": {
                       "type": "boolean",
                       "description": "Whether this resource is active. If false, it is deleted."
@@ -3732,7 +4278,6 @@
                     "type",
                     "created_at",
                     "enabled",
-                    "total_frame_cost",
                     "credits_charged",
                     "downloads",
                     "error"
@@ -3748,10 +4293,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -3762,10 +4313,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -3776,10 +4334,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -3790,16 +4354,27 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -3840,23 +4415,34 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "example": "cuid-example" },
+            "schema": {
+              "type": "string",
+              "example": "cuid-example"
+            },
             "description": "Unique ID of the image project. This value is returned by all of the POST APIs that create an image."
           }
         ],
         "operationId": "imageProjects.delete",
         "responses": {
-          "204": { "description": "204" },
+          "204": {
+            "description": "204"
+          },
           "400": {
             "description": "Invalid Request",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -3867,10 +4453,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -3881,10 +4474,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -3895,16 +4494,27 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -3939,7 +4549,7 @@
     },
     "/v1/ai-clothes-changer": {
       "post": {
-        "description": "Change outfits in photos in seconds with just a photo reference. Each photo costs 25 credits.",
+        "description": "Change outfits in photos in seconds with just a photo reference. Each photo costs 25 credits.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 13s; p95 39s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Clothes Changer",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -4008,7 +4618,7 @@
                       "example": 25
                     }
                   },
-                  "required": ["id", "frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -4020,10 +4630,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -4034,10 +4650,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -4048,10 +4671,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -4062,10 +4691,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -4077,7 +4713,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create image" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create image"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -4086,7 +4725,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -4121,7 +4764,7 @@
     },
     "/v1/ai-face-editor": {
       "post": {
-        "description": "Edit facial features of an image using AI. Each edit costs 1 frame. The height/width of the output image depends on your subscription. Please refer to our [pricing](https://magichour.ai/pricing) page for more details",
+        "description": "Edit facial features of an image using AI. Each edit costs 1 frame. The height/width of the output image depends on your subscription. Please refer to our [pricing](https://magichour.ai/pricing) page for more details\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 3s; p95 5s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Face Editor",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -4316,7 +4959,7 @@
                       "example": 1
                     }
                   },
-                  "required": ["id", "frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -4328,10 +4971,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -4342,10 +4991,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -4356,10 +5012,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -4370,10 +5032,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -4385,7 +5054,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create image" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create image"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -4394,7 +5066,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -4429,7 +5105,7 @@
     },
     "/v1/ai-gif-generator": {
       "post": {
-        "description": "Create an AI GIF. Each GIF costs 50 credits.",
+        "description": "Create an AI GIF. Each GIF costs 50 credits.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 23s; p95 37s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI GIF Generator",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -4493,7 +5169,7 @@
                       "example": 50
                     }
                   },
-                  "required": ["id", "frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -4505,10 +5181,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -4519,10 +5201,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -4533,10 +5222,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -4547,10 +5242,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -4562,7 +5264,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create GIF" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create GIF"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -4571,7 +5276,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -4606,7 +5315,7 @@
     },
     "/v1/ai-image-editor": {
       "post": {
-        "description": "Edit images with AI.",
+        "description": "Edit images with AI.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 9s; p95 1m 03s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Image Editor",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -4679,7 +5388,10 @@
                     "properties": {
                       "image_file_paths": {
                         "type": "array",
-                        "items": { "type": "string", "minLength": 1 },
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        },
                         "maxItems": 10,
                         "description": "The image(s) used in the edit, maximum of 10 images. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": ["api-assets/id/1234.png", "api-assets/id/1235.png"]
@@ -4712,7 +5424,7 @@
                       "example": 50
                     }
                   },
-                  "required": ["id", "frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -4724,10 +5436,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -4738,10 +5456,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -4752,10 +5477,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -4766,10 +5497,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -4781,7 +5519,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to edit image" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to edit image"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -4790,7 +5531,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -4825,7 +5570,7 @@
     },
     "/v1/ai-headshot-generator": {
       "post": {
-        "description": "Create an AI headshot. Each headshot costs 50 credits.",
+        "description": "Create an AI headshot. Each headshot costs 50 credits.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 14s; p95 28s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Headshot Generator",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -4891,7 +5636,7 @@
                       "example": 50
                     }
                   },
-                  "required": ["id", "frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -4903,10 +5648,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -4917,10 +5668,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -4931,10 +5689,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -4945,10 +5709,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -4960,7 +5731,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create image" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create image"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -4969,7 +5743,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -5004,7 +5782,7 @@
     },
     "/v1/ai-image-generator": {
       "post": {
-        "description": "Create an AI image with advanced model selection and quality controls.",
+        "description": "Create an AI image with advanced model selection and quality controls.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 5s; p95 56s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Image Generator",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -5142,7 +5920,7 @@
                       "example": 5
                     }
                   },
-                  "required": ["id", "frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -5154,10 +5932,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -5168,10 +5952,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -5182,10 +5973,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -5196,10 +5993,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -5211,7 +6015,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create image" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create image"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -5220,7 +6027,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -5255,7 +6066,7 @@
     },
     "/v1/ai-image-upscaler": {
       "post": {
-        "description": "Upscale your image using AI. Each 2x upscale costs 50 credits for balanced/creative modes, and 25 credits for preserve. 4x upscale costs 200 and 100 credits respectively.",
+        "description": "Upscale your image using AI. Each 2x upscale costs 50 credits for balanced/creative modes, and 25 credits for preserve. 4x upscale costs 200 and 100 credits respectively.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 22s; p95 3m 59s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Image Upscaler",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -5334,7 +6145,7 @@
                       "example": 50
                     }
                   },
-                  "required": ["id", "frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -5346,10 +6157,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -5360,10 +6177,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -5374,10 +6198,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -5388,10 +6218,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -5403,7 +6240,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create image" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create image"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -5412,7 +6252,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -5447,7 +6291,7 @@
     },
     "/v1/ai-meme-generator": {
       "post": {
-        "description": "Create an AI generated meme. Each meme costs 10 credits.",
+        "description": "Create an AI generated meme. Each meme costs 10 credits.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 9s; p95 15s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Meme Generator",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -5529,7 +6373,7 @@
                       "example": 10
                     }
                   },
-                  "required": ["id", "frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -5541,10 +6385,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -5555,10 +6405,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -5569,10 +6426,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -5583,10 +6446,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -5598,7 +6468,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create meme" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create meme"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -5607,7 +6480,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -5642,7 +6519,7 @@
     },
     "/v1/ai-qr-code-generator": {
       "post": {
-        "description": "Create an AI QR code. Each QR code costs 0 credits.",
+        "description": "Create an AI QR code. Each QR code costs 0 credits.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 7s; p95 10s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA. Limited traffic; p95 is not statistically robust.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI QR Code Generator",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -5702,7 +6579,7 @@
                       "example": 0
                     }
                   },
-                  "required": ["id", "frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -5714,10 +6591,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -5728,10 +6611,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -5742,10 +6632,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -5756,10 +6652,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -5771,7 +6674,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create image" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create image"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -5780,7 +6686,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -5815,7 +6725,7 @@
     },
     "/v1/body-swap": {
       "post": {
-        "description": "Swap a person into a scene image using Nano Banana 2. Credits depend on `resolution` (from 50 credits at 640px upward).",
+        "description": "Swap a person into a scene image using Nano Banana 2. Credits depend on `resolution` (from 50 credits at 640px upward).\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 38s; p95 1m 33s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Body Swap",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -5884,7 +6794,7 @@
                       "example": 50
                     }
                   },
-                  "required": ["id", "frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -5896,10 +6806,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -5910,10 +6826,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -5924,10 +6847,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -5938,10 +6867,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -5953,7 +6889,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create image" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create image"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -5962,7 +6901,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -5997,7 +6940,7 @@
     },
     "/v1/face-swap-photo": {
       "post": {
-        "description": "Create a face swap photo. Each photo costs 10 credits. The height/width of the output image depends on your subscription. Please refer to our [pricing](https://magichour.ai/pricing) page for more details",
+        "description": "Create a face swap photo. Each photo costs 10 credits. The height/width of the output image depends on your subscription. Please refer to our [pricing](https://magichour.ai/pricing) page for more details\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 4s; p95 9s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Face Swap Photo",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -6094,7 +7037,7 @@
                       "example": 10
                     }
                   },
-                  "required": ["id", "frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -6106,10 +7049,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -6120,10 +7069,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -6134,10 +7090,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -6148,10 +7110,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -6163,7 +7132,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create image" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create image"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -6172,7 +7144,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -6207,7 +7183,7 @@
     },
     "/v1/head-swap": {
       "post": {
-        "description": "Swap a head onto a body image. Each image costs 10 credits. Output resolution depends on your subscription; you may set `max_resolution` lower than your plan maximum if desired.",
+        "description": "Swap a head onto a body image. Each image costs 10 credits. Output resolution depends on your subscription; you may set `max_resolution` lower than your plan maximum if desired.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 18s; p95 50s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Head Swap",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -6275,7 +7251,7 @@
                       "example": 10
                     }
                   },
-                  "required": ["id", "frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -6287,10 +7263,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -6301,10 +7283,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -6315,10 +7304,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -6329,10 +7324,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -6344,7 +7346,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create image" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create image"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -6353,7 +7358,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -6388,7 +7397,7 @@
     },
     "/v1/image-background-remover": {
       "post": {
-        "description": "Remove background from image. Each image costs 5 credits.",
+        "description": "Remove background from image. Each image costs 5 credits.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 4s; p95 22s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Image Background Remover",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -6449,7 +7458,7 @@
                       "example": 5
                     }
                   },
-                  "required": ["id", "frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -6461,10 +7470,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -6475,10 +7490,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -6489,10 +7511,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -6503,10 +7531,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -6518,7 +7553,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create image" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create image"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -6527,7 +7565,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -6562,7 +7604,7 @@
     },
     "/v1/photo-colorizer": {
       "post": {
-        "description": "Colorize image. Each image costs 10 credits.",
+        "description": "Colorize image. Each image costs 10 credits.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 9s; p95 45s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Photo Colorizer",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -6619,7 +7661,7 @@
                       "example": 10
                     }
                   },
-                  "required": ["id", "frame_cost", "credits_charged"],
+                  "required": ["id", "credits_charged"],
                   "description": "Success"
                 }
               }
@@ -6631,10 +7673,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -6645,10 +7693,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -6659,10 +7714,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -6673,10 +7734,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -6688,7 +7756,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to create image" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to create image"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -6697,7 +7768,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -6740,7 +7815,10 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "example": "cuid-example" },
+            "schema": {
+              "type": "string",
+              "example": "cuid-example"
+            },
             "description": "Unique ID of the audio project. This value is returned by all of the POST APIs that create an audio."
           }
         ],
@@ -6775,7 +7853,10 @@
                       "description": "The type of the audio project. Possible values are VOICE_GENERATOR, VOICE_CHANGER, VOICE_CLONER, VIDEO_TO_AUDIO, MUSIC_GENERATOR",
                       "example": "VOICE_GENERATOR"
                     },
-                    "created_at": { "type": "string", "format": "date-time" },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
                     "enabled": {
                       "type": "boolean",
                       "description": "Whether this resource is active. If false, it is deleted."
@@ -6847,10 +7928,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -6861,10 +7948,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -6875,10 +7969,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -6889,16 +7989,27 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -6939,23 +8050,34 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "example": "cuid-example" },
+            "schema": {
+              "type": "string",
+              "example": "cuid-example"
+            },
             "description": "Unique ID of the audio project. This value is returned by all of the POST APIs that create an audio."
           }
         ],
         "operationId": "audioProjects.delete",
         "responses": {
-          "204": { "description": "204" },
+          "204": {
+            "description": "204"
+          },
           "400": {
             "description": "Invalid Request",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -6966,10 +8088,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -6980,10 +8109,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -6994,16 +8129,27 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -7038,7 +8184,7 @@
     },
     "/v1/ai-voice-generator": {
       "post": {
-        "description": "Generate speech from text. Each character costs 0.05 credits. The cost is rounded up to the nearest whole number.",
+        "description": "Generate speech from text. Each character costs 0.05 credits. The cost is rounded up to the nearest whole number.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 21s; p95 4m 27s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Voice Generator",
         "tags": ["Audio Projects"],
         "parameters": [],
@@ -7569,7 +8715,10 @@
                     },
                     "required": ["prompt", "voice_name"],
                     "description": "The content used to generate speech.",
-                    "example": { "prompt": "Hello, how are you?", "voice_name": "Elon Musk" }
+                    "example": {
+                      "prompt": "Hello, how are you?",
+                      "voice_name": "Elon Musk"
+                    }
                   }
                 },
                 "required": ["style"]
@@ -7608,10 +8757,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -7622,10 +8777,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -7636,10 +8798,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -7650,10 +8818,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -7665,7 +8840,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to generate speech" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to generate speech"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -7674,7 +8852,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -7709,7 +8891,7 @@
     },
     "/v1/ai-voice-cloner": {
       "post": {
-        "description": "Clone a voice from an audio sample and generate speech. \n* Each character costs 0.05 credits. \n* The cost is rounded up to the nearest whole number",
+        "description": "Clone a voice from an audio sample and generate speech. \n* Each character costs 0.05 credits. \n* The cost is rounded up to the nearest whole number\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 21s; p95 4m 23s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Voice Cloner",
         "tags": ["Audio Projects"],
         "parameters": [],
@@ -7791,10 +8973,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is invalid",
-                  "example": { "message": "Missing request body" }
+                  "example": {
+                    "message": "Missing request body"
+                  }
                 }
               }
             }
@@ -7805,10 +8993,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Unauthorized"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Unauthorized"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request is not properly authenticated",
-                  "example": { "message": "Unauthorized" }
+                  "example": {
+                    "message": "Unauthorized"
+                  }
                 }
               }
             }
@@ -7819,10 +9014,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string" } },
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
                   "required": ["message"],
                   "description": "The request requires payment",
-                  "example": { "message": "Payment required" }
+                  "example": {
+                    "message": "Payment required"
+                  }
                 }
               }
             }
@@ -7833,10 +9034,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": { "message": { "type": "string", "enum": ["Not Found"] } },
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": ["Not Found"]
+                    }
+                  },
                   "required": ["message"],
                   "description": "Requested resource is not found",
-                  "example": { "message": "Not Found" }
+                  "example": {
+                    "message": "Not Found"
+                  }
                 }
               }
             }
@@ -7848,7 +9056,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Unable to clone voice" }
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to clone voice"
+                    }
                   },
                   "required": ["message"],
                   "description": "Unprocessable Entity"
@@ -7857,7 +9068,11 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -7907,10 +9122,26 @@
     }
   },
   "tags": [
-    { "name": "Files", "description": "API related to uploading assets used for video generation" },
-    { "name": "Image Projects", "description": "API related to image projects" },
-    { "name": "Video Projects", "description": "API related to video projects" },
-    { "name": "Audio Projects", "description": "API related to audio projects" }
+    {
+      "name": "Files",
+      "description": "API related to uploading assets used for video generation"
+    },
+    {
+      "name": "Image Projects",
+      "description": "API related to image projects"
+    },
+    {
+      "name": "Video Projects",
+      "description": "API related to video projects"
+    },
+    {
+      "name": "Audio Projects",
+      "description": "API related to audio projects"
+    }
   ],
-  "servers": [{ "url": "https://api.magichour.ai" }]
+  "servers": [
+    {
+      "url": "https://api.magichour.ai"
+    }
+  ]
 }

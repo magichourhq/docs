@@ -22,6 +22,17 @@ function stripDeprecated(value) {
       }
     }
 
+    // Keep JSON Schema objects valid after deprecated properties are removed.
+    if (result.properties && Array.isArray(result.required)) {
+      result.required = result.required.filter((key) =>
+        Object.prototype.hasOwnProperty.call(result.properties, key)
+      );
+
+      if (result.required.length === 0) {
+        delete result.required;
+      }
+    }
+
     return result;
   }
 

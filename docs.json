@@ -80,6 +80,7 @@
               {
                 "group": "Webhook",
                 "pages": [
+                  "integration/webhook/overview",
                   "integration/webhook/create-webhook",
                   "integration/webhook/secure-handler",
                   "integration/webhook/event-types"
@@ -142,6 +143,8 @@
         "tab": "API Reference",
         "openapi": "api-reference/openapi.json",
         "pages": [
+          "api-reference/overview",
+          "api-reference/processing-times",
           {
             "group": "Files",
             "pages": [
@@ -204,6 +207,7 @@
         "tab": "Webhook Reference",
         "openapi": "webhook-reference/openapi.json",
         "pages": [
+          "webhook-reference/overview",
           {
             "group": "Video Events",
             "pages": [

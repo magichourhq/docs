@@ -4,15 +4,37 @@ sidebarTitle: Creating Your First Integration
 description: Build a complete Magic Hour integration from scratch in this hands-on tutorial.
 ---
 
+Every generation follows the same lifecycle:
+
+```mermaid
+flowchart LR
+    A["Create job"] --> B["Receive project ID"]
+    B --> C["Wait"]
+    C --> D{"Track completion"}
+    D --> E["Poll project"]
+    D --> F["Receive webhook"]
+    E --> G["Download result"]
+    F --> G
+```
+
+<Card
+  title="Prefer an interactive browser notebook?"
+  icon="code"
+  href="https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing"
+  openInNewTab
+>
+  Open the Google Colab cookbook and try every API without local setup.
+</Card>
+
 ## What You'll Build
 
 In this tutorial, you'll create a working application that generates an AI image using the Magic Hour API. By the end, you'll have:
 
-- ✅ A complete project structure ready for development
-- ✅ Code that creates a job, monitors its progress, and downloads the result
-- ✅ Proper file handling for inputs and outputs
-- ✅ Error handling for production use
-- ✅ A downloadable GitHub repository to reference
+- A complete project structure ready for development
+- Code that creates a job, monitors its progress, and downloads the result
+- Proper file handling for inputs and outputs
+- Error handling for production use
+- A downloadable GitHub repository to reference
 
 <Note>
   **Estimated time**: 15-20 minutes **Prerequisites**: API key from [Developer
