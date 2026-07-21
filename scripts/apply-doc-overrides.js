@@ -7,7 +7,42 @@ const root = path.resolve(__dirname, "..");
 const specPath = path.join(root, "api-reference/openapi.json");
 const metricsPath = path.join(root, "data/processing-times.json");
 const outputPath = path.join(root, "api-reference/processing-times.mdx");
-const marker = "<!-- processing-time -->";
+const legacyMarker = "<!-- processing-time -->";
+const processingTimeHeading = "### Typical completion time";
+/** @type {Record<string, string>} */
+const descriptionOverrides = {
+  "/v1/face-swap": `Replace faces in a video using a source image. The target can be an uploaded video or a YouTube URL.
+
+### Basic workflow
+
+1. Upload the source face image and target video with [Generate Upload URLs](/api-reference/files/generate-asset-upload-urls).
+2. Set \`assets.video_source\` to \`file\` or \`youtube\`, then provide the matching video input.
+3. Use \`all-faces\` to apply one source face everywhere, or \`individual-faces\` with \`face_mappings\` to control each replacement.
+4. Create the job, wait for it to complete, then download the result from \`downloads\`.
+
+### Useful options
+
+- \`start_seconds\` and \`end_seconds\` select the part of the video to process.
+- \`style.version\` selects a specific model version; \`default\` uses the recommended version.
+- \`face_swap_mode\` controls whether one or multiple detected faces are replaced.
+
+### Cost
+
+Credits are based on the frames rendered. The create response includes an estimate; the completed project contains the final charge.
+
+[See Face Swap examples →](https://magichour.ai/products/face-swap)`,
+  "/v1/ai-voice-generator": `Convert text into spoken audio using a selected voice.
+
+### Basic workflow
+
+1. Put the text to speak in \`style.prompt\`.
+2. Choose a supported \`style.voice_name\`.
+3. Create the job, wait for it to complete, then download the generated audio from \`downloads\`.
+
+### Cost
+
+Text costs 0.05 credits per character, rounded up to the nearest whole credit.`,
+};
 
 const spec = JSON.parse(fs.readFileSync(specPath, "utf8"));
 const metrics = JSON.parse(fs.readFileSync(metricsPath, "utf8"));
@@ -48,15 +83,20 @@ for (const category of metrics.categories) {
       throw new Error(`POST ${endpoint.path} not found in OpenAPI spec`);
     }
 
-    const existingDescription = (operation.description || "")
-      .replace(new RegExp(`\\n*${marker}[\\s\\S]*$`), "")
+    const existingDescription = (descriptionOverrides[endpoint.path] || operation.description || "")
+      .replace(
+        new RegExp(
+          `\\n*(?:${legacyMarker}|${processingTimeHeading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})[\\s\\S]*$`
+        ),
+        ""
+      )
       .trimEnd();
     const note = endpoint.note ? ` ${endpoint.note}` : "";
     const processingTime = [
-      marker,
-      `**Observed processing time (${metrics.window}):** p50 ${endpoint.p50}.`,
-      `${metrics.methodology} These values are not an SLA.${note}`,
-      "[See processing times for all endpoints](/api-reference/processing-times).",
+      processingTimeHeading,
+      `**${endpoint.p50} median** over the last 30 days, measured from request to completion (queueing included).`,
+      `Actual time varies with input size, job complexity, and demand. This is not an SLA.${note}`,
+      "[Compare all endpoint times →](/api-reference/processing-times)",
     ].join("\n\n");
 
     operation.description = existingDescription
