@@ -6,16 +6,17 @@ description: Build a complete Magic Hour integration from scratch in this hands-
 
 Every generation follows the same lifecycle:
 
-```mermaid actions=false
-flowchart LR
+<Mermaid
+  actions={false}
+  chart={`flowchart LR
     A["Create job"] --> B["Receive project ID"]
     B --> C["Wait"]
     C --> D{"Track completion"}
     D --> E["Poll project"]
     D --> F["Receive webhook"]
     E --> G["Download result"]
-    F --> G
-```
+    F --> G`}
+/>
 
 <Card
   title="Prefer an interactive browser notebook?"
