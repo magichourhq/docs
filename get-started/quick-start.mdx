@@ -5,17 +5,6 @@ description: "Generate an API key and make your first call in <3 minutes."
 
 Magic Hour is an AI video and image generation platform. You submit a job, we render it, and you download the result. This guide gets you to your first output in a few minutes.
 
-<Mermaid actions={false}>
-flowchart LR
-    A["Create job"] --> B["Receive project ID"]
-    B --> C["Wait"]
-    C --> D{"Track completion"}
-    D --> E["Poll project"]
-    D --> F["Receive webhook"]
-    E --> G["Download result"]
-    F --> G
-</Mermaid>
-
 <Card
   title="Skip local setup — open the Google Colab cookbook"
   icon="code"
