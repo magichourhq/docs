@@ -224,7 +224,7 @@ Content rules:
 - End with a "Try it out now:" link if there's a product URL in the description, otherwise omit it
 - If multiple issues are provided for the same day, write a separate "## " section for each
 - Do NOT include the <Update label="..."> wrapper — just the inner MDX content
-- Do NOT include any image or Frame tags — those will be added automatically
+- Do NOT include any image or Frame tags — new entries ship without images
 - Do NOT hallucinate details not present in the issue
 
 Classification rules (the "tags" field):
@@ -256,41 +256,13 @@ ${issuesSummary}
     }),
   });
 
-  // Build the <Update> block with a placeholder image tag after each ## section
-  const contentWithPlaceholders = addImagePlaceholders(object.content.trim(), dateStr);
-
   // De-dupe and keep a stable order (API before Web App)
   const orderedTags = [TAG_API, TAG_WEB_APP].filter((t) => object.tags.includes(t));
   const tagsAttr = `tags={${JSON.stringify(orderedTags)}}`;
 
-  return `<Update label="${dateStr}" ${tagsAttr}>\n\n${contentWithPlaceholders}\n\n</Update>`;
-}
-
-// ---------------------------------------------------------------------------
-// Add placeholder image Frame tags after each ## heading
-// ---------------------------------------------------------------------------
-
-function addImagePlaceholders(content: string, dateStr: string): string {
-  const [year, month] = dateStr.split("-");
-  const lines = content.split("\n");
-  const result: string[] = [];
-
-  for (let i = 0; i < lines.length; i++) {
-    result.push(lines[i]);
-
-    // After a ## heading, insert a placeholder image frame
-    if (lines[i].startsWith("## ")) {
-      const title = lines[i].replace(/^##\s+/, "");
-      const slug = title
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-|-$/g, "")
-        .slice(0, 60);
-      result.push("", `<Frame>![${title}](/changelog/images/${year}/${month}/${slug}.jpg)</Frame>`);
-    }
-  }
-
-  return result.join("\n");
+  // New entries ship without images — real screenshots are added by hand later if
+  // wanted. Emitting placeholder paths to non-existent files would break links.
+  return `<Update label="${dateStr}" ${tagsAttr}>\n\n${object.content.trim()}\n\n</Update>`;
 }
 
 // ---------------------------------------------------------------------------
