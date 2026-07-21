@@ -7,7 +7,6 @@ const root = path.resolve(__dirname, "..");
 const specPath = path.join(root, "api-reference/openapi.json");
 const metricsPath = path.join(root, "data/processing-times.json");
 const outputPath = path.join(root, "api-reference/processing-times.mdx");
-const marker = "<!-- processing-time -->";
 
 const spec = JSON.parse(fs.readFileSync(specPath, "utf8"));
 const metrics = JSON.parse(fs.readFileSync(metricsPath, "utf8"));
@@ -48,20 +47,13 @@ for (const category of metrics.categories) {
       throw new Error(`POST ${endpoint.path} not found in OpenAPI spec`);
     }
 
-    const existingDescription = (operation.description || "")
-      .replace(new RegExp(`\\n*${marker}[\\s\\S]*$`), "")
-      .trimEnd();
-    const note = endpoint.note ? ` ${endpoint.note}` : "";
-    const processingTime = [
-      marker,
-      `**Observed processing time (${metrics.window}):** p50 ${endpoint.p50}.`,
-      `${metrics.methodology} These values are not an SLA.${note}`,
-      "[See processing times for all endpoints](/api-reference/processing-times).",
-    ].join("\n\n");
+    if (!endpoint.blurb) {
+      throw new Error(`POST ${endpoint.path} is missing a plain-text blurb`);
+    }
 
-    operation.description = existingDescription
-      ? `${existingDescription}\n\n${processingTime}`
-      : processingTime;
+    operation.description =
+      `${endpoint.blurb} Typical completion time: ${endpoint.p50} median over the last 30 days, ` +
+      "including queueing. Actual times vary; this is not an SLA.";
   }
 }
 
