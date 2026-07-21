@@ -1095,7 +1095,7 @@
     },
     "/v1/ai-talking-photo": {
       "post": {
-        "description": "Create a talking photo from an image and audio or text input.\n\n### Typical completion time\n\n**2m 54s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Create a talking photo from an image and audio or text input.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 2m 54s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Talking Photo",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -1348,7 +1348,7 @@
     },
     "/v1/ai-video-editor": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Video Editor you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video editor into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video editor job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-editor).\n\n### Typical completion time\n\n**1m 25s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "**What this API does**\n\nCreate the same Video Editor you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video editor into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video editor job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-editor).\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 1m 25s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Video Editor",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -1578,7 +1578,7 @@
     },
     "/v1/animation": {
       "post": {
-        "description": "Create a Animation video. The estimated frame cost is calculated based on the `fps` and `end_seconds` input.\n\n### Typical completion time\n\n**9m 56s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Create a Animation video. The estimated frame cost is calculated based on the `fps` and `end_seconds` input.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 9m 56s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Animation",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -1966,7 +1966,7 @@
     },
     "/v1/audio-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Audio To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding audio to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a audio to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/audio-to-video).\n\n### Typical completion time\n\n**1m 57s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "**What this API does**\n\nCreate the same Audio To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding audio to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a audio to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/audio-to-video).\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 1m 57s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Audio-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2207,7 +2207,7 @@
     },
     "/v1/auto-subtitle-generator": {
       "post": {
-        "description": "Automatically generate subtitles for your video in multiple languages.\n\n### Typical completion time\n\n**45s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Automatically generate subtitles for your video in multiple languages.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 45s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Auto Subtitle Generator",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2486,7 +2486,7 @@
     },
     "/v1/character-replace": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Character Replace you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding character replace into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a character replace job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/character-replace).\n\n### Typical completion time\n\n**7m 26s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "**What this API does**\n\nCreate the same Character Replace you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding character replace into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a character replace job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/character-replace).\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 7m 26s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Character Replace",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2763,7 +2763,7 @@
     },
     "/v1/face-swap": {
       "post": {
-        "description": "Replace faces in a video using a source image. The target can be an uploaded video or a YouTube URL.\n\n### Basic workflow\n\n1. Upload the source face image and target video with [Generate Upload URLs](/api-reference/files/generate-asset-upload-urls).\n2. Set `assets.video_source` to `file` or `youtube`, then provide the matching video input.\n3. Use `all-faces` to apply one source face everywhere, or `individual-faces` with `face_mappings` to control each replacement.\n4. Create the job, wait for it to complete, then download the result from `downloads`.\n\n### Useful options\n\n- `start_seconds` and `end_seconds` select the part of the video to process.\n- `style.version` selects a specific model version; `default` uses the recommended version.\n- `face_swap_mode` controls whether one or multiple detected faces are replaced.\n\n### Cost\n\nCredits are based on the frames rendered. The create response includes an estimate; the completed project contains the final charge.\n\n[See Face Swap examples →](https://magichour.ai/products/face-swap)\n\n### Typical completion time\n\n**1m 36s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "**What this API does**\n\nCreate the same Face Swap you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding face swap into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a face swap job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/face-swap).\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 1m 36s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Face Swap Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -3044,7 +3044,7 @@
     },
     "/v1/image-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Image To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding image to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a image to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/image-to-video).\n\n### Typical completion time\n\n**1m 14s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "**What this API does**\n\nCreate the same Image To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding image to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a image to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/image-to-video).\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 1m 14s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Image-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -3307,7 +3307,7 @@
     },
     "/v1/lip-sync": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Lip Sync you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding lip sync into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a lip sync job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/lip-sync).\n\n### Typical completion time\n\n**3m 49s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "**What this API does**\n\nCreate the same Lip Sync you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding lip sync into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a lip sync job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/lip-sync).\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 3m 49s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Lip Sync",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -3559,7 +3559,7 @@
     },
     "/v1/text-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Text To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding text to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a text to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/text-to-video).\n\n### Typical completion time\n\n**51s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "**What this API does**\n\nCreate the same Text To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding text to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a text to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/text-to-video).\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 51s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Text-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -3811,7 +3811,7 @@
     },
     "/v1/video-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Video To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-to-video).\n\n### Typical completion time\n\n**12m 52s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "**What this API does**\n\nCreate the same Video To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-to-video).\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 12m 52s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Video-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -4549,7 +4549,7 @@
     },
     "/v1/ai-clothes-changer": {
       "post": {
-        "description": "Change outfits in photos in seconds with just a photo reference. Each photo costs 25 credits.\n\n### Typical completion time\n\n**13s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Change outfits in photos in seconds with just a photo reference. Each photo costs 25 credits.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 13s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Clothes Changer",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -4764,7 +4764,7 @@
     },
     "/v1/ai-face-editor": {
       "post": {
-        "description": "Edit facial features of an image using AI. Each edit costs 1 frame. The height/width of the output image depends on your subscription. Please refer to our [pricing](https://magichour.ai/pricing) page for more details\n\n### Typical completion time\n\n**3s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Edit facial features of an image using AI. Each edit costs 1 frame. The height/width of the output image depends on your subscription. Please refer to our [pricing](https://magichour.ai/pricing) page for more details\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 3s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Face Editor",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -5105,7 +5105,7 @@
     },
     "/v1/ai-gif-generator": {
       "post": {
-        "description": "Create an AI GIF. Each GIF costs 50 credits.\n\n### Typical completion time\n\n**23s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Create an AI GIF. Each GIF costs 50 credits.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 23s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI GIF Generator",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -5315,7 +5315,7 @@
     },
     "/v1/ai-image-editor": {
       "post": {
-        "description": "Edit images with AI.\n\n### Typical completion time\n\n**9s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Edit images with AI.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 9s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Image Editor",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -5570,7 +5570,7 @@
     },
     "/v1/ai-headshot-generator": {
       "post": {
-        "description": "Create an AI headshot. Each headshot costs 50 credits.\n\n### Typical completion time\n\n**14s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Create an AI headshot. Each headshot costs 50 credits.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 14s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Headshot Generator",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -5782,7 +5782,7 @@
     },
     "/v1/ai-image-generator": {
       "post": {
-        "description": "Create an AI image with advanced model selection and quality controls.\n\n### Typical completion time\n\n**5s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Create an AI image with advanced model selection and quality controls.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 5s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Image Generator",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -6066,7 +6066,7 @@
     },
     "/v1/ai-image-upscaler": {
       "post": {
-        "description": "Upscale your image using AI. Each 2x upscale costs 50 credits for balanced/creative modes, and 25 credits for preserve. 4x upscale costs 200 and 100 credits respectively.\n\n### Typical completion time\n\n**22s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Upscale your image using AI. Each 2x upscale costs 50 credits for balanced/creative modes, and 25 credits for preserve. 4x upscale costs 200 and 100 credits respectively.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 22s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Image Upscaler",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -6291,7 +6291,7 @@
     },
     "/v1/ai-meme-generator": {
       "post": {
-        "description": "Create an AI generated meme. Each meme costs 10 credits.\n\n### Typical completion time\n\n**9s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Create an AI generated meme. Each meme costs 10 credits.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 9s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Meme Generator",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -6519,7 +6519,7 @@
     },
     "/v1/ai-qr-code-generator": {
       "post": {
-        "description": "Create an AI QR code. Each QR code costs 0 credits.\n\n### Typical completion time\n\n**7s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Create an AI QR code. Each QR code costs 0 credits.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 7s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI QR Code Generator",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -6725,7 +6725,7 @@
     },
     "/v1/body-swap": {
       "post": {
-        "description": "Swap a person into a scene image using Nano Banana 2. Credits depend on `resolution` (from 50 credits at 640px upward).\n\n### Typical completion time\n\n**38s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Swap a person into a scene image using Nano Banana 2. Credits depend on `resolution` (from 50 credits at 640px upward).\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 38s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Body Swap",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -6940,7 +6940,7 @@
     },
     "/v1/face-swap-photo": {
       "post": {
-        "description": "Create a face swap photo. Each photo costs 10 credits. The height/width of the output image depends on your subscription. Please refer to our [pricing](https://magichour.ai/pricing) page for more details\n\n### Typical completion time\n\n**4s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Create a face swap photo. Each photo costs 10 credits. The height/width of the output image depends on your subscription. Please refer to our [pricing](https://magichour.ai/pricing) page for more details\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 4s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Face Swap Photo",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -7183,7 +7183,7 @@
     },
     "/v1/head-swap": {
       "post": {
-        "description": "Swap a head onto a body image. Each image costs 10 credits. Output resolution depends on your subscription; you may set `max_resolution` lower than your plan maximum if desired.\n\n### Typical completion time\n\n**18s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Swap a head onto a body image. Each image costs 10 credits. Output resolution depends on your subscription; you may set `max_resolution` lower than your plan maximum if desired.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 18s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Head Swap",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -7397,7 +7397,7 @@
     },
     "/v1/image-background-remover": {
       "post": {
-        "description": "Remove background from image. Each image costs 5 credits.\n\n### Typical completion time\n\n**4s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Remove background from image. Each image costs 5 credits.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 4s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Image Background Remover",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -7604,7 +7604,7 @@
     },
     "/v1/photo-colorizer": {
       "post": {
-        "description": "Colorize image. Each image costs 10 credits.\n\n### Typical completion time\n\n**9s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Colorize image. Each image costs 10 credits.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 9s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "Photo Colorizer",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -8184,7 +8184,7 @@
     },
     "/v1/ai-voice-generator": {
       "post": {
-        "description": "Convert text into spoken audio using a selected voice.\n\n### Basic workflow\n\n1. Put the text to speak in `style.prompt`.\n2. Choose a supported `style.voice_name`.\n3. Create the job, wait for it to complete, then download the generated audio from `downloads`.\n\n### Cost\n\nText costs 0.05 credits per character, rounded up to the nearest whole credit.\n\n### Typical completion time\n\n**21s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Generate speech from text. Each character costs 0.05 credits. The cost is rounded up to the nearest whole number.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 21s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Voice Generator",
         "tags": ["Audio Projects"],
         "parameters": [],
@@ -8891,7 +8891,7 @@
     },
     "/v1/ai-voice-cloner": {
       "post": {
-        "description": "Clone a voice from an audio sample and generate speech. \n* Each character costs 0.05 credits. \n* The cost is rounded up to the nearest whole number\n\n### Typical completion time\n\n**21s median** over the last 30 days, measured from request to completion (queueing included).\n\nActual time varies with input size, job complexity, and demand. This is not an SLA.\n\n[Compare all endpoint times →](/api-reference/processing-times)",
+        "description": "Clone a voice from an audio sample and generate speech. \n* Each character costs 0.05 credits. \n* The cost is rounded up to the nearest whole number\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 21s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI Voice Cloner",
         "tags": ["Audio Projects"],
         "parameters": [],
