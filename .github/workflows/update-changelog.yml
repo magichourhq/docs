@@ -1,0 +1,62 @@
+name: Update Changelog
+
+on:
+  schedule:
+    # Run weekly on Monday at 3 AM UTC
+    - cron: "0 3 * * 1"
+  workflow_dispatch: # Allow manual trigger
+    inputs:
+      since:
+        description: "Override start date (YYYY-MM-DD). Leave blank to auto-detect from changelog.mdx."
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-changelog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Generate changelog entries
+        env:
+          LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
+          LINEAR_TEAM_ID: ${{ secrets.LINEAR_TEAM_ID }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          yarn changelog --skip-select --yes \
+            ${{ github.event.inputs.since && format('--since {0}', github.event.inputs.since) || '' }}
+
+      - name: Format with Prettier
+        run: yarn prettier --write changelog.mdx
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          commit-message: "chore: update changelog"
+          title: "chore: update changelog"
+          body: |
+            Automated changelog update.
+
+            New `<Update>` entries were drafted from recently completed Linear "feature" issues and tagged by surface (API / Web App).
+
+            Before merging:
+            - Review the generated copy for accuracy and tone
+            - Confirm the API / Web App tags are correct
+            - Optionally add a real screenshot via `<Frame>` (new entries ship without images by default)
+          branch: update-changelog
+          delete-branch: true
