@@ -6519,7 +6519,7 @@
     },
     "/v1/ai-qr-code-generator": {
       "post": {
-        "description": "Create an AI QR code. Each QR code costs 0 credits.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 7s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA. Limited traffic; this estimate may change.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
+        "description": "Create an AI QR code. Each QR code costs 0 credits.\n\n<!-- processing-time -->\n\n**Observed processing time (rolling 30 days):** p50 7s.\n\nCustomer-observed end-to-end processing time, including queueing. These values are not an SLA.\n\n[See processing times for all endpoints](/api-reference/processing-times).",
         "summary": "AI QR Code Generator",
         "tags": ["Image Projects"],
         "parameters": [],

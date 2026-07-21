@@ -30,11 +30,7 @@
         { "path": "/v1/ai-image-generator", "p50": "5s" },
         { "path": "/v1/ai-image-upscaler", "p50": "22s" },
         { "path": "/v1/ai-meme-generator", "p50": "9s" },
-        {
-          "path": "/v1/ai-qr-code-generator",
-          "p50": "7s",
-          "note": "Limited traffic; this estimate may change."
-        },
+        { "path": "/v1/ai-qr-code-generator", "p50": "7s" },
         { "path": "/v1/body-swap", "p50": "38s" },
         { "path": "/v1/face-swap-photo", "p50": "4s" },
         { "path": "/v1/head-swap", "p50": "18s" },
