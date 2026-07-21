@@ -1,0 +1,74 @@
+---
+title: "API Reference"
+description: "Browse every Magic Hour API endpoint by media type."
+---
+
+Magic Hour APIs create and manage video, image, and audio projects. Most creation endpoints return
+a project ID immediately; use the matching details endpoint or a webhook to track completion.
+
+<Card title="Integration lifecycle" icon="diagram-project" href="/integration/overview">
+  Learn how to submit, monitor, and download projects.
+</Card>
+
+## Files
+
+- [`POST /v1/files/generate-upload-urls`](/api-reference/files/generate-asset-upload-urls) — Generate asset upload URLs
+- [`GET /v1/files/:id/face-detection`](/api-reference/files/get-face-detection-details) — Get face detection details
+- [`POST /v1/files/face-detection`](/api-reference/files/face-detection) — Detect faces in an asset
+
+## Video projects
+
+### Manage projects
+
+- [`GET /v1/video-projects/:id`](/api-reference/video-projects/get-video-details) — Get video details
+- [`DELETE /v1/video-projects/:id`](/api-reference/video-projects/delete-video) — Delete a video
+
+### Create projects
+
+- [`POST /v1/ai-talking-photo`](/api-reference/video-projects/ai-talking-photo) — AI Talking Photo
+- [`POST /v1/ai-video-editor`](/api-reference/video-projects/ai-video-editor) — AI Video Editor
+- [`POST /v1/animation`](/api-reference/video-projects/animation) — Animation
+- [`POST /v1/audio-to-video`](/api-reference/video-projects/audio-to-video) — Audio to Video
+- [`POST /v1/auto-subtitle-generator`](/api-reference/video-projects/auto-subtitle-generator) — Auto Subtitle Generator
+- [`POST /v1/character-replace`](/api-reference/video-projects/character-replace) — Character Replace
+- [`POST /v1/face-swap`](/api-reference/video-projects/face-swap-video) — Face Swap Video
+- [`POST /v1/image-to-video`](/api-reference/video-projects/image-to-video) — Image to Video
+- [`POST /v1/lip-sync`](/api-reference/video-projects/lip-sync) — Lip Sync
+- [`POST /v1/text-to-video`](/api-reference/video-projects/text-to-video) — Text to Video
+- [`POST /v1/video-to-video`](/api-reference/video-projects/video-to-video) — Video to Video
+
+## Image projects
+
+### Manage projects
+
+- [`GET /v1/image-projects/:id`](/api-reference/image-projects/get-image-details) — Get image details
+- [`DELETE /v1/image-projects/:id`](/api-reference/image-projects/delete-image) — Delete an image
+
+### Create projects
+
+- [`POST /v1/ai-clothes-changer`](/api-reference/image-projects/ai-clothes-changer) — AI Clothes Changer
+- [`POST /v1/ai-face-editor`](/api-reference/image-projects/ai-face-editor) — AI Face Editor
+- [`POST /v1/ai-gif-generator`](/api-reference/image-projects/ai-gif-generator) — AI GIF Generator
+- [`POST /v1/ai-headshot-generator`](/api-reference/image-projects/ai-headshot-generator) — AI Headshot Generator
+- [`POST /v1/ai-image-editor`](/api-reference/image-projects/ai-image-editor) — AI Image Editor
+- [`POST /v1/ai-image-generator`](/api-reference/image-projects/ai-image-generator) — AI Image Generator
+- [`POST /v1/ai-image-upscaler`](/api-reference/image-projects/ai-image-upscaler) — AI Image Upscaler
+- [`POST /v1/ai-meme-generator`](/api-reference/image-projects/ai-meme-generator) — AI Meme Generator
+- [`POST /v1/ai-qr-code-generator`](/api-reference/image-projects/ai-qr-code-generator) — AI QR Code Generator
+- [`POST /v1/body-swap`](/api-reference/image-projects/body-swap) — Body Swap
+- [`POST /v1/face-swap-photo`](/api-reference/image-projects/face-swap-photo) — Face Swap Photo
+- [`POST /v1/head-swap`](/api-reference/image-projects/head-swap) — Head Swap
+- [`POST /v1/image-background-remover`](/api-reference/image-projects/image-background-remover) — Image Background Remover
+- [`POST /v1/photo-colorizer`](/api-reference/image-projects/photo-colorizer) — Photo Colorizer
+
+## Audio projects
+
+### Manage projects
+
+- [`GET /v1/audio-projects/:id`](/api-reference/audio-projects/get-audio-details) — Get audio details
+- [`DELETE /v1/audio-projects/:id`](/api-reference/audio-projects/delete-audio) — Delete audio
+
+### Create projects
+
+- [`POST /v1/ai-voice-generator`](/api-reference/audio-projects/ai-voice-generator) — AI Voice Generator
+- [`POST /v1/ai-voice-cloner`](/api-reference/audio-projects/ai-voice-cloner) — AI Voice Cloner

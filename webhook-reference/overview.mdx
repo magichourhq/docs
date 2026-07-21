@@ -1,0 +1,34 @@
+---
+title: "Webhook Reference"
+description: "Browse every Magic Hour webhook event by project type and status."
+---
+
+Webhooks notify your application when a video, image, or audio project starts, completes, or fails.
+Use them to avoid frequent polling, especially for long-running projects.
+
+<CardGroup cols={2}>
+  <Card title="Set up webhooks" icon="webhook" href="/integration/webhook/overview">
+    Create an endpoint and handle its first event.
+  </Card>
+  <Card title="Secure your handler" icon="shield-check" href="/integration/webhook/secure-handler">
+    Verify signatures before processing events.
+  </Card>
+</CardGroup>
+
+## Video events
+
+- [Video started](/webhook-reference/video-events/video-started)
+- [Video completed](/webhook-reference/video-events/video-completed)
+- [Video errored](/webhook-reference/video-events/video-errored)
+
+## Image events
+
+- [Image started](/webhook-reference/image-events/image-started)
+- [Image completed](/webhook-reference/image-events/image-completed)
+- [Image errored](/webhook-reference/image-events/image-errored)
+
+## Audio events
+
+- [Audio started](/webhook-reference/audio-events/audio-started)
+- [Audio completed](/webhook-reference/audio-events/audio-completed)
+- [Audio errored](/webhook-reference/audio-events/audio-errored)
