@@ -7,12 +7,19 @@
  * rewrites each into polished MDX prose via GPT-5, and
  * prepends the new <Update> blocks to changelog.mdx.
  *
+ * Each generated <Update> block is tagged "API" and/or "Web App" so readers can
+ * filter the changelog by surface (Mintlify renders these tags as filter pills).
+ *
  * Usage:
  *   yarn changelog                  # auto-detect last date from changelog.mdx
  *   yarn changelog --since 2026-01-01  # override start date
  *   yarn changelog --list-teams     # print available Linear team IDs and exit
  *   yarn changelog --dry-run        # print generated MDX without writing files
  *   yarn changelog --skip-select    # include all fetched issues (no multiselect prompt)
+ *   yarn changelog --yes            # write without the interactive confirm prompt (for CI)
+ *
+ * CI: .github/workflows/update-changelog.yml runs this on a schedule with
+ * --skip-select --yes and opens a PR with the new entries.
  */
 
 import * as fs from "fs";
@@ -20,9 +27,14 @@ import * as path from "path";
 import * as readline from "readline";
 
 import { LinearClient } from "@linear/sdk";
-import { generateText } from "ai";
+import { generateObject } from "ai";
 import { openai } from "@ai-sdk/openai";
+import { z } from "zod";
 import "dotenv/config";
+
+// Tags surfaced as filter pills on the Mintlify changelog page.
+const TAG_API = "API" as const;
+const TAG_WEB_APP = "Web App" as const;
 
 // ---------------------------------------------------------------------------
 // Config
@@ -80,6 +92,7 @@ const args = process.argv.slice(2);
 const listTeams = args.includes("--list-teams");
 const dryRun = args.includes("--dry-run");
 const skipSelect = args.includes("--skip-select");
+const autoYes = args.includes("--yes");
 const sinceIdx = args.indexOf("--since");
 const sinceOverride = sinceIdx !== -1 ? args[sinceIdx + 1] : undefined;
 
@@ -201,9 +214,9 @@ async function generateUpdateBlock(dateStr: string, issues: LinearIssue[]): Prom
   const systemPrompt = `\
 You are writing changelog entries for Magic Hour, an AI video and image generation platform.
 
-Your job is to rewrite Linear issue titles and descriptions into polished, user-facing changelog prose in MDX format.
+Your job is to rewrite Linear issue titles and descriptions into polished, user-facing changelog prose in MDX format, and to classify which surface each change affects.
 
-Rules:
+Content rules:
 - Write in the same style as the existing examples below — concise, direct, and action-oriented
 - Start each entry with "## " followed by a clear, punchy title (not the raw Linear title)
 - Write 1-3 short paragraphs describing what changed and why it matters to the user
@@ -211,8 +224,14 @@ Rules:
 - End with a "Try it out now:" link if there's a product URL in the description, otherwise omit it
 - If multiple issues are provided for the same day, write a separate "## " section for each
 - Do NOT include the <Update label="..."> wrapper — just the inner MDX content
-- Do NOT include any image or Frame tags — those will be added automatically
+- Do NOT include any image or Frame tags — new entries ship without images
 - Do NOT hallucinate details not present in the issue
+
+Classification rules (the "tags" field):
+- "${TAG_API}": the change affects the public API / SDK (new endpoints, params, models exposed via the API, webhook changes, SDK updates). Code snippets calling \`client.*\` are a strong signal.
+- "${TAG_WEB_APP}": the change affects the magichour.ai web product (new pages, UI, in-app tools/flows). A magichour.ai/create or app URL is a strong signal.
+- Return every tag that applies. Many changes touch both surfaces — include both then.
+- Return at least one tag.
 
 Existing changelog style examples:
 ${TONE_EXAMPLES}
@@ -224,43 +243,26 @@ Generate changelog MDX content for the following Linear issue(s) completed on ${
 ${issuesSummary}
 `;
 
-  const { text } = await generateText({
+  const { object } = await generateObject({
     model: openai("gpt-5"),
     system: systemPrompt,
     prompt: userPrompt,
+    schema: z.object({
+      content: z.string().describe("The inner MDX content (## sections), no <Update> wrapper"),
+      tags: z
+        .array(z.enum([TAG_API, TAG_WEB_APP]))
+        .min(1)
+        .describe("Which product surfaces this update affects"),
+    }),
   });
 
-  // Build the <Update> block with a placeholder image tag after each ## section
-  const contentWithPlaceholders = addImagePlaceholders(text.trim(), dateStr);
+  // De-dupe and keep a stable order (API before Web App)
+  const orderedTags = [TAG_API, TAG_WEB_APP].filter((t) => object.tags.includes(t));
+  const tagsAttr = `tags={${JSON.stringify(orderedTags)}}`;
 
-  return `<Update label="${dateStr}">\n\n${contentWithPlaceholders}\n\n</Update>`;
-}
-
-// ---------------------------------------------------------------------------
-// Add placeholder image Frame tags after each ## heading
-// ---------------------------------------------------------------------------
-
-function addImagePlaceholders(content: string, dateStr: string): string {
-  const [year, month] = dateStr.split("-");
-  const lines = content.split("\n");
-  const result: string[] = [];
-
-  for (let i = 0; i < lines.length; i++) {
-    result.push(lines[i]);
-
-    // After a ## heading, insert a placeholder image frame
-    if (lines[i].startsWith("## ")) {
-      const title = lines[i].replace(/^##\s+/, "");
-      const slug = title
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-|-$/g, "")
-        .slice(0, 60);
-      result.push("", `<Frame>![${title}](/changelog/images/${year}/${month}/${slug}.jpg)</Frame>`);
-    }
-  }
-
-  return result.join("\n");
+  // New entries ship without images — real screenshots are added by hand later if
+  // wanted. Emitting placeholder paths to non-existent files would break links.
+  return `<Update label="${dateStr}" ${tagsAttr}>\n\n${object.content.trim()}\n\n</Update>`;
 }
 
 // ---------------------------------------------------------------------------
@@ -410,11 +412,13 @@ async function main(): Promise<void> {
     return;
   }
 
-  // Confirm before writing
-  const ok = await confirm(`Write ${newBlocks.length} new block(s) to changelog.mdx?`);
-  if (!ok) {
-    console.log("Aborted. No files were changed.");
-    return;
+  // Confirm before writing (skipped with --yes or when stdin is not a TTY, e.g. CI)
+  if (!autoYes && process.stdin.isTTY) {
+    const ok = await confirm(`Write ${newBlocks.length} new block(s) to changelog.mdx?`);
+    if (!ok) {
+      console.log("Aborted. No files were changed.");
+      return;
+    }
   }
 
   insertIntoChangelog(newBlocks);
