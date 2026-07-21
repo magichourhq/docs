@@ -6,17 +6,58 @@ description: Build a complete Magic Hour integration from scratch in this hands-
 
 Every generation follows the same lifecycle:
 
-<Mermaid
-  actions={false}
-  chart={`flowchart LR
-    A["Create job"] --> B["Receive project ID"]
-    B --> C["Wait"]
-    C --> D{"Track completion"}
-    D --> E["Poll project"]
-    D --> F["Receive webhook"]
-    E --> G["Download result"]
-    F --> G`}
-/>
+<svg
+  viewBox="0 0 900 180"
+  role="img"
+  aria-labelledby="generation-lifecycle-title"
+  className="my-6 h-auto w-full text-gray-700 dark:text-gray-300"
+>
+  <title id="generation-lifecycle-title">
+    Create a job, receive its project ID, wait for completion through polling or a webhook, then
+    download the result.
+  </title>
+  <defs>
+    <marker
+      id="lifecycle-arrow"
+      viewBox="0 0 10 10"
+      refX="9"
+      refY="5"
+      markerWidth="6"
+      markerHeight="6"
+      orient="auto-start-reverse"
+    >
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" />
+    </marker>
+  </defs>
+
+  <g fill="none" stroke="currentColor" strokeWidth="1.5">
+    <rect x="10" y="65" width="105" height="50" />
+    <rect x="155" y="65" width="145" height="50" />
+    <rect x="340" y="65" width="80" height="50" />
+    <path d="M 490 25 L 555 90 L 490 155 L 425 90 Z" />
+    <rect x="600" y="20" width="115" height="50" />
+    <rect x="600" y="110" width="115" height="50" />
+    <rect x="760" y="65" width="130" height="50" />
+
+    <path d="M 115 90 H 155" markerEnd="url(#lifecycle-arrow)" />
+    <path d="M 300 90 H 340" markerEnd="url(#lifecycle-arrow)" />
+    <path d="M 420 90 H 425" markerEnd="url(#lifecycle-arrow)" />
+    <path d="M 535 45 H 600" markerEnd="url(#lifecycle-arrow)" />
+    <path d="M 535 135 H 600" markerEnd="url(#lifecycle-arrow)" />
+    <path d="M 715 45 C 745 45 730 90 760 90" markerEnd="url(#lifecycle-arrow)" />
+    <path d="M 715 135 C 745 135 730 90 760 90" markerEnd="url(#lifecycle-arrow)" />
+  </g>
+
+  <g fill="currentColor" textAnchor="middle" dominantBaseline="middle" fontSize="14">
+    <text x="62.5" y="90">Create job</text>
+    <text x="227.5" y="90">Receive project ID</text>
+    <text x="380" y="90">Wait</text>
+    <text x="490" y="90">Track completion</text>
+    <text x="657.5" y="45">Poll project</text>
+    <text x="657.5" y="135">Receive webhook</text>
+    <text x="825" y="90">Download result</text>
+  </g>
+</svg>
 
 <Card
   title="Prefer an interactive browser notebook?"
