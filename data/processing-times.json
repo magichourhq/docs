@@ -6,48 +6,47 @@
     {
       "name": "Video",
       "endpoints": [
-        { "path": "/v1/ai-talking-photo", "p50": "2m 54s", "p95": "37m 43s" },
-        { "path": "/v1/ai-video-editor", "p50": "1m 25s", "p95": "3m 41s" },
-        { "path": "/v1/animation", "p50": "9m 56s", "p95": "52m 00s" },
-        { "path": "/v1/audio-to-video", "p50": "1m 57s", "p95": "49m 32s" },
-        { "path": "/v1/auto-subtitle-generator", "p50": "45s", "p95": "2m 33s" },
-        { "path": "/v1/character-replace", "p50": "7m 26s", "p95": "41m 18s" },
-        { "path": "/v1/face-swap", "p50": "1m 36s", "p95": "15m 36s" },
-        { "path": "/v1/image-to-video", "p50": "1m 14s", "p95": "7m 49s" },
-        { "path": "/v1/lip-sync", "p50": "3m 49s", "p95": "14m 58s" },
-        { "path": "/v1/text-to-video", "p50": "51s", "p95": "7m 13s" },
-        { "path": "/v1/video-to-video", "p50": "12m 52s", "p95": "1h 55m 28s" }
+        { "path": "/v1/ai-talking-photo", "p50": "2m 54s" },
+        { "path": "/v1/ai-video-editor", "p50": "1m 25s" },
+        { "path": "/v1/animation", "p50": "9m 56s" },
+        { "path": "/v1/audio-to-video", "p50": "1m 57s" },
+        { "path": "/v1/auto-subtitle-generator", "p50": "45s" },
+        { "path": "/v1/character-replace", "p50": "7m 26s" },
+        { "path": "/v1/face-swap", "p50": "1m 36s" },
+        { "path": "/v1/image-to-video", "p50": "1m 14s" },
+        { "path": "/v1/lip-sync", "p50": "3m 49s" },
+        { "path": "/v1/text-to-video", "p50": "51s" },
+        { "path": "/v1/video-to-video", "p50": "12m 52s" }
       ]
     },
     {
       "name": "Image",
       "endpoints": [
-        { "path": "/v1/ai-clothes-changer", "p50": "13s", "p95": "39s" },
-        { "path": "/v1/ai-face-editor", "p50": "3s", "p95": "5s" },
-        { "path": "/v1/ai-gif-generator", "p50": "23s", "p95": "37s" },
-        { "path": "/v1/ai-headshot-generator", "p50": "14s", "p95": "28s" },
-        { "path": "/v1/ai-image-editor", "p50": "9s", "p95": "1m 03s" },
-        { "path": "/v1/ai-image-generator", "p50": "5s", "p95": "56s" },
-        { "path": "/v1/ai-image-upscaler", "p50": "22s", "p95": "3m 59s" },
-        { "path": "/v1/ai-meme-generator", "p50": "9s", "p95": "15s" },
+        { "path": "/v1/ai-clothes-changer", "p50": "13s" },
+        { "path": "/v1/ai-face-editor", "p50": "3s" },
+        { "path": "/v1/ai-gif-generator", "p50": "23s" },
+        { "path": "/v1/ai-headshot-generator", "p50": "14s" },
+        { "path": "/v1/ai-image-editor", "p50": "9s" },
+        { "path": "/v1/ai-image-generator", "p50": "5s" },
+        { "path": "/v1/ai-image-upscaler", "p50": "22s" },
+        { "path": "/v1/ai-meme-generator", "p50": "9s" },
         {
           "path": "/v1/ai-qr-code-generator",
           "p50": "7s",
-          "p95": "10s",
-          "note": "Limited traffic; p95 is not statistically robust."
+          "note": "Limited traffic; this estimate may change."
         },
-        { "path": "/v1/body-swap", "p50": "38s", "p95": "1m 33s" },
-        { "path": "/v1/face-swap-photo", "p50": "4s", "p95": "9s" },
-        { "path": "/v1/head-swap", "p50": "18s", "p95": "50s" },
-        { "path": "/v1/image-background-remover", "p50": "4s", "p95": "22s" },
-        { "path": "/v1/photo-colorizer", "p50": "9s", "p95": "45s" }
+        { "path": "/v1/body-swap", "p50": "38s" },
+        { "path": "/v1/face-swap-photo", "p50": "4s" },
+        { "path": "/v1/head-swap", "p50": "18s" },
+        { "path": "/v1/image-background-remover", "p50": "4s" },
+        { "path": "/v1/photo-colorizer", "p50": "9s" }
       ]
     },
     {
       "name": "Audio",
       "endpoints": [
-        { "path": "/v1/ai-voice-generator", "p50": "21s", "p95": "4m 27s" },
-        { "path": "/v1/ai-voice-cloner", "p50": "21s", "p95": "4m 23s" }
+        { "path": "/v1/ai-voice-generator", "p50": "21s" },
+        { "path": "/v1/ai-voice-cloner", "p50": "21s" }
       ]
     }
   ]

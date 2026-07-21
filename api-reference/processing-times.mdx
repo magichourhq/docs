@@ -1,6 +1,6 @@
 ---
 title: "Processing Times"
-description: "Observed p50 and p95 end-to-end processing times for Magic Hour API endpoints."
+description: "Observed median end-to-end processing times for Magic Hour API endpoints."
 ---
 
 These values cover the **rolling 30 days ending July 20, 2026**. Customer-observed end-to-end processing time, including queueing.
@@ -11,58 +11,57 @@ These values cover the **rolling 30 days ending July 20, 2026**. Customer-observ
   integration.
 </Warning>
 
-**p50** means half of completed jobs finished within this time. **p95** means 95% finished within
-this time.
+**p50 (median)** means half of completed jobs finished within this time.
 
 ## Video endpoints
 
-| Endpoint                                                                                    |     p50 |        p95 |
-| ------------------------------------------------------------------------------------------- | ------: | ---------: |
-| [`POST /v1/ai-talking-photo`](/api-reference/video-projects/ai-talking-photo)               |  2m 54s |    37m 43s |
-| [`POST /v1/ai-video-editor`](/api-reference/video-projects/ai-video-editor)                 |  1m 25s |     3m 41s |
-| [`POST /v1/animation`](/api-reference/video-projects/animation)                             |  9m 56s |    52m 00s |
-| [`POST /v1/audio-to-video`](/api-reference/video-projects/audio-to-video)                   |  1m 57s |    49m 32s |
-| [`POST /v1/auto-subtitle-generator`](/api-reference/video-projects/auto-subtitle-generator) |     45s |     2m 33s |
-| [`POST /v1/character-replace`](/api-reference/video-projects/character-replace)             |  7m 26s |    41m 18s |
-| [`POST /v1/face-swap`](/api-reference/video-projects/face-swap-video)                       |  1m 36s |    15m 36s |
-| [`POST /v1/image-to-video`](/api-reference/video-projects/image-to-video)                   |  1m 14s |     7m 49s |
-| [`POST /v1/lip-sync`](/api-reference/video-projects/lip-sync)                               |  3m 49s |    14m 58s |
-| [`POST /v1/text-to-video`](/api-reference/video-projects/text-to-video)                     |     51s |     7m 13s |
-| [`POST /v1/video-to-video`](/api-reference/video-projects/video-to-video)                   | 12m 52s | 1h 55m 28s |
+| Endpoint                                                                                    | Median (p50) |
+| ------------------------------------------------------------------------------------------- | -----------: |
+| [`POST /v1/ai-talking-photo`](/api-reference/video-projects/ai-talking-photo)               |       2m 54s |
+| [`POST /v1/ai-video-editor`](/api-reference/video-projects/ai-video-editor)                 |       1m 25s |
+| [`POST /v1/animation`](/api-reference/video-projects/animation)                             |       9m 56s |
+| [`POST /v1/audio-to-video`](/api-reference/video-projects/audio-to-video)                   |       1m 57s |
+| [`POST /v1/auto-subtitle-generator`](/api-reference/video-projects/auto-subtitle-generator) |          45s |
+| [`POST /v1/character-replace`](/api-reference/video-projects/character-replace)             |       7m 26s |
+| [`POST /v1/face-swap`](/api-reference/video-projects/face-swap-video)                       |       1m 36s |
+| [`POST /v1/image-to-video`](/api-reference/video-projects/image-to-video)                   |       1m 14s |
+| [`POST /v1/lip-sync`](/api-reference/video-projects/lip-sync)                               |       3m 49s |
+| [`POST /v1/text-to-video`](/api-reference/video-projects/text-to-video)                     |          51s |
+| [`POST /v1/video-to-video`](/api-reference/video-projects/video-to-video)                   |      12m 52s |
 
 ## Image endpoints
 
-| Endpoint                                                                                      | p50 |    p95 |
-| --------------------------------------------------------------------------------------------- | --: | -----: |
-| [`POST /v1/ai-clothes-changer`](/api-reference/image-projects/ai-clothes-changer)             | 13s |    39s |
-| [`POST /v1/ai-face-editor`](/api-reference/image-projects/ai-face-editor)                     |  3s |     5s |
-| [`POST /v1/ai-gif-generator`](/api-reference/image-projects/ai-gif-generator)                 | 23s |    37s |
-| [`POST /v1/ai-headshot-generator`](/api-reference/image-projects/ai-headshot-generator)       | 14s |    28s |
-| [`POST /v1/ai-image-editor`](/api-reference/image-projects/ai-image-editor)                   |  9s | 1m 03s |
-| [`POST /v1/ai-image-generator`](/api-reference/image-projects/ai-image-generator)             |  5s |    56s |
-| [`POST /v1/ai-image-upscaler`](/api-reference/image-projects/ai-image-upscaler)               | 22s | 3m 59s |
-| [`POST /v1/ai-meme-generator`](/api-reference/image-projects/ai-meme-generator)               |  9s |    15s |
-| [`POST /v1/ai-qr-code-generator`](/api-reference/image-projects/ai-qr-code-generator)         |  7s |    10s |
-| [`POST /v1/body-swap`](/api-reference/image-projects/body-swap)                               | 38s | 1m 33s |
-| [`POST /v1/face-swap-photo`](/api-reference/image-projects/face-swap-photo)                   |  4s |     9s |
-| [`POST /v1/head-swap`](/api-reference/image-projects/head-swap)                               | 18s |    50s |
-| [`POST /v1/image-background-remover`](/api-reference/image-projects/image-background-remover) |  4s |    22s |
-| [`POST /v1/photo-colorizer`](/api-reference/image-projects/photo-colorizer)                   |  9s |    45s |
+| Endpoint                                                                                      | Median (p50) |
+| --------------------------------------------------------------------------------------------- | -----------: |
+| [`POST /v1/ai-clothes-changer`](/api-reference/image-projects/ai-clothes-changer)             |          13s |
+| [`POST /v1/ai-face-editor`](/api-reference/image-projects/ai-face-editor)                     |           3s |
+| [`POST /v1/ai-gif-generator`](/api-reference/image-projects/ai-gif-generator)                 |          23s |
+| [`POST /v1/ai-headshot-generator`](/api-reference/image-projects/ai-headshot-generator)       |          14s |
+| [`POST /v1/ai-image-editor`](/api-reference/image-projects/ai-image-editor)                   |           9s |
+| [`POST /v1/ai-image-generator`](/api-reference/image-projects/ai-image-generator)             |           5s |
+| [`POST /v1/ai-image-upscaler`](/api-reference/image-projects/ai-image-upscaler)               |          22s |
+| [`POST /v1/ai-meme-generator`](/api-reference/image-projects/ai-meme-generator)               |           9s |
+| [`POST /v1/ai-qr-code-generator`](/api-reference/image-projects/ai-qr-code-generator)         |           7s |
+| [`POST /v1/body-swap`](/api-reference/image-projects/body-swap)                               |          38s |
+| [`POST /v1/face-swap-photo`](/api-reference/image-projects/face-swap-photo)                   |           4s |
+| [`POST /v1/head-swap`](/api-reference/image-projects/head-swap)                               |          18s |
+| [`POST /v1/image-background-remover`](/api-reference/image-projects/image-background-remover) |           4s |
+| [`POST /v1/photo-colorizer`](/api-reference/image-projects/photo-colorizer)                   |           9s |
 
-<Note>**POST /v1/ai-qr-code-generator:** Limited traffic; p95 is not statistically robust.</Note>
+<Note>**POST /v1/ai-qr-code-generator:** Limited traffic; this estimate may change.</Note>
 
 ## Audio endpoints
 
-| Endpoint                                                                          | p50 |    p95 |
-| --------------------------------------------------------------------------------- | --: | -----: |
-| [`POST /v1/ai-voice-generator`](/api-reference/audio-projects/ai-voice-generator) | 21s | 4m 27s |
-| [`POST /v1/ai-voice-cloner`](/api-reference/audio-projects/ai-voice-cloner)       | 21s | 4m 23s |
+| Endpoint                                                                          | Median (p50) |
+| --------------------------------------------------------------------------------- | -----------: |
+| [`POST /v1/ai-voice-generator`](/api-reference/audio-projects/ai-voice-generator) |          21s |
+| [`POST /v1/ai-voice-cloner`](/api-reference/audio-projects/ai-voice-cloner)       |          21s |
 
 ## Integration guidance
 
 - Use webhooks for long-running jobs instead of aggressive polling.
 - If polling, use the interval recommended in the integration guide and apply exponential backoff.
-- Set timeouts above observed p95 when your product can tolerate the wait.
+- Set timeouts based on your product's tolerance for delayed jobs.
 - Treat every latency figure as directional, not guaranteed.
 
 [Learn how to monitor jobs and handle timeouts →](/integration/overview)

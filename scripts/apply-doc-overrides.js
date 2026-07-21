@@ -54,7 +54,7 @@ for (const category of metrics.categories) {
     const note = endpoint.note ? ` ${endpoint.note}` : "";
     const processingTime = [
       marker,
-      `**Observed processing time (${metrics.window}):** p50 ${endpoint.p50}; p95 ${endpoint.p95}.`,
+      `**Observed processing time (${metrics.window}):** p50 ${endpoint.p50}.`,
       `${metrics.methodology} These values are not an SLA.${note}`,
       "[See processing times for all endpoints](/api-reference/processing-times).",
     ].join("\n\n");
@@ -74,7 +74,7 @@ const updated = new Date(`${metrics.asOf}T00:00:00Z`).toLocaleDateString("en-US"
 const lines = [
   "---",
   'title: "Processing Times"',
-  'description: "Observed p50 and p95 end-to-end processing times for Magic Hour API endpoints."',
+  'description: "Observed median end-to-end processing times for Magic Hour API endpoints."',
   "---",
   "",
   `These values cover the **${metrics.window} ending ${updated}**. ${metrics.methodology}`,
@@ -85,24 +85,18 @@ const lines = [
   "  integration.",
   "</Warning>",
   "",
-  "**p50** means half of completed jobs finished within this time. **p95** means 95% finished within",
-  "this time.",
+  "**p50 (median)** means half of completed jobs finished within this time.",
   "",
 ];
 
 for (const category of metrics.categories) {
-  lines.push(
-    `## ${category.name} endpoints`,
-    "",
-    "| Endpoint | p50 | p95 |",
-    "| --- | ---: | ---: |"
-  );
+  lines.push(`## ${category.name} endpoints`, "", "| Endpoint | Median (p50) |", "| --- | ---: |");
 
   for (const endpoint of category.endpoints) {
     const page = endpointPages.get(endpoint.path);
     const label = `\`POST ${endpoint.path}\``;
     const linkedLabel = page ? `[${label}](${page})` : label;
-    lines.push(`| ${linkedLabel} | ${endpoint.p50} | ${endpoint.p95} |`);
+    lines.push(`| ${linkedLabel} | ${endpoint.p50} |`);
   }
 
   const notes = category.endpoints.filter((endpoint) => endpoint.note);
@@ -121,7 +115,7 @@ lines.push(
   "",
   "- Use webhooks for long-running jobs instead of aggressive polling.",
   "- If polling, use the interval recommended in the integration guide and apply exponential backoff.",
-  "- Set timeouts above observed p95 when your product can tolerate the wait.",
+  "- Set timeouts based on your product's tolerance for delayed jobs.",
   "- Treat every latency figure as directional, not guaranteed.",
   "",
   "[Learn how to monitor jobs and handle timeouts →](/integration/overview)",
