@@ -17,7 +17,7 @@
  *   --until omitted → no end bound (include everything from start through now)
  *   --until set     → end = that day inclusive (LA day ≤ --until)
  *
- * Dedup: each new <Update> embeds `<!-- linear:ENG-123,ENG-456 -->`. Issues whose
+ * Dedup: each new <Update> embeds `{/*linear:ENG-123,ENG-456*/}`. Issues whose
  * identifiers already appear in changelog.mdx are skipped (covers --since overlap + re-runs).
  *
  * Usage:
@@ -137,10 +137,11 @@ function parseLastChangelogLabel(): string {
   return match[1]!;
 }
 
-/** Linear issue identifiers (`ENG-123`) already recorded via `<!-- linear:... -->` in changelog.mdx. */
+/** Linear issue identifiers (`ENG-123`) already recorded via `{/*linear:...*/}` in changelog.mdx. */
 function parseKnownLinearIds(content: string): Set<string> {
   const ids = new Set<string>();
-  for (const match of content.matchAll(/<!--\s*linear:([\s\S]*?)-->/gi)) {
+  // MDX comments only — HTML <!-- --> is a syntax error in MDX.
+  for (const match of content.matchAll(/\{\/\*\s*linear:([\s\S]*?)\*\/\}/gi)) {
     for (const raw of match[1]!.split(",")) {
       const id = raw.trim();
       if (id) ids.add(id);
@@ -299,7 +300,7 @@ ${issuesSummary}
   // New entries ship without images — real screenshots are added by hand later if
   // wanted. Emitting placeholder paths to non-existent files would break links.
   // Embed Linear IDs so later runs can skip issues already written to the changelog.
-  const linearMarker = `<!-- linear:${issues.map((i) => i.identifier).join(",")} -->`;
+  const linearMarker = `{/*linear:${issues.map((i) => i.identifier).join(",")}*/}`;
   return `<Update label="${dateStr}" ${tagsAttr}>\n${linearMarker}\n\n${object.content.trim()}\n\n</Update>`;
 }
 
