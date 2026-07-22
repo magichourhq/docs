@@ -144,6 +144,7 @@
         "openapi": "api-reference/openapi.json",
         "pages": [
           "api-reference/overview",
+          "api-reference/processing-times",
           {
             "group": "Files",
             "pages": [
