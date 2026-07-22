@@ -3,20 +3,29 @@
  * Automatic changelog generator for Magic Hour docs.
  *
  * Fetches Linear issues with the "feature" label (then keeps only issues whose
- * completion calendar day in America/Los_Angeles is after the top <Update> label),
+ * completion calendar day in America/Los_Angeles falls in the since/until window),
  * rewrites each into polished MDX prose via GPT-5, and
  * prepends the new <Update> blocks to changelog.mdx.
  *
  * Each generated <Update> block is tagged "API" and/or "Web App" so readers can
  * filter the changelog by surface (Mintlify renders these tags as filter pills).
  *
+ * Date window (America/Los_Angeles calendar days):
+ *   --since omitted → start = day after top <Update label="YYYY-MM-DD"> in changelog.mdx
+ *                     (strictly after that label; issues on the label day itself are skipped)
+ *   --since set     → start = that day inclusive (LA day ≥ --since)
+ *   --until omitted → no end bound (include everything from start through now)
+ *   --until set     → end = that day inclusive (LA day ≤ --until)
+ *
  * Usage:
- *   yarn changelog                  # auto-detect last date from changelog.mdx
- *   yarn changelog --since 2026-01-01  # override start date
- *   yarn changelog --list-teams     # print available Linear team IDs and exit
- *   yarn changelog --dry-run        # print generated MDX without writing files
- *   yarn changelog --skip-select    # include all fetched issues (no multiselect prompt)
- *   yarn changelog --yes            # write without the interactive confirm prompt (for CI)
+ *   yarn changelog                       # since=day after latest <Update>; until=none
+ *   yarn changelog --since 2026-01-01    # override start (inclusive)
+ *   yarn changelog --until 2026-01-31    # optional end (inclusive)
+ *   yarn changelog --since 2026-01-01 --until 2026-01-31
+ *   yarn changelog --list-teams          # print available Linear team IDs and exit
+ *   yarn changelog --dry-run             # print generated MDX without writing files
+ *   yarn changelog --skip-select         # include all fetched issues (no multiselect prompt)
+ *   yarn changelog --yes                 # write without the interactive confirm prompt (for CI)
  *
  * CI: .github/workflows/update-changelog.yml runs this on a schedule with
  * --skip-select --yes and opens a PR with the new entries.
@@ -95,6 +104,8 @@ const skipSelect = args.includes("--skip-select");
 const autoYes = args.includes("--yes");
 const sinceIdx = args.indexOf("--since");
 const sinceOverride = sinceIdx !== -1 ? args[sinceIdx + 1] : undefined;
+const untilIdx = args.indexOf("--until");
+const untilOverride = untilIdx !== -1 ? args[untilIdx + 1] : undefined;
 
 // ---------------------------------------------------------------------------
 // Env validation
@@ -146,13 +157,21 @@ interface LinearIssue {
 async function fetchFeatureIssues(
   client: LinearClient,
   teamId: string,
-  completedOnOrAfterUtc: Date
+  completedOnOrAfterUtc: Date,
+  completedOnOrBeforeUtc?: Date
 ): Promise<LinearIssue[]> {
+  const completedAtFilter: { gte: string; lte?: string } = {
+    gte: completedOnOrAfterUtc.toISOString(),
+  };
+  if (completedOnOrBeforeUtc) {
+    completedAtFilter.lte = completedOnOrBeforeUtc.toISOString();
+  }
+
   const issueConnection = await client.issues({
     filter: {
       team: { id: { eq: teamId } },
       labels: { name: { eq: LABEL_NAME } },
-      completedAt: { gte: completedOnOrAfterUtc.toISOString() },
+      completedAt: completedAtFilter,
     },
     // Fetch up to 100 issues; pagination not expected to be needed
     first: 100,
@@ -350,7 +369,7 @@ async function main(): Promise<void> {
 
   const teamId = requireEnv("LINEAR_TEAM_ID");
 
-  // Loose UTC bound for Linear; real cutoff matches <Update> labels via toDateStr (LA).
+  // Loose UTC bounds for Linear; real cutoffs match <Update> labels via toDateStr (LA).
   let completedOnOrAfterUtc: Date;
   let changelogDayOk: (issue: LinearIssue) => boolean;
   if (sinceOverride) {
@@ -364,10 +383,27 @@ async function main(): Promise<void> {
     console.log(`Last changelog <Update>: ${lastLabel}`);
   }
 
+  let completedOnOrBeforeUtc: Date | undefined;
+  if (untilOverride) {
+    completedOnOrBeforeUtc = new Date(`${untilOverride}T23:59:59.999Z`);
+    const dayOk = changelogDayOk;
+    changelogDayOk = (i) => dayOk(i) && toDateStr(i.completedAt) <= untilOverride;
+    console.log(`Using --until ${untilOverride} (LA calendar day ≤ this after fetch)`);
+  }
+
   console.log(
-    `\nFetching Linear issues with label "${LABEL_NAME}" completed on or after ${completedOnOrAfterUtc.toISOString()} (UTC)...`
+    `\nFetching Linear issues with label "${LABEL_NAME}" completed on or after ${completedOnOrAfterUtc.toISOString()} (UTC)` +
+      (completedOnOrBeforeUtc
+        ? ` and on or before ${completedOnOrBeforeUtc.toISOString()} (UTC)`
+        : "") +
+      "..."
   );
-  const raw = await fetchFeatureIssues(client, teamId, completedOnOrAfterUtc);
+  const raw = await fetchFeatureIssues(
+    client,
+    teamId,
+    completedOnOrAfterUtc,
+    completedOnOrBeforeUtc
+  );
   const issues = raw.filter(changelogDayOk);
 
   if (issues.length === 0) {

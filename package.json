@@ -18,6 +18,7 @@
     "@clack/prompts": "1.2.0",
     "@linear/sdk": "81.0.0",
     "@mintlify/scraping": "4.0.868",
+    "@types/node": "26.1.1",
     "ai": "6.0.153",
     "dotenv": "17.4.2",
     "mintlify": "4.2.686",
