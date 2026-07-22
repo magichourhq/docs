@@ -4,15 +4,73 @@ sidebarTitle: Creating Your First Integration
 description: Build a complete Magic Hour integration from scratch in this hands-on tutorial.
 ---
 
+Every generation follows the same lifecycle:
+
+<div
+  role="img"
+  aria-label="Create a job, receive its project ID, wait, track completion by polling or webhook, then download the result."
+  className="not-prose my-6 overflow-x-auto pb-2"
+>
+  <div
+    className="grid w-full min-w-[600px] items-center gap-x-1 gap-y-3 text-center text-xs"
+    style={{
+      gridTemplateColumns: "1fr 12px 1.35fr 12px 0.65fr 12px 1.2fr 12px 1fr 12px 1.15fr",
+      gridTemplateRows: "48px 12px 48px",
+    }}
+  >
+    <div className="border border-gray-400 px-2 py-2 dark:border-gray-600" style={{ gridRow: "1 / 4" }}>
+      Create job
+    </div>
+    <span style={{ gridRow: "1 / 4" }}>→</span>
+    <div className="border border-gray-400 px-2 py-2 dark:border-gray-600" style={{ gridRow: "1 / 4" }}>
+      Receive project ID
+    </div>
+    <span style={{ gridRow: "1 / 4" }}>→</span>
+    <div className="border border-gray-400 px-2 py-2 dark:border-gray-600" style={{ gridRow: "1 / 4" }}>
+      Wait
+    </div>
+    <span style={{ gridRow: "1 / 4" }}>→</span>
+    <div className="border border-gray-400 px-2 py-2 dark:border-gray-600" style={{ gridRow: "1 / 4" }}>
+      Track completion
+    </div>
+    <span style={{ gridRow: "1" }}>↗</span>
+    <div className="border border-gray-400 px-2 py-2 dark:border-gray-600" style={{ gridRow: "1" }}>
+      Poll project
+    </div>
+    <span style={{ gridRow: "1" }}>↘</span>
+    <div className="border border-gray-400 px-2 py-2 dark:border-gray-600" style={{ gridRow: "1 / 4" }}>
+      Download result
+    </div>
+
+    <span style={{ gridColumn: "8", gridRow: "3" }}>↘</span>
+    <div
+      className="border border-gray-400 px-2 py-2 dark:border-gray-600"
+      style={{ gridColumn: "9", gridRow: "3" }}
+    >
+      Receive webhook
+    </div>
+    <span style={{ gridColumn: "10", gridRow: "3" }}>↗</span>
+  </div>
+</div>
+
+<Card
+  title="Prefer an interactive browser notebook?"
+  icon="code"
+  href="https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing"
+  openInNewTab
+>
+  Open the Google Colab cookbook and try every API without local setup.
+</Card>
+
 ## What You'll Build
 
 In this tutorial, you'll create a working application that generates an AI image using the Magic Hour API. By the end, you'll have:
 
-- ✅ A complete project structure ready for development
-- ✅ Code that creates a job, monitors its progress, and downloads the result
-- ✅ Proper file handling for inputs and outputs
-- ✅ Error handling for production use
-- ✅ A downloadable GitHub repository to reference
+- A complete project structure ready for development
+- Code that creates a job, monitors its progress, and downloads the result
+- Proper file handling for inputs and outputs
+- Error handling for production use
+- A downloadable GitHub repository to reference
 
 <Note>
   **Estimated time**: 15-20 minutes **Prerequisites**: API key from [Developer

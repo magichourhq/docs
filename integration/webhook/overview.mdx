@@ -6,10 +6,10 @@ description: Set up webhooks and test them end-to-end in under 10 minutes
 
 By the end of this guide, you'll have:
 
-- ✅ Created a webhook endpoint in your application
-- ✅ Registered it with Magic Hour
-- ✅ Tested it with a real API call
-- ✅ Verified webhook delivery works
+- Created a webhook endpoint in your application
+- Registered it with Magic Hour
+- Tested it with a real API call
+- Verified webhook delivery works
 
 ## How Webhooks Work
 
@@ -397,7 +397,7 @@ Payload: {
   "status": "complete",
   "downloads": [
     {
-      "url": "https://images.magichour.ai/id/output.png",
+      "url": "https://videos.magichour.ai/id/output.png",
       "expires_at": "2024-10-19T05:16:19.027Z"
     }
   ]
@@ -419,7 +419,7 @@ Your webhook received the download URL. Let's grab the generated image:
 import requests
 
 # Extract download URL from webhook payload
-download_url = "https://images.magichour.ai/id/output.png"
+download_url = "https://videos.magichour.ai/id/output.png"
 
 # Download the image
 response = requests.get(download_url)
@@ -431,7 +431,7 @@ print("✅ Image downloaded as generated_image.png")
 
 ```bash cURL
 # Use the URL from your webhook payload
-curl -o generated_image.png "https://images.magichour.ai/id/output.png"
+curl -o generated_image.png "https://videos.magichour.ai/id/output.png"
 echo "✅ Image downloaded as generated_image.png"
 ```
 

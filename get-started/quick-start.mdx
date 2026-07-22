@@ -5,6 +5,15 @@ description: "Generate an API key and make your first call in <3 minutes."
 
 Magic Hour is an AI video and image generation platform. You submit a job, we render it, and you download the result. This guide gets you to your first output in a few minutes.
 
+<Card
+  title="Skip local setup — open the Google Colab cookbook"
+  icon="code"
+  href="https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing"
+  openInNewTab
+>
+  Try every API from your browser with only an API key.
+</Card>
+
 **What you'll accomplish:**
 
 1. **Create an API key** - Get credentials to authenticate with our API
@@ -25,7 +34,11 @@ Magic Hour is an AI video and image generation platform. You submit a job, we re
 2. Click **Create key**, give it a name (e.g., "My First Project"), and create it.
 3. **Copy the API key immediately** — you won't be able to see it again.
 
-<Card title="Need the full walkthrough?" icon="key" href="/get-started/authentication#creating-your-first-api-key">
+<Card
+  title="Need the full walkthrough?"
+  icon="key"
+  href="/get-started/authentication#creating-your-first-api-key"
+>
   See screenshots, permissions, and key-management guidance in the Authentication guide.
 </Card>
 
@@ -111,9 +124,9 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 <SdkInstallation />
 
 <Tip>
-  Want to test your integration without spending credits? The SDKs include a
-  [mock server](/integration/development-and-testing#mock-server-recommended-for-development) that
-  returns sample responses instantly.
+  Want to test your integration without spending credits? The SDKs include a [mock
+  server](/integration/development-and-testing#mock-server-recommended-for-development) that returns
+  sample responses instantly.
 </Tip>
 
 ## 3. Generate your first output
@@ -121,10 +134,10 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 **What we're doing:** Submit a generation job, wait for Magic Hour to render it, then download the
 result. Choose the example that matches what you want to build:
 
-| Example | Best for | Typical cost | Typical wait |
-| :------ | :------- | :----------- | :----------- |
-| **Generate image** | Cheapest first success | 5 credits | 30-60 seconds |
-| **Face swap video** | Our most popular API path | ~200 credits for the sample clip | 2-5 minutes |
+| Example             | Best for                  | Typical cost                     | Typical wait  |
+| :------------------ | :------------------------ | :------------------------------- | :------------ |
+| **Generate image**  | Cheapest first success    | 5 credits                        | 30-60 seconds |
+| **Face swap video** | Our most popular API path | ~200 credits for the sample clip | 2-5 minutes   |
 
 ### Copy the code and run it
 
