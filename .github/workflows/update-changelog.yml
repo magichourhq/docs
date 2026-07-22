@@ -48,6 +48,12 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      - name: Capture current changelog head date
+        id: before
+        run: |
+          label=$(grep -oE 'label="[0-9]{4}-[0-9]{2}-[0-9]{2}"' changelog.mdx | head -1 | sed 's/label="//;s/"//')
+          echo "label=$label" >> "$GITHUB_OUTPUT"
+
       - name: Generate changelog entries
         env:
           LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
@@ -61,20 +67,35 @@ jobs:
       - name: Format with Prettier
         run: yarn prettier --write changelog.mdx
 
+      - name: Resolve changelog date range
+        id: range
+        run: |
+          prev="${{ steps.before.outputs.label }}"
+          dates=$(
+            grep -oE 'label="[0-9]{4}-[0-9]{2}-[0-9]{2}"' changelog.mdx \
+              | sed 's/label="//;s/"//' \
+              | awk -v prev="$prev" '$0 == prev { exit } { print }' \
+              | sort
+          )
+          if [ -z "$dates" ]; then
+            start="${{ github.event.inputs.since }}"
+            end="${{ github.event.inputs.until }}"
+          else
+            start=$(echo "$dates" | head -1)
+            end=$(echo "$dates" | tail -1)
+          fi
+          echo "start=$start" >> "$GITHUB_OUTPUT"
+          echo "end=$end" >> "$GITHUB_OUTPUT"
+          echo "PR date range: $start → $end"
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ steps.app-token.outputs.token }}
-          commit-message: "chore: update changelog"
-          title: "chore: update changelog"
+          commit-message: "feat: add changelog for ${{ steps.range.outputs.start }} to ${{ steps.range.outputs.end }}"
+          title: "feat: add changelog for ${{ steps.range.outputs.start }} to ${{ steps.range.outputs.end }}"
           body: |
-            Automated changelog update.
-
-            New `<Update>` entries were drafted from recently completed Linear "feature" issues and tagged by surface (API / Web App).
-
-            Before merging:
-            - Review the generated copy for accuracy and tone
-            - Confirm the API / Web App tags are correct
-            - Optionally add a real screenshot via `<Frame>` (new entries ship without images by default)
+            ## Summary
+            - Add changelog entries from ${{ steps.range.outputs.start }} to ${{ steps.range.outputs.end }}
           branch: update-changelog
           delete-branch: true
