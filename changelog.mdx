@@ -6,6 +6,227 @@ rss: true
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2026-07-22" tags={["Web App"]}>
+{/*linear:ENG-3797*/}
+
+## Chain Character Outputs Into New Creations
+
+You can now continue creating directly from outputs that use a character. Choose **Create with character** when a single character is used, or **Create with characters** when multiple characters are included.
+
+Image outputs continue to AI Image Generation, while video outputs continue to Text-to-Video.
+
+</Update>
+
+<Update label="2026-07-21" tags={["Web App"]}>
+{/*linear:ENG-3602,ENG-3807,ENG-3815*/}
+
+## New LTX Video Editor Mode
+
+You can now transform existing videos with an LTX-based video editor mode. Upload a video, describe the changes you want, and choose an output resolution up to 1080p.
+
+## Star Your Favorite Voices
+
+You can now star voices using the heart icon on voice cards. Starred voices appear first in the voice selector across voice tools, as well as in your library and creation sidebar.
+
+## Use Characters in Headshot and Selfie Generator
+
+Headshot and Selfie Generator now supports Character references. Select **Add Character** from the model dropdown to create a character, or choose an existing character to use its reference image and generation settings in your result.
+
+Selecting **Add Character** takes you to `/create/characters`, making it easier to create and reuse consistent characters across your generations.
+
+</Update>
+
+<Update label="2026-07-20" tags={["Web App"]}>
+{/*linear:ENG-3753,ENG-3802,ENG-3779*/}
+
+## Bring Characters to the AI Image Generator
+
+Users can now discover Characters directly from the AI Image Generator, including a prompt hint to “Add characters with @” and a popup introducing the Characters experience.
+
+Characters still use the existing image workflow, directing users to the Characters entrypoint for image creation.
+
+## Testing GPT Image 2 as the Default for Paid Users
+
+We’re testing GPT Image 2 as the default model for paid users in the AI Image Generator and AI Image Editor.
+
+## Contextual Upgrade Prompt After Your First Generation
+
+After completing their first image, video, or audio generation in the dashboard, users now see a contextual prompt tailored to the type of content they created.
+
+The prompt highlights the benefits of upgrading and includes a **View Plans** button. Users can review subscription tiers by default or switch to credit packs.
+
+</Update>
+
+<Update label="2026-07-16" tags={["API","Web App"]}>
+{/*linear:ENG-3660,ENG-3663,ENG-3667,ENG-3751,ENG-3414,ENG-2281,ENG-3752*/}
+
+## Character Replace and Animate API
+
+You can now use Character Replace through the API, with the option to switch to Animate. The mode defaults to Replace when no option is provided.
+
+You can also provide character selection points in the format `x,y,f`, where `x` and `y` are image coordinates and `f` is the frame number. Pass multiple points separated by semicolons, or omit them to let Magic Hour select characters automatically.
+
+## Added Seedance 5 Pro to AI Image Tools
+
+Seedance 5 Pro is now available in AI Image Editor and AI Image Generator for sharp, pro-level detail. Choose from 640px, 1K, or 2K output sizes.
+
+640px and 1K images cost 75 credits per image, while 2K images cost 150 credits. 4K output is not supported.
+
+## Get AI Summaries for Magic Hour Articles
+
+Magic Hour blog posts now include buttons for four AI assistants. Select an assistant to open its website with a prompt prefilled with the article URL and title, asking for key takeaways, practical use cases, strengths and limitations, alternatives, and a workflow to try first.
+
+## New AI Music Video Generator Product Page
+
+Explore the new AI Music Video Generator page to learn how Magic Hour can turn a song into a complete visual experience with beat-synced cuts, lyric-aware scenes, custom art styles, reference images, and optional lip sync.
+
+The page covers use cases including release promotion, lyric-driven storytelling, recurring characters, creative style exploration, and AI performance scenes.
+
+Try it out now: https://magichour.ai/products/ai-music-video-generator
+
+## Create and Reuse Characters Across Magic Hour
+
+Characters lets you save a person once and reuse them across Magic Hour tools without repeatedly uploading the same reference images. Create a Character with 1–12 photos, choose a primary image, rename or update it, and use it in supported workflows.
+
+Characters are now available in Text to Video, Image to Video, AI Image Editor, and AI Image Generator. Text to Video and Image to Video use the primary image, while the image tools use a collage of the Character’s reference images.
+
+## Added End-Frame Support for Veo 3.1
+
+Veo 3.1 and Veo 3.1 Lite now support an end-frame option in the web app, giving you more control over how generated videos conclude.
+
+## New AI Audio Enhancer Product Page
+
+The new AI Audio Enhancer page explains how Magic Hour can remove background noise, reduce echo, improve voice clarity, and balance volume in audio and video recordings.
+
+Learn how to enhance podcasts, voiceovers, interviews, presentations, and video dialogue. When you upload a video, Magic Hour enhances its audio and reattaches it automatically so the result stays synchronized.
+
+Try it out now: https://magichour.ai/products/ai-audio-enhancer
+
+</Update>
+
+<Update label="2026-07-15" tags={["API","Web App"]}>
+{/*linear:ENG-3661,ENG-3659,ENG-2294,ENG-3729*/}
+
+## Create Reference-to-Video Templates with Your Own Image
+
+Reference-to-Video templates now support personalized prompts using uploaded reference images. When you select a template and upload an image, the reference is automatically used in place of the `@person` prompt reference.
+
+The updated flow also makes it clearer when a template requires you to add an image, making it easier to create personalized videos from existing outputs.
+
+## AI Video Editor Now Available via the API
+
+You can now use the AI Video Editor through the API. The initial release supports the Google Omni model, with additional models planned for a future update.
+
+## Updated Library Layout for Folders
+
+The Library UI has been updated to prepare for folders, making it easier to organize image, video, and audio outputs into collections such as projects or favorites.
+
+## Added Preset Characters to Character Replace and Animate
+
+Character Replace and Animate now include preset characters. Preset names are based on their filenames and use the same interface as other presets, making them easy to find and select.
+
+</Update>
+
+<Update label="2026-07-14" tags={["Web App"]}>
+{/*linear:ENG-3487,ENG-3694,ENG-3695*/}
+
+## Create Clothes Changer Templates with Both Images
+
+Templates for Clothes Changer now include both the model image and the outfit image, making it easier to reuse complete outfit transformation setups.
+
+## Choose a Person During Character Replace and Animate Uploads
+
+Video uploads in Character Replace and Animate now include the Auto/Select Person field, giving you control over how the person is identified in your video.
+
+## Remove Watermarks in Image-to-Video and Text-to-Video
+
+The Remove Watermark feature is now available for Image-to-Video and Text-to-Video conversions, extending watermark removal beyond Face Swap Video.
+
+</Update>
+
+<Update label="2026-07-13" tags={["API","Web App"]}>
+{/*linear:ENG-3582,ENG-3658,ENG-3629,ENG-3717,ENG-3716*/}
+
+## Explore 200+ New Free AI Tools
+
+We added more than 200 free, no-signup AI tool pages under `/tools/`. Browse new image editing, image generation, and hybrid tools with ready-to-use workflows for transforming photos or creating images from prompts.
+
+Try it out now: [Explore the free AI tools](https://magichour.ai/tools/photo-to-cartoon)
+
+## New Google Omni Model Page
+
+Added a dedicated product page for the Google Omni model, with model-specific copy and supporting visual assets to help users understand what it can do.
+
+## Use Magic Hour from MCP Clients
+
+Magic Hour’s MCP endpoint is now available at [`https://magichour.ai/mcp/`](https://magichour.ai/mcp/). Claude Code, Codex, and other MCP clients can connect with a Magic Hour API key to call Magic Hour tools, including generating presigned URLs and creating and waiting for image projects.
+
+Authentication is passed through securely, invalid keys return a clean authentication failure, and bearer tokens are not logged.
+
+Try it out now: [Connect to the Magic Hour MCP endpoint](https://magichour.ai/mcp/)
+
+## Shared History for Swap Workflows
+
+Face Swap, Head Swap, and Body Swap now share a history by default, making it easier to manage related projects together in one workflow.
+
+## Added a Switch Feature to Body Swap
+
+Body Swap now includes a switch feature, giving you more control when working with body swap inputs.
+
+</Update>
+
+<Update label="2026-07-10" tags={["API","Web App"]}>
+{/*linear:ENG-3650,ENG-3614,ENG-3671*/}
+
+## Submit Character Replace Templates with Animate
+
+Character Replace templates can now be submitted using video and image inputs. The feature also works with Animate, making it easier to create and submit character replacement workflows.
+
+## New Characters Product Page
+
+Explore Characters, a new way to upload 1–12 reference photos of a person once and reuse them consistently across Magic Hour tools. Select saved Characters in Text to Video, Image to Video, AI Image Editor, and AI Image Generator without re-uploading or re-describing the same person.
+
+Create and manage your Characters at https://magichour.ai/create/characters.
+
+## Added Nano Banana 2 Lite to AI Image Editor and Generator APIs
+
+Nano Banana 2 Lite is now available in the AI Image Editor and AI Image Generator APIs, giving developers another model option for image generation and editing workflows.
+
+</Update>
+
+<Update label="2026-07-08" tags={["Web App"]}>
+{/*linear:ENG-3596,ENG-1981,ENG-3568,ENG-3615*/}
+
+## Explore 54 Language-Specific AI Video Translator Pages
+
+You can now browse dedicated AI Video Translator pages for 54 supported languages, including Spanish, French, Japanese, Arabic, Hindi, and more. Each page includes language-specific market context, FAQs, supported-language links, and details on how Magic Hour translates, voice-clones, and lip-syncs your video.
+
+The pages also link directly to the translator flow with the selected language prefilled once the tool is available. Farsi searches are redirected to the Persian page.
+
+Try it out now: https://magichour.ai/products/ai-video-translator
+
+## New Character Replace Workspace
+
+We added the Character Replace workspace at `/character-replace`. Upload a video, select the person to replace by clicking a point on any frame, and choose a replacement character by uploading an image or selecting a preset.
+
+The workspace also supports Character Only and Full Scene modes, along with negative points that mark objects to preserve in the generated video. The initial version focuses on the core replacement flow for uploaded videos.
+
+Try it out now: https://magichour.ai/character-replace
+
+## Added Nano Banana 2 Lite to AI Image Tools
+
+Nano Banana 2 Lite is now available in AI Image Editor and AI Image Generator. It is built for speed and high-quality results, with the same credit cost as Nano Banana at 1K resolution and the same higher-resolution scaling used for Nano Banana 2.
+
+## Coming Soon: AI Influencer Generator
+
+We added the AI Influencer Generator product page, where you can learn how to design a photorealistic virtual influencer by selecting traits such as appearance, age, and style—without writing prompts.
+
+Generated influencers can be saved as Characters and used across Text to Video, Image to Video, AI Image Editor, and AI Image Generator for consistent content. The tool is coming soon; a live tool experience will replace the Coming Soon button when it launches.
+
+Try it out now: https://magichour.ai/products/ai-influencer-generator
+
+</Update>
+
 <Update label="2026-07-06" tags={["Web App"]}>
 {/*linear:ENG-3595,ENG-3593,ENG-3584,ENG-3569*/}
 
