@@ -17,6 +17,9 @@
  *   --until omitted → no end bound (include everything from start through now)
  *   --until set     → end = that day inclusive (LA day ≤ --until)
  *
+ * Dedup: each new <Update> embeds `<!-- linear:ENG-123,ENG-456 -->`. Issues whose
+ * identifiers already appear in changelog.mdx are skipped (covers --since overlap + re-runs).
+ *
  * Usage:
  *   yarn changelog                       # since=day after latest <Update>; until=none
  *   yarn changelog --since 2026-01-01    # override start (inclusive)
@@ -134,6 +137,18 @@ function parseLastChangelogLabel(): string {
   return match[1]!;
 }
 
+/** Linear issue identifiers (`ENG-123`) already recorded via `<!-- linear:... -->` in changelog.mdx. */
+function parseKnownLinearIds(content: string): Set<string> {
+  const ids = new Set<string>();
+  for (const match of content.matchAll(/<!--\s*linear:([\s\S]*?)-->/gi)) {
+    for (const raw of match[1]!.split(",")) {
+      const id = raw.trim();
+      if (id) ids.add(id);
+    }
+  }
+  return ids;
+}
+
 // ---------------------------------------------------------------------------
 // Linear helpers
 // ---------------------------------------------------------------------------
@@ -148,6 +163,7 @@ async function listLinearTeams(client: LinearClient): Promise<void> {
 
 interface LinearIssue {
   id: string;
+  identifier: string;
   title: string;
   description: string | undefined;
   url: string;
@@ -182,6 +198,7 @@ async function fetchFeatureIssues(
     if (!issue.completedAt) continue;
     issues.push({
       id: issue.id,
+      identifier: issue.identifier,
       title: issue.title,
       description: issue.description ?? undefined,
       url: issue.url,
@@ -263,7 +280,7 @@ ${issuesSummary}
 `;
 
   const { object } = await generateObject({
-    model: openai("gpt-5"),
+    model: openai("gpt-5.6-luna"),
     system: systemPrompt,
     prompt: userPrompt,
     schema: z.object({
@@ -281,7 +298,9 @@ ${issuesSummary}
 
   // New entries ship without images — real screenshots are added by hand later if
   // wanted. Emitting placeholder paths to non-existent files would break links.
-  return `<Update label="${dateStr}" ${tagsAttr}>\n\n${object.content.trim()}\n\n</Update>`;
+  // Embed Linear IDs so later runs can skip issues already written to the changelog.
+  const linearMarker = `<!-- linear:${issues.map((i) => i.identifier).join(",")} -->`;
+  return `<Update label="${dateStr}" ${tagsAttr}>\n${linearMarker}\n\n${object.content.trim()}\n\n</Update>`;
 }
 
 // ---------------------------------------------------------------------------
@@ -335,7 +354,7 @@ async function promptIssueSelection(issues: LinearIssue[]): Promise<LinearIssue[
     message: "Include these issues in the changelog (toggle to exclude)",
     options: issues.map((issue) => ({
       value: issue.id,
-      label: `[${toDateStr(issue.completedAt)}] ${issue.title}`,
+      label: `[${toDateStr(issue.completedAt)}] ${issue.identifier} ${issue.title}`,
     })),
     initialValues: issues.map((i) => i.id),
     required: true,
@@ -404,7 +423,16 @@ async function main(): Promise<void> {
     completedOnOrAfterUtc,
     completedOnOrBeforeUtc
   );
-  const issues = raw.filter(changelogDayOk);
+  const changelogContent = fs.readFileSync(CHANGELOG_PATH, "utf-8");
+  const knownLinearIds = parseKnownLinearIds(changelogContent);
+  const inWindow = raw.filter(changelogDayOk);
+  const issues = inWindow.filter((i) => !knownLinearIds.has(i.identifier));
+  const skippedKnown = inWindow.length - issues.length;
+  if (skippedKnown > 0) {
+    console.log(
+      `Skipping ${skippedKnown} issue(s) already marked in changelog.mdx (${knownLinearIds.size} known identifier(s)).`
+    );
+  }
 
   if (issues.length === 0) {
     console.log("No new issues found. Changelog is up to date.");
@@ -413,7 +441,7 @@ async function main(): Promise<void> {
 
   console.log(`Found ${issues.length} issue(s):`);
   for (const issue of issues) {
-    console.log(`  [${toDateStr(issue.completedAt)}] ${issue.title}`);
+    console.log(`  [${toDateStr(issue.completedAt)}] ${issue.identifier} ${issue.title}`);
   }
 
   const selectedIssues = await promptIssueSelection(issues);
