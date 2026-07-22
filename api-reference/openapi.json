@@ -3,7 +3,7 @@
   "paths": {
     "/v1/files/upload-urls": {
       "post": {
-        "description": "Generates a list of pre-signed upload URLs for the assets required. This API is only necessary if you want to upload to Magic Hour's storage. Refer to the [Input Files Guide](/integration/input-files) for more details.\n\nThe response array will match the order of items in the request body.\n\n**Valid file extensions per asset type**:\n- video: mp4, m4v, mov, webm\n- audio: mp3, wav, aac, flac, webm, weba, m4a, opus, ogg, oga, aiff, amr\n- image: png, jpg, jpeg, jfif, heic, heif, webp, avif, jp2, tiff, tif, bmp\n- gif: gif, webp, webm\n\n> Note: `gif` is only supported for face swap API `video_file_path` field.\n\nOnce you receive an upload URL, send a `PUT` request to upload the file directly.\n\nExample:\n\n```\ncurl -X PUT --data '@/path/to/file/video.mp4' \\\n  https://videos.magichour.ai/api-assets/id/video.mp4?<auth params from the API response>\n```\n",
+        "description": "Generates a list of pre-signed upload URLs for the assets required. This API is only necessary if you want to upload to Magic Hour's storage. Refer to the [Input Files Guide](/integration/input-files) for more details.\n\nThe response array will match the order of items in the request body.\n\n**Valid file extensions per asset type**:\n- video: mp4, m4v, mov, webm\n- audio: mp3, wav, aac, flac, webm, weba, m4a, opus, ogg, oga, aiff, amr\n- image: png, jpg, jpeg, jfif, heic, heif, webp, avif, jp2, tiff, tif, bmp\n- gif: gif, webp, webm\n\n> Note: `gif` is only supported for face swap API `video_file_path` field.\n\nOnce you receive an upload URL, send a `PUT` request to upload the file directly.\n\nExample:\n\n```\ncurl -X PUT --data '@/path/to/file/video.mp4' \\\n  https://videos.magichour.ai/api-assets/id/video.mp4?<auth params from the API response>\n```",
         "summary": "Generate asset upload urls",
         "tags": ["Files"],
         "parameters": [],
@@ -1095,7 +1095,7 @@
     },
     "/v1/ai-talking-photo": {
       "post": {
-        "description": "Turn a photo into a talking video using an audio track. Typical completion time: 2m 54s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Turn a photo into a talking video using an audio track.",
         "summary": "AI Talking Photo",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -1348,7 +1348,7 @@
     },
     "/v1/ai-video-editor": {
       "post": {
-        "description": "Edit a video using an AI prompt. Typical completion time: 1m 25s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Edit a video using an AI prompt.",
         "summary": "AI Video Editor",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -1578,7 +1578,7 @@
     },
     "/v1/animation": {
       "post": {
-        "description": "Animate a still image into a video. Typical completion time: 9m 56s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Animate a still image into a video.",
         "summary": "Animation",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -1966,7 +1966,7 @@
     },
     "/v1/audio-to-video": {
       "post": {
-        "description": "Generate a video from an audio track. Typical completion time: 1m 57s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Generate a video from an audio track.",
         "summary": "Audio-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2207,7 +2207,7 @@
     },
     "/v1/auto-subtitle-generator": {
       "post": {
-        "description": "Add generated subtitles to a video. Typical completion time: 45s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Add generated subtitles to a video.",
         "summary": "Auto Subtitle Generator",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2486,7 +2486,7 @@
     },
     "/v1/character-replace": {
       "post": {
-        "description": "Replace or animate a video subject using a reference image. Typical completion time: 7m 26s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Replace or animate a video subject using a reference image.",
         "summary": "Character Replace",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2763,7 +2763,7 @@
     },
     "/v1/face-swap": {
       "post": {
-        "description": "Replace faces in a video using a source image. Typical completion time: 1m 36s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Replace faces in a video using a source image.",
         "summary": "Face Swap Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -3044,7 +3044,7 @@
     },
     "/v1/image-to-video": {
       "post": {
-        "description": "Animate an image into a video. Typical completion time: 1m 14s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Animate an image into a video.",
         "summary": "Image-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -3307,7 +3307,7 @@
     },
     "/v1/lip-sync": {
       "post": {
-        "description": "Synchronize lip movement in a video with an audio track. Typical completion time: 3m 49s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Synchronize lip movement in a video with an audio track.",
         "summary": "Lip Sync",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -3559,7 +3559,7 @@
     },
     "/v1/text-to-video": {
       "post": {
-        "description": "Generate a video from a text prompt. Typical completion time: 51s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Generate a video from a text prompt.",
         "summary": "Text-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -3811,7 +3811,7 @@
     },
     "/v1/video-to-video": {
       "post": {
-        "description": "Transform an existing video with an AI prompt. Typical completion time: 12m 52s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Transform an existing video with an AI prompt.",
         "summary": "Video-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -4549,7 +4549,7 @@
     },
     "/v1/ai-clothes-changer": {
       "post": {
-        "description": "Change a person's clothing in an image. Typical completion time: 13s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Change a person's clothing in an image.",
         "summary": "AI Clothes Changer",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -4764,7 +4764,7 @@
     },
     "/v1/ai-face-editor": {
       "post": {
-        "description": "Edit facial features in an image. Typical completion time: 3s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Edit facial features in an image.",
         "summary": "AI Face Editor",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -5105,7 +5105,7 @@
     },
     "/v1/ai-gif-generator": {
       "post": {
-        "description": "Generate an animated GIF from a text prompt. Typical completion time: 23s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Generate an animated GIF from a text prompt.",
         "summary": "AI GIF Generator",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -5315,7 +5315,7 @@
     },
     "/v1/ai-image-editor": {
       "post": {
-        "description": "Edit an image using a text prompt. Typical completion time: 9s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Edit an image using a text prompt.",
         "summary": "AI Image Editor",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -5570,7 +5570,7 @@
     },
     "/v1/ai-headshot-generator": {
       "post": {
-        "description": "Generate professional headshots from uploaded photos. Typical completion time: 14s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Generate professional headshots from uploaded photos.",
         "summary": "AI Headshot Generator",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -5782,7 +5782,7 @@
     },
     "/v1/ai-image-generator": {
       "post": {
-        "description": "Generate images from a text prompt. Typical completion time: 5s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Generate images from a text prompt.",
         "summary": "AI Image Generator",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -6066,7 +6066,7 @@
     },
     "/v1/ai-image-upscaler": {
       "post": {
-        "description": "Increase an image's resolution and detail. Typical completion time: 22s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Increase an image's resolution and detail.",
         "summary": "AI Image Upscaler",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -6291,7 +6291,7 @@
     },
     "/v1/ai-meme-generator": {
       "post": {
-        "description": "Generate a meme from a text prompt. Typical completion time: 9s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Generate a meme from a text prompt.",
         "summary": "AI Meme Generator",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -6519,7 +6519,7 @@
     },
     "/v1/ai-qr-code-generator": {
       "post": {
-        "description": "Generate a stylized QR code from a prompt and destination URL. Typical completion time: 7s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Generate a stylized QR code from a prompt and destination URL.",
         "summary": "AI QR Code Generator",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -6725,7 +6725,7 @@
     },
     "/v1/body-swap": {
       "post": {
-        "description": "Replace a person's body in an image using a reference photo. Typical completion time: 38s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Replace a person's body in an image using a reference photo.",
         "summary": "Body Swap",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -6940,7 +6940,7 @@
     },
     "/v1/face-swap-photo": {
       "post": {
-        "description": "Replace faces in a photo using a source image. Typical completion time: 4s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Replace faces in a photo using a source image.",
         "summary": "Face Swap Photo",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -7183,7 +7183,7 @@
     },
     "/v1/head-swap": {
       "post": {
-        "description": "Replace a person's head in an image using a reference photo. Typical completion time: 18s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Replace a person's head in an image using a reference photo.",
         "summary": "Head Swap",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -7397,7 +7397,7 @@
     },
     "/v1/image-background-remover": {
       "post": {
-        "description": "Remove the background from an image. Typical completion time: 4s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Remove the background from an image.",
         "summary": "Image Background Remover",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -7604,7 +7604,7 @@
     },
     "/v1/photo-colorizer": {
       "post": {
-        "description": "Add color to a black-and-white photo. Typical completion time: 9s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Add color to a black-and-white photo.",
         "summary": "Photo Colorizer",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -8184,7 +8184,7 @@
     },
     "/v1/ai-voice-generator": {
       "post": {
-        "description": "Generate spoken audio from text using a selected voice. Typical completion time: 21s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Generate spoken audio from text using a selected voice.",
         "summary": "AI Voice Generator",
         "tags": ["Audio Projects"],
         "parameters": [],
@@ -8891,7 +8891,7 @@
     },
     "/v1/ai-voice-cloner": {
       "post": {
-        "description": "Clone a voice from an audio sample and generate new speech. Typical completion time: 21s median over the last 30 days, including queueing. Actual times vary; this is not an SLA.",
+        "description": "Clone a voice from an audio sample and generate new speech.",
         "summary": "AI Voice Cloner",
         "tags": ["Audio Projects"],
         "parameters": [],

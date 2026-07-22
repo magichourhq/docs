@@ -11,7 +11,6 @@
     "check": "mintlify broken-links",
     "scrape:api": "mintlify-scrape openapi-file api-reference/openapi.json -o api-reference",
     "scrape:webhook": "mintlify-scrape openapi-file webhook-reference/openapi.json -o webhook-reference",
-    "apply:doc-overrides": "node scripts/apply-doc-overrides.js",
     "changelog": "tsx scripts/generate-changelog.ts"
   },
   "devDependencies": {
