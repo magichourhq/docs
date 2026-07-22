@@ -24,8 +24,20 @@ jobs:
     runs-on: blacksmith-2vcpu-ubuntu-2404
 
     steps:
+      # App token so the opened PR can trigger CI (GITHUB_TOKEN cannot).
+      # Repo var: APP_CLIENT_ID; secret: APP_PRIVATE_KEY
+      # App needs Contents: write + Pull requests: write on this repo.
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.APP_CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -52,6 +64,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
         with:
+          token: ${{ steps.app-token.outputs.token }}
           commit-message: "chore: update changelog"
           title: "chore: update changelog"
           body: |
