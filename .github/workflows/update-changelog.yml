@@ -10,6 +10,10 @@ on:
         description: "Override start date (YYYY-MM-DD). Leave blank to auto-detect from changelog.mdx."
         required: false
         type: string
+      until:
+        description: "Override end date (YYYY-MM-DD, inclusive). Leave blank for no end bound."
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -39,7 +43,8 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           yarn changelog --skip-select --yes \
-            ${{ github.event.inputs.since && format('--since {0}', github.event.inputs.since) || '' }}
+            ${{ github.event.inputs.since && format('--since {0}', github.event.inputs.since) || '' }} \
+            ${{ github.event.inputs.until && format('--until {0}', github.event.inputs.until) || '' }}
 
       - name: Format with Prettier
         run: yarn prettier --write changelog.mdx
