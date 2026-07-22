@@ -6,6 +6,315 @@ rss: true
 
 import { VideoPlayer } from "/snippets/video-player.mdx";
 
+<Update label="2026-05-29" tags={["Web App"]}>
+{/*linear:ENG-3160,ENG-3161,ENG-2971*/}
+
+## Extract Video Frames with a New Confirmation Modal
+
+Image inputs can now use shared video frame extraction building blocks. When enabled, a video can be converted into a still image with a preview, loading state, and **Use this frame** or **Cancel** actions. Pressing Esc or clicking outside the modal cancels the action.
+
+The extraction supports both the first and last frame and validates the resulting JPEG before it is used as an image input.
+
+## Use Video Frames in Image-to-Video Inputs
+
+You can now drop or select a video for either image input in the dashboard and free image-to-video tools. A confirmation modal previews the extracted frame before adding it to your form.
+
+The start image defaults to the video’s last frame, while the end image defaults to the first frame. Canceling, pressing Esc, or clicking outside the modal leaves your form unchanged. Existing image uploads continue to work as before.
+
+Try it out now:
+
+- [Dashboard image-to-video](https://magichour.ai/create/image-to-video)
+- [Free image-to-video](https://magichour.ai/products/image-to-video)
+
+## Extract Video Frames from More Image Inputs
+
+Video frame extraction is now available across additional image inputs in both free tools and dashboard tools. Upload a video where an image is expected, preview the extracted still, and confirm it before using it in your generation.
+
+By default, image inputs use the last frame of a video. In image-to-video end-image inputs, the first frame is used instead.
+
+</Update>
+
+<Update label="2026-05-28" tags={["Web App"]}>
+{/*linear:ENG-3133*/}
+
+## Expand Your Videos with AI
+
+The new AI Video Expander free tool lets you extend your videos with AI. Choose from preset aspect ratios and expand videos up to 5 seconds, with output capped at 1024px (1K).
+
+Try it out now: https://magichour.ai/products/ai-video-expander
+
+</Update>
+
+<Update label="2026-05-27" tags={["API","Web App"]}>
+{/*linear:ENG-3027,ENG-3082,ENG-2908*/}
+
+## Talking Photo V5 Enables Multi-Minute Generations
+
+Talking Photo V5 now supports multi-minute video generations, making it possible to create substantially longer talking photo videos.
+
+## Remove Watermarks from Face Swap Videos
+
+Free face swap video outputs now include a **Remove watermark** option in the dashboard. Users can view subscription options from the output and, after subscribing, have the watermark removed from their existing video without regenerating it.
+
+## New Onboarding Flow
+
+We launched onboarding flow v2 with additional steps designed to improve activation and conversion. The new experience can also be A/B tested against the current onboarding flow.
+
+</Update>
+
+<Update label="2026-05-25" tags={["Web App"]}>
+{/*linear:ENG-3129*/}
+
+## Explore 300 New AI Voices
+
+The AI Voice Generator now includes 300 additional voices, with new subpages to help you discover and preview them. We also updated metadata for existing voices, including tags, to make browsing the voices library more useful.
+
+</Update>
+
+<Update label="2026-05-22" tags={["Web App"]}>
+{/*linear:ENG-3065,ENG-3066*/}
+
+## New AI Music Generator Product Page
+
+Explore Magic Hour’s new AI Music Generator page to learn how to create original music from a text prompt. Discover use cases, generation features, and helpful guidance for making music for videos, social posts, podcasts, games, ads, and more.
+
+Try it out now: https://magichour.ai/products/ai-music-generator
+
+## Create Music from the Dashboard
+
+The AI Music Generator is now available through a dedicated dashboard creation flow. Describe the music you want, adjust your generation settings, preview the result, and download your track. Generation costs 1 credit per second.
+
+</Update>
+
+<Update label="2026-05-21" tags={["API","Web App"]}>
+{/*linear:ENG-3062,ENG-2496*/}
+
+## AI Music Generator Colab Script
+
+Added a Colab notebook for generating AI music, including songs up to 120 seconds long. Each generation only requires rerunning the section under **EDIT INPUTS**.
+
+Generation takes about 40 seconds on an L4 GPU and about 8 seconds on a full RTX GPU. The notebook requires approximately 18 GB of GPU VRAM.
+
+## New Face Swap Photo Inspiration
+
+Added a Face Swap Photo inspiration tab to the creation flow, making it easier to discover examples and get started with face swap photos.
+
+</Update>
+
+<Update label="2026-05-20" tags={["Web App"]}>
+{/*linear:ENG-163*/}
+
+## Manage Multiple Library Items at Once
+
+My Library now supports grid and list views with bulk selection. Select multiple items to download or delete them in one action, with progress feedback while each operation is processing.
+
+</Update>
+
+<Update label="2026-05-19" tags={["API"]}>
+{/*linear:ENG-3064*/}
+
+## Add Audio to Video to the API
+
+You can now add audio to video through the Magic Hour API, making it easier to create videos with sound programmatically.
+
+</Update>
+
+<Update label="2026-05-18" tags={["Web App"]}>
+{/*linear:ENG-3018,ENG-3060,ENG-3009*/}
+
+## Add Audio References to Seedance 2.0
+
+Seedance 2.0 now supports audio references in the web app, giving you more control over your video generations.
+
+## Discover GPT Image 2 in the Create Carousel
+
+GPT Image 2 is now featured in the `/create` carousel for state-of-the-art image generation and editing.
+
+## Get Helpful Tips While Your Render Processes
+
+Select modes now show rotating tips at the bottom of the render modal. Use the wait time to learn techniques and ideas that can help improve your future results.
+
+</Update>
+
+<Update label="2026-05-15" tags={["Web App"]}>
+{/*linear:ENG-2978*/}
+
+## Discover the AI Image Extender
+
+We launched a new AI Image Extender product page to help you learn how to expand images beyond their borders, resize without cropping, and reframe visuals for social media, ads, ecommerce, and design. The page walks through uploading an image, choosing an aspect ratio or custom padding, and extending the image with AI.
+
+Explore use cases, key features, and answers to common questions about outpainting, supported formats, output resolutions, and more. The free tool section is marked as coming soon.
+
+Try it out now: https://magichour.ai/products/ai-image-extender
+
+</Update>
+
+<Update label="2026-05-14" tags={["Web App"]}>
+{/*linear:ENG-2988*/}
+
+## Create Images with AI Image Expander
+
+The new AI Image Expander creation flow is now available on the web. Upload an image, optionally add a prompt to guide the out-painted area, choose an output aspect ratio—including a custom ratio—and select a 640px, 1K, or 2K resolution.
+
+The flow is currently available behind a feature flag while the generation script is being prepared.
+
+Try it out now: [AI Image Expander](https://magichour.ai/create/ai-image-expander)
+
+</Update>
+
+<Update label="2026-05-13" tags={["Web App"]}>
+{/*linear:ENG-2989,ENG-2860*/}
+
+## Create Image Variations with Nano Banana Models
+
+The AI Image Editor now includes a Variations tab with nine ways to generate multiple images from a single input image: Profile Picture Generator, Ad Variations, Product Shots, Relight, Style Variations, Headshot Variations, Angles, Outfit Variations, and Background Variations.
+
+Choose from Nano Banana, Nano Banana 2, and Nano Banana Pro, along with 1:1, 16:9, or 9:16 aspect ratios and 2x2 or 3x3 grids. The editor also applies the appropriate model defaults for each variation mode.
+
+## Use Image References in the AI Image Generator
+
+You can now drag and drop an image into the AI Image Generator prompt box to continue in the AI Image Editor with your existing inputs preserved. If you were using Z-Image or Flux Schnell, the model automatically switches to the AI Image Editor’s default model.
+
+</Update>
+
+<Update label="2026-05-12" tags={["Web App"]}>
+{/*linear:ENG-3010,ENG-3011*/}
+
+## Filter Inspiration Templates by Model
+
+Inspirations for Image-to-Video and Text-to-Video now include model breakdowns. Select a model to view templates created with it, with only models that have at least 8 templates shown.
+
+## More Model Filters on Effects
+
+The Effects page and modal now include additional model pills for Image-to-Video and Text-to-Video. Models with at least 7 templates are included, making it easier to find effects built for the models you want to use.
+
+</Update>
+
+<Update label="2026-05-11" tags={["Web App"]}>
+{/*linear:ENG-3004,ENG-2922,ENG-2998*/}
+
+## Added Five AI Image Variation Tools
+
+We added five new product pages and free tools powered by AI Image Editor Variations:
+
+- AI Ad Creative Generator — Ad Variations
+- AI Product Photography — Product Shots
+- AI Background Changer — Background Variations
+- AI Photo Relighting — Relight
+- AI Multi-Angle Photo Generator — Angles
+
+Each tool includes preset examples so you can preview different outputs before generating.
+
+## Added Video Expander Creation Flow
+
+You can now start a Video Expander project from the dashboard by adding a video and choosing an aspect ratio. Select from common presets—including vertical, widescreen, square, portrait, standard, photo, and cinematic formats—or define a custom width-to-height ratio.
+
+## Added GPT Image 2 to the Models Page
+
+GPT Image 2 is now available on the [Magic Hour models page](https://magichour.ai/models), making it easier to discover the new model alongside the rest of the available options.
+
+</Update>
+
+<Update label="2026-05-10" tags={["Web App"]}>
+{/*linear:ENG-3001,ENG-2990,ENG-2977*/}
+
+## Improved Video-to-Video Form Layout
+
+The video-to-video form now adapts its menu height to the available space. When no video has been uploaded, the video file input remains visible on most devices, making it easier to get started.
+
+## New AI Variations Product Pages and Free Tools
+
+We added dedicated product pages and free tools for six AI Image Editor Variations features:
+
+- AI Profile Picture Generator
+- AI Ad Creative Generator
+- AI Product Photography
+- AI Background Changer
+- AI Photo Relighting
+- AI Multi-Angle Photo Generator
+
+Each free tool includes preset images with preview outputs that users can select to update the hero image. After reaching the daily limit, users are directed to AI Image Editor with the selected Variation pre-filled when available.
+
+## Added Image Extender Generation Script
+
+We built an image extender script that supports adjustable image, resolution, aspect ratio, padding, and an optional prompt. Resolution options include 640px, 1K, and 2K, with custom aspect ratios supporting separate left, right, top, and bottom padding controls.
+
+</Update>
+
+<Update label="2026-05-08" tags={["Web App"]}>
+{/*linear:ENG-2999*/}
+
+## See Video Duration Before Generating
+
+Video tools in the dashboard now show the selected duration persistently above the Generate button. You can confirm the length of your video before starting generation, alongside a more compact resolution display.
+
+</Update>
+
+<Update label="2026-05-07" tags={["API","Web App"]}>
+{/*linear:ENG-2979,ENG-2996*/}
+
+## Reuse Previously Used Assets in Face Swap Photo
+
+You can now select previously used assets when creating a face swap photo. The asset picker matches the face swap video experience and is available above Advanced Settings.
+
+## Add Kling 3.0 4K to Text-to-Video and Image-to-Video API
+
+The API now supports Kling 3.0 4K for text-to-video and image-to-video generation.
+
+</Update>
+
+<Update label="2026-05-06" tags={["Web App"]}>
+{/*linear:ENG-2760,ENG-2827*/}
+
+## Explore Templates by AI Model
+
+New model template pages make it easier to discover what each AI model can create. Browse curated templates in a gallery directly beneath the model overview, then open any template in the familiar template details modal.
+
+Each page also includes structured metadata and breadcrumbs to improve discoverability.
+
+## Create Image Variations with More Control
+
+The AI Image Editor now includes a Variations workflow for generating multiple versions of an image at once. Choose from 1:1, 16:9, or 9:16 aspect ratios; 2×2 or 3×3 grids; 1K, 2K, or 4K image sizes; and NB1, NB2, or NBP models.
+
+Describe the variation you want with a prompt, then generate a grid of results that can be split into individual images.
+
+</Update>
+
+<Update label="2026-05-04" tags={["Web App"]}>
+{/*linear:ENG-2947,ENG-2910*/}
+
+## Refined Face Swap Product Navigation
+
+We productionized the face swap cluster navigation with a cleaner, more integrated experience across the face swap, multiple face swap, head swap, and body swap pages. Users can now explore the available modes from compact, crawlable links, with single and multiple face swap rows linking to their photo pages and format pills linking directly to photo, video, and GIF pages.
+
+The navigation also includes clearer active states, polished hover and focus behavior, and improved spacing across desktop and mobile layouts.
+
+## Added Video Output Info Tips
+
+Video modes with a middle panel now include an info-tip next to the full-screen control. Open it to view additional information about the video output directly within the create experience.
+
+</Update>
+
+<Update label="2026-05-02" tags={["Web App"]}>
+{/*linear:ENG-2771*/}
+
+## Add Reference Assets to Seedance 2.0
+
+You can now use reference assets with Seedance 2.0 for text-to-video and image-to-video generation. Add images, videos, or audio references and mention them in your prompt with tags like `@Image1` or `@Video1` to guide character appearance, style, motion, and more.
+
+Every asset referenced in the prompt must be included in the references list, or the generation will be rejected.
+
+</Update>
+
+<Update label="2026-05-01" tags={["Web App"]}>
+{/*linear:ENG-2937*/}
+
+## Filter Effects by Video or Image
+
+You can now filter the Effects page by video or image effects, making it easier to find the right tool for your project on desktop and mobile.
+
+</Update>
+
 <Update label="2026-04-29" tags={["Web App"]}>
 {/*linear:ENG-2834*/}
 
