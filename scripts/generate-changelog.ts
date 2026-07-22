@@ -17,8 +17,9 @@
  *   --until omitted → no end bound (include everything from start through now)
  *   --until set     → end = that day inclusive (LA day ≤ --until)
  *
- * Dedup: each new <Update> embeds `{/*linear:ENG-123,ENG-456*/}`. Issues whose
- * identifiers already appear in changelog.mdx are skipped (covers --since overlap + re-runs).
+ * Dedup: each new <Update> embeds an MDX comment marker linear:ENG-123,ENG-456.
+ * Issues whose identifiers already appear in changelog.mdx are skipped
+ * (covers --since overlap + re-runs).
  *
  * Usage:
  *   yarn changelog                       # since=day after latest <Update>; until=none
@@ -137,7 +138,7 @@ function parseLastChangelogLabel(): string {
   return match[1]!;
 }
 
-/** Linear issue identifiers (`ENG-123`) already recorded via `{/*linear:...*/}` in changelog.mdx. */
+/** Linear issue identifiers (`ENG-123`) already recorded via MDX linear: markers in changelog.mdx. */
 function parseKnownLinearIds(content: string): Set<string> {
   const ids = new Set<string>();
   // MDX comments only — HTML <!-- --> is a syntax error in MDX.
