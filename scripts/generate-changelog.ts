@@ -21,6 +21,10 @@
  * Issues whose identifiers already appear in changelog.mdx are skipped
  * (covers --since overlap + re-runs).
  *
+ * A/B tests: issues whose title/description look like experiments (A/B test,
+ * "We're testing…", title starting with "Testing", GrowthBook, etc.) are dropped
+ * automatically so internal experiments do not land in the public changelog.
+ *
  * Usage:
  *   yarn changelog                       # since=day after latest <Update>; until=none
  *   yarn changelog --since 2026-01-01    # override start (inclusive)
@@ -212,6 +216,25 @@ async function fetchFeatureIssues(
   issues.sort((a, b) => a.completedAt.getTime() - b.completedAt.getTime());
 
   return issues;
+}
+
+/**
+ * Drop internal A/B / experiment tickets from the public changelog.
+ * Prefer specific experiment phrasing over bare "testing" (avoids "same in testing").
+ */
+const AB_TESTING_PATTERNS: RegExp[] = [
+  /\ba\s*\/\s*b\b/i, // A/B
+  /\bab[\s_-]?tests?\b/i, // ab test, ab-test
+  /\bsplit[\s_-]?tests?\b/i,
+  /\bgrowthbook\b/i,
+  /\bexperiments?\b/i, // "this experiment", not "experimental"
+  /\b(?:we(?:['’]re| are)|while we)\s+test(?:ing)?\b/i,
+  /^testing\b/i, // title like "Testing GPT Image 2 as the Default…"
+];
+
+function isAbTestingIssue(issue: LinearIssue): boolean {
+  const haystack = `${issue.title}\n${issue.description ?? ""}`;
+  return AB_TESTING_PATTERNS.some((re) => re.test(haystack));
 }
 
 // ---------------------------------------------------------------------------
@@ -428,12 +451,25 @@ async function main(): Promise<void> {
   const changelogContent = fs.readFileSync(CHANGELOG_PATH, "utf-8");
   const knownLinearIds = parseKnownLinearIds(changelogContent);
   const inWindow = raw.filter(changelogDayOk);
-  const issues = inWindow.filter((i) => !knownLinearIds.has(i.identifier));
-  const skippedKnown = inWindow.length - issues.length;
+  const notYetWritten = inWindow.filter((i) => !knownLinearIds.has(i.identifier));
+  const skippedKnown = inWindow.length - notYetWritten.length;
   if (skippedKnown > 0) {
     console.log(
       `Skipping ${skippedKnown} issue(s) already marked in changelog.mdx (${knownLinearIds.size} known identifier(s)).`
     );
+  }
+
+  const abTesting: LinearIssue[] = [];
+  const issues: LinearIssue[] = [];
+  for (const issue of notYetWritten) {
+    if (isAbTestingIssue(issue)) abTesting.push(issue);
+    else issues.push(issue);
+  }
+  if (abTesting.length > 0) {
+    console.log(`Skipping ${abTesting.length} A/B testing / experiment issue(s):`);
+    for (const issue of abTesting) {
+      console.log(`  [${toDateStr(issue.completedAt)}] ${issue.identifier} ${issue.title}`);
+    }
   }
 
   if (issues.length === 0) {
