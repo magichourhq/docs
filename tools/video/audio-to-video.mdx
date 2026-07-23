@@ -1,0 +1,103 @@
+---
+title: Audio to Video Tool - Magic Hour Docs
+sidebarTitle: Audio to Video
+description: Generate a video from audio, an optional image, and a text prompt.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+Audio to Video turns an audio track into a generated video. Add an optional reference image and prompt to guide the scene while matching the output duration to the selected audio segment.
+
+<ToolSection
+  title="Audio to Video"
+  productSlug="audio-to-video"
+  apiSlug="audio-to-video"
+  type="video"
+  outputs={[
+    {
+      src: "https://d28dkohlqf5vwj.cloudfront.net/products/audio-to-video/demo-video.mp4",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Upload audio** - Use the [file upload API](/api-reference/files/generate-asset-upload-urls) and copy its `file_path`
+2. **Add optional guidance** - Provide a reference image and a prompt describing the scene
+3. **Choose the segment** - Set start time, end time, and output resolution
+4. **Create the job** - Submit the request and poll until its status is `complete`
+5. **Download the result** - Retrieve the generated video from `downloads`
+
+## Use Cases
+
+- **Music visuals** - Generate shareable visuals for songs and audio clips
+- **Podcast promotion** - Turn excerpts into video content
+- **Narrated stories** - Pair spoken audio with generated scenes
+- **Social media** - Convert audio-first content into video posts
+- **Creative visualization** - Explore visual interpretations of sound and speech
+
+## Best Practices
+
+<Tip>
+  **Use a focused prompt** - Describe the subject, setting, movement, and visual style you want.
+</Tip>
+
+- **Use clean audio** - Clear source audio without clipping or excessive noise produces a stronger input
+- **Match the image to the prompt** - When using a reference image, avoid instructions that conflict with it
+- **Start with a short segment** - Test the visual direction before generating a longer clip
+- **Choose the needed resolution** - Higher resolution takes more processing and may use more credits
+- **Check segment bounds** - `end_seconds` must be greater than `start_seconds`
+
+## Code Example
+
+Input files must be direct URLs or `file_path` values returned by the file upload API.
+
+```bash cURL
+curl --request POST \
+  --url https://api.magichour.ai/v1/audio-to-video \
+  --header 'accept: application/json' \
+  --header 'authorization: Bearer <token>' \
+  --header 'content-type: application/json' \
+  --data '
+{
+  "name": "My Audio To Video video",
+  "start_seconds": 0,
+  "end_seconds": 15,
+  "resolution": "720p",
+  "assets": {
+    "audio_file_path": "api-assets/id/1234.mp3",
+    "image_file_path": "api-assets/id/1234.png"
+  },
+  "style": {
+    "prompt": "Car driving through a city"
+  }
+}
+'
+```
+
+## Pricing
+
+Credits are charged for frames that render. The create response provides an estimate, and the completed job reports the final total in `credits_charged`. See [Billing](/billing/overview) for current rates.
+
+## API Reference
+
+<Card
+  title="Audio to Video API Reference"
+  icon="webhook"
+  href="/api-reference/video-projects/audio-to-video"
+>
+  View all request fields, limits, and response formats
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="Image to Video" icon="image" href="/tools/video/image-to-video">
+    Animate a still image into a video
+  </Card>
+  <Card title="Text to Video" icon="text" href="/tools/video/text-to-video">
+    Generate video directly from a text description
+  </Card>
+</CardGroup>

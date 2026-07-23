@@ -1,0 +1,105 @@
+---
+title: AI Video Editor Tool - Magic Hour Docs
+sidebarTitle: AI Video Editor
+description: Edit existing videos with natural-language prompts.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+AI Video Editor changes existing footage from a text prompt. Use it to remove or replace objects, change colors, add scene details, or restyle a clip without a manual timeline workflow.
+
+<ToolSection
+  title="AI Video Editor"
+  productSlug="ai-video-editor"
+  apiSlug="ai-video-editor"
+  type="video"
+  outputs={[
+    {
+      src: "https://d28dkohlqf5vwj.cloudfront.net/products/ai-video-editor/examples/add-birds.mp4",
+    },
+    {
+      src: "https://d28dkohlqf5vwj.cloudfront.net/products/ai-video-editor/examples/change-color-to-blue.mp4",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Upload a source video** - Use the [file upload API](/api-reference/files/generate-asset-upload-urls) and copy its `file_path`
+2. **Describe the edit** - Provide a prompt such as "Change the car color to blue"
+3. **Choose the clip range** - Set `start_seconds` and `end_seconds`
+4. **Create the job** - Submit the edit and poll until its status is `complete`
+5. **Download the result** - Retrieve the edited video from `downloads`
+
+## Use Cases
+
+- **Object removal** - Remove distracting people, props, logos, or background details
+- **Scene changes** - Replace backgrounds or add new visual elements
+- **Color and lighting edits** - Change colors, lighting, and other scene details
+- **Creative restyling** - Turn footage into cinematic, illustrated, or branded variants
+- **Ad variants** - Produce multiple edits from one source clip
+
+## Best Practices
+
+<Tip>
+  **Use short, stable clips first** - Test a focused 3-10 second segment before processing more
+  footage.
+</Tip>
+
+- **Write one clear edit** - A focused instruction is easier to apply consistently than several unrelated changes
+- **Name the subject** - Identify the object, person, or region you want changed
+- **Describe the result** - State the desired color, object, environment, or visual style
+- **Use clear footage** - Stable motion, good lighting, and visible subjects improve consistency
+- **Review the full clip** - Check transitions and fast-moving details before using the output
+
+## Code Example
+
+The input file must be a direct URL or a `file_path` returned by the file upload API.
+
+```bash cURL
+curl --request POST \
+  --url https://api.magichour.ai/v1/ai-video-editor \
+  --header 'accept: application/json' \
+  --header 'authorization: Bearer <token>' \
+  --header 'content-type: application/json' \
+  --data '
+{
+  "name": "My Video Editor video",
+  "start_seconds": 0,
+  "end_seconds": 5,
+  "style": {
+    "prompt": "Change the car color to blue"
+  },
+  "assets": {
+    "video_file_path": "api-assets/id/1234.mp4"
+  }
+}
+'
+```
+
+## Pricing
+
+Credits are charged for frames that render. The create response provides an estimate, and the completed job reports the final total in `credits_charged`. See [Billing](/billing/overview) for current rates.
+
+## API Reference
+
+<Card
+  title="AI Video Editor API Reference"
+  icon="webhook"
+  href="/api-reference/video-projects/ai-video-editor"
+>
+  View all request fields, models, limits, and response formats
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="Video to Video" icon="video" href="/tools/video/video-to-video">
+    Apply a new visual style to existing footage
+  </Card>
+  <Card title="Character Replace" icon="user" href="/tools/video/character-replace">
+    Replace a person throughout a video
+  </Card>
+</CardGroup>

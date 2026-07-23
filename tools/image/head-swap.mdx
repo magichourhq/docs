@@ -1,0 +1,98 @@
+---
+title: Head Swap Tool - Magic Hour Docs
+sidebarTitle: Head Swap
+description: Replace an entire head in a photo while retaining the body and scene.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+Head Swap replaces the full head region in a body image using a separate head reference. Unlike a face-only swap, it can transfer broader head details while preserving the target body, pose, and scene.
+
+<ToolSection
+  title="Head Swap"
+  productSlug="head-swap"
+  apiSlug="head-swap"
+  type="image"
+  outputs={[
+    {
+      src: "https://d28dkohlqf5vwj.cloudfront.net/products/head-swap/top-card/output.jpg",
+    },
+    {
+      src: "https://d28dkohlqf5vwj.cloudfront.net/products/head-swap/highlights/smart-edits.png",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Upload a body image** - Choose the photo that keeps its body, pose, and scene
+2. **Upload a head image** - Provide the head you want to place on the body
+3. **Set an optional limit** - Use `max_resolution` to cap the output's larger dimension
+4. **Create the job** - Submit both file paths to the API
+5. **Download the result** - Poll until complete and retrieve the generated image
+
+## Use Cases
+
+- **Portrait fixes** - Replace an unsuitable head angle or expression in an otherwise useful photo
+- **Creative remixes** - Put a different head into an existing composition
+- **Profile concepts** - Explore portrait and character variations without a reshoot
+- **Content variants** - Create alternate thumbnails, posts, or campaign images
+- **Previsualization** - Test identity and styling combinations before production
+
+## Best Practices
+
+<Tip>
+  **Match angle and lighting** - Similar head orientation, camera distance, and light direction produce
+  more natural blends.
+</Tip>
+
+- **Use clear, high-resolution inputs** - Keep facial features and the full head visible
+- **Avoid obstructions** - Hair, hands, hats, and cropped heads can make alignment harder
+- **Match proportions** - References with similar framing reduce unrealistic scale differences
+- **Preserve source detail** - Avoid heavily compressed or filtered images
+- **Use `max_resolution` intentionally** - Omit it for your plan maximum or lower it for faster iteration
+
+## Code Example
+
+Input files must be direct URLs or `file_path` values returned by the [file upload API](/api-reference/files/generate-asset-upload-urls).
+
+```bash cURL
+curl --request POST \
+  --url https://api.magichour.ai/v1/head-swap \
+  --header 'accept: application/json' \
+  --header 'authorization: Bearer <token>' \
+  --header 'content-type: application/json' \
+  --data '
+{
+  "name": "My Head Swap image",
+  "max_resolution": 1024,
+  "assets": {
+    "body_file_path": "api-assets/id/1234.png",
+    "head_file_path": "api-assets/id/5678.png"
+  }
+}
+'
+```
+
+## Pricing
+
+Each generated image costs 10 credits. The response reports the amount in `credits_charged`. See [Billing](/billing/overview) for current rates.
+
+## API Reference
+
+<Card title="Head Swap API Reference" icon="webhook" href="/api-reference/image-projects/head-swap">
+  View all request fields, resolution behavior, and response formats
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="Body Swap" icon="person" href="/tools/image/body-swap">
+    Place a person into a different scene
+  </Card>
+  <Card title="Face Swap Photo" icon="face-smile" href="/tools/image/face-swap-photo">
+    Replace facial features while preserving the head
+  </Card>
+</CardGroup>
