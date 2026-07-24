@@ -53,6 +53,10 @@
     {
       "source": "/integration/input-files",
       "destination": "/integration/inputs-and-outputs"
+    },
+    {
+      "source": "/tools/audio-apis",
+      "destination": "/tools/audio-tools"
     }
   ],
   "navigation": {
@@ -104,8 +108,12 @@
               {
                 "group": "Video",
                 "pages": [
+                  "tools/video-tools",
+                  "tools/video/video-editor",
                   "tools/video/animation",
+                  "tools/video/audio-to-video",
                   "tools/video/auto-subtitle-generator",
+                  "tools/video/character-replace",
                   "tools/video/face-swap-video",
                   "tools/video/image-to-video",
                   "tools/video/lip-sync",
@@ -117,11 +125,14 @@
               {
                 "group": "Images",
                 "pages": [
+                  "tools/image-tools",
                   "tools/image/background-remover",
+                  "tools/image/body-swap",
                   "tools/image/clothes-changer",
                   "tools/image/face-editor",
                   "tools/image/face-swap-photo",
                   "tools/image/gif-generator",
+                  "tools/image/head-swap",
                   "tools/image/headshot-generator",
                   "tools/image/image-editor",
                   "tools/image/image-generator",
@@ -133,7 +144,11 @@
               },
               {
                 "group": "Audio",
-                "pages": ["tools/audio/voice-cloner", "tools/audio/voice-generator"]
+                "pages": [
+                  "tools/audio-tools",
+                  "tools/audio/voice-cloner",
+                  "tools/audio/voice-generator"
+                ]
               }
             ]
           }

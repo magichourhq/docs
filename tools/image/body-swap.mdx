@@ -1,0 +1,98 @@
+---
+title: Body Swap Tool - Magic Hour Docs
+sidebarTitle: Body Swap
+description: Place a person into a new scene with AI body replacement.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+Body Swap places the person from one image into another scene. The API combines a person reference with a target scene and supports output resolutions from 640px through 4k.
+
+<ToolSection
+  title="Body Swap"
+  productSlug="body-swap"
+  apiSlug="body-swap"
+  type="image"
+  outputs={[
+    {
+      src: "https://d28dkohlqf5vwj.cloudfront.net/products/body-swap/top-card/output.avif",
+    },
+    {
+      src: "https://d28dkohlqf5vwj.cloudfront.net/products/body-swap/highlights/smart-swap-2.avif",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Upload a scene image** - Choose the image whose existing person will be replaced
+2. **Upload a person image** - Provide the person you want to place into the scene
+3. **Choose a resolution** - Select 640px, 1k, 2k, or 4k
+4. **Create the job** - Submit both file paths to the API
+5. **Download the result** - Poll until complete and retrieve the generated image
+
+## Use Cases
+
+- **Campaign concepts** - Test different people in finished layouts before a shoot
+- **Character concepts** - Place a subject into fantasy, editorial, or themed scenes
+- **Content variants** - Generate multiple versions of one composition
+- **Social content** - Create personalized scene and meme edits
+- **Previsualization** - Compare talent, wardrobe, or creative direction quickly
+
+## Best Practices
+
+<Tip>
+  **Use a clear person reference** - A visible face and body with even lighting gives the model more
+  useful identity and appearance detail.
+</Tip>
+
+- **Choose an unobstructed scene subject** - Avoid heavy overlap from hands, objects, or other people
+- **Match pose and camera angle** - Similar framing helps the replacement fit naturally
+- **Use high-quality inputs** - Compression, blur, and tiny subjects reduce output detail
+- **Match lighting** - Similar light direction and intensity improve scene integration
+- **Test at lower resolution** - Confirm the composition before requesting a larger output
+
+## Code Example
+
+Input files must be direct URLs or `file_path` values returned by the [file upload API](/api-reference/files/generate-asset-upload-urls).
+
+```bash cURL
+curl --request POST \
+  --url https://api.magichour.ai/v1/body-swap \
+  --header 'accept: application/json' \
+  --header 'authorization: Bearer <token>' \
+  --header 'content-type: application/json' \
+  --data '
+{
+  "name": "My Body Swap image",
+  "resolution": "1k",
+  "assets": {
+    "person_file_path": "api-assets/id/1234.png",
+    "scene_file_path": "api-assets/id/5678.png"
+  }
+}
+'
+```
+
+## Pricing
+
+Credit usage depends on `resolution` and starts at 50 credits for 640px. The response reports the amount in `credits_charged`. See [Billing](/billing/overview) for current rates.
+
+## API Reference
+
+<Card title="Body Swap API Reference" icon="webhook" href="/api-reference/image-projects/body-swap">
+  View all request fields, resolutions, and response formats
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="Head Swap" icon="user" href="/tools/image/head-swap">
+    Replace the full head while retaining the body and scene
+  </Card>
+  <Card title="Face Swap Photo" icon="face-smile" href="/tools/image/face-swap-photo">
+    Replace facial features in a photo
+  </Card>
+</CardGroup>

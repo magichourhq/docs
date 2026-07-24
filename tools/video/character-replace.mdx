@@ -1,0 +1,115 @@
+---
+title: Character Replace Tool - Magic Hour Docs
+sidebarTitle: Character Replace
+description: Replace a person in a video with a character from a reference image.
+---
+
+import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
+
+Character Replace substitutes a person in a video with the character from a reference image. Automatic selection can identify the subject, or you can provide a point on a frame to target a specific person.
+
+<ToolSection
+  title="Character Replace"
+  productSlug="character-replace"
+  apiSlug="character-replace"
+  type="video"
+  outputs={[
+    {
+      src: "https://d28dkohlqf5vwj.cloudfront.net/products/character-replace/examples/1.mp4",
+    },
+    {
+      src: "https://d28dkohlqf5vwj.cloudfront.net/products/character-replace/examples/2.mp4",
+    },
+  ]}
+/>
+
+## How It Works
+
+1. **Upload a video** - Provide the scene containing the person to replace
+2. **Upload a character image** - Provide the replacement character reference
+3. **Select the subject** - Use automatic selection or provide a point and timestamp
+4. **Choose the segment** - Set start time, end time, and output resolution
+5. **Create and download** - Submit the job, poll until complete, then retrieve the output
+
+## Use Cases
+
+- **Character-driven content** - Place a recurring character into new footage
+- **Creative remixes** - Recast short clips using a reference image
+- **Previsualization** - Test casting or character concepts before production
+- **Marketing variants** - Adapt one scene with different characters
+- **Social content** - Produce short character transformations for posts
+
+## Best Practices
+
+<Tip>
+  **Choose a clear selection frame** - If several people appear, target a frame where the intended
+  subject is visible and unobstructed.
+</Tip>
+
+- **Use a clear reference image** - Show the replacement character at useful resolution with good lighting
+- **Match framing when possible** - Similar angles and body visibility help the replacement fit the scene
+- **Avoid heavy occlusion** - Subjects hidden behind objects are harder to track consistently
+- **Start with automatic selection** - Add a point only when the API needs help identifying the subject
+- **Test short segments** - Validate subject tracking before processing a longer clip
+
+## Code Example
+
+Input files must be direct URLs or `file_path` values returned by the [file upload API](/api-reference/files/generate-asset-upload-urls).
+
+```bash cURL
+curl --request POST \
+  --url https://api.magichour.ai/v1/character-replace \
+  --header 'accept: application/json' \
+  --header 'authorization: Bearer <token>' \
+  --header 'content-type: application/json' \
+  --data '
+{
+  "name": "My Character Replace video",
+  "start_seconds": 0,
+  "end_seconds": 15,
+  "resolution": "720p",
+  "assets": {
+    "video_file_path": "api-assets/id/1234.mp4",
+    "image_file_path": "api-assets/id/5678.png"
+  },
+  "style": {
+    "mode": "replace",
+    "selection_mode": "auto",
+    "points": [
+      {
+        "position_x": 320,
+        "position_y": 180,
+        "time_seconds": 2.5
+      }
+    ]
+  }
+}
+'
+```
+
+## Pricing
+
+Credits are charged for frames that render. The create response provides an estimate, and the completed job reports the final total in `credits_charged`. See [Billing](/billing/overview) for current rates.
+
+## API Reference
+
+<Card
+  title="Character Replace API Reference"
+  icon="webhook"
+  href="/api-reference/video-projects/character-replace"
+>
+  View all request fields, selection modes, limits, and response formats
+</Card>
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="AI Video Editor" icon="wand-magic-sparkles" href="/tools/video/video-editor">
+    Edit video content with natural-language prompts
+  </Card>
+  <Card title="Face Swap Video" icon="face-smile" href="/tools/video/face-swap-video">
+    Replace faces while preserving the original scene
+  </Card>
+</CardGroup>
