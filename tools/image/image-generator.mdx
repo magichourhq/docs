@@ -8,7 +8,9 @@ import { ToolSection } from "/snippets/tool-section.mdx";
 
 ## Overview
 
-AI Image Generator creates high-quality images from text descriptions using advanced AI models. The API generates original artwork, photos, illustrations, and designs based on detailed text prompts with customizable styles, orientations, and resolutions.
+AI Image Generator creates high-quality images from text descriptions using advanced AI models. The API generates original artwork, photos, illustrations, and designs based on detailed text prompts with customizable styles, aspect ratios, and resolutions.
+
+**Typical processing time:** ~5s median ([see all processing times](/api-reference/processing-times))
 
 <ToolSection
   title="AI Image Generator"
@@ -29,7 +31,7 @@ AI Image Generator creates high-quality images from text descriptions using adva
 
 1. **Write a prompt** - Describe the image you want to create
 2. **Choose a style** - Select from 30+ art styles and tools
-3. **Set orientation** - Choose square, landscape, or portrait
+3. **Set the aspect ratio** - Choose `1:1`, `16:9`, or `9:16`
 4. **API generates images** - AI creates images matching your description
 5. **Download results** - Retrieve your generated images
 
@@ -70,13 +72,15 @@ Magic Hour offers 30+ art styles. Match the style to your use case:
 | Logos & icons    | Vector, Minimalist         |
 | Concept art      | Digital Art, Fantasy       |
 
-### Orientation Guidelines
+### Aspect Ratio Guidelines
 
-| Orientation | Aspect Ratio | Best For                                   |
-| :---------- | :----------- | :----------------------------------------- |
-| `square`    | 1:1          | Profile pictures, thumbnails, social posts |
-| `landscape` | 16:9         | Banners, headers, desktop wallpapers       |
-| `portrait`  | 9:16         | Stories, mobile wallpapers, posters        |
+Set the `aspect_ratio` parameter to control the output shape:
+
+| `aspect_ratio` | Shape     | Best For                                   |
+| :------------- | :-------- | :----------------------------------------- |
+| `1:1`          | Square    | Profile pictures, thumbnails, social posts |
+| `16:9`         | Landscape | Banners, headers, desktop wallpapers       |
+| `9:16`         | Portrait  | Stories, mobile wallpapers, posters        |
 
 ## Code Examples
 
@@ -241,10 +245,22 @@ console.log(`Credits charged: ${result.creditsCharged}`);
 
 ## Pricing
 
-| Quality     | Credits per Image |
-| :---------- | :---------------- |
-| Standard    | 5 credits         |
-| Pro quality | 30 credits        |
+Cost depends on the `model` you choose (the default model is picked automatically and may change over time):
+
+| Model                | Credits per image (from) | Tiers                        |
+| :------------------- | :----------------------- | :--------------------------- |
+| `flux-schnell`       | 5                        | All (including free)         |
+| `flux-2-klein`       | 5                        | All (including free)         |
+| `z-image-turbo`      | 5                        | All (including free)         |
+| `seedream-v4`        | 40                       | Creator, Pro, Business       |
+| `gpt-image-2`        | 50                       | Creator, Pro, Business       |
+| `nano-banana`        | 50                       | Creator, Pro, Business       |
+| `nano-banana-2-lite` | 50                       | Creator, Pro, Business       |
+| `seedream-v5-pro`    | 75                       | Creator, Pro, Business       |
+| `nano-banana-2`      | 100                      | Creator, Pro, Business       |
+| `nano-banana-pro`    | 150                      | Creator, Pro, Business       |
+
+Higher resolutions can increase the cost — see the `model` parameter in the [API reference](/api-reference/image-projects/ai-image-generator) for supported resolutions and image counts per model.
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample

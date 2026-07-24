@@ -10,6 +10,8 @@ import { ToolSection } from "/snippets/tool-section.mdx";
 
 Lip Sync synchronizes lip movements in videos with new audio tracks using advanced AI motion analysis. The API creates realistic lip-sync animation that matches speech patterns, timing, and mouth movements for natural-looking results.
 
+**Typical processing time:** ~3m 49s median ([see all processing times](/api-reference/processing-times))
+
 <ToolSection
   title="Lip Sync"
   productSlug="lip-sync"
@@ -58,7 +60,7 @@ Lip Sync synchronizes lip movements in videos with new audio tracks using advanc
 
 - **Clear speech** - Well-recorded audio without background noise
 - **Appropriate length** - Audio duration determines output length
-- **Supported formats** - MP3, WAV, AAC, FLAC
+- **Supported formats** - MP3, WAV, AAC, FLAC, M4A, OPUS, OGG/OGA, WEBM/WEBA, AIFF, AMR
 - **Natural pacing** - Normal speaking pace for best results
 
 ### Matching Audio to Video
@@ -144,14 +146,15 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 ## Pricing
 
-Lip Sync uses credits based on video duration:
+Lip Sync is charged per rendered frame, and the rate depends on `style.generation_mode`:
 
-{/* TODO: Verify exact credit calculation */}
+| Generation mode      | Credits per frame | Notes                                          |
+| :------------------- | :---------------- | :--------------------------------------------- |
+| `lite`               | 1                 | Available on all tiers                         |
+| `standard`           | 1                 | Creator, Pro, and Business tiers only          |
+| `pro`                | 2                 | Creator, Pro, and Business tiers only          |
 
-| Duration   | Approximate Credits |
-| :--------- | :------------------ |
-| 5 seconds  | ~150 credits        |
-| 10 seconds | ~300 credits        |
+For example, a 10-second clip capped at 30 FPS in `lite` mode costs about 300 credits. Use `max_fps_limit` to lower the frame rate and reduce cost. Credits are only charged for the frames that actually render, and the completed job's `credits_charged` shows the exact cost.
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample

@@ -69,7 +69,7 @@ Auto Subtitle Generator uses Whisper AI which supports 90+ languages with automa
 from magic_hour import Client
 from os import getenv
 
-client = Client(token=getenv("API_TOKEN"))
+client = Client(token=getenv("MAGIC_HOUR_API_KEY"))
 
 result = client.v1.auto_subtitle_generator.generate(
     assets={
@@ -97,7 +97,7 @@ else:
 ```javascript Node.js
 import { Client } from "magic-hour";
 
-const client = new Client({ token: process.env.API_TOKEN });
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 const result = await client.v1.autoSubtitleGenerator.generate({
   assets: {

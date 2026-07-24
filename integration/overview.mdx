@@ -119,7 +119,7 @@ The `create()` function gives you complete control over the workflow:
 # Step 1: Create job
 result = client.v1.ai_image_generator.create(
     image_count=1,
-    orientation="landscape",
+    aspect_ratio="16:9",
     style={"prompt": "A sunset over mountains", "tool": "ai-anime-generator"},
     name="My image"
 )
@@ -152,7 +152,7 @@ The `generate()` function handles everything automatically:
 # All three steps handled automatically
 result = client.v1.ai_image_generator.generate(
     image_count=1,
-    orientation="landscape",
+    aspect_ratio="16:9",
     style={"prompt": "A sunset over mountains", "tool": "ai-anime-generator"},
     name="My image"
 )
@@ -189,7 +189,7 @@ Good for:
 # Using generate() - blocks until complete
 result = client.v1.ai_image_generator.generate(
     image_count=1,
-    orientation="landscape",
+    aspect_ratio="16:9",
     style={"prompt": "Test image", "tool": "ai-anime-generator"}
 )
 print(f"Image ready: {result.downloads[0].url}")
@@ -210,7 +210,7 @@ Good for:
 # Using create() with polling
 job = client.v1.ai_image_generator.create(
     image_count=1,
-    orientation="landscape",
+    aspect_ratio="16:9",
     style={"prompt": "Test image", "tool": "ai-anime-generator"}
 )
 
@@ -237,7 +237,7 @@ Good for:
 # Create job
 job = client.v1.ai_image_generator.create(
     image_count=1,
-    orientation="landscape",
+    aspect_ratio="16:9",
     style={"prompt": "Test image", "tool": "ai-anime-generator"}
 )
 
@@ -261,7 +261,7 @@ Begin with the `generate()` function to prototype:
 ```python
 result = client.v1.ai_image_generator.generate(
     image_count=1,
-    orientation="square",
+    aspect_ratio="1:1",
     style={"prompt": "Test image", "tool": "ai-anime-generator"}
 )
 ```

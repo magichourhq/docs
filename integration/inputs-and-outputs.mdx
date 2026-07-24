@@ -189,12 +189,12 @@ import (
 )
 
 func main() {
-	client := sdk.NewClient(sdk.WithBearerAuth(os.Getenv("API_KEY")))
+	client := sdk.NewClient(sdk.WithBearerAuth(os.Getenv("MAGIC_HOUR_API_KEY")))
 
 	// Step 1: Request upload URL
 	response, err := client.V1.Files.UploadUrls.Create(upload_urls.CreateRequest{
-		Items: []types.PostV1FilesUploadUrlsBodyItemsItem{
-			{Extension: "mp4", Type: types.PostV1FilesUploadUrlsBodyItemsItemTypeEnumVideo},
+		Items: []types.V1FilesUploadUrlsCreateBodyItemsItem{
+			{Extension: "mp4", Type: types.V1FilesUploadUrlsCreateBodyItemsItemTypeEnumVideo},
 		},
 	})
 
@@ -237,15 +237,15 @@ func main() {
 use magic_hour;
 
 let mut client = magic_hour::Client::default()
-    .with_bearer_auth(&std::env::var("API_KEY").expect("API_KEY must be set"));
+    .with_bearer_auth(&std::env::var("MAGIC_HOUR_API_KEY").expect("MAGIC_HOUR_API_KEY must be set"));
 
 // Step 1: Request upload URL
 let response = client.v1().files().upload_urls()
     .create(magic_hour::resources::v1::files::upload_urls::CreateRequest {
         items: vec![
-            magic_hour::models::PostV1FilesUploadUrlsBodyItemsItem {
+            magic_hour::models::V1FilesUploadUrlsCreateBodyItemsItem {
                 extension: "mp4".to_string(),
-                type_field: magic_hour::models::PostV1FilesUploadUrlsBodyItemsItemTypeEnum::Video
+                type_field: magic_hour::models::V1FilesUploadUrlsCreateBodyItemsItemTypeEnum::Video
             }
         ],
     }).await;
@@ -569,10 +569,10 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
     mp4, m4v, mov, webm
   </Card>
   <Card title="Image" icon="image">
-    png, jpg, jpeg, heic, heif, webp, avif, jp2, tiff, bmp
+    png, jpg, jpeg, jfif, heic, heif, webp, avif, jp2, tiff, tif, bmp
   </Card>
   <Card title="Audio" icon="music">
-    mp3, wav, aac, flac, webm, m4a, opus, ogg, aiff, amr
+    mp3, wav, aac, flac, webm, weba, m4a, opus, ogg, oga, aiff, amr
   </Card>
 </CardGroup>
 

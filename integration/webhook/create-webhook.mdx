@@ -282,8 +282,10 @@ Enter your webhook details:
   - `video.started` - When video processing begins
   - `video.completed` - When video is ready for download
   - `video.errored` - When video processing fails
+  - `image.started` - When image processing begins
   - `image.completed` - When image is ready for download
   - `image.errored` - When image processing fails
+  - `audio.started` - When audio processing begins
   - `audio.completed` - When audio is ready for download
   - `audio.errored` - When audio processing fails
 
@@ -335,7 +337,7 @@ client = Client(token="your-api-key")
 # Create a simple AI image - this will trigger webhooks
 result = client.v1.ai_image_generator.generate(
     image_count=1,
-    orientation="square",
+    aspect_ratio="1:1",
     style={"prompt": "A cute cat wearing sunglasses", "tool": "ai-anime-generator"}
 )
 
@@ -351,7 +353,7 @@ curl -X POST "https://api.magichour.ai/v1/ai-image-generator" \
   -H "Content-Type: application/json" \
   -d '{
     "image_count": 1,
-    "orientation": "square",
+    "aspect_ratio": "1:1",
     "style": {
       "prompt": "A cute cat wearing sunglasses",
       "tool": "ai-anime-generator"
@@ -369,7 +371,7 @@ client = Client(token="your-api-key")
 
 result = client.v1.ai_image_generator.generate(
     image_count=1,
-    orientation="square",
+    aspect_ratio="1:1",
     style={"prompt": "A cute cat wearing sunglasses", "tool": "ai-anime-generator"}
 )
 

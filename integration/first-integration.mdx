@@ -74,7 +74,7 @@ In this tutorial, you'll create a working application that generates an AI image
 
 <Note>
   **Estimated time**: 15-20 minutes **Prerequisites**: API key from [Developer
-  Hub](https://magichour.ai/developer), Python 3.8+ or Node.js 16+ installed
+  Hub](https://magichour.ai/developer?tab=api-keys), Python 3.8+ or Node.js 16+ installed
 </Note>
 
 ## Choose Your Language
@@ -174,7 +174,7 @@ def main():
     try:
         create_response = client.v1.ai_image_generator.create(
             image_count=1,
-            orientation="landscape",
+            aspect_ratio="16:9",
             style={
                 "prompt": "A serene mountain landscape at sunset with vibrant colors",
                 "tool": "ai-anime-generator"
@@ -410,7 +410,7 @@ async function main() {
 
     const createResponse = await client.v1.aiImageGenerator.create({
       imageCount: 1,
-      orientation: "landscape",
+      aspectRatio: "16:9",
       style: {
         prompt: "A serene mountain landscape at sunset with vibrant colors",
         tool: "ai-anime-generator",
@@ -526,7 +526,7 @@ Add `"type": "module"` to your `package.json` to enable ES modules:
   "main": "index.js",
   "dependencies": {
     "dotenv": "^16.0.0",
-    "magic-hour": "^0.42.0"
+    "magic-hour": "^0.70.0"
   }
 }
 ```
@@ -595,7 +595,7 @@ The SDK also provides a `generate()` function that handles polling and downloadi
 # All-in-one generate function
 result = client.v1.ai_image_generator.generate(
     image_count=1,
-    orientation="landscape",
+    aspect_ratio="16:9",
     style={
         "prompt": "A serene mountain landscape at sunset",
         "tool": "ai-anime-generator"
@@ -613,7 +613,7 @@ print(f"✅ Complete! Files: {result.downloaded_paths}")
 // All-in-one generate function
 const result = await client.v1.aiImageGenerator.generate({
   imageCount: 1,
-  orientation: "landscape",
+  aspectRatio: "16:9",
   style: {
     prompt: "A serene mountain landscape at sunset",
     tool: "ai-anime-generator",

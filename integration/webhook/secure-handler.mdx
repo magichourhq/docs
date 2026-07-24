@@ -75,18 +75,6 @@ magic-hour-event-timestamp: 1729314984
 
 <Steps>
 
-<Step title="Extract Headers and Payload">
-
-Get the signature, timestamp, and raw JSON payload from the incoming request:
-
-```python
-signature = request.headers.get('magic-hour-event-signature')
-timestamp = request.headers.get('magic-hour-event-timestamp')
-raw_payload = await request.body()  # Raw JSON bytes, not parsed
-```
-
-</Step>
-
 <Step title="Extract the headers and payload">
 
 **What to do**: Get three pieces of information from the incoming webhook request:
@@ -426,11 +414,6 @@ app.post("/webhook", (req, res) => {
     return res.status(401).json({ error: "Missing security headers" });
   }
 
-  if (!signature || !timestamp) {
-    return res.status(401).json({ error: "Missing signature headers" });
-  }
-
-  const webhookSecret = process.env.MAGIC_HOUR_WEBHOOK_SECRET;
   if (!webhookSecret) {
     return res.status(500).json({ error: "Webhook secret not configured" });
   }
@@ -443,7 +426,12 @@ app.post("/webhook", (req, res) => {
   const computedSignature = computeSignature(signedPayload);
 
   // Constant-time comparison
-  if (signature !== computedSignature) {
+  const signatureBuffer = Buffer.from(signature);
+  const computedBuffer = Buffer.from(computedSignature);
+  if (
+    signatureBuffer.length !== computedBuffer.length ||
+    !crypto.timingSafeEqual(signatureBuffer, computedBuffer)
+  ) {
     return res.status(401).json({ error: "Invalid signature" });
   }
 

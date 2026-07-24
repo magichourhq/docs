@@ -10,6 +10,8 @@ import { ToolSection } from "/snippets/tool-section.mdx";
 
 Face Swap Photo lets you replace faces in static images with realistic precision and natural blending. The API swaps faces between two photos while preserving facial expressions, lighting conditions, and image quality for seamless results.
 
+**Typical processing time:** ~4s median ([see all processing times](/api-reference/processing-times))
+
 <ToolSection
   title="Face Swap Photo"
   productSlug="face-swap?mode=photo"
@@ -129,9 +131,9 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 Face Swap Photo uses a flat credit cost per image:
 
-| Output            | Credits   |
-| :---------------- | :-------- |
-| 1 face swap image | 5 credits |
+| Output            | Credits    |
+| :---------------- | :--------- |
+| 1 face swap image | 10 credits |
 
 <Info>
   Credits are charged when the job is created. If the job fails, credits are refunded automatically.

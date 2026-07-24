@@ -57,6 +57,10 @@
     {
       "source": "/tools/audio-apis",
       "destination": "/tools/audio-tools"
+    },
+    {
+      "source": "/api-reference/image-projects/ai-photo-editor",
+      "destination": "/api-reference/image-projects/ai-image-editor"
     }
   ],
   "navigation": {
@@ -87,6 +91,7 @@
                   "integration/webhook/overview",
                   "integration/webhook/create-webhook",
                   "integration/webhook/secure-handler",
+                  "integration/webhook/create-handler",
                   "integration/webhook/event-types"
                 ]
               },

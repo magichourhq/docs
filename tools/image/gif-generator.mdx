@@ -50,7 +50,7 @@ AI GIF Generator creates animated GIFs using AI technology. Generate looping ani
 from magic_hour import Client
 from os import getenv
 
-client = Client(token=getenv("API_TOKEN"))
+client = Client(token=getenv("MAGIC_HOUR_API_KEY"))
 result = client.v1.ai_gif_generator.generate(
     style={"prompt": "Cat fighting a lion, pixel art"},
     name="Ai Gif gif",
@@ -73,7 +73,7 @@ else:
 ```javascript Node.js
 import { Client } from "magic-hour";
 
-const client = new Client({ token: process.env.API_TOKEN });
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 const result = await client.v1.aiGifGenerator.generate({
   assets: {
@@ -100,7 +100,7 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 | Output         | Credits    |
 | :------------- | :--------- |
-| 1 animated GIF | 15 credits |
+| 1 animated GIF | 50 credits |
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample

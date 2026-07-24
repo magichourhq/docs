@@ -211,14 +211,17 @@ app.listen(port, () => {
 Handle duplicate events gracefully (Magic Hour may retry):
 
 ```python
-# Check if event was already processed
-if await is_event_processed(event_id):
-    logger.info(f"Event {event_id} already processed, skipping")
+# Webhook payloads don't include an event ID, so build a dedup key
+# from the project ID and event type
+dedup_key = f"{event['payload']['id']}:{event['type']}"
+
+if await is_event_processed(dedup_key):
+    logger.info(f"Event {dedup_key} already processed, skipping")
     return {"success": True}
 
 # Process event and mark as processed
 await process_event(event)
-await mark_event_processed(event_id)
+await mark_event_processed(dedup_key)
 ```
 
 ### 2. Quick Response Times

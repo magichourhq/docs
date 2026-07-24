@@ -93,7 +93,8 @@ from magic_hour import Client
 from magic_hour.environment import Environment
 
 # Switch environments based on ENV variable
-env = Environment.MOCK_SERVER if os.getenv("ENV") == "development" else Environment.PRODUCTION
+# Environment.ENVIRONMENT is the production API (https://api.magichour.ai)
+env = Environment.MOCK_SERVER if os.getenv("ENV") == "development" else Environment.ENVIRONMENT
 
 client = Client(
     token=os.getenv("MAGIC_HOUR_API_KEY"),
@@ -105,8 +106,9 @@ client = Client(
 import Client, { Environment } from "magic-hour";
 
 // Switch environments based on NODE_ENV
+// Environment.Environment is the production API (https://api.magichour.ai)
 const environment =
-  process.env.NODE_ENV === "development" ? Environment.MockServer : Environment.Production;
+  process.env.NODE_ENV === "development" ? Environment.MockServer : Environment.Environment;
 
 const client = new Client({
   token: process.env.MAGIC_HOUR_API_KEY,
@@ -436,20 +438,20 @@ ENV=development python main.py  # Uses mock server
 - Build integration logic
 - Test error handling
 
-**Phase 2: Staging Testing**
+**Phase 2: Real-API Testing**
 
 ```bash
-ENV=staging python main.py  # Uses real API with test key
+python main.py  # Any ENV value other than "development" uses the real API
 ```
 
-- Test with real API using minimal credits
+- Test with the real API using minimal credits (smallest resolution and duration)
 - Validate end-to-end workflow
 - Test error scenarios
 
 **Phase 3: Production**
 
 ```bash
-ENV=production python main.py  # Uses production API key
+python main.py  # Uses your production API key
 ```
 
 - Deploy with production credentials

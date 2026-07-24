@@ -163,9 +163,7 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 ## Pricing
 
-Video to Video uses credits based on video duration and frame rate:
-
-{/* TODO: Verify exact credit calculation */}
+Video to Video uses credits based on video duration and frame rate. Credits are only charged for the frames that actually render — you'll see an estimate when the job is queued and the final total after it's done (in the job's `credits_charged` field).
 
 | Factor     | Impact                           |
 | :--------- | :------------------------------- |
