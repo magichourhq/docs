@@ -86,7 +86,7 @@ For best results, your voice sample should:
 from magic_hour import Client
 from os import getenv
 
-client = Client(token=getenv("API_TOKEN"))
+client = Client(token=getenv("MAGIC_HOUR_API_KEY"))
 
 result = client.v1.ai_voice_cloner.generate(
     assets={
@@ -115,7 +115,7 @@ else:
 ```javascript Node.js
 import { Client } from "magic-hour";
 
-const client = new Client({ token: process.env.API_TOKEN });
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 const result = await client.v1.aiVoiceCloner.generate({
   assets: {
@@ -239,7 +239,7 @@ Clone a voice, then sync it to a video:
 from magic_hour import Client
 from os import getenv
 
-client = Client(token=getenv("API_TOKEN"))
+client = Client(token=getenv("MAGIC_HOUR_API_KEY"))
 
 # Step 1: Clone the voice
 from pathlib import Path
@@ -286,15 +286,13 @@ print("lip_status:", lip_sync_result.status, "paths:", getattr(lip_sync_result, 
 
 ## Pricing
 
-{/* TODO: Verify exact credit calculation */}
+Voice cloning costs **0.05 credits per character** of generated text, rounded up to the nearest whole number.
 
-Voice cloning uses credits based on text length and processing:
-
-| Text Length                | Approximate Credits |
-| :------------------------- | :------------------ |
-| Short (1-2 sentences)      | ~10 credits         |
-| Medium (paragraph)         | ~20-30 credits      |
-| Long (multiple paragraphs) | ~50+ credits        |
+| Text Length                       | Credits     |
+| :-------------------------------- | :---------- |
+| 100 characters (1-2 sentences)    | 5 credits   |
+| 500 characters (a paragraph)      | 25 credits  |
+| 2,000 characters (long-form)      | 100 credits |
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample

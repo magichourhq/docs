@@ -10,19 +10,13 @@ import { ToolSection } from "/snippets/tool-section.mdx";
 
 Text to Video generates complete video content from text descriptions using advanced AI video synthesis. The API creates original video scenes, animations, and visual narratives based on detailed text prompts with customizable styles and durations.
 
+**Typical processing time:** ~51s median ([see all processing times](/api-reference/processing-times))
+
 <ToolSection
   title="Text to Video"
   productSlug="text-to-video"
   apiSlug="text-to-video"
   type="video"
-  outputs={[
-    {
-      src: "https://d28dkohlqf5vwj.cloudfront.net/products/text-to-video/examples/underwater-world.mp4",
-    },
-    {
-      src: "https://d28dkohlqf5vwj.cloudfront.net/products/text-to-video/examples/slow-motion-leopard-leap.mp4",
-    },
-  ]}
 />
 
 ## How It Works
@@ -79,6 +73,7 @@ For best results, include these elements:
 | 3-5 seconds   | Social media clips, GIF-like content |
 | 5-10 seconds  | Short-form content, product demos    |
 | 10-15 seconds | Story segments, longer narratives    |
+| Up to 60 seconds | Long-form scenes (model-dependent; see the `end_seconds` values supported by each model in the [API reference](/api-reference/video-projects/text-to-video)) |
 
 ## Code Examples
 
@@ -94,7 +89,7 @@ client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
 
 result = client.v1.text_to_video.generate(
     end_seconds=5,
-    orientation="landscape",
+    aspect_ratio="16:9",
     style={
         "prompt": "A majestic lion walking through golden savanna grass at sunset, cinematic slow motion"
     },
@@ -121,8 +116,8 @@ import { Client } from "magic-hour";
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 const result = await client.v1.textToVideo.generate({
-  endSeconds: 1.5,
-  orientation: "landscape",
+  endSeconds: 5,
+  aspectRatio: "16:9",
   style: {
     prompt: "A majestic lion walking through golden savanna grass at sunset, cinematic slow motion",
   },
@@ -142,20 +137,11 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 ## Pricing
 
-Text to Video uses credits based on video duration:
-
-{/* TODO: Verify exact credit calculation */}
-
-| Duration   | Approximate Credits |
-| :--------- | :------------------ |
-| 5 seconds  | ~150 credits        |
-| 10 seconds | ~300 credits        |
-
-Higher resolutions cost more per second.
+Text to Video pricing depends on the model, resolution, and duration you choose. Credits are only charged for the frames that actually render — the estimate returned when you create the job is adjusted after the render completes. The create response includes `credits_charged` so you can log the exact cost of every job.
 
 ## Resolution Limits
 
-Text to Video has a maximum resolution of **1080p** (1920x1080 or 1080x1920).
+Supported resolutions are **480p, 720p, 1080p, and 4k**, depending on the model (for example, `kling-3.0` supports 4k) and your subscription tier. Output defaults to `720p` on paid tiers and `480p` on the free tier. See [Resolution Limits](/billing/resolution-limits) for tier details.
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample

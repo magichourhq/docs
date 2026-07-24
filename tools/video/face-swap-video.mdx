@@ -10,6 +10,8 @@ import { ToolSection } from "/snippets/tool-section.mdx";
 
 Face Swap Video replaces faces in videos with frame-by-frame precision and temporal consistency. The API swaps faces throughout video sequences while maintaining natural expressions, head movements, and lighting for realistic results.
 
+**Typical processing time:** ~1m 36s median ([see all processing times](/api-reference/processing-times))
+
 <ToolSection
   title="Face Swap Video"
   productSlug="face-swap?mode=video"
@@ -137,9 +139,7 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 ## Pricing
 
-Face Swap Video uses credits based on video duration and frame rate:
-
-{/* TODO: Verify exact credit calculation */}
+Face Swap Video uses credits based on video duration and frame rate — credits are only charged for the frames that actually render:
 
 | Factor     | Impact                      |
 | :--------- | :-------------------------- |
@@ -147,7 +147,7 @@ Face Swap Video uses credits based on video duration and frame rate:
 | Frame rate | Higher FPS = more credits   |
 | Resolution | Affects quality, not cost   |
 
-**Example:** A 10-second video at 30 FPS ≈ 300 credits
+The create response returns an estimated `credits_charged` based on 30 FPS; the final amount is adjusted after the render completes if the actual frame rate differs. Check the completed job's `credits_charged` for the exact cost.
 
 ## Error Handling
 

@@ -63,7 +63,6 @@ Video events are triggered during the lifecycle of video processing jobs. All pa
     "created_at": "2024-10-19T05:10:19.027Z",
     "width": 512,
     "height": 960,
-    "total_frame_cost": 450,
     "credits_charged": 450,
     "downloads": [],
     "error": null
@@ -91,19 +90,19 @@ Video events are triggered during the lifecycle of video processing jobs. All pa
 
 ```json
 {
-  "type": "video.completed",
+    "type": "video.completed",
   "payload": {
     "id": "clx7uu86w0a5qp55yxz315r6r",
     "status": "complete",
     "type": "ANIMATION",
+    "credits_charged": 450,
     "downloads": [
       {
         "url": "https://videos.magichour.ai/clx7uu86w0a5qp55yxz315r6r/output.mp4",
         "expires_at": "2024-10-19T05:16:19.027Z"
       }
     ],
-    "error": null,
-    "completed_at": "2024-10-19T05:15:45.123Z"
+    "error": null
   }
 }
 ```
@@ -136,8 +135,7 @@ Video events are triggered during the lifecycle of video processing jobs. All pa
     "error": {
       "code": "invalid_video_file",
       "message": "The video file contains invalid data. Please try a different file."
-    },
-    "failed_at": "2024-10-19T05:12:30.456Z"
+    }
   }
 }
 ```
@@ -211,14 +209,15 @@ Image events track the lifecycle of image processing jobs. All payloads match th
     "id": "clx8abc123def456ghi789",
     "status": "complete",
     "type": "AI_IMAGE_GENERATOR",
+    "image_count": 1,
+    "credits_charged": 5,
     "downloads": [
       {
         "url": "https://videos.magichour.ai/clx8abc123def456ghi789/output.png",
         "expires_at": "2024-10-19T05:16:19.027Z"
       }
     ],
-    "error": null,
-    "completed_at": "2024-10-19T05:10:25.789Z"
+    "error": null
   }
 }
 ```
@@ -251,8 +250,7 @@ Image events track the lifecycle of image processing jobs. All payloads match th
     "error": {
       "code": "no_source_face",
       "message": "Please use an image with a detectable face"
-    },
-    "failed_at": "2024-10-19T05:10:22.123Z"
+    }
   }
 }
 ```
@@ -305,14 +303,14 @@ Audio events track the lifecycle of audio processing jobs. All payloads match th
   "payload": {
     "id": "clx9audio123voice456",
     "status": "complete",
+    "credits_charged": 5,
     "downloads": [
       {
         "url": "https://audio.magichour.ai/clx9audio123voice456/output.mp3",
         "expires_at": "2024-10-19T05:16:19.027Z"
       }
     ],
-    "error": null,
-    "completed_at": "2024-10-19T05:10:35.456Z"
+    "error": null
   }
 }
 ```
@@ -374,9 +372,10 @@ async def handle_completion_event(event):
     job_id = payload['id']
 
     # Update job status in database
+    # (the payload has no completed_at field - record your own timestamp)
     await db.execute(
-        "UPDATE jobs SET status = ?, download_url = ?, completed_at = ? WHERE magic_hour_id = ?",
-        (payload['status'], payload['downloads'][0]['url'], payload['completed_at'], job_id)
+        "UPDATE jobs SET status = ?, download_url = ?, completed_at = datetime('now') WHERE magic_hour_id = ?",
+        (payload['status'], payload['downloads'][0]['url'], job_id)
     )
 
     # Notify user

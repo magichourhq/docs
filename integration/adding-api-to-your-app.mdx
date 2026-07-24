@@ -456,9 +456,9 @@ The simplest approach is to pass file URLs:
 
 **Supported formats:**
 
-- **Images**: PNG, JPG, JPEG, HEIC, HEIF, WEBP, AVIF, JP2, TIFF, BMP
+- **Images**: PNG, JPG, JPEG, JFIF, HEIC, HEIF, WEBP, AVIF, JP2, TIFF, TIF, BMP
 - **Videos**: MP4, M4V, MOV, WEBM
-- **Audio**: MP3, WAV, AAC, FLAC, WEBM, M4A, OPUS, OGG, AIFF, AMR
+- **Audio**: MP3, WAV, AAC, FLAC, WEBM, WEBA, M4A, OPUS, OGG, OGA, AIFF, AMR
 
 See [Handling Inputs and Outputs](/integration/inputs-and-outputs#supported-file-formats) for the
 canonical format list and special-case support.
@@ -606,55 +606,58 @@ Periodically check job status. Best for:
 ```python Python SDK
 import time
 
-def wait_for_completion(client, project_id, project_type="video"):
-    """Smart polling with exponential backoff"""
+def wait_for_completion(client, project_id, project_type="video", timeout_seconds=1800):
+    """Poll with exponential backoff (3s -> 30s max) and a hard timeout."""
 
     get_method = (client.v1.video_projects.get if project_type == "video"
                  else client.v1.image_projects.get)
 
-    while True:
-        try:
-            res = get_method(id=project_id)
-            print(f"Status: {res.status}")
+    deadline = time.monotonic() + timeout_seconds
+    delay = 3.0
+    while time.monotonic() < deadline:
+        res = get_method(id=project_id)
+        print(f"Status: {res.status}")
 
-            if res.status == "complete":
-                return res  # Success!
-            elif res.status == "error":
-                raise Exception(f"Job failed: {res.error}")
-            time.sleep(3)
-        except Exception as e:
-            print(f"Error checking status: {e}")
+        if res.status == "complete":
+            return res  # Success!
+        if res.status in ("error", "canceled"):
+            raise RuntimeError(f"Job {res.status}: {res.error}")
 
-    raise TimeoutError("Job did not complete within timeout")
+        time.sleep(delay)
+        delay = min(delay * 1.5, 30.0)  # back off up to 30s between checks
+
+    raise TimeoutError(f"Job did not complete within {timeout_seconds}s")
 ```
 
 ```typescript Node SDK
 async function waitForCompletion(
   client: Client,
   projectId: string,
-  projectType: "video" | "image" = "video"
+  projectType: "video" | "image" = "video",
+  timeoutMs = 30 * 60 * 1000
 ) {
-  const getMethod =
-    projectType === "video" ? client.v1.videoProjects.get : client.v1.imageProjects.get;
+  const deadline = Date.now() + timeoutMs;
+  let delay = 3000;
 
-  while (true) {
-    try {
-      const res = await getMethod({ id: projectId });
-      console.log(`Status: ${res.status}`);
+  while (Date.now() < deadline) {
+    const res =
+      projectType === "video"
+        ? await client.v1.videoProjects.get({ id: projectId })
+        : await client.v1.imageProjects.get({ id: projectId });
+    console.log(`Status: ${res.status}`);
 
-      if (res.status === "complete") {
-        return res; // Success!
-      } else if (res.status === "error") {
-        throw new Error(`Job failed: ${res.error}`);
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-    } catch (error) {
-      console.log(`Error checking status: ${error}`);
+    if (res.status === "complete") {
+      return res; // Success!
     }
+    if (res.status === "error" || res.status === "canceled") {
+      throw new Error(`Job ${res.status}: ${JSON.stringify(res.error)}`);
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, delay));
+    delay = Math.min(delay * 1.5, 30_000); // back off up to 30s between checks
   }
 
-  throw new Error("Job did not complete within timeout");
+  throw new Error(`Job did not complete within ${timeoutMs}ms`);
 }
 ```
 
@@ -814,7 +817,7 @@ from magic_hour.environment import Environment
 
 # Use mock server for development
 client = Client(
-    token="API_TOKEN",
+    token="YOUR_API_KEY",  # Can use any value for mock mode
     environment=Environment.MOCK_SERVER
 )
 
@@ -827,7 +830,7 @@ import Client, { Environment } from "magic-hour";
 
 // Use mock server for development
 const client = new Client({
-  token: "API_TOKEN",
+  token: "YOUR_API_KEY", // Can use any value for mock mode
   environment: Environment.MockServer,
 });
 
@@ -873,7 +876,7 @@ Notes:
     href="https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing"
     openInNewTab
   >
-    Try all 22 APIs with ready-to-run examples
+    Try the Magic Hour APIs with ready-to-run examples
   </Card>
   <Card title="File Management" icon="file" href="/integration/inputs-and-outputs">
     Advanced file upload and management techniques

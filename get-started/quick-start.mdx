@@ -30,7 +30,7 @@ Magic Hour is an AI video and image generation platform. You submit a job, we re
 
 **Why:** API keys authenticate your requests and track your usage.
 
-1. Open the [API Keys section of the Developer Hub](https://magichour.ai/developer?tab=api-keys) and sign in.
+1. Open the [API Keys section of the Developer Hub](https://magichour.ai/developer?tab=api-keys&ref=docs-quickstart) and sign in.
 2. Click **Create key**, give it a name (e.g., "My First Project"), and create it.
 3. **Copy the API key immediately** — you won't be able to see it again.
 
@@ -91,7 +91,7 @@ cd magic-hour-quickstart
 npm init -y
 
 # Enable ES module support (required for the SDK)
-echo '{"type":"module"}' > package.json
+npm pkg set type=module
 
 # Create your JavaScript file
 touch main.js
@@ -136,7 +136,7 @@ result. Choose the example that matches what you want to build:
 
 | Example             | Best for                  | Typical cost                     | Typical wait  |
 | :------------------ | :------------------------ | :------------------------------- | :------------ |
-| **Generate image**  | Cheapest first success    | 5 credits                        | 30-60 seconds |
+| **Generate image**  | Cheapest first success    | 5 credits                        | 5-30 seconds  |
 | **Face swap video** | Our most popular API path | ~200 credits for the sample clip | 2-5 minutes   |
 
 ### Copy the code and run it
@@ -261,7 +261,7 @@ func main() {
 			fmt.Println(err)
 			return
 		}
-		if res.Status == "complete" {
+        if res.Status == "complete" {
 			println("render complete!")
 			url := res.Downloads[0].Url
 			outputFile := "output.png"
@@ -338,7 +338,7 @@ async fn main() {
             .await
             .unwrap();
         match res.status {
-            magic_hour::models::GetV1ImageProjectsIdResponseStatusEnum::Complete => {
+            magic_hour::models::V1ImageProjectsGetResponseStatusEnum::Complete => {
                 println!("render complete!");
                 let url = res.downloads[0].url.clone();
 
@@ -356,7 +356,7 @@ async fn main() {
 
                 return;
             }
-            magic_hour::models::GetV1ImageProjectsIdResponseStatusEnum::Error => {
+            magic_hour::models::V1ImageProjectsGetResponseStatusEnum::Error => {
                 println!("render failed");
                 return;
             }
@@ -525,15 +525,13 @@ func main() {
 	client := sdk.NewClient(sdk.WithBearerAuth(os.Getenv("MAGIC_HOUR_API_KEY")))
 	createRes, err := client.V1.FaceSwap.Create(face_swap.CreateRequest{
 		Name: nullable.NewValue("Swap Tom Cruise into Iron Man scene"),
-		Assets: types.PostV1FaceSwapBodyAssets{
+		Assets: types.V1FaceSwapCreateBodyAssets{
 			ImageFilePath: "https://videos.magichour.ai/api-assets/sample/tom-cruise.png",
 			VideoFilePath: nullable.NewValue("https://videos.magichour.ai/api-assets/sample/iron-man.mp4"),
-			VideoSource:   types.PostV1FaceSwapBodyAssetsVideoSourceEnumFile,
+			VideoSource:   types.V1FaceSwapCreateBodyAssetsVideoSourceEnumFile,
 		},
 		StartSeconds: 2.3,
 		EndSeconds:   8.5,
-		Height:       288,
-		Width:        512,
 	})
 	if err != nil {
 		fmt.Println(err)
@@ -601,19 +599,17 @@ async fn main() {
         .face_swap()
         .create(magic_hour::resources::v1::face_swap::CreateRequest {
             name: Some("Swap Tom Cruise into Iron Man scene".to_string()),
-            assets: magic_hour::models::PostV1FaceSwapBodyAssets {
+            assets: magic_hour::models::V1FaceSwapCreateBodyAssets {
                 image_file_path: "https://videos.magichour.ai/api-assets/sample/tom-cruise.png"
                     .to_string(),
                 video_file_path: Some(
                     "https://videos.magichour.ai/api-assets/sample/iron-man.mp4".to_string(),
                 ),
-                video_source: magic_hour::models::PostV1FaceSwapBodyAssetsVideoSourceEnum::File,
+                video_source: magic_hour::models::V1FaceSwapCreateBodyAssetsVideoSourceEnum::File,
                 ..Default::default()
             },
             start_seconds: 2.3,
             end_seconds: 8.5,
-            height: 288,
-            width: 512,
             ..Default::default()
         })
         .await
@@ -632,7 +628,7 @@ async fn main() {
             .await
             .unwrap();
         match res.status {
-            magic_hour::models::GetV1VideoProjectsIdResponseStatusEnum::Complete => {
+            magic_hour::models::V1VideoProjectsGetResponseStatusEnum::Complete => {
                 println!(
                     "render complete! Final credit charged is {}, actual fps is {}",
                     res.credits_charged, res.fps
@@ -653,7 +649,7 @@ async fn main() {
 
                 return;
             }
-            magic_hour::models::GetV1VideoProjectsIdResponseStatusEnum::Error => {
+            magic_hour::models::V1VideoProjectsGetResponseStatusEnum::Error => {
                 println!("render failed");
                 return;
             }
@@ -688,9 +684,7 @@ create_response=$(curl -s $URL \
         "video_source": "file"
     },
     "start_seconds": 2.3,
-    "end_seconds": 8.5,
-    "height": 288,
-    "width": 512
+    "end_seconds": 8.5
   }')
 
 project_id=$(echo $create_response | jq -r '.id')
@@ -798,11 +792,13 @@ If you encounter HTTP errors, here's what they mean:
 
 | Error Code | Meaning               | Solution                                                                          |
 | :--------- | :-------------------- | :-------------------------------------------------------------------------------- |
-| `400`      | Bad Request           | Check your request parameters and format                                          |
-| `401`      | Unauthorized          | Verify your API key is correct and active                                         |
+| `400`      | Bad Request           | The response `message` names the invalid or missing field - fix it and resubmit   |
+| `401`      | Unauthorized          | Verify your API key is correct and sent as `Authorization: Bearer <key>`          |
 | `402`      | Payment Required      | Insufficient credits - [add more credits](https://magichour.ai/dashboard/my-plan) |
+| `403`      | Forbidden             | Your key is valid but the model, resolution, or feature is not available on your plan |
+| `429`      | Too Many Requests     | You are sending requests too quickly - retry with exponential backoff             |
 | `500`      | Internal Server Error | Temporary server issue - retry after a few seconds                                |
-| `502`      | Bad Gateway           | Server temporarily unavailable - retry after 30-60 seconds                        |
+| `502`      | Bad Gateway           | Server temporarily unavailable - retry after 30-60 seconds. If it failed before returning a project `id`, no job was created - resubmit |
 | `503`      | Service Unavailable   | Server overloaded - retry with exponential backoff                                |
 
 **For persistent errors:** Contact [support@magichour.ai](mailto:support@magichour.ai) with your project ID.
@@ -811,12 +807,12 @@ If you encounter HTTP errors, here's what they mean:
 
 ## Next Steps
 
-- **Explore the API Reference:** Learn how to generate and edit videos and images programmatically. [API Reference →](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls)
+- **Explore the API Reference:** Learn how to generate and edit videos and images programmatically. [API Reference →](/api-reference/overview)
 
 - **Explore Face Swap Video:** See parameter details, pricing, and production patterns in the
   [Face Swap Video guide](/tools/video/face-swap-video).
 
-- **Try All APIs in Google Colab:** [Run our complete cookbook](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing) with sample code for all 22 APIs. Just add your API key and start experimenting.
+- **Try All APIs in Google Colab:** [Run our complete cookbook](https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing) with ready-to-run sample code. Just add your API key and start experimenting.
 
 - **Use the Web App:** Try more tools and experiment interactively at [magichour.ai](https://magichour.ai).
 

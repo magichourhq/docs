@@ -8,7 +8,9 @@ import { ToolSection } from "/snippets/tool-section.mdx";
 
 ## Overview
 
-AI Talking Photo brings static photos to life by animating faces to speak with realistic lip-sync and natural facial movements. The API analyzes facial features and synchronizes mouth movements, head poses, and expressions with provided audio or generated speech.
+AI Talking Photo brings static photos to life by animating faces to speak with realistic lip-sync and natural facial movements. The API analyzes facial features and synchronizes mouth movements, head poses, and expressions with the audio file you provide.
+
+**Typical processing time:** ~2m 54s median ([see all processing times](/api-reference/processing-times))
 
 <ToolSection
   title="AI Talking Photo"
@@ -28,7 +30,7 @@ AI Talking Photo brings static photos to life by animating faces to speak with r
 ## How It Works
 
 1. **Provide a photo** - Upload an image with a clear face
-2. **Add audio** - Upload audio or provide text for speech generation
+2. **Add audio** - Provide an audio file (required). To generate speech from text, create the audio first with the [AI Voice Generator](/tools/audio/voice-generator)
 3. **API animates** - AI creates realistic lip-sync and facial movements
 4. **Download video** - Retrieve your animated talking photo
 
@@ -56,16 +58,16 @@ AI Talking Photo brings static photos to life by animating faces to speak with r
 
 ### Audio Guidelines
 
-| Audio Type       | Best Practice                          |
-| :--------------- | :------------------------------------- |
-| Voice recording  | Clear speech without background noise  |
-| Generated speech | Use natural-sounding text prompts      |
-| Music/songs      | Works best with clear vocals           |
-| Length           | Keep under 30 seconds for best results |
+| Audio Type       | Best Practice                                                                     |
+| :--------------- | :-------------------------------------------------------------------------------- |
+| Voice recording  | Clear speech without background noise                                              |
+| Generated speech | Create the audio first with the [AI Voice Generator](/tools/audio/voice-generator) |
+| Music/songs      | Works best with clear vocals                                                       |
+| Length           | Keep under 30 seconds for best results                                             |
 
 ## Code Examples
 
-### Basic Talking Photo with Text
+### Basic Talking Photo
 
 <CodeGroup>
 
@@ -73,7 +75,7 @@ AI Talking Photo brings static photos to life by animating faces to speak with r
 from magic_hour import Client
 from os import getenv
 
-client = Client(token=getenv("API_TOKEN"))
+client = Client(token=getenv("MAGIC_HOUR_API_KEY"))
 
 result = client.v1.ai_talking_photo.generate(
     assets={
@@ -101,7 +103,7 @@ else:
 ```javascript Node.js
 import { Client } from "magic-hour";
 
-const client = new Client({ token: process.env.API_TOKEN });
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 const result = await client.v1.aiTalkingPhoto.generate({
   assets: {
@@ -124,64 +126,18 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 </CodeGroup>
 
-### With Audio File
-
-<CodeGroup>
-
-```python Python
-result = client.v1.ai_talking_photo.generate(
-    assets={
-        "image_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
-        "audio_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3"
-    },
-    name="Talking Photo",
-    wait_for_completion=True,
-    download_outputs=True,
-    download_directory="."
-)
-
-if result.status == "complete":
-    print(f"✅ Talking photo complete!")
-    print(f"Downloaded to: {result.downloaded_paths}")
-    print(f"Credits charged: {result.credits_charged}")
-else:
-    print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
-```
-
-```javascript Node.js
-const result = await client.v1.aiTalkingPhoto.generate({
-  assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
-    audioFilePath:
-      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
-  },
-  name: "Talking Photo",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
-
-console.log(`✅ Talking photo complete!`);
-console.log(`Status: ${result.status}`);
-console.log(`Downloaded to: ${result.downloadedPaths}`);
-```
-
-</CodeGroup>
+<Note>
+  `start_seconds` and `end_seconds` are **required** — they control which segment of the audio is
+  used. Video pricing is duration-based, so shorter segments cost less.
+</Note>
 
 ## Pricing
 
-Talking Photo pricing varies by video length and resolution:
-
-| Configuration     | Credits per Second |
-| :---------------- | :----------------- |
-| 720p or lower     | ~10-15 credits/sec |
-| Higher resolution | ~20-30 credits/sec |
+Talking Photo pricing is based on the duration of the output video (`end_seconds` minus `start_seconds`). Credits are only charged for the frames that actually render, and the create response includes `credits_charged` so you can log the exact cost of every job.
 
 ## Resolution Limits
 
-AI Talking Photo has a maximum resolution of **720p** across all subscription tiers due to computational requirements.
+Output resolution is capped at **720p** (the tool's hard cap) or your subscription plan's maximum resolution, whichever is lower. You can also set `max_resolution` below your plan maximum to reduce cost. See [Resolution Limits](/billing/resolution-limits) for tier details.
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample

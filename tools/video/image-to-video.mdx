@@ -10,6 +10,8 @@ import { ToolSection } from "/snippets/tool-section.mdx";
 
 Image to Video converts static images into dynamic video content with AI-generated motion and cinematic effects. The API analyzes images and creates realistic movement, camera motion, and environmental effects to bring still photos to life.
 
+**Typical processing time:** ~1m 14s median ([see all processing times](/api-reference/processing-times))
+
 <ToolSection
   title="Image to Video"
   productSlug="image-to-video"
@@ -129,7 +131,7 @@ const result = await client.v1.imageToVideo.generate({
   style: {
     prompt: "Sunset landscape with subtle camera movement, gentle parallax effect, cinematic depth",
   },
-  endSeconds: 1.5,
+  endSeconds: 5,
   name: "Sunset Animation",
   resolution: "480p",
   waitForCompletion: true,
@@ -146,20 +148,11 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 ## Pricing
 
-Image to Video uses credits based on video duration:
-
-{/* TODO: Verify exact credit calculation */}
-
-| Duration   | Approximate Credits |
-| :--------- | :------------------ |
-| 5 seconds  | ~150 credits        |
-| 10 seconds | ~300 credits        |
-
-Higher resolutions cost more per second.
+Image to Video pricing depends on the model, resolution, and duration you choose. Credits are only charged for the frames that actually render — the estimate returned when you create the job is adjusted after the render completes. The create response includes `credits_charged` so you can log the exact cost of every job.
 
 ## Resolution Limits
 
-Image to Video has a maximum resolution of **1080p** (1920x1080 or 1080x1920).
+Supported resolutions are **480p, 720p, 1080p, and 4k**, depending on the model (for example, `kling-3.0` supports 4k) and your subscription tier. Output defaults to `720p` on paid tiers and `480p` on the free tier. See [Resolution Limits](/billing/resolution-limits) for tier details.
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample

@@ -10,6 +10,8 @@ import { ToolSection } from "/snippets/tool-section.mdx";
 
 AI Image Editor provides comprehensive image editing capabilities using AI. Modify, enhance, and transform images with text-based instructions for natural-looking results without manual editing tools.
 
+**Typical processing time:** ~9s median ([see all processing times](/api-reference/processing-times))
+
 <ToolSection
   title="AI Image Editor"
   productSlug="ai-image-editor"
@@ -56,7 +58,7 @@ AI Image Editor provides comprehensive image editing capabilities using AI. Modi
 | Requirement | Details                             |
 | :---------- | :---------------------------------- |
 | Resolution  | Minimum 512x512 pixels              |
-| Format      | PNG, JPG, JPEG, WEBP                |
+| Format      | PNG, JPG, JPEG, JFIF, WEBP, HEIC, HEIF, AVIF, JP2, TIFF, TIF, BMP |
 | Quality     | Higher quality enables better edits |
 | Clarity     | Clear images edit more accurately   |
 
@@ -70,7 +72,7 @@ AI Image Editor provides comprehensive image editing capabilities using AI. Modi
 from magic_hour import Client
 from os import getenv
 
-client = Client(token=getenv("API_TOKEN"))
+client = Client(token=getenv("MAGIC_HOUR_API_KEY"))
 
 result = client.v1.ai_image_editor.generate(
     assets={
@@ -98,7 +100,7 @@ else:
 ```javascript Node.js
 import { Client } from "magic-hour";
 
-const client = new Client({ token: process.env.API_TOKEN });
+const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
 const result = await client.v1.aiImageEditor.generate({
   assets: {
@@ -124,9 +126,22 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 ## Pricing
 
-| Output         | Credits    |
-| :------------- | :--------- |
-| 1 edited image | 10 credits |
+Cost depends on the `model` you choose:
+
+| Model                | Credits per edit (from) |
+| :------------------- | :---------------------- |
+| `flux-2-klein`       | 5                       |
+| `qwen-edit`          | 10                      |
+| `seedream-v4`        | 40                      |
+| `gpt-image-2`        | 50                      |
+| `nano-banana`        | 50                      |
+| `nano-banana-2-lite` | 50                      |
+| `seedream-v4.5`      | 50                      |
+| `seedream-v5-pro`    | 75                      |
+| `nano-banana-2`      | 100                     |
+| `nano-banana-pro`    | 150                     |
+
+Higher resolutions can increase the cost — see the `model` parameter in the [API reference](/api-reference/image-projects/ai-image-editor) for supported resolutions and tiers per model.
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample
