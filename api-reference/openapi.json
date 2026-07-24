@@ -2260,7 +2260,8 @@
                         "description": "On-frame markers for manual subject selection. Required when `selection_mode` is `point`. Ignored when `selection_mode` is `auto` or omitted."
                       }
                     },
-                    "description": "Optional style controls for replace vs animate mode and subject selection."
+                    "description": "Optional style controls for replace vs animate mode and subject selection.",
+                    "example": { "mode": "replace", "selection_mode": "auto" }
                   }
                 },
                 "required": ["end_seconds", "assets"]
