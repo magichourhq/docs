@@ -1112,12 +1112,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@linear/sdk@npm:88.2.0":
-  version: 88.2.0
-  resolution: "@linear/sdk@npm:88.2.0"
+"@linear/sdk@npm:88.3.0":
+  version: 88.3.0
+  resolution: "@linear/sdk@npm:88.3.0"
   dependencies:
     "@graphql-typed-document-node/core": "npm:^3.2.0"
-  checksum: 10/4e581245cbc29f8e1bbcb138d3aa9a396e60f62a690f7086845b1fb3637273bf9353d9eca1bcf95aef801bb6eab4b4200556dc438c1800905be7d91d01be303a
+  checksum: 10/7d44aba8215906d5a6d32a6ddea10bc636134e6356031d7f75b2f5f0250c47c4e3bdfc97de23c63184db07242a248b3556940b7bce094e3ea0c34f6b4f74afee
   languageName: node
   linkType: hard
 
@@ -3594,13 +3594,13 @@ __metadata:
   dependencies:
     "@ai-sdk/openai": "npm:3.0.86"
     "@clack/prompts": "npm:1.7.0"
-    "@linear/sdk": "npm:88.2.0"
+    "@linear/sdk": "npm:88.3.0"
     "@mintlify/scraping": "npm:4.0.888"
     "@types/node": "npm:26.1.1"
     ai: "npm:6.0.230"
     dotenv: "npm:17.4.2"
     mintlify: "npm:4.2.711"
-    prettier: "npm:3.9.5"
+    prettier: "npm:3.9.6"
     tsx: "npm:4.23.1"
     typescript: "npm:7.0.2"
     zod: "npm:4.4.3"
@@ -7782,12 +7782,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:3.9.5":
-  version: 3.9.5
-  resolution: "prettier@npm:3.9.5"
+"prettier@npm:3.9.6":
+  version: 3.9.6
+  resolution: "prettier@npm:3.9.6"
   bin:
     prettier: bin/prettier.cjs
-  checksum: 10/b6587f1582ba653ce5207ee227aff646500e5098646931088f176d1ab090b1f47d5a333f1facd634e9aa7dcb15c45940e2cec13a5962534cf0200617517b67b6
+  checksum: 10/1dd1a1e0e40ec3b91cda9d294c4a95022aef61880ca3f441aad99b1252279f58a766c4cece81132c01550dcff1fd445efbd8812ea4a2374313e7fc6c8136f11f
   languageName: node
   linkType: hard
 
