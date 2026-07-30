@@ -30,7 +30,7 @@ Newly saved voices appear first, followed by voices ordered by recent use, so yo
 
 You can now use the AI Video Editor as a free tool with LTX 2.3. Generations are limited to 3 seconds and 3 uses per day, using the first 3 seconds of your video automatically.
 
-Try it out now: https://magichour.ai/products/image-to-video
+Try it out now: https://magichour.ai/products/ai-video-editor
 
 ## Manually Select Characters for Character Replacement
 
@@ -77,10 +77,6 @@ Users can now discover Characters directly from the AI Image Generator, includin
 
 Characters still use the existing image workflow, directing users to the Characters entrypoint for image creation.
 
-## Testing GPT Image 2 as the Default for Paid Users
-
-We’re testing GPT Image 2 as the default model for paid users in the AI Image Generator and AI Image Editor.
-
 </Update>
 
 <Update label="2026-07-16" tags={["API","Web App"]}>
@@ -98,18 +94,6 @@ Seedance 5 Pro is now available in AI Image Editor and AI Image Generator for sh
 
 640px and 1K images cost 75 credits per image, while 2K images cost 150 credits. 4K output is not supported.
 
-## Get AI Summaries for Magic Hour Articles
-
-Magic Hour blog posts now include buttons for four AI assistants. Select an assistant to open its website with a prompt prefilled with the article URL and title, asking for key takeaways, practical use cases, strengths and limitations, alternatives, and a workflow to try first.
-
-## New AI Music Video Generator Product Page
-
-Explore the new AI Music Video Generator page to learn how Magic Hour can turn a song into a complete visual experience with beat-synced cuts, lyric-aware scenes, custom art styles, reference images, and optional lip sync.
-
-The page covers use cases including release promotion, lyric-driven storytelling, recurring characters, creative style exploration, and AI performance scenes.
-
-Try it out now: https://magichour.ai/products/ai-music-video-generator
-
 ## Create and Reuse Characters Across Magic Hour
 
 Characters lets you save a person once and reuse them across Magic Hour tools without repeatedly uploading the same reference images. Create a Character with 1–12 photos, choose a primary image, rename or update it, and use it in supported workflows.
@@ -120,24 +104,10 @@ Characters are now available in Text to Video, Image to Video, AI Image Editor, 
 
 Veo 3.1 and Veo 3.1 Lite now support an end-frame option in the web app, giving you more control over how generated videos conclude.
 
-## New AI Audio Enhancer Product Page
-
-The new AI Audio Enhancer page explains how Magic Hour can remove background noise, reduce echo, improve voice clarity, and balance volume in audio and video recordings.
-
-Learn how to enhance podcasts, voiceovers, interviews, presentations, and video dialogue. When you upload a video, Magic Hour enhances its audio and reattaches it automatically so the result stays synchronized.
-
-Try it out now: https://magichour.ai/products/ai-audio-enhancer
-
 </Update>
 
 <Update label="2026-07-15" tags={["API","Web App"]}>
 {/*linear:ENG-3661,ENG-3659,ENG-2294,ENG-3729*/}
-
-## Create Reference-to-Video Templates with Your Own Image
-
-Reference-to-Video templates now support personalized prompts using uploaded reference images. When you select a template and upload an image, the reference is automatically used in place of the `@person` prompt reference.
-
-The updated flow also makes it clearer when a template requires you to add an image, making it easier to create personalized videos from existing outputs.
 
 ## AI Video Editor Now Available via the API
 
@@ -156,17 +126,9 @@ Character Replace and Animate now include preset characters. Preset names are ba
 <Update label="2026-07-14" tags={["Web App"]}>
 {/*linear:ENG-3487,ENG-3694,ENG-3695*/}
 
-## Create Clothes Changer Templates with Both Images
-
-Templates for Clothes Changer now include both the model image and the outfit image, making it easier to reuse complete outfit transformation setups.
-
 ## Choose a Person During Character Replace and Animate Uploads
 
 Video uploads in Character Replace and Animate now include the Auto/Select Person field, giving you control over how the person is identified in your video.
-
-## Remove Watermarks in Image-to-Video and Text-to-Video
-
-The Remove Watermark feature is now available for Image-to-Video and Text-to-Video conversions, extending watermark removal beyond Face Swap Video.
 
 </Update>
 
@@ -178,10 +140,6 @@ The Remove Watermark feature is now available for Image-to-Video and Text-to-Vid
 We added more than 200 free, no-signup AI tool pages under `/tools/`. Browse new image editing, image generation, and hybrid tools with ready-to-use workflows for transforming photos or creating images from prompts.
 
 Try it out now: [Explore the free AI tools](https://magichour.ai/tools/photo-to-cartoon)
-
-## New Google Omni Model Page
-
-Added a dedicated product page for the Google Omni model, with model-specific copy and supporting visual assets to help users understand what it can do.
 
 ## Use Magic Hour from MCP Clients
 
@@ -204,11 +162,7 @@ Body Swap now includes a switch feature, giving you more control when working wi
 <Update label="2026-07-10" tags={["API","Web App"]}>
 {/*linear:ENG-3650,ENG-3614,ENG-3671*/}
 
-## Submit Character Replace Templates with Animate
-
-Character Replace templates can now be submitted using video and image inputs. The feature also works with Animate, making it easier to create and submit character replacement workflows.
-
-## New Characters Product Page
+## Characters
 
 Explore Characters, a new way to upload 1–12 reference photos of a person once and reuse them consistently across Magic Hour tools. Select saved Characters in Text to Video, Image to Video, AI Image Editor, and AI Image Generator without re-uploading or re-describing the same person.
 
@@ -231,46 +185,22 @@ The pages also link directly to the translator flow with the selected language p
 
 Try it out now: https://magichour.ai/products/ai-video-translator
 
-## New Character Replace Workspace
+## New Character Replace
 
-We added the Character Replace workspace at `/character-replace`. Upload a video, select the person to replace by clicking a point on any frame, and choose a replacement character by uploading an image or selecting a preset.
+We added the Character Replace. Upload a video, select the person to replace by clicking a point on any frame, and choose a replacement character by uploading an image or selecting a preset.
 
 The workspace also supports Character Only and Full Scene modes, along with negative points that mark objects to preserve in the generated video. The initial version focuses on the core replacement flow for uploaded videos.
 
-Try it out now: https://magichour.ai/character-replace
+Try it out now: https://magichour.ai/create/character-replace
 
 ## Added Nano Banana 2 Lite to AI Image Tools
 
 Nano Banana 2 Lite is now available in AI Image Editor and AI Image Generator. It is built for speed and high-quality results, with the same credit cost as Nano Banana at 1K resolution and the same higher-resolution scaling used for Nano Banana 2.
 
-## Coming Soon: AI Influencer Generator
-
-We added the AI Influencer Generator product page, where you can learn how to design a photorealistic virtual influencer by selecting traits such as appearance, age, and style—without writing prompts.
-
-Generated influencers can be saved as Characters and used across Text to Video, Image to Video, AI Image Editor, and AI Image Generator for consistent content. The tool is coming soon; a live tool experience will replace the Coming Soon button when it launches.
-
-Try it out now: https://magichour.ai/products/ai-influencer-generator
-
 </Update>
 
 <Update label="2026-07-06" tags={["Web App"]}>
 {/*linear:ENG-3595,ENG-3593,ENG-3584,ENG-3569*/}
-
-## New AI Video Colorizer Product Page
-
-Explore AI Video Colorizer, a new product page for bringing black-and-white and grayscale footage to life with smart, consistent color. The page highlights adjustable color strength, scene-to-scene consistency, and use cases from restoring home movies to enhancing historical footage.
-
-The free tool is marked as coming soon while the dashboard experience is being built.
-
-Try it out now: https://magichour.ai/products/video-colorizer
-
-## New AI Video Translator Product Page
-
-Explore AI Video Translator, a new product page for translating videos into 100+ languages with voice cloning and lip sync. The page showcases multilingual dubbing for creators, courses, marketing videos, product demos, and more—without subtitles, voice actors, or reshoots.
-
-The free tool is marked as coming soon while the dashboard experience is being built.
-
-Try it out now: https://magichour.ai/products/ai-video-translator
 
 ## New AI Video Editor Creation Flow
 
@@ -353,19 +283,6 @@ You’ll also see the calculated volume discount for your usage. For Face Swap, 
 You can now search and filter templates directly in the in-creation flow. Browse templates by **All**, **Popular**, or **New**, with the existing randomized template selection available under **All**.
 
 Search and filter controls appear only when **Templates** is selected.
-
-</Update>
-
-<Update label="2026-06-26" tags={["Web App"]}>
-{/*linear:ENG-3528*/}
-
-## New AI Motion Control Product Page
-
-Animate any still image using the motion from a reference video. Upload a video with the movement you want and an image of your subject, then Magic Hour transfers the motion to create an animated video—without filming, rigging, or an animation workflow.
-
-Motion Control supports saved Characters, multiple reference video formats, and reference clips up to 60 seconds. It’s free to use with daily credits, with paid plans offering more generations and higher volume.
-
-Try it out now: [https://magichour.ai/products/motion-control](https://magichour.ai/products/motion-control)
 
 </Update>
 
