@@ -16,7 +16,7 @@
   "devDependencies": {
     "@ai-sdk/openai": "3.0.86",
     "@clack/prompts": "1.7.0",
-    "@linear/sdk": "88.3.0",
+    "@linear/sdk": "89.0.0",
     "@mintlify/scraping": "4.0.888",
     "@types/node": "26.1.2",
     "ai": "6.0.230",
