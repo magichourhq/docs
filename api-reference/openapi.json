@@ -2670,7 +2670,7 @@
                     "type": "number",
                     "minimum": 1,
                     "maximum": 60,
-                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2.3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`veo3.1-lite`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`seedance-1.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`seedance-2.0-mini`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.0`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n",
+                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2.3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`kling-2.6`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`veo3.1-lite`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`seedance-1.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`seedance-2.0-mini`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.0`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n",
                     "format": "float",
                     "example": 5
                   },
@@ -2685,7 +2685,9 @@
                       "seedance-1.5",
                       "seedance-2.0",
                       "seedance-2.0-mini",
+                      "seedance-2.5",
                       "kling-2.5",
+                      "kling-2.6",
                       "kling-3.0",
                       "veo3.1",
                       "veo3.1-lite",
@@ -2695,18 +2697,18 @@
                       "kling-2.5-audio",
                       "veo3.1-audio"
                     ],
-                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `ltx-2.3`: Fastest output. Best for rapid iteration.\n* `wan-2.2`: Strong physics, camera moves, and motion.\n* `kling-3.0`: Best overall quality for cinematic storytelling.\n* `veo3.1-lite`: Veo quality at a more accessible cost.\n* `veo3.1`: Google's model. Highest realism and detail.\n* `seedance-1.5`: Smooth, consistent motion with precision.\n* `seedance-2.0-mini`: Fast, consistent video with strong motion quality\n* `seedance-2.0`: Top quality with reference-to-video control.\n* `sora-2`: Open AI's model. Great for creativity and viral clips.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
+                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `ltx-2.3`: Fastest output. Best for rapid iteration.\n* `wan-2.2`: Strong physics, camera moves, and motion.\n* `kling-2.6`: Great for action, motion blur, and camera moves.\n* `kling-3.0`: Best overall quality for cinematic storytelling.\n* `veo3.1-lite`: Veo quality at a more accessible cost.\n* `veo3.1`: Google's model. Highest realism and detail.\n* `seedance-1.5`: Smooth, consistent motion with precision.\n* `seedance-2.0-mini`: Fast, consistent video with strong motion quality\n* `seedance-2.0`: Top quality with reference-to-video control.\n* `seedance-2.5`: Highest quality with superior realism, detail, and motion\n* `sora-2`: Open AI's model. Great for creativity and viral clips.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
                     "example": "kling-3.0"
                   },
                   "resolution": {
                     "type": "string",
                     "enum": ["480p", "720p", "1080p", "4k"],
                     "example": "720p",
-                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`ltx-2.3`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`veo3.1-lite`**: Supports 720p, 1080p.\n* **`veo3.1`**: Supports 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.0`**: Supports 480p, 720p.\n* **`sora-2`**: Supports 720p.\n"
+                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`ltx-2.3`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`kling-2.6`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`veo3.1-lite`**: Supports 720p, 1080p.\n* **`veo3.1`**: Supports 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.0`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p.\n* **`sora-2`**: Supports 720p.\n"
                   },
                   "audio": {
                     "type": "boolean",
-                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`ltx-2.3`**: Toggle-able: no additional credits for audio\n* **`wan-2.2`**: Not supported\n* **`kling-3.0`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1-lite`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-1.5`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0-mini`**: Toggle-able: no additional credits for audio\n* **`seedance-2.0`**: Toggle-able: no additional credits for audio\n* **`sora-2`**: Toggle-able: no additional credits for audio\n",
+                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`ltx-2.3`**: Toggle-able: no additional credits for audio\n* **`wan-2.2`**: Not supported\n* **`kling-2.6`**: Not supported\n* **`kling-3.0`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1-lite`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-1.5`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0-mini`**: Toggle-able: no additional credits for audio\n* **`seedance-2.0`**: Toggle-able: no additional credits for audio\n* **`seedance-2.5`**: Toggle-able: no additional credits for audio\n* **`sora-2`**: Toggle-able: no additional credits for audio\n",
                     "example": true
                   },
                   "style": {
@@ -2732,7 +2734,7 @@
                       "end_image_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The image to use as the last frame of the video.\n\n* **`ltx-2.3`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Not supported\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`veo3.1-lite`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`veo3.1`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.0`**: Supports 480p, 720p.\n* **`sora-2`**: Not supported\n",
+                        "description": "The image to use as the last frame of the video.\n\n* **`ltx-2.3`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Not supported\n* **`kling-2.6`**: Supports 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`veo3.1-lite`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`veo3.1`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.0`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p.\n* **`sora-2`**: Not supported\n",
                         "example": "api-assets/id/1234.png"
                       }
                     },
@@ -3119,21 +3121,21 @@
                     "type": "number",
                     "minimum": 1,
                     "maximum": 60,
-                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2.3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`veo3.1-lite`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`seedance-1.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`seedance-2.0-mini`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.0`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n",
+                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2.3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`kling-2.6`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`veo3.1-lite`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`seedance-1.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`seedance-2.0-mini`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.0`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n",
                     "format": "float",
                     "example": 5
                   },
                   "aspect_ratio": {
                     "type": "string",
                     "enum": ["16:9", "9:16", "1:1"],
-                    "description": "Determines the aspect ratio of the output video.\n\n* **`ltx-2.3`**: Supports 9:16, 16:9, 1:1.\n* **`wan-2.2`**: Supports 9:16, 16:9, 1:1.\n* **`kling-3.0`**: Supports 9:16, 16:9, 1:1.\n* **`veo3.1-lite`**: Supports 9:16, 16:9.\n* **`veo3.1`**: Supports 9:16, 16:9.\n* **`seedance-1.5`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0-mini`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0`**: Supports 9:16, 16:9, 1:1.\n* **`sora-2`**: Supports 9:16, 16:9.\n",
+                    "description": "Determines the aspect ratio of the output video.\n\n* **`ltx-2.3`**: Supports 9:16, 16:9, 1:1.\n* **`wan-2.2`**: Supports 9:16, 16:9, 1:1.\n* **`kling-2.6`**: Supports 9:16, 16:9, 1:1.\n* **`kling-3.0`**: Supports 9:16, 16:9, 1:1.\n* **`veo3.1-lite`**: Supports 9:16, 16:9.\n* **`veo3.1`**: Supports 9:16, 16:9.\n* **`seedance-1.5`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0-mini`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.5`**: Supports 9:16, 16:9, 1:1.\n* **`sora-2`**: Supports 9:16, 16:9.\n",
                     "example": "16:9"
                   },
                   "resolution": {
                     "type": "string",
                     "enum": ["480p", "720p", "1080p", "4k"],
                     "example": "720p",
-                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`ltx-2.3`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`veo3.1-lite`**: Supports 720p, 1080p.\n* **`veo3.1`**: Supports 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.0`**: Supports 480p, 720p.\n* **`sora-2`**: Supports 720p.\n"
+                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`ltx-2.3`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`kling-2.6`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`veo3.1-lite`**: Supports 720p, 1080p.\n* **`veo3.1`**: Supports 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.0`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p.\n* **`sora-2`**: Supports 720p.\n"
                   },
                   "model": {
                     "default": "default",
@@ -3146,7 +3148,9 @@
                       "seedance-1.5",
                       "seedance-2.0",
                       "seedance-2.0-mini",
+                      "seedance-2.5",
                       "kling-2.5",
+                      "kling-2.6",
                       "kling-3.0",
                       "veo3.1",
                       "veo3.1-lite",
@@ -3156,12 +3160,12 @@
                       "kling-2.5-audio",
                       "veo3.1-audio"
                     ],
-                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `ltx-2.3`: Fastest output. Best for rapid iteration.\n* `wan-2.2`: Strong physics, camera moves, and motion.\n* `kling-3.0`: Best overall quality for cinematic storytelling.\n* `veo3.1-lite`: Veo quality at a more accessible cost.\n* `veo3.1`: Google's model. Highest realism and detail.\n* `seedance-1.5`: Smooth, consistent motion with precision.\n* `seedance-2.0-mini`: Fast, consistent video with strong motion quality\n* `seedance-2.0`: Top quality with reference-to-video control.\n* `sora-2`: Open AI's model. Great for creativity and viral clips.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
+                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `ltx-2.3`: Fastest output. Best for rapid iteration.\n* `wan-2.2`: Strong physics, camera moves, and motion.\n* `kling-2.6`: Great for action, motion blur, and camera moves.\n* `kling-3.0`: Best overall quality for cinematic storytelling.\n* `veo3.1-lite`: Veo quality at a more accessible cost.\n* `veo3.1`: Google's model. Highest realism and detail.\n* `seedance-1.5`: Smooth, consistent motion with precision.\n* `seedance-2.0-mini`: Fast, consistent video with strong motion quality\n* `seedance-2.0`: Top quality with reference-to-video control.\n* `seedance-2.5`: Highest quality with superior realism, detail, and motion\n* `sora-2`: Open AI's model. Great for creativity and viral clips.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
                     "example": "kling-3.0"
                   },
                   "audio": {
                     "type": "boolean",
-                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`ltx-2.3`**: Toggle-able: no additional credits for audio\n* **`wan-2.2`**: Not supported\n* **`kling-3.0`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1-lite`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-1.5`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0-mini`**: Toggle-able: no additional credits for audio\n* **`seedance-2.0`**: Toggle-able: no additional credits for audio\n* **`sora-2`**: Toggle-able: no additional credits for audio\n",
+                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`ltx-2.3`**: Toggle-able: no additional credits for audio\n* **`wan-2.2`**: Not supported\n* **`kling-2.6`**: Not supported\n* **`kling-3.0`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1-lite`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-1.5`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0-mini`**: Toggle-able: no additional credits for audio\n* **`seedance-2.0`**: Toggle-able: no additional credits for audio\n* **`seedance-2.5`**: Toggle-able: no additional credits for audio\n* **`sora-2`**: Toggle-able: no additional credits for audio\n",
                     "example": true
                   },
                   "style": {
