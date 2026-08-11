@@ -19,7 +19,9 @@
  *
  * Dedup: each new <Update> embeds an MDX comment marker linear:ENG-123,ENG-456.
  * Issues whose identifiers already appear in changelog.mdx are skipped
- * (covers --since overlap + re-runs).
+ * (covers --since overlap + re-runs). The AI can exclude internal or unreleased
+ * issues; excluded identifiers are still included in the invisible marker when
+ * the date has at least one public entry so they are not reconsidered on overlap.
  *
  * A/B tests: issues whose title/description look like experiments (A/B test,
  * "We're testing…", title starting with "Testing", GrowthBook, etc.) are dropped
@@ -264,7 +266,9 @@ function groupByDate(issues: LinearIssue[]): Map<string, LinearIssue[]> {
 // AI: rewrite Linear issues into polished changelog prose
 // ---------------------------------------------------------------------------
 
-async function generateUpdateBlock(dateStr: string, issues: LinearIssue[]): Promise<string> {
+async function generateUpdateBlock(dateStr: string, issues: LinearIssue[]): Promise<string | null> {
+  const issueIdentifiers = issues.map((issue) => issue.identifier) as [string, ...string[]];
+  const issueIdentifierSchema = z.enum(issueIdentifiers);
   const issuesSummary = issues
     .map(
       (issue, i) =>
@@ -275,7 +279,18 @@ async function generateUpdateBlock(dateStr: string, issues: LinearIssue[]): Prom
   const systemPrompt = `\
 You are writing changelog entries for Magic Hour, an AI video and image generation platform.
 
-Your job is to rewrite Linear issue titles and descriptions into polished, user-facing changelog prose in MDX format, and to classify which surface each change affects.
+Your job is to act as the editor and gatekeeper for Magic Hour's public changelog. Decide which Linear issues describe meaningful, already-public customer changes, then turn only those changes into polished MDX and classify the affected product surfaces.
+
+Eligibility rules — apply these before writing:
+- Include a change only when the issue provides clear evidence that customers can use or see it on the public Web App or public API. A completed Linear issue is not, by itself, evidence of a public release.
+- Include material new capabilities, models, controls, workflows, public pages, API behavior, and meaningful customer-facing fixes.
+- Exclude admin panels, staff tools, debugging/operations features, observability, and other employee-only changes.
+- Exclude anything gated by \`?preview=true\`, a feature flag, hidden metadata/navigation, dogfooding, or restricted testing unless the issue explicitly says that gate was removed and the feature was publicly launched.
+- Exclude foundations and implementation milestones such as scaffolds, schemas, constants, hidden routes, backend workflows, infrastructure, refactors, tests, retries, stitching, or work described as "wired", "connected", or "productionized" when no new public customer capability is established.
+- Exclude unreleased or ambiguous work. When availability is unclear, omit it instead of implying that it launched.
+- A newly published public product or informational page may be included even if the tool is coming soon, but describe the page as the release and clearly preserve the coming-soon status. Never describe the unreleased tool as available.
+- Several issues may be implementation pieces of one public launch. Combine them into one entry and describe only the resulting customer capability. Do not expose internal architecture or write one section per ticket.
+- If an issue mixes public behavior with internal implementation details, keep only the public behavior.
 
 Content rules:
 - Write in the same style as the existing examples below — concise, direct, and action-oriented
@@ -283,10 +298,18 @@ Content rules:
 - Write 1-3 short paragraphs describing what changed and why it matters to the user
 - If relevant, include a code snippet (Python or TypeScript matching the issue context)
 - End with a "Try it out now:" link if there's a product URL in the description, otherwise omit it
-- If multiple issues are provided for the same day, write a separate "## " section for each
+- Organize content by customer-facing change, not by Linear issue. Merge related issues and omit ineligible issues entirely.
 - Do NOT include the <Update label="..."> wrapper — just the inner MDX content
 - Do NOT include any image or Frame tags — new entries ship without images
 - Do NOT hallucinate details not present in the issue
+- Avoid engineering verbs and internal framing such as "productionized", "foundation", "wired", "scripts", "route", "schema", or "workflow" unless they are necessary to explain a user-visible capability in plain language
+
+Decision examples:
+- "Filter errors in Admin" or "show purchases in Admin" → exclude as staff-only.
+- "Add a hidden route and form schema behind ?preview=true" → exclude as unreleased foundation work.
+- "Add model selectors available only with ?preview=true" → exclude as testing-only.
+- A UI implementation issue plus a backend pipeline issue plus an explicit public-launch issue for the same feature → write one launch entry; describe inputs, modes, outputs, and other user controls, not segmentation, retries, queues, or stitching.
+- "Publish a public product page for a coming-soon tool" → the page may be included, but say the page is new and the tool is coming soon.
 
 Classification rules (the "tags" field):
 - "${TAG_API}": the change affects the public API / SDK (new endpoints, params, models exposed via the API, webhook changes, SDK updates). Code snippets calling \`client.*\` are a strong signal.
@@ -302,6 +325,8 @@ ${TONE_EXAMPLES}
 Generate changelog MDX content for the following Linear issue(s) completed on ${dateStr}:
 
 ${issuesSummary}
+
+Treat ${dateStr} as the issues' completion date, not as proof that every issue was publicly released. Classify every supplied issue exactly once as included or excluded, using its identifier exactly as supplied. Return null content and no tags if none qualify.
 `;
 
   const { object } = await generateObject({
@@ -309,13 +334,73 @@ ${issuesSummary}
     system: systemPrompt,
     prompt: userPrompt,
     schema: z.object({
-      content: z.string().describe("The inner MDX content (## sections), no <Update> wrapper"),
+      content: z
+        .string()
+        .min(1)
+        .nullable()
+        .describe(
+          "The inner MDX content grouped by customer-facing change, or null when no supplied issue qualifies"
+        ),
       tags: z
         .array(z.enum([TAG_API, TAG_WEB_APP]))
-        .min(1)
-        .describe("Which product surfaces this update affects"),
+        .describe(
+          "Which public product surfaces the included content affects; empty when content is null"
+        ),
+      includedIssueIds: z
+        .array(issueIdentifierSchema)
+        .describe("Identifiers of issues represented in the public changelog content"),
+      excludedIssues: z
+        .array(
+          z.object({
+            identifier: issueIdentifierSchema,
+            reason: z
+              .string()
+              .describe("Concise reason this issue is not appropriate for the public changelog"),
+          })
+        )
+        .describe("Every supplied issue omitted from the public changelog"),
     }),
   });
+
+  const suppliedIds = new Set(issues.map((issue) => issue.identifier));
+  const classifiedIds = [
+    ...object.includedIssueIds,
+    ...object.excludedIssues.map((i) => i.identifier),
+  ];
+  const unknownIds = classifiedIds.filter((id) => !suppliedIds.has(id));
+  const duplicateIds = classifiedIds.filter((id, index) => classifiedIds.indexOf(id) !== index);
+  const missingIds = issues
+    .map((issue) => issue.identifier)
+    .filter((id) => !classifiedIds.includes(id));
+
+  if (unknownIds.length > 0 || duplicateIds.length > 0 || missingIds.length > 0) {
+    throw new Error(
+      `AI returned an invalid issue classification for ${dateStr}` +
+        (unknownIds.length > 0 ? `; unknown: ${[...new Set(unknownIds)].join(", ")}` : "") +
+        (duplicateIds.length > 0 ? `; duplicated: ${[...new Set(duplicateIds)].join(", ")}` : "") +
+        (missingIds.length > 0 ? `; missing: ${missingIds.join(", ")}` : "")
+    );
+  }
+
+  if (object.excludedIssues.length > 0) {
+    console.log();
+    for (const issue of object.excludedIssues) {
+      console.log(`    excluded ${issue.identifier}: ${issue.reason}`);
+    }
+  }
+
+  if (object.content === null) {
+    if (object.tags.length > 0 || object.includedIssueIds.length > 0) {
+      throw new Error(`AI returned tags or included issue IDs without content for ${dateStr}`);
+    }
+    return null;
+  }
+
+  if (object.tags.length === 0 || object.includedIssueIds.length === 0) {
+    throw new Error(
+      `AI returned changelog content without tags or included issue IDs for ${dateStr}`
+    );
+  }
 
   // De-dupe and keep a stable order (API before Web App)
   const orderedTags = [TAG_API, TAG_WEB_APP].filter((t) => object.tags.includes(t));
@@ -493,15 +578,24 @@ async function main(): Promise<void> {
 
   // Group by date
   const groups = groupByDate(selectedIssues);
-  console.log(`\nGenerating ${groups.size} <Update> block(s) via GPT-5...`);
+  console.log(`\nEvaluating ${groups.size} date group(s) via GPT-5...`);
 
   const newBlocks: string[] = [];
 
   for (const [dateStr, groupIssues] of groups) {
     process.stdout.write(`  ${dateStr} (${groupIssues.length} issue(s))... `);
     const block = await generateUpdateBlock(dateStr, groupIssues);
-    newBlocks.push(block);
-    console.log("done");
+    if (block) {
+      newBlocks.push(block);
+      console.log("done");
+    } else {
+      console.log("no public entries");
+    }
+  }
+
+  if (newBlocks.length === 0) {
+    console.log("\nNo changelog-worthy public changes found. No files were written.");
+    return;
   }
 
   // Preview
