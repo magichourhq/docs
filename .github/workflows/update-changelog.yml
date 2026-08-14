@@ -98,4 +98,5 @@ jobs:
             ## Summary
             - Add changelog entries from ${{ steps.range.outputs.start }} to ${{ steps.range.outputs.end }}
           branch: update-changelog
+          reviewers: davidhu2000
           delete-branch: true
