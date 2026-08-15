@@ -10,7 +10,7 @@ description: Pay only for what you use with automatic monthly billing and volume
 ### **The Basics**
 
 1. **Add a payment method** to your account
-2. **Choose your tier** based on resolution needs and expected usage
+2. **Choose your tier** based on expected usage and which resolution options you need
 3. **Use the API** - credits are consumed as you generate content
 4. **Get billed monthly** based on your actual usage
 5. **Automatic volume discounts** apply as you use more credits
@@ -35,7 +35,9 @@ description: Pay only for what you use with automatic monthly billing and volume
 
 ## Choose Your Tier
 
-Each tier offers different resolution limits and credit pricing. Higher tiers unlock better resolution but cost more per credit.
+Each tier has a different rate per credit. Paid tiers unlock the same higher-resolution options as
+the matching subscription; requesting those options costs more credits, independent of which paid
+tier you are on. See [resolution](/billing/resolution-limits).
 
 import { PricingCard } from "/snippets/pricing-card.mdx";
 import UsageRates from "/snippets/usage-based-rates.mdx";
@@ -44,25 +46,22 @@ import UsageRates from "/snippets/usage-based-rates.mdx";
 
 <PricingCard
   title="Creator"
-  benefits={["1024x1024 resolution", "Access to all image modes", "Access to all video modes"]}
+  benefits={["$0.001200 per credit before volume discounts", "Access to all image and video modes"]}
 />
 
 <PricingCard
   title="Pro"
-  benefits={["1472x1472 resolution", "Access to all image modes", "Access to all video modes"]}
+  benefits={["$0.001950 per credit before volume discounts", "Access to all image and video modes"]}
 />
 
 <PricingCard
   title="Business"
   benefits={[
-    "4096x4096 resolution for select modes",
-    "Access to all image modes",
-    "Access to all video modes",
+    "$0.002500 per credit before volume discounts",
+    "Access to all image and video modes",
   ]}
 />
 </CardGroup>
-
-Each tier has its own rate per credit, rising with the resolution ceiling.
 
 ## Rates and Volume Discounts
 
@@ -100,7 +99,7 @@ full month with the
    - Email: [support@magichour.ai](mailto:support@magichour.ai)
    - Use the Intercom chat widget on our website
 
-2. **Choose your tier** based on resolution needs and expected usage
+2. **Choose your tier** based on expected volume and the per-credit rate you want
 
 3. **Add payment method** - We'll help you set this up securely
 

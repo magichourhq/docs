@@ -30,9 +30,10 @@ Available on [text to video](/api-reference/video-projects/text-to-video) and
 | `sora-2`            | Open AI's model. Great for creativity and viral clips     | 720p              | 4, 8, 12, 24, 36, 48, 60                                                                             | Yes, no extra credits |
 
 <Note>
-  `default` resolves to `kling-3.0` on paid tiers and `ltx-2.3` on the free tier. The deprecated
-  `kling-2.5-audio` and `veo3.1-audio` values are equivalent to passing the base model with `audio:
-  true`.
+  `default` resolves to `kling-3.0` on paid tiers and `ltx-2.3` on the free tier. Free typically
+  requests `480p`; paid plans (Creator, Pro, Business) can request the higher resolutions a model
+  supports, at that resolution's credit cost. The deprecated `kling-2.5-audio` and `veo3.1-audio`
+  values are equivalent to passing the base model with `audio: true`.
 </Note>
 
 ### Video credit costs
