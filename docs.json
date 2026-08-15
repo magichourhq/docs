@@ -36,7 +36,7 @@
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://magichour.ai/developer"
+      "href": "https://magichour.ai/developer?ref=docs-navbar"
     }
   },
   "footer": {
