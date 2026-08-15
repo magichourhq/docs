@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "mintlify dev --port 3001",
     "check": "mintlify broken-links",
+    "check:api-drift": "tsx scripts/check-api-drift.ts",
     "scrape:api": "mintlify-scrape openapi-file api-reference/openapi.json -o api-reference",
     "scrape:webhook": "mintlify-scrape openapi-file webhook-reference/openapi.json -o webhook-reference",
     "changelog": "tsx scripts/generate-changelog.ts"
