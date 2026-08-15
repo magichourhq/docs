@@ -164,6 +164,7 @@
         "openapi": "api-reference/openapi.json",
         "pages": [
           "api-reference/overview",
+          "api-reference/models",
           "api-reference/processing-times",
           {
             "group": "Files",
