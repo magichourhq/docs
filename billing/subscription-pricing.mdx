@@ -9,7 +9,7 @@ description: Get credits upfront with predictable monthly or yearly billing and 
 
 ### **The Basics**
 
-1. **Choose your plan** based on resolution needs and monthly credit requirements
+1. **Choose your plan** based on monthly credit volume and which resolution options you need
 2. **Select billing frequency** - monthly or yearly (annual billing is discounted)
 3. **Pay upfront** and receive all credits immediately
 4. **Use credits anytime** - credits never expire, even after subscription ends
@@ -17,11 +17,11 @@ description: Get credits upfront with predictable monthly or yearly billing and 
 
 ### **Key Benefits**
 
-✅ **Predictable costs** - Know exactly what you'll pay each month/year  
-✅ **Credits upfront** - Get all your credits immediately to use anytime  
-✅ **Yearly savings** - Annual billing is discounted  
-✅ **No usage tracking** - Use credits at your own pace  
-✅ **Higher resolution** - Access to better quality based on your tier
+✅ **Predictable costs** - Know exactly what you'll pay each month/year
+✅ **Credits upfront** - Get all your credits immediately to use anytime
+✅ **Yearly savings** - Annual billing is discounted
+✅ **No usage tracking** - Use credits at your own pace
+✅ **Higher resolution options** - Paid plans unlock higher-resolution choices on each tool
 
 ### **How It Differs from Usage-Based**
 
@@ -35,12 +35,9 @@ description: Get credits upfront with predictable monthly or yearly billing and 
 
 ## Choose Your Plan
 
-Each plan offers different credit amounts and resolution limits. Higher plans unlock better resolution and more credits per month.
-
-<Info>
-  Prices and credit allowances live on the [pricing page](https://magichour.ai/pricing) so they're
-  always current. This page covers how the plans behave.
-</Info>
+Higher plans include more credits each month, larger uploads, and more concurrent jobs. Resolution is
+per tool: paid plans unlock higher-resolution options, and requesting those options costs more
+credits. See [resolution](/billing/resolution-limits).
 
 import { PricingCard } from "/snippets/pricing-card.mdx";
 
@@ -48,10 +45,10 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
 
 <PricingCard
   title="Free"
-  prices={[{ amount: 0, label: "" }]}
+  prices={[{ amount: 0, label: "/month" }]}
   benefits={[
     "400 credits on signup plus 100 credits/day",
-    "576px resolution",
+    "Lowest resolution option on each tool",
     "Access to all image modes",
     "Access to Animation, Face Swap, Lip Sync, Subtitle Generator, Talking Photo",
   ]}
@@ -59,20 +56,51 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
 
 <PricingCard
   title="Creator"
-  benefits={["1024px resolution", "No watermarks", "Commercial use license"]}
+  prices={[
+    { amount: 19, label: "/month" },
+    { amount: 12, label: "/month billed annually" },
+  ]}
+  benefits={[
+    "12,000 credits per month",
+    "No watermarks, commercial use",
+    "2GB uploads, 3 concurrent generations",
+  ]}
 />
 
-<PricingCard title="Pro" benefits={["1472px resolution", "5GB file uploads", "Priority support"]} />
+<PricingCard
+  title="Pro"
+  prices={[
+    { amount: 39, label: "/month" },
+    { amount: 25, label: "/month billed annually" },
+  ]}
+  benefits={[
+    "25,000 credits per month",
+    "No watermarks, commercial use",
+    "5GB uploads, 5 concurrent generations",
+    "Priority support",
+  ]}
+/>
 
 <PricingCard
   title="Business"
-  benefits={["4K resolution for select modes", "10GB file uploads", "Priority support"]}
+  prices={[
+    { amount: 99, label: "/month" },
+    { amount: 66, label: "/month billed annually" },
+  ]}
+  benefits={[
+    "70,000 credits per month",
+    "No watermarks, commercial use",
+    "10GB uploads, unlimited concurrent generations",
+    "Priority support",
+  ]}
 />
 </CardGroup>
 
-<Card title="See plans and prices" icon="tag" href="https://magichour.ai/pricing" horizontal>
-  Current monthly and annual pricing, credit allowances, and credit packs
-</Card>
+Annual Creator is $144/year, Pro $300/year, Business $792/year. Credit totals above are the monthly
+allotment; annual plans include twelve months of that allotment (144,000 / 300,000 / 840,000
+credits per year).
+
+Live checkout is on the [pricing page](https://magichour.ai/pricing?ref=docs-subscription-pricing).
 
 ## Need More Credits?
 
@@ -80,9 +108,14 @@ If you use more credits than your plan includes, you can purchase additional cre
 
 ### **Credit Packs**
 
-- **Fixed pack sizes** - see the [pricing page](https://magichour.ai/pricing) for current sizes and prices
-- **Instant delivery** - credits added immediately to your account
-- **No expiration** - credits never expire, even after subscription ends
+| Pack     | Credits | Price |
+| :------- | ------: | ----: |
+| Starter  |   4,000 |   $10 |
+| Standard |  12,000 |   $30 |
+| Large    |  32,000 |   $80 |
+
+That's 400 credits per dollar. Credits are added immediately and never expire. Packs do not include
+subscription benefits other than removing watermarks.
 
 ### **When to Buy Credit Packs**
 
@@ -98,9 +131,10 @@ If you use more credits than your plan includes, you can purchase additional cre
 
 ## Choosing a Plan
 
-Pick the plan whose resolution ceiling matches your output requirements, then check that its credit
-allowance covers your expected monthly volume. If you regularly exhaust your allowance and buy credit
-packs, the next tier up is usually cheaper than the packs.
+Pick the plan whose monthly credits cover your expected volume, then check that it unlocks the
+resolution options you need. Higher resolution on the same plan costs more credits, so a 1080p
+workload burns through an allotment faster than 480p. If you regularly exhaust your allowance and
+buy credit packs, the next tier up is usually cheaper than the packs.
 
 For API workloads with variable volume, compare against
 [usage-based pricing](/billing/usage-based-pricing), which bills after the fact and applies volume
@@ -112,9 +146,10 @@ Ready to subscribe? Here's how to set up your subscription in minutes.
 
 <Steps>
 <Step title="Visit the Pricing Page">
-  Go to [magichour.ai/pricing](https://magichour.ai/pricing) to see all available plans and current pricing.
-  
-  ![Pricing Page](./images/pricing-page-1.png)
+  Go to [magichour.ai/pricing](https://magichour.ai/pricing?ref=docs-subscription-pricing) to see all available plans and current pricing.
+
+![Pricing Page](./images/pricing-page-1.png)
+
 </Step>
 
 <Step title="Choose Billing Frequency">
@@ -123,10 +158,10 @@ Ready to subscribe? Here's how to set up your subscription in minutes.
 </Step>
 
 <Step title="Select Your Plan">
-  Choose based on your monthly credit needs and resolution requirements:
-  - **Creator**: 1024px resolution
-  - **Pro**: 1472px resolution
-  - **Business**: 4096px resolution
+  Choose based on monthly credits and which resolution options you need:
+  - **Creator**: $19/month ($12/month billed annually), 12,000 credits
+  - **Pro**: $39/month ($25/month billed annually), 25,000 credits
+  - **Business**: $99/month ($66/month billed annually), 70,000 credits
 
 ![Pricing Page](./images/pricing-page-3.png)
 
@@ -195,7 +230,7 @@ When your subscription ends or you downgrade to Free:
 
 **❌ You Lose (at end of billing cycle):**
 
-- **Higher resolution limits** - revert to Free tier (576px max)
+- **Higher resolution options** - revert to the Free option on each tool
 - **No watermark** - outputs will include watermarks again
 - **Monthly credit allocation** - revert to Free tier (400 credits + 100/day)
 - **Premium features** - lose priority support, larger uploads, etc.
@@ -216,7 +251,7 @@ When your subscription ends or you downgrade to Free:
 <Info>
   **Credits Never Expire**: Your credits remain in your account permanently, even after your
   subscription ends. However, you'll lose access to subscription benefits like higher resolution
-  limits and no watermarks.
+  options and no watermarks.
 </Info>
 
 <Tip>
