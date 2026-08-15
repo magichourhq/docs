@@ -35,43 +35,26 @@ description: Pay only for what you use with automatic monthly billing and volume
 
 ## Choose Your Tier
 
-Each tier offers different resolution limits and credit pricing. Higher tiers unlock better resolution but cost more per credit.
+Each tier has a different rate per credit. Paid tiers unlock the same higher-resolution options as
+the matching subscription; requesting those options costs more credits. See
+[resolution](/billing/resolution-limits).
 
 import { PricingCard } from "/snippets/pricing-card.mdx";
 
 <CardGroup cols={2}>
 
-<PricingCard
-  title="Starter"
-  benefits={[
-    "576x576 resolution",
-    "Access to all image modes",
-    "Access to Animation, Face Swap, Lip Sync, Subtitle Generator, Talking Photo",
-  ]}
-/>
+<PricingCard title="Creator" benefits={["Access to all image and video modes"]} />
 
-<PricingCard
-  title="Creator"
-  benefits={["1024x1024 resolution", "Access to all image modes", "Access to all video modes"]}
-/>
-
-<PricingCard
-  title="Pro"
-  benefits={["1472x1472 resolution", "Access to all image modes", "Access to all video modes"]}
-/>
+<PricingCard title="Pro" benefits={["Access to all image and video modes"]} />
 
 <PricingCard
   title="Business"
-  benefits={[
-    "4096x4096 resolution for select modes",
-    "Access to all image modes",
-    "Access to all video modes",
-  ]}
+  benefits={["Access to all image and video modes"]}
 />
 </CardGroup>
 
-Each tier has its own rate per 1,000 credits, rising with the resolution ceiling. Get current rates
-and model your monthly bill with the
+Each tier has its own rate per credit. Volume discounts apply to the credits that fall in each band.
+Get current rates and model your monthly bill with the
 [API cost calculator](https://magichour.ai/api#api-cost-calculator).
 
 ## Volume Discounts (Automatic)
