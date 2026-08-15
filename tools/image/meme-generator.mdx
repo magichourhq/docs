@@ -27,7 +27,7 @@ AI Meme Generator creates humorous memes by combining popular meme templates wit
 
 ## How It Works
 
-1. **Choose a template** - Select from popular meme formats (Drake, Distracted Boyfriend, etc.)
+1. **Choose a template** - Select from popular meme formats (Drake Hotline Bling, Two Buttons, etc.)
 2. **Provide a topic** - Describe what the meme should be about
 3. **Optional web search** - Enable AI to search for relevant context
 4. **API generates text** - AI creates appropriate text for the meme panels
@@ -64,12 +64,16 @@ AI Meme Generator creates humorous memes by combining popular meme templates wit
 
 Popular templates work best with their intended formats:
 
-| Template             | Best For              | Example Topic                     |
-| :------------------- | :-------------------- | :-------------------------------- |
-| Drake Hotline Bling  | Preferences, choices  | "Old code vs new refactored code" |
-| Distracted Boyfriend | Conflicting interests | "Me, my project, new framework"   |
-| Two Buttons          | Difficult decisions   | "Fix bug or add feature"          |
-| Expanding Brain      | Progressive ideas     | "Levels of code optimization"     |
+| Template            | Best For             | Example Topic                       |
+| :------------------ | :------------------- | :---------------------------------- |
+| Drake Hotline Bling | Preferences, choices | "Old code vs new refactored code"   |
+| Gru's Plan          | Plans that backfire  | "Rewriting it in Rust to save time" |
+| Two Buttons         | Difficult decisions  | "Fix bug or add feature"            |
+| Galaxy Brain        | Progressive ideas    | "Levels of code optimization"       |
+
+`template` accepts one of: `Random`, `Drake Hotline Bling`, `Galaxy Brain`, `Two Buttons`, `Gru's Plan`,
+`Tuxedo Winnie The Pooh`, `Is This a Pigeon`, `Panik Kalm Panik`, `Disappointed Guy`, `Waiting Skeleton`,
+`Bike Fall`, `Change My Mind`, `Side Eyeing Chloe`. Any other value returns a 400.
 
 ### Web Search Option
 
@@ -166,7 +170,7 @@ else:
 const result = await client.v1.aiMemeGenerator.generate({
   style: {
     searchWeb: false,
-    template: "Distracted Boyfriend",
+    template: "Drake Hotline Bling",
     topic: "Developers and shiny new frameworks",
   },
   name: "Framework Meme",

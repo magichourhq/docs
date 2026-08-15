@@ -116,7 +116,7 @@ const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 const result = await client.v1.aiQrCodeGenerator.generate({
   content: "https://yourwebsite.com",
   style: {
-    prompt: "Ocean waves with blue and teal colors, flowing organic patterns",
+    artStyle: "Ocean waves with blue and teal colors, flowing organic patterns",
   },
   name: "Brand QR Code",
   waitForCompletion: true,
@@ -178,8 +178,8 @@ console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
 
 <Tip>**Free** - Each QR code costs 0 credits.</Tip>
 
-| Output    | Credits           |
-| :-------- | :---------------- |
+| Output    | Credits          |
+| :-------- | :--------------- |
 | 1 QR code | 0 credits (free) |
 
 <Tip>

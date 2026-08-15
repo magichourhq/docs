@@ -106,6 +106,7 @@ const result = await client.v1.autoSubtitleGenerator.generate({
   },
   startSeconds: 0,
   endSeconds: 2,
+  style: { template: "karaoke" },
   name: "Subtitled Video",
   waitForCompletion: true,
   downloadOutputs: true,

@@ -100,8 +100,6 @@ result = client.v1.video_to_video.generate(
     },
     end_seconds=2,
     fps_resolution="HALF",
-    height=512,
-    width=576,
     start_seconds=0,
     style={
         "art_style": "Retro Anime",
@@ -138,12 +136,10 @@ const result = await client.v1.videoToVideo.generate({
     videoSource: "file",
   },
   endSeconds: 2,
-  fps: 8,
-  height: 512,
-  width: 512,
+  fpsResolution: "HALF",
   startSeconds: 0,
   style: {
-    artStyle: "Studio Ghibli Film Still",
+    artStyle: "Studio Ghibli",
     prompt: "Obama dropping the mic in anime style, soft pastel colors, whimsical and expressive",
     promptType: "custom",
     version: "default",
