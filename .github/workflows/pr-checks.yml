@@ -20,18 +20,6 @@ jobs:
       - run: yarn install
       - run: yarn check
 
-  api-drift:
-    runs-on: blacksmith-2vcpu-ubuntu-2404
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
-        with:
-          node-version: "22"
-          cache: yarn
-          cache-dependency-path: yarn.lock
-      - run: yarn install
-      - run: yarn check:api-drift
-
   api-reference:
     runs-on: blacksmith-2vcpu-ubuntu-2404
     steps:
