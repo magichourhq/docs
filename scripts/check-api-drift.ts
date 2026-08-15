@@ -8,10 +8,11 @@
  * which is worse for agents than for humans: an agent has no way to tell that the
  * page it is reading disagrees with the schema next to it.
  *
- * Three checks:
+ * Four checks:
  *   1. enum values    - every `field: "value"` in a code block must be in the schema enum
  *   2. required fields - every SDK create/generate call must pass the required top-level fields
- *   3. reference index - `api-reference/overview.mdx` must list exactly the spec's paths
+ *   3. code samples    - the spec's own samples must only pass parameters the spec defines
+ *   4. reference index - `api-reference/overview.mdx` must list exactly the spec's paths
  *
  * A code block can opt out with an `api-drift-ignore` comment on the fence line,
  * for deliberately partial snippets.
@@ -190,6 +191,103 @@ function checkPages() {
   }
 }
 
+/**
+ * The samples the spec carries must only pass parameters the spec still defines.
+ *
+ * `cleanup-deprecated-fields.js` strips deprecated parameters from both the schemas and the
+ * samples on every spec refresh, but it can only remove bindings it knows how to parse. This
+ * catches whatever it missed, on the pull request that introduces it rather than in a nightly log.
+ */
+function checkCodeSamples() {
+  // Bindings that belong to the SDK call rather than the request body.
+  const sdkOptions = new Set([
+    "client",
+    "res",
+    "token",
+    "data",
+    "type_",
+    "wait_for_completion",
+    "download_outputs",
+    "download_directory",
+    "waitForCompletion",
+    "downloadOutputs",
+    "downloadDirectory",
+  ]);
+
+  const camelToSnake = (s: string) => s.replace(/([A-Z])/g, "_$1").toLowerCase();
+
+  // Deprecated parameters count as undefined: the cleanup strips them from the schema, and a
+  // sample that still passes one is the exact drift this is looking for.
+  const propertyNames = (schema: Schema | undefined, found = new Set<string>()) => {
+    for (const [name, property] of Object.entries(schema?.properties ?? {})) {
+      if (property.deprecated === true) continue;
+      found.add(name).add(snakeToCamel(name)).add(camelToSnake(name));
+      propertyNames(property, found);
+    }
+    if (schema?.items) propertyNames(schema.items, found);
+    return found;
+  };
+
+  /**
+   * Names bound to a value in a sample.
+   *
+   * Quoted keys have to be read without reading inside strings generally, or a URL's scheme looks
+   * like a binding: `"https://example.com"` is not a field called `https`.
+   */
+  const boundNames = (source: string) => {
+    const names: string[] = [];
+    const after = (index: number) => source.slice(index).match(/^\s*[:=](?!=)/);
+
+    for (let i = 0; i < source.length; i++) {
+      const char = source[i];
+
+      if (char === '"' || char === "'" || char === "`") {
+        const start = i + 1;
+        i++;
+        while (i < source.length && source[i] !== char) {
+          if (source[i] === "\\") i++;
+          i++;
+        }
+        const contents = source.slice(start, i);
+        if (/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(contents) && after(i + 1)) names.push(contents);
+        continue;
+      }
+
+      if (/[a-zA-Z_]/.test(char) && !/[a-zA-Z0-9_.]/.test(source[i - 1] ?? " ")) {
+        const word = source.slice(i).match(/^[a-zA-Z_][a-zA-Z0-9_]*/)![0];
+        i += word.length - 1;
+        if (after(i + 1)) names.push(word);
+      }
+    }
+
+    return names;
+  };
+
+  for (const [endpoint, methods] of Object.entries(spec.paths)) {
+    const operation = methods.post as
+      | { "x-codeSamples"?: { lang: string; source: string }[] }
+      | undefined;
+    const schema = bodySchema(endpoint);
+    if (!operation?.["x-codeSamples"] || !schema) continue;
+
+    const defined = propertyNames(schema);
+
+    for (const sample of operation["x-codeSamples"]) {
+      // Python and JavaScript are the tabs readers see first, and the two the SDKs mirror most
+      // closely; the others carry enough language scaffolding to make bare name matching noisy.
+      if (sample.lang !== "python" && sample.lang !== "javascript") continue;
+
+      for (const name of new Set(boundNames(sample.source))) {
+        if (defined.has(name) || sdkOptions.has(name)) continue;
+        failures.push(
+          `${SPEC_PATH} — the ${sample.lang} sample for ${endpoint} passes ${name}, ` +
+            `which the request schema does not define`
+        );
+      }
+    }
+  }
+}
+
 /** The reference index is hand-written, so it is the one page that can list paths the API lacks. */
 function checkReferenceIndex() {
   const source = fs.readFileSync(OVERVIEW_PATH, "utf8");
@@ -214,13 +312,16 @@ function checkReferenceIndex() {
 }
 
 checkPages();
+checkCodeSamples();
 checkReferenceIndex();
 
 if (failures.length > 0) {
   console.error(`Found ${failures.length} mismatch(es) between the docs and ${SPEC_PATH}:\n`);
   for (const failure of failures) console.error(`  ${failure}`);
   console.error(
-    "\nFix the page, or add api-drift-ignore to the code fence if the snippet is deliberately partial."
+    "\nFix the page, or add api-drift-ignore to the code fence if the snippet is deliberately " +
+      "partial. For samples carried in the spec itself, teach cleanup-deprecated-fields.js to " +
+      "scrub the parameter or add a rewrite to code-sample-migrations.json."
   );
   process.exit(1);
 }

@@ -1,0 +1,29 @@
+{
+  "$comment": "Rewrites applied to x-codeSamples after deprecated parameters are scrubbed. Only needed where a parameter was replaced rather than dropped, so deleting the line would leave the sample missing an input. Each entry is reported if its `find` no longer matches, which means upstream fixed the sample and the entry can go.",
+  "migrations": [
+    {
+      "path": "/v1/ai-image-editor",
+      "method": "post",
+      "lang": "python",
+      "find": "assets={\"image_file_path\": \"/path/to/1234.png\"}",
+      "replace": "assets={\"image_file_paths\": [\"/path/to/1234.png\"]}",
+      "reason": "assets.image_file_path is deprecated in favour of the image_file_paths array"
+    },
+    {
+      "path": "/v1/ai-image-upscaler",
+      "method": "post",
+      "lang": "python",
+      "find": "style={\"enhancement\": \"Balanced\"}",
+      "replace": "style={\"mode\": \"balanced\"}",
+      "reason": "style.enhancement is deprecated in favour of style.mode"
+    },
+    {
+      "path": "/v1/ai-image-upscaler",
+      "method": "post",
+      "lang": "javascript",
+      "find": "style: { enhancement: \"Balanced\" }",
+      "replace": "style: { mode: \"balanced\" }",
+      "reason": "style.enhancement is deprecated in favour of style.mode"
+    }
+  ]
+}
