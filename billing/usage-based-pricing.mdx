@@ -38,17 +38,9 @@ description: Pay only for what you use with automatic monthly billing and volume
 Each tier offers different resolution limits and credit pricing. Higher tiers unlock better resolution but cost more per credit.
 
 import { PricingCard } from "/snippets/pricing-card.mdx";
+import UsageRates from "/snippets/usage-based-rates.mdx";
 
 <CardGroup cols={2}>
-
-<PricingCard
-  title="Starter"
-  benefits={[
-    "576x576 resolution",
-    "Access to all image modes",
-    "Access to Animation, Face Swap, Lip Sync, Subtitle Generator, Talking Photo",
-  ]}
-/>
 
 <PricingCard
   title="Creator"
@@ -70,43 +62,30 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
 />
 </CardGroup>
 
-Each tier has its own rate per 1,000 credits, rising with the resolution ceiling. Get current rates
-and model your monthly bill with the
-[API cost calculator](https://magichour.ai/api?ref=docs-usage-based-pricing#api-cost-calculator).
+Each tier has its own rate per credit, rising with the resolution ceiling.
 
-## Volume Discounts (Automatic)
+## Rates and Volume Discounts
 
-The more credits you use each month, the cheaper each credit becomes. Discounts are **banded**: they
-apply to the credits that fall inside each range, not retroactively to your whole bill.
+You are charged per credit consumed. The more credits you use in a month, the cheaper each
+additional credit becomes. Discounts are **banded**: they apply to the credits falling inside each
+range, not retroactively to your whole bill.
 
-**Example:** if you use 150,000 credits in a month, the first 100,000 bill at your tier's base rate
-and the next 50,000 bill 10% cheaper.
+<UsageRates />
 
-### **Discount Bands**
-
-The same bands apply to every tier. Only the base rate differs.
-
-| Credit usage per month  | Discount on credits in this range |
-| ----------------------- | --------------------------------- |
-| 0 - 100,000             | 0%                                |
-| 100,001 - 1,000,000     | 10%                               |
-| 1,000,001 - 5,000,000   | 20%                               |
-| 5,000,001 - 10,000,000  | 30%                               |
-| 10,000,001 - 50,000,000 | 40%                               |
-| 50,000,000+             | 50%                               |
-
-<Note>Usage resets at midnight on the first of each month PST time</Note>
+<Note>Usage resets at midnight on the first of each month, PST.</Note>
 
 ## Estimating Your Bill
 
 Two things set your monthly cost: the tier you're on, which fixes the base rate, and your monthly
 credit volume, which determines how much of that volume falls into discounted bands.
 
-- **Under 100,000 credits/month**: everything bills at your tier's base rate; no discount applies.
-- **Above 100,000 credits/month**: only the credits above each threshold get that band's discount,
-  so your effective rate falls gradually rather than dropping all at once.
+**Example.** On Creator, 150,000 credits in a month bills the first 100,000 at \$0.001200 and the
+next 50,000 at \$0.001080, for \$174.00. The effective rate falls gradually as you grow rather than
+dropping all at once when you cross a threshold.
 
-**Use our [cost calculator](https://magichour.ai/api?ref=docs-usage-based-pricing#api-cost-calculator) for precise estimates with volume discounts included.**
+To turn generations into credits, see [models and credit costs](/api-reference/models), or model a
+full month with the
+[API cost calculator](https://magichour.ai/api?ref=docs-usage-based-pricing#api-cost-calculator).
 
 ## Getting Started
 
