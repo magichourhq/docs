@@ -134,10 +134,10 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 **What we're doing:** Submit a generation job, wait for Magic Hour to render it, then download the
 result. Choose the example that matches what you want to build:
 
-| Example             | Best for                  | Typical cost                     | Typical wait  |
-| :------------------ | :------------------------ | :------------------------------- | :------------ |
-| **Generate image**  | Cheapest first success    | 5 credits                        | 5-30 seconds  |
-| **Face swap video** | Our most popular API path | ~200 credits for the sample clip | 2-5 minutes   |
+| Example             | Best for                  | Typical cost                     | Typical wait |
+| :------------------ | :------------------------ | :------------------------------- | :----------- |
+| **Generate image**  | Cheapest first success    | 5 credits                        | 5-30 seconds |
+| **Face swap video** | Our most popular API path | ~200 credits for the sample clip | 2-5 minutes  |
 
 ### Copy the code and run it
 
@@ -790,16 +790,16 @@ Authentication guide for platform-specific setup steps.
 
 If you encounter HTTP errors, here's what they mean:
 
-| Error Code | Meaning               | Solution                                                                          |
-| :--------- | :-------------------- | :-------------------------------------------------------------------------------- |
-| `400`      | Bad Request           | The response `message` names the invalid or missing field - fix it and resubmit   |
-| `401`      | Unauthorized          | Verify your API key is correct and sent as `Authorization: Bearer <key>`          |
-| `402`      | Payment Required      | Insufficient credits - [add more credits](https://magichour.ai/dashboard/my-plan) |
-| `403`      | Forbidden             | Your key is valid but the model, resolution, or feature is not available on your plan |
-| `429`      | Too Many Requests     | You are sending requests too quickly - retry with exponential backoff             |
-| `500`      | Internal Server Error | Temporary server issue - retry after a few seconds                                |
+| Error Code | Meaning               | Solution                                                                                                                                |
+| :--------- | :-------------------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
+| `400`      | Bad Request           | The response `message` names the invalid or missing field - fix it and resubmit                                                         |
+| `401`      | Unauthorized          | Verify your API key is correct and sent as `Authorization: Bearer <key>`                                                                |
+| `402`      | Payment Required      | Insufficient credits - [add more credits](https://magichour.ai/dashboard/my-plan?ref=docs-quickstart-402)                               |
+| `403`      | Forbidden             | Your key is valid but the model, resolution, or feature is not available on your plan                                                   |
+| `429`      | Too Many Requests     | You are sending requests too quickly - retry with exponential backoff                                                                   |
+| `500`      | Internal Server Error | Temporary server issue - retry after a few seconds                                                                                      |
 | `502`      | Bad Gateway           | Server temporarily unavailable - retry after 30-60 seconds. If it failed before returning a project `id`, no job was created - resubmit |
-| `503`      | Service Unavailable   | Server overloaded - retry with exponential backoff                                |
+| `503`      | Service Unavailable   | Server overloaded - retry with exponential backoff                                                                                      |
 
 **For persistent errors:** Contact [support@magichour.ai](mailto:support@magichour.ai) with your project ID.
 
