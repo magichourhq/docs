@@ -3288,19 +3288,19 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.text_to_video.generate(\n    end_seconds=5.0,\n    orientation=\"landscape\",\n    style={\"prompt\": \"a dog running\"},\n    name=\"Text To Video video\",\n    resolution=\"720p\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.text_to_video.generate(\n    end_seconds=5.0,\n    style={\"prompt\": \"a dog running\"},\n    name=\"Text To Video video\",\n    resolution=\"720p\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.textToVideo.generate(\n  {\n    endSeconds: 5.0,\n    name: \"Text To Video video\",\n    orientation: \"landscape\",\n    resolution: \"720p\",\n    style: { prompt: \"a dog running\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.textToVideo.generate(\n  {\n    endSeconds: 5.0,\n    name: \"Text To Video video\",\n    resolution: \"720p\",\n    style: { prompt: \"a dog running\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\ttext_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/text_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"API_TOKEN\")),\n\t)\n\tres, err := client.V1.TextToVideo.Create(text_to_video.CreateRequest{\n\t\tAspectRatio: nullable.NewValue(types.V1TextToVideoCreateBodyAspectRatioEnum169),\n\t\tAudio:       nullable.NewValue(true),\n\t\tEndSeconds:  5.0,\n\t\tModel:       nullable.NewValue(types.V1TextToVideoCreateBodyModelEnumKling30),\n\t\tName:        nullable.NewValue(\"My Text To Video video\"),\n\t\tOrientation: nullable.NewValue(types.V1TextToVideoCreateBodyOrientationEnumLandscape),\n\t\tResolution:  nullable.NewValue(types.V1TextToVideoCreateBodyResolutionEnum720p),\n\t\tStyle: types.V1TextToVideoCreateBodyStyle{\n\t\t\tPrompt: \"a dog running\",\n\t\t},\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\ttext_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/text_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"API_TOKEN\")),\n\t)\n\tres, err := client.V1.TextToVideo.Create(text_to_video.CreateRequest{\n\t\tAspectRatio: nullable.NewValue(types.V1TextToVideoCreateBodyAspectRatioEnum169),\n\t\tAudio:       nullable.NewValue(true),\n\t\tEndSeconds:  5.0,\n\t\tModel:       nullable.NewValue(types.V1TextToVideoCreateBodyModelEnumKling30),\n\t\tName:        nullable.NewValue(\"My Text To Video video\"),\n\t\tResolution:  nullable.NewValue(types.V1TextToVideoCreateBodyResolutionEnum720p),\n\t\tStyle: types.V1TextToVideoCreateBodyStyle{\n\t\t\tPrompt: \"a dog running\",\n\t\t},\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"API_TOKEN\").unwrap());\nlet res = client\n    .v1()\n    .text_to_video()\n    .create(magic_hour::resources::v1::text_to_video::CreateRequest {\n        aspect_ratio: Some(\n            magic_hour::models::V1TextToVideoCreateBodyAspectRatioEnum::Enum169,\n        ),\n        audio: Some(true),\n        end_seconds: 5.0,\n        model: Some(magic_hour::models::V1TextToVideoCreateBodyModelEnum::Kling30),\n        name: Some(\"My Text To Video video\".to_string()),\n        orientation: Some(\n            magic_hour::models::V1TextToVideoCreateBodyOrientationEnum::Landscape,\n        ),\n        resolution: Some(\n            magic_hour::models::V1TextToVideoCreateBodyResolutionEnum::Enum720p,\n        ),\n        style: magic_hour::models::V1TextToVideoCreateBodyStyle {\n            prompt: \"a dog running\".to_string(),\n            ..Default::default()\n        },\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"API_TOKEN\").unwrap());\nlet res = client\n    .v1()\n    .text_to_video()\n    .create(magic_hour::resources::v1::text_to_video::CreateRequest {\n        aspect_ratio: Some(\n            magic_hour::models::V1TextToVideoCreateBodyAspectRatioEnum::Enum169,\n        ),\n        audio: Some(true),\n        end_seconds: 5.0,\n        model: Some(magic_hour::models::V1TextToVideoCreateBodyModelEnum::Kling30),\n        name: Some(\"My Text To Video video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1TextToVideoCreateBodyResolutionEnum::Enum720p,\n        ),\n        style: magic_hour::models::V1TextToVideoCreateBodyStyle {\n            prompt: \"a dog running\".to_string(),\n            ..Default::default()\n        },\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -4809,7 +4809,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_image_editor.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    style={\"prompt\": \"Give me sunglasses\"},\n    name=\"Ai Image Editor image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_image_editor.generate(\n    assets={\"image_file_paths\": [\"/path/to/1234.png\"]},\n    style={\"prompt\": \"Give me sunglasses\"},\n    name=\"Ai Image Editor image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -5432,11 +5432,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_image_upscaler.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    scale_factor=2.0,\n    style={\"enhancement\": \"Balanced\"},\n    name=\"Image Upscaler image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_image_upscaler.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    scale_factor=2.0,\n    style={\"mode\": \"balanced\"},\n    name=\"Image Upscaler image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiImageUpscaler.generate(\n  {\n    assets: { imageFilePath: \"/path/to/1234.png\" },\n    name: \"Image Upscaler image\",\n    scaleFactor: 2.0,\n    style: { enhancement: \"Balanced\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiImageUpscaler.generate(\n  {\n    assets: { imageFilePath: \"/path/to/1234.png\" },\n    name: \"Image Upscaler image\",\n    scaleFactor: 2.0,\n    style: { mode: \"balanced\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
