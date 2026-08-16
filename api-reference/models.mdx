@@ -30,9 +30,10 @@ Available on [text to video](/api-reference/video-projects/text-to-video) and
 | `sora-2`            | Open AI's model. Great for creativity and viral clips     | 720p              | 4, 8, 12, 24, 36, 48, 60                                                                             | Yes, no extra credits |
 
 <Note>
-  `default` resolves to `kling-3.0` on paid tiers and `ltx-2.3` on the free tier. The deprecated
-  `kling-2.5-audio` and `veo3.1-audio` values are equivalent to passing the base model with `audio:
-  true`.
+  `default` resolves to `kling-3.0` on paid tiers and `ltx-2.3` on the free tier. Free typically
+  requests `480p`; paid plans (Creator, Pro, Business) can request the higher resolutions a model
+  supports, at that resolution's credit cost. The deprecated `kling-2.5-audio` and `veo3.1-audio`
+  values are equivalent to passing the base model with `audio: true`.
 </Note>
 
 ### Video credit costs
@@ -156,6 +157,7 @@ These charge by output length rather than per generation.
 
 ## Estimating before you build
 
+- **Credits to dollars** — [usage-based rates](/billing/usage-based-pricing#rates-and-volume-discounts) give the per-credit price for each tier, including volume discounts.
 - **Cost calculator** — [model your monthly spend](https://magichour.ai/api?ref=docs-models#api-cost-calculator) across endpoints and volumes.
 - **Mock server** — [develop against sample responses](/integration/development-and-testing#mock-server-recommended-for-development) without spending credits.
 - **Free tier** — 400 credits on signup plus 100 daily credits, enough to exercise every image endpoint and short video jobs.
