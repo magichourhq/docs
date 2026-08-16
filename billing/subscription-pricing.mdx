@@ -9,19 +9,19 @@ description: Get credits upfront with predictable monthly or yearly billing and 
 
 ### **The Basics**
 
-1. **Choose your plan** based on resolution needs and monthly credit requirements
-2. **Select billing frequency** - monthly or yearly (yearly saves 33%)
+1. **Choose your plan** based on monthly credit volume and which resolution options you need
+2. **Select billing frequency** - monthly or yearly (annual billing is discounted)
 3. **Pay upfront** and receive all credits immediately
 4. **Use credits anytime** - credits never expire, even after subscription ends
 5. **Auto-renewal** ensures continuous access (can be cancelled anytime)
 
 ### **Key Benefits**
 
-✅ **Predictable costs** - Know exactly what you'll pay each month/year  
-✅ **Credits upfront** - Get all your credits immediately to use anytime  
-✅ **Yearly savings** - Get 33% off with annual billing  
-✅ **No usage tracking** - Use credits at your own pace  
-✅ **Higher resolution** - Access to better quality based on your tier
+✅ **Predictable costs** - Know exactly what you'll pay each month/year
+✅ **Credits upfront** - Get all your credits immediately to use anytime
+✅ **Yearly savings** - Annual billing is discounted
+✅ **No usage tracking** - Use credits at your own pace
+✅ **Higher resolution options** - Paid plans unlock higher-resolution choices on each tool
 
 ### **How It Differs from Usage-Based**
 
@@ -35,7 +35,9 @@ description: Get credits upfront with predictable monthly or yearly billing and 
 
 ## Choose Your Plan
 
-Each plan offers different credit amounts and resolution limits. Higher plans unlock better resolution and more credits per month.
+Higher plans include more credits each month, larger uploads, and more concurrent jobs. Resolution is
+per tool: paid plans unlock higher-resolution options, and requesting those options costs more
+credits. See [resolution](/billing/resolution-limits).
 
 import { PricingCard } from "/snippets/pricing-card.mdx";
 
@@ -43,10 +45,10 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
 
 <PricingCard
   title="Free"
-  prices={[{ amount: 0, label: "" }]}
+  prices={[{ amount: 0, label: "/month" }]}
   benefits={[
     "400 credits on signup plus 100 credits/day",
-    "576px resolution",
+    "Lowest resolution option on each tool",
     "Access to all image modes",
     "Access to Animation, Face Swap, Lip Sync, Subtitle Generator, Talking Photo",
   ]}
@@ -55,27 +57,26 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
 <PricingCard
   title="Creator"
   prices={[
-    { amount: 15, label: "/ month" },
-    { amount: 120, label: "/ year" },
+    { amount: 19, label: "/month" },
+    { amount: 12, label: "/month billed annually" },
   ]}
   benefits={[
-    "10,000 credits per month (120,000/year)",
-    "1024px resolution",
-    "No watermarks",
-    "Commercial use license",
+    "12,000 credits per month",
+    "No watermarks, commercial use",
+    "2GB uploads, 3 concurrent generations",
   ]}
 />
 
 <PricingCard
   title="Pro"
   prices={[
-    { amount: 45, label: "/ month" },
-    { amount: 360, label: "/ year" },
+    { amount: 39, label: "/month" },
+    { amount: 25, label: "/month billed annually" },
   ]}
   benefits={[
-    "30,000 credits per month (360,000/year)",
-    "1472px resolution",
-    "5GB file uploads",
+    "25,000 credits per month",
+    "No watermarks, commercial use",
+    "5GB uploads, 5 concurrent generations",
     "Priority support",
   ]}
 />
@@ -83,17 +84,23 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
 <PricingCard
   title="Business"
   prices={[
-    { amount: 99, label: "/ month" },
-    { amount: 792, label: "/ year" },
+    { amount: 99, label: "/month" },
+    { amount: 66, label: "/month billed annually" },
   ]}
   benefits={[
-    "70,000 credits per month (840,000/year)",
-    "4K resolution for select modes",
-    "10GB file uploads",
+    "70,000 credits per month",
+    "No watermarks, commercial use",
+    "10GB uploads, unlimited concurrent generations",
     "Priority support",
   ]}
 />
 </CardGroup>
+
+Annual Creator is $144/year, Pro $300/year, Business $792/year. Credit totals above are the monthly
+allotment; annual plans include twelve months of that allotment (144,000 / 300,000 / 840,000
+credits per year).
+
+Live checkout is on the [pricing page](https://magichour.ai/pricing?ref=docs-subscription-pricing).
 
 ## Need More Credits?
 
@@ -101,10 +108,14 @@ If you use more credits than your plan includes, you can purchase additional cre
 
 ### **Credit Packs**
 
-- **1,000 credits per pack**
-- **\$3.00 per pack** (\$0.003 per credit)
-- **Instant delivery** - credits added immediately to your account
-- **No expiration** - credits never expire, even after subscription ends
+| Pack     | Credits | Price |
+| :------- | ------: | ----: |
+| Starter  |   4,000 |   $10 |
+| Standard |  12,000 |   $30 |
+| Large    |  32,000 |   $80 |
+
+That's 400 credits per dollar. Credits are added immediately and never expire. Packs do not include
+subscription benefits other than removing watermarks.
 
 ### **When to Buy Credit Packs**
 
@@ -118,35 +129,16 @@ If you use more credits than your plan includes, you can purchase additional cre
   better value.
 </Note>
 
-## Practical Examples
+## Choosing a Plan
 
-### **Content Creator (5,000 credits/month)**
+Pick the plan whose monthly credits cover your expected volume, then check that it unlocks the
+resolution options you need. Higher resolution on the same plan costs more credits, so a 1080p
+workload burns through an allotment faster than 480p. If you regularly exhaust your allowance and
+buy credit packs, the next tier up is usually cheaper than the packs.
 
-- **Free Plan**: 400 + (100 × 30 days) = 3,400 credits/month - **Not enough**
-- **Creator Plan**: 10,000 credits/month from \$10/mo (billed annually) - **Perfect fit**
-
-_Creator plan gives you 2x your needs with room to grow_
-
-### **Marketing Agency (35,000 credits/month)**
-
-- **Creator Plan**: 10,000 credits + 25 credit packs = \$10 + \$75 = **\$85/month**
-- **Pro Plan**: 30,000 credits + 5 credit packs = \$30 + \$15 = **\$45/month** - **Better value**
-
-_Pro plan saves \$40/month and provides buffer for growth_
-
-### **Enterprise (200,000 credits/month)**
-
-- **Pro Plan**: 30,000 + 170 credit packs = \$30 + \$510 = **\$540/month**
-- **Business Plan**: 70,000 credits + 130 credit packs = \$66 + \$390 = **\$456/month** - **Much better value**
-
-_Business plan saves \$84/month and includes 4K resolution_
-
-### **Yearly vs Monthly Savings**
-
-**Pro Plan Example:**
-
-- **Monthly**: \$45 × 12 = **\$540/year**
-- **Yearly**: **\$360/year** (33% off - equivalent to \$30/month)
+For API workloads with variable volume, compare against
+[usage-based pricing](/billing/usage-based-pricing), which bills after the fact and applies volume
+discounts automatically.
 
 ## Getting Started
 
@@ -154,21 +146,22 @@ Ready to subscribe? Here's how to set up your subscription in minutes.
 
 <Steps>
 <Step title="Visit the Pricing Page">
-  Go to [magichour.ai/pricing](https://magichour.ai/pricing) to see all available plans and current pricing.
-  
-  ![Pricing Page](./images/pricing-page-1.png)
+  Go to [magichour.ai/pricing](https://magichour.ai/pricing?ref=docs-subscription-pricing) to see all available plans and current pricing.
+
+![Pricing Page](./images/pricing-page-1.png)
+
 </Step>
 
 <Step title="Choose Billing Frequency">
-  **Monthly**: Pay monthly, cancel anytime **Yearly**: Pay upfront, get 33% off ![Pricing
+  **Monthly**: Pay monthly, cancel anytime **Yearly**: Pay upfront at a discount ![Pricing
   Page](./images/pricing-page-2.png)
 </Step>
 
 <Step title="Select Your Plan">
-  Choose based on your monthly credit needs and resolution requirements:
-  - **Creator**: 10,000 credits/month, 1024px resolution
-  - **Pro**: 30,000 credits/month, 1472px resolution  
-  - **Business**: 70,000 credits/month, 4096px resolution
+  Choose based on monthly credits and which resolution options you need:
+  - **Creator**: $19/month ($12/month billed annually), 12,000 credits
+  - **Pro**: $39/month ($25/month billed annually), 25,000 credits
+  - **Business**: $99/month ($66/month billed annually), 70,000 credits
 
 ![Pricing Page](./images/pricing-page-3.png)
 
@@ -237,7 +230,7 @@ When your subscription ends or you downgrade to Free:
 
 **❌ You Lose (at end of billing cycle):**
 
-- **Higher resolution limits** - revert to Free tier (576px max)
+- **Higher resolution options** - revert to the Free option on each tool
 - **No watermark** - outputs will include watermarks again
 - **Monthly credit allocation** - revert to Free tier (400 credits + 100/day)
 - **Premium features** - lose priority support, larger uploads, etc.
@@ -258,7 +251,7 @@ When your subscription ends or you downgrade to Free:
 <Info>
   **Credits Never Expire**: Your credits remain in your account permanently, even after your
   subscription ends. However, you'll lose access to subscription benefits like higher resolution
-  limits and no watermarks.
+  options and no watermarks.
 </Info>
 
 <Tip>

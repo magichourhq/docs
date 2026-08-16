@@ -105,25 +105,18 @@ For security best practices, regularly rotate your API keys:
 ```python Python SDK
 from magic_hour import Client
 
-# Initialize client with your API key
-client = Client(token="your_api_key_here")
-
-# Or use environment variable
 import os
-client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
+
+# Initialize client with your API key, or read it from an environment variable
+client = Client(token=os.getenv("MAGIC_HOUR_API_KEY", "your_api_key_here"))
 ```
 
 ```javascript Node.js SDK
 import { Client } from "magic-hour";
 
-// Initialize client with your API key
+// Initialize client with your API key, or read it from an environment variable
 const client = new Client({
-  token: "your_api_key_here",
-});
-
-// Or use environment variable
-const client = new Client({
-  token: process.env.MAGIC_HOUR_API_KEY,
+  token: process.env.MAGIC_HOUR_API_KEY ?? "your_api_key_here",
 });
 ```
 

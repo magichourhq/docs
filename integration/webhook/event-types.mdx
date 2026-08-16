@@ -8,7 +8,7 @@ description: Complete reference of all webhook events, payloads, and when they'r
 
 All webhook events follow a consistent structure with two main fields:
 
-```json
+```jsonc
 {
   "type": "event.name",
   "payload": {
@@ -90,7 +90,7 @@ Video events are triggered during the lifecycle of video processing jobs. All pa
 
 ```json
 {
-    "type": "video.completed",
+  "type": "video.completed",
   "payload": {
     "id": "clx7uu86w0a5qp55yxz315r6r",
     "status": "complete",

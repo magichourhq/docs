@@ -78,9 +78,12 @@ Magic Hour library URLs follow this pattern:
 # Use library URLs for assets
 result = client.v1.face_swap.create(
     assets={
-        "source_file_path": "https://magichour.ai/my-library?imageId=cmjag94dw01mr5s0zqf8ug0or",
-        "video_file_path": "https://magichour.ai/my-library?videoId=cmj86i5yy006x4m0z6znwowjb"
-    }
+        "image_file_path": "https://magichour.ai/my-library?imageId=cmjag94dw01mr5s0zqf8ug0or",
+        "video_file_path": "https://magichour.ai/my-library?videoId=cmj86i5yy006x4m0z6znwowjb",
+        "video_source": "file"
+    },
+    start_seconds=0,
+    end_seconds=5
 )
 ```
 
@@ -88,9 +91,12 @@ result = client.v1.face_swap.create(
 // Use library URLs for assets
 const result = await client.v1.faceSwap.create({
   assets: {
-    sourceFilePath: "https://magichour.ai/my-library?imageId=cmjag94dw01mr5s0zqf8ug0or",
+    imageFilePath: "https://magichour.ai/my-library?imageId=cmjag94dw01mr5s0zqf8ug0or",
     videoFilePath: "https://magichour.ai/my-library?videoId=cmj86i5yy006x4m0z6znwowjb",
+    videoSource: "file",
   },
+  startSeconds: 0,
+  endSeconds: 5,
 });
 ```
 
