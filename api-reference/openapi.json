@@ -602,7 +602,7 @@
                     },
                     "type": {
                       "type": "string",
-                      "description": "The type of the video project. Possible values are ANIMATION, AUTO_SUBTITLE, VIDEO_TO_VIDEO, FACE_SWAP, TEXT_TO_VIDEO, IMAGE_TO_VIDEO, LIP_SYNC, TALKING_PHOTO, VIDEO_UPSCALER, VIDEO_EDITOR, CHARACTER_REPLACE, VIDEO_COLORIZER, MUSIC_VIDEO, EXTEND, AUDIO_TO_VIDEO, VIDEO_EXPANDER, UGC_AD",
+                      "description": "The type of the video project. Possible values are ANIMATION, AUTO_SUBTITLE, VIDEO_TO_VIDEO, FACE_SWAP, TEXT_TO_VIDEO, IMAGE_TO_VIDEO, LIP_SYNC, TALKING_PHOTO, AVATAR, VIDEO_UPSCALER, VIDEO_EDITOR, CHARACTER_REPLACE, VIDEO_COLORIZER, MUSIC_VIDEO, EXTEND, AUDIO_TO_VIDEO, VIDEO_EXPANDER, UGC_AD",
                       "example": "FACE_SWAP"
                     },
                     "created_at": { "type": "string", "format": "date-time" },
@@ -2670,7 +2670,7 @@
                     "type": "number",
                     "minimum": 1,
                     "maximum": 60,
-                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2.3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`kling-2.6`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`veo3.1-lite`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`seedance-1.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`seedance-2.0-mini`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.0`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n",
+                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.0`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`ltx-2.3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`minimax-h3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`seedance-1.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`seedance-2.0-mini`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30\n* **`kling-2.6`**: 5, 10\n* **`veo3.1-lite`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n",
                     "format": "float",
                     "example": 5
                   },
@@ -2681,6 +2681,7 @@
                       "default",
                       "ltx-2",
                       "ltx-2.3",
+                      "minimax-h3",
                       "wan-2.2",
                       "seedance-1.5",
                       "seedance-2.0",
@@ -2697,18 +2698,18 @@
                       "kling-2.5-audio",
                       "veo3.1-audio"
                     ],
-                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `ltx-2.3`: Fastest output. Best for rapid iteration.\n* `wan-2.2`: Strong physics, camera moves, and motion.\n* `kling-2.6`: Great for action, motion blur, and camera moves.\n* `kling-3.0`: Best overall quality for cinematic storytelling.\n* `veo3.1-lite`: Veo quality at a more accessible cost.\n* `veo3.1`: Google's model. Highest realism and detail.\n* `seedance-1.5`: Smooth, consistent motion with precision.\n* `seedance-2.0-mini`: Fast, consistent video with strong motion quality\n* `seedance-2.0`: Top quality with reference-to-video control.\n* `seedance-2.5`: Highest quality with superior realism, detail, and motion\n* `sora-2`: Open AI's model. Great for creativity and viral clips.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
+                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `kling-3.0`: Best overall quality for cinematic storytelling.\n* `seedance-2.0`: Top quality with reference-to-video control.\n* `ltx-2.3`: Fastest output. Best for rapid iteration.\n* `minimax-h3`: Reference-driven video with native audio.\n* `wan-2.2`: Strong physics, camera moves, and motion.\n* `seedance-1.5`: Smooth, consistent motion with precision.\n* `seedance-2.0-mini`: Fast, consistent video with strong motion quality\n* `seedance-2.5`: Highest quality with superior realism, detail, and motion\n* `kling-2.6`: Great for action, motion blur, and camera moves.\n* `veo3.1-lite`: Veo quality at a more accessible cost.\n* `veo3.1`: Google's model. Highest realism and detail.\n* `sora-2`: Open AI's model. Great for creativity and viral clips.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
                     "example": "kling-3.0"
                   },
                   "resolution": {
                     "type": "string",
                     "enum": ["480p", "720p", "1080p", "4k"],
                     "example": "720p",
-                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`ltx-2.3`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`kling-2.6`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`veo3.1-lite`**: Supports 720p, 1080p.\n* **`veo3.1`**: Supports 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.0`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p.\n* **`sora-2`**: Supports 720p.\n"
+                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`seedance-2.0`**: Supports 480p, 720p.\n* **`ltx-2.3`**: Supports 480p, 720p, 1080p.\n* **`minimax-h3`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p.\n* **`kling-2.6`**: Supports 720p, 1080p.\n* **`veo3.1-lite`**: Supports 720p, 1080p.\n* **`veo3.1`**: Supports 720p, 1080p.\n* **`sora-2`**: Supports 720p.\n"
                   },
                   "audio": {
                     "type": "boolean",
-                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`ltx-2.3`**: Toggle-able: no additional credits for audio\n* **`wan-2.2`**: Not supported\n* **`kling-2.6`**: Not supported\n* **`kling-3.0`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1-lite`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-1.5`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0-mini`**: Toggle-able: no additional credits for audio\n* **`seedance-2.0`**: Toggle-able: no additional credits for audio\n* **`seedance-2.5`**: Toggle-able: no additional credits for audio\n* **`sora-2`**: Toggle-able: no additional credits for audio\n",
+                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`kling-3.0`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0`**: Toggle-able: no additional credits for audio\n* **`ltx-2.3`**: Toggle-able: no additional credits for audio\n* **`minimax-h3`**: Toggle-able: no additional credits for audio\n* **`wan-2.2`**: Not supported\n* **`seedance-1.5`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0-mini`**: Toggle-able: no additional credits for audio\n* **`seedance-2.5`**: Toggle-able: no additional credits for audio\n* **`kling-2.6`**: Not supported\n* **`veo3.1-lite`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1`**: Toggle-able: audio adds extra credits when enabled\n* **`sora-2`**: Toggle-able: no additional credits for audio\n",
                     "example": true
                   },
                   "style": {
@@ -2734,7 +2735,7 @@
                       "end_image_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The image to use as the last frame of the video.\n\n* **`ltx-2.3`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Not supported\n* **`kling-2.6`**: Supports 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`veo3.1-lite`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`veo3.1`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.0`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p.\n* **`sora-2`**: Not supported\n",
+                        "description": "The image to use as the last frame of the video.\n\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`seedance-2.0`**: Supports 480p, 720p.\n* **`ltx-2.3`**: Supports 480p, 720p, 1080p.\n* **`minimax-h3`**: Not supported\n* **`wan-2.2`**: Not supported\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p.\n* **`kling-2.6`**: Supports 1080p.\n* **`veo3.1-lite`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`veo3.1`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`sora-2`**: Not supported\n",
                         "example": "api-assets/id/1234.png"
                       }
                     },
@@ -3121,21 +3122,21 @@
                     "type": "number",
                     "minimum": 1,
                     "maximum": 60,
-                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`ltx-2.3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`kling-2.6`**: 5, 10\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`veo3.1-lite`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`seedance-1.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`seedance-2.0-mini`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.0`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n",
+                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`kling-3.0`**: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.0`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`ltx-2.3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`minimax-h3`**: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`seedance-1.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12\n* **`seedance-2.0-mini`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15\n* **`seedance-2.5`**: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30\n* **`kling-2.6`**: 5, 10\n* **`veo3.1-lite`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n",
                     "format": "float",
                     "example": 5
                   },
                   "aspect_ratio": {
                     "type": "string",
                     "enum": ["16:9", "9:16", "1:1"],
-                    "description": "Determines the aspect ratio of the output video.\n\n* **`ltx-2.3`**: Supports 9:16, 16:9, 1:1.\n* **`wan-2.2`**: Supports 9:16, 16:9, 1:1.\n* **`kling-2.6`**: Supports 9:16, 16:9, 1:1.\n* **`kling-3.0`**: Supports 9:16, 16:9, 1:1.\n* **`veo3.1-lite`**: Supports 9:16, 16:9.\n* **`veo3.1`**: Supports 9:16, 16:9.\n* **`seedance-1.5`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0-mini`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.5`**: Supports 9:16, 16:9, 1:1.\n* **`sora-2`**: Supports 9:16, 16:9.\n",
+                    "description": "Determines the aspect ratio of the output video.\n\n* **`kling-3.0`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0`**: Supports 9:16, 16:9, 1:1.\n* **`ltx-2.3`**: Supports 9:16, 16:9, 1:1.\n* **`minimax-h3`**: Supports 16:9, 9:16, 1:1.\n* **`wan-2.2`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-1.5`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0-mini`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.5`**: Supports 9:16, 16:9, 1:1.\n* **`kling-2.6`**: Supports 9:16, 16:9, 1:1.\n* **`veo3.1-lite`**: Supports 9:16, 16:9.\n* **`veo3.1`**: Supports 9:16, 16:9.\n* **`sora-2`**: Supports 9:16, 16:9.\n",
                     "example": "16:9"
                   },
                   "resolution": {
                     "type": "string",
                     "enum": ["480p", "720p", "1080p", "4k"],
                     "example": "720p",
-                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`ltx-2.3`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`kling-2.6`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`veo3.1-lite`**: Supports 720p, 1080p.\n* **`veo3.1`**: Supports 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.0`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p.\n* **`sora-2`**: Supports 720p.\n"
+                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`seedance-2.0`**: Supports 480p, 720p.\n* **`ltx-2.3`**: Supports 480p, 720p, 1080p.\n* **`minimax-h3`**: Supports 480p, 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p.\n* **`kling-2.6`**: Supports 720p, 1080p.\n* **`veo3.1-lite`**: Supports 720p, 1080p.\n* **`veo3.1`**: Supports 720p, 1080p.\n* **`sora-2`**: Supports 720p.\n"
                   },
                   "model": {
                     "default": "default",
@@ -3144,6 +3145,7 @@
                       "default",
                       "ltx-2",
                       "ltx-2.3",
+                      "minimax-h3",
                       "wan-2.2",
                       "seedance-1.5",
                       "seedance-2.0",
@@ -3160,12 +3162,12 @@
                       "kling-2.5-audio",
                       "veo3.1-audio"
                     ],
-                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `ltx-2.3`: Fastest output. Best for rapid iteration.\n* `wan-2.2`: Strong physics, camera moves, and motion.\n* `kling-2.6`: Great for action, motion blur, and camera moves.\n* `kling-3.0`: Best overall quality for cinematic storytelling.\n* `veo3.1-lite`: Veo quality at a more accessible cost.\n* `veo3.1`: Google's model. Highest realism and detail.\n* `seedance-1.5`: Smooth, consistent motion with precision.\n* `seedance-2.0-mini`: Fast, consistent video with strong motion quality\n* `seedance-2.0`: Top quality with reference-to-video control.\n* `seedance-2.5`: Highest quality with superior realism, detail, and motion\n* `sora-2`: Open AI's model. Great for creativity and viral clips.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
+                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `kling-3.0`: Best overall quality for cinematic storytelling.\n* `seedance-2.0`: Top quality with reference-to-video control.\n* `ltx-2.3`: Fastest output. Best for rapid iteration.\n* `minimax-h3`: Reference-driven video with native audio.\n* `wan-2.2`: Strong physics, camera moves, and motion.\n* `seedance-1.5`: Smooth, consistent motion with precision.\n* `seedance-2.0-mini`: Fast, consistent video with strong motion quality\n* `seedance-2.5`: Highest quality with superior realism, detail, and motion\n* `kling-2.6`: Great for action, motion blur, and camera moves.\n* `veo3.1-lite`: Veo quality at a more accessible cost.\n* `veo3.1`: Google's model. Highest realism and detail.\n* `sora-2`: Open AI's model. Great for creativity and viral clips.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
                     "example": "kling-3.0"
                   },
                   "audio": {
                     "type": "boolean",
-                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`ltx-2.3`**: Toggle-able: no additional credits for audio\n* **`wan-2.2`**: Not supported\n* **`kling-2.6`**: Not supported\n* **`kling-3.0`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1-lite`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-1.5`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0-mini`**: Toggle-able: no additional credits for audio\n* **`seedance-2.0`**: Toggle-able: no additional credits for audio\n* **`seedance-2.5`**: Toggle-able: no additional credits for audio\n* **`sora-2`**: Toggle-able: no additional credits for audio\n",
+                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`kling-3.0`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0`**: Toggle-able: no additional credits for audio\n* **`ltx-2.3`**: Toggle-able: no additional credits for audio\n* **`minimax-h3`**: Toggle-able: no additional credits for audio\n* **`wan-2.2`**: Not supported\n* **`seedance-1.5`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0-mini`**: Toggle-able: no additional credits for audio\n* **`seedance-2.5`**: Toggle-able: no additional credits for audio\n* **`kling-2.6`**: Not supported\n* **`veo3.1-lite`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1`**: Toggle-able: audio adds extra credits when enabled\n* **`sora-2`**: Toggle-able: no additional credits for audio\n",
                     "example": true
                   },
                   "style": {
@@ -4650,18 +4652,18 @@
                     "type": "string",
                     "enum": [
                       "default",
-                      "qwen-edit",
-                      "flux-2-klein",
-                      "nano-banana",
                       "nano-banana-2",
+                      "gpt-image-2",
+                      "flux-2-klein",
                       "nano-banana-2-lite",
+                      "qwen-edit",
                       "seedream-v4",
-                      "nano-banana-pro",
                       "seedream-v4.5",
                       "seedream-v5-pro",
-                      "gpt-image-2"
+                      "nano-banana",
+                      "nano-banana-pro"
                     ],
-                    "description": "The AI model to use for image editing. Each model has different capabilities and costs.\n\n**Models:**\n- `default` - Use the model we recommend, which will change over time. This is recommended unless you need a specific model. This is the default behavior.\n- `qwen-edit` - from 10 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Max additional input images: 2\n- `flux-2-klein` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Max additional input images: 5\n- `nano-banana` - from 50 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `nano-banana-2` - from 100 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `nano-banana-2-lite` - from 50 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `seedream-v4` - from 40 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `nano-banana-pro` - from 150 credits/image\n  - Supported resolutions: 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `seedream-v4.5` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `seedream-v5-pro` - from 75 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `gpt-image-2` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n",
+                    "description": "The AI model to use for image editing. Each model has different capabilities and costs.\n\n**Models:**\n- `default` - Use the model we recommend, which will change over time. This is recommended unless you need a specific model. This is the default behavior.\n- `nano-banana-2` - from 100 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `gpt-image-2` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `flux-2-klein` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Max additional input images: 5\n- `nano-banana-2-lite` - from 50 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `qwen-edit` - from 10 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Max additional input images: 2\n- `seedream-v4` - from 40 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `seedream-v4.5` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `seedream-v5-pro` - from 75 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `nano-banana` - from 50 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `nano-banana-pro` - from 150 credits/image\n  - Supported resolutions: 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n",
                     "example": "default"
                   },
                   "aspect_ratio": {
@@ -4673,7 +4675,7 @@
                   "resolution": {
                     "type": "string",
                     "enum": ["auto", "640px", "1k", "2k", "4k"],
-                    "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` — up to 640px\n- `1k` — up to 1024px\n- `2k` — up to 2048px\n- `4k` — up to 4096px\n- `auto` — **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `qwen-edit` - 640px, 1k, 2k\n- `flux-2-klein` - 640px, 1k, 2k\n- `nano-banana` - 640px, 1k\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `nano-banana-2-lite` - 640px, 1k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `nano-banana-pro` - 1k, 2k, 4k\n- `seedream-v4.5` - 640px, 1k, 2k, 4k\n- `seedream-v5-pro` - 640px, 1k, 2k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n\nNote: Resolution availability depends on the model and your subscription tier.",
+                    "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` — up to 640px\n- `1k` — up to 1024px\n- `2k` — up to 2048px\n- `4k` — up to 4096px\n- `auto` — **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n- `flux-2-klein` - 640px, 1k, 2k\n- `nano-banana-2-lite` - 640px, 1k\n- `qwen-edit` - 640px, 1k, 2k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `seedream-v4.5` - 640px, 1k, 2k, 4k\n- `seedream-v5-pro` - 640px, 1k, 2k\n- `nano-banana` - 640px, 1k\n- `nano-banana-pro` - 1k, 2k, 4k\n\nNote: Resolution availability depends on the model and your subscription tier.",
                     "example": "1k"
                   },
                   "style": {
@@ -5049,19 +5051,19 @@
                     "type": "string",
                     "enum": [
                       "default",
-                      "flux-schnell",
-                      "flux-2-klein",
+                      "nano-banana-2",
+                      "gpt-image-2",
                       "z-image-turbo",
+                      "flux-2-klein",
+                      "nano-banana-2-lite",
                       "seedream-v4",
                       "seedream-v5-pro",
                       "nano-banana",
-                      "nano-banana-2-lite",
-                      "nano-banana-2",
                       "nano-banana-pro",
-                      "gpt-image-2",
+                      "flux-schnell",
                       "seedream"
                     ],
-                    "description": "The AI model to use for image generation. Each model has different capabilities and costs.\n\n**Models:**\n- `default` - Use the model we recommend, which will change over time. This is recommended unless you need a specific model. This is the default behavior.\n- `flux-schnell` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `flux-2-klein` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1\n- `z-image-turbo` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `seedream-v4` - from 40 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `seedream-v5-pro` - from 75 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `nano-banana` - from 50 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `nano-banana-2-lite` - from 50 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `nano-banana-2` - from 100 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 4, 9, 16\n- `nano-banana-pro` - from 150 credits/image\n  - Supported resolutions: 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 4, 9, 16\n- `gpt-image-2` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n\n**Deprecated Enum Values:**\n- `seedream` - Use `seedream-v4` instead.\n",
+                    "description": "The AI model to use for image generation. Each model has different capabilities and costs.\n\n**Models:**\n- `default` - Use the model we recommend, which will change over time. This is recommended unless you need a specific model. This is the default behavior.\n- `nano-banana-2` - from 100 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 4, 9, 16\n- `gpt-image-2` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `z-image-turbo` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `flux-2-klein` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1\n- `nano-banana-2-lite` - from 50 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `seedream-v4` - from 40 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `seedream-v5-pro` - from 75 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `nano-banana` - from 50 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `nano-banana-pro` - from 150 credits/image\n  - Supported resolutions: 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 4, 9, 16\n- `flux-schnell` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n\n**Deprecated Enum Values:**\n- `seedream` - Use `seedream-v4` instead.\n",
                     "example": "default"
                   },
                   "aspect_ratio": {
@@ -5074,7 +5076,7 @@
                     "default": "auto",
                     "type": "string",
                     "enum": ["auto", "640px", "1k", "2k", "4k"],
-                    "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` — up to 640px\n- `1k` — up to 1024px\n- `2k` — up to 2048px\n- `4k` — up to 4096px\n- `auto` — **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `flux-schnell` - 640px, 1k, 2k\n- `flux-2-klein` - 640px, 1k, 2k\n- `z-image-turbo` - 640px, 1k, 2k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `seedream-v5-pro` - 640px, 1k, 2k\n- `nano-banana` - 640px, 1k\n- `nano-banana-2-lite` - 640px, 1k\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `nano-banana-pro` - 1k, 2k, 4k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n\nNote: Resolution availability depends on the model and your subscription tier.",
+                    "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` — up to 640px\n- `1k` — up to 1024px\n- `2k` — up to 2048px\n- `4k` — up to 4096px\n- `auto` — **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n- `z-image-turbo` - 640px, 1k, 2k\n- `flux-2-klein` - 640px, 1k, 2k\n- `nano-banana-2-lite` - 640px, 1k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `seedream-v5-pro` - 640px, 1k, 2k\n- `nano-banana` - 640px, 1k\n- `nano-banana-pro` - 1k, 2k, 4k\n- `flux-schnell` - 640px, 1k, 2k\n\nNote: Resolution availability depends on the model and your subscription tier.",
                     "example": "auto"
                   },
                   "style": {
@@ -7054,7 +7056,7 @@
     },
     "/v1/ai-voice-generator": {
       "post": {
-        "description": "Generate speech from text. Each character costs 0.05 credits. The cost is rounded up to the nearest whole number.",
+        "description": "Generate speech from text. Each character costs 0.1 credits. The cost is rounded up to the nearest whole number.",
         "summary": "AI Voice Generator",
         "tags": ["Audio Projects"],
         "parameters": [],
@@ -7724,7 +7726,7 @@
     },
     "/v1/ai-voice-cloner": {
       "post": {
-        "description": "Clone a voice from an audio sample and generate speech. \n* Each character costs 0.05 credits. \n* The cost is rounded up to the nearest whole number",
+        "description": "Clone a voice from an audio sample and generate speech. \n* Each character costs 0.1 credits. \n* The cost is rounded up to the nearest whole number",
         "summary": "AI Voice Cloner",
         "tags": ["Audio Projects"],
         "parameters": [],
