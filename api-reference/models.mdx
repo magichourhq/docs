@@ -1,0 +1,161 @@
+---
+title: "Models and Credit Costs"
+sidebarTitle: "Models"
+description: "Every model available through the API, what it supports, and what it costs in credits."
+---
+
+Magic Hour exposes multiple models per endpoint. Pass the one you want in the `model` field, or
+omit it to get `default`, which tracks our current recommendation and changes over time.
+
+Credits are charged per generation. Video cost scales with duration, image cost with resolution and
+image count. Failed generations are never charged.
+
+## Video models
+
+Available on [text to video](/api-reference/video-projects/text-to-video) and
+[image to video](/api-reference/video-projects/image-to-video).
+
+| Model               | Best for                                                  | Resolutions       | Durations (seconds)                                                                                  | Audio                 |
+| :------------------ | :-------------------------------------------------------- | :---------------- | :--------------------------------------------------------------------------------------------------- | :-------------------- |
+| `ltx-2.3`           | Fastest output. Best for rapid iteration                  | 480p, 720p, 1080p | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30                                                        | Yes, no extra credits |
+| `wan-2.2`           | Strong physics, camera moves, and motion                  | 480p, 720p, 1080p | 3, 4, 5, 6, 7, 8, 9, 10, 15                                                                          | No                    |
+| `kling-2.6`         | Great for action, motion blur, and camera moves           | 720p, 1080p       | 5, 10                                                                                                | No                    |
+| `kling-3.0`         | Best overall quality for cinematic storytelling           | 720p, 1080p, 4k   | 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15                                                          | Yes, costs extra      |
+| `veo3.1-lite`       | Veo quality at a more accessible cost                     | 720p, 1080p       | 4, 6, 8, 16, 24, 32, 40, 48, 56                                                                      | Yes, costs extra      |
+| `veo3.1`            | Google's model. Highest realism and detail                | 720p, 1080p       | 4, 6, 8, 16, 24, 32, 40, 48, 56                                                                      | Yes, costs extra      |
+| `seedance-1.5`      | Smooth, consistent motion with precision                  | 480p, 720p, 1080p | 4, 5, 6, 7, 8, 9, 10, 11, 12                                                                         | Yes, costs extra      |
+| `seedance-2.0-mini` | Fast, consistent video with strong motion quality         | 480p, 720p        | 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15                                                             | Yes, no extra credits |
+| `seedance-2.0`      | Top quality with reference-to-video control               | 480p, 720p        | 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15                                                             | Yes, no extra credits |
+| `seedance-2.5`      | Highest quality with superior realism, detail, and motion | 480p, 720p        | 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30 | Yes, no extra credits |
+| `sora-2`            | Open AI's model. Great for creativity and viral clips     | 720p              | 4, 8, 12, 24, 36, 48, 60                                                                             | Yes, no extra credits |
+
+<Note>
+  `default` resolves to `kling-3.0` on paid tiers and `ltx-2.3` on the free tier. The deprecated
+  `kling-2.5-audio` and `veo3.1-audio` values are equivalent to passing the base model with `audio:
+  true`.
+</Note>
+
+### Video credit costs
+
+Credits per second of output. Multiply by your `end_seconds` to estimate a job.
+
+| Model               | 480p | 720p | 1080p |  4k | With audio                    |
+| :------------------ | ---: | ---: | ----: | --: | :---------------------------- |
+| `ltx-2.3`           |   24 |   48 |    72 |   — | Included                      |
+| `wan-2.2`           |   24 |   48 |    72 |   — | Not supported                 |
+| `kling-2.6`         |    — |   36 |    72 |   — | Not supported                 |
+| `kling-3.0`         |    — |   48 |    72 | 240 | +24 at 720p, 1080p; +48 at 4k |
+| `veo3.1-lite`       |    — |   48 |    72 |   — | +24                           |
+| `veo3.1`            |    — |   96 |   120 |   — | +24                           |
+| `seedance-1.5`      |   30 |   60 |    90 |   — | 2× the base rate              |
+| `seedance-2.0-mini` |   96 |  192 |     — |   — | Included                      |
+| `seedance-2.0`      |  144 |  288 |     — |   — | Included                      |
+| `seedance-2.5`      |  288 |  576 |     — |   — | Included                      |
+| `sora-2`            |    — |  120 |     — |   — | Included                      |
+
+The video formula is `duration × output fps × resolution multiplier`. Because output fps varies by
+model, two models at the same resolution can cost different amounts per second.
+
+### Legacy model values
+
+The endpoints still accept `ltx-2`, `kling-2.5`, `kling-1.6`, `seedance` for backwards
+compatibility, but these are no longer recommended and are absent from the tables above. New
+integrations should use a documented model.
+
+[AI video editor](/api-reference/video-projects/ai-video-editor) has its own roster: `gemini-omni`
+and `ltx-2.3`, defaulting to `ltx-2.3` on the free tier and `gemini-omni` on paid tiers.
+
+## Image models
+
+Available on [AI image generator](/api-reference/image-projects/ai-image-generator) and
+[AI image editor](/api-reference/image-projects/ai-image-editor).
+
+| Model                | Generate | Edit | Resolutions       |        From | Tiers                        |
+| :------------------- | :------- | :--- | :---------------- | ----------: | :--------------------------- |
+| `flux-schnell`       | Yes      | —    | 640px, 1k, 2k     |   5 credits | free, creator, pro, business |
+| `flux-2-klein`       | Yes      | Yes  | 640px, 1k, 2k     |   5 credits | free, creator, pro, business |
+| `z-image-turbo`      | Yes      | —    | 640px, 1k, 2k     |   5 credits | free, creator, pro, business |
+| `seedream-v4`        | Yes      | Yes  | 640px, 1k, 2k, 4k |  40 credits | creator, pro, business       |
+| `seedream-v5-pro`    | Yes      | Yes  | 640px, 1k, 2k     |  75 credits | creator, pro, business       |
+| `nano-banana`        | Yes      | Yes  | 640px, 1k         |  50 credits | creator, pro, business       |
+| `nano-banana-2-lite` | Yes      | Yes  | 640px, 1k         |  50 credits | creator, pro, business       |
+| `nano-banana-2`      | Yes      | Yes  | 640px, 1k, 2k, 4k | 100 credits | creator, pro, business       |
+| `nano-banana-pro`    | Yes      | Yes  | 1k, 2k, 4k        | 150 credits | creator, pro, business       |
+| `gpt-image-2`        | Yes      | Yes  | 640px, 1k, 2k, 4k |  50 credits | creator, pro, business       |
+| `qwen-edit`          | —        | Yes  | 640px, 1k, 2k     |  10 credits | free, creator, pro, business |
+| `seedream-v4.5`      | —        | Yes  | 640px, 1k, 2k, 4k |  50 credits | creator, pro, business       |
+
+"From" is the cost of a single image at the model's lowest resolution. Higher resolutions cost more,
+and generating multiple images multiplies the cost.
+
+| Model                | Max images per request (generator) | Max additional input images (editor) |
+| :------------------- | :--------------------------------- | :----------------------------------- |
+| `flux-schnell`       | 1, 2, 3, 4                         | —                                    |
+| `flux-2-klein`       | 1                                  | 5                                    |
+| `z-image-turbo`      | 1, 2, 3, 4                         | —                                    |
+| `seedream-v4`        | 1, 2, 3, 4                         | 9                                    |
+| `seedream-v5-pro`    | 1, 2, 3, 4                         | 9                                    |
+| `nano-banana`        | 1, 2, 3, 4                         | 9                                    |
+| `nano-banana-2-lite` | 1, 2, 3, 4                         | 9                                    |
+| `nano-banana-2`      | 1, 4, 9, 16                        | 9                                    |
+| `nano-banana-pro`    | 1, 4, 9, 16                        | 9                                    |
+| `gpt-image-2`        | 1, 2, 3, 4                         | 9                                    |
+| `qwen-edit`          | —                                  | 2                                    |
+| `seedream-v4.5`      | —                                  | 9                                    |
+
+## Fixed-cost endpoints
+
+These endpoints have a single model and a flat rate.
+
+| Endpoint                                                                           | Credits                                  |
+| :--------------------------------------------------------------------------------- | :--------------------------------------- |
+| [AI Clothes Changer](/api-reference/image-projects/ai-clothes-changer)             | 25 per image                             |
+| [AI Face Editor](/api-reference/image-projects/ai-face-editor)                     | 1 per edit                               |
+| [AI GIF Generator](/api-reference/image-projects/ai-gif-generator)                 | 50 per GIF                               |
+| [AI Headshot Generator](/api-reference/image-projects/ai-headshot-generator)       | 50 per headshot                          |
+| [AI Meme Generator](/api-reference/image-projects/ai-meme-generator)               | 10 per meme                              |
+| [AI QR Code Generator](/api-reference/image-projects/ai-qr-code-generator)         | Free                                     |
+| [Body Swap](/api-reference/image-projects/body-swap)                               | 100 per image                            |
+| [Face Swap Photo](/api-reference/image-projects/face-swap-photo)                   | 10 per image                             |
+| [Head Swap](/api-reference/image-projects/head-swap)                               | 10 per image                             |
+| [Image Background Remover](/api-reference/image-projects/image-background-remover) | 5 per image                              |
+| [Photo Colorizer](/api-reference/image-projects/photo-colorizer)                   | 10 per image                             |
+| [AI Voice Generator](/api-reference/audio-projects/ai-voice-generator)             | 0.05 per character, rounded up           |
+| [AI Voice Cloner](/api-reference/audio-projects/ai-voice-cloner)                   | 0.05 per generated character, rounded up |
+
+### AI Image Upscaler
+
+Cost depends on `style.mode` and `scale_factor`.
+
+| Mode and scale               | Credits       |
+| :--------------------------- | :------------ |
+| `preserve`, 2x               | 25 per image  |
+| `balanced` or `creative`, 2x | 50 per image  |
+| `preserve`, 4x               | 100 per image |
+| `balanced` or `creative`, 4x | 200 per image |
+
+## Duration-based endpoints
+
+These charge by output length rather than per generation.
+
+| Endpoint                                                                         | Credits                                            |
+| :------------------------------------------------------------------------------- | :------------------------------------------------- |
+| [Animation](/api-reference/video-projects/animation)                             | 24 credits/second at 24fps                         |
+| [Audio to Video](/api-reference/video-projects/audio-to-video)                   | 24 credits/second at 480p, 48 at 720p, 72 at 1080p |
+| [Auto Subtitle Generator](/api-reference/video-projects/auto-subtitle-generator) | ~4.8 credits/second at 24fps                       |
+| [Face Swap Video](/api-reference/video-projects/face-swap-video)                 | 24 credits/second at 24fps                         |
+| [Lip Sync](/api-reference/video-projects/lip-sync)                               | 1 credit/frame, doubled on `pro`                   |
+| [AI Talking Photo](/api-reference/video-projects/ai-talking-photo)               | 20 credits/second prompted, 48 realistic           |
+| [Video to Video](/api-reference/video-projects/video-to-video)                   | 48 credits/second at 24fps                         |
+
+<Info>
+  Video jobs return an estimate in `credits_charged` on the create response, calculated at 30fps.
+  The final amount is corrected once the render finishes and the true frame rate is known. Read
+  `credits_charged` from the get-details response for the actual charge.
+</Info>
+
+## Estimating before you build
+
+- **Cost calculator** — [model your monthly spend](https://magichour.ai/api?ref=docs-models#api-cost-calculator) across endpoints and volumes.
+- **Mock server** — [develop against sample responses](/integration/development-and-testing#mock-server-recommended-for-development) without spending credits.
+- **Free tier** — 400 credits on signup plus 100 daily credits, enough to exercise every image endpoint and short video jobs.
