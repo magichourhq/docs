@@ -56,7 +56,7 @@ export const ToolSection = ({
         title="Product Page"
         icon="video"
         horizontal
-        href={`https://magichour.ai/products/${productSlug}`}
+        href={`https://magichour.ai/products/${productSlug}${productSlug.includes("?") ? "&" : "?"}utm_source=docs&utm_medium=referral&utm_campaign=tools`}
       >
         Learn more about {title}
       </Card>

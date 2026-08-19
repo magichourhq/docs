@@ -24,6 +24,16 @@ Events use dot notation: `{resource}.{action}`
 - **Resource**: `video`, `image`, `audio`
 - **Action**: `started`, `completed`, `errored`
 
+<Warning>
+  **`canceled` is a job status, not a webhook event.** When a user cancels a job (for example from
+  the Magic Hour web app), the job's `status` field becomes `canceled` but no webhook fires:
+  there is no `video.canceled`, `image.canceled`, or `audio.canceled` event. If you rely on
+  webhooks alone, a canceled job never sends a final event — poll the corresponding details
+  endpoint ([video](/api-reference/video-projects/get-video-details),
+  [image](/api-reference/image-projects/get-image-details),
+  [audio](/api-reference/audio-projects/get-audio-details)) to detect cancellation.
+</Warning>
+
 ### Payload Format
 
 The `payload` field contains the same data structure as the corresponding API endpoint:
