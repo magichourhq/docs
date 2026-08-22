@@ -22,8 +22,8 @@ Magic Hour is an AI video and image generation platform. You submit a job, we re
 
 <Note>
   **Credit Cost:** Pick the example that matches your goal. The image tab costs about 5 credits; the
-  face swap video tab costs about 200 credits for the sample clip. New accounts get 400 free credits
-  plus 100 daily credits if you claim them in the web app.
+  face swap video tab costs about 200 credits for the sample clip. New accounts may receive starter
+  credits and account-specific rewards; check your balance in the web app.
 </Note>
 
 ## 1. Create your API key
@@ -794,7 +794,7 @@ If you encounter HTTP errors, here's what they mean:
 | :--------- | :-------------------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
 | `400`      | Bad Request           | The response `message` names the invalid or missing field - fix it and resubmit                                                         |
 | `401`      | Unauthorized          | Verify your API key is correct and sent as `Authorization: Bearer <key>`                                                                |
-| `402`      | Payment Required      | Insufficient credits - [add more credits](https://magichour.ai/dashboard/my-plan?ref=docs-quickstart-402&utm_source=docs&utm_medium=referral&utm_campaign=quick-start)                               |
+| `402`      | Payment Required      | Insufficient credits - [add more credits](https://magichour.ai/settings?ref=docs-quickstart-402&utm_source=docs&utm_medium=referral&utm_campaign=quick-start)                               |
 | `403`      | Forbidden             | Your key is valid but the model, resolution, or feature is not available on your plan                                                   |
 | `429`      | Too Many Requests     | You are sending requests too quickly - retry with exponential backoff                                                                   |
 | `500`      | Internal Server Error | Temporary server issue - retry after a few seconds                                                                                      |

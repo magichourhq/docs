@@ -18,6 +18,7 @@ Available on [text to video](/api-reference/video-projects/text-to-video) and
 | Model               | Best for                                                  | Resolutions       | Durations (seconds)                                                                                  | Audio                 |
 | :------------------ | :-------------------------------------------------------- | :---------------- | :--------------------------------------------------------------------------------------------------- | :-------------------- |
 | `ltx-2.3`           | Fastest output. Best for rapid iteration                  | 480p, 720p, 1080p | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30                                                        | Yes, no extra credits |
+| `minimax-h3`        | Native-audio video with flexible duration                 | 480p, 720p, 1080p | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30                                                        | Yes, no extra credits |
 | `wan-2.2`           | Strong physics, camera moves, and motion                  | 480p, 720p, 1080p | 3, 4, 5, 6, 7, 8, 9, 10, 15                                                                          | No                    |
 | `kling-2.6`         | Great for action, motion blur, and camera moves           | 720p, 1080p       | 5, 10                                                                                                | No                    |
 | `kling-3.0`         | Best overall quality for cinematic storytelling           | 720p, 1080p, 4k   | 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15                                                          | Yes, costs extra      |
@@ -43,6 +44,7 @@ Credits per second of output. Multiply by your `end_seconds` to estimate a job.
 | Model               | 480p | 720p | 1080p |  4k | With audio                    |
 | :------------------ | ---: | ---: | ----: | --: | :---------------------------- |
 | `ltx-2.3`           |   24 |   48 |    72 |   — | Included                      |
+| `minimax-h3`        |   24 |   48 |    72 |   — | Included                      |
 | `wan-2.2`           |   24 |   48 |    72 |   — | Not supported                 |
 | `kling-2.6`         |    — |   36 |    72 |   — | Not supported                 |
 | `kling-3.0`         |    — |   48 |    72 | 240 | +24 at 720p, 1080p; +48 at 4k |
@@ -104,9 +106,9 @@ and generating multiple images multiplies the cost.
 | `qwen-edit`          | —                                  | 2                                    |
 | `seedream-v4.5`      | —                                  | 9                                    |
 
-## Fixed-cost endpoints
+## Reference costs
 
-These endpoints have a single model and a flat rate.
+These endpoints have a single model. Some rates vary by resolution or output settings.
 
 | Endpoint                                                                           | Credits                                  |
 | :--------------------------------------------------------------------------------- | :--------------------------------------- |
@@ -116,13 +118,13 @@ These endpoints have a single model and a flat rate.
 | [AI Headshot Generator](/api-reference/image-projects/ai-headshot-generator)       | 50 per headshot                          |
 | [AI Meme Generator](/api-reference/image-projects/ai-meme-generator)               | 10 per meme                              |
 | [AI QR Code Generator](/api-reference/image-projects/ai-qr-code-generator)         | Free                                     |
-| [Body Swap](/api-reference/image-projects/body-swap)                               | 100 per image                            |
+| [Body Swap](/api-reference/image-projects/body-swap)                               | 50+ per image, based on resolution       |
 | [Face Swap Photo](/api-reference/image-projects/face-swap-photo)                   | 10 per image                             |
 | [Head Swap](/api-reference/image-projects/head-swap)                               | 10 per image                             |
 | [Image Background Remover](/api-reference/image-projects/image-background-remover) | 5 per image                              |
 | [Photo Colorizer](/api-reference/image-projects/photo-colorizer)                   | 10 per image                             |
-| [AI Voice Generator](/api-reference/audio-projects/ai-voice-generator)             | 0.05 per character, rounded up           |
-| [AI Voice Cloner](/api-reference/audio-projects/ai-voice-cloner)                   | 0.05 per generated character, rounded up |
+| [AI Voice Generator](/api-reference/audio-projects/ai-voice-generator)             | 0.1 per character, rounded up            |
+| [AI Voice Cloner](/api-reference/audio-projects/ai-voice-cloner)                   | 0.1 per generated character, rounded up  |
 
 ### AI Image Upscaler
 
@@ -160,4 +162,4 @@ These charge by output length rather than per generation.
 - **Credits to dollars** — [usage-based rates](/billing/usage-based-pricing#rates-and-volume-discounts) give the per-credit price for each tier, including volume discounts.
 - **Cost calculator** — [model your monthly spend](https://magichour.ai/api?ref=docs-models#api-cost-calculator) across endpoints and volumes.
 - **Mock server** — [develop against sample responses](/integration/development-and-testing#mock-server-recommended-for-development) without spending credits.
-- **Free tier** — 400 credits on signup plus 100 daily credits, enough to exercise every image endpoint and short video jobs.
+- **Free access** — starter credits and account-specific rewards may be available; check your current balance.
