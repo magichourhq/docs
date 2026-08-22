@@ -46,12 +46,12 @@ In the response of `GET /v1/video-projects/:id`, we added `.downloads` key to re
 ```diff
 {
 - "download": {
--     "url": "https://video.magichour.ai/id/output.mp4?auth-token=1234",
+-     "url": "https://videos.magichour.ai/id/output.mp4?auth-token=1234",
 -     "expires_at": "2024-12-18T00:00:00.000Z"
 - },
 + "downloads": [
 +     {
-+         "url": "https://video.magichour.ai/id/output.mp4?auth-token=1234",
++         "url": "https://videos.magichour.ai/id/output.mp4?auth-token=1234",
 +         "expires_at": "2024-12-18T00:00:00.000Z"
 +     }
 + ],
