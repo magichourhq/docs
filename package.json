@@ -16,14 +16,14 @@
   "devDependencies": {
     "@ai-sdk/openai": "3.0.86",
     "@clack/prompts": "1.7.0",
-    "@linear/sdk": "89.0.0",
+    "@linear/sdk": "90.0.0",
     "@mintlify/scraping": "4.0.888",
     "@types/node": "26.2.0",
     "ai": "6.0.230",
     "dotenv": "17.4.2",
     "mintlify": "4.2.711",
     "prettier": "3.9.6",
-    "tsx": "4.23.1",
+    "tsx": "4.23.12",
     "typescript": "7.0.2",
     "zod": "4.4.3"
   }

@@ -1112,12 +1112,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@linear/sdk@npm:89.0.0":
-  version: 89.0.0
-  resolution: "@linear/sdk@npm:89.0.0"
+"@linear/sdk@npm:90.0.0":
+  version: 90.0.0
+  resolution: "@linear/sdk@npm:90.0.0"
   dependencies:
     "@graphql-typed-document-node/core": "npm:^3.2.0"
-  checksum: 10/1609858d19ad2f2ba93102801687d7528898240608a1994a0a298d555e4620a78f6a7df9749981fd7edb29c2574c784f4437c222755be6df17e25557a82060e3
+  checksum: 10/00506321af529a466a93302b01084bd0ca40bae898254aabb34789a32d54d71a9070c94df31a0979b0cbd36baa322f5f1f4cde42cc899f3a2327db7af8cf2eb1
   languageName: node
   linkType: hard
 
@@ -3594,14 +3594,14 @@ __metadata:
   dependencies:
     "@ai-sdk/openai": "npm:3.0.86"
     "@clack/prompts": "npm:1.7.0"
-    "@linear/sdk": "npm:89.0.0"
+    "@linear/sdk": "npm:90.0.0"
     "@mintlify/scraping": "npm:4.0.888"
     "@types/node": "npm:26.2.0"
     ai: "npm:6.0.230"
     dotenv: "npm:17.4.2"
     mintlify: "npm:4.2.711"
     prettier: "npm:3.9.6"
-    tsx: "npm:4.23.1"
+    tsx: "npm:4.23.12"
     typescript: "npm:7.0.2"
     zod: "npm:4.4.3"
   languageName: unknown
@@ -9549,9 +9549,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsx@npm:4.23.1":
-  version: 4.23.1
-  resolution: "tsx@npm:4.23.1"
+"tsx@npm:4.23.12":
+  version: 4.23.12
+  resolution: "tsx@npm:4.23.12"
   dependencies:
     esbuild: "npm:~0.28.0"
     fsevents: "npm:~2.3.3"
@@ -9560,7 +9560,7 @@ __metadata:
       optional: true
   bin:
     tsx: dist/cli.mjs
-  checksum: 10/01123a290130314507630f1d1cf8fa71f5e93305d5d8aa57ed012f68e3c1aef2e73f537fa6064b022cb4c813fcd0e286abd6b59db5442ece3c5105e09e10b922
+  checksum: 10/167a5571cb211aff257d200cd75a1003b1e0e59d641c1e6ff99f6cdfada46ff6ce311e105722699b4763feb1371b2d8084bcc413c7e54aae3761c852817dc0b0
   languageName: node
   linkType: hard
 
