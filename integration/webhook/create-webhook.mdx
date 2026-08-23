@@ -414,7 +414,7 @@ If your endpoint doesn't respond with a 2xx status code, Magic Hour will retry d
 
 - Return 2xx status codes within 10 seconds
 - Process events asynchronously (respond fast, process later)
-- Implement idempotent processing (handle duplicate events)
+- Deduplicate repeated webhook deliveries
 - Log all webhook events for debugging
 
 ❌ **Don't:**
