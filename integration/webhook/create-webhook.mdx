@@ -191,18 +191,12 @@ except ImportError:
 Your webhook endpoint needs to be accessible from the internet. Choose one of these options:
 
 <Tabs>
-<Tab title="ngrok (Recommended)">
+<Tab title="Local tunnel">
 
 **Perfect for local development and testing**
 
-**Install ngrok:**
-
-```bash
-# macOS
-brew install ngrok
-
-# Windows/Linux - download from https://ngrok.com/download
-```
+Use a third-party tunneling service such as [ngrok](https://ngrok.com/docs/getting-started/)
+to give your local webhook server a temporary public HTTPS URL.
 
 **Start your server:**
 
@@ -219,13 +213,8 @@ node webhook_server.js
 
 </CodeGroup>
 
-**Expose it publicly:**
-
-```bash
-ngrok http 8000
-```
-
-**Copy the HTTPS URL** (e.g., `https://abc123.ngrok.io`)
+Follow your tunnel provider's setup instructions, then copy its HTTPS URL (for example,
+`https://abc123.ngrok.io`).
 
 </Tab>
 
