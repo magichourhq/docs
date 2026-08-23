@@ -18,7 +18,7 @@ Your production webhook handler should:
 - ✅ **Handle POST requests** with JSON payloads
 - ✅ **Return 2xx status codes** for successful processing
 - ✅ **Process requests quickly** (< 10 seconds recommended)
-- ✅ **Handle retries gracefully** (idempotent processing)
+- ✅ **Handle retries gracefully** (deduplicate repeated deliveries)
 - ✅ **Log events** for debugging and monitoring
 - ✅ **Verify signatures** for security
 
@@ -206,9 +206,9 @@ app.listen(port, () => {
 
 ## Best Practices
 
-### 1. Idempotent Processing
+### 1. Deduplicate Webhook Deliveries
 
-Handle duplicate events gracefully (Magic Hour may retry):
+Magic Hour may retry delivery, so detect and skip repeated events:
 
 ```python
 # Webhook payloads don't include an event ID, so build a dedup key
@@ -417,8 +417,8 @@ async def webhook(request: Request):
 
 **Duplicate events?**
 
-- Implement idempotent processing
-- Store processed event IDs
+- Deduplicate deliveries using the project ID and event type
+- Store processed deduplication keys
 - Handle retries gracefully
 
 Need help? Contact [support@magichour.ai](mailto:support@magichour.ai)
