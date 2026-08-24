@@ -135,7 +135,7 @@ import uvicorn
 import time
 
 # Install required packages first:
-# !pip install fastapi uvicorn nest-asyncio pyngrok
+# !pip install fastapi uvicorn nest-asyncio
 
 # Allow nested event loops (required for notebooks)
 nest_asyncio.apply()
@@ -177,16 +177,7 @@ server_thread.start()
 # Wait for server to start
 time.sleep(2)
 print("🚀 Webhook server running on http://localhost:8000")
-
-# For Colab: Use ngrok to make it public
-try:
-    from pyngrok import ngrok
-    public_url = ngrok.connect(8000)
-    print(f"📡 Public URL: {public_url}")
-    print(f"Use this URL in Magic Hour: {public_url}/webhook")
-except ImportError:
-    print("💡 Install pyngrok for public URL: !pip install pyngrok")
-    print("Or use webhook.site for easier testing")
+print("💡 Use an HTTPS tunneling provider to expose port 8000, or use webhook.site")
 ```
 
 </CodeGroup>
@@ -196,16 +187,9 @@ except ImportError:
 Your webhook endpoint needs to be accessible from the internet. For testing, use one of these options:
 
 <Tabs>
-<Tab title="ngrok (Recommended)">
+<Tab title="HTTPS Tunnel (Recommended)">
 
-**Install ngrok:**
-
-```bash
-# macOS
-brew install ngrok
-
-# Windows/Linux - download from https://ngrok.com/download
-```
+Use any HTTPS tunneling provider that can forward a public URL to your local server.
 
 **Start your server:**
 
@@ -222,13 +206,11 @@ node webhook_server.js
 
 </CodeGroup>
 
-**Expose it publicly:**
+**Create the tunnel:**
 
-```bash
-ngrok http 8000
-```
+Follow your provider's setup instructions and forward its public HTTPS URL to `http://localhost:8000`.
 
-**Copy the HTTPS URL** (e.g., `https://abc123.ngrok.io`)
+**Copy the HTTPS URL** and append `/webhook` when registering it with Magic Hour.
 
 </Tab>
 <Tab title="webhook.site (Quick Testing)">
@@ -252,18 +234,19 @@ ngrok http 8000
 1. **Install dependencies:**
 
 ```python
-!pip install fastapi uvicorn nest-asyncio pyngrok
+!pip install fastapi uvicorn nest-asyncio
 ```
 
 2. **Run the notebook-friendly code** from Step 1
 
 3. **Get your public URL:**
-   - The code will automatically create an ngrok tunnel
-   - Copy the public URL shown (e.g., `https://abc123.ngrok.io/webhook`)
+   - Use an HTTPS tunneling provider that supports notebook environments
+   - Forward the public URL to port `8000`
+   - Append `/webhook` to the public URL
 
 4. **Use the URL** in Magic Hour webhook setup
 
-**Note**: Free ngrok URLs change each time you restart. For persistent URLs, sign up for a free ngrok account.
+**Note**: Temporary tunnel URLs may change when restarted. Use a persistent URL for production.
 
 </Tab>
 </Tabs>
@@ -281,7 +264,7 @@ Go to Magic Hour [Developer Hub](https://magichour.ai/developer?tab=webhooks&ref
 <Step title="Configure webhook">
 Enter your webhook details:
 
-- **Endpoint URL**: Your public HTTPS URL (e.g., `https://abc123.ngrok.io/webhook`)
+- **Endpoint URL**: Your public HTTPS URL (e.g., `https://your-tunnel.example/webhook`)
 - **Events**: Select the events you want to receive:
   - `video.started` - When video processing begins
   - `video.completed` - When video is ready for download
@@ -480,9 +463,9 @@ You've successfully:
 
 **Colab/Jupyter specific issues:**
 
-- ✅ Install required packages: `!pip install fastapi uvicorn nest-asyncio pyngrok`
+- ✅ Install required packages: `!pip install fastapi uvicorn nest-asyncio`
 - ✅ Make sure the server thread started successfully
-- ✅ Check if ngrok tunnel is active and accessible
+- ✅ Check if your HTTPS tunnel is active and accessible
 - ✅ Try webhook.site as an alternative for quick testing
 
 **AsyncIO errors in notebooks?**
