@@ -5,24 +5,25 @@ description: Pay monthly or yearly for a fixed credit allotment. Annual plans co
 
 ## How subscription pricing works
 
-A subscription adds a fixed number of credits to your account. You pay monthly or yearly, and the
-subscription renews until you cancel it.
+A monthly payment adds one month's credit allotment. An annual payment adds all twelve months of
+credits upfront. Unused credits do not expire and remain in your account after cancellation.
 
 ### The basics
 
 1. Choose a plan based on its credit allotment, upload limit, concurrent job limit, and resolution options.
 2. Choose monthly or yearly billing. Yearly billing is discounted.
-3. Pay upfront. Magic Hour adds the plan's credits to your account.
-4. The subscription renews automatically until you cancel it.
+3. A monthly payment adds the monthly allotment. An annual payment adds twelve monthly allotments at once.
+4. Unused credits remain in your account and do not expire.
+5. The subscription renews automatically until you cancel it.
 
 ### How it differs from usage-based billing
 
-| Subscription                | Usage-based                     |
-| :-------------------------- | :------------------------------ |
-| Pay upfront                 | Pay after using the API         |
-| Renews monthly or yearly    | Invoiced based on monthly usage |
-| Fixed credit allotment      | Charges for credits consumed    |
-| Credits added after payment | No prepaid credit allotment     |
+| Subscription                            | Usage-based                     |
+| :-------------------------------------- | :------------------------------ |
+| Pay upfront                             | Pay after using the API         |
+| Renews monthly or yearly                | Invoiced based on monthly usage |
+| Fixed credit allotment                  | Charges for credits consumed    |
+| One or twelve months of credits upfront | No prepaid credit allotment     |
 
 ## Choose a plan
 
@@ -87,9 +88,9 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
 />
 </CardGroup>
 
-Annual Creator is $144/year, Pro $300/year, Business $792/year. Credit totals above are the monthly
-allotment; annual plans include twelve months of that allotment (144,000 / 300,000 / 840,000
-credits per year).
+Annual Creator is $144/year, Pro $300/year, and Business $792/year. An annual payment adds the full
+annual credit total upfront: 144,000 Creator credits, 300,000 Pro credits, or 840,000 Business
+credits.
 
 Live checkout is on the [pricing page](https://magichour.ai/pricing?ref=docs-subscription-pricing).
 
@@ -131,7 +132,7 @@ discounts automatically.
 </Step>
 
 <Step title="Choose monthly or yearly billing">
-  Monthly plans renew each month. Yearly plans charge for a year upfront at a lower monthly rate.
+  Monthly plans charge each month and add one monthly allotment after payment. Yearly plans charge for a year and add twelve monthly allotments upfront at a lower monthly rate.
 
 ![Billing frequency](./images/pricing-page-2.png)
 
@@ -170,7 +171,7 @@ Check your remaining credits in either place:
 
 ![Create Page](./images/subscription-credits.png)
 
-### Change or cancel a subscription
+### Cancel a subscription
 
 Manage your plan in [Settings](https://magichour.ai/settings). Subscriptions renew automatically.
 If you cancel, paid plan access continues through the current billing period.
