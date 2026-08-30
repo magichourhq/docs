@@ -1,39 +1,30 @@
 ---
 title: Usage-Based Pricing
-description: Pay only for what you use with automatic monthly billing and volume discounts.
+description: Pay for credits consumed, with lower rates in higher usage bands.
 ---
 
-## How Usage-Based Pricing Works
+## How usage-based pricing works
 
-**Simple concept:** You pay only for the credits you actually use each month. No upfront payments, no unused credits going to waste.
+Usage-based billing charges for credits consumed instead of adding a prepaid credit allotment.
+It currently requires help from the Magic Hour team to set up.
 
-### **The Basics**
+### The basics
 
-1. **Add a payment method** to your account
-2. **Choose your tier** based on expected usage and which resolution options you need
-3. **Use the API** - credits are consumed as you generate content
-4. **Get billed monthly** based on your actual usage
-5. **Automatic volume discounts** apply as you use more credits
+1. Contact the Magic Hour team to request usage-based billing.
+2. Choose a tier and add a payment method with the team's help.
+3. Use the API. Magic Hour tracks the credits each request consumes.
+4. Receive invoices based on your usage.
 
-### **Key Benefits**
+### How it differs from subscriptions
 
-✅ **No upfront costs** - Start using immediately without buying credits in advance  
-✅ **Pay for actual usage** - Only pay for credits you actually consume  
-✅ **Automatic billing** - Monthly invoices based on previous month's usage  
-✅ **Volume discounts** - Up to 50% savings as you scale  
-✅ **No waste** - Never lose unused credits
+| Usage-based                   | Subscription                   |
+| :---------------------------- | :----------------------------- |
+| Pay after using the API       | Pay upfront                    |
+| Invoiced based on usage       | Renews monthly or yearly       |
+| Charges for credits consumed  | Fixed prepaid credit allotment |
+| Rates decrease in usage bands | Fixed plan price               |
 
-### **How It Differs from Subscriptions**
-
-| Usage-Based                | Subscription                 |
-| :------------------------- | :--------------------------- |
-| Pay after you use          | Pay upfront                  |
-| Automatic monthly billing  | Manual credit purchases      |
-| Volume discounts included  | Fixed credit amounts         |
-| No unused credits          | Prepaid credits never expire |
-| Perfect for variable usage | Good for predictable usage   |
-
-## Choose Your Tier
+## Choose a tier
 
 Each tier has a different rate per credit. Paid tiers unlock the same higher-resolution options as
 the matching subscription; requesting those options costs more credits, independent of which paid
@@ -63,7 +54,7 @@ import UsageRates from "/snippets/usage-based-rates.mdx";
 />
 </CardGroup>
 
-## Rates and Volume Discounts
+## Rates and volume discounts
 
 You are charged per credit consumed. The more credits you use in a month, the cheaper each
 additional credit becomes. Discounts are **banded**: they apply to the credits falling inside each
@@ -71,9 +62,11 @@ range, not retroactively to your whole bill.
 
 <UsageRates />
 
-<Note>Usage resets at midnight on the first of each month, PST.</Note>
+<Note>
+  Usage toward discount bands resets at midnight Pacific time on the first day of each month.
+</Note>
 
-## Estimating Your Bill
+## Estimate your bill
 
 Two things set your monthly cost: the tier you're on, which fixes the base rate, and your monthly
 credit volume, which determines how much of that volume falls into discounted bands.
@@ -86,31 +79,15 @@ To turn generations into credits, see [models and credit costs](/api-reference/m
 full month with the
 [API cost calculator](https://magichour.ai/api?ref=docs-usage-based-pricing#api-cost-calculator).
 
-## Getting Started
+## Set up usage-based billing
 
-<Warning>
-  **Currently requires setup assistance** - Usage-based pricing is not yet self-serve. We're working
-  on making this automatic.
-</Warning>
+Usage-based billing is not self-serve. Email
+[support@magichour.ai](mailto:support@magichour.ai) or use the Intercom chat widget on the Magic Hour
+website. The team will help you choose a tier and add a payment method.
 
-**To get started:**
-
-1. **Contact our team** to set up usage-based billing:
-   - Email: [support@magichour.ai](mailto:support@magichour.ai)
-   - Use the Intercom chat widget on our website
-
-2. **Choose your tier** based on expected volume and the per-credit rate you want
-
-3. **Add payment method** - We'll help you set this up securely
-
-4. **Start using the API** - Credits are tracked automatically
-
-### **Billing Process**
-
-- **Monthly billing** on the same date each month
-- **High usage accounts** may be billed earlier (e.g., at \$500 threshold)
-- **Detailed invoices** show credit usage breakdown by tier
-- **Volume discounts** applied automatically
+Invoices normally issue monthly. High-usage accounts may receive an earlier invoice after reaching a
+billing threshold, such as \$500. Invoices show credit usage by tier and include the applicable
+volume discounts.
 
 ## Tracking usage
 
@@ -118,6 +95,6 @@ In the [Developer Hub](https://magichour.ai/developer?ref=docs-usage-based-prici
 
 ![Usage Analytics](./images/usage-analytics.png)
 
-Also, you can view your upcoming invoice amount and total credit usage broken down by tier.
+The Developer Hub also shows your upcoming invoice amount and credit usage by tier.
 
 ![Developer Hub](./images/upcoming-invoice-breakdown.png)
