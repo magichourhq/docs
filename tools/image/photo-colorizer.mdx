@@ -8,7 +8,8 @@ import { ToolSection } from "/snippets/tool-section.mdx";
 
 ## Overview
 
-Photo Colorizer estimates colors for black and white or grayscale images. It uses objects, lighting, and common color patterns as context, so the result is a plausible interpretation rather than a record of the original colors.
+Photo Colorizer generates a colorized version of a black and white or grayscale image. The result is
+a plausible interpretation, not a record of the original colors.
 
 <ToolSection
   title="Photo Colorizer"
@@ -28,8 +29,8 @@ Photo Colorizer estimates colors for black and white or grayscale images. It use
 ## How It Works
 
 1. Provide a black and white or grayscale image.
-2. The model analyzes objects, lighting, and surrounding details.
-3. The model estimates colors for the image.
+2. The model generates a colorized interpretation.
+3. Review the result for colors you may want to adjust.
 4. Download the colorized result.
 
 ## Use Cases
@@ -42,22 +43,13 @@ Photo Colorizer estimates colors for black and white or grayscale images. It use
 
 ### Photo Selection
 
-<Tip>Use a clean scan. Better source images preserve more detail in the colorized result.</Tip>
+<Tip>
+  Use the clearest source image available and review the generated colors before publishing.
+</Tip>
 
-- **Clear contrast** - Distinct boundaries help reduce color bleeding
-- **High resolution** - More detail gives the model clearer object boundaries
-- **Clean scans** - Remove dust and damage first if possible
-- **Sharp focus** - Clear edges reduce ambiguous regions
-
-### Typical results
-
-| Photo type     | What to expect                                  |
-| :------------- | :---------------------------------------------- |
-| Portraits      | Skin, hair, and clothing colors are estimated   |
-| Natural scenes | Foliage, sky, and ground colors are estimated   |
-| Architecture   | Materials and painted surfaces may vary         |
-| Objects        | Uncommon objects may receive unexpected colors  |
-| Complex scenes | More objects can increase inconsistent coloring |
+- **Use the original scan** - Avoid screenshots or repeatedly compressed copies
+- **Remove scan defects first** - Dust and damage remain part of the model input
+- **Treat colors as generated** - Verify important historical, brand, or product colors separately
 
 ## Code Examples
 

@@ -1,14 +1,16 @@
 ---
 title: Face Swap Video Tool - Magic Hour Docs
 sidebarTitle: Face Swap Video
-description: Replace a detected face across frames in a video segment.
+description: Replace one or more detected faces across frames in a video segment.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
 
 ## Overview
 
-Face Swap Video replaces a detected face across frames in a selected video segment. Fast motion, occlusion, lighting changes, and large angle differences can reduce consistency.
+Face Swap Video replaces one or more detected faces across frames in a selected video segment,
+depending on `face_swap_mode`. Fast motion, occlusion, lighting changes, and large angle differences
+can reduce consistency.
 
 **Typical processing time:** ~1m 36s median ([see all processing times](/api-reference/processing-times))
 
@@ -29,10 +31,10 @@ Face Swap Video replaces a detected face across frames in a selected video segme
 
 ## How It Works
 
-1. **Provide a source face** - Upload an image containing the face you want to use
+1. **Provide source faces** - Upload the face image or images you want to use
 2. **Provide a target video** - Upload the video where you want to swap the face
 3. **Set start/end times** - Define which portion of the video to process
-4. **API processes frame-by-frame** - AI tracks and replaces the detected face across frames
+4. **API processes frame-by-frame** - AI tracks and replaces the selected faces across frames
 5. **Download the result** - Retrieve your face-swapped video
 
 ## Use Cases
@@ -60,7 +62,7 @@ Face Swap Video replaces a detected face across frames in a selected video segme
 
 - **Clear face visibility** - Face should be clearly visible in the video
 - **Stable lighting** - Consistent lighting throughout produces best results
-- **One primary face** - Works best when targeting a single person
+- **Choose a mode** - `all-faces` replaces all detected target faces; `individual-faces` maps up to five target faces to source faces
 - **Moderate motion** - Extreme head movements may affect quality
 
 ### Video Segment Selection

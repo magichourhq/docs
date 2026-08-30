@@ -1,14 +1,17 @@
 ---
 title: Image Background Remover Tool - Magic Hour Docs
 sidebarTitle: Background Remover
-description: Detect the main subject and return a PNG with transparency.
+description: Remove an image background to transparency or replace it with another image.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
 
 ## Overview
 
-Image Background Remover detects the main subject and returns a PNG with transparency. Fine hair, transparent objects, and low-contrast edges may need cleanup.
+Image Background Remover isolates the foreground. With no replacement background, the result is a
+PNG with transparency. If you provide `background_image_file_path`, the API composites the
+foreground onto that image instead. Fine hair, transparent objects, and low-contrast edges may need
+cleanup.
 
 <ToolSection
   title="Image Background Remover"
@@ -27,9 +30,10 @@ Image Background Remover detects the main subject and returns a PNG with transpa
 
 ## How It Works
 
-1. **Provide an image** - Upload the image with the subject you want to isolate
-2. **API processes the image** - AI detects the subject and removes the background
-3. **Download the result** - Retrieve your transparent PNG
+1. **Provide an image** - Upload the image with the foreground you want to isolate
+2. **Choose the background** - Omit `background_image_file_path` for transparency, or provide a replacement image
+3. **API processes the image** - AI separates the foreground and applies the selected background
+4. **Download the result** - Retrieve the output PNG
 
 ## Use Cases
 
@@ -69,11 +73,9 @@ Image Background Remover detects the main subject and returns a PNG with transpa
 
 ### Output Format
 
-The API returns a **PNG with a transparent background**. The file:
-
-- Has alpha channel for transparency
-- Can be placed on any new background
-- Works in most design software
+The API returns a PNG. When `background_image_file_path` is omitted, the PNG has a transparent
+background and can be placed over another image. When a replacement background is supplied, the PNG
+contains the composited result instead.
 
 ## Code Examples
 

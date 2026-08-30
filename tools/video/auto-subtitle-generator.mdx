@@ -126,15 +126,19 @@ The Auto Subtitle Generator returns an **MP4 video file with embedded subtitles*
 
 ## Pricing
 
-Auto Subtitle Generator uses credits based on video length:
+Auto Subtitle Generator costs **0.2 credits per rendered frame**, so the total depends on the video
+segment's duration and frame rate.
 
-| Video Length | Approximate Credits |
-| :----------- | :------------------ |
-| 1 minute     | ~60-100 credits     |
-| 5 minutes    | ~300-500 credits    |
-| 10 minutes   | ~600-1000 credits   |
+| Example            | Credits |
+| :----------------- | ------: |
+| 1 minute at 24 FPS |     288 |
+| 1 minute at 30 FPS |     360 |
+| 1 minute at 60 FPS |     720 |
 
-<Info>Pricing scales with video duration. Longer videos consume more credits.</Info>
+<Info>
+  The create response estimates cost at 30 FPS. After rendering, Magic Hour adjusts the charge for
+  the rendered frame count. Check the completed project's `credits_charged` for the final cost.
+</Info>
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample
