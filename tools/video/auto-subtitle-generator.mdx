@@ -1,14 +1,14 @@
 ---
 title: Auto Subtitle Generator Tool - Magic Hour Docs
 sidebarTitle: Auto Subtitle
-description: Automatically generate and embed subtitles in videos with AI-powered transcription.
+description: Transcribe speech and burn timed subtitles into a video.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
 
 ## Overview
 
-Auto Subtitle Generator automatically transcribes speech in videos and embeds professional subtitles directly into the video file. The API uses Whisper AI for accurate speech recognition with automatic language detection, supporting multiple languages and delivering high-quality subtitle formatting.
+Auto Subtitle Generator detects the spoken language, transcribes the audio, and burns timed subtitles into the output video. Transcription accuracy depends on the language, audio quality, background noise, and number of speakers.
 
 <ToolSection
   title="Auto Subtitle Generator"
@@ -27,10 +27,10 @@ Auto Subtitle Generator automatically transcribes speech in videos and embeds pr
 
 ## How It Works
 
-1. **Upload video** - Provide a video with spoken content
-2. **AI transcribes** - Whisper AI automatically detects language and transcribes speech
-3. **Subtitles generated** - Formatted subtitles with accurate timing
-4. **Download video** - Retrieve video with embedded subtitles
+1. Provide a video with spoken content.
+2. Whisper detects the language and transcribes the speech.
+3. The API times and formats the subtitle text.
+4. Download the video with burned-in subtitles.
 
 ## Use Cases
 
@@ -38,7 +38,7 @@ Auto Subtitle Generator automatically transcribes speech in videos and embeds pr
 - **Educational videos** - Make content accessible to all learners
 - **Marketing videos** - Increase view time with subtitled content
 - **International content** - Transcribe videos in multiple languages
-- **Accessibility compliance** - Meet accessibility standards automatically
+- **Accessibility workflows** - Generate a caption draft for human review
 
 ## Best Practices
 
@@ -53,7 +53,7 @@ Auto Subtitle Generator automatically transcribes speech in videos and embeds pr
 
 ### Language Support
 
-Auto Subtitle Generator uses Whisper AI which supports 90+ languages with automatic detection:
+Auto Subtitle Generator uses Whisper for automatic language detection. Accuracy varies by language and recording quality.
 
 - **Automatic detection** - No need to specify language manually
 - **Multi-language support** - Works with most major languages

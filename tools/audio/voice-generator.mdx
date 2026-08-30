@@ -1,14 +1,16 @@
 ---
 title: AI Voice Generator Tool - Magic Hour Docs
 sidebarTitle: Voice Generator
-description: Generate realistic speech audio from text using celebrity and character voices.
+description: Generate speech from text with a supported named voice.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
 
 ## Overview
 
-AI Voice Generator creates realistic speech audio from text using celebrity and character voices. The API produces high-quality voice synthesis with natural intonation, emotion, and speaking patterns that closely match famous personalities.
+AI Voice Generator converts text to speech with a named voice from the API's current voice list. Output varies with the selected voice, language, punctuation, and text.
+
+<Warning>Use voices only when you have the rights and permissions required for your use.</Warning>
 
 <ToolSection
   title="AI Voice Generator"
@@ -28,33 +30,23 @@ AI Voice Generator creates realistic speech audio from text using celebrity and 
 ## How It Works
 
 1. **Write the text** - Enter the text you want spoken
-2. **Select a voice** - Choose from available celebrity and character voices
-3. **API generates audio** - AI synthesizes natural-sounding speech
+2. **Select a voice** - Choose a supported voice name
+3. **API generates audio** - AI synthesizes the speech
 4. **Download the result** - Retrieve your audio file
 
 ## Use Cases
 
 - **Content creation** - Voice narration for videos and podcasts
 - **Personalized messages** - Custom voice messages and greetings
-- **Entertainment** - Create fun content with celebrity voices
-- **Accessibility** - Text-to-speech with engaging voices
+- **Entertainment** - Create scripted character audio
+- **Accessibility** - Convert written content to speech
 - **Marketing** - Voiceovers for ads and promotional content
 
-## Available Voices
-
-Magic Hour offers a variety of celebrity and character voices:
-
-- **Tech Leaders** - Elon Musk, Mark Zuckerberg
-- **Podcasters** - Joe Rogan
-- **Politicians** - Obama, Trump
-- **Entertainers** - Various celebrity voices
-- **Characters** - Fictional character voices
-
-{/* TODO: Add complete list of available voices */}
+## Available voices
 
 <Note>
-  For the complete list of available voices, check the [API
-  Reference](/api-reference/audio-projects/ai-voice-generator).
+  Supported voice names can change. Check the [API
+  reference](/api-reference/audio-projects/ai-voice-generator) for current values.
 </Note>
 
 ## Best Practices
@@ -79,7 +71,7 @@ Magic Hour offers a variety of celebrity and character voices:
 
 ### Text Length Considerations
 
-- **Short clips** - 1-2 sentences work great for social media
+- **Short clips** - Use 1-2 sentences for short-form content
 - **Medium content** - Paragraphs work well for narration
 - **Long content** - Consider breaking into multiple clips for variety
 
@@ -281,11 +273,11 @@ print("lip_status:", lip_sync_result.status, "paths:", getattr(lip_sync_result, 
 
 Voice generation costs **0.1 credits per character** of text, rounded up to the nearest whole number. Inputs support up to 1,000 characters.
 
-| Text Length                       | Credits     |
-| :-------------------------------- | :---------- |
-| 100 characters (1-2 sentences)    | 10 credits  |
-| 500 characters (a paragraph)      | 50 credits  |
-| 1,000 characters (maximum)         | 100 credits |
+| Text Length                    | Credits     |
+| :----------------------------- | :---------- |
+| 100 characters (1-2 sentences) | 10 credits  |
+| 500 characters (a paragraph)   | 50 credits  |
+| 1,000 characters (maximum)     | 100 credits |
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample

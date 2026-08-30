@@ -1,14 +1,14 @@
 ---
 title: Face Swap Photo Tool - Magic Hour Docs
 sidebarTitle: Face Swap Photo
-description: Replace faces in photos with realistic precision and natural blending.
+description: Replace a detected face in a photo with a face from another image.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
 
 ## Overview
 
-Face Swap Photo lets you replace faces in static images with realistic precision and natural blending. The API swaps faces between two photos while preserving facial expressions, lighting conditions, and image quality for seamless results.
+Face Swap Photo replaces a detected face in a target image with a face from a source image. The model attempts to match the target expression and lighting. Large differences in angle, lighting, or image quality can reduce output quality.
 
 **Typical processing time:** ~4s median ([see all processing times](/api-reference/processing-times))
 
@@ -31,13 +31,12 @@ Face Swap Photo lets you replace faces in static images with realistic precision
 
 1. **Provide a source face** - Upload an image containing the face you want to use
 2. **Provide a target image** - Upload the image where you want to swap the face
-3. **API processes the swap** - AI detects faces, aligns features, and blends seamlessly
+3. **API processes the swap** - AI detects the faces, aligns their features, and blends the result
 4. **Download the result** - Retrieve your face-swapped image
 
 ## Use Cases
 
 - **Entertainment content** - Create fun social media content and memes
-- **Privacy protection** - Replace faces to anonymize individuals in photos
 - **Creative projects** - Character replacement in digital art and design
 - **Marketing** - Personalized ad experiences with customer faces
 - **Photo editing apps** - Build face swap features into your application
@@ -178,7 +177,7 @@ Common error codes and how to handle them:
     Place a person into a different scene
   </Card>
   <Card title="Face Swap Video" icon="video" href="/tools/video/face-swap-video">
-    Swap faces in videos with frame-by-frame precision
+    Replace a detected face across video frames
   </Card>
   <Card title="AI Headshot Generator" icon="user" href="/tools/image/headshot-generator">
     Generate professional headshots from a single photo

@@ -1,14 +1,14 @@
 ---
 title: Image Background Remover Tool - Magic Hour Docs
 sidebarTitle: Background Remover
-description: Automatically remove backgrounds from images with precision edge detection.
+description: Detect the main subject and return a PNG with transparency.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
 
 ## Overview
 
-Image Background Remover automatically removes backgrounds from images with precision edge detection and smart object recognition. The API isolates subjects from their backgrounds, creating clean cutouts perfect for compositing and design work.
+Image Background Remover detects the main subject and returns a PNG with transparency. Fine hair, transparent objects, and low-contrast edges may need cleanup.
 
 <ToolSection
   title="Image Background Remover"
@@ -49,19 +49,19 @@ Image Background Remover automatically removes backgrounds from images with prec
 </Tip>
 
 - **Good contrast** - Subject should be visually distinct from background
-- **Clear edges** - Sharp, well-defined subject boundaries help accuracy
+- **Clear edges** - Sharp subject boundaries reduce edge cleanup
 - **Minimal overlapping elements** - Avoid subjects blending with background
 
 ### Subject Types That Work Well
 
-✅ **Excellent results:**
+**Generally easier:**
 
 - People and portraits
 - Products on simple backgrounds
 - Objects with clear edges
 - Animals and pets
 
-⚠️ **May need refinement:**
+**Often needs cleanup:**
 
 - Hair against complex backgrounds (very fine details)
 - Transparent or semi-transparent objects
@@ -69,9 +69,8 @@ Image Background Remover automatically removes backgrounds from images with prec
 
 ### Output Format
 
-The API returns a **PNG with transparent background**, which:
+The API returns a **PNG with a transparent background**. The file:
 
-- Preserves subject with full quality
 - Has alpha channel for transparency
 - Can be placed on any new background
 - Works in most design software

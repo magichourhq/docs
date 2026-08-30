@@ -1,14 +1,14 @@
 ---
 title: Photo Colorizer Tool - Magic Hour Docs
 sidebarTitle: Photo Colorizer
-description: Colorize black and white photos with AI-powered realistic color restoration.
+description: Estimate colors for black and white photos with AI.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
 
 ## Overview
 
-Photo Colorizer brings black and white photos to life by adding realistic, historically accurate colors using AI. The API analyzes image content and applies appropriate colors based on context, lighting, and typical color patterns.
+Photo Colorizer estimates colors for black and white or grayscale images. It uses objects, lighting, and common color patterns as context, so the result is a plausible interpretation rather than a record of the original colors.
 
 <ToolSection
   title="Photo Colorizer"
@@ -27,39 +27,37 @@ Photo Colorizer brings black and white photos to life by adding realistic, histo
 
 ## How It Works
 
-1. **Upload B&W photo** - Provide a black and white or grayscale image
-2. **AI analyzes** - AI understands context and appropriate colors
-3. **Colors applied** - Realistic colors added throughout image
-4. **Download result** - Retrieve your colorized photo
+1. Provide a black and white or grayscale image.
+2. The model analyzes objects, lighting, and surrounding details.
+3. The model estimates colors for the image.
+4. Download the colorized result.
 
 ## Use Cases
 
-- **Photo restoration** - Restore color to family photos
-- **Historical archives** - Colorize historical photographs
+- **Family photos** - Create colorized versions of black and white photos
+- **Historical archives** - Create colorized interpretations of historical photographs
 - **Artistic projects** - Add color to vintage imagery
-- **Documentation** - Modernize old photographic records
-- **Memory preservation** - Bring old memories to life
 
 ## Best Practices
 
 ### Photo Selection
 
-<Tip>**Use high-quality scans** - Better source images produce more accurate colorization.</Tip>
+<Tip>Use a clean scan. Better source images preserve more detail in the colorized result.</Tip>
 
-- **Clear contrast** - Good grayscale contrast helps color accuracy
-- **High resolution** - More detail enables better colorization
+- **Clear contrast** - Distinct boundaries help reduce color bleeding
+- **High resolution** - More detail gives the model clearer object boundaries
 - **Clean scans** - Remove dust and damage first if possible
-- **Sharp focus** - Clearer images colorize more accurately
+- **Sharp focus** - Clear edges reduce ambiguous regions
 
-### Colorization Quality
+### Typical results
 
-| Photo Type     | Colorization Quality                      |
-| :------------- | :---------------------------------------- |
-| Portraits      | Excellent - faces colorize very naturally |
-| Landscapes     | Excellent - natural scenes work well      |
-| Architecture   | Good - buildings and structures           |
-| Objects        | Good - everyday items                     |
-| Complex scenes | Variable - depends on clarity             |
+| Photo type     | What to expect                                  |
+| :------------- | :---------------------------------------------- |
+| Portraits      | Skin, hair, and clothing colors are estimated   |
+| Natural scenes | Foliage, sky, and ground colors are estimated   |
+| Architecture   | Materials and painted surfaces may vary         |
+| Objects        | Uncommon objects may receive unexpected colors  |
+| Complex scenes | More objects can increase inconsistent coloring |
 
 ## Code Examples
 

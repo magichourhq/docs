@@ -1,14 +1,14 @@
 ---
 title: AI Image Upscaler Tool - Magic Hour Docs
 sidebarTitle: Image Upscaler
-description: Enhance image resolution and quality using AI-powered upscaling.
+description: Enlarge an image by 2x or 4x with AI upscaling.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
 
 ## Overview
 
-AI Image Upscaler enhances image resolution and quality using AI-powered upscaling technology. The API increases image size while preserving and improving details, reducing artifacts, and maintaining visual fidelity at higher resolutions.
+AI Image Upscaler enlarges an image by 2x or 4x. It can reconstruct edges and textures, but it cannot recover detail missing from the source image.
 
 <ToolSection
   title="AI Image Upscaler"
@@ -27,26 +27,26 @@ AI Image Upscaler enhances image resolution and quality using AI-powered upscali
 
 ## How It Works
 
-1. **Provide a source image** - Upload the image you want to upscale
-2. **Choose scale factor** - Select how much to increase resolution
-3. **API enhances the image** - AI upscales while preserving and improving details
-4. **Download the result** - Retrieve your high-resolution image
+1. Provide the source image.
+2. Choose a 2x or 4x scale factor.
+3. The API enlarges the image and reconstructs edges and textures.
+4. Download the result.
 
 ## Use Cases
 
-- **Print preparation** - Enhance low-res images for print quality
-- **E-commerce** - Improve product photo quality for web display
+- **Print preparation** - Enlarge low-resolution images for print layouts
+- **E-commerce** - Enlarge product photos for web display
 - **Photo restoration** - Upscale old or degraded images
 - **Large format displays** - Prepare images for billboards or banners
-- **Archive enhancement** - Improve historical or archival images
+- **Archives** - Enlarge historical or archival images
 
 ## Best Practices
 
 ### Input Image Quality
 
 <Tip>
-  **Start with the best quality available** - While AI upscaling is powerful, better input produces
-  better output.
+  **Start with the best source available** - Compression, blur, and other defects remain visible and
+  may become more pronounced after upscaling.
 </Tip>
 
 - **Avoid heavily compressed images** - JPEG artifacts will be amplified
@@ -55,21 +55,23 @@ AI Image Upscaler enhances image resolution and quality using AI-powered upscali
 
 ### Scale Factor Selection
 
-| Scale Factor | Output Size         | Best For                          |
+| Scale Factor | Output Size         | Typical use                       |
 | :----------- | :------------------ | :-------------------------------- |
 | 2x           | 2× width, 2× height | Minor enhancement, web use        |
 | 4x           | 4× width, 4× height | Print preparation, large displays |
 
-### Image Types That Upscale Well
+A 2x scale produces four times as many pixels. A 4x scale produces sixteen times as many.
 
-✅ **Works great:**
+### Input considerations
+
+**Generally easier:**
 
 - Photographs with clear subjects
 - Artwork and illustrations
 - Product images
 - Portraits and faces
 
-⚠️ **May have limitations:**
+**Likely to show artifacts:**
 
 - Heavily compressed images (visible artifacts)
 - Very blurry images

@@ -1,14 +1,14 @@
 ---
 title: Face Swap Video Tool - Magic Hour Docs
 sidebarTitle: Face Swap Video
-description: Replace faces in videos with frame-by-frame precision and temporal consistency.
+description: Replace a detected face across frames in a video segment.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
 
 ## Overview
 
-Face Swap Video replaces faces in videos with frame-by-frame precision and temporal consistency. The API swaps faces throughout video sequences while maintaining natural expressions, head movements, and lighting for realistic results.
+Face Swap Video replaces a detected face across frames in a selected video segment. Fast motion, occlusion, lighting changes, and large angle differences can reduce consistency.
 
 **Typical processing time:** ~1m 36s median ([see all processing times](/api-reference/processing-times))
 
@@ -32,13 +32,12 @@ Face Swap Video replaces faces in videos with frame-by-frame precision and tempo
 1. **Provide a source face** - Upload an image containing the face you want to use
 2. **Provide a target video** - Upload the video where you want to swap the face
 3. **Set start/end times** - Define which portion of the video to process
-4. **API processes frame-by-frame** - AI swaps the face consistently across all frames
+4. **API processes frame-by-frame** - AI tracks and replaces the detected face across frames
 5. **Download the result** - Retrieve your face-swapped video
 
 ## Use Cases
 
-- **Entertainment content** - Create viral videos and memes
-- **Privacy protection** - Anonymize individuals in video content
+- **Entertainment content** - Create social posts and memes
 - **Film and media** - Character replacement in post-production
 - **Personalized experiences** - Custom video messages and greetings
 - **Marketing** - Create personalized ad experiences
@@ -48,8 +47,7 @@ Face Swap Video replaces faces in videos with frame-by-frame precision and tempo
 ### Source Face Image
 
 <Tip>
-  **Use a clear, high-quality face photo** - The better your source image, the better the swap
-  quality.
+  **Use a clear source photo** - A larger, unobstructed face gives the model more detail to match.
 </Tip>
 
 - **Front-facing or slight angle** - Avoid extreme profile shots
