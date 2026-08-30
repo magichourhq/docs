@@ -258,11 +258,17 @@ if not is_valid:
 ```python
 import time
 
+# Reject non-integer timestamps before checking their age
+try:
+    timestamp_value = int(timestamp)
+except (TypeError, ValueError):
+    raise HTTPException(status_code=401, detail="Invalid timestamp")
+
 # Get current time
 current_time = int(time.time())
 
 # Check if timestamp is within 5 minutes (300 seconds)
-timestamp_age = abs(current_time - int(timestamp))
+timestamp_age = abs(current_time - timestamp_value)
 
 if timestamp_age > 300:
     # Timestamp too old or too far in future - reject
@@ -612,16 +618,8 @@ MAGIC_HOUR_WEBHOOK_SECRET=whsec_abc123def456...
 Handle verification failures gracefully:
 
 ```python
-try:
-    if not verify_webhook_signature(...):
-        logger.warning("Invalid webhook signature", extra={
-            'ip': request.client.host,
-            'user_agent': request.headers.get('user-agent')
-        })
-        raise HTTPException(status_code=401, detail="Invalid signature")
-except Exception as e:
-    logger.error(f"Webhook verification failed: {e}")
-    raise HTTPException(status_code=500, detail="Verification error")
+if not verify_webhook_signature(...):
+    raise HTTPException(status_code=401, detail="Invalid signature")
 ```
 
 ### 3. Logging
@@ -689,6 +687,10 @@ Log only the information needed to diagnose a failed verification. Never log the
 signature, or raw payload.
 
 ```python
+import logging
+
+logger = logging.getLogger(__name__)
+
 def debug_signature_verification(signature, timestamp, raw_payload, secret):
     signed_payload = f"{timestamp}.{raw_payload.decode('utf-8')}"
     expected = hmac.new(secret.encode(), signed_payload.encode(), hashlib.sha256).hexdigest()
