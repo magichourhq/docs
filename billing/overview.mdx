@@ -1,69 +1,41 @@
 ---
 title: Pricing Overview
-description: Choose the right pricing model for your needs - subscription or usage-based billing.
+description: Compare subscription and usage-based billing for the Magic Hour API.
 ---
 
-## Which Pricing Model is Right for You?
+## Compare billing models
 
-Magic Hour offers two flexible pricing approaches to fit different usage patterns and business needs. Choose the model that best matches how you plan to use our API.
+Magic Hour offers prepaid subscriptions and usage-based billing.
 
-### **Quick Decision Guide**
+| Feature           | Subscription                          | Usage-based                                |
+| :---------------- | :------------------------------------ | :----------------------------------------- |
+| Payment timing    | Pay before using credits              | Pay after using credits                    |
+| Credits           | Fixed allotment                       | Charged as consumed                        |
+| Credit expiration | Unused credits do not expire          | No prepaid credit allotment                |
+| Price             | Fixed plan price                      | Banded rates, up to 50% below base         |
+| Billing frequency | Monthly or yearly                     | Monthly, or earlier at a billing threshold |
+| Setup             | Complete checkout on the pricing page | Contact Magic Hour for assisted setup      |
 
-**Choose Subscription if you:**
+## Subscription pricing
 
-- Have predictable, steady usage patterns
-- Want cost certainty and budget planning
-- Prefer paying upfront for credits
-- Need immediate access to all your credits
-- Want to build up credit reserves over time
+A monthly payment adds one monthly credit allotment. An annual payment adds twelve monthly
+allotments upfront. Unused credits remain in your account after cancellation and do not expire.
 
-**Choose Usage-Based if you:**
+| Plan     | Monthly | Annual    | Monthly credit allotment |
+| :------- | ------: | :-------- | -----------------------: |
+| Creator  |     $19 | $12/month |                   12,000 |
+| Pro      |     $39 | $25/month |                   25,000 |
+| Business |     $99 | $66/month |                   70,000 |
 
-- Have variable or unpredictable usage
-- Want to pay only for what you actually use
-- Prefer monthly billing after usage
-- Need volume discounts for high usage
-- Want to avoid upfront costs
+Annual Creator costs $144, Pro costs $300, and Business costs $792. The annual payment adds 144,000
+Creator credits, 300,000 Pro credits, or 840,000 Business credits upfront.
 
-## Side-by-Side Comparison
-
-| Feature                 | Subscription         | Usage-Based                                |
-| :---------------------- | :------------------- | :----------------------------------------- |
-| **Payment timing**      | Pay upfront          | Pay after usage                            |
-| **Cost predictability** | Fixed monthly cost   | Variable monthly cost                      |
-| **Credit expiration**   | Never expire         | Credits consumed as used                   |
-| **Volume discounts**    | No                   | Yes (up to 50% off)                        |
-| **Billing frequency**   | Monthly or yearly    | Monthly, or earlier at a billing threshold |
-| **Best for**            | Predictable usage    | Variable usage                             |
-| **Minimum commitment**  | Monthly subscription | No minimum                                 |
-
-## Pricing Models Explained
-
-### **Subscription Pricing**
-
-Pay upfront for credits that never expire. Perfect for steady, predictable usage.
-
-**Key Benefits:**
-
-- **Predictable costs** - Know exactly what you'll pay
-- **Credits upfront** - Get all credits immediately
-- **Yearly savings** - Annual billing is discounted
-- **No usage tracking** - Use credits at your own pace
-
-**Plans:**
-
-| Plan     | Monthly | Annual    | Credits per month |
-| :------- | ------: | :-------- | ----------------: |
-| Creator  |     $19 | $12/month |            12,000 |
-| Pro      |     $39 | $25/month |            25,000 |
-| Business |     $99 | $66/month |            70,000 |
-
-Annual is billed as $144 / $300 / $792 per year. Paid plans also remove watermarks, include
-commercial use, and unlock higher-resolution options on each tool. Resolution is per tool, not a
-single pixel cap for the whole plan. See [resolution](/billing/resolution-limits).
+Paid plans remove watermarks, include commercial use, and unlock higher-resolution options on each
+tool. See [subscription pricing](/billing/subscription-pricing) for upload limits, concurrent job
+limits, credit packs, and checkout instructions.
 
 <Card
-  title="Subscription Details"
+  title="Subscription details"
   icon="credit-card"
   href="/billing/subscription-pricing"
   horizontal
@@ -71,53 +43,22 @@ single pixel cap for the whole plan. See [resolution](/billing/resolution-limits
   View subscription plans and features
 </Card>
 
-### **Usage-Based Pricing**
+## Usage-based pricing
 
-Pay only for what you use, with automatic volume discounts as you scale.
+Usage-based billing charges for credits consumed. Rates use bands, and the highest band is 50% below
+the base rate. Invoices normally issue monthly. High-use accounts may receive an earlier invoice
+after reaching a billing threshold.
 
-**Key Benefits:**
+Usage-based billing requires assisted setup. Email
+[support@magichour.ai](mailto:support@magichour.ai) or use the Intercom chat widget on the Magic Hour
+website. See [usage-based pricing](/billing/usage-based-pricing) for per-credit rates and setup.
 
-- **Pay as you go** - No upfront costs or commitments
-- **Volume discounts** - Up to 50% off at high volumes
-- **Automatic billing** - Monthly charges based on usage
-- **Perfect for growth** - Scales with your business
-
-**Tiers:** Creator, Pro, and Business. Each has its own rate per credit. Higher tiers cost more
-per credit and unlock the same higher-resolution options as the matching subscription. See
-[per-credit rates](/billing/usage-based-pricing#rates-and-volume-discounts), or estimate a month
-with the [API cost calculator](https://magichour.ai/api?ref=docs-billing-overview#api-cost-calculator).
-
-<Card title="Usage-Based Details" icon="chart-line" href="/billing/usage-based-pricing" horizontal>
-  View usage-based pricing and discounts
+<Card title="Usage-based details" icon="chart-line" href="/billing/usage-based-pricing" horizontal>
+  View usage-based rates and discounts
 </Card>
 
-## Resolution
+## Choose a model
 
-Resolution is chosen per request and varies by tool. Your plan gates which options you can pass;
-higher resolution on the same plan costs more credits. Details are on
-[resolution](/billing/resolution-limits) and [models](/api-reference/models).
-
-## Getting Started
-
-### **Step 1: Estimate Your Usage**
-
-- Review your expected monthly API calls
-- Consider seasonal variations in usage
-- Factor in growth projections
-
-### **Step 2: Compare Costs**
-
-- **Low usage (< 10,000 credits/month)**: Consider Free tier or Creator subscription
-- **Medium usage (10,000-50,000 credits/month)**: Compare Creator/Pro subscription vs usage-based
-- **High usage (> 50,000 credits/month)**: Usage-based often provides better value with volume discounts
-
-### **Step 3: Choose Your Model**
-
-- **Steady usage**: Subscription for predictable costs
-- **Variable usage**: Usage-based for flexibility
-- **Uncertain usage**: Start with usage-based, switch to subscription later
-
-<Info>
-  **Not sure?** Start with the Free tier. Starter credits and account-specific rewards may be
-  available; check your account balance, then choose the model that fits your usage.
-</Info>
+1. Estimate how many credits your requests will consume. Use [models and credit costs](/api-reference/models) for each model and resolution.
+2. Check which plan unlocks the resolution, upload size, and concurrent job limit your workload needs. See [resolution limits](/billing/resolution-limits).
+3. Compare the subscription price with the [API cost calculator](https://magichour.ai/api?ref=docs-billing-overview#api-cost-calculator). Include credit packs if your expected use exceeds a subscription allotment.
