@@ -59,7 +59,7 @@ magic-hour-event-timestamp: 1729314984
 
 **What it's for**:
 
-- Prevents replay attacks by rejecting old webhooks
+- Limits the replay window by rejecting old webhooks
 - Recommended tolerance: Accept webhooks within 5 minutes of current time
 - If timestamp is too old or too far in the future, reject the webhook
 
@@ -232,13 +232,17 @@ fn main() {
 
 ```python
 import hmac
-import time
+import re
 
 # Get the signature from headers
 received_signature = request.headers.get('magic-hour-event-signature')
 
+# Reject malformed signatures before constant-time comparison
+if not received_signature or re.fullmatch(r'[0-9a-fA-F]{64}', received_signature) is None:
+    raise HTTPException(status_code=401, detail="Invalid signature")
+
 # Compare signatures (constant-time comparison for security)
-is_valid = hmac.compare_digest(expected_signature, received_signature)
+is_valid = hmac.compare_digest(expected_signature.lower(), received_signature.lower())
 
 if not is_valid:
     # Signature doesn't match - reject the webhook
@@ -253,7 +257,8 @@ if not is_valid:
 
 **What to do**: Check that the webhook was sent recently (within 5 minutes is recommended).
 
-**Why**: Prevents replay attacks where someone could resend an old valid webhook.
+**Why**: This limits how long someone can replay a captured, valid webhook. It does not stop a replay
+inside the accepted window.
 
 ```python
 import time
@@ -277,6 +282,11 @@ if timestamp_age > 300:
 
 **Adjust tolerance**: You can adjust the 300-second (5-minute) window based on your needs, but keep it reasonable for security.
 
+Make event processing idempotent because retries and same-window replays can deliver the same event
+more than once. Store a processed-event key before running side effects, then ignore repeats. If your
+workflow emits at most one event of a given type per project, `type` plus `payload.id` is one possible
+key. Choose a key that matches your event semantics.
+
 </Step>
 
 </Steps>
@@ -292,6 +302,7 @@ import hashlib
 import time
 import json
 import os
+import re
 
 app = FastAPI()
 
@@ -313,6 +324,9 @@ def verify_webhook(signature: str, timestamp: str, raw_body: bytes) -> bool:
     Returns:
         True if webhook is valid, False otherwise
     """
+
+    if re.fullmatch(r'[0-9a-fA-F]{64}', signature) is None:
+        return False
 
     # Step 1: Verify timestamp is recent (within 5 minutes)
     try:
@@ -340,7 +354,7 @@ def verify_webhook(signature: str, timestamp: str, raw_body: bytes) -> bool:
     ).hexdigest()                         # Convert to hex string
 
     # Step 4: Compare signatures (constant-time comparison)
-    is_valid = hmac.compare_digest(signature, expected_signature)
+    is_valid = hmac.compare_digest(signature.lower(), expected_signature)
 
     return is_valid
 
@@ -468,6 +482,8 @@ import hmac
 import hashlib
 import time
 import json
+import os
+import re
 import nest_asyncio
 import threading
 import uvicorn
@@ -477,10 +493,15 @@ nest_asyncio.apply()
 
 app = FastAPI()
 
-# Your webhook secret (get this from Magic Hour Developer Hub)
-WEBHOOK_SECRET = "your-webhook-secret-here"  # Replace with actual secret
+WEBHOOK_SECRET = os.getenv("MAGIC_HOUR_WEBHOOK_SECRET")
+
+if not WEBHOOK_SECRET:
+    raise RuntimeError("MAGIC_HOUR_WEBHOOK_SECRET must be set")
 
 def verify_signature(signature: str, timestamp: str, raw_payload: bytes) -> bool:
+    if re.fullmatch(r'[0-9a-fA-F]{64}', signature) is None:
+        return False
+
     # Check timestamp (within 5 minutes)
     try:
         timestamp_value = int(timestamp)
@@ -502,7 +523,7 @@ def verify_signature(signature: str, timestamp: str, raw_payload: bytes) -> bool
     ).hexdigest()
 
     # Compare
-    if not hmac.compare_digest(signature, expected):
+    if not hmac.compare_digest(signature.lower(), expected):
         print("❌ Invalid signature")
         return False
 
@@ -537,7 +558,6 @@ server_thread = threading.Thread(target=run_server, daemon=True)
 server_thread.start()
 
 print("🔒 Secure webhook server started!")
-print("📝 Remember to set your WEBHOOK_SECRET variable above")
 ```
 
 </CodeGroup>
@@ -687,14 +707,20 @@ Log only the information needed to diagnose a failed verification. Never log the
 signature, or raw payload.
 
 ```python
+import hashlib
+import hmac
 import logging
+import re
 
 logger = logging.getLogger(__name__)
 
 def debug_signature_verification(signature, timestamp, raw_payload, secret):
+    if re.fullmatch(r'[0-9a-fA-F]{64}', signature) is None:
+        return False
+
     signed_payload = f"{timestamp}.{raw_payload.decode('utf-8')}"
     expected = hmac.new(secret.encode(), signed_payload.encode(), hashlib.sha256).hexdigest()
-    is_valid = hmac.compare_digest(signature, expected)
+    is_valid = hmac.compare_digest(signature.lower(), expected)
 
     logger.debug("Webhook signature checked", extra={
         "timestamp": timestamp,

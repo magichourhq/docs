@@ -46,8 +46,7 @@
                         "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
                       },
                       "name": {
-                        "type": "string",
-                        "nullable": true,
+                        "type": ["string", "null"],
                         "description": "The name of the video.",
                         "example": "Example Name"
                       },
@@ -102,26 +101,26 @@
                         "example": 30
                       },
                       "error": {
-                        "type": "object",
+                        "type": ["object", "null"],
                         "properties": {
                           "message": {
                             "type": "string",
                             "description": "Details on the reason why a failure happened.",
-                            "example": "Please use an image with a detectable face"
+                            "example": "Video generation failed"
                           },
                           "code": {
                             "type": "string",
-                            "example": "no_source_face",
+                            "example": "render_failed",
                             "description": "An error code to indicate why a failure happened."
                           }
                         },
                         "required": ["message", "code"],
-                        "nullable": true,
-                        "description": "In the case of an error, this object will contain the error encountered during video render",
+                        "description": "Error returned when video generation fails.",
                         "example": null
                       },
                       "downloads": {
                         "type": "array",
+                        "example": [],
                         "items": {
                           "type": "object",
                           "properties": {
@@ -259,8 +258,7 @@
                         "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
                       },
                       "name": {
-                        "type": "string",
-                        "nullable": true,
+                        "type": ["string", "null"],
                         "description": "The name of the video.",
                         "example": "Example Name"
                       },
@@ -315,26 +313,31 @@
                         "example": 30
                       },
                       "error": {
-                        "type": "object",
+                        "type": ["object", "null"],
                         "properties": {
                           "message": {
                             "type": "string",
                             "description": "Details on the reason why a failure happened.",
-                            "example": "Please use an image with a detectable face"
+                            "example": "Video generation failed"
                           },
                           "code": {
                             "type": "string",
-                            "example": "no_source_face",
+                            "example": "render_failed",
                             "description": "An error code to indicate why a failure happened."
                           }
                         },
                         "required": ["message", "code"],
-                        "nullable": true,
-                        "description": "In the case of an error, this object will contain the error encountered during video render",
+                        "description": "Error returned when video generation fails.",
                         "example": null
                       },
                       "downloads": {
                         "type": "array",
+                        "example": [
+                          {
+                            "url": "https://videos.magichour.ai/id/output.mp4",
+                            "expires_at": "2024-10-19T05:16:19.027Z"
+                          }
+                        ],
                         "items": {
                           "type": "object",
                           "properties": {
@@ -472,8 +475,7 @@
                         "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
                       },
                       "name": {
-                        "type": "string",
-                        "nullable": true,
+                        "type": ["string", "null"],
                         "description": "The name of the video.",
                         "example": "Example Name"
                       },
@@ -528,26 +530,26 @@
                         "example": 30
                       },
                       "error": {
-                        "type": "object",
+                        "type": ["object", "null"],
                         "properties": {
                           "message": {
                             "type": "string",
                             "description": "Details on the reason why a failure happened.",
-                            "example": "Please use an image with a detectable face"
+                            "example": "Video generation failed"
                           },
                           "code": {
                             "type": "string",
-                            "example": "no_source_face",
+                            "example": "render_failed",
                             "description": "An error code to indicate why a failure happened."
                           }
                         },
                         "required": ["message", "code"],
-                        "nullable": true,
-                        "description": "In the case of an error, this object will contain the error encountered during video render",
-                        "example": null
+                        "description": "Error returned when video generation fails.",
+                        "example": { "message": "Video generation failed", "code": "render_failed" }
                       },
                       "downloads": {
                         "type": "array",
+                        "example": [],
                         "items": {
                           "type": "object",
                           "properties": {
@@ -685,8 +687,7 @@
                         "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
                       },
                       "name": {
-                        "type": "string",
-                        "nullable": true,
+                        "type": ["string", "null"],
                         "description": "The name of the image.",
                         "example": "Example Name"
                       },
@@ -718,6 +719,7 @@
                       },
                       "downloads": {
                         "type": "array",
+                        "example": [],
                         "items": {
                           "type": "object",
                           "properties": {
@@ -737,22 +739,21 @@
                         }
                       },
                       "error": {
-                        "type": "object",
+                        "type": ["object", "null"],
                         "properties": {
                           "message": {
                             "type": "string",
                             "description": "Details on the reason why a failure happened.",
-                            "example": "Please use an image with a detectable face"
+                            "example": "Image generation failed"
                           },
                           "code": {
                             "type": "string",
-                            "example": "no_source_face",
+                            "example": "render_failed",
                             "description": "An error code to indicate why a failure happened."
                           }
                         },
                         "required": ["message", "code"],
-                        "nullable": true,
-                        "description": "In the case of an error, this object will contain the error encountered during video render",
+                        "description": "Error returned when image generation fails.",
                         "example": null
                       }
                     },
@@ -870,8 +871,7 @@
                         "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
                       },
                       "name": {
-                        "type": "string",
-                        "nullable": true,
+                        "type": ["string", "null"],
                         "description": "The name of the image.",
                         "example": "Example Name"
                       },
@@ -903,6 +903,12 @@
                       },
                       "downloads": {
                         "type": "array",
+                        "example": [
+                          {
+                            "url": "https://videos.magichour.ai/id/output.png",
+                            "expires_at": "2024-10-19T05:16:19.027Z"
+                          }
+                        ],
                         "items": {
                           "type": "object",
                           "properties": {
@@ -922,22 +928,21 @@
                         }
                       },
                       "error": {
-                        "type": "object",
+                        "type": ["object", "null"],
                         "properties": {
                           "message": {
                             "type": "string",
                             "description": "Details on the reason why a failure happened.",
-                            "example": "Please use an image with a detectable face"
+                            "example": "Image generation failed"
                           },
                           "code": {
                             "type": "string",
-                            "example": "no_source_face",
+                            "example": "render_failed",
                             "description": "An error code to indicate why a failure happened."
                           }
                         },
                         "required": ["message", "code"],
-                        "nullable": true,
-                        "description": "In the case of an error, this object will contain the error encountered during video render",
+                        "description": "Error returned when image generation fails.",
                         "example": null
                       }
                     },
@@ -1055,8 +1060,7 @@
                         "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
                       },
                       "name": {
-                        "type": "string",
-                        "nullable": true,
+                        "type": ["string", "null"],
                         "description": "The name of the image.",
                         "example": "Example Name"
                       },
@@ -1088,6 +1092,7 @@
                       },
                       "downloads": {
                         "type": "array",
+                        "example": [],
                         "items": {
                           "type": "object",
                           "properties": {
@@ -1107,23 +1112,22 @@
                         }
                       },
                       "error": {
-                        "type": "object",
+                        "type": ["object", "null"],
                         "properties": {
                           "message": {
                             "type": "string",
                             "description": "Details on the reason why a failure happened.",
-                            "example": "Please use an image with a detectable face"
+                            "example": "Image generation failed"
                           },
                           "code": {
                             "type": "string",
-                            "example": "no_source_face",
+                            "example": "render_failed",
                             "description": "An error code to indicate why a failure happened."
                           }
                         },
                         "required": ["message", "code"],
-                        "nullable": true,
-                        "description": "In the case of an error, this object will contain the error encountered during video render",
-                        "example": null
+                        "description": "Error returned when image generation fails.",
+                        "example": { "message": "Image generation failed", "code": "render_failed" }
                       }
                     },
                     "required": [
@@ -1240,8 +1244,7 @@
                         "description": "Unique ID of the audio. Use it with the [Get audio Project API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
                       },
                       "name": {
-                        "type": "string",
-                        "nullable": true,
+                        "type": ["string", "null"],
                         "description": "The name of the audio.",
                         "example": "Example Name"
                       },
@@ -1268,6 +1271,7 @@
                       },
                       "downloads": {
                         "type": "array",
+                        "example": [],
                         "items": {
                           "type": "object",
                           "properties": {
@@ -1287,22 +1291,21 @@
                         }
                       },
                       "error": {
-                        "type": "object",
+                        "type": ["object", "null"],
                         "properties": {
                           "message": {
                             "type": "string",
                             "description": "Details on the reason why a failure happened.",
-                            "example": "Please use an image with a detectable face"
+                            "example": "Audio generation failed"
                           },
                           "code": {
                             "type": "string",
-                            "example": "no_source_face",
+                            "example": "render_failed",
                             "description": "An error code to indicate why a failure happened."
                           }
                         },
                         "required": ["message", "code"],
-                        "nullable": true,
-                        "description": "In the case of an error, this object will contain the error encountered during video render",
+                        "description": "Error returned when audio generation fails.",
                         "example": null
                       }
                     },
@@ -1419,8 +1422,7 @@
                         "description": "Unique ID of the audio. Use it with the [Get audio Project API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
                       },
                       "name": {
-                        "type": "string",
-                        "nullable": true,
+                        "type": ["string", "null"],
                         "description": "The name of the audio.",
                         "example": "Example Name"
                       },
@@ -1447,6 +1449,12 @@
                       },
                       "downloads": {
                         "type": "array",
+                        "example": [
+                          {
+                            "url": "https://videos.magichour.ai/id/output.wav",
+                            "expires_at": "2024-10-19T05:16:19.027Z"
+                          }
+                        ],
                         "items": {
                           "type": "object",
                           "properties": {
@@ -1466,22 +1474,21 @@
                         }
                       },
                       "error": {
-                        "type": "object",
+                        "type": ["object", "null"],
                         "properties": {
                           "message": {
                             "type": "string",
                             "description": "Details on the reason why a failure happened.",
-                            "example": "Please use an image with a detectable face"
+                            "example": "Audio generation failed"
                           },
                           "code": {
                             "type": "string",
-                            "example": "no_source_face",
+                            "example": "render_failed",
                             "description": "An error code to indicate why a failure happened."
                           }
                         },
                         "required": ["message", "code"],
-                        "nullable": true,
-                        "description": "In the case of an error, this object will contain the error encountered during video render",
+                        "description": "Error returned when audio generation fails.",
                         "example": null
                       }
                     },
@@ -1598,8 +1605,7 @@
                         "description": "Unique ID of the audio. Use it with the [Get audio Project API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
                       },
                       "name": {
-                        "type": "string",
-                        "nullable": true,
+                        "type": ["string", "null"],
                         "description": "The name of the audio.",
                         "example": "Example Name"
                       },
@@ -1626,6 +1632,7 @@
                       },
                       "downloads": {
                         "type": "array",
+                        "example": [],
                         "items": {
                           "type": "object",
                           "properties": {
@@ -1645,23 +1652,22 @@
                         }
                       },
                       "error": {
-                        "type": "object",
+                        "type": ["object", "null"],
                         "properties": {
                           "message": {
                             "type": "string",
                             "description": "Details on the reason why a failure happened.",
-                            "example": "Please use an image with a detectable face"
+                            "example": "Audio generation failed"
                           },
                           "code": {
                             "type": "string",
-                            "example": "no_source_face",
+                            "example": "render_failed",
                             "description": "An error code to indicate why a failure happened."
                           }
                         },
                         "required": ["message", "code"],
-                        "nullable": true,
-                        "description": "In the case of an error, this object will contain the error encountered during video render",
-                        "example": null
+                        "description": "Error returned when audio generation fails.",
+                        "example": { "message": "Audio generation failed", "code": "render_failed" }
                       }
                     },
                     "required": [
