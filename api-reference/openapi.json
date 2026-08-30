@@ -3321,7 +3321,7 @@
     },
     "/v1/video-to-video": {
       "post": {
-        "description": "Restyle a source video. You can add a text prompt and style controls. Credits are charged for rendered frames; the create response returns an estimate and the completed project returns the final charge. See the [product page](https://magichour.ai/products/video-to-video).",
+        "description": "Restyle a source video using an art style. You can also add a text prompt and other style controls. Credits are charged for rendered frames; the create response returns an estimate and the completed project returns the final charge. See the [product page](https://magichour.ai/products/video-to-video).",
         "summary": "Video-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
