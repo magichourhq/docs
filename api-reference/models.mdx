@@ -33,10 +33,10 @@ Available on [text to video](/api-reference/video-projects/text-to-video) and
 <Note>
   `default` depends on tier, resolution, and duration. It resolves to `ltx-2.3` on the free tier. On
   paid tiers, 480p resolves to `seedance-1.5`. At other resolutions, output longer than 15 seconds
-  resolves to `ltx-2.3`, and shorter output resolves to `kling-3.0`. Free typically requests `480p`;
-  paid plans can request the higher resolutions a model supports, at that resolution's credit cost.
-  The deprecated `kling-2.5-audio` and `veo3.1-audio` values are equivalent to passing the base model
-  with `audio: true`.
+  resolves to `ltx-2.3`, and output of 15 seconds or less resolves to `kling-3.0`. Free typically
+  requests `480p`; paid plans can request the higher resolutions a model supports, at that
+  resolution's credit cost. The deprecated `kling-2.5-audio` and `veo3.1-audio` values are
+  equivalent to passing the base model with `audio: true`.
 </Note>
 
 ### Video credit costs
@@ -143,15 +143,15 @@ Cost depends on `style.mode` and `scale_factor`.
 
 These charge by output length rather than per generation.
 
-| Endpoint                                                                         | Credits                                            |
-| :------------------------------------------------------------------------------- | :------------------------------------------------- |
-| [Animation](/api-reference/video-projects/animation)                             | 24 credits/second at 24fps                         |
-| [Audio to Video](/api-reference/video-projects/audio-to-video)                   | 24 credits/second at 480p, 48 at 720p, 72 at 1080p |
-| [Auto Subtitle Generator](/api-reference/video-projects/auto-subtitle-generator) | ~4.8 credits/second at 24fps                       |
-| [Face Swap Video](/api-reference/video-projects/face-swap-video)                 | 24 credits/second at 24fps                         |
-| [Lip Sync](/api-reference/video-projects/lip-sync)                               | 1 credit/frame on `standard`; 2 on paid-only `pro` |
-| [AI Talking Photo](/api-reference/video-projects/ai-talking-photo)               | 24 credits/second prompted, 48 realistic           |
-| [Video to Video](/api-reference/video-projects/video-to-video)                   | 48 credits/second at 24fps                         |
+| Endpoint                                                                         | Credits                                                      |
+| :------------------------------------------------------------------------------- | :----------------------------------------------------------- |
+| [Animation](/api-reference/video-projects/animation)                             | 24 credits/second at 24fps                                   |
+| [Audio to Video](/api-reference/video-projects/audio-to-video)                   | 24 credits/second at 480p, 48 at 720p, 72 at 1080p           |
+| [Auto Subtitle Generator](/api-reference/video-projects/auto-subtitle-generator) | ~4.8 credits/second at 24fps                                 |
+| [Face Swap Video](/api-reference/video-projects/face-swap-video)                 | 24 credits/second at 24fps                                   |
+| [Lip Sync](/api-reference/video-projects/lip-sync)                               | 1 credit/frame on `lite` or `standard`; 2 on paid-only `pro` |
+| [AI Talking Photo](/api-reference/video-projects/ai-talking-photo)               | 24 credits/second prompted, 48 realistic                     |
+| [Video to Video](/api-reference/video-projects/video-to-video)                   | 48 credits/second at 24fps                                   |
 
 <Info>
   A video create response may contain an estimated `credits_charged`. The estimate depends on the
