@@ -419,7 +419,7 @@
                     "properties": {
                       "target_file_path": {
                         "type": "string",
-                        "description": "This is the image or video where the face will be detected. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "This is the image or video where the face will be detected. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.png"
                       }
                     },
@@ -957,13 +957,13 @@
                       "image_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The source image to animate. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "The source image to animate. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.png"
                       },
                       "audio_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The audio file to sync with the image. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "The audio file to sync with the image. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.mp3"
                       }
                     },
@@ -984,7 +984,7 @@
                           "stable",
                           "expressive"
                         ],
-                        "description": "Controls overall motion style.\n* `realistic` - Maintains likeness well, high quality, and reliable.\n* `prompted` - Slightly lower likeness; allows option to prompt scene.\n\n**Deprecated values (maintained for backward compatibility):**\n* `pro` - Deprecated: use `realistic`\n* `standard` - Deprecated: use `prompted`\n* `stable` - Deprecated: use `realistic`\n* `expressive` - Deprecated: use `prompted`",
+                        "description": "Controls the motion style.\n* `realistic` - Prioritizes facial likeness.\n* `prompted` - Accepts a scene prompt and may reduce facial likeness.\n\n**Deprecated values (maintained for backward compatibility):**\n* `pro` - Deprecated: use `realistic`\n* `standard` - Deprecated: use `prompted`\n* `stable` - Deprecated: use `realistic`\n* `expressive` - Deprecated: use `prompted`",
                         "example": "realistic"
                       },
                       "prompt": {
@@ -1138,7 +1138,7 @@
     },
     "/v1/ai-video-editor": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Video Editor you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video editor into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video editor job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: see the request schema for endpoint-specific assets  \n- Resolution: free users default to 480p; higher plans unlock HD and larger sizes  \n- Extra fields: see the request schema for endpoint-specific options  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/ai-video-editor).",
+        "description": "Edit an uploaded video with a text prompt. Credits are charged for rendered frames; the create response returns an estimate and the completed project returns the final charge. See the [product page](https://magichour.ai/products/ai-video-editor).",
         "summary": "AI Video Editor",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -1202,7 +1202,7 @@
                       "video_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The video to edit. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "The video to edit. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.mp4"
                       }
                     },
@@ -1347,7 +1347,7 @@
     },
     "/v1/animation": {
       "post": {
-        "description": "Create a Animation video. The estimated frame cost is calculated based on the `fps` and `end_seconds` input.",
+        "description": "Create an animation video. The estimated frame cost is calculated based on the `fps` and `end_seconds` input.",
         "summary": "Animation",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -1545,7 +1545,7 @@
                       "audio_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The path of the input audio. This field is required if `audio_source` is `file`. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "The path of the input audio. This field is required if `audio_source` is `file`. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.mp3"
                       },
                       "youtube_url": {
@@ -1557,7 +1557,7 @@
                       "image_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "An initial image to use a the first frame of the video. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "An initial image to use as the first frame of the video. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.png"
                       }
                     },
@@ -1702,7 +1702,7 @@
     },
     "/v1/audio-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Audio To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding audio to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a audio to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: see the request schema for endpoint-specific assets  \n- Resolution: free users default to 480p; higher plans unlock HD and larger sizes  \n- Extra fields: see the request schema for endpoint-specific options  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/audio-to-video).",
+        "description": "Generate a video from an audio file, an optional reference image, and a text prompt. Credits are charged for rendered frames; the create response returns an estimate and the completed project returns the final charge. See the [product page](https://magichour.ai/products/audio-to-video).",
         "summary": "Audio-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -1748,13 +1748,13 @@
                       "audio_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The path of the audio file. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "The path of the audio file. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.mp3"
                       },
                       "image_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "Reference image for the initial frame of the video. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "Reference image for the initial frame of the video. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.png"
                       }
                     },
@@ -1949,7 +1949,7 @@
                       "video_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "This is the video used to add subtitles. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "This is the video used to add subtitles. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.mp4"
                       }
                     },
@@ -2156,7 +2156,7 @@
     },
     "/v1/character-replace": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Character Replace you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding character replace into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a character replace job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: see the request schema for endpoint-specific assets  \n- Resolution: free users default to 480p; higher plans unlock HD and larger sizes  \n- Extra fields: see the request schema for endpoint-specific options  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/character-replace).",
+        "description": "Replace or animate a subject in a source video using a reference image. Credits are charged for rendered frames; the create response returns an estimate and the completed project returns the final charge. See the [product page](https://magichour.ai/products/character-replace).",
         "summary": "Character Replace",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2202,13 +2202,13 @@
                       "video_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "Source video containing the subject to replace or animate. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "Source video containing the subject to replace or animate. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.mp4"
                       },
                       "image_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "Reference character image used as the replacement or animation target. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "Reference character image used as the replacement or animation target. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/5678.png"
                       }
                     },
@@ -2401,7 +2401,7 @@
     },
     "/v1/face-swap": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Face Swap you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding face swap into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a face swap job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: see the request schema for endpoint-specific assets  \n- Resolution: free users default to 480p; higher plans unlock HD and larger sizes  \n- Extra fields: see the request schema for endpoint-specific options  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/face-swap).",
+        "description": "Swap faces in a source video using one source image or per-face mappings. Credits are charged for rendered frames; the create response returns an estimate and the completed project returns the final charge. See the [product page](https://magichour.ai/products/face-swap).",
         "summary": "Face Swap Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2454,12 +2454,12 @@
                         "default": "all-faces",
                         "type": "string",
                         "enum": ["all-faces", "individual-faces"],
-                        "description": "Choose how to swap faces:\n**all-faces** (recommended) — swap all detected faces using one source image (`source_file_path` required)\n+- **individual-faces** — specify exact mappings using `face_mappings`",
+                        "description": "Choose how to swap faces:\n**all-faces** (recommended) — swap all detected faces using one source image (`image_file_path` required)\n- **individual-faces** — specify exact mappings using `face_mappings`",
                         "example": "all-faces"
                       },
                       "image_file_path": {
                         "type": "string",
-                        "description": "The path of the input image with the face to be swapped.  The value is required if `face_swap_mode` is `all-faces`.\n\nThis value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "The path of the input image with the face to be swapped. The value is required if `face_swap_mode` is `all-faces`.\n\nThis value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "image/id/1234.png"
                       },
                       "face_mappings": {
@@ -2474,7 +2474,7 @@
                             },
                             "new_face": {
                               "type": "string",
-                              "description": "The face image that will be used to replace the face in the `original_face`. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                              "description": "The face image that will be used to replace the face in the `original_face`. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                               "example": "api-assets/id/1234.png"
                             }
                           },
@@ -2497,7 +2497,7 @@
                       },
                       "video_file_path": {
                         "type": "string",
-                        "description": "Your video file. Required if `video_source` is `file`. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "Your video file. Required if `video_source` is `file`. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.mp4"
                       },
                       "youtube_url": {
@@ -2507,7 +2507,7 @@
                       }
                     },
                     "required": ["video_source"],
-                    "description": "Provide the assets for face swap. For video, The `video_source` field determines whether `video_file_path` or `youtube_url` field is used"
+                    "description": "Provide the assets for face swap. For video, the `video_source` field determines whether `video_file_path` or `youtube_url` field is used"
                   }
                 },
                 "required": ["start_seconds", "end_seconds", "assets"]
@@ -2647,7 +2647,7 @@
     },
     "/v1/image-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Image To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding image to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a image to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: see the request schema for endpoint-specific assets  \n- Resolution: free users default to 480p; higher plans unlock HD and larger sizes  \n- Extra fields: see the request schema for endpoint-specific options  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/image-to-video).",
+        "description": "Generate a video from a reference image and a text prompt. Credits are charged for rendered frames; the create response returns an estimate and the completed project returns the final charge. See the [product page](https://magichour.ai/products/image-to-video).",
         "summary": "Image-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2698,7 +2698,7 @@
                       "kling-2.5-audio",
                       "veo3.1-audio"
                     ],
-                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `kling-2.6`: Great for action, motion blur, and camera moves.\n* `kling-3.0`: Best overall quality for cinematic storytelling.\n* `ltx-2.3`: Fastest output. Best for rapid iteration.\n* `minimax-h3`: Reference-driven video with native audio.\n* `seedance-1.5`: Smooth, consistent motion with precision.\n* `seedance-2.0`: Top quality with reference-to-video control.\n* `seedance-2.0-mini`: Fast, consistent video with strong motion quality\n* `seedance-2.5`: Highest quality with superior realism, detail, and motion\n* `sora-2`: Open AI's model. Great for creativity and viral clips.\n* `veo3.1`: Google's model. Highest realism and detail.\n* `veo3.1-lite`: Veo quality at a more accessible cost.\n* `wan-2.2`: Strong physics, camera moves, and motion.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
+                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `kling-2.6`: Supports 720p and 1080p output without audio.\n* `kling-3.0`: Supports output up to 4k; audio costs extra when enabled.\n* `ltx-2.3`: Supports 480p, 720p, and 1080p output.\n* `minimax-h3`: Supports native audio.\n* `seedance-1.5`: Supports output up to 1080p; audio costs extra when enabled.\n* `seedance-2.0`: Supports 480p and 720p output with optional audio at no extra credit cost.\n* `seedance-2.0-mini`: Supports 480p and 720p output with optional audio at no extra credit cost.\n* `seedance-2.5`: Supports 4- to 30-second output at 480p or 720p, with optional audio at no extra credit cost.\n* `sora-2`: OpenAI model with 720p output and audio included.\n* `veo3.1`: Google model with 720p and 1080p output; audio costs extra when enabled.\n* `veo3.1-lite`: Supports 720p and 1080p output; audio costs extra when enabled.\n* `wan-2.2`: Supports output up to 1080p without audio.\n\nDeprecated model values with an `-audio` suffix are equivalent to setting `audio` to `true` on the base model.",
                     "example": "kling-3.0"
                   },
                   "resolution": {
@@ -2709,7 +2709,7 @@
                   },
                   "audio": {
                     "type": "boolean",
-                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`kling-2.6`**: Not supported\n* **`kling-3.0`**: Toggle-able: audio adds extra credits when enabled\n* **`ltx-2.3`**: Toggle-able: no additional credits for audio\n* **`minimax-h3`**: Toggle-able: no additional credits for audio\n* **`seedance-1.5`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0`**: Toggle-able: no additional credits for audio\n* **`seedance-2.0-mini`**: Toggle-able: no additional credits for audio\n* **`seedance-2.5`**: Toggle-able: no additional credits for audio\n* **`sora-2`**: Toggle-able: no additional credits for audio\n* **`veo3.1`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1-lite`**: Toggle-able: audio adds extra credits when enabled\n* **`wan-2.2`**: Not supported\n",
+                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`kling-2.6`**: Not supported\n* **`kling-3.0`**: Optional: audio adds extra credits when enabled\n* **`ltx-2.3`**: Optional: no additional credits for audio\n* **`minimax-h3`**: Optional: no additional credits for audio\n* **`seedance-1.5`**: Optional: audio adds extra credits when enabled\n* **`seedance-2.0`**: Optional: no additional credits for audio\n* **`seedance-2.0-mini`**: Optional: no additional credits for audio\n* **`seedance-2.5`**: Optional: no additional credits for audio\n* **`sora-2`**: Optional: no additional credits for audio\n* **`veo3.1`**: Optional: audio adds extra credits when enabled\n* **`veo3.1-lite`**: Optional: audio adds extra credits when enabled\n* **`wan-2.2`**: Not supported\n",
                     "example": true
                   },
                   "style": {
@@ -2721,7 +2721,7 @@
                         "description": "The prompt used for the video."
                       }
                     },
-                    "description": "Attributed used to dictate the style of the output"
+                    "description": "Attributes used to control the style of the output"
                   },
                   "assets": {
                     "type": "object",
@@ -2729,7 +2729,7 @@
                       "image_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The path of the image file. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "The path of the image file. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.png"
                       },
                       "end_image_file_path": {
@@ -2880,7 +2880,7 @@
     },
     "/v1/lip-sync": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Lip Sync you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding lip sync into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a lip sync job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: see the request schema for endpoint-specific assets  \n- Resolution: free users default to 480p; higher plans unlock HD and larger sizes  \n- Extra fields: see the request schema for endpoint-specific options  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/lip-sync).",
+        "description": "Synchronize a source video with an audio file. Credits are charged for rendered frames; the create response returns an estimate and the completed project returns the final charge. See the [product page](https://magichour.ai/products/lip-sync).",
         "summary": "Lip Sync",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2925,7 +2925,7 @@
                       "audio_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The path of the audio file. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "The path of the audio file. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.mp3"
                       },
                       "video_source": {
@@ -2936,7 +2936,7 @@
                       },
                       "video_file_path": {
                         "type": "string",
-                        "description": "Your video file. Required if `video_source` is `file`. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "Your video file. Required if `video_source` is `file`. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.mp4"
                       },
                       "youtube_url": {
@@ -2946,7 +2946,7 @@
                       }
                     },
                     "required": ["audio_file_path", "video_source"],
-                    "description": "Provide the assets for lip-sync. For video, The `video_source` field determines whether `video_file_path` or `youtube_url` field is used"
+                    "description": "Provide the assets for lip-sync. For video, the `video_source` field determines whether `video_file_path` or `youtube_url` field is used"
                   },
                   "style": {
                     "type": "object",
@@ -2955,7 +2955,7 @@
                         "default": "lite",
                         "type": "string",
                         "enum": ["lite", "standard", "pro"],
-                        "description": "A specific version of our lip sync system, optimized for different needs.\n* `lite` -  Fast and affordable lip sync - best for simple videos. Costs 1 credit per frame of video.\n* `standard` -  Natural, accurate lip sync - best for most creators. Costs 1 credit per frame of video.\n* `pro` -  Premium fidelity with enhanced detail - best for professionals. Costs 2 credits per frame of video.\n\nNote: `standard` and `pro` are only available for users on Creator, Pro, and Business tiers.\n              ",
+                        "description": "Lip-sync version and credit rate.\n* `lite` - Costs 1 credit per video frame.\n* `standard` - Costs 1 credit per video frame.\n* `pro` - Costs 2 credits per video frame.\n\n`standard` and `pro` are available on Creator, Pro, and Business tiers.",
                         "example": "lite"
                       }
                     },
@@ -3099,7 +3099,7 @@
     },
     "/v1/text-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Text To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding text to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a text to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: see the request schema for endpoint-specific assets  \n- Resolution: free users default to 480p; higher plans unlock HD and larger sizes  \n- Extra fields: see the request schema for endpoint-specific options  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/text-to-video).",
+        "description": "Generate a video from a text prompt. Credits are charged for rendered frames; the create response returns an estimate and the completed project returns the final charge. See the [product page](https://magichour.ai/products/text-to-video).",
         "summary": "Text-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -3162,12 +3162,12 @@
                       "kling-2.5-audio",
                       "veo3.1-audio"
                     ],
-                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `kling-2.6`: Great for action, motion blur, and camera moves.\n* `kling-3.0`: Best overall quality for cinematic storytelling.\n* `ltx-2.3`: Fastest output. Best for rapid iteration.\n* `minimax-h3`: Reference-driven video with native audio.\n* `seedance-1.5`: Smooth, consistent motion with precision.\n* `seedance-2.0`: Top quality with reference-to-video control.\n* `seedance-2.0-mini`: Fast, consistent video with strong motion quality\n* `seedance-2.5`: Highest quality with superior realism, detail, and motion\n* `sora-2`: Open AI's model. Great for creativity and viral clips.\n* `veo3.1`: Google's model. Highest realism and detail.\n* `veo3.1-lite`: Veo quality at a more accessible cost.\n* `wan-2.2`: Strong physics, camera moves, and motion.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
+                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `kling-2.6`: Supports 720p and 1080p output without audio.\n* `kling-3.0`: Supports output up to 4k; audio costs extra when enabled.\n* `ltx-2.3`: Supports 480p, 720p, and 1080p output.\n* `minimax-h3`: Supports native audio.\n* `seedance-1.5`: Supports output up to 1080p; audio costs extra when enabled.\n* `seedance-2.0`: Supports 480p and 720p output with optional audio at no extra credit cost.\n* `seedance-2.0-mini`: Supports 480p and 720p output with optional audio at no extra credit cost.\n* `seedance-2.5`: Supports 4- to 30-second output at 480p or 720p, with optional audio at no extra credit cost.\n* `sora-2`: OpenAI model with 720p output and audio included.\n* `veo3.1`: Google model with 720p and 1080p output; audio costs extra when enabled.\n* `veo3.1-lite`: Supports 720p and 1080p output; audio costs extra when enabled.\n* `wan-2.2`: Supports output up to 1080p without audio.\n\nDeprecated model values with an `-audio` suffix are equivalent to setting `audio` to `true` on the base model.",
                     "example": "kling-3.0"
                   },
                   "audio": {
                     "type": "boolean",
-                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`kling-2.6`**: Not supported\n* **`kling-3.0`**: Toggle-able: audio adds extra credits when enabled\n* **`ltx-2.3`**: Toggle-able: no additional credits for audio\n* **`minimax-h3`**: Toggle-able: no additional credits for audio\n* **`seedance-1.5`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0`**: Toggle-able: no additional credits for audio\n* **`seedance-2.0-mini`**: Toggle-able: no additional credits for audio\n* **`seedance-2.5`**: Toggle-able: no additional credits for audio\n* **`sora-2`**: Toggle-able: no additional credits for audio\n* **`veo3.1`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1-lite`**: Toggle-able: audio adds extra credits when enabled\n* **`wan-2.2`**: Not supported\n",
+                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`kling-2.6`**: Not supported\n* **`kling-3.0`**: Optional: audio adds extra credits when enabled\n* **`ltx-2.3`**: Optional: no additional credits for audio\n* **`minimax-h3`**: Optional: no additional credits for audio\n* **`seedance-1.5`**: Optional: audio adds extra credits when enabled\n* **`seedance-2.0`**: Optional: no additional credits for audio\n* **`seedance-2.0-mini`**: Optional: no additional credits for audio\n* **`seedance-2.5`**: Optional: no additional credits for audio\n* **`sora-2`**: Optional: no additional credits for audio\n* **`veo3.1`**: Optional: audio adds extra credits when enabled\n* **`veo3.1-lite`**: Optional: audio adds extra credits when enabled\n* **`wan-2.2`**: Not supported\n",
                     "example": true
                   },
                   "style": {
@@ -3321,7 +3321,7 @@
     },
     "/v1/video-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Video To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: see the request schema for endpoint-specific assets  \n- Resolution: free users default to 480p; higher plans unlock HD and larger sizes  \n- Extra fields: see the request schema for endpoint-specific options  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-to-video).",
+        "description": "Restyle a source video with a text prompt and style controls. Credits are charged for rendered frames; the create response returns an estimate and the completed project returns the final charge. See the [product page](https://magichour.ai/products/video-to-video).",
         "summary": "Video-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -3477,7 +3477,7 @@
                           "default"
                         ],
                         "example": "default",
-                        "description": "* `Dreamshaper` - a good all-around model that works for both animations as well as realism.\n* `Absolute Reality` - better at realism, but you'll often get similar results with Dreamshaper as well.\n* `Flat 2D Anime` - best for a flat illustration style that's common in most anime.\n* `default` - use the default recommended model for the selected art style."
+                        "description": "* `Dreamshaper` - Supports animation and realistic styles.\n* `Absolute Reality` - Intended for realistic styles.\n* `Flat 2D Anime` - Intended for flat anime-style illustrations.\n* `default` - Uses the default model for the selected art style."
                       }
                     },
                     "required": ["art_style"]
@@ -3493,7 +3493,7 @@
                       },
                       "video_file_path": {
                         "type": "string",
-                        "description": "Your video file. Required if `video_source` is `file`. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "Your video file. Required if `video_source` is `file`. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.mp4"
                       },
                       "youtube_url": {
@@ -3503,7 +3503,7 @@
                       }
                     },
                     "required": ["video_source"],
-                    "description": "Provide the assets for video-to-video. For video, The `video_source` field determines whether `video_file_path` or `youtube_url` field is used"
+                    "description": "Provide the assets for video-to-video. For video, the `video_source` field determines whether `video_file_path` or `youtube_url` field is used"
                   }
                 },
                 "required": ["start_seconds", "end_seconds", "style", "assets"]
@@ -3643,7 +3643,7 @@
     },
     "/v1/image-projects/{id}": {
       "get": {
-        "description": "Check the progress of a image project. The `downloads` field is populated after a successful render.\n  \n**Statuses**\n- `queued` — waiting to start\n- `rendering` — in progress\n- `complete` — ready; see `downloads`\n- `error` — a failure occurred (see `error`)\n- `canceled` — user canceled\n- `draft` — not used",
+        "description": "Check the progress of an image project. The `downloads` field is populated after a successful render.\n  \n**Statuses**\n- `queued` — waiting to start\n- `rendering` — in progress\n- `complete` — ready; see `downloads`\n- `error` — a failure occurred (see `error`)\n- `canceled` — user canceled\n- `draft` — not used",
         "summary": "Get image details",
         "tags": ["Image Projects"],
         "parameters": [
@@ -3980,13 +3980,13 @@
                       "person_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The image with the person. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "The image with the person. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/model.png"
                       },
                       "garment_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The image of the outfit. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "The image of the outfit. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/outfit.png"
                       },
                       "garment_type": {
@@ -4162,7 +4162,7 @@
                       "image_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "This is the image whose face will be edited. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "This is the image whose face will be edited. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.png"
                       }
                     },
@@ -4698,7 +4698,7 @@
                         "type": "array",
                         "items": { "type": "string", "minLength": 1 },
                         "maxItems": 10,
-                        "description": "The image(s) used in the edit, maximum of 10 images. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "The image(s) used in the edit, maximum of 10 images. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": ["api-assets/id/1234.png", "api-assets/id/1235.png"]
                       }
                     },
@@ -4876,7 +4876,7 @@
                       "image_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The image used to generate the headshot. This image must contain one detectable face. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "The image used to generate the headshot. This image must contain one detectable face. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.png"
                       }
                     },
@@ -5021,7 +5021,7 @@
     },
     "/v1/ai-image-generator": {
       "post": {
-        "description": "Create an AI image with advanced model selection and quality controls.",
+        "description": "Create an AI image with selectable models, resolutions, and image counts.",
         "summary": "AI Image Generator",
         "tags": ["Image Projects"],
         "parameters": [],
@@ -5320,7 +5320,7 @@
                       "image_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The image to upscale. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n. The maximum input image size is 4096x4096px.",
+                        "description": "The image to upscale. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\nThe maximum input image size is 4096x4096px.",
                         "example": "api-assets/id/1234.png"
                       }
                     },
@@ -5864,13 +5864,13 @@
                       "person_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "Image of the person to place into the scene. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "Image of the person to place into the scene. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.png"
                       },
                       "scene_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "Original scene image (background). This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "Original scene image (background). This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/5678.png"
                       }
                     },
@@ -6041,13 +6041,13 @@
                         "default": "all-faces",
                         "type": "string",
                         "enum": ["all-faces", "individual-faces"],
-                        "description": "Choose how to swap faces:\n**all-faces** (recommended) — swap all detected faces using one source image (`source_file_path` required)\n+- **individual-faces** — specify exact mappings using `face_mappings`",
+                        "description": "Choose how to swap faces:\n**all-faces** (recommended) — swap all detected faces using one source image (`source_file_path` required)\n- **individual-faces** — specify exact mappings using `face_mappings`",
                         "example": "all-faces"
                       },
                       "source_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "This is the image from which the face is extracted. The value is required if `face_swap_mode` is `all-faces`.\n\nThis value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "This is the image from which the face is extracted. The value is required if `face_swap_mode` is `all-faces`.\n\nThis value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.png"
                       },
                       "face_mappings": {
@@ -6062,7 +6062,7 @@
                             },
                             "new_face": {
                               "type": "string",
-                              "description": "The face image that will be used to replace the face in the `original_face`. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                              "description": "The face image that will be used to replace the face in the `original_face`. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                               "example": "api-assets/id/1234.png"
                             }
                           },
@@ -6080,7 +6080,7 @@
                       "target_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "This is the image where the face from the source image will be placed. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "This is the image where the face from the source image will be placed. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.png"
                       }
                     },
@@ -6255,13 +6255,13 @@
                       "body_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "Image that receives the swapped head. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "Image that receives the swapped head. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.png"
                       },
                       "head_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "Image of the head to place on the body. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "Image of the head to place on the body. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/5678.png"
                       }
                     },
@@ -6430,12 +6430,12 @@
                     "properties": {
                       "image_file_path": {
                         "type": "string",
-                        "description": "The image to remove the background. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "The image to remove the background. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.png"
                       },
                       "background_image_file_path": {
                         "type": "string",
-                        "description": "The image used as the new background for the image_file_path. This image will be resized to match the image in image_file_path. Please make sure the resolution between the images are similar.\n\nThis value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "The new background image. It is resized to match `image_file_path`, so use images with similar resolutions.\n\nThis value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.png"
                       }
                     },
@@ -6605,7 +6605,7 @@
                       "image_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The image used to generate the colorized image. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "The image used to generate the colorized image. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.png"
                       }
                     },
@@ -6750,7 +6750,7 @@
     },
     "/v1/audio-projects/{id}": {
       "get": {
-        "description": "Check the progress of a audio project. The `downloads` field is populated after a successful render.\n  \n**Statuses**\n- `queued` — waiting to start\n- `rendering` — in progress\n- `complete` — ready; see `downloads`\n- `error` — a failure occurred (see `error`)\n- `canceled` — user canceled\n- `draft` — not used",
+        "description": "Check the progress of an audio project. The `downloads` field is populated after a successful render.\n  \n**Statuses**\n- `queued` — waiting to start\n- `rendering` — in progress\n- `complete` — ready; see `downloads`\n- `error` — a failure occurred (see `error`)\n- `canceled` — user canceled\n- `draft` — not used",
         "summary": "Get audio details",
         "tags": ["Audio Projects"],
         "parameters": [
@@ -7751,7 +7751,7 @@
                       "audio_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The audio used to clone the voice. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "The audio used to clone the voice. This value is either\n- a direct URL to the input file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.mp3"
                       }
                     },
