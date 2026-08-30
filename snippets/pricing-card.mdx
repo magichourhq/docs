@@ -2,11 +2,11 @@ export const PricingCard = ({ title = "", prices = [], benefits = [] }) => {
   return (
     <Card title={title}>
       {prices && prices.length > 0 && (
-        <div class="flex items-end mb-6 gap-2">
+        <div class="flex flex-wrap items-baseline mb-6 gap-2">
           {prices.map((price, index) => {
             return (
               <>
-                <div class="flex items-end gap-2">
+                <div class="whitespace-nowrap">
                   <div>
                     <span class="text-2xl text-primary">
                       ${price?.amount?.toLocaleString() || "0"}
