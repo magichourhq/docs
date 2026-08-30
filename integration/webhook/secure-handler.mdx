@@ -103,11 +103,8 @@ raw_body = await request.body()  # Raw bytes, not parsed JSON
 
 **Format**: `{timestamp}.{raw_json_payload}`
 
-**Example signed payload:**
-
-```
-1729314984.{"type":"video.completed","payload":{"id":"clx123","status":"complete","downloads":[{"url":"https://videos.magichour.ai/output.mp4"}]}}
-```
+The bytes after the period must be the complete request body. Do not copy an abbreviated example or
+reconstruct only the fields your handler uses.
 
 **Code example:**
 

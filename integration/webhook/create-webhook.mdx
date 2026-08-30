@@ -372,7 +372,9 @@ print("Check your webhook.site browser tab for the webhook delivery!")
 </Step>
 
 <Step title="Verify webhook delivery">
-Within seconds, you should see webhook events in your console or webhook.site:
+After the project changes status, you should see a webhook event in your console or webhook.site.
+This example abbreviates the project payload; use the [webhook
+reference](/webhook-reference/video-events/video-completed) for its complete schema.
 
 ```json
 {
@@ -399,23 +401,24 @@ Within seconds, you should see webhook events in your console or webhook.site:
 
 If your endpoint doesn't respond with a 2xx status code, Magic Hour will retry delivery:
 
-- **Duration**: Up to 24 hours
-- **Pattern**: Exponential backoff (1s, 2s, 4s, 8s, ...)
+- **Duration**: Until delivery succeeds or the event is 24 hours old
+- **Pattern**: Exponential backoff (1, 2, 4, ... minutes), capped at 60 minutes
 - **After 24 hours**: Event marked as failed, no more retries
 
 <Info>
-  **Disabled Webhooks**: If a webhook is disabled, pending events are skipped and marked as failed
-  after 24 hours.
+  **Disabled webhooks**: Disabling a webhook stops new events from being queued. Events that are
+  already pending are rescheduled until you re-enable the webhook or their 24-hour delivery window
+  expires.
 </Info>
 
 ### Best Practices for Reliable Webhooks
 
 ✅ **Do:**
 
-- Return 2xx status codes within 10 seconds
+- Return a 2xx status promptly
 - Process events asynchronously (respond fast, process later)
 - Deduplicate repeated webhook deliveries
-- Log all webhook events for debugging
+- Log event IDs, types, and outcomes without logging secrets or raw payloads
 
 ❌ **Don't:**
 

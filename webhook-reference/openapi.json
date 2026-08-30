@@ -13,7 +13,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Hex-encoded HMAC-SHA256 signature of `{timestamp}.{raw request body}`, computed with the webhook secret.",
+              "description": "A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256",
               "example": "3e771b50c..."
             }
           },
@@ -23,7 +23,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Unix timestamp in seconds. Reject the request if it is more than five minutes from the current time.",
+              "description": "Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.",
               "example": "1730742038"
             }
           }
@@ -43,10 +43,11 @@
                       "id": {
                         "type": "string",
                         "example": "cuid-example",
-                        "description": "Unique ID of the video. Use it with the [Get video details API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
+                        "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
                       },
                       "name": {
-                        "type": ["string", "null"],
+                        "type": "string",
+                        "nullable": true,
                         "description": "The name of the video.",
                         "example": "Example Name"
                       },
@@ -54,7 +55,7 @@
                         "type": "string",
                         "enum": ["draft", "queued", "rendering", "complete", "error", "canceled"],
                         "description": "The status of the video.\n\n- `draft` - the project was created but has not been submitted for rendering\n- `queued` - the job is waiting for an available server\n- `rendering` - the job is being processed; the `video.started` webhook event fires when rendering begins\n- `complete` - the job finished successfully; fires `video.completed`\n- `error` - the job failed during processing; fires `video.errored`\n- `canceled` - the job was manually canceled (for example from the Magic Hour web app)\n\n**Note:** `rendering`, `complete`, and `error` have matching webhook events; `canceled` does not - a canceled job emits no webhook event, so poll this endpoint to detect cancellation.",
-                        "example": "rendering"
+                        "example": "complete"
                       },
                       "type": {
                         "type": "string",
@@ -101,26 +102,26 @@
                         "example": 30
                       },
                       "error": {
-                        "type": ["object", "null"],
+                        "type": "object",
                         "properties": {
                           "message": {
                             "type": "string",
                             "description": "Details on the reason why a failure happened.",
-                            "example": "Video generation failed"
+                            "example": "Please use an image with a detectable face"
                           },
                           "code": {
                             "type": "string",
-                            "example": "render_failed",
+                            "example": "no_source_face",
                             "description": "An error code to indicate why a failure happened."
                           }
                         },
                         "required": ["message", "code"],
-                        "description": "Error returned when video generation fails.",
+                        "nullable": true,
+                        "description": "In the case of an error, this object will contain the error encountered during video render",
                         "example": null
                       },
                       "downloads": {
                         "type": "array",
-                        "example": [],
                         "items": {
                           "type": "object",
                           "properties": {
@@ -136,7 +137,7 @@
                             }
                           },
                           "required": ["url", "expires_at"],
-                          "description": "The download URL and expiration date of the video project"
+                          "description": "The download url and expiration date of the image project"
                         }
                       }
                     },
@@ -225,7 +226,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Hex-encoded HMAC-SHA256 signature of `{timestamp}.{raw request body}`, computed with the webhook secret.",
+              "description": "A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256",
               "example": "3e771b50c..."
             }
           },
@@ -235,7 +236,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Unix timestamp in seconds. Reject the request if it is more than five minutes from the current time.",
+              "description": "Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.",
               "example": "1730742038"
             }
           }
@@ -255,10 +256,11 @@
                       "id": {
                         "type": "string",
                         "example": "cuid-example",
-                        "description": "Unique ID of the video. Use it with the [Get video details API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
+                        "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
                       },
                       "name": {
-                        "type": ["string", "null"],
+                        "type": "string",
+                        "nullable": true,
                         "description": "The name of the video.",
                         "example": "Example Name"
                       },
@@ -313,31 +315,26 @@
                         "example": 30
                       },
                       "error": {
-                        "type": ["object", "null"],
+                        "type": "object",
                         "properties": {
                           "message": {
                             "type": "string",
                             "description": "Details on the reason why a failure happened.",
-                            "example": "Video generation failed"
+                            "example": "Please use an image with a detectable face"
                           },
                           "code": {
                             "type": "string",
-                            "example": "render_failed",
+                            "example": "no_source_face",
                             "description": "An error code to indicate why a failure happened."
                           }
                         },
                         "required": ["message", "code"],
-                        "description": "Error returned when video generation fails.",
+                        "nullable": true,
+                        "description": "In the case of an error, this object will contain the error encountered during video render",
                         "example": null
                       },
                       "downloads": {
                         "type": "array",
-                        "example": [
-                          {
-                            "url": "https://videos.magichour.ai/id/output.mp4",
-                            "expires_at": "2024-10-19T05:16:19.027Z"
-                          }
-                        ],
                         "items": {
                           "type": "object",
                           "properties": {
@@ -353,7 +350,7 @@
                             }
                           },
                           "required": ["url", "expires_at"],
-                          "description": "The download URL and expiration date of the video project"
+                          "description": "The download url and expiration date of the image project"
                         }
                       }
                     },
@@ -442,7 +439,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Hex-encoded HMAC-SHA256 signature of `{timestamp}.{raw request body}`, computed with the webhook secret.",
+              "description": "A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256",
               "example": "3e771b50c..."
             }
           },
@@ -452,7 +449,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Unix timestamp in seconds. Reject the request if it is more than five minutes from the current time.",
+              "description": "Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.",
               "example": "1730742038"
             }
           }
@@ -472,10 +469,11 @@
                       "id": {
                         "type": "string",
                         "example": "cuid-example",
-                        "description": "Unique ID of the video. Use it with the [Get video details API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
+                        "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
                       },
                       "name": {
-                        "type": ["string", "null"],
+                        "type": "string",
+                        "nullable": true,
                         "description": "The name of the video.",
                         "example": "Example Name"
                       },
@@ -483,7 +481,7 @@
                         "type": "string",
                         "enum": ["draft", "queued", "rendering", "complete", "error", "canceled"],
                         "description": "The status of the video.\n\n- `draft` - the project was created but has not been submitted for rendering\n- `queued` - the job is waiting for an available server\n- `rendering` - the job is being processed; the `video.started` webhook event fires when rendering begins\n- `complete` - the job finished successfully; fires `video.completed`\n- `error` - the job failed during processing; fires `video.errored`\n- `canceled` - the job was manually canceled (for example from the Magic Hour web app)\n\n**Note:** `rendering`, `complete`, and `error` have matching webhook events; `canceled` does not - a canceled job emits no webhook event, so poll this endpoint to detect cancellation.",
-                        "example": "error"
+                        "example": "complete"
                       },
                       "type": {
                         "type": "string",
@@ -530,26 +528,26 @@
                         "example": 30
                       },
                       "error": {
-                        "type": ["object", "null"],
+                        "type": "object",
                         "properties": {
                           "message": {
                             "type": "string",
                             "description": "Details on the reason why a failure happened.",
-                            "example": "Video generation failed"
+                            "example": "Please use an image with a detectable face"
                           },
                           "code": {
                             "type": "string",
-                            "example": "render_failed",
+                            "example": "no_source_face",
                             "description": "An error code to indicate why a failure happened."
                           }
                         },
                         "required": ["message", "code"],
-                        "description": "Error returned when video generation fails.",
-                        "example": { "message": "Video generation failed", "code": "render_failed" }
+                        "nullable": true,
+                        "description": "In the case of an error, this object will contain the error encountered during video render",
+                        "example": null
                       },
                       "downloads": {
                         "type": "array",
-                        "example": [],
                         "items": {
                           "type": "object",
                           "properties": {
@@ -565,7 +563,7 @@
                             }
                           },
                           "required": ["url", "expires_at"],
-                          "description": "The download URL and expiration date of the video project"
+                          "description": "The download url and expiration date of the image project"
                         }
                       }
                     },
@@ -654,7 +652,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Hex-encoded HMAC-SHA256 signature of `{timestamp}.{raw request body}`, computed with the webhook secret.",
+              "description": "A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256",
               "example": "3e771b50c..."
             }
           },
@@ -664,7 +662,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Unix timestamp in seconds. Reject the request if it is more than five minutes from the current time.",
+              "description": "Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.",
               "example": "1730742038"
             }
           }
@@ -684,10 +682,11 @@
                       "id": {
                         "type": "string",
                         "example": "cuid-example",
-                        "description": "Unique ID of the image. Use it with the [Get image details API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
+                        "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
                       },
                       "name": {
-                        "type": ["string", "null"],
+                        "type": "string",
+                        "nullable": true,
                         "description": "The name of the image.",
                         "example": "Example Name"
                       },
@@ -695,7 +694,7 @@
                         "type": "string",
                         "enum": ["draft", "queued", "rendering", "complete", "error", "canceled"],
                         "description": "The status of the image.\n\n- `draft` - the project was created but has not been submitted for rendering\n- `queued` - the job is waiting for an available server\n- `rendering` - the job is being processed; the `image.started` webhook event fires when rendering begins\n- `complete` - the job finished successfully; fires `image.completed`\n- `error` - the job failed during processing; fires `image.errored`\n- `canceled` - the job was manually canceled (for example from the Magic Hour web app)\n\n**Note:** `rendering`, `complete`, and `error` have matching webhook events; `canceled` does not - a canceled job emits no webhook event, so poll this endpoint to detect cancellation.",
-                        "example": "rendering"
+                        "example": "complete"
                       },
                       "image_count": {
                         "type": "integer",
@@ -719,7 +718,6 @@
                       },
                       "downloads": {
                         "type": "array",
-                        "example": [],
                         "items": {
                           "type": "object",
                           "properties": {
@@ -735,25 +733,26 @@
                             }
                           },
                           "required": ["url", "expires_at"],
-                          "description": "The download URL and expiration date of the image project"
+                          "description": "The download url and expiration date of the image project"
                         }
                       },
                       "error": {
-                        "type": ["object", "null"],
+                        "type": "object",
                         "properties": {
                           "message": {
                             "type": "string",
                             "description": "Details on the reason why a failure happened.",
-                            "example": "Image generation failed"
+                            "example": "Please use an image with a detectable face"
                           },
                           "code": {
                             "type": "string",
-                            "example": "render_failed",
+                            "example": "no_source_face",
                             "description": "An error code to indicate why a failure happened."
                           }
                         },
                         "required": ["message", "code"],
-                        "description": "Error returned when image generation fails.",
+                        "nullable": true,
+                        "description": "In the case of an error, this object will contain the error encountered during video render",
                         "example": null
                       }
                     },
@@ -838,7 +837,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Hex-encoded HMAC-SHA256 signature of `{timestamp}.{raw request body}`, computed with the webhook secret.",
+              "description": "A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256",
               "example": "3e771b50c..."
             }
           },
@@ -848,7 +847,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Unix timestamp in seconds. Reject the request if it is more than five minutes from the current time.",
+              "description": "Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.",
               "example": "1730742038"
             }
           }
@@ -868,10 +867,11 @@
                       "id": {
                         "type": "string",
                         "example": "cuid-example",
-                        "description": "Unique ID of the image. Use it with the [Get image details API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
+                        "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
                       },
                       "name": {
-                        "type": ["string", "null"],
+                        "type": "string",
+                        "nullable": true,
                         "description": "The name of the image.",
                         "example": "Example Name"
                       },
@@ -903,12 +903,6 @@
                       },
                       "downloads": {
                         "type": "array",
-                        "example": [
-                          {
-                            "url": "https://videos.magichour.ai/id/output.png",
-                            "expires_at": "2024-10-19T05:16:19.027Z"
-                          }
-                        ],
                         "items": {
                           "type": "object",
                           "properties": {
@@ -924,25 +918,26 @@
                             }
                           },
                           "required": ["url", "expires_at"],
-                          "description": "The download URL and expiration date of the image project"
+                          "description": "The download url and expiration date of the image project"
                         }
                       },
                       "error": {
-                        "type": ["object", "null"],
+                        "type": "object",
                         "properties": {
                           "message": {
                             "type": "string",
                             "description": "Details on the reason why a failure happened.",
-                            "example": "Image generation failed"
+                            "example": "Please use an image with a detectable face"
                           },
                           "code": {
                             "type": "string",
-                            "example": "render_failed",
+                            "example": "no_source_face",
                             "description": "An error code to indicate why a failure happened."
                           }
                         },
                         "required": ["message", "code"],
-                        "description": "Error returned when image generation fails.",
+                        "nullable": true,
+                        "description": "In the case of an error, this object will contain the error encountered during video render",
                         "example": null
                       }
                     },
@@ -1027,7 +1022,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Hex-encoded HMAC-SHA256 signature of `{timestamp}.{raw request body}`, computed with the webhook secret.",
+              "description": "A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256",
               "example": "3e771b50c..."
             }
           },
@@ -1037,7 +1032,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Unix timestamp in seconds. Reject the request if it is more than five minutes from the current time.",
+              "description": "Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.",
               "example": "1730742038"
             }
           }
@@ -1057,10 +1052,11 @@
                       "id": {
                         "type": "string",
                         "example": "cuid-example",
-                        "description": "Unique ID of the image. Use it with the [Get image details API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
+                        "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
                       },
                       "name": {
-                        "type": ["string", "null"],
+                        "type": "string",
+                        "nullable": true,
                         "description": "The name of the image.",
                         "example": "Example Name"
                       },
@@ -1068,7 +1064,7 @@
                         "type": "string",
                         "enum": ["draft", "queued", "rendering", "complete", "error", "canceled"],
                         "description": "The status of the image.\n\n- `draft` - the project was created but has not been submitted for rendering\n- `queued` - the job is waiting for an available server\n- `rendering` - the job is being processed; the `image.started` webhook event fires when rendering begins\n- `complete` - the job finished successfully; fires `image.completed`\n- `error` - the job failed during processing; fires `image.errored`\n- `canceled` - the job was manually canceled (for example from the Magic Hour web app)\n\n**Note:** `rendering`, `complete`, and `error` have matching webhook events; `canceled` does not - a canceled job emits no webhook event, so poll this endpoint to detect cancellation.",
-                        "example": "error"
+                        "example": "complete"
                       },
                       "image_count": {
                         "type": "integer",
@@ -1092,7 +1088,6 @@
                       },
                       "downloads": {
                         "type": "array",
-                        "example": [],
                         "items": {
                           "type": "object",
                           "properties": {
@@ -1108,26 +1103,27 @@
                             }
                           },
                           "required": ["url", "expires_at"],
-                          "description": "The download URL and expiration date of the image project"
+                          "description": "The download url and expiration date of the image project"
                         }
                       },
                       "error": {
-                        "type": ["object", "null"],
+                        "type": "object",
                         "properties": {
                           "message": {
                             "type": "string",
                             "description": "Details on the reason why a failure happened.",
-                            "example": "Image generation failed"
+                            "example": "Please use an image with a detectable face"
                           },
                           "code": {
                             "type": "string",
-                            "example": "render_failed",
+                            "example": "no_source_face",
                             "description": "An error code to indicate why a failure happened."
                           }
                         },
                         "required": ["message", "code"],
-                        "description": "Error returned when image generation fails.",
-                        "example": { "message": "Image generation failed", "code": "render_failed" }
+                        "nullable": true,
+                        "description": "In the case of an error, this object will contain the error encountered during video render",
+                        "example": null
                       }
                     },
                     "required": [
@@ -1211,7 +1207,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Hex-encoded HMAC-SHA256 signature of `{timestamp}.{raw request body}`, computed with the webhook secret.",
+              "description": "A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256",
               "example": "3e771b50c..."
             }
           },
@@ -1221,7 +1217,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Unix timestamp in seconds. Reject the request if it is more than five minutes from the current time.",
+              "description": "Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.",
               "example": "1730742038"
             }
           }
@@ -1241,10 +1237,11 @@
                       "id": {
                         "type": "string",
                         "example": "cuid-example",
-                        "description": "Unique ID of the audio. Use it with the [Get audio details API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
+                        "description": "Unique ID of the audio. Use it with the [Get audio Project API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
                       },
                       "name": {
-                        "type": ["string", "null"],
+                        "type": "string",
+                        "nullable": true,
                         "description": "The name of the audio.",
                         "example": "Example Name"
                       },
@@ -1252,7 +1249,7 @@
                         "type": "string",
                         "enum": ["draft", "queued", "rendering", "complete", "error", "canceled"],
                         "description": "The status of the audio.\n\n- `draft` - the project was created but has not been submitted for rendering\n- `queued` - the job is waiting for an available server\n- `rendering` - the job is being processed; the `audio.started` webhook event fires when rendering begins\n- `complete` - the job finished successfully; fires `audio.completed`\n- `error` - the job failed during processing; fires `audio.errored`\n- `canceled` - the job was manually canceled (for example from the Magic Hour web app)\n\n**Note:** `rendering`, `complete`, and `error` have matching webhook events; `canceled` does not - a canceled job emits no webhook event, so poll this endpoint to detect cancellation.",
-                        "example": "rendering"
+                        "example": "complete"
                       },
                       "type": {
                         "type": "string",
@@ -1271,7 +1268,6 @@
                       },
                       "downloads": {
                         "type": "array",
-                        "example": [],
                         "items": {
                           "type": "object",
                           "properties": {
@@ -1287,25 +1283,26 @@
                             }
                           },
                           "required": ["url", "expires_at"],
-                          "description": "The download URL and expiration date of the audio project"
+                          "description": "The download url and expiration date of the audio project"
                         }
                       },
                       "error": {
-                        "type": ["object", "null"],
+                        "type": "object",
                         "properties": {
                           "message": {
                             "type": "string",
                             "description": "Details on the reason why a failure happened.",
-                            "example": "Audio generation failed"
+                            "example": "Please use an image with a detectable face"
                           },
                           "code": {
                             "type": "string",
-                            "example": "render_failed",
+                            "example": "no_source_face",
                             "description": "An error code to indicate why a failure happened."
                           }
                         },
                         "required": ["message", "code"],
-                        "description": "Error returned when audio generation fails.",
+                        "nullable": true,
+                        "description": "In the case of an error, this object will contain the error encountered during video render",
                         "example": null
                       }
                     },
@@ -1389,7 +1386,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Hex-encoded HMAC-SHA256 signature of `{timestamp}.{raw request body}`, computed with the webhook secret.",
+              "description": "A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256",
               "example": "3e771b50c..."
             }
           },
@@ -1399,7 +1396,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Unix timestamp in seconds. Reject the request if it is more than five minutes from the current time.",
+              "description": "Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.",
               "example": "1730742038"
             }
           }
@@ -1419,10 +1416,11 @@
                       "id": {
                         "type": "string",
                         "example": "cuid-example",
-                        "description": "Unique ID of the audio. Use it with the [Get audio details API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
+                        "description": "Unique ID of the audio. Use it with the [Get audio Project API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
                       },
                       "name": {
-                        "type": ["string", "null"],
+                        "type": "string",
+                        "nullable": true,
                         "description": "The name of the audio.",
                         "example": "Example Name"
                       },
@@ -1449,12 +1447,6 @@
                       },
                       "downloads": {
                         "type": "array",
-                        "example": [
-                          {
-                            "url": "https://videos.magichour.ai/id/output.wav",
-                            "expires_at": "2024-10-19T05:16:19.027Z"
-                          }
-                        ],
                         "items": {
                           "type": "object",
                           "properties": {
@@ -1470,25 +1462,26 @@
                             }
                           },
                           "required": ["url", "expires_at"],
-                          "description": "The download URL and expiration date of the audio project"
+                          "description": "The download url and expiration date of the audio project"
                         }
                       },
                       "error": {
-                        "type": ["object", "null"],
+                        "type": "object",
                         "properties": {
                           "message": {
                             "type": "string",
                             "description": "Details on the reason why a failure happened.",
-                            "example": "Audio generation failed"
+                            "example": "Please use an image with a detectable face"
                           },
                           "code": {
                             "type": "string",
-                            "example": "render_failed",
+                            "example": "no_source_face",
                             "description": "An error code to indicate why a failure happened."
                           }
                         },
                         "required": ["message", "code"],
-                        "description": "Error returned when audio generation fails.",
+                        "nullable": true,
+                        "description": "In the case of an error, this object will contain the error encountered during video render",
                         "example": null
                       }
                     },
@@ -1572,7 +1565,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Hex-encoded HMAC-SHA256 signature of `{timestamp}.{raw request body}`, computed with the webhook secret.",
+              "description": "A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256",
               "example": "3e771b50c..."
             }
           },
@@ -1582,7 +1575,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Unix timestamp in seconds. Reject the request if it is more than five minutes from the current time.",
+              "description": "Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.",
               "example": "1730742038"
             }
           }
@@ -1602,10 +1595,11 @@
                       "id": {
                         "type": "string",
                         "example": "cuid-example",
-                        "description": "Unique ID of the audio. Use it with the [Get audio details API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
+                        "description": "Unique ID of the audio. Use it with the [Get audio Project API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
                       },
                       "name": {
-                        "type": ["string", "null"],
+                        "type": "string",
+                        "nullable": true,
                         "description": "The name of the audio.",
                         "example": "Example Name"
                       },
@@ -1613,7 +1607,7 @@
                         "type": "string",
                         "enum": ["draft", "queued", "rendering", "complete", "error", "canceled"],
                         "description": "The status of the audio.\n\n- `draft` - the project was created but has not been submitted for rendering\n- `queued` - the job is waiting for an available server\n- `rendering` - the job is being processed; the `audio.started` webhook event fires when rendering begins\n- `complete` - the job finished successfully; fires `audio.completed`\n- `error` - the job failed during processing; fires `audio.errored`\n- `canceled` - the job was manually canceled (for example from the Magic Hour web app)\n\n**Note:** `rendering`, `complete`, and `error` have matching webhook events; `canceled` does not - a canceled job emits no webhook event, so poll this endpoint to detect cancellation.",
-                        "example": "error"
+                        "example": "complete"
                       },
                       "type": {
                         "type": "string",
@@ -1632,7 +1626,6 @@
                       },
                       "downloads": {
                         "type": "array",
-                        "example": [],
                         "items": {
                           "type": "object",
                           "properties": {
@@ -1648,26 +1641,27 @@
                             }
                           },
                           "required": ["url", "expires_at"],
-                          "description": "The download URL and expiration date of the audio project"
+                          "description": "The download url and expiration date of the audio project"
                         }
                       },
                       "error": {
-                        "type": ["object", "null"],
+                        "type": "object",
                         "properties": {
                           "message": {
                             "type": "string",
                             "description": "Details on the reason why a failure happened.",
-                            "example": "Audio generation failed"
+                            "example": "Please use an image with a detectable face"
                           },
                           "code": {
                             "type": "string",
-                            "example": "render_failed",
+                            "example": "no_source_face",
                             "description": "An error code to indicate why a failure happened."
                           }
                         },
                         "required": ["message", "code"],
-                        "description": "Error returned when audio generation fails.",
-                        "example": { "message": "Audio generation failed", "code": "render_failed" }
+                        "nullable": true,
+                        "description": "In the case of an error, this object will contain the error encountered during video render",
+                        "example": null
                       }
                     },
                     "required": [
@@ -1742,7 +1736,7 @@
   "info": {
     "title": "Magic Hour Webhook",
     "version": "beta",
-    "description": "## Introduction\n\nMagic Hour sends an event to your webhook URL when an event occurs in your account. [Create a webhook](https://magichour.ai/developer?tab=webhooks&utm_source=docs&utm_medium=referral&utm_campaign=webhook-reference) or read the [webhook guides](https://docs.magichour.ai/integration/webhook/overview).\n\n## Secure your endpoint\n\nEvery webhook includes two headers:\n\n- `magic-hour-event-signature` contains the HMAC-SHA256 signature.\n- `magic-hour-event-timestamp` contains the Unix timestamp in seconds.\n\nVerify both headers before processing an event. Reject requests with a missing or invalid signature, or a timestamp more than five minutes from the current time.\n\nBuild the signed payload by joining the timestamp, a period, and the raw request body exactly as received. Do not parse and reserialize the JSON before verification.\n\n```txt\n1729314984.{\"type\":\"video.started\",\"payload\":{\"id\":\"cm2fphlo3000dmfhu8m0dh63z\",\"name\":\"Video\",\"status\":\"rendering\",\"type\":\"TEXT_TO_VIDEO\",\"created_at\":\"2024-10-19T05:16:19.027Z\",\"width\":720,\"height\":1280,\"start_seconds\":0,\"end_seconds\":5,\"fps\":30,\"download\":null}}\n```\n\nCompute the HMAC-SHA256 digest with the webhook secret as the key and the signed payload as the message. Compare it with `magic-hour-event-signature` using a constant-time comparison.\n\n## Retry behavior\n\nIf your endpoint does not return a `2XX` status, Magic Hour retries delivery with exponential backoff for up to 24 hours. After 24 hours, the event is marked as failed. Disabling a webhook skips its pending events, which are also marked as failed after 24 hours.\n",
+    "description": "## Introduction \n\nConfiguring a webhook allow Magic Hour to notify you whenever an event occurs in your account. To get started, create a webhook [here](https://magichour.ai/developer?tab=webhooks&utm_source=docs&utm_medium=referral&utm_campaign=webhook-reference).\n\nAPI documentation can be found [here](https://docs.magichour.ai/webhook-reference).\n\nIf you have any questions, please reach out to us via [discord](https://discord.gg/JX5rgsZaJp).\n\n## Securing your endpoint\n\nEvents includes two headers to help verify the authenticity of the payload. \n- `magic-hour-event-signature` - A signatured created with the webhook secret key and a signed_payload, using HMAC with SHA-256\n- `magic-hour-event-timestamp` - Time in seconds since the epoch. Use this value to check whether the request is within a reasonable window of the current time. Usually less than 5 minutes.\n\nUsing the header to verify the request ensures that the request is authentic. However, the header verification is optional. \n\nTo compute the signature to verify:\n1. create a `signed_payload` by concatenating:\n      - the timestamp as a string\n      - the character `.`\n      - the payload JSON (stringified)\n\nFor example, \n```txt\n1729314984.{\"type\":\"video.started\",\"object\":{\"id\":\"cm2fphlo3000dmfhu8m0dh63z\",\"name\":\"Video\",\"status\":\"rendering\",\"type\":\"TEXT_TO_VIDEO\",\"created_at\":\"2024-10-19T05:16:19.027Z\",\"width\":720,\"height\":1280,\"total_frame_cost\":300,\"start_seconds\":0,\"end_seconds\":5,\"fps\":30,\"download\":null}}\n```\n\n2. Compute an HMAC with the SHA256 Hash function. Using the webhook secret as the key, and use the `signed_payload` as the message.\n3. Compare the computed hash value against the header and verify that the timestamp is within a reasonable window.\n\n## Retry behavior\n\nIf event delivery failed, meaning the response from your endpoint does not have a status code of `2XX`, we will retry delivery up to 24 hours with exponential backoff. After 24 hours, the event will be marked as failed and will not be retried.\n\nIn the case where the webhook is disabled, pending events for the webhook will be skipped. Please note that these events will also be marked as failed after 24 hours.\n",
     "termsOfService": "https://magichour.ai/terms-of-service"
   },
   "servers": [{ "url": "https://your-webhook.com" }],
