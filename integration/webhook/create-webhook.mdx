@@ -374,7 +374,7 @@ print("Check your webhook.site browser tab for the webhook delivery!")
 <Step title="Verify webhook delivery">
 After the project changes status, you should see a webhook event in your console or webhook.site.
 This example abbreviates the project payload; use the [webhook
-reference](/webhook-reference/video-events/video-completed) for its complete schema.
+reference](/webhook-reference/image-events/image-completed) for its complete schema.
 
 ```json
 {
@@ -403,7 +403,7 @@ If your endpoint doesn't respond with a 2xx status code, Magic Hour will retry d
 
 - **Duration**: Until delivery succeeds or the event is 24 hours old
 - **Pattern**: Exponential backoff (1, 2, 4, ... minutes), capped at 60 minutes
-- **After 24 hours**: Event marked as failed, no more retries
+- **Expiration**: Once an event is more than 24 hours old, the next delivery pass marks it failed
 
 <Info>
   **Disabled webhooks**: Disabling a webhook stops new events from being queued. Events that are
@@ -418,7 +418,7 @@ If your endpoint doesn't respond with a 2xx status code, Magic Hour will retry d
 - Return a 2xx status promptly
 - Process events asynchronously (respond fast, process later)
 - Deduplicate repeated webhook deliveries
-- Log event IDs, types, and outcomes without logging secrets or raw payloads
+- Log project IDs, event types, and outcomes without logging secrets or raw payloads
 
 ❌ **Don't:**
 
