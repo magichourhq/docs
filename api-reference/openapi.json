@@ -1702,7 +1702,7 @@
     },
     "/v1/audio-to-video": {
       "post": {
-        "description": "Generate a video from an audio file, an optional reference image, and a text prompt. Credits are charged for rendered frames; the create response returns an estimate and the completed project returns the final charge. See the [product page](https://magichour.ai/products/audio-to-video).",
+        "description": "Generate a video from an audio file. You can add a reference image and text prompt. Credits are charged for rendered frames; the create response returns an estimate and the completed project returns the final charge. See the [product page](https://magichour.ai/products/audio-to-video).",
         "summary": "Audio-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2647,7 +2647,7 @@
     },
     "/v1/image-to-video": {
       "post": {
-        "description": "Generate a video from a reference image and a text prompt. Credits are charged for rendered frames; the create response returns an estimate and the completed project returns the final charge. See the [product page](https://magichour.ai/products/image-to-video).",
+        "description": "Generate a video from a reference image. You can add a text prompt. Credits are charged for rendered frames; the create response returns an estimate and the completed project returns the final charge. See the [product page](https://magichour.ai/products/image-to-video).",
         "summary": "Image-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -3321,7 +3321,7 @@
     },
     "/v1/video-to-video": {
       "post": {
-        "description": "Restyle a source video with a text prompt and style controls. Credits are charged for rendered frames; the create response returns an estimate and the completed project returns the final charge. See the [product page](https://magichour.ai/products/video-to-video).",
+        "description": "Restyle a source video. You can add a text prompt and style controls. Credits are charged for rendered frames; the create response returns an estimate and the completed project returns the final charge. See the [product page](https://magichour.ai/products/video-to-video).",
         "summary": "Video-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
