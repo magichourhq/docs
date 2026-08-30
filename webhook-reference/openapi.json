@@ -43,7 +43,7 @@
                       "id": {
                         "type": "string",
                         "example": "cuid-example",
-                        "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
+                        "description": "Unique ID of the video. Use it with the [Get video details API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
                       },
                       "name": {
                         "type": ["string", "null"],
@@ -136,7 +136,7 @@
                             }
                           },
                           "required": ["url", "expires_at"],
-                          "description": "The download url and expiration date of the image project"
+                          "description": "The download URL and expiration date of the video project"
                         }
                       }
                     },
@@ -255,7 +255,7 @@
                       "id": {
                         "type": "string",
                         "example": "cuid-example",
-                        "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
+                        "description": "Unique ID of the video. Use it with the [Get video details API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
                       },
                       "name": {
                         "type": ["string", "null"],
@@ -353,7 +353,7 @@
                             }
                           },
                           "required": ["url", "expires_at"],
-                          "description": "The download url and expiration date of the image project"
+                          "description": "The download URL and expiration date of the video project"
                         }
                       }
                     },
@@ -472,7 +472,7 @@
                       "id": {
                         "type": "string",
                         "example": "cuid-example",
-                        "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
+                        "description": "Unique ID of the video. Use it with the [Get video details API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
                       },
                       "name": {
                         "type": ["string", "null"],
@@ -565,7 +565,7 @@
                             }
                           },
                           "required": ["url", "expires_at"],
-                          "description": "The download url and expiration date of the image project"
+                          "description": "The download URL and expiration date of the video project"
                         }
                       }
                     },
@@ -684,7 +684,7 @@
                       "id": {
                         "type": "string",
                         "example": "cuid-example",
-                        "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
+                        "description": "Unique ID of the image. Use it with the [Get image details API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
                       },
                       "name": {
                         "type": ["string", "null"],
@@ -735,7 +735,7 @@
                             }
                           },
                           "required": ["url", "expires_at"],
-                          "description": "The download url and expiration date of the image project"
+                          "description": "The download URL and expiration date of the image project"
                         }
                       },
                       "error": {
@@ -868,7 +868,7 @@
                       "id": {
                         "type": "string",
                         "example": "cuid-example",
-                        "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
+                        "description": "Unique ID of the image. Use it with the [Get image details API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
                       },
                       "name": {
                         "type": ["string", "null"],
@@ -924,7 +924,7 @@
                             }
                           },
                           "required": ["url", "expires_at"],
-                          "description": "The download url and expiration date of the image project"
+                          "description": "The download URL and expiration date of the image project"
                         }
                       },
                       "error": {
@@ -1057,7 +1057,7 @@
                       "id": {
                         "type": "string",
                         "example": "cuid-example",
-                        "description": "Unique ID of the image. Use it with the [Get image Project API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
+                        "description": "Unique ID of the image. Use it with the [Get image details API](https://docs.magichour.ai/api-reference/image-projects/get-image-details) to fetch status and downloads."
                       },
                       "name": {
                         "type": ["string", "null"],
@@ -1108,7 +1108,7 @@
                             }
                           },
                           "required": ["url", "expires_at"],
-                          "description": "The download url and expiration date of the image project"
+                          "description": "The download URL and expiration date of the image project"
                         }
                       },
                       "error": {
@@ -1241,7 +1241,7 @@
                       "id": {
                         "type": "string",
                         "example": "cuid-example",
-                        "description": "Unique ID of the audio. Use it with the [Get audio Project API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
+                        "description": "Unique ID of the audio. Use it with the [Get audio details API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
                       },
                       "name": {
                         "type": ["string", "null"],
@@ -1287,7 +1287,7 @@
                             }
                           },
                           "required": ["url", "expires_at"],
-                          "description": "The download url and expiration date of the audio project"
+                          "description": "The download URL and expiration date of the audio project"
                         }
                       },
                       "error": {
@@ -1419,7 +1419,7 @@
                       "id": {
                         "type": "string",
                         "example": "cuid-example",
-                        "description": "Unique ID of the audio. Use it with the [Get audio Project API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
+                        "description": "Unique ID of the audio. Use it with the [Get audio details API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
                       },
                       "name": {
                         "type": ["string", "null"],
@@ -1470,7 +1470,7 @@
                             }
                           },
                           "required": ["url", "expires_at"],
-                          "description": "The download url and expiration date of the audio project"
+                          "description": "The download URL and expiration date of the audio project"
                         }
                       },
                       "error": {
@@ -1602,7 +1602,7 @@
                       "id": {
                         "type": "string",
                         "example": "cuid-example",
-                        "description": "Unique ID of the audio. Use it with the [Get audio Project API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
+                        "description": "Unique ID of the audio. Use it with the [Get audio details API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
                       },
                       "name": {
                         "type": ["string", "null"],
@@ -1648,7 +1648,7 @@
                             }
                           },
                           "required": ["url", "expires_at"],
-                          "description": "The download url and expiration date of the audio project"
+                          "description": "The download URL and expiration date of the audio project"
                         }
                       },
                       "error": {
