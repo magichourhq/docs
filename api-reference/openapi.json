@@ -940,14 +940,14 @@
                   "start_seconds": {
                     "type": "number",
                     "minimum": 0,
-                    "description": "The start time of the input audio in seconds. Maximum clip length depends on style.generation_mode: realistic 180s, prompted 45s.",
+                    "description": "The start time of the input audio in seconds. Maximum clip length depends on style.generation_mode: realistic 300s, prompted 45s.",
                     "format": "float",
                     "example": 0
                   },
                   "end_seconds": {
                     "type": "number",
                     "minimum": 0.1,
-                    "description": "The end time of the input audio in seconds. Maximum clip length depends on style.generation_mode: realistic 180s, prompted 45s.",
+                    "description": "The end time of the input audio in seconds. Maximum clip length depends on style.generation_mode: realistic 300s, prompted 45s.",
                     "format": "float",
                     "example": 15
                   },
@@ -1138,7 +1138,7 @@
     },
     "/v1/ai-video-editor": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Video Editor you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video editor into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video editor job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: see the request schema for endpoint-specific assets  \n- Resolution: free users default to 480p; higher plans unlock HD and larger sizes  \n- Extra fields: see the request schema for endpoint-specific options  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/ai-video-editor).",
+        "description": "**What this API does**\n\nCreate the same Video Editor you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video editor into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video editor job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/ai-video-editor).",
         "summary": "AI Video Editor",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -1702,7 +1702,7 @@
     },
     "/v1/audio-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Audio To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding audio to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a audio to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: see the request schema for endpoint-specific assets  \n- Resolution: free users default to 480p; higher plans unlock HD and larger sizes  \n- Extra fields: see the request schema for endpoint-specific options  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/audio-to-video).",
+        "description": "**What this API does**\n\nCreate the same Audio To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding audio to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a audio to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/audio-to-video).",
         "summary": "Audio-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2156,7 +2156,7 @@
     },
     "/v1/character-replace": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Character Replace you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding character replace into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a character replace job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: see the request schema for endpoint-specific assets  \n- Resolution: free users default to 480p; higher plans unlock HD and larger sizes  \n- Extra fields: see the request schema for endpoint-specific options  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/character-replace).",
+        "description": "**What this API does**\n\nCreate the same Character Replace you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding character replace into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a character replace job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/character-replace).",
         "summary": "Character Replace",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2401,7 +2401,7 @@
     },
     "/v1/face-swap": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Face Swap you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding face swap into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a face swap job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: see the request schema for endpoint-specific assets  \n- Resolution: free users default to 480p; higher plans unlock HD and larger sizes  \n- Extra fields: see the request schema for endpoint-specific options  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/face-swap).",
+        "description": "**What this API does**\n\nCreate the same Face Swap you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding face swap into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a face swap job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/face-swap).",
         "summary": "Face Swap Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2647,7 +2647,7 @@
     },
     "/v1/image-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Image To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding image to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a image to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: see the request schema for endpoint-specific assets  \n- Resolution: free users default to 480p; higher plans unlock HD and larger sizes  \n- Extra fields: see the request schema for endpoint-specific options  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/image-to-video).",
+        "description": "**What this API does**\n\nCreate the same Image To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding image to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a image to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/image-to-video).",
         "summary": "Image-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2681,6 +2681,7 @@
                       "default",
                       "ltx-2",
                       "ltx-2.3",
+                      "ltx-2.5",
                       "minimax-h3",
                       "wan-2.2",
                       "seedance-1.5",
@@ -2690,6 +2691,7 @@
                       "kling-2.5",
                       "kling-2.6",
                       "kling-3.0",
+                      "google-omni-1.1",
                       "veo3.1",
                       "veo3.1-lite",
                       "sora-2",
@@ -2698,7 +2700,7 @@
                       "kling-2.5-audio",
                       "veo3.1-audio"
                     ],
-                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `kling-2.6`: Great for action, motion blur, and camera moves.\n* `kling-3.0`: Best overall quality for cinematic storytelling.\n* `ltx-2.3`: Fastest output. Best for rapid iteration.\n* `minimax-h3`: Reference-driven video with native audio.\n* `seedance-1.5`: Smooth, consistent motion with precision.\n* `seedance-2.0`: Top quality with reference-to-video control.\n* `seedance-2.0-mini`: Fast, consistent video with strong motion quality\n* `seedance-2.5`: Highest quality with superior realism, detail, and motion\n* `sora-2`: Open AI's model. Great for creativity and viral clips.\n* `veo3.1`: Google's model. Highest realism and detail.\n* `veo3.1-lite`: Veo quality at a more accessible cost.\n* `wan-2.2`: Strong physics, camera moves, and motion.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
+                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `kling-2.6`: Best for action, motion blur, and controlled camera moves.\n* `kling-3.0`: Best for cinematic stories, references, and optional audio.\n* `ltx-2.3`: Fastest for general scenes, long clips, audio, and rapid iteration.\n* `minimax-h3`: Great for reference-driven clips with native audio and longer durations.\n* `seedance-1.5`: Best for smooth, consistent motion with an end frame.\n* `seedance-2.0`: Best for reference-led clips with precise subject control.\n* `seedance-2.0-mini`: Faster reference-led clips with consistent motion and audio.\n* `seedance-2.5`: Best for premium realism, detail, and natural motion.\n* `sora-2`: Best for creative concepts and longer clips with audio.\n* `veo3.1`: Best for romantic interactions and expressive action, with realistic detail.\n* `veo3.1-lite`: Balanced realism and audio at a lower cost than Veo 3.1.\n* `wan-2.2`: Best for physical motion, action, and camera movement.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
                     "example": "kling-3.0"
                   },
                   "resolution": {
@@ -2880,7 +2882,7 @@
     },
     "/v1/lip-sync": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Lip Sync you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding lip sync into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a lip sync job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: see the request schema for endpoint-specific assets  \n- Resolution: free users default to 480p; higher plans unlock HD and larger sizes  \n- Extra fields: see the request schema for endpoint-specific options  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/lip-sync).",
+        "description": "**What this API does**\n\nCreate the same Lip Sync you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding lip sync into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a lip sync job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/lip-sync).",
         "summary": "Lip Sync",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -3099,7 +3101,7 @@
     },
     "/v1/text-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Text To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding text to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a text to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: see the request schema for endpoint-specific assets  \n- Resolution: free users default to 480p; higher plans unlock HD and larger sizes  \n- Extra fields: see the request schema for endpoint-specific options  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/text-to-video).",
+        "description": "**What this API does**\n\nCreate the same Text To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding text to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a text to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/text-to-video).",
         "summary": "Text-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -3145,6 +3147,7 @@
                       "default",
                       "ltx-2",
                       "ltx-2.3",
+                      "ltx-2.5",
                       "minimax-h3",
                       "wan-2.2",
                       "seedance-1.5",
@@ -3154,6 +3157,7 @@
                       "kling-2.5",
                       "kling-2.6",
                       "kling-3.0",
+                      "google-omni-1.1",
                       "veo3.1",
                       "veo3.1-lite",
                       "sora-2",
@@ -3162,7 +3166,7 @@
                       "kling-2.5-audio",
                       "veo3.1-audio"
                     ],
-                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `kling-2.6`: Great for action, motion blur, and camera moves.\n* `kling-3.0`: Best overall quality for cinematic storytelling.\n* `ltx-2.3`: Fastest output. Best for rapid iteration.\n* `minimax-h3`: Reference-driven video with native audio.\n* `seedance-1.5`: Smooth, consistent motion with precision.\n* `seedance-2.0`: Top quality with reference-to-video control.\n* `seedance-2.0-mini`: Fast, consistent video with strong motion quality\n* `seedance-2.5`: Highest quality with superior realism, detail, and motion\n* `sora-2`: Open AI's model. Great for creativity and viral clips.\n* `veo3.1`: Google's model. Highest realism and detail.\n* `veo3.1-lite`: Veo quality at a more accessible cost.\n* `wan-2.2`: Strong physics, camera moves, and motion.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
+                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.3`.\n* `kling-2.6`: Best for action, motion blur, and controlled camera moves.\n* `kling-3.0`: Best for cinematic stories, references, and optional audio.\n* `ltx-2.3`: Fastest for general scenes, long clips, audio, and rapid iteration.\n* `minimax-h3`: Great for reference-driven clips with native audio and longer durations.\n* `seedance-1.5`: Best for smooth, consistent motion with an end frame.\n* `seedance-2.0`: Best for reference-led clips with precise subject control.\n* `seedance-2.0-mini`: Faster reference-led clips with consistent motion and audio.\n* `seedance-2.5`: Best for premium realism, detail, and natural motion.\n* `sora-2`: Best for creative concepts and longer clips with audio.\n* `veo3.1`: Best for romantic interactions and expressive action, with realistic detail.\n* `veo3.1-lite`: Balanced realism and audio at a lower cost than Veo 3.1.\n* `wan-2.2`: Best for physical motion, action, and camera movement.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
                     "example": "kling-3.0"
                   },
                   "audio": {
@@ -3290,19 +3294,19 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.text_to_video.generate(\n    end_seconds=5.0,\n    aspect_ratio=\"16:9\",\n    style={\"prompt\": \"a dog running\"},\n    name=\"Text To Video video\",\n    resolution=\"720p\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.text_to_video.generate(\n    end_seconds=5.0,\n    orientation=\"landscape\",\n    style={\"prompt\": \"a dog running\"},\n    name=\"Text To Video video\",\n    resolution=\"720p\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.textToVideo.generate(\n  {\n    endSeconds: 5.0,\n    name: \"Text To Video video\",\n    resolution: \"720p\",\n    style: { prompt: \"a dog running\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.textToVideo.generate(\n  {\n    endSeconds: 5.0,\n    name: \"Text To Video video\",\n    orientation: \"landscape\",\n    resolution: \"720p\",\n    style: { prompt: \"a dog running\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\ttext_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/text_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"API_TOKEN\")),\n\t)\n\tres, err := client.V1.TextToVideo.Create(text_to_video.CreateRequest{\n\t\tAspectRatio: nullable.NewValue(types.V1TextToVideoCreateBodyAspectRatioEnum169),\n\t\tAudio:       nullable.NewValue(true),\n\t\tEndSeconds:  5.0,\n\t\tModel:       nullable.NewValue(types.V1TextToVideoCreateBodyModelEnumKling30),\n\t\tName:        nullable.NewValue(\"My Text To Video video\"),\n\t\tResolution:  nullable.NewValue(types.V1TextToVideoCreateBodyResolutionEnum720p),\n\t\tStyle: types.V1TextToVideoCreateBodyStyle{\n\t\t\tPrompt: \"a dog running\",\n\t\t},\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\ttext_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/text_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"API_TOKEN\")),\n\t)\n\tres, err := client.V1.TextToVideo.Create(text_to_video.CreateRequest{\n\t\tAspectRatio: nullable.NewValue(types.V1TextToVideoCreateBodyAspectRatioEnum169),\n\t\tAudio:       nullable.NewValue(true),\n\t\tEndSeconds:  5.0,\n\t\tModel:       nullable.NewValue(types.V1TextToVideoCreateBodyModelEnumKling30),\n\t\tName:        nullable.NewValue(\"My Text To Video video\"),\n\t\tOrientation: nullable.NewValue(types.V1TextToVideoCreateBodyOrientationEnumLandscape),\n\t\tResolution:  nullable.NewValue(types.V1TextToVideoCreateBodyResolutionEnum720p),\n\t\tStyle: types.V1TextToVideoCreateBodyStyle{\n\t\t\tPrompt: \"a dog running\",\n\t\t},\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"API_TOKEN\").unwrap());\nlet res = client\n    .v1()\n    .text_to_video()\n    .create(magic_hour::resources::v1::text_to_video::CreateRequest {\n        aspect_ratio: Some(\n            magic_hour::models::V1TextToVideoCreateBodyAspectRatioEnum::Enum169,\n        ),\n        audio: Some(true),\n        end_seconds: 5.0,\n        model: Some(magic_hour::models::V1TextToVideoCreateBodyModelEnum::Kling30),\n        name: Some(\"My Text To Video video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1TextToVideoCreateBodyResolutionEnum::Enum720p,\n        ),\n        style: magic_hour::models::V1TextToVideoCreateBodyStyle {\n            prompt: \"a dog running\".to_string(),\n            ..Default::default()\n        },\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"API_TOKEN\").unwrap());\nlet res = client\n    .v1()\n    .text_to_video()\n    .create(magic_hour::resources::v1::text_to_video::CreateRequest {\n        aspect_ratio: Some(\n            magic_hour::models::V1TextToVideoCreateBodyAspectRatioEnum::Enum169,\n        ),\n        audio: Some(true),\n        end_seconds: 5.0,\n        model: Some(magic_hour::models::V1TextToVideoCreateBodyModelEnum::Kling30),\n        name: Some(\"My Text To Video video\".to_string()),\n        orientation: Some(\n            magic_hour::models::V1TextToVideoCreateBodyOrientationEnum::Landscape,\n        ),\n        resolution: Some(\n            magic_hour::models::V1TextToVideoCreateBodyResolutionEnum::Enum720p,\n        ),\n        style: magic_hour::models::V1TextToVideoCreateBodyStyle {\n            prompt: \"a dog running\".to_string(),\n            ..Default::default()\n        },\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -3321,7 +3325,7 @@
     },
     "/v1/video-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Video To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: see the request schema for endpoint-specific assets  \n- Resolution: free users default to 480p; higher plans unlock HD and larger sizes  \n- Extra fields: see the request schema for endpoint-specific options  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-to-video).",
+        "description": "**What this API does**\n\nCreate the same Video To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-to-video).",
         "summary": "Video-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -3992,7 +3996,7 @@
                       "garment_type": {
                         "type": "string",
                         "enum": ["entire_outfit", "upper_body", "lower_body", "dresses"],
-                        "description": "Type of garment to swap. If not provided, swaps the entire outfit. \n* `upper_body` - for shirts/jackets \n* `lower_body` - for pants/skirts \n* `dresses` - for entire outfit (deprecated, use `entire_outfit` instead) \n* `entire_outfit` - for entire outfit",
+                        "description": "Type of clothing item to swap. If not provided, swaps the entire outfit. \n* `upper_body` - for shirts/jackets \n* `lower_body` - for pants/skirts \n* `dresses` - for entire outfit (deprecated, use `entire_outfit` instead) \n* `entire_outfit` - for entire outfit",
                         "example": "entire_outfit"
                       }
                     },
@@ -4811,7 +4815,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_image_editor.generate(\n    assets={\"image_file_paths\": [\"/path/to/1234.png\"]},\n    style={\"prompt\": \"Give me sunglasses\"},\n    name=\"Ai Image Editor image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_image_editor.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    style={\"prompt\": \"Give me sunglasses\"},\n    name=\"Ai Image Editor image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -5434,11 +5438,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_image_upscaler.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    scale_factor=2.0,\n    style={\"mode\": \"balanced\"},\n    name=\"Image Upscaler image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_image_upscaler.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    scale_factor=2.0,\n    style={\"enhancement\": \"Balanced\"},\n    name=\"Image Upscaler image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiImageUpscaler.generate(\n  {\n    assets: { imageFilePath: \"/path/to/1234.png\" },\n    name: \"Image Upscaler image\",\n    scaleFactor: 2.0,\n    style: { mode: \"balanced\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"API_TOKEN\"]!! });\nconst res = await client.v1.aiImageUpscaler.generate(\n  {\n    assets: { imageFilePath: \"/path/to/1234.png\" },\n    name: \"Image Upscaler image\",\n    scaleFactor: 2.0,\n    style: { enhancement: \"Balanced\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
