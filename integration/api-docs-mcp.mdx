@@ -1,0 +1,75 @@
+---
+title: API Docs MCP
+description: Let an AI coding assistant search Magic Hour's API documentation.
+---
+
+The API Docs MCP gives an AI coding assistant access to the latest Magic Hour API documentation. It
+can help find endpoints, explain parameters, produce code examples, and troubleshoot an API
+integration without requiring you to copy and paste documentation.
+
+<Warning>
+  This server only searches the API documentation. It cannot create or edit media. To let an AI
+  assistant use Magic Hour tools, connect the [Magic Hour creation
+  MCP](/integration/model-context-protocol).
+</Warning>
+
+## Connect the API Docs MCP
+
+```text API Docs MCP endpoint
+https://docs.magichour.ai/mcp
+```
+
+<Tabs>
+
+<Tab title="Cursor">
+
+[Install the API Docs MCP](https://cursor.com/en/install-mcp?name=Magic%20Hour%20API%20Docs&config=eyJ1cmwiOiJodHRwczovL2RvY3MubWFnaWNob3VyLmFpL21jcCJ9)
+
+To connect manually, add this to `mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "Magic Hour API Docs": {
+      "url": "https://docs.magichour.ai/mcp"
+    }
+  }
+}
+```
+
+</Tab>
+
+<Tab title="VS Code">
+
+[Install the API Docs MCP](https://vscode.dev/redirect/mcp/install?name=MagicHourApiDocs&config=%7B%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fdocs.magichour.ai%2Fmcp%22%7D)
+
+To connect manually, create `.vscode/mcp.json`:
+
+```json
+{
+  "servers": {
+    "Magic Hour API Docs": {
+      "type": "http",
+      "url": "https://docs.magichour.ai/mcp"
+    }
+  }
+}
+```
+
+</Tab>
+
+<Tab title="Claude Code">
+
+```bash
+claude mcp add --transport http magic-hour-api-docs https://docs.magichour.ai/mcp
+```
+
+</Tab>
+
+</Tabs>
+
+After connecting, ask questions such as:
+
+- `Which Magic Hour endpoint turns an image into a video?`
+- `Show me the required parameters for AI Image Editor.`
+- `Why does a creation request return a project ID instead of a finished file?`
