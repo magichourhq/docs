@@ -1,79 +1,217 @@
 ---
-title: MCP Server
-description: Access Magic Hour API docs through your favorite AI tools
+title: Magic Hour MCP
+description: Connect an AI assistant to Magic Hour to create and edit images, video, and audio.
 ---
 
-The Model Context Protocol (MCP) enables your favorite AI development tools to access Magic Hour's API documentation directly. This integration allows AI assistants to provide accurate, up-to-date information about Magic Hour's APIs, helping you write better code with contextual assistance.
+Model Context Protocol (MCP) lets AI assistants call external tools. Magic Hour MCP lets compatible
+assistants create and edit media through Magic Hour's API-backed tools. Connect the hosted server
+once, then ask for an image, video, or audio result in plain English. The assistant selects tools,
+starts jobs, waits for renders, and returns the finished files.
 
-## Benefits
+```text Hosted MCP endpoint
+https://mcp.magichour.ai/
+```
 
-- **Real-time API reference**: AI assistants can access the latest API documentation without you needing to copy-paste from docs
-- **Code generation**: Get accurate code examples for Magic Hour APIs directly in your editor
-- **Parameter guidance**: Receive intelligent suggestions for API parameters and request structures
-- **Error troubleshooting**: Get help debugging API integration issues with full context of the documentation
+<Card
+  title="Get a Magic Hour API key"
+  icon="key"
+  href="https://magichour.ai/developer?tab=api-keys&ref=docs-mcp&utm_source=docs&utm_medium=referral&utm_campaign=mcp"
+  horizontal
+>
+  Create the key used to authorize MCP tool calls.
+</Card>
 
-## Setup Instructions
+<Note>
+  This is the **creation MCP**, which can call Magic Hour tools. If you only want an assistant to
+  search these API docs while you write code, use the [API Docs MCP](/integration/api-docs-mcp).
+</Note>
 
-Choose your development environment below to add Magic Hour's documentation as an MCP server:
+## What the server exposes
+
+The current server builds tools from its bundled Magic Hour OpenAPI specification and adds helpers
+for the media workflow:
+
+- **Video:** talking photo, video editing, animation, audio-to-video, subtitles, character replace,
+  face swap, image-to-video, lip sync, text-to-video, and video-to-video
+- **Image:** generation and editing, clothes and face editing, GIFs, headshots, upscaling, memes,
+  QR codes, body/face/head swaps, background removal, and photo colorization
+- **Audio:** voice generation and voice cloning
+- **Workflow:** server health, file-upload URLs, face detection, project status and deletion, render
+  waiting, and secure retrieval of completed image, audio, and video files
+
+Magic Hour MCP reflects the API-backed tool catalog. It does not claim to expose every tool in the
+Magic Hour web app.
+
+## Before you connect
+
+You need:
+
+- A [Magic Hour API key](https://magichour.ai/developer?tab=api-keys&ref=docs-mcp-requirements&utm_source=docs&utm_medium=referral&utm_campaign=mcp)
+- A client that supports remote Streamable HTTP MCP servers
+- Enough Magic Hour credits for the generations you request
+
+Tool discovery is public, but every tool call requires authentication. Real generation requests
+spend Magic Hour credits, and creation tools return the credits charged with the project ID. Keep
+your API key private and never commit it to source control.
+
+## Connect a client
 
 <Tabs>
 
-<Tab title="Cursor">
+<Tab title="Claude">
 
-To connect the Magic Hour MCP server to Cursor, click the link below.
+1. Open **Settings → Connectors** in Claude and add a custom connector.
+2. Name it `Magic Hour` and use `https://mcp.magichour.ai/` as the connector URL.
+3. If Claude asks for an OAuth client ID in Advanced settings, enter `magic-hour-mcp`.
+4. Select **Connect**. On the Magic Hour authorization page, paste your API key and continue.
+5. Enable the connector and ask Claude: `Call the Magic Hour ping tool.`
 
-[Install MCP Server](https://cursor.com/en/install-mcp?name=Magic%20Hour&config=eyJ1cmwiOiJodHRwczovL2RvY3MubWFnaWNob3VyLmFpL21jcCJ9)
-
-To manually connect the MCP server:
-
-1. Open MCP Settings
-2. In `mcp.json`, add the following:
-
-```json
-{
-  "mcpServers": {
-    "Magic Hour": {
-      "url": "https://docs.magichour.ai/mcp"
-    }
-  }
-}
-```
-
-</Tab>
-
-<Tab title="VS Code">
-
-To connect the Magic Hour MCP server to VS Code, click the button below.
-
-[Install MCP Server](https://vscode.dev/redirect/mcp/install?name=MagicHour&config=%7B%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fdocs.magichour.ai%2Fmcp%22%7D)
-
-To manually connect the MCP server:
-
-Create a `.vscode/mcp.json` file and add:
-
-```json
-{
-  "servers": {
-    "Magic Hour": {
-      "type": "http",
-      "url": "https://docs.magichour.ai/mcp"
-    }
-  }
-}
-```
+The expected response is `pong`.
 
 </Tab>
 
 <Tab title="Claude Code">
 
-To use the Magic Hour MCP server with Claude Code, run the following command:
+Add the hosted server with your API key as a bearer token:
 
-```
-claude mcp add --transport http MagicHour https://docs.magichour.ai/mcp
+```bash
+claude mcp add --scope user --transport http magic-hour https://mcp.magichour.ai/ --header "Authorization: Bearer YOUR_MAGIC_HOUR_API_KEY"
 ```
 
-Check out the [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code/mcp#installing-mcp-servers) for more information.
+If your Claude Code version does not support user scope, use project scope:
+
+```bash
+claude mcp add --scope project --transport http magic-hour https://mcp.magichour.ai/ --header "Authorization: Bearer YOUR_MAGIC_HOUR_API_KEY"
+```
+
+Start a new Claude Code session and ask it to call the Magic Hour `ping` tool.
+
+</Tab>
+
+<Tab title="Codex CLI">
+
+Set your API key in the shell that will launch Codex:
+
+```bash macOS and Linux
+export MAGIC_HOUR_API_KEY="YOUR_MAGIC_HOUR_API_KEY"
+```
+
+```powershell PowerShell
+$env:MAGIC_HOUR_API_KEY = "YOUR_MAGIC_HOUR_API_KEY"
+```
+
+Add the hosted server:
+
+```bash
+codex mcp add magic-hour --url https://mcp.magichour.ai/ --bearer-token-env-var MAGIC_HOUR_API_KEY
+```
+
+Start Codex from the same shell and ask it to call the Magic Hour `ping` tool.
+
+</Tab>
+
+<Tab title="ChatGPT">
+
+If custom connectors are available for your ChatGPT plan or workspace, add a connector using:
+
+```text
+https://mcp.magichour.ai/
+```
+
+The server publishes OAuth discovery metadata and supports public client registration for ChatGPT
+connector redirect URLs. Complete the Magic Hour authorization screen with your API key, enable the
+connector, and ask ChatGPT to call the Magic Hour `ping` tool.
+
+ChatGPT controls connector availability and where its setup controls appear.
 
 </Tab>
 
 </Tabs>
+
+## Try a first request
+
+Start with a prompt that does not require an uploaded file:
+
+```text
+Create a square cinematic image of a neon ramen shop at night. Wait for the Magic Hour job to
+finish and show me the result.
+```
+
+Other examples:
+
+| Goal                 | Example request                                                                 |
+| -------------------- | ------------------------------------------------------------------------------- |
+| Edit an image        | `Add realistic sunglasses to this portrait and preserve the person's identity.` |
+| Animate a still      | `Turn this image into a five-second video with gentle camera movement.`         |
+| Swap faces           | `Swap this source face onto the person in this target image.`                   |
+| Create speech        | `Generate speech saying “Welcome to Magic Hour” with a warm narrator voice.`    |
+| Make a talking photo | `Make this portrait speak using my audio file.`                                 |
+
+## How render jobs work
+
+Image, video, and audio creation is asynchronous:
+
+1. A creation tool starts the job and immediately returns a project `id` and `credits_charged`.
+2. The assistant calls the matching `wait_for_image_project`, `wait_for_video_project`, or
+   `wait_for_audio_project` helper.
+3. The wait helper stops when the project is complete, has an error, is canceled, or times out.
+4. Completed projects return `exact_download_urls`. Those signed URLs must be used exactly as
+   returned without removing query parameters or appending expiration metadata.
+
+Compatible clients can also receive completed media inline from the wait and download helpers.
+
+## Using input files
+
+The hosted server deliberately does not read a path on your computer. For local media, the complete
+flow is:
+
+1. Call `video_assets_generate_presigned_url`. Despite its name, it accepts image, audio, and video
+   items.
+2. Have the client or an upload bridge send the raw bytes to the returned `upload_url`.
+3. Pass the matching returned `file_path` to the creation tool.
+
+Direct public media URLs may work when they return stable raw file bytes, but uploaded Magic Hour
+`file_path` values are more reliable. A browser attachment only works when the MCP client provides
+the required upload bridge; the hosted server cannot fetch a caller-supplied local filesystem path.
+
+## Built-in video guidance
+
+When the user does not give different instructions, the current server tells the assistant to:
+
+- Prefer AI Image Editor followed by Image-to-Video for multi-step video creation
+- Reuse reference images and preserve identity, style, color, lighting, and aspect ratio across scenes
+- Prefer `nano-banana-2-lite` for image creation/editing and `ltx-2.3` for Image-to-Video
+- Add an appropriate AI Voice Generator narration when it suits the video and let sentences finish
+- Use Text-to-Video when visual consistency is not important
+
+User instructions take precedence over these defaults.
+
+## Troubleshooting
+
+- **Tools do not appear:** Restart the client after adding the server, then call `ping`.
+- **Authentication fails:** Confirm the full API key is active and bearer authentication uses
+  `Authorization: Bearer YOUR_MAGIC_HOUR_API_KEY`.
+- **Codex cannot see the server:** Launch Codex from the shell where `MAGIC_HOUR_API_KEY` is set.
+- **You only received a project ID:** Ask the assistant to call the matching `wait_for_*_project`
+  helper and return the finished result.
+- **A signed link fails:** Ask for the exact download URL again. Do not shorten it, strip its query
+  parameters, or append `expires_at`.
+- **A local attachment cannot be used:** Use a client with an upload bridge or upload the file first
+  and provide its Magic Hour `file_path`.
+
+<CardGroup cols={2}>
+  <Card
+    title="Magic Hour MCP overview"
+    icon="wand-magic-sparkles"
+    href="https://magichour.ai/mcp?utm_source=docs&utm_medium=referral&utm_campaign=mcp"
+  >
+    See product examples and the hosted connector URL.
+  </Card>
+  <Card
+    title="Official MCP repository"
+    icon="github"
+    href="https://github.com/magichourhq/magic-hour-mcp"
+  >
+    Inspect the implementation, policies, and tests used for this guide.
+  </Card>
+</CardGroup>

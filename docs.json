@@ -74,6 +74,7 @@
               "introduction",
               "get-started/quick-start",
               "get-started/authentication",
+              "integration/model-context-protocol",
               "get-started/cookbook"
             ]
           },
@@ -95,7 +96,7 @@
                   "integration/webhook/event-types"
                 ]
               },
-              "integration/model-context-protocol"
+              "integration/api-docs-mcp"
             ]
           },
           {

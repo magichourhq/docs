@@ -8,9 +8,9 @@ description: Magic Hour API documentation - generate videos, images, and audio u
 
 Magic Hour API is an API for AI-powered video and image generation. You can run models for creating videos, images, and audio through a single REST API.
 
-## API vs Web App
+## Choose how to use Magic Hour
 
-The Magic Hour API provides programmatic access to our most popular AI tools. Here's how it relates to our web application:
+Magic Hour supports three ways to create, depending on how much control and automation you need:
 
 **🌐 Web App ([magichour.ai](https://magichour.ai/?utm_source=docs&utm_medium=referral&utm_campaign=introduction)):**
 
@@ -26,21 +26,36 @@ The Magic Hour API provides programmatic access to our most popular AI tools. He
 - Same underlying AI models as web app
 - Features added after web app validation
 
+**🤖 MCP ([setup guide](/integration/model-context-protocol)):**
+
+- Lets compatible AI assistants call Magic Hour's API-backed tools
+- Accepts natural-language requests for images, video, and audio
+- Includes helpers for uploads, asynchronous jobs, and completed downloads
+- Uses the same Magic Hour API key and credits as direct API calls
+
 <Note>
   **Shared Dashboard:** All API-generated content automatically appears in your [magichour.ai
-  dashboard](https://magichour.ai/my-library?utm_source=docs&utm_medium=referral&utm_campaign=introduction), where you can view, manage, and share your creations.
+  dashboard](https://magichour.ai/my-library?utm_source=docs&utm_medium=referral&utm_campaign=introduction),
+  where you can view, manage, and share your creations.
 </Note>
 
 ## Get Started
 
 If you're new to Magic Hour, start here to learn the essentials and make your first API call.
 
-<CardGroup cols={2}>
+<CardGroup cols={3}>
   <Card title="Quick Start" icon="forward-fast" href="/get-started/quick-start">
     First request in 3 minutes.
   </Card>
   <Card title="API Reference" icon="webhook" href="/api-reference">
     All endpoints in one place.
+  </Card>
+  <Card
+    title="Magic Hour MCP"
+    icon="wand-magic-sparkles"
+    href="/integration/model-context-protocol"
+  >
+    Create media from Claude, ChatGPT, Claude Code, or Codex.
   </Card>
 </CardGroup>
 
@@ -72,7 +87,6 @@ If you're new to Magic Hour, start here to learn the essentials and make your fi
     Voice generation and cloning.
   </Card>
 </CardGroup>
-
 
 <br />
 
