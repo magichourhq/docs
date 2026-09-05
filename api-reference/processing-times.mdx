@@ -13,6 +13,12 @@ These values cover the **rolling 30 days ending July 20, 2026**. Customer-observ
 
 **p50 (median)** means half of completed jobs finished within this time.
 
+<Note>
+  Treat this page as historical when its ending date is more than 30 days old. A p50 value is useful
+  for setting expectations, but it is not a safe timeout by itself; production integrations should
+  allow for slower jobs and handle terminal errors explicitly.
+</Note>
+
 ## Video endpoints
 
 | Endpoint                                                                                    | Median (p50) |
