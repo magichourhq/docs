@@ -1,18 +1,36 @@
 ---
 title: "Quick Start"
-description: "Generate an API key and make your first call in <3 minutes."
+description: "Generate an API key and make your first call in under 3 minutes."
 ---
 
 Magic Hour is an AI video and image generation platform. You submit a job, we render it, and you download the result. This guide gets you to your first output in a few minutes.
 
-<Card
-  title="Skip local setup — open the Google Colab cookbook"
-  icon="code"
-  href="https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing"
-  openInNewTab
->
-  Try every API from your browser with only an API key.
-</Card>
+## Choose your path
+
+<CardGroup cols={3}>
+  <Card
+    title="Build with an SDK"
+    icon="key"
+    href="https://magichour.ai/developer?tab=api-keys&ref=docs-quickstart-path&utm_source=docs&utm_medium=referral&utm_campaign=quick-start"
+  >
+    Create an API key, then follow the runnable example below.
+  </Card>
+  <Card
+    title="Connect an AI agent"
+    icon="wand-magic-sparkles"
+    href="/integration/model-context-protocol"
+  >
+    Use Magic Hour from Claude, ChatGPT, Claude Code, or Codex through MCP.
+  </Card>
+  <Card
+    title="Run in Google Colab"
+    icon="code"
+    href="https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing"
+    openInNewTab
+  >
+    Try the APIs in your browser without setting up a local project.
+  </Card>
+</CardGroup>
 
 **What you'll accomplish:**
 
@@ -790,16 +808,16 @@ Authentication guide for platform-specific setup steps.
 
 If you encounter HTTP errors, here's what they mean:
 
-| Error Code | Meaning               | Solution                                                                                                                                |
-| :--------- | :-------------------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
-| `400`      | Bad Request           | The response `message` names the invalid or missing field - fix it and resubmit                                                         |
-| `401`      | Unauthorized          | Verify your API key is correct and sent as `Authorization: Bearer <key>`                                                                |
-| `402`      | Payment Required      | Insufficient credits - [add more credits](https://magichour.ai/settings?ref=docs-quickstart-402&utm_source=docs&utm_medium=referral&utm_campaign=quick-start)                               |
-| `403`      | Forbidden             | Your key is valid but the model, resolution, or feature is not available on your plan                                                   |
-| `429`      | Too Many Requests     | You are sending requests too quickly - retry with exponential backoff                                                                   |
-| `500`      | Internal Server Error | Temporary server issue - retry after a few seconds                                                                                      |
-| `502`      | Bad Gateway           | Server temporarily unavailable - retry after 30-60 seconds. If it failed before returning a project `id`, no job was created - resubmit |
-| `503`      | Service Unavailable   | Server overloaded - retry with exponential backoff                                                                                      |
+| Error Code | Meaning               | Solution                                                                                                                                                      |
+| :--------- | :-------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `400`      | Bad Request           | The response `message` names the invalid or missing field - fix it and resubmit                                                                               |
+| `401`      | Unauthorized          | Verify your API key is correct and sent as `Authorization: Bearer <key>`                                                                                      |
+| `402`      | Payment Required      | Insufficient credits - [add more credits](https://magichour.ai/settings?ref=docs-quickstart-402&utm_source=docs&utm_medium=referral&utm_campaign=quick-start) |
+| `403`      | Forbidden             | Your key is valid but the model, resolution, or feature is not available on your plan                                                                         |
+| `429`      | Too Many Requests     | You are sending requests too quickly - retry with exponential backoff                                                                                         |
+| `500`      | Internal Server Error | Temporary server issue - retry after a few seconds                                                                                                            |
+| `502`      | Bad Gateway           | Server temporarily unavailable - retry after 30-60 seconds. If it failed before returning a project `id`, no job was created - resubmit                       |
+| `503`      | Service Unavailable   | Server overloaded - retry with exponential backoff                                                                                                            |
 
 **For persistent errors:** Contact [support@magichour.ai](mailto:support@magichour.ai) with your project ID.
 
