@@ -1,71 +1,45 @@
 ---
 title: "Processing Times"
-description: "Observed median end-to-end processing times for Magic Hour API endpoints."
+description: "Design reliable Magic Hour API integrations when job duration varies."
 ---
 
-These values cover the **rolling 30 days ending July 20, 2026**. Customer-observed end-to-end processing time, including queueing.
+Magic Hour API jobs run asynchronously. Completion time varies with the endpoint, selected model
+and settings, input duration and size, output resolution, and current queue load.
 
 <Warning>
-  Processing time varies with queue load, input duration, resolution, and model complexity. These
-  values describe observed customer traffic and are not an SLA. Build timeout handling into every
-  integration.
+  Do not use a fixed endpoint estimate as an SLA or a completion deadline. Latency snapshots age
+  quickly and cannot predict an individual job.
 </Warning>
 
-**p50 (median)** means half of completed jobs finished within this time.
+## Monitor every job
 
-<Note>
-  Treat this page as historical when its ending date is more than 30 days old. A p50 value is useful
-  for setting expectations, but it is not a safe timeout by itself; production integrations should
-  allow for slower jobs and handle terminal errors explicitly.
-</Note>
+After creating a job, store its project ID and monitor the corresponding image, video, or audio
+project until it reaches a terminal status.
 
-## Video endpoints
+- Prefer [webhooks](/integration/webhook/overview) for production and higher-volume integrations.
+- If polling, use [exponential backoff](/integration/adding-api-to-your-app#option-1-polling) instead
+  of a tight fixed interval.
+- Handle `complete`, `error`, and `canceled` explicitly. Continue waiting while a job is `queued` or
+  `rendering`.
+- Make webhook handlers idempotent and
+  [verify every webhook signature](/integration/webhook/secure-handler).
 
-| Endpoint                                                                                    | Median (p50) |
-| ------------------------------------------------------------------------------------------- | -----------: |
-| [`POST /v1/ai-talking-photo`](/api-reference/video-projects/ai-talking-photo)               |       2m 54s |
-| [`POST /v1/ai-video-editor`](/api-reference/video-projects/ai-video-editor)                 |       1m 25s |
-| [`POST /v1/animation`](/api-reference/video-projects/animation)                             |       9m 56s |
-| [`POST /v1/audio-to-video`](/api-reference/video-projects/audio-to-video)                   |       1m 57s |
-| [`POST /v1/auto-subtitle-generator`](/api-reference/video-projects/auto-subtitle-generator) |          45s |
-| [`POST /v1/character-replace`](/api-reference/video-projects/character-replace)             |       7m 26s |
-| [`POST /v1/face-swap`](/api-reference/video-projects/face-swap-video)                       |       1m 36s |
-| [`POST /v1/image-to-video`](/api-reference/video-projects/image-to-video)                   |       1m 14s |
-| [`POST /v1/lip-sync`](/api-reference/video-projects/lip-sync)                               |       3m 49s |
-| [`POST /v1/text-to-video`](/api-reference/video-projects/text-to-video)                     |          51s |
-| [`POST /v1/video-to-video`](/api-reference/video-projects/video-to-video)                   |      12m 52s |
+## Choose timeouts for your product
 
-## Image endpoints
+Set a user-facing timeout based on your product's tolerance for delayed work, not an assumed Magic
+Hour completion time. Reaching that timeout should stop or defer your own waiting flow; it does not
+prove the Magic Hour job failed. Keep the project ID so you can check the final status later.
 
-| Endpoint                                                                                      | Median (p50) |
-| --------------------------------------------------------------------------------------------- | -----------: |
-| [`POST /v1/ai-clothes-changer`](/api-reference/image-projects/ai-clothes-changer)             |          13s |
-| [`POST /v1/ai-face-editor`](/api-reference/image-projects/ai-face-editor)                     |           3s |
-| [`POST /v1/ai-gif-generator`](/api-reference/image-projects/ai-gif-generator)                 |          23s |
-| [`POST /v1/ai-headshot-generator`](/api-reference/image-projects/ai-headshot-generator)       |          14s |
-| [`POST /v1/ai-image-editor`](/api-reference/image-projects/ai-image-editor)                   |           9s |
-| [`POST /v1/ai-image-generator`](/api-reference/image-projects/ai-image-generator)             |           5s |
-| [`POST /v1/ai-image-upscaler`](/api-reference/image-projects/ai-image-upscaler)               |          22s |
-| [`POST /v1/ai-meme-generator`](/api-reference/image-projects/ai-meme-generator)               |           9s |
-| [`POST /v1/ai-qr-code-generator`](/api-reference/image-projects/ai-qr-code-generator)         |           7s |
-| [`POST /v1/body-swap`](/api-reference/image-projects/body-swap)                               |          38s |
-| [`POST /v1/face-swap-photo`](/api-reference/image-projects/face-swap-photo)                   |           4s |
-| [`POST /v1/head-swap`](/api-reference/image-projects/head-swap)                               |          18s |
-| [`POST /v1/image-background-remover`](/api-reference/image-projects/image-background-remover) |           4s |
-| [`POST /v1/photo-colorizer`](/api-reference/image-projects/photo-colorizer)                   |           9s |
+Longer inputs, higher resolutions, and more complex video workflows generally need more time than
+small image jobs. Test the exact endpoints, models, settings, and input ranges your integration will
+use before choosing retry and timeout behavior.
 
-## Audio endpoints
+## Investigate an unusually long job
 
-| Endpoint                                                                          | Median (p50) |
-| --------------------------------------------------------------------------------- | -----------: |
-| [`POST /v1/ai-voice-generator`](/api-reference/audio-projects/ai-voice-generator) |          21s |
-| [`POST /v1/ai-voice-cloner`](/api-reference/audio-projects/ai-voice-cloner)       |          21s |
+1. Retrieve the project again and check its current status and error details.
+2. Confirm the input file is valid and the account has enough credits.
+3. Avoid submitting duplicate jobs while the original is still active.
+4. If the job remains active beyond your workload-specific timeout, contact support with the project
+   ID, endpoint, creation time, current status, and non-sensitive input details.
 
-## Integration guidance
-
-- Use webhooks for long-running jobs instead of aggressive polling.
-- If polling, use the interval recommended in the integration guide and apply exponential backoff.
-- Set timeouts based on your product's tolerance for delayed jobs.
-- Treat every latency figure as directional, not guaranteed.
-
-[Learn how to monitor jobs and handle timeouts →](/integration/overview)
+[Learn how to monitor jobs and handle errors →](/integration/adding-api-to-your-app#step-3-monitor-job-status)

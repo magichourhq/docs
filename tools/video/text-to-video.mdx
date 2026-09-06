@@ -10,7 +10,8 @@ import { ToolSection } from "/snippets/tool-section.mdx";
 
 Text to Video generates complete video content from text descriptions using advanced AI video synthesis. The API creates original video scenes, animations, and visual narratives based on detailed text prompts with customizable styles and durations.
 
-**Typical processing time:** ~51s median ([see all processing times](/api-reference/processing-times))
+**Processing:** Jobs run asynchronously, and duration varies with the input, selected settings, and
+queue load. [Plan status monitoring and timeouts](/api-reference/processing-times).
 
 <ToolSection
   title="Text to Video"
@@ -68,11 +69,11 @@ For best results, include these elements:
 
 ### Duration Guidelines
 
-| Duration      | Best For                             |
-| :------------ | :----------------------------------- |
-| 3-5 seconds   | Social media clips, GIF-like content |
-| 5-10 seconds  | Short-form content, product demos    |
-| 10-15 seconds | Story segments, longer narratives    |
+| Duration         | Best For                                                                                                                                                     |
+| :--------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 3-5 seconds      | Social media clips, GIF-like content                                                                                                                         |
+| 5-10 seconds     | Short-form content, product demos                                                                                                                            |
+| 10-15 seconds    | Story segments, longer narratives                                                                                                                            |
 | Up to 60 seconds | Long-form scenes (model-dependent; see the `end_seconds` values supported by each model in the [API reference](/api-reference/video-projects/text-to-video)) |
 
 ## Code Examples
