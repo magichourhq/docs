@@ -3,9 +3,10 @@ title: "Processing Times"
 description: "Recent typical end-to-end processing times for successful Magic Hour API jobs."
 ---
 
-These values cover successful API jobs created during the **30 complete UTC days from August 7
-through September 5, 2026**. They measure end-to-end time from project creation to completion,
-including queueing. The warehouse snapshot was queried on September 6, 2026.
+The baseline values cover successful API jobs created during the **30 complete UTC days from August
+7 through September 5, 2026**. When the latest 48-hour median was faster, the table uses that more
+recent value and marks it with ‡. All values measure end-to-end time from project creation to
+completion, including queueing. The warehouse snapshot was queried on September 6, 2026.
 
 <Warning>
   These are directional observations, not an SLA or a prediction for an individual job. Processing
@@ -25,20 +26,23 @@ of successful API jobs included. Errored, canceled, and still-active jobs are ex
 
 | Endpoint                                                                                    | Typical (p50) | Sample |
 | ------------------------------------------------------------------------------------------- | ------------: | -----: |
-| [`POST /v1/ai-talking-photo`](/api-reference/video-projects/ai-talking-photo)               |         1m 6s |    238 |
+| [`POST /v1/ai-talking-photo`](/api-reference/video-projects/ai-talking-photo)               |           41s |   19†‡ |
 | [`POST /v1/ai-video-editor`](/api-reference/video-projects/ai-video-editor)                 |        1m 11s |    16† |
 | [`POST /v1/animation`](/api-reference/video-projects/animation)                             |        2m 46s |    10† |
 | [`POST /v1/audio-to-video`](/api-reference/video-projects/audio-to-video)                   |        1m 11s |    26† |
 | [`POST /v1/auto-subtitle-generator`](/api-reference/video-projects/auto-subtitle-generator) |           52s |     30 |
 | [`POST /v1/character-replace`](/api-reference/video-projects/character-replace)             |       11m 30s |    331 |
-| [`POST /v1/face-swap`](/api-reference/video-projects/face-swap-video)                       |        1m 56s |  2,043 |
-| [`POST /v1/image-to-video`](/api-reference/video-projects/image-to-video)                   |        1m 42s |  1,884 |
-| [`POST /v1/lip-sync`](/api-reference/video-projects/lip-sync)                               |        1m 53s |    923 |
+| [`POST /v1/face-swap`](/api-reference/video-projects/face-swap-video)                       |        1m 53s |   161‡ |
+| [`POST /v1/image-to-video`](/api-reference/video-projects/image-to-video)                   |         1m 9s |   130‡ |
+| [`POST /v1/lip-sync`](/api-reference/video-projects/lip-sync)                               |        1m 30s |    61‡ |
 | [`POST /v1/text-to-video`](/api-reference/video-projects/text-to-video)                     |           42s |  1,904 |
 | [`POST /v1/video-to-video`](/api-reference/video-projects/video-to-video)                   |        6m 26s |     63 |
 
 † Fewer than 30 successful jobs. Treat these figures as low-confidence until more traffic is
 available.
+
+‡ Uses the latest 48-hour API cohort, from September 4 at 01:00 through September 6 at 01:00 UTC,
+because its median was faster than the 30-day baseline. Other rows retain the 30-day value.
 
 ## Image endpoints
 
@@ -49,7 +53,7 @@ available.
 | [`POST /v1/ai-gif-generator`](/api-reference/image-projects/ai-gif-generator)                 |           26s |    179 |
 | [`POST /v1/ai-headshot-generator`](/api-reference/image-projects/ai-headshot-generator)       |           16s |    147 |
 | [`POST /v1/ai-image-editor`](/api-reference/image-projects/ai-image-editor)                   |           14s | 10,292 |
-| [`POST /v1/ai-image-generator`](/api-reference/image-projects/ai-image-generator)             |            7s |  4,862 |
+| [`POST /v1/ai-image-generator`](/api-reference/image-projects/ai-image-generator)             |            6s |   170‡ |
 | [`POST /v1/ai-image-upscaler`](/api-reference/image-projects/ai-image-upscaler)               |           27s |    443 |
 | [`POST /v1/ai-meme-generator`](/api-reference/image-projects/ai-meme-generator)               |            6s |    322 |
 | [`POST /v1/ai-qr-code-generator`](/api-reference/image-projects/ai-qr-code-generator)         |            7s |    233 |
