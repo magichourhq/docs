@@ -700,8 +700,9 @@ const status = await client.v1.videoProjects.get({ id: createResponse.id });
 </CodeGroup>
 
 <Note>
-  **Video Processing Times**: Videos take 2-10 minutes depending on length. Use longer poll
-  intervals (5-10 seconds) for video jobs.
+  **Video processing:** Video jobs run asynchronously. Review the recent [typical processing
+  times](/api-reference/processing-times) for planning, then poll with exponential backoff or use
+  webhooks because duration still varies with the input, selected settings, and queue load.
 </Note>
 
 ## Next Steps

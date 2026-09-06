@@ -340,16 +340,22 @@ const result = await client.v1.aiImageGenerator.create({...});
 
 ## Processing Times
 
-Processing time varies significantly by endpoint. See customer-observed **median (p50) end-to-end
-times**, including queueing, before setting polling intervals and timeouts.
+Processing time varies significantly by endpoint, model, settings, input, and queue load. Use recent
+typical times to set expectations, then build status monitoring and choose timeouts for your own
+workload.
 
-<Card title="View processing times by endpoint" icon="clock" href="/api-reference/processing-times">
-  Compare rolling 30-day median times for video, image, and audio APIs.
+<Card
+  title="View processing times and plan timeouts"
+  icon="clock"
+  href="/api-reference/processing-times"
+>
+  Compare recent API-job observations, then use webhooks or polling with backoff and handle terminal
+  states.
 </Card>
 
 <Note>
-  Processing times are not an SLA. They vary with input duration and resolution, current queue load,
-  model complexity, file size, and format. Always implement timeout handling.
+  Processing times are not an SLA. A client-side timeout does not prove that the Magic Hour job
+  failed, so retain the project ID and check its final status.
 </Note>
 
 ## Next Steps
