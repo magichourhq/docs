@@ -700,9 +700,9 @@ const status = await client.v1.videoProjects.get({ id: createResponse.id });
 </CodeGroup>
 
 <Note>
-  **Video processing:** Video jobs run asynchronously. Review the recent [p50 and p90
-  observations](/api-reference/processing-times) for planning, then poll with exponential backoff or
-  use webhooks because duration still varies with the input, selected settings, and queue load.
+  **Video processing:** Video jobs run asynchronously. Review the recent [typical processing
+  times](/api-reference/processing-times) for planning, then poll with exponential backoff or use
+  webhooks because duration still varies with the input, selected settings, and queue load.
 </Note>
 
 ## Next Steps
