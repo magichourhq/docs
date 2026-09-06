@@ -591,8 +591,9 @@ Before deploying, verify:
 
 **Solutions:**
 
-- Check the current status and compare the job age with your workload-specific timeout; a fixed
-  endpoint estimate is not a reliable failure threshold
+- Check the current status and compare the job age with the endpoint's recent
+  [p50 and p90 observations](/api-reference/processing-times) and your workload-specific timeout;
+  neither percentile is a failure threshold
 - Check input file validity
 - Verify account has sufficient credits
 - Contact support if persistent

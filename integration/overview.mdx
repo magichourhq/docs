@@ -340,16 +340,17 @@ const result = await client.v1.aiImageGenerator.create({...});
 
 ## Processing Times
 
-Processing time varies significantly by endpoint, model, settings, input, and queue load. Build
-status monitoring and choose timeouts for your own workload instead of relying on a fixed estimate.
+Processing time varies significantly by endpoint, model, settings, input, and queue load. Use recent
+p50 and p90 observations to set expectations, then build status monitoring and choose timeouts for
+your own workload.
 
 <Card
-  title="Plan status monitoring and timeouts"
+  title="View processing times and plan timeouts"
   icon="clock"
   href="/api-reference/processing-times"
 >
-  Use webhooks or polling with backoff, handle terminal states, and choose workload-specific
-  timeouts.
+  Compare recent API-job observations, then use webhooks or polling with backoff and handle terminal
+  states.
 </Card>
 
 <Note>

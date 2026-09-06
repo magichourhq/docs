@@ -10,8 +10,8 @@ import { ToolSection } from "/snippets/tool-section.mdx";
 
 AI Image Generator creates high-quality images from text descriptions using advanced AI models. The API generates original artwork, photos, illustrations, and designs based on detailed text prompts with customizable styles, aspect ratios, and resolutions.
 
-**Processing:** Jobs run asynchronously, and duration varies with the input, selected settings, and
-queue load. [Plan status monitoring and timeouts](/api-reference/processing-times).
+**Processing:** See recent [p50 and p90 API-job observations](/api-reference/processing-times). Jobs
+run asynchronously, and duration varies with the input, selected settings, and queue load.
 
 <ToolSection
   title="AI Image Generator"
@@ -248,18 +248,18 @@ console.log(`Credits charged: ${result.creditsCharged}`);
 
 Cost depends on the `model` you choose (the default model is picked automatically and may change over time):
 
-| Model                | Credits per image (from) | Tiers                  |
-| :------------------- | :----------------------- | :--------------------- |
-| `flux-schnell`       | 5                        | All (including free)   |
-| `flux-2-klein`       | 5                        | All (including free)   |
-| `z-image-turbo`      | 5                        | All (including free)   |
-| `seedream-v4`        | 40                       | Creator, Pro, Business |
-| `gpt-image-2`        | 50                       | Creator, Pro, Business |
-| `nano-banana`        | 50                       | Creator, Pro, Business |
-| `nano-banana-2-lite` | 50                       | Creator, Pro, Business |
-| `seedream-v5-pro`    | 75                       | Creator, Pro, Business |
-| `nano-banana-2`      | 100                      | Creator, Pro, Business |
-| `nano-banana-pro`    | 150                      | Creator, Pro, Business |
+| Model                | Credits per image (from) | Tiers                        |
+| :------------------- | :----------------------- | :--------------------------- |
+| `flux-schnell`       | 5                        | All (including free)         |
+| `flux-2-klein`       | 5                        | All (including free)         |
+| `z-image-turbo`      | 5                        | All (including free)         |
+| `seedream-v4`        | 40                       | Creator, Pro, Business       |
+| `gpt-image-2`        | 50                       | Creator, Pro, Business       |
+| `nano-banana`        | 50                       | Creator, Pro, Business       |
+| `nano-banana-2-lite` | 50                       | Creator, Pro, Business       |
+| `seedream-v5-pro`    | 75                       | Creator, Pro, Business       |
+| `nano-banana-2`      | 100                      | Creator, Pro, Business       |
+| `nano-banana-pro`    | 150                      | Creator, Pro, Business       |
 
 Higher resolutions can increase the cost — see the `model` parameter in the [API reference](/api-reference/image-projects/ai-image-generator) for supported resolutions and image counts per model.
 

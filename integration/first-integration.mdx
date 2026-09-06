@@ -50,7 +50,6 @@ Every generation follows the same lifecycle:
       Receive webhook
     </div>
     <span style={{ gridColumn: "10", gridRow: "3" }}>↗</span>
-
   </div>
 </div>
 
@@ -75,8 +74,8 @@ In this tutorial, you'll create a working application that generates an AI image
 
 <Note>
   **Estimated time**: 15-20 minutes **Prerequisites**: API key from [Developer
-  Hub](https://magichour.ai/developer?tab=api-keys&ref=docs-first-integration&utm_source=docs&utm_medium=referral&utm_campaign=first-integration),
-  Python 3.8+ or Node.js 16+ installed
+  Hub](https://magichour.ai/developer?tab=api-keys&ref=docs-first-integration&utm_source=docs&utm_medium=referral&utm_campaign=first-integration), Python 3.8+ or
+  Node.js 16+ installed
 </Note>
 
 ## Choose Your Language
@@ -124,8 +123,8 @@ pip install magic_hour python-dotenv requests
 
 <Info>
   **SDK Documentation**: Full Python SDK docs available at
-  [github.com/magichourhq/magic-hour-python](https://github.com/magichourhq/magic-hour-python). The
-  Python package is published as `magic_hour` on PyPI; the Node.js SDK is `magic-hour` on npm.
+  [github.com/magichourhq/magic-hour-python](https://github.com/magichourhq/magic-hour-python).
+  The Python package is published as `magic_hour` on PyPI; the Node.js SDK is `magic-hour` on npm.
 </Info>
 
 ### Step 3: Configure Your API Key
@@ -701,9 +700,9 @@ const status = await client.v1.videoProjects.get({ id: createResponse.id });
 </CodeGroup>
 
 <Note>
-  **Video processing:** Video jobs run asynchronously, and their duration varies with the input,
-  selected settings, and queue load. Poll with exponential backoff or use webhooks instead of
-  assuming a fixed completion time.
+  **Video processing:** Video jobs run asynchronously. Review the recent [p50 and p90
+  observations](/api-reference/processing-times) for planning, then poll with exponential backoff or
+  use webhooks because duration still varies with the input, selected settings, and queue load.
 </Note>
 
 ## Next Steps
