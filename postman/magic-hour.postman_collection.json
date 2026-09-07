@@ -2,7 +2,7 @@
   "info": {
     "name": "Magic Hour — Generate and retrieve AI media",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Generate images, edit product photos, animate images, swap faces and lip-sync video. Start with a single image, then retrieve its result. Set api_key as a local secret in your environment; never publish it. Each generation request consumes credits. Send generation requests individually; do not run the entire collection. Source: https://docs.magichour.ai/api-reference/openapi.json (retrieved 2026-09-07T08:59:58.391Z). Schema checked; authenticated generation validation is pending."
+    "description": "Generate images, edit product photos, animate images, swap faces and lip-sync video. Start with a single image, then retrieve its result. Set api_key as a local secret in your environment; never publish it. Each generation request consumes credits. Send generation requests individually; do not run the entire collection. Source: https://docs.magichour.ai/api-reference/openapi.json (retrieved 2026-09-07T09:47:30.379Z). Schema checked; authenticated generation validation is pending."
   },
   "auth": {
     "type": "bearer",
@@ -53,7 +53,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "if (!pm.environment.get(\"api_key\")) throw new Error(\"Set api_key locally in the selected environment.\");"
+              "if (!pm.environment.get(\"api_key\")) { console.error(\"Set api_key locally in the selected environment.\"); pm.execution.skipRequest(); }"
             ]
           }
         },
@@ -62,7 +62,6 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.environment.unset('image_project_id');",
               "pm.test(\"Request succeeded\", () => pm.expect(pm.response.code).to.be.within(200, 299));",
               "if (pm.response.code >= 200 && pm.response.code < 300) {",
               "  const result = pm.response.json();",
@@ -93,8 +92,8 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "if (!pm.environment.get(\"api_key\")) throw new Error(\"Set api_key locally in the selected environment.\");",
-              "if (!pm.environment.get('image_project_id')) throw new Error('Set image_project_id before sending this request.');"
+              "if (!pm.environment.get(\"api_key\")) { console.error(\"Set api_key locally in the selected environment.\"); pm.execution.skipRequest(); }",
+              "if (!pm.environment.get('image_project_id')) { console.error('Set image_project_id before sending this request.'); pm.execution.skipRequest(); }"
             ]
           }
         },
@@ -147,8 +146,8 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "if (!pm.environment.get(\"api_key\")) throw new Error(\"Set api_key locally in the selected environment.\");",
-              "if (!pm.environment.get('image_url')) throw new Error('Set image_url before sending this request.');"
+              "if (!pm.environment.get(\"api_key\")) { console.error(\"Set api_key locally in the selected environment.\"); pm.execution.skipRequest(); }",
+              "if (!pm.environment.get('image_url')) { console.error('Set image_url before sending this request.'); pm.execution.skipRequest(); }"
             ]
           }
         },
@@ -157,7 +156,6 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.environment.unset('video_project_id');",
               "pm.test(\"Request succeeded\", () => pm.expect(pm.response.code).to.be.within(200, 299));",
               "if (pm.response.code >= 200 && pm.response.code < 300) {",
               "  const result = pm.response.json();",
@@ -188,8 +186,8 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "if (!pm.environment.get(\"api_key\")) throw new Error(\"Set api_key locally in the selected environment.\");",
-              "if (!pm.environment.get('video_project_id')) throw new Error('Set video_project_id before sending this request.');"
+              "if (!pm.environment.get(\"api_key\")) { console.error(\"Set api_key locally in the selected environment.\"); pm.execution.skipRequest(); }",
+              "if (!pm.environment.get('video_project_id')) { console.error('Set video_project_id before sending this request.'); pm.execution.skipRequest(); }"
             ]
           }
         },
@@ -242,8 +240,8 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "if (!pm.environment.get(\"api_key\")) throw new Error(\"Set api_key locally in the selected environment.\");",
-              "if (!pm.environment.get('image_url')) throw new Error('Set image_url before sending this request.');"
+              "if (!pm.environment.get(\"api_key\")) { console.error(\"Set api_key locally in the selected environment.\"); pm.execution.skipRequest(); }",
+              "if (!pm.environment.get('image_url')) { console.error('Set image_url before sending this request.'); pm.execution.skipRequest(); }"
             ]
           }
         },
@@ -252,7 +250,6 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.environment.unset('image_project_id');",
               "pm.test(\"Request succeeded\", () => pm.expect(pm.response.code).to.be.within(200, 299));",
               "if (pm.response.code >= 200 && pm.response.code < 300) {",
               "  const result = pm.response.json();",
@@ -296,9 +293,9 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "if (!pm.environment.get(\"api_key\")) throw new Error(\"Set api_key locally in the selected environment.\");",
-              "if (!pm.environment.get('source_face_url')) throw new Error('Set source_face_url before sending this request.');",
-              "if (!pm.environment.get('target_image_url')) throw new Error('Set target_image_url before sending this request.');"
+              "if (!pm.environment.get(\"api_key\")) { console.error(\"Set api_key locally in the selected environment.\"); pm.execution.skipRequest(); }",
+              "if (!pm.environment.get('source_face_url')) { console.error('Set source_face_url before sending this request.'); pm.execution.skipRequest(); }",
+              "if (!pm.environment.get('target_image_url')) { console.error('Set target_image_url before sending this request.'); pm.execution.skipRequest(); }"
             ]
           }
         },
@@ -307,7 +304,6 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.environment.unset('image_project_id');",
               "pm.test(\"Request succeeded\", () => pm.expect(pm.response.code).to.be.within(200, 299));",
               "if (pm.response.code >= 200 && pm.response.code < 300) {",
               "  const result = pm.response.json();",
@@ -351,9 +347,9 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "if (!pm.environment.get(\"api_key\")) throw new Error(\"Set api_key locally in the selected environment.\");",
-              "if (!pm.environment.get('video_url')) throw new Error('Set video_url before sending this request.');",
-              "if (!pm.environment.get('audio_url')) throw new Error('Set audio_url before sending this request.');"
+              "if (!pm.environment.get(\"api_key\")) { console.error(\"Set api_key locally in the selected environment.\"); pm.execution.skipRequest(); }",
+              "if (!pm.environment.get('video_url')) { console.error('Set video_url before sending this request.'); pm.execution.skipRequest(); }",
+              "if (!pm.environment.get('audio_url')) { console.error('Set audio_url before sending this request.'); pm.execution.skipRequest(); }"
             ]
           }
         },
@@ -362,7 +358,6 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.environment.unset('video_project_id');",
               "pm.test(\"Request succeeded\", () => pm.expect(pm.response.code).to.be.within(200, 299));",
               "if (pm.response.code >= 200 && pm.response.code < 300) {",
               "  const result = pm.response.json();",
@@ -406,7 +401,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "if (!pm.environment.get(\"api_key\")) throw new Error(\"Set api_key locally in the selected environment.\");"
+              "if (!pm.environment.get(\"api_key\")) { console.error(\"Set api_key locally in the selected environment.\"); pm.execution.skipRequest(); }"
             ]
           }
         },
@@ -443,6 +438,16 @@
         "description": "Choose the local PNG in Body → binary before sending. No Magic Hour Authorization header is sent to storage. Only use the signed URL from request 08. After success, image_url contains the file_path used by requests 03 and 05."
       },
       "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (!pm.environment.get(\"upload_url\")) { console.error(\"Run request 08 before uploading.\"); pm.execution.skipRequest(); }",
+              "if (!pm.request.body || !pm.request.body.file || !pm.request.body.file.src) { console.error(\"Choose a PNG in Body → binary before uploading.\"); pm.execution.skipRequest(); }"
+            ]
+          }
+        },
         {
           "listen": "test",
           "script": {
