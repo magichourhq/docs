@@ -62,13 +62,13 @@ const TAG_WEB_APP = "Web App" as const;
 const CHANGELOG_PATH = path.resolve(__dirname, "../changelog.mdx");
 const LABEL_NAME = "feature";
 
-// Existing changelog examples used to steer the AI tone
+// Customer-facing examples used to steer the AI tone
 const TONE_EXAMPLES = `
 <Update label="2026-02-18">
 
-## Added LTX-2 Model for Image-to-Video and Text-to-Video
+## LTX-2 for Image-to-Video and Text-to-Video
 
-We now added LTX-2 Model for Image-to-Video and Text-to-Video. The big change we made is that you can use LTX-2 (at 480p) without a subscription.
+You can now generate videos with LTX-2 from text or an image. Use 480p resolution without a subscription.
 
 Try it now by visiting https://magichour.ai/create/image-to-video and https://magichour.ai/create/text-to-video.
 
@@ -98,7 +98,12 @@ Try it out now by upgrading to the latest version of the SDK.
 
 ## New Usage Page
 
-Added a dedicated \`/usage\` page so users can track their consumption at a glance.
+Track your credit consumption on the new \`/usage\` page.
+
+## Other Improvements
+
+- Preview uploaded audio before generating.
+- Recreate music using the original prompt, lyrics, and instrumental setting.
 
 </Update>
 `.trim();
@@ -272,7 +277,7 @@ async function generateUpdateBlock(dateStr: string, issues: LinearIssue[]): Prom
   const issuesSummary = issues
     .map(
       (issue, i) =>
-        `Issue ${i + 1}:\nTitle: ${issue.title}\nDescription:\n${issue.description ?? "(no description)"}`
+        `Issue ${i + 1} (${issue.identifier}):\nTitle: ${issue.title}\nDescription:\n${issue.description ?? "(no description)"}`
     )
     .join("\n\n---\n\n");
 
@@ -281,8 +286,11 @@ You are writing changelog entries for Magic Hour, an AI video and image generati
 
 Your job is to act as the editor and gatekeeper for Magic Hour's public changelog. Decide which Linear issues describe meaningful, already-public customer changes, then turn only those changes into polished MDX and classify the affected product surfaces.
 
+Audience: external customers deciding what to try or change in their use of Magic Hour. Every published item must answer "What can I do now?" or describe a concrete problem that was fixed. This is not an engineering progress report.
+
 Eligibility rules — apply these before writing:
 - Include a change only when the issue provides clear evidence that customers can use or see it on the public Web App or public API. A completed Linear issue is not, by itself, evidence of a public release.
+- For a completed issue, a concrete new customer action explicitly described on an existing public tool or page is sufficient public-surface evidence unless the issue indicates a gate, a future launch, or unfinished customer-facing work. Do not require the literal words "launched" or "released". A backend implementation task with no established public customer behavior still does not qualify.
 - Include material new capabilities, models, controls, workflows, public pages, API behavior, and meaningful customer-facing fixes.
 - Exclude admin panels, staff tools, debugging/operations features, observability, and other employee-only changes.
 - Exclude anything gated by \`?preview=true\`, a feature flag, hidden metadata/navigation, dogfooding, or restricted testing unless the issue explicitly says that gate was removed and the feature was publicly launched.
@@ -291,11 +299,18 @@ Eligibility rules — apply these before writing:
 - A newly published public product or informational page may be included even if the tool is coming soon, but describe the page as the release and clearly preserve the coming-soon status. Never describe the unreleased tool as available.
 - Several issues may be implementation pieces of one public launch. Combine them into one entry and describe only the resulting customer capability. Do not expose internal architecture or write one section per ticket.
 - If an issue mixes public behavior with internal implementation details, keep only the public behavior.
+- Judge the resulting customer capability, not the ticket's wording. An engineering title or technical description does not disqualify a change with clear public-release evidence. Do not infer release evidence from a linked PR or screenshot whose contents are not supplied.
+
+Selection and ordering:
+- Within each date, lead with eligible model releases, new tools, and new ways to create or edit. Do not omit those in favor of minor UI polish merely because the UI ticket has a more detailed description.
+- Give material capabilities their own headings. Group small but useful changes under one "## Other Improvements" heading at the end, with one sentence per bullet. Omit purely cosmetic changes with no meaningful customer benefit.
+- Audio recreation controls, upload previews, and generation counters normally belong in Other Improvements. A date may contain only that section. Order by customer impact even when the supplied issues arrive in a different order.
+- Every included issue must contribute a concrete change to the prose. A generic "improved controls" sentence does not cover unrelated capabilities such as text-to-speech, avatar presets, or before/after comparisons.
 
 Content rules:
 - Write in the same style as the existing examples below — concise, direct, and action-oriented
 - Start each entry with "## " followed by a clear, punchy title (not the raw Linear title)
-- Write 1-3 short paragraphs describing what changed and why it matters to the user
+- Default to one or two sentences per main capability. Add detail only for instructions, availability, limits, or API compatibility that customers need to use it correctly. Do not add generic benefit claims to fill space.
 - If relevant, include a code snippet (Python or TypeScript matching the issue context)
 - End with a "Try it out now:" link if there's a product URL in the description, otherwise omit it
 - Organize content by customer-facing change, not by Linear issue. Merge related issues and omit ineligible issues entirely.
@@ -303,6 +318,9 @@ Content rules:
 - Do NOT include any image or Frame tags — new entries ship without images
 - Do NOT hallucinate details not present in the issue
 - Avoid engineering verbs and internal framing such as "productionized", "foundation", "wired", "scripts", "route", "schema", or "workflow" unless they are necessary to explain a user-visible capability in plain language
+- Describe customer actions, not dashboard parity, shared components, primary/secondary button hierarchy, carousels, stacked layouts, measured overflow, or desktop/mobile placement. Name a control or its location only when needed to use the capability.
+- Preserve supported tools, compatibility conditions, plan restrictions, and signed-out-only scope when material. Do not imply that an action available from a free tool makes a paid destination free.
+- Keep Linear identifiers, internal links, exclusion reasons, and implementation details out of the public MDX. Return identifiers and exclusion reasons only in their structured fields.
 
 Decision examples:
 - "Filter errors in Admin" or "show purchases in Admin" → exclude as staff-only.
@@ -310,6 +328,9 @@ Decision examples:
 - "Add model selectors available only with ?preview=true" → exclude as testing-only.
 - A UI implementation issue plus a backend pipeline issue plus an explicit public-launch issue for the same feature → write one launch entry; describe inputs, modes, outputs, and other user controls, not segmentation, retries, queues, or stitching.
 - "Publish a public product page for a coming-soon tool" → the page may be included, but say the page is new and the tool is coming soon.
+- A confirmed public rollout of video output actions → "Continue editing generated videos with Edit Video, Swap Faces, or Add Subtitles directly from supported free-tool results." Omit overflow-menu and dashboard-parity details.
+- A confirmed public rollout of music recreation → "Recreate music using the original prompt, lyrics, and instrumental setting." Group under Other Improvements; omit carousel and button-layout details.
+- A model implementation ticket with explicit public-launch evidence → lead with the model and its supported uses; omit worker versions, GPU memory, and deployment steps. Without release evidence, exclude it and state that missing evidence in the structured reason.
 
 Classification rules (the "tags" field):
 - "${TAG_API}": the change affects the public API / SDK (new endpoints, params, models exposed via the API, webhook changes, SDK updates). Code snippets calling \`client.*\` are a strong signal.
@@ -327,6 +348,8 @@ Generate changelog MDX content for the following Linear issue(s) completed on ${
 ${issuesSummary}
 
 Treat ${dateStr} as the issues' completion date, not as proof that every issue was publicly released. Classify every supplied issue exactly once as included or excluded, using its identifier exactly as supplied. Return null content and no tags if none qualify.
+
+Before returning, check that eligible new capabilities appear before small improvements, that every included identifier is represented by a concrete change, and that no layout specification or unsupported availability claim remains.
 `;
 
   const { object } = await generateObject({
