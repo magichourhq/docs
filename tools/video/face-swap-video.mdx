@@ -1,5 +1,5 @@
 ---
-title: Face Swap Video Tool - Magic Hour Docs
+title: Face Swap Video API
 sidebarTitle: Face Swap Video
 description: Replace faces in videos with frame-by-frame precision and temporal consistency.
 ---
@@ -116,20 +116,24 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.faceSwap.generate({
-  assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
-    videoFilePath:
-      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
-    videoSource: "file",
+const result = await client.v1.faceSwap.generate(
+  {
+    assets: {
+      imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+      videoFilePath:
+        "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
+      videoSource: "file",
+    },
+    startSeconds: 0,
+    endSeconds: 2,
+    name: "Tom Cruise Face Swap",
   },
-  startSeconds: 0,
-  endSeconds: 2,
-  name: "Tom Cruise Face Swap",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Face swap complete!`);
 console.log(`Status: ${result.status}`);

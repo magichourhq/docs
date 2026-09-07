@@ -1,5 +1,5 @@
 ---
-title: Text to Video Tool - Magic Hour Docs
+title: Text to Video API
 sidebarTitle: Text to Video
 description: Generate complete video content from text descriptions using AI.
 ---
@@ -69,11 +69,11 @@ For best results, include these elements:
 
 ### Duration Guidelines
 
-| Duration      | Best For                             |
-| :------------ | :----------------------------------- |
-| 3-5 seconds   | Social media clips, GIF-like content |
-| 5-10 seconds  | Short-form content, product demos    |
-| 10-15 seconds | Story segments, longer narratives    |
+| Duration         | Best For                                                                                                                                                     |
+| :--------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 3-5 seconds      | Social media clips, GIF-like content                                                                                                                         |
+| 5-10 seconds     | Short-form content, product demos                                                                                                                            |
+| 10-15 seconds    | Story segments, longer narratives                                                                                                                            |
 | Up to 60 seconds | Long-form scenes (model-dependent; see the `end_seconds` values supported by each model in the [API reference](/api-reference/video-projects/text-to-video)) |
 
 ## Code Examples
@@ -116,18 +116,23 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.textToVideo.generate({
-  endSeconds: 5,
-  aspectRatio: "16:9",
-  style: {
-    prompt: "A majestic lion walking through golden savanna grass at sunset, cinematic slow motion",
+const result = await client.v1.textToVideo.generate(
+  {
+    endSeconds: 5,
+    aspectRatio: "16:9",
+    style: {
+      prompt:
+        "A majestic lion walking through golden savanna grass at sunset, cinematic slow motion",
+    },
+    name: "Nature Video",
+    resolution: "480p",
   },
-  name: "Nature Video",
-  resolution: "480p",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Video complete!`);
 console.log(`Status: ${result.status}`);

@@ -1,5 +1,5 @@
 ---
-title: AI Headshot Generator Tool - Magic Hour Docs
+title: AI Headshot Generator API
 sidebarTitle: Headshot Generator
 description: Generate professional-quality headshots from a single photo.
 ---
@@ -105,18 +105,22 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiHeadshotGenerator.generate({
-  assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+const result = await client.v1.aiHeadshotGenerator.generate(
+  {
+    assets: {
+      imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+    },
+    style: {
+      prompt: "Professional corporate headshot with neutral gray background",
+    },
+    name: "Professional Headshot",
   },
-  style: {
-    prompt: "Professional corporate headshot with neutral gray background",
-  },
-  name: "Professional Headshot",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Headshot complete!`);
 console.log(`Status: ${result.status}`);

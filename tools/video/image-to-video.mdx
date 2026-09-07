@@ -1,5 +1,5 @@
 ---
-title: Image to Video Tool - Magic Hour Docs
+title: Image to Video API
 sidebarTitle: Image to Video
 description: Convert static images into dynamic video content with AI-generated motion.
 ---
@@ -36,6 +36,8 @@ asynchronously, and duration varies with the input, selected settings, and queue
 4. **Download the result** - Retrieve your animated video
 
 ## Use Cases
+
+For a complete product demo workflow, follow the [product video starter recipe](/get-started/starter-recipes). It covers image preparation, video generation, and downloading the result.
 
 - **Social media content** - Turn photos into engaging video posts
 - **Marketing videos** - Create dynamic content from product photos
@@ -125,20 +127,25 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.imageToVideo.generate({
-  assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sunset.jpg",
+const result = await client.v1.imageToVideo.generate(
+  {
+    assets: {
+      imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sunset.jpg",
+    },
+    style: {
+      prompt:
+        "Sunset landscape with subtle camera movement, gentle parallax effect, cinematic depth",
+    },
+    endSeconds: 5,
+    name: "Sunset Animation",
+    resolution: "480p",
   },
-  style: {
-    prompt: "Sunset landscape with subtle camera movement, gentle parallax effect, cinematic depth",
-  },
-  endSeconds: 5,
-  name: "Sunset Animation",
-  resolution: "480p",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Video complete!`);
 console.log(`Status: ${result.status}`);

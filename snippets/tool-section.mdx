@@ -6,13 +6,39 @@ export const ToolSection = ({
   apiSlug = "" 
 }) => (
   <>
+    <CardGroup cols={2}>
+      <Card
+        title={`${title} API reference`}
+        icon="webhook"
+        horizontal
+        href={`/api-reference/${type}-projects/${apiSlug}`}
+      >
+        Request fields, responses, and examples
+      </Card>
+      <Card
+        title="API quickstart"
+        icon="forward-fast"
+        horizontal
+        href="/get-started/quick-start"
+      >
+        Install an SDK and complete your first generation
+      </Card>
+    </CardGroup>
+
+    <p>
+      Check <a href="/billing/overview">API pricing</a> and <a href="/api-reference/models">model credit costs</a>, then <a href={`https://magichour.ai/developer?tab=api-keys&ref=docs-tool-${apiSlug}&utm_source=docs&utm_medium=referral&utm_campaign=tools`}>create an API key</a>.
+    </p>
+    <p>
+      To try {title} without code, use the <a href={`https://magichour.ai/products/${productSlug}${productSlug.includes("?") ? "&" : "?"}utm_source=docs&utm_medium=referral&utm_campaign=tools`}>browser tool</a>.
+    </p>
+
     {outputs && outputs.length > 0 && (
       <Tabs>
         {outputs.map((output, idx) => (
           <Tab key={idx} title={`Example Output ${idx + 1}`}>
             <Frame>
               {type === "video" ? (
-                <video 
+                <video
                   controls
                   preload="metadata"
                   playsInline
@@ -22,7 +48,7 @@ export const ToolSection = ({
                 >
                 </video>
               ) : type === "audio" ? (
-                <audio 
+                <audio
                   controls
                   preload="metadata"
                   className="w-full"
@@ -31,10 +57,11 @@ export const ToolSection = ({
                   Your browser does not support the audio element.
                 </audio>
               ) : (
-                <img 
-                  height="320" 
-                  className="rounded-lg h-80" 
-                  src={output.src} 
+                <img
+                  alt={`${title} example output ${idx + 1}`}
+                  height="320"
+                  className="rounded-lg h-80"
+                  src={output.src}
                 />
               )}
             </Frame>
@@ -42,25 +69,6 @@ export const ToolSection = ({
         ))}
       </Tabs>
     )}
-
-    <CardGroup cols={2}>
-      <Card
-        title="API Spec"
-        icon="webhook"
-        horizontal
-        href={`/api-reference/${type}-projects/${apiSlug}`}
-      >
-        See API details
-      </Card>
-      <Card
-        title="Product Page"
-        icon="video"
-        horizontal
-        href={`https://magichour.ai/products/${productSlug}${productSlug.includes("?") ? "&" : "?"}utm_source=docs&utm_medium=referral&utm_campaign=tools`}
-      >
-        Learn more about {title}
-      </Card>
-    </CardGroup>
 
   </>
 );

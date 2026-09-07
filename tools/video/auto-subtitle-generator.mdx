@@ -1,5 +1,5 @@
 ---
-title: Auto Subtitle Generator Tool - Magic Hour Docs
+title: Auto Subtitle Generator API
 sidebarTitle: Auto Subtitle
 description: Automatically generate and embed subtitles in videos with AI-powered transcription.
 ---
@@ -99,19 +99,23 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.autoSubtitleGenerator.generate({
-  assets: {
-    videoFilePath:
-      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
+const result = await client.v1.autoSubtitleGenerator.generate(
+  {
+    assets: {
+      videoFilePath:
+        "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
+    },
+    startSeconds: 0,
+    endSeconds: 2,
+    style: { template: "karaoke" },
+    name: "Subtitled Video",
   },
-  startSeconds: 0,
-  endSeconds: 2,
-  style: { template: "karaoke" },
-  name: "Subtitled Video",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Subtitles complete!`);
 console.log(`Status: ${result.status}`);
