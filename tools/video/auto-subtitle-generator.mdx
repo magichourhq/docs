@@ -1,12 +1,10 @@
 ---
-title: Auto Subtitle Generator Tool - Magic Hour Docs
+title: Auto Subtitle Generator
 sidebarTitle: Auto Subtitle
 description: Automatically generate and embed subtitles in videos with AI-powered transcription.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
-
-## Overview
 
 Auto Subtitle Generator automatically transcribes speech in videos and embeds professional subtitles directly into the video file. The API uses Whisper AI for accurate speech recognition with automatic language detection, supporting multiple languages and delivering high-quality subtitle formatting.
 
@@ -99,19 +97,23 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.autoSubtitleGenerator.generate({
-  assets: {
-    videoFilePath:
-      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
+const result = await client.v1.autoSubtitleGenerator.generate(
+  {
+    assets: {
+      videoFilePath:
+        "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
+    },
+    startSeconds: 0,
+    endSeconds: 2,
+    style: { template: "karaoke" },
+    name: "Subtitled Video",
   },
-  startSeconds: 0,
-  endSeconds: 2,
-  style: { template: "karaoke" },
-  name: "Subtitled Video",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Subtitles complete!`);
 console.log(`Status: ${result.status}`);
@@ -155,7 +157,7 @@ Auto Subtitle Generator uses credits based on video length:
 ## Related Tools
 
 <CardGroup cols={2}>
-  <Card title="Lip Sync" icon="lips" href="/tools/video/lip-sync">
+  <Card title="Lip Sync" icon="microphone" href="/tools/video/lip-sync">
     Sync audio with video lip movements
   </Card>
   <Card title="Video-to-Video" icon="film" href="/tools/video/video-to-video">

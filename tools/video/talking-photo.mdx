@@ -1,12 +1,10 @@
 ---
-title: AI Talking Photo Tool - Magic Hour Docs
+title: AI Talking Photo
 sidebarTitle: Talking Photo
 description: Animate static photos to speak with realistic lip-sync and facial movements.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
-
-## Overview
 
 AI Talking Photo brings static photos to life by animating faces to speak with realistic lip-sync and natural facial movements. The API analyzes facial features and synchronizes mouth movements, head poses, and expressions with the audio file you provide.
 
@@ -59,8 +57,8 @@ asynchronously, and duration varies with the input, selected settings, and queue
 
 ### Audio Guidelines
 
-| Audio Type       | Best Practice                                                                     |
-| :--------------- | :-------------------------------------------------------------------------------- |
+| Audio Type       | Best Practice                                                                      |
+| :--------------- | :--------------------------------------------------------------------------------- |
 | Voice recording  | Clear speech without background noise                                              |
 | Generated speech | Create the audio first with the [AI Voice Generator](/tools/audio/voice-generator) |
 | Music/songs      | Works best with clear vocals                                                       |
@@ -106,19 +104,23 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiTalkingPhoto.generate({
-  assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
-    audioFilePath:
-      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
+const result = await client.v1.aiTalkingPhoto.generate(
+  {
+    assets: {
+      imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+      audioFilePath:
+        "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
+    },
+    name: "Talking Photo",
+    startSeconds: 0,
+    endSeconds: 2,
   },
-  name: "Talking Photo",
-  startSeconds: 0,
-  endSeconds: 2,
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Talking photo complete!`);
 console.log(`Status: ${result.status}`);
@@ -159,7 +161,7 @@ Output resolution is capped at **720p** (the tool's hard cap) or your subscripti
 ## Related Tools
 
 <CardGroup cols={2}>
-  <Card title="Lip Sync" icon="lips" href="/tools/video/lip-sync">
+  <Card title="Lip Sync" icon="microphone" href="/tools/video/lip-sync">
     Sync audio with existing video lip movements
   </Card>
   <Card title="AI Voice Generator" icon="microphone" href="/tools/audio/voice-generator">

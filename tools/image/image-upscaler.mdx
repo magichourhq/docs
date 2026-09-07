@@ -1,12 +1,10 @@
 ---
-title: AI Image Upscaler Tool - Magic Hour Docs
+title: AI Image Upscaler
 sidebarTitle: Image Upscaler
 description: Enhance image resolution and quality using AI-powered upscaling.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
-
-## Overview
 
 AI Image Upscaler enhances image resolution and quality using AI-powered upscaling technology. The API increases image size while preserving and improving details, reducing artifacts, and maintaining visual fidelity at higher resolutions.
 
@@ -116,19 +114,23 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiImageUpscaler.generate({
-  assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sea.jpg",
+const result = await client.v1.aiImageUpscaler.generate(
+  {
+    assets: {
+      imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sea.jpg",
+    },
+    scaleFactor: 2.0,
+    style: {
+      mode: "balanced",
+    },
+    name: "Image Upscaler image",
   },
-  scaleFactor: 2.0,
-  style: {
-    mode: "balanced",
-  },
-  name: "Image Upscaler image",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Upscale complete!`);
 console.log(`Status: ${result.status}`);
@@ -168,19 +170,23 @@ else:
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiImageUpscaler.generate({
-  assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sea.jpg",
+const result = await client.v1.aiImageUpscaler.generate(
+  {
+    assets: {
+      imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sea.jpg",
+    },
+    scaleFactor: 4.0,
+    style: {
+      mode: "balanced",
+    },
+    name: "Image Upscaler image",
   },
-  scaleFactor: 4.0,
-  style: {
-    mode: "balanced",
-  },
-  name: "Image Upscaler image",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Upscale complete!`);
 console.log(`Status: ${result.status}`);

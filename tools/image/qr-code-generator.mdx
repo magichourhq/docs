@@ -1,12 +1,10 @@
 ---
-title: AI QR Code Generator Tool - Magic Hour Docs
+title: AI QR Code Generator
 sidebarTitle: QR Code Generator
 description: Create visually appealing, artistic QR codes that maintain functionality.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
-
-## Overview
 
 AI QR Code Generator creates visually appealing, artistic QR codes that maintain full functionality while incorporating custom designs, colors, and artistic elements. The API generates QR codes that blend seamlessly with branding and creative designs.
 
@@ -113,16 +111,20 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiQrCodeGenerator.generate({
-  content: "https://yourwebsite.com",
-  style: {
-    artStyle: "Ocean waves with blue and teal colors, flowing organic patterns",
+const result = await client.v1.aiQrCodeGenerator.generate(
+  {
+    content: "https://yourwebsite.com",
+    style: {
+      artStyle: "Ocean waves with blue and teal colors, flowing organic patterns",
+    },
+    name: "Brand QR Code",
   },
-  name: "Brand QR Code",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ QR code complete!`);
 console.log(`Status: ${result.status}`);
@@ -158,16 +160,20 @@ else:
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiQrCodeGenerator.generate({
-  content: "https://event.example.com/tickets",
-  style: {
-    artStyle: "Elegant gold and black art deco patterns",
+const result = await client.v1.aiQrCodeGenerator.generate(
+  {
+    content: "https://event.example.com/tickets",
+    style: {
+      artStyle: "Elegant gold and black art deco patterns",
+    },
+    name: "Event QR Code",
   },
-  name: "Event QR Code",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
 ```

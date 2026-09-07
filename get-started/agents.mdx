@@ -1,0 +1,52 @@
+---
+title: Agent quickstart
+description: Select the right Magic Hour tool, supply valid inputs, wait for completion, and return the finished media to the user.
+---
+
+Use the [creation MCP](/integration/model-context-protocol) when the assistant should create media. Use the [API Docs MCP](/integration/api-docs-mcp) when it only needs to search documentation while writing code.
+
+## Find the current contract
+
+- [Documentation index](https://docs.magichour.ai/llms.txt): discover the relevant guide.
+- [OpenAPI specification](https://docs.magichour.ai/api-reference/openapi.json): read required fields, enums, and response schemas for direct API calls.
+- Page text is available by replacing a documentation page's URL suffix with `.md`, for example [the quickstart as Markdown](https://docs.magichour.ai/get-started/quick-start.md).
+- With creation MCP, discover the available tools and read their input schemas before calling them. Its bundled catalog may differ from the latest web app.
+
+## Select by intent and available inputs
+
+| User wants               | Inputs                           | Tool guide                                         |
+| ------------------------ | -------------------------------- | -------------------------------------------------- |
+| Swap a face in footage   | Source face image + target video | [Face Swap Video](/tools/video/face-swap-video)    |
+| Edit an image            | Image + edit prompt              | [AI Image Editor](/tools/image/image-editor)       |
+| Swap a face in a photo   | Source face image + target image | [Face Swap Photo](/tools/image/face-swap-photo)    |
+| Make a portrait speak    | Portrait + speech audio          | [Talking Photo](/tools/video/talking-photo)        |
+| Generate a new video     | Text prompt                      | [Text to Video](/tools/video/text-to-video)        |
+| Change speech in footage | Video + replacement speech audio | [Lip Sync](/tools/video/lip-sync)                  |
+| Animate a still scene    | Image + motion prompt            | [Image to Video](/tools/video/image-to-video)      |
+| Generate a new image     | Text prompt                      | [AI Image Generator](/tools/image/image-generator) |
+| Generate speech          | Text + available voice           | [Voice Generator](/tools/audio/voice-generator)    |
+
+For a moving still scene, choose Image to Video. The separate Animation tool produces stylized, morphing visuals. For whole-person replacement, use [Character Replace](/tools/video/character-replace).
+
+## Complete one creation
+
+1. **Resolve required inputs.** Ask for a missing source file or essential creative choice. Use the user's requested model and settings when supported; otherwise explain the supported choices. Check model, resolution, plan, and credit requirements in the selected endpoint.
+2. **Make files accessible.** A local path is not a public media URL. [Upload local files](/integration/inputs-and-outputs) and pass the returned `file_path`. With hosted MCP, the client must upload the bytes; the server cannot read the user's filesystem.
+3. **Submit once and retain the project ID.** A creation response acknowledges a job; it is not the finished media. If a request times out ambiguously, do not assume no job was created and automatically duplicate it.
+4. **Wait on the matching media type.** Use `wait_for_image_project`, `wait_for_video_project`, or `wait_for_audio_project` in MCP. For direct API calls, poll the corresponding project endpoint with a bounded wait and backoff, or use webhooks.
+5. **Handle the actual terminal state.** On error or cancellation, report the returned reason and project ID. A wait timeout does not mean the render failed; retain the ID and check that job again.
+6. **Return the finished media.** Use MCP's `exact_download_urls` or the API's `downloads[].url` without modifying signed URLs. Display media if the client supports it, otherwise provide the exact download link. Report success only after the completed output is available.
+
+## A first prompt with no upload
+
+```text
+Create one square image of a neon ramen shop at night using flux-2-klein at
+640px. Wait for the job to finish, then show me the finished image and return
+its download link. If the job fails, report the error and project ID.
+```
+
+This chooses a specific small image configuration so the assistant does not silently choose a more expensive default. Confirm current availability and cost from the tool schema and [image generation reference](/api-reference/image-projects/ai-image-generator).
+
+## Need code instead?
+
+Follow the [API quickstart](/get-started/quick-start). In the Node SDK, request fields are the first argument to `generate()`; wait and download options are the second. In Python, the helper accepts those options as keyword arguments.

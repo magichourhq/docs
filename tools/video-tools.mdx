@@ -3,40 +3,51 @@ title: Video Tools
 description: Explore video generation, editing, transformation, and enhancement APIs.
 ---
 
-Use Magic Hour's video tools to generate new footage, transform existing clips, synchronize audio, replace characters, and automate video editing workflows.
+Choose by the footage and audio you already have. Each guide includes inputs, sample code, and the matching API endpoint.
 
 <CardGroup cols={2}>
-  <Card title="AI Video Editor" icon="wand-magic-sparkles" href="/tools/video/video-editor">
-    Edit existing footage with natural-language prompts.
+  <Card title="Face Swap Video" href="/tools/video/face-swap-video">
+    Face photo + target video → video with the new face.
   </Card>
-  <Card title="Animation" icon="film" href="/tools/video/animation">
-    Turn static images into animated videos.
+  <Card title="Talking Photo" href="/tools/video/talking-photo">
+    Portrait + speech audio → a talking portrait video.
   </Card>
-  <Card title="Audio to Video" icon="waveform" href="/tools/video/audio-to-video">
-    Generate video from audio, an image, and a prompt.
+  <Card title="Text to Video" href="/tools/video/text-to-video">
+    Text prompt → a new video. No source footage needed.
   </Card>
-  <Card title="Auto Subtitle Generator" icon="closed-captioning" href="/tools/video/auto-subtitle-generator">
-    Add timed subtitles to video automatically.
+  <Card title="Lip Sync" href="/tools/video/lip-sync">
+    Video + speech audio → video with synchronized mouth movements.
   </Card>
-  <Card title="Character Replace" icon="user" href="/tools/video/character-replace">
-    Replace a person throughout a video.
+  <Card title="Character Replace" href="/tools/video/character-replace">
+    Character image + target video → replace the whole person.
   </Card>
-  <Card title="Face Swap Video" icon="face-smile" href="/tools/video/face-swap-video">
-    Replace faces consistently across video frames.
+  <Card title="Video to Video" href="/tools/video/video-to-video">
+    Video + style prompt → restyled footage.
   </Card>
-  <Card title="Image to Video" icon="image" href="/tools/video/image-to-video">
-    Animate a still image with AI-generated motion.
+  <Card title="AI Video Editor" href="/tools/video/video-editor">
+    Video + edit prompt → change the scene, objects, or appearance.
   </Card>
-  <Card title="Lip Sync" icon="lips" href="/tools/video/lip-sync">
-    Synchronize mouth movement with new audio.
+  <Card title="Audio to Video" href="/tools/video/audio-to-video">
+    Audio + prompt, with an optional image → video guided by the audio.
   </Card>
-  <Card title="Talking Photo" icon="comment-audio" href="/tools/video/talking-photo">
-    Make a still portrait speak from an audio track.
+  <Card title="Auto Subtitle Generator" href="/tools/video/auto-subtitle-generator">
+    Video with speech → video with timed subtitles.
   </Card>
-  <Card title="Text to Video" icon="text" href="/tools/video/text-to-video">
-    Generate original video from a text description.
+  <Card title="Image to Video" href="/tools/video/image-to-video">
+    Still image + motion prompt → a moving scene.
   </Card>
-  <Card title="Video to Video" icon="video" href="/tools/video/video-to-video">
-    Apply new styles to existing footage.
+  <Card title="Animation" href="/tools/video/animation">
+    Prompt, with optional image or audio → stylized, morphing animation.
   </Card>
 </CardGroup>
+
+## Which motion tool should I use?
+
+- **Make a photo move:** [Image to Video](/tools/video/image-to-video).
+- **Make a portrait speak:** [Talking Photo](/tools/video/talking-photo), with a portrait and speech audio.
+- **Change speech in footage:** [Lip Sync](/tools/video/lip-sync), with a video and replacement audio.
+- **Create stylized, morphing visuals:** [Animation](/tools/video/animation).
+
+## Create your first result
+
+[Run the API quickstart](/get-started/quick-start), [create with an AI assistant](/integration/model-context-protocol), or [choose a tool in the web app](https://magichour.ai/create?utm_source=docs&utm_medium=referral&utm_campaign=tools).
