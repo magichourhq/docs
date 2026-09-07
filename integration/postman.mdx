@@ -45,8 +45,9 @@ the project is complete.
 2. In Postman, select **Import**, then import both JSON files.
 3. Select the **Magic Hour — Local credentials and media** environment.
 4. Set `api_key` to your [Magic Hour API key](/get-started/authentication). Keep
-   its type set to **secret**, its initial value empty, and the environment local
-   or private.
+   its type set to **secret** and its value local; do not share the value or export
+   the populated environment. Marking a variable secret masks it but does not by
+   itself prevent sharing.
 5. Add only the media variables needed by the request you plan to send. Each can
    be a direct public URL you control or a Magic Hour `api-assets/...` path.
 
@@ -70,6 +71,9 @@ request 09 only after request 08 has created `upload_url` and `image_url`.
 
 ## Credential and output hygiene
 
+- Requests with missing credentials or required variables are skipped. Check
+  the Postman Console for the missing field. A failed creation request leaves
+  your last successful project ID available for recovery.
 - Never commit or publish an environment after adding an API key, signed upload
   URL, private media URL, or project ID.
 - The collection applies bearer authentication to Magic Hour API requests. The
