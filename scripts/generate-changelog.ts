@@ -100,11 +100,6 @@ Try it out now by upgrading to the latest version of the SDK.
 
 Track your credit consumption on the new \`/usage\` page.
 
-## Other Improvements
-
-- Preview uploaded audio before generating.
-- Recreate music using the original prompt, lyrics, and instrumental setting.
-
 </Update>
 `.trim();
 
@@ -290,7 +285,7 @@ Audience: external customers deciding what to try or change in their use of Magi
 
 Eligibility rules — apply these before writing:
 - Include a change only when the issue provides clear evidence that customers can use or see it on the public Web App or public API. A completed Linear issue is not, by itself, evidence of a public release.
-- For a completed issue, a concrete new customer action explicitly described on an existing public tool or page is sufficient public-surface evidence unless the issue indicates a gate, a future launch, or unfinished customer-facing work. Do not require the literal words "launched" or "released". A backend implementation task with no established public customer behavior still does not qualify.
+- For a completed issue on an existing public tool or page, treat completion together with a concrete customer action as evidence of availability only when no remaining rollout, integration, gating, or launch work is indicated. Do not require the literal words "launched" or "released". Completion of a backend implementation task or a new unpublished tool is still insufficient.
 - Include material new capabilities, models, controls, workflows, public pages, API behavior, and meaningful customer-facing fixes.
 - Exclude admin panels, staff tools, debugging/operations features, observability, and other employee-only changes.
 - Exclude anything gated by \`?preview=true\`, a feature flag, hidden metadata/navigation, dogfooding, or restricted testing unless the issue explicitly says that gate was removed and the feature was publicly launched.
@@ -305,7 +300,7 @@ Selection and ordering:
 - Within each date, lead with eligible model releases, new tools, and new ways to create or edit. Do not omit those in favor of minor UI polish merely because the UI ticket has a more detailed description.
 - Give material capabilities their own headings. Group small but useful changes under one "## Other Improvements" heading at the end, with one sentence per bullet. Omit purely cosmetic changes with no meaningful customer benefit.
 - Audio recreation controls, upload previews, and generation counters normally belong in Other Improvements. A date may contain only that section. Order by customer impact even when the supplied issues arrive in a different order.
-- Every included issue must contribute a concrete change to the prose. A generic "improved controls" sentence does not cover unrelated capabilities such as text-to-speech, avatar presets, or before/after comparisons.
+- Every included issue must be represented by a resulting customer capability in the prose. Several implementation issues may share one confirmed launch entry without exposing their internal details. A generic "improved controls" sentence does not cover unrelated capabilities.
 
 Content rules:
 - Write in the same style as the existing examples below — concise, direct, and action-oriented
@@ -328,8 +323,8 @@ Decision examples:
 - "Add model selectors available only with ?preview=true" → exclude as testing-only.
 - A UI implementation issue plus a backend pipeline issue plus an explicit public-launch issue for the same feature → write one launch entry; describe inputs, modes, outputs, and other user controls, not segmentation, retries, queues, or stitching.
 - "Publish a public product page for a coming-soon tool" → the page may be included, but say the page is new and the tool is coming soon.
-- A confirmed public rollout of video output actions → "Continue editing generated videos with Edit Video, Swap Faces, or Add Subtitles directly from supported free-tool results." Omit overflow-menu and dashboard-parity details.
-- A confirmed public rollout of music recreation → "Recreate music using the original prompt, lyrics, and instrumental setting." Group under Other Improvements; omit carousel and button-layout details.
+- A confirmed public rollout of video output actions → describe the supported follow-up actions in one sentence using only the supplied facts. Omit overflow-menu and dashboard-parity details.
+- A confirmed public rollout of music recreation → describe the settings customers can reuse using only the supplied facts. Group under Other Improvements; omit carousel and button-layout details.
 - A model implementation ticket with explicit public-launch evidence → lead with the model and its supported uses; omit worker versions, GPU memory, and deployment steps. Without release evidence, exclude it and state that missing evidence in the structured reason.
 
 Classification rules (the "tags" field):
@@ -338,7 +333,7 @@ Classification rules (the "tags" field):
 - Return every tag that applies. Many changes touch both surfaces — include both then.
 - Return at least one tag.
 
-Existing changelog style examples:
+Style examples only, not evidence for the current release. Never copy their product facts, dates, or URLs unless independently supported by the supplied issues:
 ${TONE_EXAMPLES}
 `;
 
