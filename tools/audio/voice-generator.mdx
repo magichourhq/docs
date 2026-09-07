@@ -1,10 +1,12 @@
 ---
-title: AI Voice Generator
+title: AI Voice Generator Tool - Magic Hour Docs
 sidebarTitle: Voice Generator
 description: Generate realistic speech audio from text using celebrity and character voices.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
 
 AI Voice Generator creates realistic speech audio from text using celebrity and character voices. The API produces high-quality voice synthesis with natural intonation, emotion, and speaking patterns that closely match famous personalities.
 
@@ -120,20 +122,16 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiVoiceGenerator.generate(
-  {
-    style: {
-      prompt: "Hello! This is a test of the Magic Hour voice generator. Pretty cool, right?",
-      voiceName: "Morgan Freeman",
-    },
-    name: "Voice Generator audio",
+const result = await client.v1.aiVoiceGenerator.generate({
+  style: {
+    prompt: "Hello! This is a test of the Magic Hour voice generator. Pretty cool, right?",
+    voiceName: "Morgan Freeman",
   },
-  {
-    waitForCompletion: true,
-    downloadOutputs: true,
-    downloadDirectory: ".",
-  }
-);
+  name: "Voice Generator audio",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: ".",
+});
 
 console.log(`✅ Voice generation complete!`);
 console.log(`Status: ${result.status}`);
@@ -169,20 +167,16 @@ else:
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiVoiceGenerator.generate(
-  {
-    style: {
-      prompt: "Welcome to the show! Today we're going to talk about something really exciting.",
-      voiceName: "Joe Rogan",
-    },
-    name: "Voice Generator audio",
+const result = await client.v1.aiVoiceGenerator.generate({
+  style: {
+    prompt: "Welcome to the show! Today we're going to talk about something really exciting.",
+    voiceName: "Joe Rogan",
   },
-  {
-    waitForCompletion: true,
-    downloadOutputs: true,
-    downloadDirectory: ".",
-  }
-);
+  name: "Voice Generator audio",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: ".",
+});
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
 ```
@@ -216,20 +210,16 @@ else:
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiVoiceGenerator.generate(
-  {
-    style: {
-      prompt: "In a world where technology meets creativity, Magic Hour brings your ideas to life.",
-      voiceName: "Donald Trump",
-    },
-    name: "Voice Generator audio",
+const result = await client.v1.aiVoiceGenerator.generate({
+  style: {
+    prompt: "In a world where technology meets creativity, Magic Hour brings your ideas to life.",
+    voiceName: "Donald Trump",
   },
-  {
-    waitForCompletion: true,
-    downloadOutputs: true,
-    downloadDirectory: ".",
-  }
-);
+  name: "Voice Generator audio",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: ".",
+});
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
 ```
@@ -291,11 +281,11 @@ print("lip_status:", lip_sync_result.status, "paths:", getattr(lip_sync_result, 
 
 Voice generation costs **0.1 credits per character** of text, rounded up to the nearest whole number. Inputs support up to 1,000 characters.
 
-| Text Length                    | Credits     |
-| :----------------------------- | :---------- |
-| 100 characters (1-2 sentences) | 10 credits  |
-| 500 characters (a paragraph)   | 50 credits  |
-| 1,000 characters (maximum)     | 100 credits |
+| Text Length                       | Credits     |
+| :-------------------------------- | :---------- |
+| 100 characters (1-2 sentences)    | 10 credits  |
+| 500 characters (a paragraph)      | 50 credits  |
+| 1,000 characters (maximum)         | 100 credits |
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample
@@ -316,7 +306,7 @@ Voice generation costs **0.1 credits per character** of text, rounded up to the 
 ## Related Tools
 
 <CardGroup cols={2}>
-  <Card title="Lip Sync" icon="microphone" href="/tools/video/lip-sync">
+  <Card title="Lip Sync" icon="lips" href="/tools/video/lip-sync">
     Sync generated audio with video lip movements
   </Card>
   <Card title="Animation" icon="film" href="/tools/video/animation">

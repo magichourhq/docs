@@ -1,10 +1,12 @@
 ---
-title: AI Face Editor
+title: AI Face Editor Tool - Magic Hour Docs
 sidebarTitle: Face Editor
 description: Edit and enhance facial features with AI-powered precision and natural results.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
 
 AI Face Editor provides advanced facial editing capabilities using AI to modify and enhance facial features with natural-looking results. The API can adjust expressions, features, and attributes while maintaining realistic proportions and lighting.
 
@@ -114,36 +116,32 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiFaceEditor.generate(
-  {
-    assets: {
-      imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
-    },
-    style: {
-      enhanceFace: false,
-      eyeGazeHorizontal: 0.0,
-      eyeGazeVertical: 0.0,
-      eyeOpenRatio: 0.0,
-      eyebrowDirection: 100, // Raise eyebrows
-      headPitch: 0.0,
-      headRoll: 0.0,
-      headYaw: 0.0,
-      lipOpenRatio: 0.0,
-      mouthGrim: 0.0,
-      mouthPositionHorizontal: 0.0,
-      mouthPositionVertical: 0.0,
-      mouthPout: 0.0,
-      mouthPurse: 0.0,
-      mouthSmile: 0.0,
-    },
-    name: "Face Editor image",
+const result = await client.v1.aiFaceEditor.generate({
+  assets: {
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
   },
-  {
-    waitForCompletion: true,
-    downloadOutputs: true,
-    downloadDirectory: ".",
-  }
-);
+  style: {
+    enhanceFace: false,
+    eyeGazeHorizontal: 0.0,
+    eyeGazeVertical: 0.0,
+    eyeOpenRatio: 0.0,
+    eyebrowDirection: 100, // Raise eyebrows
+    headPitch: 0.0,
+    headRoll: 0.0,
+    headYaw: 0.0,
+    lipOpenRatio: 0.0,
+    mouthGrim: 0.0,
+    mouthPositionHorizontal: 0.0,
+    mouthPositionVertical: 0.0,
+    mouthPout: 0.0,
+    mouthPurse: 0.0,
+    mouthSmile: 0.0,
+  },
+  name: "Face Editor image",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: ".",
+});
 
 console.log(`✅ Face edit complete!`);
 console.log(`Status: ${result.status}`);
@@ -195,36 +193,32 @@ else:
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiFaceEditor.generate(
-  {
-    assets: {
-      imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
-    },
-    style: {
-      enhanceFace: false,
-      eyeGazeHorizontal: 0.0,
-      eyeGazeVertical: 0.0,
-      eyeOpenRatio: 0.0,
-      eyebrowDirection: 100, // Raise eyebrows
-      headPitch: 0.0,
-      headRoll: 0.0,
-      headYaw: 0.0,
-      lipOpenRatio: 0.0,
-      mouthGrim: 0.0,
-      mouthPositionHorizontal: 0.0,
-      mouthPositionVertical: 0.0,
-      mouthPout: 100, // Make Mouth Pout
-      mouthPurse: 0.0,
-      mouthSmile: 0.0,
-    },
-    name: "Face Editor image",
+const result = await client.v1.aiFaceEditor.generate({
+  assets: {
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
   },
-  {
-    waitForCompletion: true,
-    downloadOutputs: true,
-    downloadDirectory: ".",
-  }
-);
+  style: {
+    enhanceFace: false,
+    eyeGazeHorizontal: 0.0,
+    eyeGazeVertical: 0.0,
+    eyeOpenRatio: 0.0,
+    eyebrowDirection: 100, // Raise eyebrows
+    headPitch: 0.0,
+    headRoll: 0.0,
+    headYaw: 0.0,
+    lipOpenRatio: 0.0,
+    mouthGrim: 0.0,
+    mouthPositionHorizontal: 0.0,
+    mouthPositionVertical: 0.0,
+    mouthPout: 100, // Make Mouth Pout
+    mouthPurse: 0.0,
+    mouthSmile: 0.0,
+  },
+  name: "Face Editor image",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: ".",
+});
 
 console.log(`✅ Face edit complete!`);
 console.log(`Status: ${result.status}`);

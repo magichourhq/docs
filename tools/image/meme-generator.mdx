@@ -1,10 +1,12 @@
 ---
-title: AI Meme Generator
+title: AI Meme Generator Tool - Magic Hour Docs
 sidebarTitle: Meme Generator
 description: Create AI-generated memes using popular templates and custom topics.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
 
 AI Meme Generator creates humorous memes by combining popular meme templates with your custom topics. The API automatically generates contextually appropriate text for both top and bottom panels that fits the chosen meme template and your specified topic.
 
@@ -118,21 +120,17 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiMemeGenerator.generate(
-  {
-    style: {
-      searchWeb: false,
-      template: "Drake Hotline Bling",
-      topic: "When the code finally works after hours of debugging",
-    },
-    name: "Code Works Meme",
+const result = await client.v1.aiMemeGenerator.generate({
+  style: {
+    searchWeb: false,
+    template: "Drake Hotline Bling",
+    topic: "When the code finally works after hours of debugging",
   },
-  {
-    waitForCompletion: true,
-    downloadOutputs: true,
-    downloadDirectory: ".",
-  }
-);
+  name: "Code Works Meme",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: ".",
+});
 
 console.log(`✅ Meme complete!`);
 console.log(`Status: ${result.status}`);
@@ -169,21 +167,17 @@ else:
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiMemeGenerator.generate(
-  {
-    style: {
-      searchWeb: false,
-      template: "Drake Hotline Bling",
-      topic: "Developers and shiny new frameworks",
-    },
-    name: "Framework Meme",
+const result = await client.v1.aiMemeGenerator.generate({
+  style: {
+    searchWeb: false,
+    template: "Drake Hotline Bling",
+    topic: "Developers and shiny new frameworks",
   },
-  {
-    waitForCompletion: true,
-    downloadOutputs: true,
-    downloadDirectory: ".",
-  }
-);
+  name: "Framework Meme",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: ".",
+});
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
 ```
@@ -218,21 +212,17 @@ else:
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiMemeGenerator.generate(
-  {
-    style: {
-      searchWeb: true,
-      template: "Two Buttons",
-      topic: "Latest tech trends in AI development",
-    },
-    name: "AI Trends Meme",
+const result = await client.v1.aiMemeGenerator.generate({
+  style: {
+    searchWeb: true,
+    template: "Two Buttons",
+    topic: "Latest tech trends in AI development",
   },
-  {
-    waitForCompletion: true,
-    downloadOutputs: true,
-    downloadDirectory: ".",
-  }
-);
+  name: "AI Trends Meme",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: ".",
+});
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
 ```

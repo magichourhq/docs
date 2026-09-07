@@ -50,7 +50,6 @@ Every generation follows the same lifecycle:
       Receive webhook
     </div>
     <span style={{ gridColumn: "10", gridRow: "3" }}>↗</span>
-
   </div>
 </div>
 
@@ -62,8 +61,6 @@ Every generation follows the same lifecycle:
 >
   Open the Google Colab cookbook and try every API without local setup.
 </Card>
-
-If you have not made a creation yet, start with the shorter [API quickstart](/get-started/quick-start). This tutorial explains manual polling and file handling after that first success.
 
 ## What You'll Build
 
@@ -77,8 +74,8 @@ In this tutorial, you'll create a working application that generates an AI image
 
 <Note>
   **Estimated time**: 15-20 minutes **Prerequisites**: API key from [Developer
-  Hub](https://magichour.ai/developer?tab=api-keys&ref=docs-first-integration&utm_source=docs&utm_medium=referral&utm_campaign=first-integration),
-  Python or a current Node.js LTS installed
+  Hub](https://magichour.ai/developer?tab=api-keys&ref=docs-first-integration&utm_source=docs&utm_medium=referral&utm_campaign=first-integration), Python 3.8+ or
+  Node.js 16+ installed
 </Note>
 
 ## Choose Your Language
@@ -126,8 +123,8 @@ pip install magic_hour python-dotenv requests
 
 <Info>
   **SDK Documentation**: Full Python SDK docs available at
-  [github.com/magichourhq/magic-hour-python](https://github.com/magichourhq/magic-hour-python). The
-  Python package is published as `magic_hour` on PyPI; the Node.js SDK is `magic-hour` on npm.
+  [github.com/magichourhq/magic-hour-python](https://github.com/magichourhq/magic-hour-python).
+  The Python package is published as `magic_hour` on PyPI; the Node.js SDK is `magic-hour` on npm.
 </Info>
 
 ### Step 3: Configure Your API Key
@@ -178,8 +175,6 @@ def main():
     print("\n📝 Creating AI image generation job...")
     try:
         create_response = client.v1.ai_image_generator.create(
-            model="flux-2-klein",
-            resolution="640px",
             image_count=1,
             aspect_ratio="16:9",
             style={
@@ -202,7 +197,7 @@ def main():
 
     # Step 2: Poll for completion
     print(f"\n⏳ Waiting for job to complete...")
-    print("   Waiting for the image render")
+    print("   This usually takes 5-15 seconds for images")
 
     max_attempts = 60  # Maximum 60 attempts (3 minutes)
     attempt = 0
@@ -223,11 +218,11 @@ def main():
                 download_image(download_url, job_id)
                 break
 
-            elif status in ("error", "canceled"):
+            elif status == "error":
                 error_info = status_response.error
                 print(f"❌ Job failed with error:")
-                print(f"   Code: {getattr(error_info, 'code', 'unknown')}")
-                print(f"   Message: {getattr(error_info, 'message', 'No error message')}")
+                print(f"   Code: {error_info.get('code', 'unknown')}")
+                print(f"   Message: {error_info.get('message', 'No error message')}")
                 return
 
             elif status in ["queued", "rendering"]:
@@ -245,7 +240,7 @@ def main():
             return
 
     if attempt >= max_attempts:
-        print(f"Wait timed out for project {job_id}. Check this project again; do not create a duplicate.")
+        print(f"⏰ Timeout: Job did not complete within {max_attempts * 3} seconds")
         return
 
     print("\n✨ Tutorial completed successfully!")
@@ -280,9 +275,9 @@ def download_image(url, job_id):
         print(f"   Size: {file_size_mb:.2f} MB")
 
     except requests.exceptions.RequestException as e:
-        raise RuntimeError(f"Download failed: {e}") from e
+        print(f"❌ Download failed: {e}")
     except Exception as e:
-        raise RuntimeError(f"Download failed: {e}") from e
+        print(f"❌ Unexpected error during download: {e}")
 
 if __name__ == "__main__":
     main()
@@ -308,7 +303,7 @@ You should see output like this:
    Credits charged: 5
 
 ⏳ Waiting for job to complete...
-   Waiting for the image render
+   This usually takes 5-15 seconds for images
    Status: queued (attempt 1/60)
    Status: rendering (attempt 2/60)
    Status: complete (attempt 3/60)
@@ -416,8 +411,6 @@ async function main() {
     console.log("\n📝 Creating AI image generation job...");
 
     const createResponse = await client.v1.aiImageGenerator.create({
-      model: "flux-2-klein",
-      resolution: "640px",
       imageCount: 1,
       aspectRatio: "16:9",
       style: {
@@ -436,7 +429,7 @@ async function main() {
 
     // Step 2: Poll for completion
     console.log("\n⏳ Waiting for job to complete...");
-    console.log("   Waiting for the image render");
+    console.log("   This usually takes 5-15 seconds for images");
 
     const maxAttempts = 60; // Maximum 60 attempts (3 minutes)
     let attempt = 0;
@@ -455,7 +448,7 @@ async function main() {
         const downloadUrl = statusResponse.downloads[0].url;
         await downloadImage(downloadUrl, jobId);
         break;
-      } else if (status === "error" || status === "canceled") {
+      } else if (status === "error") {
         const errorInfo = statusResponse.error;
         console.log("❌ Job failed with error:");
         console.log(`   Code: ${errorInfo?.code || "unknown"}`);
@@ -473,9 +466,7 @@ async function main() {
     }
 
     if (attempt >= maxAttempts) {
-      console.log(
-        `Wait timed out for project ${jobId}. Check this project again; do not create a duplicate.`
-      );
+      console.log(`⏰ Timeout: Job did not complete within ${maxAttempts * 3} seconds`);
       return;
     }
 
@@ -517,7 +508,7 @@ async function downloadImage(url, jobId) {
     console.log(`✅ Downloaded: ${filepath}`);
     console.log(`   Size: ${fileSizeMB} MB`);
   } catch (error) {
-    throw new Error(`Download failed: ${error.message}`);
+    console.log(`❌ Download failed: ${error.message}`);
   }
 }
 
@@ -537,7 +528,7 @@ Add `"type": "module"` to your `package.json` to enable ES modules:
   "main": "index.js",
   "dependencies": {
     "dotenv": "^16.0.0",
-    "magic-hour": "^0.74.1"
+    "magic-hour": "^0.70.0"
   }
 }
 ```
@@ -605,8 +596,6 @@ The SDK also provides a `generate()` function that handles polling and downloadi
 ```python Python
 # All-in-one generate function
 result = client.v1.ai_image_generator.generate(
-    model="flux-2-klein",
-    resolution="640px",
     image_count=1,
     aspect_ratio="16:9",
     style={
@@ -624,24 +613,18 @@ print(f"✅ Complete! Files: {result.downloaded_paths}")
 
 ```javascript Node.js
 // All-in-one generate function
-const result = await client.v1.aiImageGenerator.generate(
-  {
-    model: "flux-2-klein",
-    resolution: "640px",
-    imageCount: 1,
-    aspectRatio: "16:9",
-    style: {
-      prompt: "A serene mountain landscape at sunset",
-      tool: "ai-anime-generator",
-    },
-    name: "Tutorial Image",
+const result = await client.v1.aiImageGenerator.generate({
+  imageCount: 1,
+  aspectRatio: "16:9",
+  style: {
+    prompt: "A serene mountain landscape at sunset",
+    tool: "ai-anime-generator",
   },
-  {
-    waitForCompletion: true,
-    downloadOutputs: true,
-    downloadDirectory: ".",
-  }
-);
+  name: "Tutorial Image",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: ".",
+});
 
 console.log(`✅ Complete! Files: ${result.downloadedPaths}`);
 ```

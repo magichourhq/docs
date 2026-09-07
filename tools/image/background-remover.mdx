@@ -1,10 +1,12 @@
 ---
-title: Image Background Remover
+title: Image Background Remover Tool - Magic Hour Docs
 sidebarTitle: Background Remover
 description: Automatically remove backgrounds from images with precision edge detection.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
 
 Image Background Remover automatically removes backgrounds from images with precision edge detection and smart object recognition. The API isolates subjects from their backgrounds, creating clean cutouts perfect for compositing and design work.
 
@@ -111,19 +113,15 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.imageBackgroundRemover.generate(
-  {
-    assets: {
-      imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
-    },
-    name: "Product Cutout",
+const result = await client.v1.imageBackgroundRemover.generate({
+  assets: {
+    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
   },
-  {
-    waitForCompletion: true,
-    downloadOutputs: true,
-    downloadDirectory: ".",
-  }
-);
+  name: "Product Cutout",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: ".",
+});
 
 console.log(`✅ Background removal complete!`);
 console.log(`Status: ${result.status}`);
@@ -166,19 +164,15 @@ const images = [
 ];
 
 for (let i = 0; i < images.length; i++) {
-  const result = await client.v1.imageBackgroundRemover.generate(
-    {
-      assets: {
-        imageFilePath: images[i],
-      },
-      name: `Product Cutout ${i + 1}`,
+  const result = await client.v1.imageBackgroundRemover.generate({
+    assets: {
+      imageFilePath: images[i],
     },
-    {
-      waitForCompletion: true,
-      downloadOutputs: true,
-      downloadDirectory: ".",
-    }
-  );
+    name: `Product Cutout ${i + 1}`,
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  });
   console.log(`✅ Downloaded: ${result.downloadedPaths}`);
 }
 ```

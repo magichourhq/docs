@@ -1,10 +1,12 @@
 ---
-title: Lip Sync
+title: Lip Sync Tool - Magic Hour Docs
 sidebarTitle: Lip Sync
 description: Synchronize lip movements in videos with new audio tracks.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
+
+## Overview
 
 Lip Sync synchronizes lip movements in videos with new audio tracks using advanced AI motion analysis. The API creates realistic lip-sync animation that matches speech patterns, timing, and mouth movements for natural-looking results.
 
@@ -116,29 +118,25 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.lipSync.generate(
-  {
-    assets: {
-      audioFilePath:
-        "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
-      videoFilePath:
-        "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
-      videoSource: "file",
-    },
-    endSeconds: 2,
-    startSeconds: 0,
-    maxFpsLimit: 8,
-    style: {
-      generationMode: "lite",
-    },
-    name: "Obama Code Lip Sync",
+const result = await client.v1.lipSync.generate({
+  assets: {
+    audioFilePath:
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
+    videoFilePath:
+      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
+    videoSource: "file",
   },
-  {
-    waitForCompletion: true,
-    downloadOutputs: true,
-    downloadDirectory: ".",
-  }
-);
+  endSeconds: 2,
+  startSeconds: 0,
+  maxFpsLimit: 8,
+  style: {
+    generationMode: "lite",
+  },
+  name: "Obama Code Lip Sync",
+  waitForCompletion: true,
+  downloadOutputs: true,
+  downloadDirectory: ".",
+});
 
 console.log(`✅ Lip sync complete!`);
 console.log(`Status: ${result.status}`);
@@ -151,11 +149,11 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 Lip Sync is charged per rendered frame, and the rate depends on `style.generation_mode`:
 
-| Generation mode | Credits per frame | Notes                                 |
-| :-------------- | :---------------- | :------------------------------------ |
-| `lite`          | 1                 | Available on all tiers                |
-| `standard`      | 1                 | Creator, Pro, and Business tiers only |
-| `pro`           | 2                 | Creator, Pro, and Business tiers only |
+| Generation mode      | Credits per frame | Notes                                          |
+| :------------------- | :---------------- | :--------------------------------------------- |
+| `lite`               | 1                 | Available on all tiers                         |
+| `standard`           | 1                 | Creator, Pro, and Business tiers only          |
+| `pro`                | 2                 | Creator, Pro, and Business tiers only          |
 
 For example, a 10-second clip capped at 30 FPS in `lite` mode costs about 300 credits. Use `max_fps_limit` to lower the frame rate and reduce cost. Credits are only charged for the frames that actually render, and the completed job's `credits_charged` shows the exact cost.
 
