@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      N8N_USER_FOLDER: ${{ runner.temp }}/magic-hour-n8n
+      N8N_USER_FOLDER: /tmp/magic-hour-n8n
       N8N_DIAGNOSTICS_ENABLED: "false"
       N8N_VERSION_NOTIFICATIONS_ENABLED: "false"
       N8N_TEMPLATES_ENABLED: "false"
