@@ -44,6 +44,7 @@ durations and resolutions, and the credit-cost table below to compare costs.
 | `wan-2.2`           | Strong physics, camera moves, and motion                  | 480p, 720p, 1080p | 3, 4, 5, 6, 7, 8, 9, 10, 15                                                                          | No                    |
 | `kling-2.6`         | Great for action, motion blur, and camera moves           | 720p, 1080p       | 5, 10                                                                                                | No                    |
 | `kling-3.0`         | Best overall quality for cinematic storytelling           | 720p, 1080p, 4k   | 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15                                                          | Yes, costs extra      |
+| `gemini-omni-1.1`  | Precise short clips with first and last frame control     | 360p, 720p, 1080p, 4k | 3, 4, 5, 6, 7, 8, 9, 10                                                                           | No                    |
 | `veo3.1-lite`       | Veo quality at a more accessible cost                     | 720p, 1080p       | 4, 6, 8, 16, 24, 32, 40, 48, 56                                                                      | Yes, costs extra      |
 | `veo3.1`            | Google's model. Highest realism and detail                | 720p, 1080p       | 4, 6, 8, 16, 24, 32, 40, 48, 56                                                                      | Yes, costs extra      |
 | `seedance-1.5`      | Smooth, consistent motion with precision                  | 480p, 720p, 1080p | 4, 5, 6, 7, 8, 9, 10, 11, 12                                                                         | Yes, costs extra      |
@@ -71,6 +72,7 @@ Credits per second of output. Multiply by your `end_seconds` to estimate a job.
 | `wan-2.2`           |   24 |   48 |    72 |   — | Not supported                 |
 | `kling-2.6`         |    — |   36 |    72 |   — | Not supported                 |
 | `kling-3.0`         |    — |   48 |    72 | 240 | +24 at 720p, 1080p; +48 at 4k |
+| `gemini-omni-1.1`  |    — |  144 |   192 | 384 | Not supported                 |
 | `veo3.1-lite`       |    — |   48 |    72 |   — | +24                           |
 | `veo3.1`            |    — |   96 |   120 |   — | +24                           |
 | `seedance-1.5`      |   30 |   60 |    90 |   — | 2× the base rate              |
@@ -78,6 +80,8 @@ Credits per second of output. Multiply by your `end_seconds` to estimate a job.
 | `seedance-2.0`      |  144 |  288 |     — |   — | Included                      |
 | `seedance-2.5`      |  288 |  576 |     — |   — | Included                      |
 | `sora-2`            |    — |  120 |     — |   — | Included                      |
+
+Google Omni also supports 360p at 48 credits per second.
 
 The video formula is `duration × output fps × resolution multiplier`. Because output fps varies by
 model, two models at the same resolution can cost different amounts per second.
