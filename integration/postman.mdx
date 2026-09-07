@@ -1,0 +1,87 @@
+---
+title: "Postman Collection"
+description: "Import ready-to-run Magic Hour API flows for generation, polling, uploads, and downloads."
+---
+
+Use the official Postman collection to explore nine requests without rebuilding
+authentication, request bodies, project-ID capture, or status checks yourself.
+
+<CardGroup cols={2}>
+  <Card
+    title="Download Collection"
+    icon="download"
+    href="/postman/magic-hour.postman_collection.json"
+  >
+    Nine requests in Postman Collection v2.1 format
+  </Card>
+  <Card
+    title="Download Environment Template"
+    icon="download"
+    href="/postman/magic-hour.postman_environment.json"
+  >
+    Blank local variables; no credentials or media URLs included
+  </Card>
+</CardGroup>
+
+## What's included
+
+The collection covers these small workflows:
+
+1. Generate one image and retrieve its status and downloads.
+2. Animate an owned product image and retrieve the resulting video.
+3. Edit an image.
+4. Swap faces in two images you have permission to use.
+5. Lip-sync five seconds of a consented video to supplied audio.
+6. Request a signed image-upload URL and upload PNG bytes without forwarding
+   your Magic Hour authorization header to storage.
+
+Generation requests save returned project IDs into the selected local environment.
+The paired status requests check known terminal states and require a download when
+the project is complete.
+
+## Import and configure
+
+1. Download both files above.
+2. In Postman, select **Import**, then import both JSON files.
+3. Select the **Magic Hour — Local credentials and media** environment.
+4. Set `api_key` to your [Magic Hour API key](/get-started/authentication). Keep
+   its type set to **secret** and its value local; do not share the value or export
+   the populated environment. Marking a variable secret masks it but does not by
+   itself prevent sharing.
+5. Add only the media variables needed by the request you plan to send. Each can
+   be a direct public URL you control or a Magic Hour `api-assets/...` path.
+
+<Warning>
+  Do not run the entire collection. Each generation request creates a new project and uses credits.
+  Send one generation request, then repeat only its paired status request while the project is
+  queued or rendering.
+</Warning>
+
+## First safe run
+
+1. Send **01 — Generate one image** once. It uses a small default example and
+   saves `image_project_id`.
+2. Wait several seconds, then send **02 — Get image result**. Repeat request 02
+   until the status is `complete`, `error`, or `canceled`.
+3. When complete, use the temporary URL in `downloads` before it expires.
+
+The remaining requests require media you supply. The upload flow is useful when
+you do not want to expose a public input URL: choose a PNG as the binary body of
+request 09 only after request 08 has created `upload_url` and `image_url`.
+
+## Credential and output hygiene
+
+- Requests with missing credentials or required variables are skipped. Check
+  the Postman Console for the missing field. A failed creation request leaves
+  your last successful project ID available for recovery.
+- Never commit or publish an environment after adding an API key, signed upload
+  URL, private media URL, or project ID.
+- The collection applies bearer authentication to Magic Hour API requests. The
+  binary storage upload explicitly uses no authentication.
+- Project output URLs are temporary. Copy completed media into storage you
+  control when your application needs durable access.
+- Treat the included response checks as developer feedback, not as a substitute
+  for application-level retries, deadlines, webhook verification, or moderation.
+
+For production architecture, continue with [Development and Testing](/integration/development-and-testing)
+and [Webhooks](/integration/webhook/overview).
