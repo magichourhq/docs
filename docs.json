@@ -168,6 +168,10 @@
           "api-reference/models",
           "api-reference/processing-times",
           {
+            "group": "Account",
+            "pages": ["api-reference/account/get-account-details"]
+          },
+          {
             "group": "Files",
             "pages": [
               "api-reference/files/generate-asset-upload-urls",

@@ -1,6 +1,176 @@
 {
   "openapi": "3.0.2",
   "paths": {
+    "/v1/account": {
+      "get": {
+        "description": "Get the current credit balance and subscription details of the account that owns the API key.",
+        "summary": "Get account details",
+        "tags": ["Account"],
+        "parameters": [],
+        "operationId": "account.get",
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "cuid-example",
+                      "description": "Unique ID of the account that owns the API key."
+                    },
+                    "email": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": "user@example.com",
+                      "description": "Email address of the account."
+                    },
+                    "tier": {
+                      "type": "string",
+                      "enum": ["free", "creator", "pro", "business"],
+                      "example": "pro",
+                      "description": "Subscription tier in effect for the account. `free` if there is no active subscription, including while a subscription is `past_due`."
+                    },
+                    "credits": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "example": 12500,
+                      "description": "Credits currently available to spend. Includes subscription credits and any purchased credit packs."
+                    },
+                    "subscription": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "nullable": true,
+                          "example": "Pro",
+                          "description": "Name of the current subscription plan, e.g. `Creator`, `Pro`, `Pro Plus`, `Business`. `null` if the plan cannot be determined. Use `tier` for a machine-readable value."
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": ["active", "past_due"],
+                          "example": "active",
+                          "description": "Status of the subscription.\n- `active`: payments are up to date.\n- `past_due`: the latest payment failed. `tier` is `free` until payment succeeds. The subscription is canceled if payment keeps failing."
+                        },
+                        "price": {
+                          "type": "object",
+                          "properties": {
+                            "amount": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "example": 4900,
+                              "description": "Price charged per billing interval, in the smallest unit of the currency (e.g. 4900 is $49.00 for `usd`). Discounts are not applied."
+                            },
+                            "currency": {
+                              "type": "string",
+                              "example": "usd",
+                              "description": "Three-letter ISO 4217 currency code, lowercase."
+                            }
+                          },
+                          "required": ["amount", "currency"]
+                        },
+                        "discount": {
+                          "type": "object",
+                          "properties": {
+                            "percent_off": {
+                              "type": "number",
+                              "nullable": true,
+                              "example": 20,
+                              "description": "Percentage taken off `price.amount` each billing interval. `null` if the discount is a fixed amount."
+                            },
+                            "amount_off": {
+                              "type": "integer",
+                              "nullable": true,
+                              "example": null,
+                              "description": "Fixed amount taken off `price.amount` each billing interval, in the smallest unit of the currency. `null` if the discount is a percentage."
+                            }
+                          },
+                          "required": ["percent_off", "amount_off"],
+                          "nullable": true,
+                          "description": "Discount applied to the subscription. `null` if no discount is applied."
+                        },
+                        "billing_interval": {
+                          "type": "string",
+                          "enum": ["month", "year", null],
+                          "nullable": true,
+                          "example": "month",
+                          "description": "How often the subscription is billed. `null` if unknown."
+                        },
+                        "current_period_end": {
+                          "type": "string",
+                          "format": "date-time",
+                          "nullable": true,
+                          "example": "2026-10-01T00:00:00.000Z",
+                          "description": "End of the current billing period, in ISO 8601 format. The subscription renews at this time, or ends if `cancel_at_period_end` is `true`."
+                        },
+                        "cancel_at_period_end": {
+                          "type": "boolean",
+                          "example": false,
+                          "description": "Whether the subscription is scheduled to end at `current_period_end` instead of renewing. The subscription stays usable until then."
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "status",
+                        "price",
+                        "discount",
+                        "billing_interval",
+                        "current_period_end",
+                        "cancel_at_period_end"
+                      ],
+                      "nullable": true,
+                      "description": "Details of the account's subscription plan. `null` if the account has no subscription, e.g. a free account, an account that only purchased credit packs, or an account on usage-based API pricing.\n\nReflects the plan currently configured on the subscription. If a plan change is scheduled, `tier` stays on the current plan until the next payment succeeds, so `tier` and `name` can briefly disagree."
+                    }
+                  },
+                  "required": ["id", "email", "tier", "credits", "subscription"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["unauthorized"],
+                      "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["internal_server_error"],
+                      "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
     "/v1/files/upload-urls": {
       "post": {
         "description": "Generates a list of pre-signed upload URLs for the assets required. This API is only necessary if you want to upload to Magic Hour's storage. Refer to the [Input Files Guide](https://docs.magichour.ai/integration/inputs-and-outputs) for more details.\n\nThe response array will match the order of items in the request body.\n\n**Valid file extensions per asset type**:\n- video: mp4, m4v, mov, webm\n- audio: mp3, wav, aac, flac, webm, weba, m4a, opus, ogg, oga, aiff, amr\n- image: png, jpg, jpeg, jfif, heic, heif, webp, avif, jp2, tiff, tif, bmp\n- gif: gif, webp, webm\n\n> Note: `gif` is only supported for face swap API `video_file_path` field.\n\nOnce you receive an upload URL, send a `PUT` request to upload the file directly.\n\nExample:\n\n```\ncurl -X PUT --data '@/path/to/file/video.mp4' \\\n  https://videos.magichour.ai/api-assets/id/video.mp4?<auth params from the API response>\n```\n",
@@ -9596,7 +9766,8 @@
     { "name": "Files", "description": "API related to uploading assets used for video generation" },
     { "name": "Image Projects", "description": "API related to image projects" },
     { "name": "Video Projects", "description": "API related to video projects" },
-    { "name": "Audio Projects", "description": "API related to audio projects" }
+    { "name": "Audio Projects", "description": "API related to audio projects" },
+    { "name": "Account", "description": "API related to the account that owns the API key" }
   ],
   "servers": [{ "url": "https://api.magichour.ai" }]
 }
