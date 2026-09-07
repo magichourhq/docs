@@ -15,8 +15,30 @@ image count. Failed generations are never charged.
 Available on [text to video](/api-reference/video-projects/text-to-video) and
 [image to video](/api-reference/video-projects/image-to-video).
 
+### Choose your first model
+
+Start with a model available on the free plan. Free-plan access still uses credits.
+
+**Available on free and paid plans**
+
+- **LTX 2.5 (`ltx-2.5`)** — our recommended starting point, especially for fast generations.
+- **MiniMax H3 (`minimax-h3`)** — a high-quality alternative.
+
+For either model on the free plan, set `resolution` to `480p`.
+
+**Requires a paid plan**
+
+- **Kling 3.0 (`kling-3.0`)** — our recommendation for strong quality and value.
+- **Seedance 2.5 (`seedance-2.5`)** — choose this for state-of-the-art quality.
+
+Pass the model ID in `model` to select it explicitly. See the endpoint reference for supported
+durations and resolutions, and the credit-cost table below to compare costs.
+
+### Video model reference
+
 | Model               | Best for                                                  | Resolutions       | Durations (seconds)                                                                                  | Audio                 |
 | :------------------ | :-------------------------------------------------------- | :---------------- | :--------------------------------------------------------------------------------------------------- | :-------------------- |
+| `ltx-2.5`           | Recommended starting point for fast generations           | 480p, 720p, 1080p | 1–10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60                                                         | Yes, no extra credits |
 | `ltx-2.3`           | Fastest output. Best for rapid iteration                  | 480p, 720p, 1080p | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30                                                        | Yes, no extra credits |
 | `minimax-h3`        | Native-audio video with flexible duration                 | 480p, 720p, 1080p | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30                                                        | Yes, no extra credits |
 | `wan-2.2`           | Strong physics, camera moves, and motion                  | 480p, 720p, 1080p | 3, 4, 5, 6, 7, 8, 9, 10, 15                                                                          | No                    |
@@ -31,7 +53,7 @@ Available on [text to video](/api-reference/video-projects/text-to-video) and
 | `sora-2`            | Open AI's model. Great for creativity and viral clips     | 720p              | 4, 8, 12, 24, 36, 48, 60                                                                             | Yes, no extra credits |
 
 <Note>
-  `default` resolves to `kling-3.0` on paid tiers and `ltx-2.3` on the free tier. Free typically
+  `default` resolves to `kling-3.0` on paid tiers and `ltx-2.5` on the free tier. Free typically
   requests `480p`; paid plans (Creator, Pro, Business) can request the higher resolutions a model
   supports, at that resolution's credit cost. The deprecated `kling-2.5-audio` and `veo3.1-audio`
   values are equivalent to passing the base model with `audio: true`.
@@ -43,6 +65,7 @@ Credits per second of output. Multiply by your `end_seconds` to estimate a job.
 
 | Model               | 480p | 720p | 1080p |  4k | With audio                    |
 | :------------------ | ---: | ---: | ----: | --: | :---------------------------- |
+| `ltx-2.5`           |   24 |   48 |    72 |   — | Included                      |
 | `ltx-2.3`           |   24 |   48 |    72 |   — | Included                      |
 | `minimax-h3`        |   24 |   48 |    72 |   — | Included                      |
 | `wan-2.2`           |   24 |   48 |    72 |   — | Not supported                 |
