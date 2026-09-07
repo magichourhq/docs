@@ -1,0 +1,196 @@
+---
+title: "Product Video and Lip-Sync Recipes"
+description: "Turn a product photo into a video or sync a video to a voiceover with the Magic Hour Python SDK."
+---
+
+These two standalone Python recipes upload local files, create one video project,
+wait for it to finish, and download the result. They use the official SDK's file
+and polling helpers instead of implementing an upload or polling loop.
+
+## Before you start
+
+1. Install Python 3.10 or later and create a virtual environment:
+
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   python -m pip install "magic-hour==0.78.1"
+   ```
+
+   On Windows, activate it with `.venv\Scripts\Activate.ps1` in PowerShell.
+
+2. [Create an API key](/get-started/authentication), then set
+   `MAGIC_HOUR_API_KEY` in your terminal environment. Keep the key out of source
+   control, browser code, and shared notebooks.
+3. Use files you own or have permission to use. For lip sync, obtain permission
+   from the person whose likeness and voice you use.
+
+<Warning>
+  Each run creates a new project and uses generation credits. Check your [API pricing and credit
+  balance](https://magichour.ai/developer) before running. Start with one short clip, review the
+  output, then scale up. Interrupting the script does not cancel a submitted project.
+</Warning>
+
+## Product photo → five-second video
+
+For a store owner, marketer, or developer prototyping product clips: put a clear
+product image named `product.jpg` beside your script. A single product with an
+uncluttered background is a useful starting point.
+
+Save this as `product_video.py`, then run `python product_video.py` from that folder:
+
+```python
+import os
+from pathlib import Path
+
+from magic_hour import Client
+
+image = Path("product.jpg")
+if not image.is_file():
+    raise SystemExit("Add product.jpg beside this script before running.")
+
+client = Client(token=os.environ["MAGIC_HOUR_API_KEY"])
+os.environ.setdefault("MAGIC_HOUR_POLL_INTERVAL", "3")
+
+uploaded_image = client.v1.files.upload_file(file=str(image))
+job = client.v1.image_to_video.create(
+    assets={"image_file_path": uploaded_image},
+    end_seconds=5,
+    model="default",
+    name="Product photo starter recipe",
+    style={
+        "prompt": (
+            "Slow, subtle camera push-in toward the product. "
+            "Keep the product shape, colors, packaging, and background consistent. "
+            "Soft studio lighting. No added text or objects."
+        )
+    },
+)
+print(f"Project ID: {job.id}", flush=True)
+
+Path("outputs/product-video").mkdir(parents=True, exist_ok=True)
+result = client.v1.video_projects.check_result(
+    id=job.id,
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs/product-video",
+)
+if result.status != "complete" or not result.downloaded_paths:
+    raise SystemExit(f"Project {result.id}: {result.status}; {result.error}")
+
+for path in result.downloaded_paths:
+    print(f"Downloaded: {path}")
+```
+
+The script uses the account's default model and resolution, rather than requiring
+a particular paid model. See [Image-to-Video](/api-reference/video-projects/image-to-video)
+for supported models, durations, and resolutions. Changing the model can require
+changing the duration too.
+
+Review the rendered clip before using it in an ad or product page. The prompt is
+guidance, not a guarantee that labels, logos, or product details remain exact.
+
+## Existing video + voiceover → lip-synced clip
+
+For a creator or localization workflow: put `speaker.mp4` and `voiceover.mp3`
+beside your script. Use a video with one clearly visible face and clean speech
+audio. Both inputs should cover at least the first five seconds.
+
+This recipe syncs mouth movement to **audio you already supply**; it does not
+translate a script, clone a voice, or generate the voiceover.
+
+Save this as `lip_sync.py`, then run `python lip_sync.py` from that folder:
+
+```python
+import os
+from pathlib import Path
+
+from magic_hour import Client
+
+video = Path("speaker.mp4")
+audio = Path("voiceover.mp3")
+for source in (video, audio):
+    if not source.is_file():
+        raise SystemExit(f"Add {source} beside this script before running.")
+
+client = Client(token=os.environ["MAGIC_HOUR_API_KEY"])
+os.environ.setdefault("MAGIC_HOUR_POLL_INTERVAL", "3")
+
+uploaded_video = client.v1.files.upload_file(file=str(video))
+uploaded_audio = client.v1.files.upload_file(file=str(audio))
+job = client.v1.lip_sync.create(
+    assets={
+        "video_source": "file",
+        "video_file_path": uploaded_video,
+        "audio_file_path": uploaded_audio,
+    },
+    start_seconds=0,
+    end_seconds=5,
+    name="Lip sync starter recipe",
+)
+print(f"Project ID: {job.id}", flush=True)
+
+Path("outputs/lip-sync").mkdir(parents=True, exist_ok=True)
+result = client.v1.video_projects.check_result(
+    id=job.id,
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs/lip-sync",
+)
+if result.status != "complete" or not result.downloaded_paths:
+    raise SystemExit(f"Project {result.id}: {result.status}; {result.error}")
+
+for path in result.downloaded_paths:
+    print(f"Downloaded: {path}")
+```
+
+Review lip alignment and output quality before publishing. For longer clips,
+adjust `end_seconds` to a range covered by your inputs; review the
+[Lip Sync reference](/api-reference/video-projects/lip-sync) first.
+
+## Recover a result without generating again
+
+Both recipes print the project ID **before** waiting for the render. Save that ID.
+If polling or downloading fails, do not rerun the creation script just to recover
+the output: that would submit another billable generation.
+
+Instead, save this as `recover_video.py`, replace the ID, and run
+`python recover_video.py`:
+
+```python
+import os
+from pathlib import Path
+
+from magic_hour import Client
+
+client = Client(token=os.environ["MAGIC_HOUR_API_KEY"])
+os.environ.setdefault("MAGIC_HOUR_POLL_INTERVAL", "3")
+Path("outputs/recovered").mkdir(parents=True, exist_ok=True)
+result = client.v1.video_projects.check_result(
+    id="YOUR_EXISTING_PROJECT_ID",
+    wait_for_completion=True,
+    download_outputs=True,
+    download_directory="outputs/recovered",
+)
+if result.status != "complete" or not result.downloaded_paths:
+    raise SystemExit(f"Project {result.id}: {result.status}; {result.error}")
+
+for path in result.downloaded_paths:
+    print(f"Downloaded: {path}")
+```
+
+An `error` or `canceled` project will not resume rendering through this call.
+Inspect the returned error before deciding whether to submit a new project. If
+creation itself times out before returning an ID, check your dashboard before
+retrying; the server may have accepted the request.
+
+## Move beyond a local prototype
+
+- Keep generation on your backend, not in a browser request with an exposed key.
+- Store the project ID with the user's request so interrupted work can be recovered.
+- The SDK polling helper waits until a terminal status; it has no overall render
+  deadline. For production, use a background worker or
+  [webhooks](/integration/webhook/overview), not a long-running web request.
+- Download or copy completed output to your storage. See
+  [Inputs and Outputs](/integration/inputs-and-outputs) for file handling.
+- Keep the human quality check before turning a one-clip recipe into a batch job.
