@@ -8,6 +8,28 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  n8n-workflow-examples:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      N8N_USER_FOLDER: ${{ runner.temp }}/magic-hour-n8n
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_VERSION_NOTIFICATIONS_ENABLED: "false"
+      N8N_TEMPLATES_ENABLED: "false"
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+      N8N_DEFAULT_BINARY_DATA_MODE: default
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "24"
+      - name: Install n8n runtime and published Magic Hour node
+        run: |
+          npm install --prefix "$RUNNER_TEMP/n8n-runtime" n8n@2.37.10 --no-audit --no-fund
+          npm install --prefix "$N8N_USER_FOLDER/.n8n/nodes" @gladiator1st/n8n-nodes-magichour@1.0.3 --ignore-scripts --no-audit --no-fund
+      - name: Execute importable workflows with local HTTP fixtures
+        run: node examples/n8n/test/engine.mjs "$RUNNER_TEMP/n8n-runtime/node_modules/.bin/n8n"
+
   pipedream-examples:
     runs-on: blacksmith-2vcpu-ubuntu-2404
     steps:

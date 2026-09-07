@@ -72,8 +72,10 @@ For private Drive or Airtable files, download the bytes with that platform's aut
 
 ## Validation and publication status
 
-On September 7, 2026, the actual Generate Image and Edit Image components were installed with `@pipedream/platform` and executed against Magic Hour, then the Wait for Result component retrieved both completed PNGs. An actual installed n8n Magic Hour node animated the generated product image into a playable H.264 MP4 after a real binary upload. Total: 34 existing Magic Hour credits, no purchase. Invalid and subsequently revoked credentials returned HTTP 401.
+On September 7, 2026, the actual Generate Image and Edit Image components were installed with `@pipedream/platform` and executed against Magic Hour, then the Wait for Result component retrieved both completed PNGs. The compiled n8n Magic Hour node animated the generated product image into a playable H.264 MP4 after a real binary upload. Total: 34 existing Magic Hour credits, no purchase. Invalid and subsequently revoked credentials returned HTTP 401.
 
 `npm test` checks all seven request schemas against this repository's OpenAPI file, async completion/error handling, polling limits, and credential-safe errors. These tests do not spend credits.
 
 **Remaining verification:** publishing these components to a Pipedream workspace, deployed scheduler behavior, and end-to-end source/destination OAuth workflows. Local execution is not evidence that those hosted steps have passed. Never put a production API key or signed download URL in a public issue or exported workflow.
+
+For importable n8n workflows, see [the n8n examples](../n8n/README.md).
