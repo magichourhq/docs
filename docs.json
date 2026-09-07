@@ -75,7 +75,8 @@
               "get-started/quick-start",
               "get-started/authentication",
               "integration/model-context-protocol",
-              "get-started/cookbook"
+              "get-started/cookbook",
+              "get-started/starter-recipes"
             ]
           },
           {
