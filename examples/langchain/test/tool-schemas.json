@@ -1,0 +1,283 @@
+[
+  {
+    "name": "wait_for_video_project",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "poll_interval_seconds": {
+          "type": "number"
+        },
+        "timeout_seconds": {
+          "type": "number"
+        },
+        "include_inline_downloads": {
+          "type": "boolean"
+        },
+        "max_inline_downloads": {
+          "type": "integer"
+        }
+      },
+      "required": ["id"],
+      "type": "object"
+    }
+  },
+  {
+    "name": "wait_for_image_project",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "poll_interval_seconds": {
+          "type": "number"
+        },
+        "timeout_seconds": {
+          "type": "number"
+        },
+        "include_inline_downloads": {
+          "type": "boolean"
+        },
+        "max_inline_downloads": {
+          "type": "integer"
+        },
+        "max_bytes_per_download": {
+          "type": "integer"
+        }
+      },
+      "required": ["id"],
+      "type": "object"
+    }
+  },
+  {
+    "name": "image_to_video_create_video",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "end_seconds": {
+          "maximum": 60.0,
+          "minimum": 1.0,
+          "type": "number"
+        },
+        "model": {
+          "enum": [
+            "default",
+            "ltx-2",
+            "ltx-2.3",
+            "ltx-2.5",
+            "minimax-h3",
+            "wan-2.2",
+            "seedance-1.5",
+            "seedance-2.0",
+            "seedance-2.0-mini",
+            "seedance-2.5",
+            "kling-2.5",
+            "kling-2.6",
+            "kling-3.0",
+            "gemini-omni-1.1",
+            "veo3.1",
+            "veo3.1-lite",
+            "sora-2",
+            "kling-1.6",
+            "seedance",
+            "kling-2.5-audio",
+            "veo3.1-audio"
+          ],
+          "type": "string"
+        },
+        "resolution": {
+          "enum": ["360p", "480p", "720p", "1080p", "4k"],
+          "type": "string"
+        },
+        "audio": {
+          "type": "boolean"
+        },
+        "style": {
+          "type": "object",
+          "properties": {
+            "prompt": {
+              "type": "string"
+            }
+          }
+        },
+        "assets": {
+          "required": ["image_file_path"],
+          "type": "object",
+          "properties": {
+            "image_file_path": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "end_image_file_path": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        }
+      },
+      "required": ["end_seconds", "assets"]
+    }
+  },
+  {
+    "name": "ai_image_editor_create_image",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "image_count": {
+          "enum": [1, 4, 9, 16],
+          "type": "number"
+        },
+        "model": {
+          "enum": [
+            "default",
+            "nano-banana-2",
+            "gpt-image-2",
+            "flux-2-klein",
+            "nano-banana-2-lite",
+            "qwen-edit",
+            "seedream-v4",
+            "seedream-v4.5",
+            "seedream-v5-pro",
+            "nano-banana",
+            "nano-banana-pro"
+          ],
+          "type": "string"
+        },
+        "aspect_ratio": {
+          "enum": ["auto", "16:9", "9:16", "4:3", "3:2", "1:1", "4:5", "2:3"],
+          "type": "string"
+        },
+        "resolution": {
+          "enum": ["auto", "640px", "1k", "2k", "4k"],
+          "type": "string"
+        },
+        "style": {
+          "required": ["prompt"],
+          "type": "object",
+          "properties": {
+            "prompt": {
+              "maxLength": 15000,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        },
+        "assets": {
+          "type": "object",
+          "properties": {
+            "image_file_paths": {
+              "maxItems": 10,
+              "type": "array",
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "required": ["style", "assets"]
+    }
+  },
+  {
+    "name": "ai_image_generator_create_image",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "image_count": {
+          "maximum": 16.0,
+          "minimum": 1.0,
+          "type": "integer"
+        },
+        "model": {
+          "enum": [
+            "default",
+            "nano-banana-2",
+            "gpt-image-2",
+            "z-image-turbo",
+            "flux-2-klein",
+            "nano-banana-2-lite",
+            "seedream-v4",
+            "seedream-v5-pro",
+            "nano-banana",
+            "nano-banana-pro",
+            "flux-schnell",
+            "seedream"
+          ],
+          "type": "string"
+        },
+        "aspect_ratio": {
+          "enum": ["1:1", "16:9", "9:16"],
+          "type": "string"
+        },
+        "resolution": {
+          "enum": ["auto", "640px", "1k", "2k", "4k"],
+          "type": "string"
+        },
+        "style": {
+          "required": ["prompt"],
+          "type": "object",
+          "properties": {
+            "prompt": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "tool": {
+              "enum": [
+                "ai-anime-generator",
+                "ai-art-generator",
+                "ai-background-generator",
+                "ai-character-generator",
+                "ai-face-generator",
+                "ai-fashion-generator",
+                "ai-icon-generator",
+                "ai-illustration-generator",
+                "ai-interior-design-generator",
+                "ai-landscape-generator",
+                "ai-logo-generator",
+                "ai-manga-generator",
+                "ai-outfit-generator",
+                "ai-pattern-generator",
+                "ai-photo-generator",
+                "ai-sketch-generator",
+                "ai-tattoo-generator",
+                "album-cover-generator",
+                "animated-characters-generator",
+                "architecture-generator",
+                "book-cover-generator",
+                "comic-book-generator",
+                "dark-fantasy-ai",
+                "disney-ai-generator",
+                "dnd-ai-art-generator",
+                "emoji-generator",
+                "fantasy-map-generator",
+                "graffiti-generator",
+                "movie-poster-generator",
+                "optical-illusion-generator",
+                "pokemon-generator",
+                "south-park-character-generator",
+                "superhero-generator",
+                "thumbnail-maker",
+                "general"
+              ],
+              "type": "string"
+            }
+          }
+        }
+      },
+      "required": ["image_count", "style"]
+    }
+  }
+]
