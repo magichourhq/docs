@@ -4,12 +4,13 @@ import { createServer as createTlsServer } from "node:https";
 import { connect } from "node:net";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { mkdtemp, readFile, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 
 const exec = promisify(execFile);
 const n8n = process.argv[2];
+const exportDirectory = process.argv[3];
 if (!n8n || !process.env.N8N_USER_FOLDER)
   throw new Error("Provide n8n path and a disposable N8N_USER_FOLDER.");
 const directory = await mkdtemp(path.join(tmpdir(), "magic-hour-workflows-"));
@@ -143,12 +144,22 @@ try {
   ].entries()) {
     const workflow = JSON.parse(await readFile(new URL(`../${file}.json`, import.meta.url)));
     workflow.id = `mhWorkflowTest${index}`;
+    const input = path.join(directory, `${workflow.id}.json`);
+    if (exportDirectory && index < 3) {
+      await mkdir(exportDirectory, { recursive: true });
+      await writeFile(input, JSON.stringify(workflow));
+      await cli(["import:workflow", `--input=${input}`]);
+      const output = path.join(exportDirectory, `${file}.json`);
+      await cli(["export:workflow", `--id=${workflow.id}`, `--output=${output}`, "--pretty"]);
+      const [exported] = JSON.parse(await readFile(output, "utf8"));
+      assert.deepEqual(exported.nodes, workflow.nodes);
+      assert.deepEqual(exported.connections, workflow.connections);
+    }
     const node = workflow.nodes.find((item) => item.name === "Magic Hour");
     node.credentials.magicHourApi.id = "mhFixtureCredential";
     if (node.parameters.imageFilePath)
       node.parameters.imageFilePath = "https://example.com/product.png";
     if (node.parameters.videoProjectId) node.parameters.videoProjectId = "existing-video";
-    const input = path.join(directory, `${workflow.id}.json`);
     await writeFile(input, JSON.stringify(workflow));
     await cli(["import:workflow", `--input=${input}`]);
     pending = index === 3;

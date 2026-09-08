@@ -91,7 +91,7 @@
       "name": "Stop incomplete job",
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
-      "position": [750, 300],
+      "position": [750, 500],
       "parameters": {
         "errorMessage": "={{ \"Generation is \" + $json.status + \". Keep project ID \" + $json.id + \" and resume with Get Details. Do not create another generation to retrieve it.\" }}"
       }
@@ -101,7 +101,7 @@
       "name": "Setup",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [100, 300],
+      "position": [100, 0],
       "parameters": {
         "content": "## Setup\nSelect your API credential and replace the image field with a direct URL or uploaded file_path. A Drive share page is not an image URL.\nThis one-second ltx-2.3 example uses credits. The result is binary `data`, ready for a storage connector.\nKeep the returned project ID if execution stops; use the recovery template rather than regenerating.",
         "height": 230,

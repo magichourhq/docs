@@ -80,7 +80,7 @@
       "name": "Stop incomplete job",
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
-      "position": [750, 300],
+      "position": [750, 500],
       "parameters": {
         "errorMessage": "={{ \"Generation is \" + $json.status + \". Keep project ID \" + $json.id + \" and resume with Get Details. Do not create another generation to retrieve it.\" }}"
       }
@@ -90,7 +90,7 @@
       "name": "Setup",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [100, 300],
+      "position": [100, 0],
       "parameters": {
         "content": "## Recover without creating another paid job\nSelect your API credential and set an existing project ID.\nFor an image, change Resource to Image, select Get Image Details, and fill Image ID.\nRun after the project completes. If it is still pending, this flow stops safely.\nDownload result returns binary `data`; save it with Drive/S3 or download from n8n.",
         "height": 230,

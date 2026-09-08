@@ -28,7 +28,13 @@ jobs:
           npm install --prefix "$RUNNER_TEMP/n8n-runtime" n8n@2.37.10 --no-audit --no-fund
           npm install --prefix "$N8N_USER_FOLDER/.n8n/nodes" @gladiator1st/n8n-nodes-magichour@1.0.3 --ignore-scripts --no-audit --no-fund
       - name: Execute importable workflows with local HTTP fixtures
-        run: node examples/n8n/test/engine.mjs "$RUNNER_TEMP/n8n-runtime/node_modules/.bin/n8n"
+        run: node examples/n8n/test/engine.mjs "$RUNNER_TEMP/n8n-runtime/node_modules/.bin/n8n" "$RUNNER_TEMP/n8n-exports"
+      - name: Save native n8n workflow exports
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: n8n-workflow-exports
+          path: ${{ runner.temp }}/n8n-exports/*.json
+          retention-days: 14
 
   pipedream-examples:
     runs-on: blacksmith-2vcpu-ubuntu-2404
