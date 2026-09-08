@@ -39,6 +39,18 @@ Generation requests save returned project IDs into the selected local environmen
 The paired status requests check known terminal states and require a download when
 the project is complete.
 
+## Open the public workspace
+
+The [official Magic Hour workspace on Postman](https://www.postman.com/magichourai/magic-hour-api)
+contains the same nine-request collection. Fork the collection into your own
+workspace, then import the blank environment template above and configure local
+credentials as described below. The public workspace contains no shared environment.
+
+You can also [browse the published request documentation](https://documenter.getpostman.com/view/58041837/2sBYAxPp2b)
+without signing in. The generated code examples show authentication separately at
+the collection level; include your bearer token when adapting a request outside
+Postman.
+
 ## Import and configure
 
 1. Download both files above.
@@ -52,9 +64,9 @@ the project is complete.
    be a direct public URL you control or a Magic Hour `api-assets/...` path.
 
 <Warning>
-  Do not run the entire collection. Each generation request creates a new project and uses credits.
-  Send one generation request, then repeat only its paired status request while the project is
-  queued or rendering.
+  Do not run the entire collection. Each generation request creates a new
+  project and uses credits. Send one generation request, then repeat only its
+  paired status request while the project is queued or rendering.
 </Warning>
 
 ## First safe run
