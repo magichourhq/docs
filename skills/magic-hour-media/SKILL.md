@@ -36,7 +36,20 @@ Use live tool schemas, or the [API documentation index](https://docs.magichour.a
 
 Tool names can have a client-specific prefix. Discover their current input schemas before calling them.
 
-For a requested asset, derive composition, aspect ratio, duration, and output location from the user's project. For a website hero, leave useful negative space for UI text; for a product animation, describe the motion and which product details must stay unchanged. Request only missing inputs that affect the result. Preserve the user's chosen model and budget.
+## Set the quality target
+
+Before generating, translate the request into a short quality brief:
+
+- intended use, aspect ratio, resolution, and duration
+- subject, composition, viewpoint or camera move, lighting, and visual style
+- details that must remain accurate, such as identity, product shape, logo, colors, text, clothing, or background
+- failure conditions that would make the result unusable
+
+Infer these from the user's project when possible. For a website hero, leave deliberate negative space where the interface places text. When exact identity, product geometry, packaging, or branding matters, prefer editing an authorized reference image over recreating it from text alone. For image-to-video, use the source image to define appearance and prompt mainly for subject motion, camera motion, timing, and what must stay fixed. Keep short videos to one coherent action unless the chosen duration and model support a more complex sequence.
+
+Choose the model from the live schema according to the requested result. Prefer the current recommended model for a general request. When the schema describes a model as better for the needed behavior—such as typography, identity preservation, reference control, motion, audio, or speed—use that evidence to select it. Do not select the cheapest or fastest model when the user prioritizes final quality. For a final asset, use the highest supported resolution that fits the authorized tier and budget; use a lower-cost draft only when iteration is expected.
+
+Write a concrete prompt in natural language. Describe the subject and action first, then composition or camera, lighting and materials, style, and required constraints. Avoid conflicting styles, long adjective lists, and unsupported negative-prompt syntax. For edits, state the requested change and the elements that must remain unchanged. Request only missing inputs that materially affect the result. Preserve the user's chosen model and budget.
 
 ## Create within the authorized scope
 
@@ -62,6 +75,15 @@ Proceed to download only after the project reports `complete`. On `error` or `ca
 
 Use `exact_download_urls[n]` or `downloads[n].url` exactly as returned. Preserve every signed query parameter; `expires_at` is separate metadata. For an expired URL, retrieve the existing project again before considering regeneration. Never attach the Magic Hour API key to a storage download or presigned upload request.
 
-When the user needs an asset in their application, download it into the requested project location, verify its actual media type and dimensions or duration, and use that local file. Avoid embedding an expiring signed URL into production code. Preview the result when the environment supports it and check the requested composition or motion before claiming success.
+When the user needs an asset in their application, download it into the requested project location, verify its actual media type and dimensions or duration, and use that local file. Avoid embedding an expiring signed URL into production code.
+
+Preview the finished media whenever the environment supports it. Evaluate it against the quality brief before claiming success:
+
+- images: composition, crop, subject accuracy, anatomy, hands and faces, requested text and logo integrity, unintended lettering or brand-like marks, and visible artifacts
+- video: the first and last frames, subject and camera motion, temporal consistency, identity and object preservation, flicker, warping, and unwanted cuts
+- lip sync or talking portraits: timing, mouth shapes, face stability, expression, audio continuity, and the requested duration
+- audio: intelligibility, pronunciation, pacing, clipping, silence, and audible artifacts
+
+If the result misses a required criterion, identify the specific failure and revise the prompt, input, model, or resolution that caused it. Change the smallest useful variable so the next result is informative. A new generation spends more credits, so iterate only within the user's authorized budget. If no further generation is authorized, return the best result with the failed criterion stated plainly.
 
 Return the finished artifact or usable link, where it was saved, and any material limitation. A tool connection, schema match, or accepted request is not proof of completed generation.

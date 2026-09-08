@@ -1,4 +1,4 @@
 interface:
   display_name: "Magic Hour Media"
   short_description: "Create and retrieve Magic Hour media assets"
-  default_prompt: "Use $magic-hour-media to generate a product image and save the finished asset in my project."
+  default_prompt: "Use $magic-hour-media to create a high-quality product image, inspect it against my requirements, and save the finished asset in my project."
