@@ -1,0 +1,463 @@
+{
+  "info": {
+    "name": "Magic Hour — Generate and retrieve AI media",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Generate images, edit product photos, animate images, swap faces and lip-sync video. Start with a single image, then retrieve its result. Set api_key as a local secret in your environment; never publish it. Each generation request consumes credits. Send generation requests individually; do not run the entire collection. Source: https://docs.magichour.ai/api-reference/openapi.json (retrieved 2026-09-07T09:47:30.379Z). Schema checked; authenticated generation validation is pending."
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{api_key}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://api.magichour.ai"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 — Generate one image",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/v1/ai-image-generator",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "description": "Send once, then run Get image result. This creates one image using a model available to free accounts; credits are still consumed.\n\nCreate an AI image with advanced model selection and quality controls.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Postman first image\",\n  \"image_count\": 1,\n  \"model\": \"flux-schnell\",\n  \"resolution\": \"640px\",\n  \"style\": {\n    \"prompt\": \"A studio photograph of a plain ceramic coffee cup on a pale blue background, soft natural light, no text.\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (!pm.environment.get(\"api_key\")) { console.error(\"Set api_key locally in the selected environment.\"); pm.execution.skipRequest(); }"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Request succeeded\", () => pm.expect(pm.response.code).to.be.within(200, 299));",
+              "if (pm.response.code >= 200 && pm.response.code < 300) {",
+              "  const result = pm.response.json();",
+              "  pm.test(\"Project ID returned\", () => pm.expect(result.id).to.be.a(\"string\").and.not.empty);",
+              "  if (result.id) pm.environment.set('image_project_id', result.id);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 — Get image result",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/v1/image-projects/{{image_project_id}}",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "description": "Retrieves the image_project_id saved by the last image creation request. Repeat manually after several seconds while queued/rendering. Do not re-send the generation request.\n\nCheck the progress of a image project. The `downloads` field is populated after a successful render.\n  \n**Statuses**\n- `queued` — waiting to start\n- `rendering` — in progress\n- `complete` — ready; see `downloads`\n- `error` — a failure occurred (see `error`)\n- `canceled` — user canceled\n- `draft` — not used"
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (!pm.environment.get(\"api_key\")) { console.error(\"Set api_key locally in the selected environment.\"); pm.execution.skipRequest(); }",
+              "if (!pm.environment.get('image_project_id')) { console.error('Set image_project_id before sending this request.'); pm.execution.skipRequest(); }"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Request succeeded\", () => pm.expect(pm.response.code).to.be.within(200, 299));",
+              "if (pm.response.code === 200) {",
+              "  const result = pm.response.json();",
+              "  pm.test(\"Known project state\", () => pm.expect([\"queued\", \"rendering\", \"complete\", \"error\", \"canceled\", \"draft\"]).to.include(result.status));",
+              "  pm.test(\"Project did not fail or cancel\", () => pm.expect([\"error\", \"canceled\"]).not.to.include(result.status));",
+              "  if (result.status === \"complete\") pm.test(\"Download available\", () => pm.expect(result.downloads).to.be.an(\"array\").and.not.empty);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 — Animate a product image",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/v1/image-to-video",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "description": "Set image_url to a direct image URL you own or a completed Magic Hour upload file_path. Default model and credit cost depend on plan.\n\n**What this API does**\n\nCreate the same Image To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding image to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a image to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/image-to-video).",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Postman product clip\",\n  \"end_seconds\": 5,\n  \"model\": \"default\",\n  \"audio\": false,\n  \"assets\": {\n    \"image_file_path\": \"{{image_url}}\"\n  },\n  \"style\": {\n    \"prompt\": \"Slow smooth camera orbit around the product. Keep the product shape and colors consistent.\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (!pm.environment.get(\"api_key\")) { console.error(\"Set api_key locally in the selected environment.\"); pm.execution.skipRequest(); }",
+              "if (!pm.environment.get('image_url')) { console.error('Set image_url before sending this request.'); pm.execution.skipRequest(); }"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Request succeeded\", () => pm.expect(pm.response.code).to.be.within(200, 299));",
+              "if (pm.response.code >= 200 && pm.response.code < 300) {",
+              "  const result = pm.response.json();",
+              "  pm.test(\"Project ID returned\", () => pm.expect(result.id).to.be.a(\"string\").and.not.empty);",
+              "  if (result.id) pm.environment.set('video_project_id', result.id);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 — Get video result",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/v1/video-projects/{{video_project_id}}",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "description": "Retrieves video_project_id saved by the last video request. Repeat manually while queued/rendering. Download from the returned downloads array after complete.\n\nCheck the progress of a video project. The `downloads` field is populated after a successful render.\n  \n**Statuses**\n- `queued` — waiting to start\n- `rendering` — in progress\n- `complete` — ready; see `downloads`\n- `error` — a failure occurred (see `error`)\n- `canceled` — user canceled\n- `draft` — not used"
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (!pm.environment.get(\"api_key\")) { console.error(\"Set api_key locally in the selected environment.\"); pm.execution.skipRequest(); }",
+              "if (!pm.environment.get('video_project_id')) { console.error('Set video_project_id before sending this request.'); pm.execution.skipRequest(); }"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Request succeeded\", () => pm.expect(pm.response.code).to.be.within(200, 299));",
+              "if (pm.response.code === 200) {",
+              "  const result = pm.response.json();",
+              "  pm.test(\"Known project state\", () => pm.expect([\"queued\", \"rendering\", \"complete\", \"error\", \"canceled\", \"draft\"]).to.include(result.status));",
+              "  pm.test(\"Project did not fail or cancel\", () => pm.expect([\"error\", \"canceled\"]).not.to.include(result.status));",
+              "  if (result.status === \"complete\") pm.test(\"Download available\", () => pm.expect(result.downloads).to.be.an(\"array\").and.not.empty);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 — Edit an image",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/v1/ai-image-editor",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "description": "Set image_url; send once, then Get image result.\n\nEdit images with AI.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Postman product background\",\n  \"model\": \"flux-2-klein\",\n  \"resolution\": \"640px\",\n  \"image_count\": 1,\n  \"assets\": {\n    \"image_file_paths\": [\n      \"{{image_url}}\"\n    ]\n  },\n  \"style\": {\n    \"prompt\": \"Replace the background with a clean cream studio backdrop while preserving the product.\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (!pm.environment.get(\"api_key\")) { console.error(\"Set api_key locally in the selected environment.\"); pm.execution.skipRequest(); }",
+              "if (!pm.environment.get('image_url')) { console.error('Set image_url before sending this request.'); pm.execution.skipRequest(); }"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Request succeeded\", () => pm.expect(pm.response.code).to.be.within(200, 299));",
+              "if (pm.response.code >= 200 && pm.response.code < 300) {",
+              "  const result = pm.response.json();",
+              "  pm.test(\"Project ID returned\", () => pm.expect(result.id).to.be.a(\"string\").and.not.empty);",
+              "  if (result.id) pm.environment.set('image_project_id', result.id);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 — Face swap a photo",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/v1/face-swap-photo",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "description": "Use source and target images you have permission to use. Send once, then Get image result.\n\nCreate a face swap photo. Each photo costs 10 credits. The height/width of the output image depends on your subscription. Please refer to our [pricing](https://magichour.ai/pricing) page for more details",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Postman consented face swap\",\n  \"assets\": {\n    \"face_swap_mode\": \"all-faces\",\n    \"source_file_path\": \"{{source_face_url}}\",\n    \"target_file_path\": \"{{target_image_url}}\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (!pm.environment.get(\"api_key\")) { console.error(\"Set api_key locally in the selected environment.\"); pm.execution.skipRequest(); }",
+              "if (!pm.environment.get('source_face_url')) { console.error('Set source_face_url before sending this request.'); pm.execution.skipRequest(); }",
+              "if (!pm.environment.get('target_image_url')) { console.error('Set target_image_url before sending this request.'); pm.execution.skipRequest(); }"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Request succeeded\", () => pm.expect(pm.response.code).to.be.within(200, 299));",
+              "if (pm.response.code >= 200 && pm.response.code < 300) {",
+              "  const result = pm.response.json();",
+              "  pm.test(\"Project ID returned\", () => pm.expect(result.id).to.be.a(\"string\").and.not.empty);",
+              "  if (result.id) pm.environment.set('image_project_id', result.id);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 — Lip-sync five seconds",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/v1/lip-sync",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "description": "Set direct URLs or uploaded file paths for a consented video and audio at least five seconds long. Send once, then Get video result.\n\n**What this API does**\n\nCreate the same Lip Sync you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding lip sync into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a lip sync job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/lip-sync).",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Postman lip sync\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"max_fps_limit\": 12,\n  \"assets\": {\n    \"video_source\": \"file\",\n    \"video_file_path\": \"{{video_url}}\",\n    \"audio_file_path\": \"{{audio_url}}\"\n  },\n  \"style\": {\n    \"generation_mode\": \"lite\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (!pm.environment.get(\"api_key\")) { console.error(\"Set api_key locally in the selected environment.\"); pm.execution.skipRequest(); }",
+              "if (!pm.environment.get('video_url')) { console.error('Set video_url before sending this request.'); pm.execution.skipRequest(); }",
+              "if (!pm.environment.get('audio_url')) { console.error('Set audio_url before sending this request.'); pm.execution.skipRequest(); }"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Request succeeded\", () => pm.expect(pm.response.code).to.be.within(200, 299));",
+              "if (pm.response.code >= 200 && pm.response.code < 300) {",
+              "  const result = pm.response.json();",
+              "  pm.test(\"Project ID returned\", () => pm.expect(result.id).to.be.a(\"string\").and.not.empty);",
+              "  if (result.id) pm.environment.set('video_project_id', result.id);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 — Create image upload URL",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/v1/files/upload-urls",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "description": "Optional alternative to a public input URL. Generate a signed URL, then choose a PNG in Upload PNG bytes. Signed URLs expire.\n\nGenerates a list of pre-signed upload URLs for the assets required. This API is only necessary if you want to upload to Magic Hour's storage. Refer to the [Input Files Guide](https://docs.magichour.ai/integration/inputs-and-outputs) for more details.\n\nThe response array will match the order of items in the request body.\n\n**Valid file extensions per asset type**:\n- video: mp4, m4v, mov, webm\n- audio: mp3, wav, aac, flac, webm, weba, m4a, opus, ogg, oga, aiff, amr\n- image: png, jpg, jpeg, jfif, heic, heif, webp, avif, jp2, tiff, tif, bmp\n- gif: gif, webp, webm\n\n> Note: `gif` is only supported for face swap API `video_file_path` field.\n\nOnce you receive an upload URL, send a `PUT` request to upload the file directly.\n\nExample:\n\n```\ncurl -X PUT --data '@/path/to/file/video.mp4' \\\n  https://videos.magichour.ai/api-assets/id/video.mp4?<auth params from the API response>\n```\n",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"items\": [\n    {\n      \"type\": \"image\",\n      \"extension\": \"png\"\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (!pm.environment.get(\"api_key\")) { console.error(\"Set api_key locally in the selected environment.\"); pm.execution.skipRequest(); }"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Request succeeded\", () => pm.expect(pm.response.code).to.be.within(200, 299));",
+              "if (pm.response.code === 200) { const item = pm.response.json().items[0]; pm.environment.set(\"upload_url\", item.upload_url); pm.environment.set(\"image_url\", item.file_path); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 — Upload PNG bytes",
+      "request": {
+        "method": "PUT",
+        "auth": {
+          "type": "noauth"
+        },
+        "url": "{{upload_url}}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "image/png"
+          }
+        ],
+        "body": {
+          "mode": "file",
+          "file": {}
+        },
+        "description": "Choose the local PNG in Body → binary before sending. No Magic Hour Authorization header is sent to storage. Only use the signed URL from request 08. After success, image_url contains the file_path used by requests 03 and 05."
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (!pm.environment.get(\"upload_url\")) { console.error(\"Run request 08 before uploading.\"); pm.execution.skipRequest(); }",
+              "if (!pm.request.body || !pm.request.body.file || !pm.request.body.file.src) { console.error(\"Choose a PNG in Body → binary before uploading.\"); pm.execution.skipRequest(); }"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Request succeeded\", () => pm.expect(pm.response.code).to.be.within(200, 299));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

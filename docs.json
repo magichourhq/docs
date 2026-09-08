@@ -75,7 +75,8 @@
               "get-started/quick-start",
               "get-started/authentication",
               "integration/model-context-protocol",
-              "get-started/cookbook"
+              "get-started/cookbook",
+              "get-started/starter-recipes"
             ]
           },
           {
@@ -167,6 +168,10 @@
           "api-reference/overview",
           "api-reference/models",
           "api-reference/processing-times",
+          {
+            "group": "Account",
+            "pages": ["api-reference/account/get-account-details"]
+          },
           {
             "group": "Files",
             "pages": [

@@ -4,9 +4,11 @@ description: "Recent typical end-to-end processing times for successful Magic Ho
 ---
 
 The baseline values cover successful API jobs created during the **30 complete UTC days from August
-7 through September 5, 2026**. When the latest 48-hour median was faster, the table uses that more
-recent value and marks it with ‡. All values measure end-to-end time from project creation to
-completion, including queueing. The warehouse snapshot was queried on September 6, 2026.
+7 through September 5, 2026**. Five values use the latest 48-hour cohort, from **September 5 at
+17:00 through September 7 at 17:00 UTC**, and are marked with §. Four unchanged values use the prior
+48-hour cohort, from **September 4 at 01:00 through September 6 at 01:00 UTC**, and are marked with
+‡. All values measure end-to-end time from project creation to completion, including queueing. The
+warehouse snapshot was queried on September 7, 2026.
 
 <Warning>
   These are directional observations, not an SLA or a prediction for an individual job. Processing
@@ -32,17 +34,20 @@ of successful API jobs included. Errored, canceled, and still-active jobs are ex
 | [`POST /v1/audio-to-video`](/api-reference/video-projects/audio-to-video)                   |        1m 11s |    26† |
 | [`POST /v1/auto-subtitle-generator`](/api-reference/video-projects/auto-subtitle-generator) |           52s |     30 |
 | [`POST /v1/character-replace`](/api-reference/video-projects/character-replace)             |       11m 30s |    331 |
-| [`POST /v1/face-swap`](/api-reference/video-projects/face-swap-video)                       |        1m 53s |   161‡ |
+| [`POST /v1/face-swap`](/api-reference/video-projects/face-swap-video)                       |        1m 28s |   165§ |
 | [`POST /v1/image-to-video`](/api-reference/video-projects/image-to-video)                   |         1m 9s |   130‡ |
 | [`POST /v1/lip-sync`](/api-reference/video-projects/lip-sync)                               |        1m 30s |    61‡ |
-| [`POST /v1/text-to-video`](/api-reference/video-projects/text-to-video)                     |           42s |  1,904 |
+| [`POST /v1/text-to-video`](/api-reference/video-projects/text-to-video)                     |           25s |   128§ |
 | [`POST /v1/video-to-video`](/api-reference/video-projects/video-to-video)                   |        6m 26s |     63 |
 
 † Fewer than 30 successful jobs. Treat these figures as low-confidence until more traffic is
 available.
 
-‡ Uses the latest 48-hour API cohort, from September 4 at 01:00 through September 6 at 01:00 UTC,
-because its median was faster than the 30-day baseline. Other rows retain the 30-day value.
+‡ Uses the prior 48-hour API cohort, from September 4 at 01:00 through September 6 at 01:00 UTC.
+
+§ Uses the latest 48-hour API cohort, from September 5 at 17:00 through September 7 at 17:00 UTC,
+because its median was faster than the currently published value. Other rows retain their published
+baseline or prior 48-hour value.
 
 ## Image endpoints
 
@@ -52,14 +57,14 @@ because its median was faster than the 30-day baseline. Other rows retain the 30
 | [`POST /v1/ai-face-editor`](/api-reference/image-projects/ai-face-editor)                     |            4s |     64 |
 | [`POST /v1/ai-gif-generator`](/api-reference/image-projects/ai-gif-generator)                 |           26s |    179 |
 | [`POST /v1/ai-headshot-generator`](/api-reference/image-projects/ai-headshot-generator)       |           16s |    147 |
-| [`POST /v1/ai-image-editor`](/api-reference/image-projects/ai-image-editor)                   |           14s | 10,292 |
+| [`POST /v1/ai-image-editor`](/api-reference/image-projects/ai-image-editor)                   |           10s |   299§ |
 | [`POST /v1/ai-image-generator`](/api-reference/image-projects/ai-image-generator)             |            6s |   170‡ |
 | [`POST /v1/ai-image-upscaler`](/api-reference/image-projects/ai-image-upscaler)               |           27s |    443 |
 | [`POST /v1/ai-meme-generator`](/api-reference/image-projects/ai-meme-generator)               |            6s |    322 |
 | [`POST /v1/ai-qr-code-generator`](/api-reference/image-projects/ai-qr-code-generator)         |            7s |    233 |
 | [`POST /v1/body-swap`](/api-reference/image-projects/body-swap)                               |           27s |     38 |
-| [`POST /v1/face-swap-photo`](/api-reference/image-projects/face-swap-photo)                   |            7s |  3,432 |
-| [`POST /v1/head-swap`](/api-reference/image-projects/head-swap)                               |           26s |  1,041 |
+| [`POST /v1/face-swap-photo`](/api-reference/image-projects/face-swap-photo)                   |            5s |   233§ |
+| [`POST /v1/head-swap`](/api-reference/image-projects/head-swap)                               |           19s |    36§ |
 | [`POST /v1/image-background-remover`](/api-reference/image-projects/image-background-remover) |            6s |    414 |
 | [`POST /v1/photo-colorizer`](/api-reference/image-projects/photo-colorizer)                   |           10s |    100 |
 

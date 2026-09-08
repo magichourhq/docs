@@ -808,16 +808,14 @@ Authentication guide for platform-specific setup steps.
 
 If you encounter HTTP errors, here's what they mean:
 
-| Error Code | Meaning               | Solution                                                                                                                                                      |
-| :--------- | :-------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `400`      | Bad Request           | The response `message` names the invalid or missing field - fix it and resubmit                                                                               |
-| `401`      | Unauthorized          | Verify your API key is correct and sent as `Authorization: Bearer <key>`                                                                                      |
-| `402`      | Payment Required      | Insufficient credits - [add more credits](https://magichour.ai/settings?ref=docs-quickstart-402&utm_source=docs&utm_medium=referral&utm_campaign=quick-start) |
-| `403`      | Forbidden             | Your key is valid but the model, resolution, or feature is not available on your plan                                                                         |
-| `429`      | Too Many Requests     | You are sending requests too quickly - retry with exponential backoff                                                                                         |
-| `500`      | Internal Server Error | Temporary server issue - retry after a few seconds                                                                                                            |
-| `502`      | Bad Gateway           | Server temporarily unavailable - retry after 30-60 seconds. If it failed before returning a project `id`, no job was created - resubmit                       |
-| `503`      | Service Unavailable   | Server overloaded - retry with exponential backoff                                                                                                            |
+| Error Code | Meaning               | Solution                                                                          |
+| :--------- | :-------------------- | :-------------------------------------------------------------------------------- |
+| `400`      | Bad Request           | The response `message` names the invalid or missing field - fix it and resubmit   |
+| `401`      | Unauthorized          | Verify your API key is correct and sent as `Authorization: Bearer <key>`          |
+| `402`      | Payment Required      | Use the response `code` to add credits, start a subscription, or upgrade the plan |
+| `404`      | Not Found             | Check the route and project ID                                                    |
+| `422`      | Unprocessable Entity  | Change the request values before retrying                                         |
+| `500`      | Internal Server Error | Retry later; contact support if the error continues                               |
 
 **For persistent errors:** Contact [support@magichour.ai](mailto:support@magichour.ai) with your project ID.
 
@@ -842,6 +840,5 @@ If you encounter HTTP errors, here's what they mean:
 
 <Tip>
   Prefer fast iteration inside your editor? Install this documentation as an MCP server to get
-  contextual help while integrating the Magic Hour API. [Learn
-  more](/integration/model-context-protocol).
+  contextual help while integrating the Magic Hour API. [Learn more](/integration/api-docs-mcp).
 </Tip>

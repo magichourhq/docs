@@ -151,12 +151,14 @@ except httpx.HTTPStatusError as e:
 
     if code == 401:
         print("❌ Invalid API key. Check your credentials.")
-    elif code == 403:
-        print("❌ Forbidden. Key lacks permission or resource is protected.")
-    elif code == 422:
+    elif code == 402:
+        print("❌ Payment required. Add credits, subscribe, or upgrade the plan named by the error code.")
+    elif code in (400, 422):
         print(f"❌ Invalid parameters: {detail}")
-    elif code == 429:
-        print("❌ Rate limit exceeded. Wait before retrying.")
+    elif code == 404:
+        print("❌ Route or project not found. Check the resource ID.")
+    elif code >= 500:
+        print("❌ Server error. Retry later with backoff.")
     else:
         print(f"❌ API error ({code}): {detail}")
 
@@ -180,12 +182,17 @@ try {
 } catch (error) {
   if (error.statusCode === 401) {
     console.log("❌ Invalid API key. Check your credentials.");
-  } else if (error.statusCode === 422) {
+  } else if (error.statusCode === 402) {
+    console.log(
+      "❌ Payment required. Add credits, subscribe, or upgrade the plan named by the error code."
+    );
+  } else if (error.statusCode === 400 || error.statusCode === 422) {
     console.log(`❌ Invalid parameters: ${error.message}`);
     // Fix your request parameters
-  } else if (error.statusCode === 429) {
-    console.log("❌ Rate limit exceeded. Wait before retrying.");
-    // Implement exponential backoff
+  } else if (error.statusCode === 404) {
+    console.log("❌ Route or project not found. Check the resource ID.");
+  } else if (error.statusCode >= 500) {
+    console.log("❌ Server error. Retry later with backoff.");
   } else {
     console.log(`❌ API error: ${error.message}`);
     // Log error and alert monitoring system
