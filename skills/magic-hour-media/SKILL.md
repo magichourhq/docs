@@ -17,7 +17,7 @@ Requires network access and either a connected Magic Hour MCP server or a Magic 
 
 Use an already-connected Magic Hour creation MCP if available. Its hosted endpoint is `https://mcp.magichour.ai/`. The separate `https://docs.magichour.ai/mcp` searches documentation; it does not generate media.
 
-If creation tools are unavailable, read [setup and API fallback](references/setup.md). Do not silently replace an existing client configuration. Never request an API key in chat or put it in source code; use the client's credential flow or `MAGIC_HOUR_API_KEY` in the local environment.
+If creation tools are unavailable, read `references/setup.md` in this skill for setup and the API fallback. Do not silently replace an existing client configuration. Never request an API key in chat or put it in source code; use the client's credential flow or `MAGIC_HOUR_API_KEY` in the local environment.
 
 Use live tool schemas, or the [API documentation index](https://docs.magichour.ai/llms.txt), for current models, allowed durations, resolutions, and prices. Web-app features and plans do not imply identical API support. Do not copy a remembered model catalog or price table.
 
