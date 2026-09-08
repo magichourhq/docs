@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
+import { createServer as createTlsServer } from "node:https";
+import { connect } from "node:net";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { mkdtemp, readFile, writeFile } from "node:fs/promises";
@@ -17,8 +19,8 @@ const fixtures = {
 };
 const calls = [];
 let pending = false;
-const proxy = createServer(async (req, res) => {
-  const url = new URL(req.url);
+const handler = async (req, res) => {
+  const url = new URL(req.url, `https://${req.headers.host}`);
   const chunks = [];
   for await (const chunk of req) chunks.push(chunk);
   const body = chunks.length ? JSON.parse(Buffer.concat(chunks).toString()) : null;
@@ -61,11 +63,51 @@ const proxy = createServer(async (req, res) => {
       });
     } else json({ error: "Unexpected API call" }, 400);
   } else json({ error: "Unexpected host" }, 400);
+};
+const certificate = path.join(directory, "fixture-cert.pem");
+const privateKey = path.join(directory, "fixture-key.pem");
+await exec("openssl", [
+  "req",
+  "-x509",
+  "-newkey",
+  "rsa:2048",
+  "-nodes",
+  "-days",
+  "1",
+  "-keyout",
+  privateKey,
+  "-out",
+  certificate,
+  "-subj",
+  "/CN=Magic Hour CI fixture",
+  "-addext",
+  "subjectAltName=DNS:api.magichour.ai,DNS:example.com",
+]);
+const tlsServer = createTlsServer(
+  { key: await readFile(privateKey), cert: await readFile(certificate) },
+  handler
+);
+await new Promise((resolve) => tlsServer.listen(0, "127.0.0.1", resolve));
+const proxy = createServer(handler);
+proxy.on("connect", (req, client, head) => {
+  if (!["api.magichour.ai:443", "example.com:443"].includes(req.url)) {
+    client.destroy();
+    return;
+  }
+  const upstream = connect(tlsServer.address().port, "127.0.0.1", () => {
+    client.write("HTTP/1.1 200 Connection Established\r\n\r\n");
+    if (head.length) upstream.write(head);
+    client.pipe(upstream);
+    upstream.pipe(client);
+  });
+  upstream.on("error", () => client.destroy());
+  client.on("error", () => upstream.destroy());
 });
 await new Promise((resolve) => proxy.listen(0, "127.0.0.1", resolve));
 const proxyUrl = `http://127.0.0.1:${proxy.address().port}`;
 const env = {
   ...process.env,
+  NODE_EXTRA_CA_CERTS: certificate,
   HTTP_PROXY: proxyUrl,
   HTTPS_PROXY: proxyUrl,
   http_proxy: proxyUrl,
@@ -134,4 +176,6 @@ try {
   }
 } finally {
   proxy.close();
+  tlsServer.closeAllConnections();
+  tlsServer.close();
 }
