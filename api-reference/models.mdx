@@ -15,6 +15,27 @@ image count. Failed generations are never charged.
 Available on [text to video](/api-reference/video-projects/text-to-video) and
 [image to video](/api-reference/video-projects/image-to-video).
 
+### Choose your first model
+
+Start with a model available on the free plan. Free-plan access still uses credits.
+
+**Available on free and paid plans**
+
+- **LTX 2.5 (`ltx-2.5`)** — our recommended starting point, especially for fast generations.
+- **MiniMax H3 (`minimax-h3`)** — a high-quality alternative.
+
+For either model on the free plan, set `resolution` to `480p`.
+
+**Requires a paid plan**
+
+- **Kling 3.0 (`kling-3.0`)** — our recommendation for strong quality and value.
+- **Seedance 2.5 (`seedance-2.5`)** — choose this for state-of-the-art quality.
+
+Pass the model ID in `model` to select it explicitly. See the endpoint reference for supported
+durations and resolutions, and the credit-cost table below to compare costs.
+
+### Video model reference
+
 | Model               | Best for                                                        | Resolutions           | Durations (seconds)                                                                                  | Audio                 |
 | :------------------ | :-------------------------------------------------------------- | :-------------------- | :--------------------------------------------------------------------------------------------------- | :-------------------- |
 | `gemini-omni-1.1`   | Precise short clips, first and last frames, and high resolution | 360p, 720p, 1080p, 4k | 3, 4, 5, 6, 7, 8, 9, 10                                                                              | No                    |
