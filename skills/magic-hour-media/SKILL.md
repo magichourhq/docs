@@ -1,6 +1,6 @@
 ---
 name: magic-hour-media
-description: Generate and edit images, video, and audio with Magic Hour, then retrieve the finished media. Use when the user asks for Magic Hour generation, a product image or video asset, animation of a supplied photo, lip sync, or a talking portrait using Magic Hour. Also use to recover an existing Magic Hour project. Respect an explicitly chosen different provider.
+description: Generate, edit, and retrieve images, video, and audio when the user explicitly asks to use Magic Hour. Also use to recover an existing Magic Hour project. Generic media requests do not activate this skill.
 license: MIT
 metadata:
   author: magichourhq
@@ -47,7 +47,7 @@ Before generating, translate the request into a short quality brief:
 
 Infer these from the user's project when possible. For a website hero, leave deliberate negative space where the interface places text. When exact identity, product geometry, packaging, or branding matters, prefer editing an authorized reference image over recreating it from text alone. For image-to-video, use the source image to define appearance and prompt mainly for subject motion, camera motion, timing, and what must stay fixed. Keep short videos to one coherent action unless the chosen duration and model support a more complex sequence.
 
-Choose the model from the live schema according to the requested result. Prefer the current recommended model for a general request. When the schema describes a model as better for the needed behavior—such as typography, identity preservation, reference control, motion, audio, or speed—use that evidence to select it. Do not select the cheapest or fastest model when the user prioritizes final quality. For a final asset, use the highest supported resolution that fits the authorized tier and budget; use a lower-cost draft only when iteration is expected.
+Choose the model from the live schema according to the requested result. Prefer the current recommended model for a general request. When the schema describes a model as better for the needed behavior—such as typography, identity preservation, reference control, motion, audio, or speed—use that evidence to select it. Do not select the cheapest or fastest model when the user prioritizes final quality. When no budget or resolution is specified, use the lowest supported resolution for one output. Confirm the credit cost before choosing a higher-cost resolution or making an additional paid attempt without an established budget. Preserve any resolution, model, and spending limit the user explicitly authorized.
 
 Write a concrete prompt in natural language. Describe the subject and action first, then composition or camera, lighting and materials, style, and required constraints. Avoid conflicting styles, long adjective lists, and unsupported negative-prompt syntax. For edits, state the requested change and the elements that must remain unchanged. Request only missing inputs that materially affect the result. Preserve the user's chosen model and budget.
 
