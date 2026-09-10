@@ -83,6 +83,7 @@
             "group": "Integration",
             "pages": [
               "integration/overview",
+              "integration/evaluating-media-apis",
               "integration/first-integration",
               "integration/adding-api-to-your-app",
               "integration/inputs-and-outputs",

@@ -1,0 +1,108 @@
+---
+title: "Compare AI Media APIs on Your Workload"
+sidebarTitle: "Evaluate API Providers"
+description: "Compare image, video, and lip-sync APIs using matched inputs, accepted-output cost, completion time, and integration requirements."
+---
+
+Choose an AI media API by testing the work your customers need to complete. Compare the cost of an
+accepted output, the time until that output is usable, and the integration work required to deliver
+it. A low generation price is useful only if the result meets your quality requirements.
+
+This guide is published by Magic Hour. It provides a reusable evaluation method, not a claim that
+Magic Hour wins every workload or a benchmark result for another provider.
+
+## Match the API to the job
+
+| Your input and goal                             | Magic Hour endpoint                                              | What to compare                                                                           |
+| :---------------------------------------------- | :--------------------------------------------------------------- | :---------------------------------------------------------------------------------------- |
+| Text prompt to a new video                      | [Text-to-Video](/api-reference/video-projects/text-to-video)     | Prompt adherence, motion, supported duration, resolution, and audio                       |
+| Product photo to a moving clip                  | [Image-to-Video](/api-reference/video-projects/image-to-video)   | Product geometry, logo preservation, camera movement, and usable output rate              |
+| Existing video with replacement audio           | [Lip Sync](/api-reference/video-projects/lip-sync)               | Mouth timing, identity preservation, head movement, and behavior at cuts                  |
+| Portrait plus audio or text to a speaking video | [Talking Photo](/api-reference/video-projects/ai-talking-photo)  | Facial motion, identity consistency, speech timing, and input support                     |
+| Photo plus an editing instruction               | [AI Image Editor](/api-reference/image-projects/ai-image-editor) | Edit accuracy, preservation of unchanged regions, resolution, and cost per accepted image |
+| Video plus an approved replacement face         | [Face Swap Video](/api-reference/video-projects/face-swap-video) | Identity consistency, occlusion handling, temporal stability, and consent requirements    |
+
+Check the exact model and settings in [Models and Credit Costs](/api-reference/models). An API
+platform's model catalog and supported parameters can differ from its web application.
+
+## Set up a fair pilot
+
+1. Select representative cases before looking at provider outputs. Include ordinary inputs and
+   difficult cases your application actually needs to handle.
+2. Use the same source files, prompt, duration, output dimensions, audio requirements, and retry
+   budget for every compatible configuration. Record any unavoidable differences.
+3. Record the provider, endpoint, model identifier, API or SDK version, settings, test date, and
+   input-file hash. Use stable case IDs so you can repeat the comparison.
+4. Set acceptance criteria before generating. For a product ad, for example, a readable logo and
+   correct product shape may matter more than cinematic motion.
+5. Randomize output order when reviewing quality. Hide the provider name where practical, and
+   retain every attempt, including failures and rejected outputs.
+
+Test only files you have permission to use. Keep customer media, credentials, and signed download
+URLs out of any public scorecard. Publish permitted example outputs with stable asset references
+when you need an independently reviewable comparison.
+
+## Measure the whole workflow
+
+| Metric                              | Definition                                                                                                        |
+| :---------------------------------- | :---------------------------------------------------------------------------------------------------------------- |
+| Technical completion rate           | Jobs that reach a successful terminal state divided by all submitted jobs                                         |
+| Accepted-output rate                | Outputs meeting the predeclared quality criteria divided by all submitted jobs                                    |
+| Generation cost per accepted output | Total generation charges, including charged retries and rejected outputs, divided by accepted outputs             |
+| Delivered cost per accepted output  | Generation charges plus allocated subscription, editing, storage, and delivery costs, divided by accepted outputs |
+| Time to usable output               | Time from submission until the accepted result is downloaded and ready for use, including queueing and retries    |
+| Operator time                       | Human minutes spent preparing inputs, repairing outputs, and handling failed jobs                                 |
+
+Report accepted and submitted counts beside every rate. If no outputs are accepted, cost per
+accepted output is undefined; do not report it as zero. With a small pilot, list individual
+completion times and the sample size. A p95 from a handful of jobs is not a reliable production
+estimate.
+
+Magic Hour's [processing-time statistics](/api-reference/processing-times) describe successful API
+jobs from the stated observation windows. They exclude failed and still-active jobs and do not use
+the same workload as another provider. Use them for planning, then measure your own cases.
+
+## Example: compare lip-sync configurations
+
+Start with a video and replacement audio of similar duration. Include clear front-facing speech,
+a slight head turn, pauses, and visible mouth closures in your test set. If your product requires
+multiple speakers or frequent cuts, test those as separate cases.
+
+Review mouth timing, face texture, identity, and temporal stability. A job that completes but
+introduces unacceptable face changes is a rejected output in the scorecard.
+
+For Magic Hour, keep `style.generation_mode` and `max_fps_limit` explicit. The
+[Lip Sync guide](/tools/video/lip-sync#pricing) explains frame-based charges; the completed job's
+`credits_charged` is the source for its actual credit usage. Convert credits using your own billing
+arrangement before comparing them with another provider's dollar price.
+
+For example, if a pilot spends USD 12 on 20 submitted jobs and accepts 8 outputs, its generation cost
+per accepted output is USD 1.50. This is an arithmetic illustration, not measured provider performance.
+
+## Check production requirements separately
+
+Before choosing a provider, verify its current documentation for authentication, model access,
+concurrency, rate limits, webhook signatures, failure billing, retention, commercial terms, and
+output formats. Record the source URL and the date checked for each fact. Leave unavailable facts
+unknown rather than assuming support.
+
+For Magic Hour, start with:
+
+- [Authentication](/get-started/authentication) and [input/output handling](/integration/inputs-and-outputs).
+- [Billing options](/billing/overview), [model costs](/api-reference/models), and [resolution limits](/billing/resolution-limits).
+- [Production integration](/integration/adding-api-to-your-app) and [webhook signature verification](/integration/webhook/secure-handler).
+- [Development and testing](/integration/development-and-testing). Mock responses test integration behavior; they do not measure generation quality or latency.
+
+Keep the original project ID when waiting times out. Check that job's state before submitting
+another generation, and make webhook processing idempotent. A timeout in your application does not
+prove that a remote job failed.
+
+## Reuse the scorecard
+
+[Download the CSV scorecard](/assets/api-evaluation-scorecard.csv). Add one row per submitted
+attempt. Use `accepted`, `rejected`, `failed`, or `pending` for `outcome`; leave unmeasured fields
+blank. Record a concrete reason for every rejection or failure.
+
+Rerun the same cases after a model, pricing, or integration change. Keep old results, label changed
+configurations, and compare matched cases. Choose the provider and settings that meet your own
+quality and delivery requirements at a sustainable cost.
