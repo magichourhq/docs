@@ -1,23 +1,17 @@
-# Magic Hour agent skill
+# Magic Hour agent skills
 
-Create media from a coding-agent session, recover an existing generation, and save finished assets into a project. The skill uses Magic Hour's existing MCP or API; it does not run a model locally.
+The official [Magic Hour skills cookbook](https://github.com/magichourhq/skills) contains tested workflows for general media creation, product visuals, and image-to-video generation. The MCP or API supplies the generation tools; the skills teach an agent how to choose and sequence them, inspect the result, and recover without creating duplicate paid jobs.
 
 ## Install
 
-With the [Agent Skills CLI](https://skills.sh/docs/cli):
+Install the full cookbook with the [Agent Skills CLI](https://skills.sh/docs/cli):
 
 ```sh
-npx skills add magichourhq/docs --skill magic-hour-media
+npx skills add magichourhq/skills --all
 ```
 
-Choose the client and project scope in the installer. Alternatively, copy the entire `magic-hour-media` folder into your client's skills directory. The included MIT license covers the skill; hosted generation remains subject to Magic Hour's service terms and credit pricing.
+Or [choose one focused skill](https://github.com/magichourhq/skills#cookbook). Choose the client and project scope in the installer. The included MIT license covers the skills; hosted generation remains subject to Magic Hour's service terms and credit pricing.
 
 Connect the [Magic Hour MCP](https://magichour.ai/mcp) or provide `MAGIC_HOUR_API_KEY` securely to your runtime. Installing the skill does not create an account, provide credits, or configure credentials.
 
-## Try it
-
-- "Use Magic Hour to make one 16:9 hero image of a ceramic coffee cup, with space on the left for a headline. Save the result in my app's public assets folder."
-- "Animate this product photo with a gentle camera push-in. Keep the logo and packaging unchanged, and use the smallest supported preview within my credit budget."
-- "This Magic Hour video project already exists: `<project-id>`. Retrieve its finished video without starting another generation."
-
-The skill reads current models and parameters, uploads input bytes when necessary, waits for completion, and preserves signed download links. It does not imply approval for public posting or unrequested generation costs.
+See the cookbook's [validation evidence](https://github.com/magichourhq/skills#validation) for the output-quality comparisons behind the focused skills.
