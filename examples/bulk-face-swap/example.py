@@ -61,7 +61,7 @@ if not project_id:
     # Do not automatically retry this POST after a connection timeout.
     job = request("/face-swap-photo", payload)
     project_id = job["id"]
-    print("PROJECT_ID=" + project_id, flush=True)
+print("PROJECT_ID=" + project_id, flush=True)
 
 deadline = time.monotonic() + 900
 delay = 2

@@ -45,8 +45,8 @@ if [ -z "${PROJECT_ID:-}" ]; then
     -H "Authorization: Bearer $MAGIC_HOUR_API_KEY" \
     -H "Content-Type: application/json" --data "$payload")
   PROJECT_ID=$(printf '%s' "$job" | jq -er '.id')
-  printf 'PROJECT_ID=%s\n' "$PROJECT_ID"
 fi
+printf 'PROJECT_ID=%s\n' "$PROJECT_ID"
 
 deadline=$((SECONDS + 900))
 delay=2

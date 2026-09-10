@@ -66,8 +66,8 @@ if (!projectId) {
   // Do not automatically retry this POST after a connection timeout.
   const job = await request("/face-swap-photo", payload);
   projectId = job.id;
-  console.log("PROJECT_ID=" + projectId);
 }
+console.log("PROJECT_ID=" + projectId);
 
 const deadline = Date.now() + 900_000;
 let delay = 2_000;
