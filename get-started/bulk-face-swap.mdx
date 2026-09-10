@@ -199,8 +199,10 @@ python3 -c 'from pathlib import Path; Path("batch-logs/001.complete").touch(exis
 ```
 
 Replace `001` with the reconciled log index. The next batch run skips that item and continues. If the
-log has no project ID after a timeout, check the Developer Hub before submitting again. Preserve the
-original logs; deleting them and rerunning the whole list can create duplicate charges.
+log has no project ID after a timeout, do not submit the request again. Email support@magichour.ai
+with the `POST /v1/face-swap-photo` endpoint, request name, and UTC timestamp so the request can be
+traced first. Preserve the original logs; deleting them and rerunning the whole list can create
+duplicate charges.
 
 For a larger workload, replace these local runners with a durable job queue, bounded concurrency,
 webhook signature verification, and explicit per-item state in your database.
