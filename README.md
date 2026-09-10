@@ -4,9 +4,9 @@ This repository contains the official documentation for the Magic Hour API.
 
 Visit https://docs.magichour.ai to see the full documentation.
 
-## Create media with a coding agent
+## Create better media with a coding agent
 
-Install the [Magic Hour media skill](skills/README.md) to create images, video, and audio through the existing MCP or API, then retrieve finished assets into your project.
+Install the [Magic Hour agent skills](https://github.com/magichourhq/skills) for tested image, video, and audio workflows. They use the existing Magic Hour MCP or API and add guidance for prompting, sequencing, output review, and safe recovery.
 
 ## Local Development
 
