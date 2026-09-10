@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "@langchain/langgraph": "1.4.14",
+    "@langchain/mcp-adapters": "1.1.4",
+    "@langchain/openai": "1.5.11"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "ajv": "8.17.1"
+  },
+  "name": "magic-hour-langchain-examples",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "description": "Runnable LangGraph media workflows using the official Magic Hour MCP server",
+  "scripts": {
+    "test": "node --test test/workflow.test.mjs",
+    "smoke": "node smoke.mjs"
+  }
+}
