@@ -8,12 +8,12 @@ Use one permitted source face across a list of target photos while keeping a dur
 request. This workflow fits opt-in event photos, personalized creative, and photo-editing products.
 
 Magic Hour processes one photo project per API request; there is no bulk face-swap endpoint. The
-runners below call a tested single-photo script sequentially, wait for each result, and stop on the
+runners below call the companion single-photo script sequentially, wait for each result, and stop on the
 first error. Start with one image before running a batch.
 
 <CardGroup cols={2}>
   <Card title="Face Swap API page" icon="code" href="https://magichour.ai/api/face-swap">
-    Copy a complete Python, JavaScript, or curl request-to-result example
+    Explore Face Swap API capabilities and pricing
   </Card>
   <Card
     title="Face Swap Photo reference"
@@ -27,8 +27,9 @@ first error. Start with one image before running a batch.
 ## Before you start
 
 1. [Create an API key](/get-started/authentication) and set `MAGIC_HOUR_API_KEY`.
-2. Open the [Face Swap API page](https://magichour.ai/api/face-swap), choose a language, and save its
-   single-photo example as `example.py`, `example.mjs`, or `example.sh`.
+2. Download the matching companion worker from this guide's [versioned source](https://github.com/magichourhq/docs/tree/codex/bulk-face-swap-docs/examples/bulk-face-swap):
+   `example.py`, `example.mjs`, or `example.sh`. These workers read `SOURCE_FACE_URL` and
+   `TARGET_IMAGE_URL`, print `PROJECT_ID` before polling, and support `PROJECT_ID` recovery.
 3. Run that example with one source and one target. Confirm the output and credit charge before
    continuing.
 4. Create `targets.txt` beside the script with one direct HTTPS target-image URL per line. Use 1-100
@@ -60,7 +61,7 @@ folder as the single-photo example and `targets.txt`.
 <CodeGroup>
 
 ```python Python
-# Save the Face Swap API page's single-photo Python example as example.py first.
+# Download this guide's companion example.py first.
 # targets.txt: one direct target image URL per line, up to 100 images.
 import os
 from pathlib import Path
@@ -97,7 +98,7 @@ for index, target in enumerate(targets):
 ```
 
 ```javascript JavaScript
-// Save the Face Swap API page's single-photo JavaScript example as example.mjs first.
+// Download this guide's companion example.mjs first.
 // Save this as batch.mjs; run: node batch.mjs
 import { readFileSync, mkdirSync, existsSync, openSync, closeSync } from "node:fs";
 import { spawnSync } from "node:child_process";
@@ -137,7 +138,7 @@ for (const [index, target] of targets.entries()) {
 
 ```bash curl / Bash
 #!/usr/bin/env bash
-# Save the Face Swap API page's single-photo curl example as example.sh first.
+# Download this guide's companion example.sh first.
 # targets.txt: one direct target image URL per line. Run: bash batch.sh
 set -euo pipefail
 : "${SOURCE_FACE_URL:?Set SOURCE_FACE_URL}"
