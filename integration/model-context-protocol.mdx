@@ -128,18 +128,29 @@ ChatGPT controls connector availability and where its setup controls appear.
 
 </Tabs>
 
-## Add tested generation workflows
+## Verify API access before generating
+
+After `ping`, ask the agent to call `account_retrieve` and check eligibility for the
+intended generation. Tool discovery can work without credentials, and an invalid API key
+can still receive `pong`; the account read checks actual API authorization.
+
+`Authentication required` means the bearer token is missing. An account `401` means
+authorization failed. Check the key and the environment that launched the agent before
+reinstalling anything. Keep account details private.
+
+## Add media generation workflows
 
 The MCP gives your assistant access to Magic Hour tools. The [Magic Hour skills
-cookbook](https://github.com/magichourhq/skills) adds validated workflows for stronger prompts,
-tool sequencing, output review, and recovery without duplicate paid jobs.
+cookbook](https://github.com/magichourhq/skills) adds workflows and published examples for
+prompting, tool sequencing, output review, and recovery without duplicate paid jobs.
 
 ```bash
-npx skills add magichourhq/skills --all
+npx skills add magichourhq/skills --skill '*'
 ```
 
-The focused product-visual and image-to-video skills include the quality comparisons behind their
-guidance. You can also install one skill from the [cookbook](https://github.com/magichourhq/skills#cookbook).
+Choose your agent in the installer. You can also install one workflow from the
+[cookbook](https://github.com/magichourhq/skills). Published examples record their
+validation limits; tool availability alone does not establish output quality.
 
 ## Try a first request
 
