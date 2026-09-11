@@ -14,17 +14,17 @@
     "changelog": "tsx scripts/generate-changelog.ts"
   },
   "devDependencies": {
-    "@ai-sdk/openai": "4.0.51",
+    "@ai-sdk/openai": "4.0.60",
     "@clack/prompts": "1.7.0",
-    "@linear/sdk": "92.0.0",
+    "@linear/sdk": "93.0.1",
     "@mintlify/scraping": "4.0.997",
     "@types/node": "26.4.1",
-    "ai": "7.0.84",
+    "ai": "7.0.93",
     "dotenv": "17.4.2",
     "mintlify": "4.2.873",
     "prettier": "3.9.6",
-    "tsx": "4.23.12",
+    "tsx": "4.23.13",
     "typescript": "7.0.2",
-    "zod": "4.5.2"
+    "zod": "4.5.4"
   }
 }
