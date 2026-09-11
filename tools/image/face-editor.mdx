@@ -1,5 +1,5 @@
 ---
-title: AI Face Editor Tool - Magic Hour Docs
+title: AI Face Editor API
 sidebarTitle: Face Editor
 description: Edit and enhance facial features with AI-powered precision and natural results.
 ---
@@ -116,32 +116,36 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiFaceEditor.generate({
-  assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+const result = await client.v1.aiFaceEditor.generate(
+  {
+    assets: {
+      imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+    },
+    style: {
+      enhanceFace: false,
+      eyeGazeHorizontal: 0.0,
+      eyeGazeVertical: 0.0,
+      eyeOpenRatio: 0.0,
+      eyebrowDirection: 100, // Raise eyebrows
+      headPitch: 0.0,
+      headRoll: 0.0,
+      headYaw: 0.0,
+      lipOpenRatio: 0.0,
+      mouthGrim: 0.0,
+      mouthPositionHorizontal: 0.0,
+      mouthPositionVertical: 0.0,
+      mouthPout: 0.0,
+      mouthPurse: 0.0,
+      mouthSmile: 0.0,
+    },
+    name: "Face Editor image",
   },
-  style: {
-    enhanceFace: false,
-    eyeGazeHorizontal: 0.0,
-    eyeGazeVertical: 0.0,
-    eyeOpenRatio: 0.0,
-    eyebrowDirection: 100, // Raise eyebrows
-    headPitch: 0.0,
-    headRoll: 0.0,
-    headYaw: 0.0,
-    lipOpenRatio: 0.0,
-    mouthGrim: 0.0,
-    mouthPositionHorizontal: 0.0,
-    mouthPositionVertical: 0.0,
-    mouthPout: 0.0,
-    mouthPurse: 0.0,
-    mouthSmile: 0.0,
-  },
-  name: "Face Editor image",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Face edit complete!`);
 console.log(`Status: ${result.status}`);
@@ -193,32 +197,36 @@ else:
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiFaceEditor.generate({
-  assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+const result = await client.v1.aiFaceEditor.generate(
+  {
+    assets: {
+      imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+    },
+    style: {
+      enhanceFace: false,
+      eyeGazeHorizontal: 0.0,
+      eyeGazeVertical: 0.0,
+      eyeOpenRatio: 0.0,
+      eyebrowDirection: 100, // Raise eyebrows
+      headPitch: 0.0,
+      headRoll: 0.0,
+      headYaw: 0.0,
+      lipOpenRatio: 0.0,
+      mouthGrim: 0.0,
+      mouthPositionHorizontal: 0.0,
+      mouthPositionVertical: 0.0,
+      mouthPout: 100, // Make Mouth Pout
+      mouthPurse: 0.0,
+      mouthSmile: 0.0,
+    },
+    name: "Face Editor image",
   },
-  style: {
-    enhanceFace: false,
-    eyeGazeHorizontal: 0.0,
-    eyeGazeVertical: 0.0,
-    eyeOpenRatio: 0.0,
-    eyebrowDirection: 100, // Raise eyebrows
-    headPitch: 0.0,
-    headRoll: 0.0,
-    headYaw: 0.0,
-    lipOpenRatio: 0.0,
-    mouthGrim: 0.0,
-    mouthPositionHorizontal: 0.0,
-    mouthPositionVertical: 0.0,
-    mouthPout: 100, // Make Mouth Pout
-    mouthPurse: 0.0,
-    mouthSmile: 0.0,
-  },
-  name: "Face Editor image",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Face edit complete!`);
 console.log(`Status: ${result.status}`);

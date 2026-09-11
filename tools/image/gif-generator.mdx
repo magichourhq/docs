@@ -1,14 +1,16 @@
 ---
-title: AI GIF Generator API - Magic Hour Docs
+title: AI GIF Generator API
 sidebarTitle: GIF Generator API
-description: Generate animated GIFs from images or text prompts with the Magic Hour API.
+description: Generate animated GIFs from text prompts with the Magic Hour API. Includes Python and Node.js examples, output formats, and credit costs.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
 
 ## Overview
 
-The AI GIF Generator API creates looping GIFs from a source image and a text prompt. Use it to add GIF generation to an application or automated media workflow.
+The AI GIF Generator API creates animated GIFs from a text prompt. Use it to add GIF generation to an application or automated media workflow. The endpoint accepts `style.prompt` and an `output_format` of `gif`, `mp4`, or `webm`.
+
+To animate an existing image, use the [Image-to-Video API guide](/tools/video/image-to-video). The GIF endpoint does not accept an image input or a custom duration.
 
 <Card
   title="Looking for the no-code GIF generator?"
@@ -19,7 +21,7 @@ The AI GIF Generator API creates looping GIFs from a source image and a text pro
 </Card>
 
 <ToolSection
-  title="AI GIF Generator API"
+  title="AI GIF Generator"
   productSlug="ai-gif-generator"
   apiSlug="ai-gif-generator"
   type="image"
@@ -35,10 +37,10 @@ The AI GIF Generator API creates looping GIFs from a source image and a text pro
 
 ## How It Works
 
-1. **Provide input** - Upload an image or provide a text prompt
-2. **Set animation style** - Choose animation type and duration
-3. **AI generates** - AI creates smooth, looping animated GIF
-4. **Download GIF** - Retrieve your animated GIF file
+1. **Write a prompt** - Describe the subject, action, and visual style in `style.prompt`
+2. **Choose the file format** - Set `output_format` to `gif`, `mp4`, or `webm`
+3. **Create the job** - Submit the request and wait for completion
+4. **Download the output** - Save the completed animation from the returned download URL
 
 ## Use Cases
 
@@ -50,7 +52,7 @@ The AI GIF Generator API creates looping GIFs from a source image and a text pro
 
 ## Code Examples
 
-### Generate GIF from Image
+### Generate a GIF from text
 
 <CodeGroup>
 
@@ -83,19 +85,20 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiGifGenerator.generate({
-  assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+const result = await client.v1.aiGifGenerator.generate(
+  {
+    style: {
+      prompt: "Cat fighting a lion, pixel art",
+    },
+    outputFormat: "gif",
+    name: "Text-to-GIF example",
   },
-  style: {
-    prompt: "Create a smooth zoom and rotation animation",
-  },
-  outputFormat: "gif",
-  name: "GIF Generator image",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ GIF complete!`);
 console.log(`Status: ${result.status}`);

@@ -1,5 +1,5 @@
 ---
-title: AI Voice Cloner Tool - Magic Hour Docs
+title: AI Voice Cloner API
 sidebarTitle: Voice Cloner
 description: Clone any voice and generate realistic speech audio from text using custom voice samples.
 ---
@@ -117,18 +117,22 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiVoiceCloner.generate({
-  assets: {
-    audioFilePath: "path/to/voice_sample.mp3",
+const result = await client.v1.aiVoiceCloner.generate(
+  {
+    assets: {
+      audioFilePath: "path/to/voice_sample.mp3",
+    },
+    style: {
+      prompt: "Hello! This is a test of the Magic Hour voice cloner. Pretty cool, right?",
+    },
+    name: "Voice Cloner audio",
   },
-  style: {
-    prompt: "Hello! This is a test of the Magic Hour voice cloner. Pretty cool, right?",
-  },
-  name: "Voice Cloner audio",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Voice cloning complete!`);
 console.log(`Status: ${result.status}`);
@@ -149,7 +153,7 @@ result = client.v1.ai_voice_cloner.generate(
     style={
         "prompt": "Welcome to the show! Today we're going to talk about something really exciting."
     },
-    name: "Voice Cloner audio",
+    name="Voice Cloner audio",
     wait_for_completion=True,
     download_outputs=True,
     download_directory="."
@@ -166,18 +170,22 @@ else:
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiVoiceCloner.generate({
-  assets: {
-    audioFilePath: "https://example.com/voice_sample.mp3",
+const result = await client.v1.aiVoiceCloner.generate(
+  {
+    assets: {
+      audioFilePath: "https://example.com/voice_sample.mp3",
+    },
+    style: {
+      prompt: "Welcome to the show! Today we're going to talk about something really exciting.",
+    },
+    name: "Voice Cloner audio",
   },
-  style: {
-    prompt: "Welcome to the show! Today we're going to talk about something really exciting.",
-  },
-  name: "Voice Cloner audio",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
 ```
@@ -213,18 +221,22 @@ else:
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiVoiceCloner.generate({
-  assets: {
-    audioFilePath: "path/to/narrator_voice.mp3",
+const result = await client.v1.aiVoiceCloner.generate(
+  {
+    assets: {
+      audioFilePath: "path/to/narrator_voice.mp3",
+    },
+    style: {
+      prompt: "In a world where technology meets creativity, Magic Hour brings your ideas to life.",
+    },
+    name: "Voice Cloner audio",
   },
-  style: {
-    prompt: "In a world where technology meets creativity, Magic Hour brings your ideas to life.",
-  },
-  name: "Voice Cloner audio",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
 ```
@@ -288,11 +300,11 @@ print("lip_status:", lip_sync_result.status, "paths:", getattr(lip_sync_result, 
 
 Voice cloning costs **0.1 credits per character** of generated text, rounded up to the nearest whole number. Inputs support up to 1,000 characters.
 
-| Text Length                       | Credits     |
-| :-------------------------------- | :---------- |
-| 100 characters (1-2 sentences)    | 10 credits  |
-| 500 characters (a paragraph)      | 50 credits  |
-| 1,000 characters (maximum)         | 100 credits |
+| Text Length                    | Credits     |
+| :----------------------------- | :---------- |
+| 100 characters (1-2 sentences) | 10 credits  |
+| 500 characters (a paragraph)   | 50 credits  |
+| 1,000 characters (maximum)     | 100 credits |
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample

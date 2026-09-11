@@ -1,9 +1,14 @@
 ---
-title: "Quick Start"
-description: "Generate an API key and make your first call in under 3 minutes."
+title: "Magic Hour API Quickstart"
+sidebarTitle: "Quick Start"
+description: "Create a Magic Hour API key and generate your first image or video with Python, Node.js, Go, Rust, or cURL."
 ---
 
 Magic Hour is an AI video and image generation platform. You submit a job, we render it, and you download the result. This guide gets you to your first output in a few minutes.
+
+Compare [API pricing and payment options](/billing/overview) and
+[per-model credit costs](/api-reference/models) before running a generation. You can use the
+[account endpoint](/api-reference/account/get-account-details) to check your balance.
 
 ## Choose your path
 
@@ -69,7 +74,7 @@ export MAGIC_HOUR_API_KEY="your_api_key_here"
 ```
 
 ```cmd Windows
-setx MAGIC_HOUR_API_KEY "your_api_key_here"
+set MAGIC_HOUR_API_KEY=your_api_key_here
 ```
 
 ```powershell PowerShell
@@ -172,6 +177,9 @@ result. Choose the example that matches what you want to build:
 <Tab title="Generate image (~5 credits)">
 
 Create an image from a text prompt. This is the cheapest way to verify your setup end to end.
+
+See the [image generation guide](/tools/image/image-generator) for prompt examples and the
+[Image Generator API reference](/api-reference/image-projects/ai-image-generator) for every request field.
 
 **Why these parameters:**
 

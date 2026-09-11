@@ -35,8 +35,8 @@
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://magichour.ai/developer?ref=docs-navbar&utm_source=docs&utm_medium=referral&utm_campaign=navbar"
+      "label": "Get API key",
+      "href": "https://magichour.ai/developer?tab=api-keys&ref=docs-navbar&utm_source=docs&utm_medium=referral&utm_campaign=navbar"
     }
   },
   "footer": {
@@ -85,6 +85,7 @@
               "integration/overview",
               "integration/evaluating-media-apis",
               "integration/first-integration",
+              "integration/postman",
               "integration/adding-api-to-your-app",
               "integration/inputs-and-outputs",
               "integration/development-and-testing",
@@ -274,6 +275,16 @@
     ],
     "global": {
       "anchors": [
+        {
+          "anchor": "API quickstart",
+          "href": "/get-started/quick-start",
+          "icon": "forward-fast"
+        },
+        {
+          "anchor": "API pricing",
+          "href": "/billing/overview",
+          "icon": "credit-card"
+        },
         {
           "anchor": "Community",
           "href": "https://discord.com/invite/JX5rgsZaJp",

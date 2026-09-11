@@ -1,5 +1,5 @@
 ---
-title: AI Talking Photo Tool - Magic Hour Docs
+title: AI Talking Photo API
 sidebarTitle: Talking Photo
 description: Animate static photos to speak with realistic lip-sync and facial movements.
 ---
@@ -59,8 +59,8 @@ asynchronously, and duration varies with the input, selected settings, and queue
 
 ### Audio Guidelines
 
-| Audio Type       | Best Practice                                                                     |
-| :--------------- | :-------------------------------------------------------------------------------- |
+| Audio Type       | Best Practice                                                                      |
+| :--------------- | :--------------------------------------------------------------------------------- |
 | Voice recording  | Clear speech without background noise                                              |
 | Generated speech | Create the audio first with the [AI Voice Generator](/tools/audio/voice-generator) |
 | Music/songs      | Works best with clear vocals                                                       |
@@ -106,19 +106,23 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiTalkingPhoto.generate({
-  assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
-    audioFilePath:
-      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
+const result = await client.v1.aiTalkingPhoto.generate(
+  {
+    assets: {
+      imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+      audioFilePath:
+        "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
+    },
+    name: "Talking Photo",
+    startSeconds: 0,
+    endSeconds: 2,
   },
-  name: "Talking Photo",
-  startSeconds: 0,
-  endSeconds: 2,
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Talking photo complete!`);
 console.log(`Status: ${result.status}`);

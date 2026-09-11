@@ -836,7 +836,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.face_detection.generate(\n    assets={\"target_file_path\": \"/path/to/1234.png\"}, confidence_score=0.5\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.face_detection.generate(\n    assets={\"target_file_path\": \"/path/to/1234.png\"}, confidence_score=0.5,\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -6226,7 +6226,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_headshot_generator.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"}, name=\"Ai Headshot image\"\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.ai_headshot_generator.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"}, name=\"Ai Headshot image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -8378,7 +8378,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.photo_colorizer.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"}, name=\"Photo Colorizer image\"\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"API_TOKEN\"))\nres = client.v1.photo_colorizer.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"}, name=\"Photo Colorizer image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
