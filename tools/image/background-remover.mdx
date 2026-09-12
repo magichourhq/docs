@@ -69,12 +69,14 @@ Image Background Remover automatically removes backgrounds from images with prec
 
 ### Output Format
 
-The API returns a **PNG with transparent background**, which:
+Without a replacement background, the API returns a PNG with a transparent background, which:
 
 - Preserves subject with full quality
 - Has alpha channel for transparency
 - Can be placed on any new background
 - Works in most design software
+
+To replace the background in the same request, provide `assets.background_image_file_path`, or `backgroundImageFilePath` in Node.js. The API resizes the replacement to match the subject image, so use similar dimensions.
 
 ## Code Examples
 
@@ -104,8 +106,8 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -113,17 +115,20 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.imageBackgroundRemover.generate({
-  assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+const result = await client.v1.imageBackgroundRemover.generate(
+  {
+    assets: {
+      imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+    },
+    name: "Product Cutout",
   },
-  name: "Product Cutout",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Background removal complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 ```
@@ -164,15 +169,19 @@ const images = [
 ];
 
 for (let i = 0; i < images.length; i++) {
-  const result = await client.v1.imageBackgroundRemover.generate({
-    assets: {
-      imageFilePath: images[i],
+  const result = await client.v1.imageBackgroundRemover.generate(
+    {
+      assets: {
+        imageFilePath: images[i],
+      },
+      name: `Product Cutout ${i + 1}`,
     },
-    name: `Product Cutout ${i + 1}`,
-    waitForCompletion: true,
-    downloadOutputs: true,
-    downloadDirectory: ".",
-  });
+    {
+      waitForCompletion: true,
+      downloadOutputs: true,
+      downloadDirectory: ".",
+    }
+  );
   console.log(`✅ Downloaded: ${result.downloadedPaths}`);
 }
 ```

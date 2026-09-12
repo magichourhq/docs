@@ -44,8 +44,8 @@ Head Swap replaces the full head region in a body image using a separate head re
 ## Best Practices
 
 <Tip>
-  **Match angle and lighting** - Similar head orientation, camera distance, and light direction produce
-  more natural blends.
+  Similar head orientation, camera distance, and light direction
+  produce more natural blends.
 </Tip>
 
 - **Use clear, high-resolution inputs** - Keep facial features and the full head visible
@@ -53,6 +53,8 @@ Head Swap replaces the full head region in a body image using a separate head re
 - **Match proportions** - References with similar framing reduce unrealistic scale differences
 - **Preserve source detail** - Avoid heavily compressed or filtered images
 - **Use `max_resolution` intentionally** - Omit it for your plan maximum or lower it for faster iteration
+
+Output is capped by your plan and at most 2048px on its larger dimension. Values of `max_resolution` above your plan maximum are clamped to that maximum.
 
 ## Code Example
 

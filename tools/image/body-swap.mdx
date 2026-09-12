@@ -76,6 +76,10 @@ curl --request POST \
 '
 ```
 
+## Resolution and model
+
+The API uses Nano Banana 2 Lite for `640px` and `1k`, and Nano Banana 2 for `2k` and `4k`. Set `resolution` explicitly; it determines the model and credit cost.
+
 ## Pricing
 
 Credit usage depends on `resolution` and starts at 50 credits for 640px. The response reports the amount in `credits_charged`. See [Billing](/billing/overview) for current rates.
