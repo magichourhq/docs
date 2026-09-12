@@ -42,20 +42,9 @@ AI Voice Generator creates realistic speech audio from text using celebrity and 
 
 ## Available Voices
 
-Magic Hour offers a variety of celebrity and character voices:
+Use an exact `voice_name` value from the [API reference](/api-reference/audio-projects/ai-voice-generator), such as `Morgan Freeman`, `Joe Rogan`, or `Donald Trump`.
 
-- **Tech Leaders** - Elon Musk, Mark Zuckerberg
-- **Podcasters** - Joe Rogan
-- **Politicians** - Obama, Trump
-- **Entertainers** - Various celebrity voices
-- **Characters** - Fictional character voices
-
-{/* TODO: Add complete list of available voices */}
-
-<Note>
-  For the complete list of available voices, check the [API
-  Reference](/api-reference/audio-projects/ai-voice-generator).
-</Note>
+The published API takes `prompt` and `voice_name`. It has no language parameter.
 
 ## Best Practices
 
@@ -85,6 +74,8 @@ Magic Hour offers a variety of celebrity and character voices:
 
 ## Code Examples
 
+The Node.js examples create an audio project, then call `audioProjects.checkResult` to wait for completion and download the audio.
+
 ### Basic Voice Generation
 
 <CodeGroup>
@@ -112,8 +103,8 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.message}")
 
 ```
 
@@ -122,18 +113,23 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiVoiceGenerator.generate({
+const project = await client.v1.aiVoiceGenerator.create({
   style: {
     prompt: "Hello! This is a test of the Magic Hour voice generator. Pretty cool, right?",
     voiceName: "Morgan Freeman",
   },
   name: "Voice Generator audio",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
 });
 
-console.log(`✅ Voice generation complete!`);
+const result = await client.v1.audioProjects.checkResult(
+  { id: project.id },
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
+
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 ```
@@ -162,23 +158,29 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.message}")
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiVoiceGenerator.generate({
+const project = await client.v1.aiVoiceGenerator.create({
   style: {
     prompt: "Welcome to the show! Today we're going to talk about something really exciting.",
     voiceName: "Joe Rogan",
   },
   name: "Voice Generator audio",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
 });
 
-console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
+const result = await client.v1.audioProjects.checkResult(
+  { id: project.id },
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
+
+console.log(`Downloaded to: ${result.downloadedPaths}`);
 ```
 
 </CodeGroup>
@@ -205,23 +207,29 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.message}")
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiVoiceGenerator.generate({
+const project = await client.v1.aiVoiceGenerator.create({
   style: {
     prompt: "In a world where technology meets creativity, Magic Hour brings your ideas to life.",
     voiceName: "Donald Trump",
   },
   name: "Voice Generator audio",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
 });
 
-console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
+const result = await client.v1.audioProjects.checkResult(
+  { id: project.id },
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
+
+console.log(`Downloaded to: ${result.downloadedPaths}`);
 ```
 
 </CodeGroup>
@@ -237,13 +245,6 @@ from os import getenv
 client = Client(token=getenv("MAGIC_HOUR_API_KEY"))
 
 # Step 1: Generate the voice
-from pathlib import Path
-
-# Make sure download dirs exist
-Path("temp").mkdir(parents=True, exist_ok=True)
-Path("outputs").mkdir(parents=True, exist_ok=True)
-
-# Step 1: Generate the voice
 voice_result = client.v1.ai_voice_generator.generate(
     style={
         "prompt": "This is my custom voiceover for the video.",
@@ -255,12 +256,15 @@ voice_result = client.v1.ai_voice_generator.generate(
     download_directory=".",
 )
 
+if voice_result.status != "complete" or not voice_result.downloaded_paths:
+    raise RuntimeError(f"Voice generation did not complete: {voice_result.status}")
+
 # Step 2: Use the generated audio for lip sync
 lip_sync_result = client.v1.lip_sync.generate(
     assets={
         "video_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sideeyegirl.mp4",
         "audio_file_path": voice_result.downloaded_paths[0],  # local path now exists
-        "video_source": "file",  # see note below
+        "video_source": "file",
     },
     start_seconds=0,
     end_seconds=2,
@@ -277,12 +281,12 @@ print("lip_status:", lip_sync_result.status, "paths:", getattr(lip_sync_result, 
 
 ```
 
-## Pricing
+## API pricing
 
 Voice generation costs **0.1 credits per character** of text, rounded up to the nearest whole number. Inputs support up to 1,000 characters.
 
 | Text Length                       | Credits     |
-| :-------------------------------- | :---------- |
+| :----------------------------- | :---------- |
 | 100 characters (1-2 sentences)    | 10 credits  |
 | 500 characters (a paragraph)      | 50 credits  |
 | 1,000 characters (maximum)         | 100 credits |
