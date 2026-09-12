@@ -98,6 +98,7 @@
                   "integration/webhook/event-types"
                 ]
               },
+              "integration/postman",
               "integration/api-docs-mcp"
             ]
           },
