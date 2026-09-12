@@ -197,9 +197,9 @@ async function fetchFeatureIssues(
       labels: { name: { eq: LABEL_NAME } },
       completedAt: completedAtFilter,
     },
-    // Fetch up to 100 issues; pagination not expected to be needed
     first: 100,
   });
+  while (issueConnection.pageInfo.hasNextPage) await issueConnection.fetchNext();
 
   const issues: LinearIssue[] = [];
   for (const issue of issueConnection.nodes) {
@@ -533,6 +533,7 @@ async function main(): Promise<void> {
   let completedOnOrBeforeUtc: Date | undefined;
   if (untilOverride) {
     completedOnOrBeforeUtc = new Date(`${untilOverride}T23:59:59.999Z`);
+    completedOnOrBeforeUtc.setUTCDate(completedOnOrBeforeUtc.getUTCDate() + 1);
     const dayOk = changelogDayOk;
     changelogDayOk = (i) => dayOk(i) && toDateStr(i.completedAt) <= untilOverride;
     console.log(`Using --until ${untilOverride} (LA calendar day ≤ this after fetch)`);

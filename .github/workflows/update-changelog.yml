@@ -24,8 +24,8 @@ jobs:
     runs-on: blacksmith-2vcpu-ubuntu-2404
 
     steps:
-      # App token so the opened PR can trigger CI (GITHUB_TOKEN cannot).
-      # Repo var: APP_CLIENT_ID; secret: APP_PRIVATE_KEY
+      # App token so PR CI can run without manual workflow approval.
+      # Repo secrets: APP_CLIENT_ID and APP_PRIVATE_KEY
       # App needs Contents: write + Pull requests: write on this repo.
       - name: Generate GitHub App token
         id: app-token
@@ -59,27 +59,39 @@ jobs:
           LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
           LINEAR_TEAM_ID: ${{ secrets.LINEAR_TEAM_ID }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CHANGELOG_SINCE: ${{ github.event.inputs.since }}
+          CHANGELOG_UNTIL: ${{ github.event.inputs.until }}
         run: |
-          yarn changelog --skip-select --yes \
-            ${{ github.event.inputs.since && format('--since {0}', github.event.inputs.since) || '' }} \
-            ${{ github.event.inputs.until && format('--until {0}', github.event.inputs.until) || '' }}
+          args=(--skip-select --yes)
+          for value in "$CHANGELOG_SINCE" "$CHANGELOG_UNTIL"; do
+            if [[ -n "$value" && ! "$value" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+              echo "::error::Dates must use YYYY-MM-DD."
+              exit 1
+            fi
+          done
+          if [[ -n "$CHANGELOG_SINCE" ]]; then args+=(--since "$CHANGELOG_SINCE"); fi
+          if [[ -n "$CHANGELOG_UNTIL" ]]; then args+=(--until "$CHANGELOG_UNTIL"); fi
+          yarn changelog "${args[@]}"
 
       - name: Format with Prettier
         run: yarn prettier --write changelog.mdx
 
       - name: Resolve changelog date range
         id: range
+        env:
+          PREVIOUS_LABEL: ${{ steps.before.outputs.label }}
+          CHANGELOG_SINCE: ${{ github.event.inputs.since }}
+          CHANGELOG_UNTIL: ${{ github.event.inputs.until }}
         run: |
-          prev="${{ steps.before.outputs.label }}"
           dates=$(
             grep -oE 'label="[0-9]{4}-[0-9]{2}-[0-9]{2}"' changelog.mdx \
               | sed 's/label="//;s/"//' \
-              | awk -v prev="$prev" '$0 == prev { exit } { print }' \
+              | awk -v prev="$PREVIOUS_LABEL" '$0 == prev { exit } { print }' \
               | sort
           )
           if [ -z "$dates" ]; then
-            start="${{ github.event.inputs.since }}"
-            end="${{ github.event.inputs.until }}"
+            start="$CHANGELOG_SINCE"
+            end="$CHANGELOG_UNTIL"
           else
             start=$(echo "$dates" | head -1)
             end=$(echo "$dates" | tail -1)
