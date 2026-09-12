@@ -31,7 +31,7 @@ asynchronously, and duration varies with the input, selected settings, and queue
 ## How It Works
 
 1. **Provide a source image** - Upload the image you want to animate
-2. **Describe the motion** - Use a text prompt to describe how it should move
+2. Add a prompt to guide movement, or let the model choose.
 3. **API generates the video** - AI creates natural motion and effects
 4. **Download the result** - Retrieve your animated video
 
@@ -59,7 +59,7 @@ asynchronously, and duration varies with the input, selected settings, and queue
 
 ### Motion Prompts
 
-Describe the motion you want to see:
+The motion prompt is optional. Use it to describe the movement you want:
 
 **✅ Good prompts:**
 
@@ -83,6 +83,14 @@ Describe the motion you want to see:
 | Product photos | Moderate            | Camera motion, lighting effects     |
 | Abstract art   | Excellent           | Morphing, flowing effects           |
 
+## Model selection
+
+`model="default"` currently selects `kling-3.0` on paid tiers and `ltx-2.5` on the free tier. Set a model explicitly when your workflow needs a fixed duration and resolution combination. The examples use `ltx-2.5`, which supports five-second clips at 480p; the paid default does not support 480p.
+
+Other current options include `gemini-omni-1.1`, `minimax-h3`, `seedance-2.0-mini`, `seedance-2.5`, and `veo3.1-lite`. Check the [API reference](/api-reference/video-projects/image-to-video) for each model's supported durations, resolutions, and audio settings. Audio is disabled by default and is unavailable on some models.
+
+For a final reference frame, set `assets.end_image_file_path` on a supported model. End-frame support can depend on resolution and duration; for example, Veo 3.1 variants require a duration of eight seconds or less.
+
 ## Code Examples
 
 ### Basic Image to Video
@@ -104,6 +112,7 @@ result = client.v1.image_to_video.generate(
     },
     end_seconds=5,
     name="Sunset Animation",
+    model="ltx-2.5",
     resolution="480p",
     wait_for_completion=True,
     download_outputs=True,
@@ -115,9 +124,9 @@ if result.status == "complete":
     print(f"Downloaded to: {result.downloaded_paths}")
     print(f"Credits charged: {result.credits_charged}")
 else:
-    print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    print(f"Job ended with status: {result.status}")
+    if result.error:
+        print(f"Error: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -125,35 +134,45 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.imageToVideo.generate({
-  assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sunset.jpg",
+const result = await client.v1.imageToVideo.generate(
+  {
+    assets: {
+      imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/sunset.jpg",
+    },
+    style: {
+      prompt:
+        "Sunset landscape with subtle camera movement, gentle parallax effect, cinematic depth",
+    },
+    endSeconds: 5,
+    name: "Sunset Animation",
+    model: "ltx-2.5",
+    resolution: "480p",
   },
-  style: {
-    prompt: "Sunset landscape with subtle camera movement, gentle parallax effect, cinematic depth",
-  },
-  endSeconds: 5,
-  name: "Sunset Animation",
-  resolution: "480p",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Video complete!`);
-console.log(`Status: ${result.status}`);
-console.log(`Downloaded to: ${result.downloadedPaths}`);
+if (result.status === "complete") {
+  console.log(`✅ Video complete!`);
+  console.log(`Downloaded to: ${result.downloadedPaths}`);
+} else {
+  console.error(`Job ended with status: ${result.status}`);
+  if (result.error) console.error(result.error.message);
+}
 ```
 
 </CodeGroup>
 
 ## Pricing
 
-Image to Video pricing depends on the model, resolution, and duration you choose. Credits are only charged for the frames that actually render — the estimate returned when you create the job is adjusted after the render completes. The create response includes `credits_charged` so you can log the exact cost of every job.
+Image to Video pricing depends on the model, resolution, and duration you choose. You pay for the frames that render. The create response estimates `credits_charged`; read the completed job for the final cost.
 
 ## Resolution Limits
 
-Supported resolutions are **480p, 720p, 1080p, and 4k**, depending on the model (for example, `kling-3.0` supports 4k) and your subscription tier. Output defaults to `720p` on paid tiers and `480p` on the free tier. See [Resolution Limits](/billing/resolution-limits) for tier details.
+Supported resolutions are 360p, 480p, 720p, 1080p, and 4k, depending on the model and your subscription tier. For example, `kling-3.0` supports 4k. Output defaults to `720p` on paid tiers and `480p` on the free tier. See [Resolution Limits](/billing/resolution-limits) for tier details.
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample

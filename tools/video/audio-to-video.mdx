@@ -50,6 +50,10 @@ Audio to Video turns an audio track into a generated video. Add an optional refe
 - **Choose the needed resolution** - Higher resolution takes more processing and may use more credits
 - **Check segment bounds** - `end_seconds` must be greater than `start_seconds`
 
+## Required inputs and resolution
+
+`assets.audio_file_path` and `end_seconds` are required. `start_seconds` defaults to zero; the reference image and prompt are optional. Supported output resolutions are `480p`, `720p`, and `1080p`, subject to your plan. The default is `480p` on the free tier and `720p` on paid tiers.
+
 ## Code Example
 
 Input files must be direct URLs or `file_path` values returned by the file upload API.

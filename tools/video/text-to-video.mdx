@@ -70,11 +70,17 @@ For best results, include these elements:
 ### Duration Guidelines
 
 | Duration      | Best For                             |
-| :------------ | :----------------------------------- |
+| :--------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 3-5 seconds   | Social media clips, GIF-like content |
 | 5-10 seconds  | Short-form content, product demos    |
 | 10-15 seconds | Story segments, longer narratives    |
 | Up to 60 seconds | Long-form scenes (model-dependent; see the `end_seconds` values supported by each model in the [API reference](/api-reference/video-projects/text-to-video)) |
+
+## Model selection
+
+`model="default"` currently selects `kling-3.0` on paid tiers and `ltx-2.5` on the free tier. Set a model explicitly when your workflow needs a fixed duration and resolution combination. The examples use `ltx-2.5`, which supports five-second clips at 480p; the paid default does not support 480p.
+
+Other current options include `gemini-omni-1.1`, `minimax-h3`, `seedance-2.0-mini`, `seedance-2.5`, and `veo3.1-lite`. Check the [API reference](/api-reference/video-projects/text-to-video) for each model's supported durations, resolutions, and audio settings. Audio is disabled by default and is unavailable on some models.
 
 ## Code Examples
 
@@ -95,6 +101,7 @@ result = client.v1.text_to_video.generate(
         "prompt": "A majestic lion walking through golden savanna grass at sunset, cinematic slow motion"
     },
     name="Nature Video",
+    model="ltx-2.5",
     resolution="480p",
     wait_for_completion=True,
     download_outputs=True,
@@ -106,9 +113,9 @@ if result.status == "complete":
     print(f"Downloaded to: {result.downloaded_paths}")
     print(f"Credits charged: {result.credits_charged}")
 else:
-    print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    print(f"Job ended with status: {result.status}")
+    if result.error:
+        print(f"Error: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -116,33 +123,43 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.textToVideo.generate({
-  endSeconds: 5,
-  aspectRatio: "16:9",
-  style: {
-    prompt: "A majestic lion walking through golden savanna grass at sunset, cinematic slow motion",
+const result = await client.v1.textToVideo.generate(
+  {
+    endSeconds: 5,
+    aspectRatio: "16:9",
+    style: {
+      prompt:
+        "A majestic lion walking through golden savanna grass at sunset, cinematic slow motion",
+    },
+    name: "Nature Video",
+    model: "ltx-2.5",
+    resolution: "480p",
   },
-  name: "Nature Video",
-  resolution: "480p",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Video complete!`);
-console.log(`Status: ${result.status}`);
-console.log(`Downloaded to: ${result.downloadedPaths}`);
+if (result.status === "complete") {
+  console.log(`✅ Video complete!`);
+  console.log(`Downloaded to: ${result.downloadedPaths}`);
+} else {
+  console.error(`Job ended with status: ${result.status}`);
+  if (result.error) console.error(result.error.message);
+}
 ```
 
 </CodeGroup>
 
 ## Pricing
 
-Text to Video pricing depends on the model, resolution, and duration you choose. Credits are only charged for the frames that actually render — the estimate returned when you create the job is adjusted after the render completes. The create response includes `credits_charged` so you can log the exact cost of every job.
+Text to Video pricing depends on the model, resolution, and duration you choose. You pay for the frames that render. The create response estimates `credits_charged`; read the completed job for the final cost.
 
 ## Resolution Limits
 
-Supported resolutions are **480p, 720p, 1080p, and 4k**, depending on the model (for example, `kling-3.0` supports 4k) and your subscription tier. Output defaults to `720p` on paid tiers and `480p` on the free tier. See [Resolution Limits](/billing/resolution-limits) for tier details.
+Supported resolutions are 360p, 480p, 720p, 1080p, and 4k, depending on the model and your subscription tier. For example, `kling-3.0` supports 4k. Output defaults to `720p` on paid tiers and `480p` on the free tier. See [Resolution Limits](/billing/resolution-limits) for tier details.
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample
