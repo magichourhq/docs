@@ -127,7 +127,22 @@
                   "tools/video/audio-to-video",
                   "tools/video/auto-subtitle-generator",
                   "tools/video/image-to-video",
-                  "tools/video/animation"
+                  "tools/video/animation",
+                  {
+                    "group": "Website Workflows",
+                    "pages": [
+                      "tools/video/avatar-generator",
+                      "tools/video/ugc-ad-generator",
+                      "tools/video/video-upscaler",
+                      "tools/video/video-expander",
+                      "tools/video/video-extender",
+                      "tools/video/video-colorizer",
+                      "tools/video/color-grader",
+                      "tools/video/video-translator",
+                      "tools/video/video-dubbing",
+                      "tools/video/music-video-generator"
+                    ]
+                  }
                 ]
               },
               {

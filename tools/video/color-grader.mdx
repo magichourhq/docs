@@ -1,0 +1,60 @@
+---
+title: Color Grader Tool - Magic Hour Docs
+sidebarTitle: Color Grader
+description: Preview and apply LUT color presets to videos and images with adjustable intensity.
+---
+
+## Overview
+
+[Color Grader](https://magichour.ai/products/color-grader) applies preset color treatments, also called LUTs, to videos and still images. The product hub provides a look picker, media upload, and intensity control, with free browser previews. It is also listed in the [Magic Tools catalog](https://magichour.ai/create/tools).
+
+<Card title="Open Color Grader" icon="palette" href="https://magichour.ai/products/color-grader">
+  Explore color treatments for a video or image
+</Card>
+
+## How It Works
+
+1. **Upload media** - Choose a video clip or still image.
+2. **Choose a look** - Browse categories such as cinematic, vintage, warm, or cool.
+3. **Adjust intensity** - Set how strongly the preset affects the image.
+4. **Preview the result** - Compare the treatment on your media, then use the download option provided by the tool.
+
+## Use Cases
+
+- **Series consistency** - Use a shared color direction across clips and stills.
+- **Creative exploration** - Compare different moods before choosing a final grade.
+- **Social and campaign content** - Prepare a recognizable look for a collection of posts.
+
+## Best Practices
+
+<Tip>Compare the grade on both faces and backgrounds before applying it across a project.</Tip>
+
+- Check highlights and shadows for lost detail.
+- Lower intensity when a preset overwhelms skin tones or product colors.
+- Preview several points in a video; lighting may change within the shot.
+- Keep the original file available for later revisions.
+
+## Grading Versus Colorizing
+
+A LUT remaps the colors in your media. To generate colors for black-and-white footage, use [Video Colorizer](/tools/video/video-colorizer); for a still image, use [Photo Colorizer](/tools/image/photo-colorizer).
+
+## API Availability
+
+The [published API specification](https://magichour.ai/docs/api/openapi.json) has no dedicated Color Grader endpoint.
+
+The [AI Video Editor API](/api-reference/video-projects/ai-video-editor) supports prompt-based visual edits. It does not expose the Color Grader LUT picker or intensity control.
+
+## Access and Pricing
+
+Start from the [Color Grader hub](https://magichour.ai/products/color-grader) for the current preview and export options. The product page advertises a free preview without signup; consult [website pricing](https://magichour.ai/pricing) for plan details.
+
+## Related Tools
+
+<CardGroup cols={2}>
+  <Card title="Video Colorizer" icon="palette" href="/tools/video/video-colorizer">
+    Generate color for black-and-white video
+  </Card>
+  <Card title="AI Video Editor" icon="video" href="/tools/video/video-editor">
+    Describe a visual change to existing footage
+  </Card>
+</CardGroup>
