@@ -155,7 +155,15 @@
                 "pages": [
                   "tools/audio-tools",
                   "tools/audio/voice-cloner",
-                  "tools/audio/voice-generator"
+                  "tools/audio/voice-generator",
+                  {
+                    "group": "Website Workflows",
+                    "pages": [
+                      "tools/audio/music-generator",
+                      "tools/audio/video-to-audio",
+                      "tools/audio/voice-changer"
+                    ]
+                  }
                 ]
               }
             ]
