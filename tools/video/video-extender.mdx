@@ -8,51 +8,30 @@ description: Make a video longer with an AI-generated continuation of the origin
 
 [AI Video Extender](https://magichour.ai/products/ai-video-extender) generates additional footage at the end of a video. The free website tool creates a five-second continuation automatically; the signed-in tool offers optional prompt and audio guidance.
 
-<Card
-  title="Open AI Video Extender"
-  icon="video"
-  href="https://magichour.ai/products/ai-video-extender"
->
-  Continue the action beyond the end of your clip
-</Card>
+## How it works
 
-## How It Works
+1. Upload a clip with a clear final shot.
+2. Generate an extension. The model uses the existing scene and motion to create a continuation.
+3. Watch the join between the original footage and the generated section.
+4. Download the result.
 
-1. **Upload a video** - Choose a clip with a clear final shot.
-2. **Generate an extension** - The model uses the existing scene and motion to create a continuation.
-3. **Review the join** - Watch where the original footage meets the generated section.
-4. **Download and edit** - Use the result in your project.
+Trim any unwanted cut at the end of the source. Check the subject and motion at the join, and review the output audio.
 
-## Use Cases
-
-- **Longer endings** - Add time for a title or closing message.
-- **Edit timing** - Give a shot enough duration to fit an existing sequence.
-- **Transitions** - Create extra material for a cut or crossfade.
-
-## Best Practices
-
-<Tip>Pick a source with readable motion and a stable ending frame.</Tip>
-
-- Trim away an unwanted cut at the very end of the source.
-- Check that the subject's appearance remains consistent after the join.
-- Review the resulting audio separately when placing the clip into an edit.
-- Keep your original clip so you can compare and replace the generated ending.
-
-## Extending Versus Expanding
+## Extending and expanding
 
 Video Extender adds duration. To change frame shape or make more room around the subject, use [Video Expander](/tools/video/video-expander).
 
-## API Availability
+## API availability
 
 The [published API specification](https://magichour.ai/docs/api/openapi.json) has no dedicated Video Extender endpoint.
 
 [Image to Video](/api-reference/video-projects/image-to-video) generates a new clip from an image. It does not expose the website's existing-video extension workflow.
 
-## Access and Pricing
+## Access and pricing
 
 See the [product page](https://magichour.ai/products/ai-video-extender) for current free usage and signed-in controls, and [website pricing](https://magichour.ai/pricing) for plans.
 
-## Related Tools
+## Related tools
 
 <CardGroup cols={2}>
   <Card title="Video Expander" icon="expand" href="/tools/video/video-expander">

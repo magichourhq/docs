@@ -8,50 +8,29 @@ description: Create a talking avatar video from a portrait or Character, optiona
 
 [AI Avatar Generator](https://magichour.ai/products/ai-avatar-generator) creates presenter videos from a portrait or available Character, an optional background, and either a script with a selected voice or uploaded audio. See the [current editor guide](https://help.magichour.ai/en/articles/16917129-ai-avatar-generator-step-by-step-guide).
 
-<Card
-  title="Open AI Avatar Generator"
-  icon="user"
-  href="https://magichour.ai/products/ai-avatar-generator"
->
-  Create a talking presenter with a reusable identity
-</Card>
+## How it works
 
-## How It Works
+1. Upload a portrait or select an available Character.
+2. Choose an optional background, or select Original to keep the original setting.
+3. Enter Script and choose Voice, or select Add Audio and provide a recording.
+4. Select a mode and check the displayed duration limit. Shorten your input if needed.
+5. Review the credit estimate, generate the video, and check the result before downloading.
 
-1. **Add Avatar** - Upload a portrait or select an available Character.
-2. **Choose a Background** - This is optional; select Original to retain the original setting.
-3. **Choose a speech path** - Enter Script and choose Voice, or select Add Audio and provide a recording.
-4. **Select mode and settings** - Check the displayed duration limit and shorten your input if needed.
-5. **Generate Video** - Review the estimate, generate, then check the completed result before downloading.
+The editor prepares the opening image as needed. Follow its prompts instead of the older first-frame wizard.
 
-The current workflow prepares the opening image as needed. It does not require the older first-frame wizard; follow the editor's selection and validation prompts.
+Keep the script within the selected duration, including pauses. Check pronunciation of names and abbreviations in a short sample.
 
-## Use Cases
-
-- **Product explainers** - Create a recurring presenter for product updates.
-- **Training content** - Turn a prepared script into a presenter-led lesson.
-- **Campaign variants** - Reuse a Character with different scenes and messages.
-
-## Best Practices
-
-<Tip>Keep the script focused enough to fit the selected duration, including natural pauses.</Tip>
-
-- Write short, spoken sentences and read the script aloud before generating.
-- Check unfamiliar names and abbreviations in a short sample.
-- Leave visual room for any captions you plan to add later.
-- Review the complete clip for facial motion, pacing, and scene consistency.
-
-## API Availability
+## API availability
 
 The [published API specification](https://magichour.ai/docs/api/openapi.json) has no dedicated Avatar Generator endpoint.
 
 [Talking Photo](/api-reference/video-projects/ai-talking-photo) supports animating an image with supplied audio. It is a related building block, without the Avatar editor's combined background and script controls.
 
-## Access and Pricing
+## Access and pricing
 
 Sign in to generate and check the editor's credit estimate and access requirements. Consult [website pricing](https://magichour.ai/pricing) for plans and usage options.
 
-## Related Tools
+## Related tools
 
 <CardGroup cols={2}>
   <Card title="Talking Photo" icon="image" href="/tools/video/talking-photo">

@@ -8,57 +8,36 @@ description: Add color to black-and-white or grayscale footage with adjustable c
 
 [Video Colorizer](https://magichour.ai/products/video-colorizer) adds AI-generated color to black-and-white and grayscale videos. Choose Subtle, Balanced, or Strong to control the intensity of the result.
 
-<Card
-  title="Open Video Colorizer"
-  icon="palette"
-  href="https://magichour.ai/products/video-colorizer"
->
-  Colorize a video in your browser
-</Card>
+## How it works
 
-## How It Works
+1. Upload a black-and-white or grayscale video.
+2. Choose Subtle, Balanced, or Strong colorization.
+3. Generate the result. AI estimates colors from the visual context.
+4. Review faces, clothing, backgrounds, and scene changes before downloading.
 
-1. **Upload grayscale footage** - Start with a home movie, film scan, or other black-and-white video.
-2. **Choose a strength** - Select muted, balanced, or vivid coloring.
-3. **Generate the result** - AI estimates colors from the visual context.
-4. **Review and download** - Check faces, clothing, backgrounds, and scene changes.
+Check color consistency across the clip, especially skin tones and scene changes. Keep the original grayscale file.
 
-## Use Cases
-
-- **Family archives** - Create color versions of older recordings.
-- **Documentary edits** - Explore a color treatment for archival material.
-- **Creative projects** - Compare muted and vivid interpretations of a grayscale scene.
-
-## Best Practices
-
-<Tip>Preserve the original grayscale file alongside the colorized version.</Tip>
-
-- Start with the clearest source available; extreme grain can obscure visual details.
-- Compare several points in a shot to check that colors stay consistent.
-- Evaluate skin tones and neutral objects before choosing a stronger setting.
-- If historical accuracy matters, compare generated colors with independent reference material.
-
-## Understanding the Output
+## Generated colors
 
 Generated color is an interpretation. A plausible result does not verify the original colors of clothing, objects, or locations.
 
-## API Availability
+## API availability
 
 The [published API specification](https://magichour.ai/docs/api/openapi.json) has no dedicated Video Colorizer endpoint.
 
 The [Photo Colorizer API](/api-reference/image-projects/photo-colorizer) accepts still images. It does not provide the website's video-colorization workflow.
 
-## Access and Pricing
+## Access and pricing
 
 See the [product page](https://magichour.ai/products/video-colorizer) for current free usage and clip allowances, and [website pricing](https://magichour.ai/pricing) for paid plans.
 
-## Related Tools
+## Related tools
 
 <CardGroup cols={2}>
   <Card title="Photo Colorizer" icon="palette" href="/tools/image/photo-colorizer">
     Add color to a black-and-white still image
   </Card>
   <Card title="Video Upscaler" icon="video" href="/tools/video/video-upscaler">
-    Enhance detail and increase video resolution
+    Increase video resolution
   </Card>
 </CardGroup>

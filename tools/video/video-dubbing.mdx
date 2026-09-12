@@ -8,51 +8,30 @@ description: Replace video dialogue with translated, voice-cloned audio and sync
 
 [AI Video Dubbing](https://magichour.ai/products/ai-video-dubbing) replaces a video's original speech with translated audio modeled on the speaker's voice. The website lists 53 languages and includes lip synchronization in the dubbing workflow.
 
-<Card
-  title="Open AI Video Dubbing"
-  icon="microphone"
-  href="https://magichour.ai/products/ai-video-dubbing"
->
-  Create a dubbed version of a spoken video
-</Card>
+## How it works
 
-## How It Works
+1. Upload a video with intelligible spoken dialogue.
+2. Select the language for the new voice track.
+3. Generate the dub. The tool transcribes, translates, recreates the voice, and adjusts mouth movements.
+4. Listen to the new track and check mouth synchronization before downloading.
 
-1. **Upload your video** - Choose footage with intelligible spoken dialogue.
-2. **Choose a language** - Select the language for the new voice track.
-3. **Generate the dub** - AI transcribes, translates, recreates the voice, and adjusts mouth movements.
-4. **Review and download** - Listen to the new track and check the synchronized picture.
+Have a fluent speaker check the translation, especially names and numbers. Check mouth alignment during close-ups and fast speech.
 
-## Use Cases
-
-- **Training videos** - Produce spoken versions for different language groups.
-- **Ad localization** - Reuse a performance with dialogue for another market.
-- **Creator content** - Adapt interviews, presentations, or narrated videos.
-
-## Best Practices
-
-<Tip>Review the spoken result with someone fluent in the target language before publishing.</Tip>
-
-- Start with audio where the main speaker is easy to understand.
-- Listen for missed names, changed numbers, and awkward sentence timing.
-- Check mouth alignment during close-ups and fast speech.
-- Compare the complete output with the source, including pauses and scene transitions.
-
-## Dubbing and Translation
+## Dubbing and translation
 
 The website combines translation with voice replacement and lip sync. [Video Translator](/tools/video/video-translator) focuses on language selection; Video Dubbing focuses on the replacement spoken performance.
 
-## API Availability
+## API availability
 
 The [published API specification](https://magichour.ai/docs/api/openapi.json) has no dedicated Video Dubbing endpoint.
 
 For an existing replacement audio track, the [Lip Sync API](/api-reference/video-projects/lip-sync) offers mouth synchronization. Translation and replacement voice generation are not part of that endpoint.
 
-## Access and Pricing
+## Access and pricing
 
 See the [product page](https://magichour.ai/products/ai-video-dubbing) for current language and usage options. See [website pricing](https://magichour.ai/pricing) for plans.
 
-## Related Tools
+## Related tools
 
 <CardGroup cols={2}>
   <Card title="Video Translator" icon="language" href="/tools/video/video-translator">

@@ -8,62 +8,39 @@ description: Create creator-style video ads from an actor image, optional produc
 
 [AI UGC Ad Generator](https://magichour.ai/products/ai-ugc-ad-generator) creates actor-led video ads. The current single-page editor combines an actor image, optional product image, Script, and optional Action prompt. See the [current editor guide](https://help.magichour.ai/en/articles/12613176-ai-ugc-ads-make-a-presenter-style-video-with-your-own-actor).
 
-<Card
-  title="Open AI UGC Ad Generator"
-  icon="video"
-  href="https://magichour.ai/products/ai-ugc-ad-generator"
->
-  Turn a script into a creator-style video ad
-</Card>
+## How it works
 
-## How It Works
+1. Select a provided actor or upload a creator image.
+2. Upload an optional product image.
+3. Put spoken words in Script and visual instructions in Action prompt.
+4. Select a model, duration, aspect ratio, and resolution.
+5. Check the credit estimate, generate the video, and review it in History or My Library.
 
-1. **Choose an actor** - Select a provided actor or upload a creator image.
-2. **Add a product if needed** - Upload an optional product image.
-3. **Enter dialogue and directions** - Put spoken words in Script and visual instructions in Action prompt.
-4. **Choose settings** - Select a model, duration, aspect ratio, and resolution.
-5. **Generate and review** - Check the credit estimate, generate the video, and review it in History or My Library.
+Check product appearance, pronunciation, and pacing in the generated video.
 
-### Using Recorded Audio
+### Using recorded audio
 
-Upload script audio is supported for LTX-2.3, but not every model. The current LTX-2.5 script workflow does not offer it. Recheck settings after switching models; longer scripts do not increase the selected duration. See the [editor guide](https://help.magichour.ai/en/articles/12613176-ai-ugc-ads-make-a-presenter-style-video-with-your-own-actor) for current controls.
+LTX-2.3 supports uploaded script audio. The current LTX-2.5 script workflow does not. Recheck settings after switching models; longer scripts do not increase the selected duration. See the [editor guide](https://help.magichour.ai/en/articles/12613176-ai-ugc-ads-make-a-presenter-style-video-with-your-own-actor) for current controls.
 
-## Use Cases
-
-- **Product announcements** - Present a new product or feature in a short video.
-- **Creative testing** - Compare different opening lines and calls to action.
-- **Campaign updates** - Refresh messaging for a new offer or season.
-
-## Best Practices
-
-<Tip>
-  Change one major variable per variant so you can compare the effect of each creative choice.
-</Tip>
-
-- Begin with one clear benefit and one action for the viewer.
-- Write dialogue in the tone your audience expects to hear.
-- Inspect product appearance and brand details in the generated footage.
-- Check pronunciation and pacing before using a clip in a campaign.
-
-## Language and Output Review
+## Language support
 
 The product page notes that language support varies by model. Preview the actual output for each language instead of assuming every model supports the same scripts.
 
-## API Availability
+## API availability
 
 The [published API specification](https://magichour.ai/docs/api/openapi.json) has no dedicated UGC Ad Generator endpoint.
 
 [Talking Photo](/api-reference/video-projects/ai-talking-photo) can animate an image with supplied audio. It does not expose the UGC editor's actor/product selection and script workflow.
 
-## Access and Pricing
+## Access and pricing
 
 The full editor requires sign-in and uses credits. Follow its displayed access options and estimate. See [website pricing](https://magichour.ai/pricing) for plans.
 
-## Related Tools
+## Related tools
 
 <CardGroup cols={2}>
   <Card title="AI Avatar Generator" icon="user" href="/tools/video/avatar-generator">
-    Create presenter videos with Characters and saved voices
+    Create a presenter video from a portrait and script or audio
   </Card>
   <Card
     title="Auto Subtitle Generator"
