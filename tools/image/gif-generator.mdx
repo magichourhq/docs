@@ -1,14 +1,14 @@
 ---
 title: AI GIF Generator API - Magic Hour Docs
 sidebarTitle: GIF Generator API
-description: Generate animated GIFs from images or text prompts with the Magic Hour API.
+description: Generate animated GIFs from text prompts with the Magic Hour API.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
 
 ## Overview
 
-The AI GIF Generator API creates looping GIFs from a source image and a text prompt. Use it to add GIF generation to an application or automated media workflow.
+The AI GIF Generator API creates animated GIFs from a text prompt.
 
 <Card
   title="Looking for the no-code GIF generator?"
@@ -35,10 +35,10 @@ The AI GIF Generator API creates looping GIFs from a source image and a text pro
 
 ## How It Works
 
-1. **Provide input** - Upload an image or provide a text prompt
-2. **Set animation style** - Choose animation type and duration
-3. **AI generates** - AI creates smooth, looping animated GIF
-4. **Download GIF** - Retrieve your animated GIF file
+1. Describe the subject, action, and visual style in 1 to 500 characters.
+2. Set `output_format` to `gif`, `mp4`, or `webm`. The default is `gif`.
+3. Wait for the API to create the animation.
+4. Download the generated file.
 
 ## Use Cases
 
@@ -50,7 +50,7 @@ The AI GIF Generator API creates looping GIFs from a source image and a text pro
 
 ## Code Examples
 
-### Generate GIF from Image
+### Generate GIF from text
 
 <CodeGroup>
 
@@ -74,8 +74,8 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -83,21 +83,21 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiGifGenerator.generate({
-  assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+const result = await client.v1.aiGifGenerator.generate(
+  {
+    style: {
+      prompt: "Cute dancing cat, pixel art",
+    },
+    outputFormat: "gif",
+    name: "GIF Generator image",
   },
-  style: {
-    prompt: "Create a smooth zoom and rotation animation",
-  },
-  outputFormat: "gif",
-  name: "GIF Generator image",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ GIF complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 ```
