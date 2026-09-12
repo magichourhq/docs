@@ -62,7 +62,8 @@ durations and resolutions, and the credit-cost table below to compare costs.
 
 ### Video credit costs
 
-Credits per second of output. Multiply by your `end_seconds` to estimate a job.
+Credits per second of output. For text-to-video and image-to-video, multiply by `end_seconds` to estimate a job.
+For endpoints that trim an input, the clip duration is `end_seconds - start_seconds`.
 
 | Model               | 360p | 480p | 720p | 1080p |  4k | With audio                    |
 | :------------------ | ---: | ---: | ---: | ----: | --: | :---------------------------- |
@@ -100,7 +101,7 @@ Available on [AI image generator](/api-reference/image-projects/ai-image-generat
 [AI image editor](/api-reference/image-projects/ai-image-editor).
 
 | Model                | Generate | Edit | Resolutions       |        From | Tiers                        |
-| :------------------- | :------- | :--- | :---------------- | ----------: | :--------------------------- |
+| :-------------------- | :------- | :--- | :---------------- | ----------: | :--------------------------- |
 | `flux-schnell`       | Yes      | —    | 640px, 1k, 2k     |   5 credits | free, creator, pro, business |
 | `flux-2-klein`       | Yes      | Yes  | 640px, 1k, 2k     |   5 credits | free, creator, pro, business |
 | `z-image-turbo`      | Yes      | —    | 640px, 1k, 2k     |   5 credits | free, creator, pro, business |
@@ -111,14 +112,17 @@ Available on [AI image generator](/api-reference/image-projects/ai-image-generat
 | `nano-banana-2`      | Yes      | Yes  | 640px, 1k, 2k, 4k | 100 credits | creator, pro, business       |
 | `nano-banana-pro`    | Yes      | Yes  | 1k, 2k, 4k        | 150 credits | creator, pro, business       |
 | `gpt-image-2`        | Yes      | Yes  | 640px, 1k, 2k, 4k |  50 credits | creator, pro, business       |
+| `gpt-image-2.5-flare` | Yes      | Yes  | 640px, 1k, 2k, 4k | 100 credits | creator, pro, business       |
+| `krea-2`              | Yes      | Yes  | 640px, 1k         |  10 credits | free, creator, pro, business |
 | `qwen-edit`          | —        | Yes  | 640px, 1k, 2k     |  10 credits | free, creator, pro, business |
 | `seedream-v4.5`      | —        | Yes  | 640px, 1k, 2k, 4k |  50 credits | creator, pro, business       |
 
 "From" is the cost of a single image at the model's lowest resolution. Higher resolutions cost more,
-and generating multiple images multiplies the cost.
+and generating multiple images multiplies the cost. Free-plan image models are available at `640px`.
+Larger resolutions require a paid plan even if the model is available on the free plan.
 
-| Model                | Max images per request (generator) | Max additional input images (editor) |
-| :------------------- | :--------------------------------- | :----------------------------------- |
+| Model                 | Allowed image counts (generator) | Max additional input images (editor) |
+| :-------------------- | :------------------------------- | :----------------------------------- |
 | `flux-schnell`       | 1, 2, 3, 4                         | —                                    |
 | `flux-2-klein`       | 1                                  | 5                                    |
 | `z-image-turbo`      | 1, 2, 3, 4                         | —                                    |
@@ -129,12 +133,14 @@ and generating multiple images multiplies the cost.
 | `nano-banana-2`      | 1, 4, 9, 16                        | 9                                    |
 | `nano-banana-pro`    | 1, 4, 9, 16                        | 9                                    |
 | `gpt-image-2`        | 1, 2, 3, 4                         | 9                                    |
+| `gpt-image-2.5-flare` | 1, 2, 3, 4                       | 9                                    |
+| `krea-2`              | 1                                | 1                                    |
 | `qwen-edit`          | —                                  | 2                                    |
 | `seedream-v4.5`      | —                                  | 9                                    |
 
 ## Reference costs
 
-These endpoints have a single model. Some rates vary by resolution or output settings.
+These endpoints use tool-specific pricing. Some rates vary by resolution or output settings.
 
 | Endpoint                                                                           | Credits                                 |
 | :--------------------------------------------------------------------------------- | :-------------------------------------- |
@@ -172,15 +178,16 @@ These charge by output length rather than per generation.
 | [Animation](/api-reference/video-projects/animation)                             | 24 credits/second at 24fps                         |
 | [Audio to Video](/api-reference/video-projects/audio-to-video)                   | 24 credits/second at 480p, 48 at 720p, 72 at 1080p |
 | [Auto Subtitle Generator](/api-reference/video-projects/auto-subtitle-generator) | ~4.8 credits/second at 24fps                       |
+| [Character Replace](/api-reference/video-projects/character-replace)             | 48 credits/second at 480p, 96 at 720p              |
 | [Face Swap Video](/api-reference/video-projects/face-swap-video)                 | 24 credits/second at 24fps                         |
 | [Lip Sync](/api-reference/video-projects/lip-sync)                               | 1 credit/frame, doubled on `pro`                   |
 | [AI Talking Photo](/api-reference/video-projects/ai-talking-photo)               | 20 credits/second prompted, 48 realistic           |
 | [Video to Video](/api-reference/video-projects/video-to-video)                   | 48 credits/second at 24fps                         |
 
 <Info>
-  Video jobs return an estimate in `credits_charged` on the create response, calculated at 30fps.
-  The final amount is corrected once the render finishes and the true frame rate is known. Read
-  `credits_charged` from the get-details response for the actual charge.
+  Video jobs return an estimate in `credits_charged` on the create response. The final amount is
+  corrected once the render finishes and the true frame rate is known. Read `credits_charged` from
+  the get-details response for the actual charge.
 </Info>
 
 ## Estimating before you build
