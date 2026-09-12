@@ -37,13 +37,13 @@ The simplest method if your files are already hosted somewhere publicly accessib
 ```
 
 <Tip>
-  **Authenticated URLs**: The URL can be authenticated, as long as Magic Hour can validate the file
-  extension is supported.
+  Pre-signed URLs work when the URL itself grants access to the file. Magic Hour
+  cannot forward your browser session, cookies, or custom authorization headers.
 </Tip>
 
 ### URL Requirements
 
-- Must be publicly accessible (or use authenticated URLs that Magic Hour can access)
+- Must use a public or pre-signed URL that returns file bytes without a login page
 - Must include the file extension in the URL
 - Should use HTTPS for security
 - Files must be in supported formats
@@ -104,8 +104,9 @@ const result = await client.v1.faceSwap.create({
 
 <Info>
   **Library Access**: You can only use library URLs for files in your own Magic Hour account. The
-  file IDs are available from your [my-library dashboard](https://magichour.ai/my-library?utm_source=docs&utm_medium=referral&utm_campaign=inputs-and-outputs) or from
-  API responses.
+  file IDs are available from your [my-library
+  dashboard](https://magichour.ai/my-library?utm_source=docs&utm_medium=referral&utm_campaign=inputs-and-outputs)
+  or from API responses.
 </Info>
 
 **Benefits:**
@@ -225,9 +226,15 @@ func main() {
 	}
 
 	fileClient := &http.Client{}
-	_, err = fileClient.Do(req)
+	uploadResponse, err := fileClient.Do(req)
 	if err != nil {
 		fmt.Println(err)
+		return
+	}
+
+	defer uploadResponse.Body.Close()
+	if uploadResponse.StatusCode < 200 || uploadResponse.StatusCode >= 300 {
+		fmt.Printf("Upload failed: %s\n", uploadResponse.Status)
 		return
 	}
 
@@ -240,38 +247,38 @@ func main() {
 ```
 
 ```rust Rust SDK
-use magic_hour;
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let mut client = magic_hour::Client::default()
+        .with_bearer_auth(&std::env::var("MAGIC_HOUR_API_KEY")?);
 
-let mut client = magic_hour::Client::default()
-    .with_bearer_auth(&std::env::var("MAGIC_HOUR_API_KEY").expect("MAGIC_HOUR_API_KEY must be set"));
-
-// Step 1: Request upload URL
-let response = client.v1().files().upload_urls()
-    .create(magic_hour::resources::v1::files::upload_urls::CreateRequest {
-        items: vec![
-            magic_hour::models::V1FilesUploadUrlsCreateBodyItemsItem {
+    // Step 1: Request upload URL
+    let response = client.v1().files().upload_urls()
+        .create(magic_hour::resources::v1::files::upload_urls::CreateRequest {
+            items: vec![magic_hour::models::V1FilesUploadUrlsCreateBodyItemsItem {
                 extension: "mp4".to_string(),
-                type_field: magic_hour::models::V1FilesUploadUrlsCreateBodyItemsItemTypeEnum::Video
-            }
-        ],
-    }).await;
+                type_: magic_hour::models::V1FilesUploadUrlsCreateBodyItemsItemTypeEnum::Video,
+            }],
+        }).await?;
 
-// Step 2: Upload file
-let local_path = "/path/to/file/video.mp4";
-let file = std::fs::File::open(local_path).unwrap();
+    // Step 2: Upload raw bytes to the signed URL without the API bearer token
+    let bytes = std::fs::read("/path/to/file/video.mp4")?;
+    reqwest::Client::new()
+        .put(&response.items[0].upload_url)
+        .body(bytes)
+        .send().await?
+        .error_for_status()?;
 
-let mut req = reqwest::Client::new()
-    .put(response.items[0].upload_url);
-
-req.body(file).send().unwrap();
-
-// Step 3: Use file_path in API calls
-let file_path = response.items[0].file_path;
+    // Step 3: Use file_path in API calls
+    let file_path = &response.items[0].file_path;
+    println!("File uploaded: {file_path}");
+    Ok(())
+}
 ```
 
 ```bash cURL
 # Step 1: Request upload URL
-response=$(curl https://api.magichour.ai/v1/files/upload-urls \
+response=$(curl -fsS https://api.magichour.ai/v1/files/upload-urls \
   --request POST \
   --header 'Authorization: Bearer YOUR_API_KEY' \
   --header 'Content-Type: application/json' \
@@ -282,13 +289,13 @@ response=$(curl https://api.magichour.ai/v1/files/upload-urls \
   }')
 
 # Step 2: Upload file to the URL
-upload_url=$(echo $response | jq -r '.items[0].upload_url')
-curl $upload_url \
+upload_url=$(echo "$response" | jq -r '.items[0].upload_url')
+curl -fsS "$upload_url" \
   --request PUT \
   --data-binary @/path/to/file/video.mp4
 
 # Step 3: Extract file_path for API calls
-file_path=$(echo $response | jq -r '.items[0].file_path')
+file_path=$(echo "$response" | jq -r '.items[0].file_path')
 echo "File uploaded: $file_path"
 ```
 
@@ -329,8 +336,8 @@ response = client.v1.files.upload_urls.create(
     ]
 )
 
-# Upload each file
-# Order matches request order
+# Upload each file to its corresponding upload_url before using these paths.
+# Requesting URLs alone does not upload any bytes; order matches the request.
 video_path = response.items[0].file_path
 image_path = response.items[1].file_path
 audio_path = response.items[2].file_path
@@ -345,8 +352,8 @@ const response = await client.v1.files.uploadUrls.create({
   ],
 });
 
-// Upload each file
-// Order matches request order
+// Upload each file to its corresponding uploadUrl before using these paths.
+// Requesting URLs alone does not upload any bytes; order matches the request.
 const videoPath = response.items[0].filePath;
 const imagePath = response.items[1].filePath;
 const audioPath = response.items[2].filePath;

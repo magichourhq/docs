@@ -62,7 +62,7 @@ Magic Hour APIs follow a simple 3-step pattern that applies to all content gener
 - **Image APIs:** `POST /v1/ai-image-generator`, `POST /v1/face-swap-photo`, `POST /v1/ai-headshot-generator`, etc.
 - **Audio APIs:** `POST /v1/ai-voice-generator`
 
-**Returns:** Project ID and initial status (`queued`)
+The response contains the project `id` and `credits_charged`. Retrieve project details to check its status.
 
 ```python Python SDK
 from magic_hour import Client
@@ -82,7 +82,7 @@ create_res = client.v1.face_swap.create(
     start_seconds=0.0,
     end_seconds=10.0,
 )
-print(f"Job created with ID: {create_res.id}, status: {create_res.status}")
+print(f"Job created with ID: {create_res.id}, credits: {create_res.credits_charged}")
 ```
 
 ### Production application pattern
@@ -168,7 +168,6 @@ def create_face_swap(face_image_url, video_url, start_time=0.0, end_time=10.0):
 
     return {
         "project_id": create_res.id,
-        "status": create_res.status,
         "credits_charged": create_res.credits_charged
     }
 ```
@@ -196,7 +195,6 @@ export async function createFaceSwap(faceImageUrl, videoUrl, startTime = 0.0, en
 
   return {
     projectId: createRes.id,
-    status: createRes.status,
     creditsCharged: createRes.creditsCharged,
   };
 }
@@ -269,6 +267,7 @@ export async function checkJobStatus(projectId) {
 # services/file_manager.py
 import requests
 import os
+import time
 from pathlib import Path
 
 def download_video(download_info, output_dir="./downloads"):
@@ -282,7 +281,7 @@ def download_video(download_info, output_dir="./downloads"):
 
     try:
         # Download the video file
-        response = requests.get(download_info["url"], stream=True, timeout=60)
+        response = requests.get(download_info.url, stream=True, timeout=60)
         response.raise_for_status()
 
         # Save to disk
@@ -383,7 +382,7 @@ def process_face_swap(face_image_url, video_url):
                 print(f"❌ Download failed: {result['error']}")
                 return None
 
-        elif status['status'] == 'error':
+        elif status['status'] in ('error', 'canceled'):
             print(f"❌ Job failed: {status['error']}")
             return None
 
@@ -427,7 +426,7 @@ export async function processFaceSwap(faceImageUrl, videoUrl) {
         console.log(`❌ Download failed: ${result.error}`);
         return null;
       }
-    } else if (status.status === "error") {
+    } else if (status.status === "error" || status.status === "canceled") {
       console.log(`❌ Job failed: ${status.error}`);
       return null;
     }
@@ -524,9 +523,9 @@ try:
         if status_res.status == "complete":
             # Success - download result
             break
-        elif status_res.status == "error":
-            error_code = status_res.error.get("code", "unknown")
-            error_msg = status_res.error.get("message", "Unknown error")
+        elif status_res.status in ("error", "canceled"):
+            error_code = getattr(status_res.error, "code", "unknown")
+            error_msg = getattr(status_res.error, "message", "Unknown error")
 
             # Handle specific errors
             if error_code == "no_source_face":
@@ -552,7 +551,7 @@ try {
     if (statusRes.status === "complete") {
       // Success - download result
       break;
-    } else if (statusRes.status === "error") {
+    } else if (statusRes.status === "error" || statusRes.status === "canceled") {
       const errorCode = statusRes.error?.code || "unknown";
       const errorMsg = statusRes.error?.message || "Unknown error";
 
@@ -697,6 +696,7 @@ When a job completes, the `downloads` array is populated with secure, time-limit
 ```python Python SDK
 import requests
 import os
+import time
 from pathlib import Path
 
 def download_result(download_info, output_dir="./downloads"):
@@ -704,7 +704,7 @@ def download_result(download_info, output_dir="./downloads"):
     Path(output_dir).mkdir(exist_ok=True)
 
     # Generate filename from URL or use timestamp
-    url = download_info["url"]
+    url = download_info.url
     filename = f"result_{int(time.time())}.mp4"  # or extract from URL
     filepath = Path(output_dir) / filename
 
