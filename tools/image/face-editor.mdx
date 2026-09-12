@@ -28,7 +28,7 @@ AI Face Editor provides advanced facial editing capabilities using AI to modify 
 ## How It Works
 
 1. **Upload photo** - Provide an image with a clear face
-2. **Specify edits** - Describe desired facial modifications
+2. Set numeric `style` controls for the expression, gaze, or head pose.
 3. **AI processes** - AI applies edits while maintaining natural appearance
 4. **Download result** - Retrieve your edited image
 
@@ -54,6 +54,8 @@ AI Face Editor provides advanced facial editing capabilities using AI to modify 
 - **High resolution** - At least 512x512 pixels recommended
 
 ### Edit Guidelines
+
+Numeric controls accept values from -100 to 100 in increments of 5; 0 leaves a control neutral. `enhance_face` is a separate boolean option.
 
 | Edit Type           | Best Practice                |
 | :------------------ | :--------------------------- |
@@ -83,7 +85,7 @@ result = client.v1.ai_face_editor.generate(
         "eye_gaze_horizontal": 0.0,
         "eye_gaze_vertical": 0.0,
         "eye_open_ratio": 0.0,
-        "eyebrow_direction": 100, # Raise eyebrows
+        "eyebrow_direction": 0.0,
         "head_pitch": 0.0,
         "head_roll": 0.0,
         "head_yaw": 0.0,
@@ -93,7 +95,7 @@ result = client.v1.ai_face_editor.generate(
         "mouth_position_vertical": 0.0,
         "mouth_pout": 0.0,
         "mouth_purse": 0.0,
-        "mouth_smile": 0.0,
+        "mouth_smile": 25, # Add a smile
     },
     name="Face Editor image",
     wait_for_completion=True,
@@ -107,8 +109,8 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -116,34 +118,37 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiFaceEditor.generate({
-  assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+const result = await client.v1.aiFaceEditor.generate(
+  {
+    assets: {
+      imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+    },
+    style: {
+      enhanceFace: false,
+      eyeGazeHorizontal: 0.0,
+      eyeGazeVertical: 0.0,
+      eyeOpenRatio: 0.0,
+      eyebrowDirection: 0.0,
+      headPitch: 0.0,
+      headRoll: 0.0,
+      headYaw: 0.0,
+      lipOpenRatio: 0.0,
+      mouthGrim: 0.0,
+      mouthPositionHorizontal: 0.0,
+      mouthPositionVertical: 0.0,
+      mouthPout: 0.0,
+      mouthPurse: 0.0,
+      mouthSmile: 25, // Add a smile
+    },
+    name: "Face Editor image",
   },
-  style: {
-    enhanceFace: false,
-    eyeGazeHorizontal: 0.0,
-    eyeGazeVertical: 0.0,
-    eyeOpenRatio: 0.0,
-    eyebrowDirection: 100, // Raise eyebrows
-    headPitch: 0.0,
-    headRoll: 0.0,
-    headYaw: 0.0,
-    lipOpenRatio: 0.0,
-    mouthGrim: 0.0,
-    mouthPositionHorizontal: 0.0,
-    mouthPositionVertical: 0.0,
-    mouthPout: 0.0,
-    mouthPurse: 0.0,
-    mouthSmile: 0.0,
-  },
-  name: "Face Editor image",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Face edit complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 ```
@@ -188,39 +193,42 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiFaceEditor.generate({
-  assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+const result = await client.v1.aiFaceEditor.generate(
+  {
+    assets: {
+      imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+    },
+    style: {
+      enhanceFace: false,
+      eyeGazeHorizontal: 0.0,
+      eyeGazeVertical: 0.0,
+      eyeOpenRatio: 0.0,
+      eyebrowDirection: 100, // Raise eyebrows
+      headPitch: 0.0,
+      headRoll: 0.0,
+      headYaw: 0.0,
+      lipOpenRatio: 0.0,
+      mouthGrim: 0.0,
+      mouthPositionHorizontal: 0.0,
+      mouthPositionVertical: 0.0,
+      mouthPout: 100, // Make Mouth Pout
+      mouthPurse: 0.0,
+      mouthSmile: 0.0,
+    },
+    name: "Face Editor image",
   },
-  style: {
-    enhanceFace: false,
-    eyeGazeHorizontal: 0.0,
-    eyeGazeVertical: 0.0,
-    eyeOpenRatio: 0.0,
-    eyebrowDirection: 100, // Raise eyebrows
-    headPitch: 0.0,
-    headRoll: 0.0,
-    headYaw: 0.0,
-    lipOpenRatio: 0.0,
-    mouthGrim: 0.0,
-    mouthPositionHorizontal: 0.0,
-    mouthPositionVertical: 0.0,
-    mouthPout: 100, // Make Mouth Pout
-    mouthPurse: 0.0,
-    mouthSmile: 0.0,
-  },
-  name: "Face Editor image",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Face edit complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 ```
@@ -230,8 +238,8 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 ## Pricing
 
 | Output         | Credits   |
-| :------------- | :-------- |
-| 1 edited image | 1 credits |
+| :------------- | :------- |
+| 1 edited image | 1 credit |
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample

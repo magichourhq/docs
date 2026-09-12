@@ -72,6 +72,10 @@ asynchronously, and duration varies with the input, selected settings, and queue
 | Distorted features | Extreme angle difference   | Use more similar face angles             |
 | Low quality output | Low resolution input       | Use higher resolution images             |
 
+## Multiple faces
+
+`assets.face_swap_mode` defaults to `all-faces`, which uses `source_file_path` to replace every detected target face. For selective swaps, use `individual-faces` and provide up to 5 `face_mappings` with `original_face` and `new_face`. Obtain `original_face` paths from [face detection](/api-reference/files/get-face-detection-details).
+
 ## Code Examples
 
 ### Basic Face Swap
@@ -101,8 +105,8 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -110,18 +114,22 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.faceSwapPhoto.generate({
-  assets: {
-    sourceFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
-    targetFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+const result = await client.v1.faceSwapPhoto.generate(
+  {
+    assets: {
+      sourceFilePath:
+        "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+      targetFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/lebron.jpg",
+    },
+    name: "My Face Swap",
   },
-  name: "My Face Swap",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Face swap complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 ```
@@ -160,14 +168,9 @@ For complete API details including all parameters and response formats:
 
 ## Error Handling
 
-Common error codes and how to handle them:
+Request failures return a `code` and `message`; for example, `invalid_request` indicates invalid parameters and `insufficient_credits` means the account needs more credits. See the [API reference](/api-reference/image-projects/face-swap-photo) for request error responses.
 
-| Error Code            | Description                      | Solution                           |
-| :-------------------- | :------------------------------- | :--------------------------------- |
-| `no_source_face`      | No face detected in source image | Use image with clear, visible face |
-| `no_target_face`      | No face detected in target image | Use image with clear, visible face |
-| `invalid_file_format` | Unsupported file format          | Use PNG, JPG, JPEG, or WEBP        |
-| `file_too_large`      | File exceeds size limit          | Compress or resize the image       |
+A render failure appears as `status: "error"` in [image project details](/api-reference/image-projects/get-image-details), with `error.code` and `error.message`. For example, `no_source_face` means the API could not detect a face in the source. Inspect the returned message before retrying.
 
 ## Related Tools
 

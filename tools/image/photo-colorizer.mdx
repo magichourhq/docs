@@ -89,8 +89,8 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -98,17 +98,21 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.photoColorizer.generate({
-  assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/bw-photo.jpg",
+const result = await client.v1.photoColorizer.generate(
+  {
+    assets: {
+      imageFilePath:
+        "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/v-j-day-in-times-square.jpg",
+    },
+    name: "Photo Colorizer image",
   },
-  name: "Photo Colorizer image",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Colorization complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 ```

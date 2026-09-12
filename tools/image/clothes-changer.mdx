@@ -29,7 +29,7 @@ AI Clothes Changer lets you virtually try on different clothing items on a perso
 
 1. **Provide a person image** - Upload an image of the person you want to dress
 2. **Provide a garment image** - Upload an image of the clothing item you want to try on
-3. **Specify garment type** - Indicate whether it's upper_body, lower_body, or full_body
+3. Set the garment type to `upper_body`, `lower_body`, or `entire_outfit`.
 4. **API generates the result** - AI applies the garment to the person realistically
 5. **Download the result** - Retrieve your image with the new outfit
 
@@ -68,7 +68,9 @@ AI Clothes Changer lets you virtually try on different clothing items on a perso
 
 - `upper_body` - Shirts, jackets, tops, blouses
 - `lower_body` - Pants, skirts, shorts
-- `full_body` - Dresses, jumpsuits, full outfits
+- `entire_outfit` covers dresses, jumpsuits, and full outfits. This is the default.
+
+`dresses` is deprecated; use `entire_outfit` instead.
 
 ## Code Examples
 
@@ -100,8 +102,8 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -109,21 +111,24 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiClothesChanger.generate({
-  assets: {
-    personFilePath:
-      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/rookiesteph.jpg",
-    garmentFilePath:
-      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/bullsjersey.webp",
-    garmentType: "upper_body",
+const result = await client.v1.aiClothesChanger.generate(
+  {
+    assets: {
+      personFilePath:
+        "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/rookiesteph.jpg",
+      garmentFilePath:
+        "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/bullsjersey.webp",
+      garmentType: "upper_body",
+    },
+    name: "Clothes Changer image",
   },
-  name: "Clothes Changer image",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Clothes change complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 ```
@@ -137,8 +142,8 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 ```python Python
 result = client.v1.ai_clothes_changer.generate(
     assets={
-        "person_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/bullsjersey.webp",
-        "garment_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/rookiesteph.jpg",
+        "person_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/rookiesteph.jpg",
+        "garment_file_path": "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/bullsjersey.webp",
         "garment_type": "upper_body"
     },
     name="Clothes Changer image",
@@ -153,24 +158,28 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiClothesChanger.generate({
-  assets: {
-    personFilePath:
-      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/bullsjersey.webp",
-    garmentFilePath:
-      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/rookiesteph.jpg",
-    garmentType: "upper_body",
+const result = await client.v1.aiClothesChanger.generate(
+  {
+    assets: {
+      personFilePath:
+        "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/rookiesteph.jpg",
+      garmentFilePath:
+        "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/bullsjersey.webp",
+      garmentType: "upper_body",
+    },
+    name: "Clothes Changer image",
   },
-  name: "Clothes Changer image",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
 ```
@@ -185,7 +194,9 @@ console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
 
 ## Resolution Limits
 
-AI Clothes Changer has a maximum resolution of **1472px** (either width or height).
+Clothes Changer has no API parameter for output resolution. Check the
+[current endpoint](/api-reference/image-projects/ai-clothes-changer) and [plan details](/billing/resolution-limits)
+when planning output sizes.
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample
