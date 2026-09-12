@@ -151,13 +151,21 @@
                   {
                     "group": "Website Workflows",
                     "pages": [
+                      "tools/image/image-to-image",
                       "tools/image/selfie-generator",
                       "tools/image/storyboard-generator",
+                      "tools/image/image-expander",
                       "tools/image/influencer-generator",
                       "tools/image/profile-picture-generator",
+                      "tools/image/ad-creative-generator",
+                      "tools/image/product-photography",
+                      "tools/image/background-changer",
+                      "tools/image/photo-relighting",
+                      "tools/image/multi-angle-generator",
                       "tools/image/characters",
                       "tools/image/moodboards",
-                      "tools/image/model-trainer"
+                      "tools/image/model-trainer",
+                      "tools/image/image-enhancer"
                     ]
                   }
                 ]

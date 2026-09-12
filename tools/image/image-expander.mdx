@@ -1,0 +1,34 @@
+---
+title: AI Image Expander Tool - Magic Hour Docs
+sidebarTitle: Image Expander
+description: Extend an image beyond its borders with AI outpainting.
+---
+
+AI Image Expander generates new content around an existing image. Use it to add space around a subject or adapt the composition to a different layout.
+
+[Open AI Image Expander](https://magichour.ai/products/ai-image-expander)
+
+## How to use it
+
+1. Upload the image you want to extend.
+2. Choose an aspect ratio or set padding on individual sides. Review the canvas preview.
+3. Generate the extension, inspect the edges, and download the expanded image.
+
+## Check the result
+
+Keep the subject inside the original image when possible. Check the generated edges for repeated objects and inconsistent perspective.
+
+## API availability
+
+There is no dedicated Image Expander endpoint in the [public API specification](https://magichour.ai/docs/api/openapi.json). [AI Image Editor](/api-reference/image-projects/ai-image-editor) supports prompt-based edits, but the website padding controls are not documented API parameters.
+
+## Related tools
+
+<CardGroup cols={2}>
+  <Card title="Image Editor" icon="image" href="/tools/image/image-editor">
+    Refine an image with text-based instructions.
+  </Card>
+  <Card title="Image Upscaler" icon="image" href="/tools/image/image-upscaler">
+    Increase the resolution of an image.
+  </Card>
+</CardGroup>

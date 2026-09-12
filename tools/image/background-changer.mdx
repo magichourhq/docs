@@ -1,0 +1,40 @@
+---
+title: AI Background Changer Tool - Magic Hour Docs
+sidebarTitle: Background Changer
+description: Replace a photo background with a new scene or setting.
+---
+
+AI Background Changer replaces the surroundings of a portrait, product, or other foreground subject with a setting you describe.
+
+[Open AI Background Changer](https://magichour.ai/products/ai-background-changer)
+
+## How to use it
+
+1. Upload the image whose background you want to change.
+2. Describe the new location, colors, environment, or mood.
+3. Generate options, inspect the subject and background, and download your preferred result.
+
+## Example prompt
+
+```text
+Replace the background with a softly blurred office. Keep the person, clothing, and pose unchanged, with lighting that matches the face.
+```
+
+## Check the result
+
+Describe the setting and light. Check hair edges, transparent materials, reflections, and contact shadows.
+
+## API availability
+
+There is no dedicated Background Changer endpoint in the [public API specification](https://magichour.ai/docs/api/openapi.json). Use [AI Image Editor](/api-reference/image-projects/ai-image-editor) for prompt-based background changes. [Background Remover](/api-reference/image-projects/image-background-remover) handles background removal.
+
+## Related tools
+
+<CardGroup cols={2}>
+  <Card title="Background Remover" icon="image" href="/tools/image/background-remover">
+    Remove the background from an image.
+  </Card>
+  <Card title="Photo Relighting" icon="image" href="/tools/image/photo-relighting">
+    Explore new lighting, shadows, and mood in an existing image.
+  </Card>
+</CardGroup>
