@@ -426,6 +426,13 @@ If your endpoint doesn't respond with a 2xx status code, Magic Hour will retry d
 
 ## Production Webhook Handler
 
+<Warning>
+  These examples omit signature verification. Before accepting events,
+  [verify the signature and timestamp](/integration/webhook/secure-handler) against the raw body.
+  Save the verified event to a database or durable queue before returning 2xx. A restart can lose
+  in-process background tasks after Magic Hour considers delivery complete.
+</Warning>
+
 For production, implement robust error handling and background processing:
 
 <CodeGroup>
