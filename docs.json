@@ -147,7 +147,19 @@
                   "tools/image/photo-colorizer",
                   "tools/image/gif-generator",
                   "tools/image/meme-generator",
-                  "tools/image/qr-code-generator"
+                  "tools/image/qr-code-generator",
+                  {
+                    "group": "Website Workflows",
+                    "pages": [
+                      "tools/image/selfie-generator",
+                      "tools/image/storyboard-generator",
+                      "tools/image/influencer-generator",
+                      "tools/image/profile-picture-generator",
+                      "tools/image/characters",
+                      "tools/image/moodboards",
+                      "tools/image/model-trainer"
+                    ]
+                  }
                 ]
               },
               {

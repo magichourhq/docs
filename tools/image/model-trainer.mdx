@@ -1,0 +1,39 @@
+---
+title: AI Model Trainer Tool - Magic Hour Docs
+sidebarTitle: Model Trainer
+description: Train a personalized model from multiple reference photos for supported portrait tools.
+---
+
+AI Model Trainer creates a personalized model from uploaded photos. The website currently limits trained-model use to AI Selfie Generator and AI Headshot Generator.
+
+[Open AI Model Trainer](https://magichour.ai/create/train-model)
+
+## How to use it
+
+1. Name the model and specify the subject.
+2. Upload 3 to 50 images of the subject, each no larger than 10 MB.
+3. Review the credit cost and select Train Custom Model. The form currently lists 2,000 credits.
+4. Find the result under My Models and use it in AI Selfie Generator or AI Headshot Generator.
+
+## Training photos
+
+Use clear photos of the same subject with varied angles, lighting, and backgrounds. Remove blurry photos and photos with an obstructed face.
+
+## Model Trainer and Characters
+
+Model Trainer trains a model for the supported portrait tools. [Characters](/tools/image/characters) saves reference images for supported image and video tools.
+
+## API availability
+
+The [public API specification](https://magichour.ai/docs/api/openapi.json) does not document model-training operations or a trained-model identifier for the Headshot Generator endpoint. Use the website for training and selecting personalized models.
+
+## Related tools
+
+<CardGroup cols={2}>
+  <Card title="Selfie Generator" icon="image" href="/tools/image/selfie-generator">
+    Create styled portraits from a photo.
+  </Card>
+  <Card title="Headshot Generator" icon="user" href="/tools/image/headshot-generator">
+    Generate professional portraits.
+  </Card>
+</CardGroup>

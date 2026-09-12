@@ -1,0 +1,40 @@
+---
+title: AI Storyboard Generator Tool - Magic Hour Docs
+sidebarTitle: Storyboard Generator
+description: Plan a visual sequence from a prompt and optional reference images.
+---
+
+AI Storyboard Generator creates multi-panel boards for scenes, stories, and creative briefs. The website supports 4, 9, or 16 panels and an aspect-ratio selection.
+
+[Open AI Storyboard Generator](https://magichour.ai/products/ai-storyboard-generator)
+
+## How to use it
+
+1. Describe the sequence, including setting, characters, and visual style.
+2. Optionally supply reference images, then choose the panel count and aspect ratio.
+3. Generate the board, review the sequence, and download it for planning or sharing.
+
+## Example prompt
+
+```text
+Four panels: a cyclist checks a map, leaves a village, crosses a bridge, and reaches a hilltop. Use the same red jacket and ink illustration style throughout.
+```
+
+## Check the result
+
+Describe events in order and specify recurring clothing and props. Check the generated panels for sequence, continuity, and readable text.
+
+## API availability
+
+There is no dedicated Storyboard Generator endpoint in the [public API specification](https://magichour.ai/docs/api/openapi.json). [AI Image Generator](/api-reference/image-projects/ai-image-generator) can generate images from your own prompts, but it does not expose the website storyboard panel selector as a dedicated API feature.
+
+## Related tools
+
+<CardGroup cols={2}>
+  <Card title="Image Generator" icon="image" href="/tools/image/image-generator">
+    Generate images from text prompts.
+  </Card>
+  <Card title="Characters" icon="image" href="/tools/image/characters">
+    Save a person or fictional character as a reusable visual reference.
+  </Card>
+</CardGroup>
