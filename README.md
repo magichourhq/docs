@@ -10,7 +10,7 @@ Install the [Magic Hour agent skills](https://github.com/magichourhq/skills) for
 
 ## Local Development
 
-Ensure NodeJS is installed on your system.
+Use Node.js 22 for local development; the current Mintlify preview fails under Node.js 26.
 
 Next run
 
