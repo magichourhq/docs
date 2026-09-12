@@ -12,7 +12,7 @@ description: Get credits upfront with predictable monthly or yearly billing and 
 1. **Choose your plan** based on monthly credit volume and which resolution options you need
 2. **Select billing frequency** - monthly or yearly (annual billing is discounted)
 3. **Pay upfront** and receive all credits immediately
-4. **Use credits anytime** - credits never expire, even after subscription ends
+4. Use purchased credits anytime. The pricing page lists them as non-expiring. Check separate terms for promotional credits.
 5. **Auto-renewal** ensures continuous access (can be cancelled anytime)
 
 ### **Key Benefits**
@@ -34,7 +34,7 @@ description: Get credits upfront with predictable monthly or yearly billing and 
 
 ## Choose Your Plan
 
-Higher plans include more credits each month, larger uploads, and more concurrent jobs. Resolution is
+Higher plans include more credits each month and larger uploads. Resolution is
 per tool: paid plans unlock higher-resolution options, and requesting those options costs more
 credits. See [resolution](/billing/resolution-limits).
 
@@ -48,8 +48,7 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
   benefits={[
     "Starter credits and account-specific rewards may be available; check your account for the current balance",
     "Lowest resolution option on each tool",
-    "Access to all image modes",
-    "Access to Animation, Face Swap, Lip Sync, Subtitle Generator, Talking Photo",
+    "Access to models and tools available on the free tier",
   ]}
 />
 
@@ -62,7 +61,8 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
   benefits={[
     "12,000 credits per month",
     "No watermarks, commercial use",
-    "2GB uploads, 3 concurrent generations",
+    "2GB uploads, 3 concurrent website generations",
+    "Priority support",
   ]}
 />
 
@@ -75,7 +75,7 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
   benefits={[
     "25,000 credits per month",
     "No watermarks, commercial use",
-    "5GB uploads, 5 concurrent generations",
+    "5GB uploads, 5 concurrent website generations",
     "Priority support",
   ]}
 />
@@ -89,7 +89,7 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
   benefits={[
     "70,000 credits per month",
     "No watermarks, commercial use",
-    "10GB uploads, unlimited concurrent generations",
+    "10GB uploads, unlimited concurrent website generations",
     "Priority support",
   ]}
 />
@@ -99,6 +99,10 @@ Annual Creator is $144/year, Pro $300/year, Business $792/year. Credit totals ab
 allotment; annual plans include twelve months of that allotment (144,000 / 300,000 / 840,000
 credits per year).
 
+Prices are in USD before applicable taxes or currency adjustments. The concurrency numbers above
+are website plan benefits. The [API page](https://magichour.ai/api) describes parallel API
+generation separately. Confirm your account limits before planning production usage.
+
 Live checkout is on the [pricing page](https://magichour.ai/pricing?ref=docs-subscription-pricing).
 
 ## Need More Credits?
@@ -107,16 +111,18 @@ If you use more credits than your plan includes, you can purchase additional cre
 
 ### **Credit Packs**
 
-| Pack     | Credits | Price | Discount | Credits per dollar |
-| :------- | ------: | ----: | -------: | -----------------: |
-| Starter  |   4,000 |   $10 |        - |                400 |
-| Standard |  12,000 |   $27 |      10% |                444 |
-| Large    |  32,000 |   $64 |      20% |                500 |
-| Max      |  64,000 |  $120 |      25% |                533 |
+| Pack     | Credits | Price | Credits per dollar |
+| :------- | ------: | ----: | -----------------: |
+| Starter  |   4,000 |   $10 |                400 |
+| Standard |  12,000 |   $30 |                400 |
+| Large    |  32,000 |   $80 |                400 |
+| Max      |  64,000 |  $160 |                400 |
 
-Pack discounts are applied automatically at checkout. Credits are added immediately and never
-expire. Packs do not include subscription benefits other than removing watermarks. A pack alone
-does not unlock models, resolutions, upload limits, or concurrency reserved for a paid plan.
+These are the current USD list prices on the [pricing page](https://magichour.ai/pricing#credit-pack).
+Review any account-specific offer at checkout. Purchased credits go into your account, and the
+pricing page lists them as non-expiring. Packs do not include subscription benefits other than removing watermarks.
+A pack alone does not unlock models, resolutions, upload limits, or other features reserved for a
+paid plan.
 
 ### **When to Buy Credit Packs**
 
@@ -149,7 +155,7 @@ Ready to subscribe? Here's how to set up your subscription in minutes.
 <Step title="Visit the Pricing Page">
   Go to [magichour.ai/pricing](https://magichour.ai/pricing?ref=docs-subscription-pricing) to see all available plans and current pricing.
 
-![Current pricing page](./images/pricing-page-1.jpg)
+![Example pricing page](./images/pricing-page-1.jpg)
 
 </Step>
 
@@ -174,17 +180,16 @@ Click the button for your chosen plan to proceed to checkout.
 </Step>
 
 <Step title="Complete Payment">
-  Enter your payment information using any of these secure methods: - **Credit/Debit Cards**: Visa,
-  Mastercard, American Express, Discover - **Digital Wallets**: Apple Pay, Google Pay - **Regional
-  Options**: AliPay and other methods depending on your location All payments are processed securely
-  through Stripe. Review your plan details and click **"Subscribe"**.
+  Choose a payment method available at checkout, such as a credit or debit card, Apple Pay, or
+  Google Pay. Availability depends on your location. Review the billing interval, total, and
+  included credits, then click **Subscribe**.
 </Step>
 
 <Step title="Access Your Credits">
   After successful payment:
-  - You'll be redirected to [Settings](https://magichour.ai/settings)
-  - Credits are added to your account within minutes
-  - Start using the API immediately
+  - Open [My Plan](https://magichour.ai/my-plan) to confirm your plan and credit balance
+  - Start using the API once your payment and credits appear
+  - If your plan or credits do not appear after payment, refresh, sign in with the payment email, and contact support
 
 ![Payment Successful](./images/subscription-successful.png)
 
@@ -198,52 +203,43 @@ Click the button for your chosen plan to proceed to checkout.
 
 Monitor your remaining credits in multiple ways:
 
-1. **Settings**: Visit [Settings](https://magichour.ai/settings) to see your monthly credit allocation and next renewal date
+1. Visit [My Plan](https://magichour.ai/my-plan) to see your credit allocation, billing interval, and renewal details
 2. **Any signed-in page**: Check credit balance in the top navigation
 
 ![Create Page](./images/subscription-credits.png)
 
 ### **Subscription Management**
 
-**Upgrade Options**:
+Open [My Plan](https://magichour.ai/my-plan), select an available plan and billing interval, and
+review the effective date, total, included credits, and any adjustment before confirming. Available
+changes depend on your current subscription.
 
-- **Immediate upgrade**: New plan starts right away, billing cycle resets
-- **End-of-cycle upgrade**: Change takes effect at next billing date
+To stop renewal, select **Cancel subscription** and complete the confirmation flow. Active
+subscriptions normally retain paid benefits until the end of the billing period shown in the
+confirmation. Cancellation does not automatically refund an existing payment.
 
-**Downgrade Process**:
-
-- Cancel current subscription in [Settings](https://magichour.ai/settings)
-- Downgrade takes effect at end of current billing cycle
-- All unused credits carry over permanently
-
-**Other Management**:
-
-- **Cancel anytime**: Access continues until period ends
-- **Billing frequency**: Switch between monthly/yearly anytime
-- **Auto-renewal**: Automatically renews unless cancelled
+See the [plan-change guide](https://help.magichour.ai/en/articles/12612594-how-to-upgrade-or-downgrade-your-plan)
+and [cancellation guide](https://help.magichour.ai/en/articles/12612584-how-to-cancel-your-subscription)
+for current steps.
 
 ### **What Happens When You Downgrade or Cancel**
 
-When your subscription ends or you downgrade to Free:
+When your subscription ends or you downgrade to the free Basic plan:
 
 **✅ You Keep:**
 
-- **All unused credits** - they carry over permanently
+- Cancellation does not remove your remaining account credits. Promotional terms can differ.
 - **API access** - continue making requests with remaining credits
-- **Account history** - all your generated content remains accessible
+- You keep account access. Download any outputs you need to keep, since generated files have separate retention limits.
 
 **❌ You Lose (at end of billing cycle):**
 
 - **Higher resolution options** - revert to the Free option on each tool
-- **Paid watermark removal** - free video/audio outputs may include watermarks; image outputs remain watermark-free
+- Free video/audio outputs may include watermarks. A separate credit pack can still provide watermark removal.
 - **Monthly credit allocation** - starter credits and rewards vary by account; check your current balance
-- **Premium features** - lose priority support, larger uploads, etc.
+- Future generations follow the free plan terms. Priority support, larger uploads, and other paid-plan benefits end.
 
-**💡 Upgrade Anytime:**
-
-- **Immediate upgrade**: New benefits start right away, billing resets
-- **End-of-cycle upgrade**: Changes take effect at next billing date
-- Your existing credits work at higher resolutions again
+You can upgrade again through My Plan. Review the benefits and billing terms shown for the new plan.
 
 ### **Important Notes**
 
@@ -253,12 +249,14 @@ When your subscription ends or you downgrade to Free:
 </Warning>
 
 <Info>
-  **Credits Never Expire**: Your credits remain in your account permanently, even after your
-  subscription ends. However, you'll lose access to subscription benefits like higher resolution
-  options and paid watermark removal for video/audio where applicable.
+  The pricing page lists purchased credits as non-expiring. Bonus and promotional
+  credits can have separate terms. See [Understanding
+  Credits](https://help.magichour.ai/en/articles/12612555-understanding-credits) and the terms in My
+  Plan or checkout for your balance. Remaining credits do not keep paid-plan features unlocked after
+  cancellation.
 </Info>
 
 <Tip>
-  **Usage Monitoring**: Set up alerts in your dashboard to get notified when credits are running
-  low.
+  Check your balance in My Plan and usage analytics in the Developer Hub before starting a large
+  batch of API requests.
 </Tip>

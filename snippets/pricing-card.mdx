@@ -2,26 +2,26 @@ export const PricingCard = ({ title = "", prices = [], benefits = [] }) => {
   return (
     <Card title={title}>
       {prices && prices.length > 0 && (
-        <div class="flex flex-wrap items-baseline mb-6 gap-2">
+        <div className="flex flex-wrap items-baseline mb-6 gap-2">
           {prices.map((price, index) => {
             return (
-              <>
-                <div class="whitespace-nowrap">
+              <div key={index} className="contents">
+                <div className="whitespace-nowrap">
                   <div>
-                    <span class="text-2xl text-primary">
+                    <span className="text-2xl text-primary">
                       ${price?.amount?.toLocaleString() || "0"}
                     </span>
                     {price?.label || ""}
                   </div>
                 </div>
-                {index < prices.length - 1 && <span class="">or</span>}
-              </>
+                {index < prices.length - 1 && <span className="">or</span>}
+              </div>
             );
           })}
         </div>
       )}
       {benefits && benefits.length > 0 && (
-        <ul class="flex flex-col space-y-2">
+        <ul className="flex flex-col space-y-2">
           {benefits.map((benefit, index) => {
             return <li key={index}>{benefit}</li>;
           })}

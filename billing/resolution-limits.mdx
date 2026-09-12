@@ -10,7 +10,7 @@ higher values cost more credits on the same plan.
 ## Named resolutions (the current model)
 
 [Text to video](/api-reference/video-projects/text-to-video) and
-[image to video](/api-reference/video-projects/image-to-video) take `480p`, `720p`, `1080p`, or `4k`.
+[image to video](/api-reference/video-projects/image-to-video) take `360p`, `480p`, `720p`, `1080p`, or `4k`, depending on the model.
 [Image generator](/api-reference/image-projects/ai-image-generator) and
 [image editor](/api-reference/image-projects/ai-image-editor) take `640px`, `1k`, `2k`, or `4k`.
 
@@ -42,7 +42,7 @@ the output.
 | Pro      | Same named-resolution access as other paid plans        | Same, at the selected resolution      |
 | Business | Same named-resolution access as other paid plans        | Same, at the selected resolution      |
 
-Creator, Pro, and Business also differ on credits per month, upload size, concurrency, and support.
+Creator, Pro, and Business also differ on credits per month, upload size, website concurrency, and support.
 They do not each lock you to a single pixel size on these endpoints.
 
 Full per-model rates are on [models and credit costs](/api-reference/models).
@@ -59,11 +59,14 @@ not as the plan's identity.
 | Pro      | 1472px               |
 | Business | 4096px               |
 
-A few of those tools also have a hard cap regardless of plan: AI Headshot Generator (1344px), AI
-Clothes Changer (1472px), AI Talking Photo (720p), Video to Video and Animation (1472px). Video to
-Video additionally requires width and height divisible by 64.
+Use each endpoint's current resolution fields rather than applying a shared hard cap. For example,
+[Talking Photo](/api-reference/video-projects/ai-talking-photo) accepts a plan-capped
+`max_resolution`. Deprecated Video to Video `width` and `height` fields are no longer part of the
+current request contract.
 
-Those caps are shrinking in importance as more tools move to named resolutions.
+The [website pricing page](https://magichour.ai/pricing) summarizes plan export quality as
+1024px, 1472px, and 4K. For API requests, use the endpoint schema and selected model
+to determine which resolution parameter and limits apply.
 
 ## Upgrading
 
