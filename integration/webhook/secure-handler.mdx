@@ -291,7 +291,7 @@ import os
 app = FastAPI()
 
 # Get webhook secret from environment
-WEBHOOK_SECRET = os.getenv("MAGIC_HOUR_WEBHOOK_SECRET")
+WEBHOOK_SECRET = os.environ["MAGIC_HOUR_WEBHOOK_SECRET"]
 
 def verify_webhook(signature: str, timestamp: str, raw_body: bytes) -> bool:
     """
@@ -305,6 +305,9 @@ def verify_webhook(signature: str, timestamp: str, raw_body: bytes) -> bool:
     Returns:
         True if webhook is valid, False otherwise
     """
+
+    if not timestamp.isascii() or not timestamp.isdigit():
+        return False
 
     # Step 1: Verify timestamp is recent (within 5 minutes)
     current_time = int(time.time())
@@ -331,8 +334,6 @@ def verify_webhook(signature: str, timestamp: str, raw_body: bytes) -> bool:
 
     if not is_valid:
         print(f"❌ Signature mismatch")
-        print(f"   Received:  {signature}")
-        print(f"   Expected:  {expected_signature}")
 
     return is_valid
 
@@ -418,6 +419,17 @@ app.post("/webhook", (req, res) => {
     return res.status(500).json({ error: "Webhook secret not configured" });
   }
 
+  // Reject malformed timestamps and deliveries outside the five-minute window.
+  const sentAt = Number(timestamp);
+  if (
+    typeof timestamp !== "string" ||
+    !/^\d+$/.test(timestamp) ||
+    !Number.isSafeInteger(sentAt) ||
+    Math.abs(Date.now() / 1000 - sentAt) > 300
+  ) {
+    return res.status(401).json({ error: "Invalid or expired timestamp" });
+  }
+
   // Get raw body (req.body is now a string, not parsed JSON)
   const rawBody = req.body;
 
@@ -471,6 +483,9 @@ app = FastAPI()
 WEBHOOK_SECRET = "your-webhook-secret-here"  # Replace with actual secret
 
 def verify_signature(signature: str, timestamp: str, raw_payload: bytes) -> bool:
+    if not timestamp.isascii() or not timestamp.isdigit():
+        return False
+
     # Check timestamp (within 5 minutes)
     if abs(int(time.time()) - int(timestamp)) > 300:
         print("❌ Timestamp too old")
@@ -535,7 +550,7 @@ Test signature verification with a sample webhook:
 <CodeGroup>
 
 ```bash cURL Test
-# Test with valid signature
+# Negative test: this placeholder signature must be rejected (401)
 curl -X POST http://localhost:8000/webhook \
   -H "Content-Type: application/json" \
   -H "magic-hour-event-signature: abc123..." \
@@ -567,8 +582,9 @@ def create_test_webhook():
     # Send test webhook
     response = requests.post(
         "http://localhost:8000/webhook",
-        json=payload,
+        data=payload_json.encode("utf-8"),
         headers={
+            "Content-Type": "application/json",
             "magic-hour-event-signature": signature,
             "magic-hour-event-timestamp": timestamp
         }
@@ -605,6 +621,8 @@ try:
             'user_agent': request.headers.get('user-agent')
         })
         raise HTTPException(status_code=401, detail="Invalid signature")
+except HTTPException:
+    raise
 except Exception as e:
     logger.error(f"Webhook verification failed: {e}")
     raise HTTPException(status_code=500, detail="Verification error")
@@ -680,9 +698,7 @@ def debug_signature_verification(signature, timestamp, raw_payload, secret):
 
     print(f"🔍 Debug Info:")
     print(f"   Received signature: {signature}")
-    print(f"   Expected signature: {expected}")
     print(f"   Timestamp: {timestamp}")
-    print(f"   Signed payload: {signed_payload[:100]}...")
     print(f"   Match: {hmac.compare_digest(signature, expected)}")
 
     return hmac.compare_digest(signature, expected)
