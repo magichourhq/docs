@@ -57,7 +57,7 @@ Magic Hour is an AI video and image generation platform. You submit a job, we re
   icon="key"
   href="/get-started/authentication#creating-your-first-api-key"
 >
-  See screenshots, permissions, and key-management guidance in the Authentication guide.
+  See screenshots and key-management guidance in the Authentication guide.
 </Card>
 
 Store your API key as an environment variable:
@@ -69,7 +69,7 @@ export MAGIC_HOUR_API_KEY="your_api_key_here"
 ```
 
 ```cmd Windows
-setx MAGIC_HOUR_API_KEY "your_api_key_here"
+set MAGIC_HOUR_API_KEY=your_api_key_here
 ```
 
 ```powershell PowerShell
@@ -108,7 +108,7 @@ cd magic-hour-quickstart
 # Initialize npm project
 npm init -y
 
-# Enable ES module support (required for the SDK)
+# Enable ES module support for this example
 npm pkg set type=module
 
 # Create your JavaScript file
@@ -305,7 +305,7 @@ func main() {
 			}
 			fmt.Printf("file downloaded successfully to %s\n", outputFile)
 			break
-		} else if res.Status == "error" {
+		} else if res.Status == "error" || res.Status == "canceled" {
 			println("render failed")
 			break
 		} else {
@@ -361,7 +361,7 @@ async fn main() {
                 let url = res.downloads[0].url.clone();
 
                 tokio::task::block_in_place(move || {
-                    let response = reqwest::blocking::get(url).unwrap();
+                    let mut response = reqwest::blocking::get(url).unwrap();
                     let output_path = "output.png";
                     if response.status().is_success() {
                         let mut output_file = std::fs::File::create(output_path).unwrap();
@@ -374,7 +374,8 @@ async fn main() {
 
                 return;
             }
-            magic_hour::models::V1ImageProjectsGetResponseStatusEnum::Error => {
+            magic_hour::models::V1ImageProjectsGetResponseStatusEnum::Error
+            | magic_hour::models::V1ImageProjectsGetResponseStatusEnum::Canceled => {
                 println!("render failed");
                 return;
             }
@@ -397,7 +398,7 @@ STATUS_URL="https://api.magichour.ai/v1/image-projects"
 API_KEY="$MAGIC_HOUR_API_KEY"
 OUTPUT_PATH="output.png"
 
-create_response=$(curl -s $URL \
+create_response=$(curl -fsS "$URL" \
   --request POST \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer $API_KEY" \
@@ -410,25 +411,25 @@ create_response=$(curl -s $URL \
     }
   }')
 
-project_id=$(echo $create_response | jq -r '.id')
-credits_charged=$(echo $create_response | jq -r '.credits_charged')
+project_id=$(echo "$create_response" | jq -er '.id')
+credits_charged=$(echo "$create_response" | jq -r '.credits_charged')
 
 echo "queued image with id $project_id, spent $credits_charged credits"
 while true; do
-    status_response=$(curl -s $STATUS_URL/$project_id --header "Authorization: Bearer $API_KEY")
+    status_response=$(curl -fsS "$STATUS_URL/$project_id" --header "Authorization: Bearer $API_KEY")
 
-    status=$(echo $status_response | jq -r '.status')
+    status=$(echo "$status_response" | jq -r '.status')
 
     if [ "$status" == "complete" ]; then
         echo "render complete!"
-        download_url=$(echo $status_response | jq -r '.downloads[0].url')
+        download_url=$(echo "$status_response" | jq -r '.downloads[0].url')
 
         echo "downloading image from $download_url..."
-        curl -s $download_url -o $OUTPUT_PATH
+        curl -fsS "$download_url" -o "$OUTPUT_PATH"
 
         echo "file downloaded successfully to $OUTPUT_PATH"
         break
-    elif [ "$status" == "error" ]; then
+    elif [ "$status" == "error" ] || [ "$status" == "canceled" ]; then
         echo "render failed"
         break
     else
@@ -556,7 +557,7 @@ func main() {
 		return
 	}
 
-	fmt.Printf("queued video with id %s, spent %d credits based on 30fps. This value will be adjusted after render completes if fps is different.\n", createRes.Id, createRes.CreditsCharged)
+	fmt.Printf("queued video with id %s, spent %d estimated credits. The final charge is available after rendering.\n", createRes.Id, createRes.CreditsCharged)
 
 	for {
 		res, err := client.V1.VideoProjects.Get(video_projects.GetRequest{Id: createRes.Id})
@@ -590,7 +591,7 @@ func main() {
 			}
 			fmt.Printf("file downloaded successfully to %s\n", outputFile)
 			break
-		} else if res.Status == "error" {
+		} else if res.Status == "error" || res.Status == "canceled" {
 			println("render failed")
 			break
 		} else {
@@ -634,7 +635,7 @@ async fn main() {
         .unwrap();
     let project_id = create_res.id;
     let credits_charged = create_res.credits_charged;
-    println!("queued face swap video with id {project_id}, spent {credits_charged} credits based on 30fps. This value will be updated after render completes if fps is different.");
+    println!("queued face swap video with id {project_id}, spent {credits_charged} estimated credits. The final charge is available after rendering.");
 
     loop {
         let res = client
@@ -654,7 +655,7 @@ async fn main() {
                 let url = res.downloads[0].url.clone();
 
                 tokio::task::block_in_place(move || {
-                    let response = reqwest::blocking::get(url).unwrap();
+                    let mut response = reqwest::blocking::get(url).unwrap();
                     let output_path = "output.mp4";
                     if response.status().is_success() {
                         let mut output_file = std::fs::File::create(output_path).unwrap();
@@ -667,7 +668,8 @@ async fn main() {
 
                 return;
             }
-            magic_hour::models::V1VideoProjectsGetResponseStatusEnum::Error => {
+            magic_hour::models::V1VideoProjectsGetResponseStatusEnum::Error
+            | magic_hour::models::V1VideoProjectsGetResponseStatusEnum::Canceled => {
                 println!("render failed");
                 return;
             }
@@ -690,7 +692,7 @@ STATUS_URL="https://api.magichour.ai/v1/video-projects"
 API_KEY="$MAGIC_HOUR_API_KEY"
 OUTPUT_PATH="output.mp4"
 
-create_response=$(curl -s $URL \
+create_response=$(curl -fsS "$URL" \
   --request POST \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer $API_KEY" \
@@ -705,27 +707,27 @@ create_response=$(curl -s $URL \
     "end_seconds": 8.5
   }')
 
-project_id=$(echo $create_response | jq -r '.id')
-credits_charged=$(echo $create_response | jq -r '.credits_charged')
+project_id=$(echo "$create_response" | jq -er '.id')
+credits_charged=$(echo "$create_response" | jq -r '.credits_charged')
 
-echo "queued face swap video with id $project_id, spent an estimated $credits_charged credits based on 30fps. This value will be adjusted after render completes if fps is different."
+echo "queued face swap video with id $project_id, spent $credits_charged estimated credits. The final charge is available after rendering."
 while true; do
-    status_response=$(curl -s $STATUS_URL/$project_id --header "Authorization: Bearer $API_KEY")
+    status_response=$(curl -fsS "$STATUS_URL/$project_id" --header "Authorization: Bearer $API_KEY")
 
-    status=$(echo $status_response | jq -r '.status')
+    status=$(echo "$status_response" | jq -r '.status')
 
     if [ "$status" == "complete" ]; then
-        credits_charged=$(echo $status_response | jq -r '.credits_charged')
-        fps=$(echo $status_response | jq -r '.fps')
-        download_url=$(echo $status_response | jq -r '.downloads[0].url')
+        credits_charged=$(echo "$status_response" | jq -r '.credits_charged')
+        fps=$(echo "$status_response" | jq -r '.fps')
+        download_url=$(echo "$status_response" | jq -r '.downloads[0].url')
         echo "render complete! Final credit charged is $credits_charged, actual fps is $fps."
 
         echo "downloading video from $download_url..."
-        curl -s $download_url -o $OUTPUT_PATH
+        curl -fsS "$download_url" -o "$OUTPUT_PATH"
 
         echo "file downloaded successfully to $OUTPUT_PATH"
         break
-    elif [ "$status" == "error" ]; then
+    elif [ "$status" == "error" ] || [ "$status" == "canceled" ]; then
         echo "render failed"
         break
     else
