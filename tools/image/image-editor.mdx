@@ -10,6 +10,8 @@ import { ToolSection } from "/snippets/tool-section.mdx";
 
 AI Image Editor provides comprehensive image editing capabilities using AI. Modify, enhance, and transform images with text-based instructions for natural-looking results without manual editing tools.
 
+The browser [AI Photo Editor](https://magichour.ai/products/ai-photo-editor) also links to this API for prompt-based photo editing.
+
 **Processing:** See recent [typical API-job times](/api-reference/processing-times). Jobs run
 asynchronously, and duration varies with the input, selected settings, and queue load.
 
@@ -57,11 +59,17 @@ asynchronously, and duration varies with the input, selected settings, and queue
 ### Image Requirements
 
 | Requirement | Details                             |
-| :---------- | :---------------------------------- |
-| Resolution  | Minimum 512x512 pixels              |
+| :---------- | :---------------------------------------------------------------- |
+| Resolution  | 512x512 pixels or larger recommended                              |
 | Format      | PNG, JPG, JPEG, JFIF, WEBP, HEIC, HEIF, AVIF, JP2, TIFF, TIF, BMP |
 | Quality     | Higher quality enables better edits |
 | Clarity     | Clear images edit more accurately   |
+
+## Models and reference images
+
+Set `model` at the top level and supply images through `assets.image_file_paths`, or `imageFilePaths` in Node.js. The legacy `style.model` and singular `assets.image_file_path` fields are deprecated. The API accepts up to 10 input images. `krea-2` accepts at most 2, `qwen-edit` 3, and `flux-2-klein` 6.
+
+Use an explicit `resolution` supported by your model and plan; `auto` is deprecated. `krea-2` supports `640px` and `1k`, while `gpt-image-2.5-flare` supports `640px`, `1k`, `2k`, and `4k`. `image_count` accepts 1, 4, 9, or 16, subject to the model's maximum.
 
 ## Code Examples
 
@@ -76,6 +84,8 @@ from os import getenv
 client = Client(token=getenv("MAGIC_HOUR_API_KEY"))
 
 result = client.v1.ai_image_editor.generate(
+    model="flux-2-klein",
+    resolution="1k",
     assets={
         "image_file_paths": ["https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png"]
     },
@@ -94,8 +104,8 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -103,22 +113,27 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiImageEditor.generate({
-  assets: {
-    imageFilePaths: [
-      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
-    ],
+const result = await client.v1.aiImageEditor.generate(
+  {
+    model: "flux-2-klein",
+    resolution: "1k",
+    assets: {
+      imageFilePaths: [
+        "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+      ],
+    },
+    style: {
+      prompt: "Change the background to a sunset beach scene",
+    },
+    name: "Image Editor image",
   },
-  style: {
-    prompt: "Change the background to a sunset beach scene",
-  },
-  name: "Image Editor image",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Image edit complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 ```
@@ -130,8 +145,9 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 Cost depends on the `model` you choose:
 
 | Model                | Credits per edit (from) |
-| :------------------- | :---------------------- |
+| :-------------------- | :---------------------- |
 | `flux-2-klein`       | 5                       |
+| `krea-2`              | 10                      |
 | `qwen-edit`          | 10                      |
 | `seedream-v4`        | 40                      |
 | `gpt-image-2`        | 50                      |
@@ -140,6 +156,7 @@ Cost depends on the `model` you choose:
 | `seedream-v4.5`      | 50                      |
 | `seedream-v5-pro`    | 75                      |
 | `nano-banana-2`      | 100                     |
+| `gpt-image-2.5-flare` | 100                     |
 | `nano-banana-pro`    | 150                     |
 
 Higher resolutions can increase the cost — see the `model` parameter in the [API reference](/api-reference/image-projects/ai-image-editor) for supported resolutions and tiers per model.

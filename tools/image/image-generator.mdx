@@ -83,6 +83,12 @@ Set the `aspect_ratio` parameter to control the output shape:
 | `16:9`         | Landscape | Banners, headers, desktop wallpapers       |
 | `9:16`         | Portrait  | Stories, mobile wallpapers, posters        |
 
+## Model and resolution
+
+Set the top-level `model` to select a specific model, or use `default` to follow Magic Hour's recommendation as it changes. Choose `640px`, `1k`, `2k`, or `4k` for `resolution`, subject to your model and plan. `auto` is deprecated. `krea-2` supports `640px` and `1k` and one image per request. `gpt-image-2.5-flare` supports all four resolutions and 1 to 4 images per request.
+
+`flux-2-klein` and `krea-2` accept only 1 image per request. `nano-banana-2` and `nano-banana-pro` accept 1, 4, 9, or 16. The other listed models accept 1 to 4.
+
 ## Code Examples
 
 ### Basic Image Generation
@@ -96,6 +102,8 @@ import os
 client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
 
 result = client.v1.ai_image_generator.generate(
+    model="flux-schnell",
+    resolution="1k",
     image_count=1,
     aspect_ratio="16:9",
     style={
@@ -114,8 +122,8 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -123,20 +131,25 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiImageGenerator.generate({
-  imageCount: 1,
-  aspectRatio: "16:9",
-  style: {
-    prompt: "A serene mountain landscape at sunset with vibrant colors",
-    tool: "ai-photo-generator",
+const result = await client.v1.aiImageGenerator.generate(
+  {
+    model: "flux-schnell",
+    resolution: "1k",
+    imageCount: 1,
+    aspectRatio: "16:9",
+    style: {
+      prompt: "A serene mountain landscape at sunset with vibrant colors",
+      tool: "ai-photo-generator",
+    },
+    name: "Mountain Sunset",
   },
-  name: "Mountain Sunset",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Image complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 console.log(`Credits charged: ${result.creditsCharged}`);
@@ -150,6 +163,8 @@ console.log(`Credits charged: ${result.creditsCharged}`);
 
 ```python Python
 result = client.v1.ai_image_generator.generate(
+    model="flux-schnell",
+    resolution="1k",
     image_count=4,  # Generate 4 variations
     aspect_ratio="1:1",
     style={
@@ -168,25 +183,30 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiImageGenerator.generate({
-  imageCount: 4, // Generate 4 variations
-  aspectRatio: "1:1",
-  style: {
-    prompt: "Cute cat wearing sunglasses, digital art style",
-    tool: "ai-anime-generator",
+const result = await client.v1.aiImageGenerator.generate(
+  {
+    model: "flux-schnell",
+    resolution: "1k",
+    imageCount: 4, // Generate 4 variations
+    aspectRatio: "1:1",
+    style: {
+      prompt: "Cute cat wearing sunglasses, digital art style",
+      tool: "ai-anime-generator",
+    },
+    name: "Cat Variations",
   },
-  name: "Cat Variations",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Image complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 console.log(`Credits charged: ${result.creditsCharged}`);
@@ -200,6 +220,8 @@ console.log(`Credits charged: ${result.creditsCharged}`);
 
 ```python Python
 result = client.v1.ai_image_generator.generate(
+    model="flux-schnell",
+    resolution="1k",
     image_count=1,
     aspect_ratio="9:16",
     style={
@@ -218,25 +240,30 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiImageGenerator.generate({
-  imageCount: 1,
-  aspectRatio: "9:16",
-  style: {
-    prompt: "Professional business woman in modern office",
-    tool: "ai-photo-generator",
+const result = await client.v1.aiImageGenerator.generate(
+  {
+    model: "flux-schnell",
+    resolution: "1k",
+    imageCount: 1,
+    aspectRatio: "9:16",
+    style: {
+      prompt: "Professional business woman in modern office",
+      tool: "ai-photo-generator",
+    },
+    name: "Business Portrait",
   },
-  name: "Business Portrait",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Image complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 console.log(`Credits charged: ${result.creditsCharged}`);
@@ -249,16 +276,18 @@ console.log(`Credits charged: ${result.creditsCharged}`);
 Cost depends on the `model` you choose (the default model is picked automatically and may change over time):
 
 | Model                | Credits per image (from) | Tiers                        |
-| :------------------- | :----------------------- | :--------------------------- |
+| :-------------------- | :----------------------- | :--------------------- |
 | `flux-schnell`       | 5                        | All (including free)         |
 | `flux-2-klein`       | 5                        | All (including free)         |
 | `z-image-turbo`      | 5                        | All (including free)         |
+| `krea-2`              | 10                       | All (including free)   |
 | `seedream-v4`        | 40                       | Creator, Pro, Business       |
 | `gpt-image-2`        | 50                       | Creator, Pro, Business       |
 | `nano-banana`        | 50                       | Creator, Pro, Business       |
 | `nano-banana-2-lite` | 50                       | Creator, Pro, Business       |
 | `seedream-v5-pro`    | 75                       | Creator, Pro, Business       |
 | `nano-banana-2`      | 100                      | Creator, Pro, Business       |
+| `gpt-image-2.5-flare` | 100                      | Creator, Pro, Business |
 | `nano-banana-pro`    | 150                      | Creator, Pro, Business       |
 
 Higher resolutions can increase the cost — see the `model` parameter in the [API reference](/api-reference/image-projects/ai-image-generator) for supported resolutions and image counts per model.
