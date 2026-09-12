@@ -15,8 +15,17 @@ jobs:
     runs-on: blacksmith-2vcpu-ubuntu-2404
 
     steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ secrets.APP_CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Setup Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -26,8 +35,8 @@ jobs:
 
       - name: Download latest OpenAPI specs
         run: |
-          curl -o api-reference/openapi.json https://magichour.ai/docs/api/openapi.json
-          curl -o webhook-reference/openapi.json https://magichour.ai/docs/webhook/openapi.json
+          curl --fail --location -o api-reference/openapi.json https://magichour.ai/docs/api/openapi.json
+          curl --fail --location -o webhook-reference/openapi.json https://magichour.ai/docs/webhook/openapi.json
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -38,9 +47,15 @@ jobs:
       - name: Format with Prettier
         run: yarn prettier --write api-reference/openapi.json webhook-reference/openapi.json
 
+      - name: Generate reference pages
+        run: |
+          yarn scrape:api
+          yarn scrape:webhook
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
+          token: ${{ steps.app-token.outputs.token }}
           commit-message: "chore: update OpenAPI specs"
           title: "chore: update OpenAPI specs"
           body: |
@@ -50,5 +65,6 @@ jobs:
             - Downloaded latest webhook spec from https://magichour.ai/docs/webhook/openapi.json
             - Cleaned up deprecated fields
             - Formatted with Prettier
+            - Generated API and webhook reference pages
           branch: update-openapi-spec
           delete-branch: true
