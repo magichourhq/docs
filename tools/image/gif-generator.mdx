@@ -1,14 +1,16 @@
 ---
-title: AI GIF Generator API - Magic Hour Docs
+title: AI GIF Generator API
 sidebarTitle: GIF Generator API
-description: Generate animated GIFs from text prompts with the Magic Hour API.
+description: Generate animated GIFs from text prompts with the Magic Hour API. Includes Python and Node.js examples, output formats, and credit costs.
 ---
 
 import { ToolSection } from "/snippets/tool-section.mdx";
 
 ## Overview
 
-The AI GIF Generator API creates animated GIFs from a text prompt.
+The AI GIF Generator API creates animated GIFs from a text prompt. Use it to add GIF generation to an application or automated media workflow. The endpoint accepts `style.prompt` and an `output_format` of `gif`, `mp4`, or `webm`.
+
+To animate an existing image, use the [Image-to-Video API guide](/tools/video/image-to-video). The GIF endpoint does not accept an image input or a custom duration.
 
 <Card
   title="Looking for the no-code GIF generator?"
@@ -19,7 +21,7 @@ The AI GIF Generator API creates animated GIFs from a text prompt.
 </Card>
 
 <ToolSection
-  title="AI GIF Generator API"
+  title="AI GIF Generator"
   productSlug="ai-gif-generator"
   apiSlug="ai-gif-generator"
   type="image"
@@ -35,10 +37,10 @@ The AI GIF Generator API creates animated GIFs from a text prompt.
 
 ## How It Works
 
-1. Describe the subject, action, and visual style in 1 to 500 characters.
-2. Set `output_format` to `gif`, `mp4`, or `webm`. The default is `gif`.
-3. Wait for the API to create the animation.
-4. Download the generated file.
+1. **Write a prompt** - Describe the subject, action, and visual style in `style.prompt`
+2. **Choose the file format** - Set `output_format` to `gif`, `mp4`, or `webm`
+3. **Create the job** - Submit the request and wait for completion
+4. **Download the output** - Save the completed animation from the returned download URL
 
 ## Use Cases
 
@@ -50,7 +52,7 @@ The AI GIF Generator API creates animated GIFs from a text prompt.
 
 ## Code Examples
 
-### Generate GIF from text
+### Generate a GIF from text
 
 <CodeGroup>
 
