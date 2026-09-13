@@ -15,7 +15,7 @@ asynchronously, and duration varies with the input, selected settings, and queue
 
 <ToolSection
   title="Face Swap Video"
-  productSlug="face-swap?mode=video"
+  productSlug="face-swap/video"
   apiSlug="face-swap-video"
   type="video"
   outputs={[
@@ -39,7 +39,7 @@ asynchronously, and duration varies with the input, selected settings, and queue
 ## Use Cases
 
 - **Entertainment content** - Create viral videos and memes
-- **Privacy protection** - Anonymize individuals in video content
+- Try alternate faces for a scene.
 - **Film and media** - Character replacement in post-production
 - **Personalized experiences** - Custom video messages and greetings
 - **Marketing** - Create personalized ad experiences
@@ -65,6 +65,12 @@ asynchronously, and duration varies with the input, selected settings, and queue
 - **Stable lighting** - Consistent lighting throughout produces best results
 - **One primary face** - Works best when targeting a single person
 - **Moderate motion** - Extreme head movements may affect quality
+
+### Multiple faces and versions
+
+The default `assets.face_swap_mode="all-faces"` uses one `image_file_path` to replace every detected face. To target particular people, use `individual-faces` with up to five `face_mappings`, obtained using the [face detection API](/api-reference/files/get-face-detection-details).
+
+`style.version="default"` follows the recommended version over time. Set `v1` or `v2` when you need a specific version. Deprecated `width` and `height` fields do not control output resolution.
 
 ### Video Segment Selection
 
@@ -106,9 +112,9 @@ if result.status == "complete":
     print(f"Downloaded to: {result.downloaded_paths}")
     print(f"Credits charged: {result.credits_charged}")
 else:
-    print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    print(f"Job ended with status: {result.status}")
+    if result.error:
+        print(f"Error: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -116,24 +122,32 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.faceSwap.generate({
-  assets: {
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
-    videoFilePath:
-      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
-    videoSource: "file",
+const result = await client.v1.faceSwap.generate(
+  {
+    assets: {
+      imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+      videoFilePath:
+        "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
+      videoSource: "file",
+    },
+    startSeconds: 0,
+    endSeconds: 2,
+    name: "Tom Cruise Face Swap",
   },
-  startSeconds: 0,
-  endSeconds: 2,
-  name: "Tom Cruise Face Swap",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Face swap complete!`);
-console.log(`Status: ${result.status}`);
-console.log(`Downloaded to: ${result.downloadedPaths}`);
+if (result.status === "complete") {
+  console.log(`✅ Face swap complete!`);
+  console.log(`Downloaded to: ${result.downloadedPaths}`);
+} else {
+  console.error(`Job ended with status: ${result.status}`);
+  if (result.error) console.error(result.error.message);
+}
 ```
 
 </CodeGroup>
@@ -148,17 +162,11 @@ Face Swap Video uses credits based on video duration and frame rate — credits 
 | Frame rate | Higher FPS = more credits   |
 | Resolution | Affects quality, not cost   |
 
-The create response returns an estimated `credits_charged` based on 30 FPS; the final amount is adjusted after the render completes if the actual frame rate differs. Check the completed job's `credits_charged` for the exact cost.
+The create response returns an estimated `credits_charged`; the final amount can change after rendering based on the actual output frame rate. Check the completed job's `credits_charged` for the exact cost.
 
 ## Error Handling
 
-Common error codes:
-
-| Error Code            | Description                      | Solution                           |
-| :-------------------- | :------------------------------- | :--------------------------------- |
-| `no_source_face`      | No face detected in source image | Use image with clear, visible face |
-| `no_target_face`      | No face detected in target video | Ensure face is visible in video    |
-| `invalid_file_format` | Unsupported file format          | Use MP4, MOV, or WEBM for video    |
+When a render fails, the video project returns `status="error"` with an `error` object containing `code` and `message`. For example, `no_source_face` means the source needs a detectable face. Check `result.error.message` for guidance; canceled jobs can have no error object. Request failures are reported separately as HTTP errors. See [Get Video Details](/api-reference/video-projects/get-video-details).
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample

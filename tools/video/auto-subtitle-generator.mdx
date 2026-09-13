@@ -8,7 +8,7 @@ import { ToolSection } from "/snippets/tool-section.mdx";
 
 ## Overview
 
-Auto Subtitle Generator automatically transcribes speech in videos and embeds professional subtitles directly into the video file. The API uses Whisper AI for accurate speech recognition with automatic language detection, supporting multiple languages and delivering high-quality subtitle formatting.
+Auto Subtitle Generator transcribes speech and embeds captions in the video. Use a preset or custom formatting to style them.
 
 <ToolSection
   title="Auto Subtitle Generator"
@@ -28,7 +28,7 @@ Auto Subtitle Generator automatically transcribes speech in videos and embeds pr
 ## How It Works
 
 1. **Upload video** - Provide a video with spoken content
-2. **AI transcribes** - Whisper AI automatically detects language and transcribes speech
+2. The API transcribes the speech.
 3. **Subtitles generated** - Formatted subtitles with accurate timing
 4. **Download video** - Retrieve video with embedded subtitles
 
@@ -38,7 +38,7 @@ Auto Subtitle Generator automatically transcribes speech in videos and embeds pr
 - **Educational videos** - Make content accessible to all learners
 - **Marketing videos** - Increase view time with subtitled content
 - **International content** - Transcribe videos in multiple languages
-- **Accessibility compliance** - Meet accessibility standards automatically
+- Add captions for accessibility. Review transcription and timing before publishing.
 
 ## Best Practices
 
@@ -53,11 +53,11 @@ Auto Subtitle Generator automatically transcribes speech in videos and embeds pr
 
 ### Language Support
 
-Auto Subtitle Generator uses Whisper AI which supports 90+ languages with automatic detection:
+The API has no language-selection parameter. Review generated captions for names, accents, and technical terms, and choose a font that supports your language.
 
-- **Automatic detection** - No need to specify language manually
-- **Multi-language support** - Works with most major languages
-- **Accent handling** - Handles various accents within languages
+### Subtitle styling
+
+Choose `karaoke`, `cinematic`, `minimalist`, or `highlight` with `style.template`. Use `style.custom_config` to override a template. If you omit the template, custom configuration must include `font`, `text_color`, `vertical_position`, and `horizontal_position`.
 
 ## Code Examples
 
@@ -89,9 +89,9 @@ if result.status == "complete":
     print(f"Downloaded to: {result.downloaded_paths}")
     print(f"Credits charged: {result.credits_charged}")
 else:
-    print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    print(f"Job ended with status: {result.status}")
+    if result.error:
+        print(f"Error: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -99,42 +99,42 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.autoSubtitleGenerator.generate({
-  assets: {
-    videoFilePath:
-      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
+const result = await client.v1.autoSubtitleGenerator.generate(
+  {
+    assets: {
+      videoFilePath:
+        "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
+    },
+    startSeconds: 0,
+    endSeconds: 2,
+    style: { template: "karaoke" },
+    name: "Subtitled Video",
   },
-  startSeconds: 0,
-  endSeconds: 2,
-  style: { template: "karaoke" },
-  name: "Subtitled Video",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Subtitles complete!`);
-console.log(`Status: ${result.status}`);
-console.log(`Downloaded to: ${result.downloadedPaths}`);
+if (result.status === "complete") {
+  console.log(`✅ Subtitles complete!`);
+  console.log(`Downloaded to: ${result.downloadedPaths}`);
+} else {
+  console.error(`Job ended with status: ${result.status}`);
+  if (result.error) console.error(result.error.message);
+}
 ```
 
 </CodeGroup>
 
 ## Output Format
 
-The Auto Subtitle Generator returns an **MP4 video file with embedded subtitles** (not separate SRT files). The subtitles are burned directly into the video for immediate use.
+Retrieve the captioned video from the completed video project's `downloads` array. The API has no SRT/VTT export-format option.
 
 ## Pricing
 
-Auto Subtitle Generator uses credits based on video length:
-
-| Video Length | Approximate Credits |
-| :----------- | :------------------ |
-| 1 minute     | ~60-100 credits     |
-| 5 minutes    | ~300-500 credits    |
-| 10 minutes   | ~600-1000 credits   |
-
-<Info>Pricing scales with video duration. Longer videos consume more credits.</Info>
+Cost depends on the selected video segment. The create response contains an estimate in `credits_charged`; check the completed job for the final total. See [Billing](/billing/overview) for current pricing.
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample

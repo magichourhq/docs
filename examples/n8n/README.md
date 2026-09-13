@@ -14,16 +14,4 @@ Each flow explicitly checks `status === complete` before downloading. This also 
 
 Private Drive share pages are not direct media URLs. Download the file using its authenticated source connector, obtain a Magic Hour [upload URL](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls), PUT the raw bytes without a Magic Hour bearer header, then use `file_path` as the input. Model availability, duration and cost vary by plan; verify the [API reference](https://docs.magichour.ai/api-reference) before a batch run.
 
-## Validation
-
-The three JSON flows are exercised in GitHub CI using n8n 2.37.10 on Node.js 24 and the published community package 1.0.3. CI imports credentials/workflows and executes the actual n8n engine. HTTP is intercepted by a local test proxy, with an invalid test-only API key; CI cannot create paid generations. It checks two generation flows, recovery, binary downloads and rejection of an unfinished result.
-
-Separately, real API tests produced a product image, an edited image and a playable one-second video. Those live tests exercised the Pipedream components and compiled n8n node code; they did not exercise Google/Shopify/Airtable OAuth connections. The two media fixtures here are outputs from those real tests. Neither these JSON files nor the recipes are claimed as approved n8n template-gallery listings.
-
-To reproduce the engine check in a disposable environment with n8n and the community package installed:
-
-```sh
-node test/engine.mjs /path/to/n8n
-```
-
-The script uses a new temporary credential/workflow directory and a local HTTP proxy. Point `N8N_USER_FOLDER` at a disposable n8n data directory; do not run the import test against your production instance.
+Separately, real API tests produced a product image, an edited image and a playable one-second video. Those live tests exercised the Pipedream components and compiled n8n node code; they did not exercise Google/Shopify/Airtable OAuth connections. Neither these JSON files nor the recipes are claimed as approved n8n template-gallery listings.

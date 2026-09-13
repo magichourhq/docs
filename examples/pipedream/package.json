@@ -6,12 +6,5 @@
   "license": "MIT",
   "dependencies": {
     "@pipedream/platform": "3.4.0"
-  },
-  "scripts": {
-    "test": "node --test test/*.mjs"
-  },
-  "devDependencies": {
-    "ajv": "8.17.1",
-    "axios": "1.15.2"
   }
 }

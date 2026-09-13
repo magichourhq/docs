@@ -56,8 +56,8 @@ When providing a starting image:
 When adding audio:
 
 - **Match the mood** - Audio should complement the visual style
-- **Consider timing** - Longer audio = longer video
-- **Supported formats** - MP3, WAV, AAC, FLAC
+- Set `end_seconds` to control output duration and provide audio long enough for that clip.
+- See the [input file guide](/integration/inputs-and-outputs) for supported audio formats.
 
 ## Code Examples
 
@@ -97,9 +97,9 @@ if result.status == "complete":
     print(f"Downloaded to: {result.downloaded_paths}")
     print(f"Credits charged: {result.credits_charged}")
 else:
-    print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    print(f"Job ended with status: {result.status}")
+    if result.error:
+        print(f"Error: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -107,30 +107,38 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.animation.generate({
-  assets: {
-    audioSource: "none",
+const result = await client.v1.animation.generate(
+  {
+    assets: {
+      audioSource: "none",
+    },
+    endSeconds: 1.5,
+    fps: 8,
+    height: 256,
+    width: 512,
+    style: {
+      artStyle: "Studio Ghibli Film Still",
+      cameraEffect: "Dramatic Zoom In",
+      prompt: "A majestic tiger walking through a misty jungle at sunset, magical atmosphere",
+      promptType: "custom",
+      transitionSpeed: 5,
+    },
+    name: "Tiger Animation",
   },
-  endSeconds: 1.5,
-  fps: 8,
-  height: 256,
-  width: 512,
-  style: {
-    artStyle: "Studio Ghibli Film Still",
-    cameraEffect: "Dramatic Zoom In",
-    prompt: "A majestic tiger walking through a misty jungle at sunset, magical atmosphere",
-    promptType: "custom",
-    transitionSpeed: 5,
-  },
-  name: "Tiger Animation",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Animation complete!`);
-console.log(`Status: ${result.status}`);
-console.log(`Downloaded to: ${result.downloadedPaths}`);
+if (result.status === "complete") {
+  console.log(`✅ Animation complete!`);
+  console.log(`Downloaded to: ${result.downloadedPaths}`);
+} else {
+  console.error(`Job ended with status: ${result.status}`);
+  if (result.error) console.error(result.error.message);
+}
 ```
 
 </CodeGroup>
@@ -167,35 +175,44 @@ if result.status == "complete":
     print(f"Downloaded to: {result.downloaded_paths}")
     print(f"Credits charged: {result.credits_charged}")
 else:
-    print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    print(f"Job ended with status: {result.status}")
+    if result.error:
+        print(f"Error: {result.error.message}")
 ```
 
 ```javascript Node.js
-const result = await client.v1.animation.generate({
-  assets: {
-    audioSource: "none",
-    imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+const result = await client.v1.animation.generate(
+  {
+    assets: {
+      audioSource: "none",
+      imageFilePath: "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/tomcruise.png",
+    },
+    endSeconds: 1.5,
+    fps: 8.0,
+    height: 288,
+    width: 288,
+    style: {
+      artStyle: "Van Gogh",
+      cameraEffect: "Spin Bounce",
+      prompt: "Tom Cruise in an action pose, dramatic lighting, cinematic intensity",
+      promptType: "custom",
+      transitionSpeed: 5,
+    },
+    name: "Tom Cruise Animation",
   },
-  endSeconds: 1.5,
-  fps: 8.0,
-  height: 288,
-  width: 288,
-  style: {
-    artStyle: "Van Gogh",
-    cameraEffect: "Spin Bounce",
-    prompt: "Tom Cruise in an action pose, dramatic lighting, cinematic intensity",
-    promptType: "custom",
-    transitionSpeed: 5,
-  },
-  name: "Tom Cruise Animation",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
+if (result.status === "complete") {
+  console.log(`Downloaded to: ${result.downloadedPaths}`);
+} else {
+  console.error(`Job ended with status: ${result.status}`);
+  if (result.error) console.error(result.error.message);
+}
 ```
 
 </CodeGroup>
@@ -232,53 +249,57 @@ if result.status == "complete":
     print(f"Downloaded to: {result.downloaded_paths}")
     print(f"Credits charged: {result.credits_charged}")
 else:
-    print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    print(f"Job ended with status: {result.status}")
+    if result.error:
+        print(f"Error: {result.error.message}")
 ```
 
 ```javascript Node.js
-const result = await client.v1.animation.generate({
-  endSeconds: 2.0,
-  fps: 8.0,
-  height: 256,
-  width: 512,
-  assets: {
-    audioFilePath:
-      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
-    audioSource: "file",
+const result = await client.v1.animation.generate(
+  {
+    endSeconds: 2.0,
+    fps: 8.0,
+    height: 256,
+    width: 512,
+    assets: {
+      audioFilePath:
+        "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/you-are-just-a-line-of-code.mp3",
+      audioSource: "file",
+    },
+    style: {
+      artStyle: "Cyberpunk",
+      cameraEffect: "Pulse - Audio Sync",
+      prompt:
+        "Digital code streams and neon circuits pulsing to the rhythm, futuristic tech aesthetic",
+      promptType: "custom",
+      transitionSpeed: 5,
+    },
+    name: "Code Audio Animation",
   },
-  style: {
-    artStyle: "Cyberpunk",
-    cameraEffect: "Pulse - Audio Sync",
-    prompt:
-      "Digital code streams and neon circuits pulsing to the rhythm, futuristic tech aesthetic",
-    promptType: "custom",
-    transitionSpeed: 5,
-  },
-  name: "Code Audio Animation",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
+if (result.status === "complete") {
+  console.log(`Downloaded to: ${result.downloadedPaths}`);
+} else {
+  console.error(`Job ended with status: ${result.status}`);
+  if (result.error) console.error(result.error.message);
+}
 ```
 
 </CodeGroup>
 
 ## Pricing
 
-Animation uses credits based on video duration:
-
-| Duration   | Approximate Credits |
-| :--------- | :------------------ |
-| 5 seconds  | ~150 credits        |
-| 10 seconds | ~300 credits        |
+Animation estimates credits from both `fps` and `end_seconds`. Increasing either increases the number of frames to render. Read `credits_charged` from the completed job for the final total.
 
 ## Resolution Limits
 
-Animation has a maximum resolution of **1472px** (either width or height).
+`width` and `height` are required and must each be at least 64 pixels. Maximum dimensions depend on your subscription and the tool limits. See [Resolution Limits](/billing/resolution-limits).
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample
