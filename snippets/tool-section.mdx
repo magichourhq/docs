@@ -3,7 +3,7 @@ export const ToolSection = ({
   outputs = [], 
   title = "", 
   productSlug = "", 
-  apiSlug = "" 
+  apiSlug = ""
 }) => (
   <>
     <CardGroup cols={2}>
@@ -58,10 +58,10 @@ export const ToolSection = ({
                 </audio>
               ) : (
                 <img
-                  alt={`${title} example output ${idx + 1}`}
                   height="320"
                   className="rounded-lg h-80"
                   src={output.src}
+                  alt={`${title} example output ${idx + 1}`}
                 />
               )}
             </Frame>

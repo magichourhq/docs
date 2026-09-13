@@ -54,6 +54,12 @@ Character Replace substitutes a person in a video with the character from a refe
 - **Start with automatic selection** - Add a point only when the API needs help identifying the subject
 - **Test short segments** - Validate subject tracking before processing a longer clip
 
+## Modes and resolution
+
+Use `style.mode="replace"` to substitute the selected subject, or `"animate"` to transfer the source video's motion to the reference character. Subject selection defaults to `auto`. For manual selection, set `selection_mode="point"` and provide `points`; coordinates are pixels in the source frame, and timestamps use the source video's timeline. Points are ignored in automatic mode.
+
+The API accepts `480p` and `720p`, subject to your plan, and defaults to `480p`. `end_seconds` is required; `start_seconds` defaults to zero.
+
 ## Code Example
 
 Input files must be direct URLs or `file_path` values returned by the [file upload API](/api-reference/files/generate-asset-upload-urls).
@@ -76,7 +82,7 @@ curl --request POST \
   },
   "style": {
     "mode": "replace",
-    "selection_mode": "auto",
+    "selection_mode": "point",
     "points": [
       {
         "position_x": 320,

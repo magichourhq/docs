@@ -132,8 +132,7 @@ Implement comprehensive error handling for all API calls:
 <CodeGroup>
 
 ```python Python
-import httpx
-from magic_hour import Client
+from magic_hour import ApiError, Client
 
 client = Client(token="YOUR_API_KEY")
 
@@ -145,8 +144,8 @@ try:
         style={"prompt": "Test"},
     )
 
-except httpx.HTTPStatusError as e:
-    code = e.response.status_code
+except ApiError as e:
+    code = e.status_code
     detail = e.response.text[:300]
 
     if code == 401:
@@ -158,7 +157,7 @@ except httpx.HTTPStatusError as e:
     elif code == 404:
         print("❌ Route or project not found. Check the resource ID.")
     elif code >= 500:
-        print("❌ Server error. Retry later with backoff.")
+        print("❌ Server error. Check for an accepted project before retrying this creation request.")
     else:
         print(f"❌ API error ({code}): {detail}")
 
@@ -168,7 +167,7 @@ except Exception as e:
 ```
 
 ```javascript Node.js
-import { Client } from "magic-hour";
+import { ApiError, Client } from "magic-hour";
 
 const client = new Client({ token: "YOUR_API_KEY" });
 
@@ -180,19 +179,23 @@ try {
     style: { prompt: "Test" },
   });
 } catch (error) {
-  if (error.statusCode === 401) {
+  if (!(error instanceof ApiError)) throw error;
+  const statusCode = error.response.status;
+  if (statusCode === 401) {
     console.log("❌ Invalid API key. Check your credentials.");
-  } else if (error.statusCode === 402) {
+  } else if (statusCode === 402) {
     console.log(
       "❌ Payment required. Add credits, subscribe, or upgrade the plan named by the error code."
     );
-  } else if (error.statusCode === 400 || error.statusCode === 422) {
+  } else if (statusCode === 400 || statusCode === 422) {
     console.log(`❌ Invalid parameters: ${error.message}`);
     // Fix your request parameters
-  } else if (error.statusCode === 404) {
+  } else if (statusCode === 404) {
     console.log("❌ Route or project not found. Check the resource ID.");
-  } else if (error.statusCode >= 500) {
-    console.log("❌ Server error. Retry later with backoff.");
+  } else if (statusCode >= 500) {
+    console.log(
+      "❌ Server error. Check for an accepted project before retrying this creation request."
+    );
   } else {
     console.log(`❌ API error: ${error.message}`);
     // Log error and alert monitoring system
@@ -222,10 +225,10 @@ while True:
         download_url = status.downloads[0].url
         break
 
-    if status.status == "error":
-        err = status.error or {}
-        error_code = err.get("code", "unknown")
-        error_msg = err.get("message", "Unknown error")
+    if status.status in ("error", "canceled"):
+        err = status.error
+        error_code = getattr(err, "code", "unknown")
+        error_msg = getattr(err, "message", "Unknown error")
 
         if error_code == "no_source_face":
             print("❌ No face detected. Use an image with a visible face.")
@@ -256,7 +259,7 @@ while (true) {
     // Success - download result
     const downloadUrl = status.downloads[0].url;
     break;
-  } else if (status.status === "error") {
+  } else if (status.status === "error" || status.status === "canceled") {
     // Job failed during processing
     const errorCode = status.error?.code || "unknown";
     const errorMsg = status.error?.message || "Unknown error";
@@ -279,7 +282,7 @@ while (true) {
         console.log(`❌ Error (${errorCode}): ${errorMsg}`);
     }
 
-    return null;
+    throw new Error(`Job ${jobId}: ${status.status}`);
   }
 
   await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -346,7 +349,7 @@ def wait_for_completion(client, job_id, timeout_minutes=10):
 
         if status.status == "complete":
             return status
-        elif status.status == "error":
+        elif status.status in ("error", "canceled"):
             raise Exception(f"Job failed: {status.error}")
 
         time.sleep(3)

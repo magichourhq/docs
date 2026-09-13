@@ -104,8 +104,8 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -128,7 +128,6 @@ const result = await client.v1.aiQrCodeGenerator.generate(
   }
 );
 
-console.log(`✅ QR code complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 ```
@@ -157,8 +156,8 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js

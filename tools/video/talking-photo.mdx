@@ -59,12 +59,18 @@ asynchronously, and duration varies with the input, selected settings, and queue
 
 ### Audio Guidelines
 
-| Audio Type       | Best Practice                                                                      |
+| Audio Type       | Best Practice                                                                     |
 | :--------------- | :--------------------------------------------------------------------------------- |
 | Voice recording  | Clear speech without background noise                                              |
 | Generated speech | Create the audio first with the [AI Voice Generator](/tools/audio/voice-generator) |
 | Music/songs      | Works best with clear vocals                                                       |
-| Length           | Keep under 30 seconds for best results                                             |
+| Length           | Test a short segment first; API limits depend on generation mode                   |
+
+## Generation modes
+
+Set `style.generation_mode` to `realistic`, the default, to preserve likeness, or `prompted` to guide the scene with `style.prompt`. The maximum selected audio duration is 300 seconds for `realistic` and 45 seconds for `prompted`.
+
+The older `pro`, `standard`, `stable`, and `expressive` values are deprecated. Use the current mode names for new integrations; `style.intensity` is also deprecated.
 
 ## Code Examples
 
@@ -96,9 +102,9 @@ if result.status == "complete":
     print(f"Downloaded to: {result.downloaded_paths}")
     print(f"Credits charged: {result.credits_charged}")
 else:
-    print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    print(f"Job ended with status: {result.status}")
+    if result.error:
+        print(f"Error: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -124,9 +130,13 @@ const result = await client.v1.aiTalkingPhoto.generate(
   }
 );
 
-console.log(`✅ Talking photo complete!`);
-console.log(`Status: ${result.status}`);
-console.log(`Downloaded to: ${result.downloadedPaths}`);
+if (result.status === "complete") {
+  console.log(`✅ Talking photo complete!`);
+  console.log(`Downloaded to: ${result.downloadedPaths}`);
+} else {
+  console.error(`Job ended with status: ${result.status}`);
+  if (result.error) console.error(result.error.message);
+}
 ```
 
 </CodeGroup>
@@ -138,11 +148,11 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 
 ## Pricing
 
-Talking Photo pricing is based on the duration of the output video (`end_seconds` minus `start_seconds`). Credits are only charged for the frames that actually render, and the create response includes `credits_charged` so you can log the exact cost of every job.
+Talking Photo pricing depends on the output duration, `end_seconds` minus `start_seconds`. The create response reports estimated `credits_charged`; read the completed job for the final amount.
 
 ## Resolution Limits
 
-Output resolution is capped at **720p** (the tool's hard cap) or your subscription plan's maximum resolution, whichever is lower. You can also set `max_resolution` below your plan maximum to reduce cost. See [Resolution Limits](/billing/resolution-limits) for tier details.
+Use `max_resolution` to constrain the larger output dimension in pixels. The API caps this setting at your plan maximum; supported output sizes also depend on the tool. See [Resolution Limits](/billing/resolution-limits) for current limits.
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample

@@ -56,8 +56,8 @@ When providing a starting image:
 When adding audio:
 
 - **Match the mood** - Audio should complement the visual style
-- **Consider timing** - Longer audio = longer video
-- **Supported formats** - MP3, WAV, AAC, FLAC
+- Set `end_seconds` to control output duration and provide audio long enough for that clip.
+- See the [input file guide](/integration/inputs-and-outputs) for supported audio formats.
 
 ## Code Examples
 
@@ -97,9 +97,9 @@ if result.status == "complete":
     print(f"Downloaded to: {result.downloaded_paths}")
     print(f"Credits charged: {result.credits_charged}")
 else:
-    print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    print(f"Job ended with status: {result.status}")
+    if result.error:
+        print(f"Error: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -132,9 +132,13 @@ const result = await client.v1.animation.generate(
   }
 );
 
-console.log(`✅ Animation complete!`);
-console.log(`Status: ${result.status}`);
-console.log(`Downloaded to: ${result.downloadedPaths}`);
+if (result.status === "complete") {
+  console.log(`✅ Animation complete!`);
+  console.log(`Downloaded to: ${result.downloadedPaths}`);
+} else {
+  console.error(`Job ended with status: ${result.status}`);
+  if (result.error) console.error(result.error.message);
+}
 ```
 
 </CodeGroup>
@@ -171,9 +175,9 @@ if result.status == "complete":
     print(f"Downloaded to: {result.downloaded_paths}")
     print(f"Credits charged: {result.credits_charged}")
 else:
-    print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    print(f"Job ended with status: {result.status}")
+    if result.error:
+        print(f"Error: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -203,7 +207,12 @@ const result = await client.v1.animation.generate(
   }
 );
 
-console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
+if (result.status === "complete") {
+  console.log(`Downloaded to: ${result.downloadedPaths}`);
+} else {
+  console.error(`Job ended with status: ${result.status}`);
+  if (result.error) console.error(result.error.message);
+}
 ```
 
 </CodeGroup>
@@ -240,9 +249,9 @@ if result.status == "complete":
     print(f"Downloaded to: {result.downloaded_paths}")
     print(f"Credits charged: {result.credits_charged}")
 else:
-    print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    print(f"Job ended with status: {result.status}")
+    if result.error:
+        print(f"Error: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -274,23 +283,23 @@ const result = await client.v1.animation.generate(
   }
 );
 
-console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
+if (result.status === "complete") {
+  console.log(`Downloaded to: ${result.downloadedPaths}`);
+} else {
+  console.error(`Job ended with status: ${result.status}`);
+  if (result.error) console.error(result.error.message);
+}
 ```
 
 </CodeGroup>
 
 ## Pricing
 
-Animation uses credits based on video duration:
-
-| Duration   | Approximate Credits |
-| :--------- | :------------------ |
-| 5 seconds  | ~150 credits        |
-| 10 seconds | ~300 credits        |
+Animation estimates credits from both `fps` and `end_seconds`. Increasing either increases the number of frames to render. Read `credits_charged` from the completed job for the final total.
 
 ## Resolution Limits
 
-Animation has a maximum resolution of **1472px** (either width or height).
+`width` and `height` are required and must each be at least 64 pixels. Maximum dimensions depend on your subscription and the tool limits. See [Resolution Limits](/billing/resolution-limits).
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample

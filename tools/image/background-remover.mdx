@@ -69,12 +69,14 @@ Image Background Remover automatically removes backgrounds from images with prec
 
 ### Output Format
 
-The API returns a **PNG with transparent background**, which:
+Without a replacement background, the API returns a PNG with a transparent background, which:
 
 - Preserves subject with full quality
 - Has alpha channel for transparency
 - Can be placed on any new background
 - Works in most design software
+
+To replace the background in the same request, provide `assets.background_image_file_path`, or `backgroundImageFilePath` in Node.js. The API resizes the replacement to match the subject image, so use similar dimensions.
 
 ## Code Examples
 
@@ -104,8 +106,8 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -127,7 +129,6 @@ const result = await client.v1.imageBackgroundRemover.generate(
   }
 );
 
-console.log(`✅ Background removal complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 ```

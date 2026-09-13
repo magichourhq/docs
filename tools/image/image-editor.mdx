@@ -56,12 +56,12 @@ asynchronously, and duration varies with the input, selected settings, and queue
 
 ### Image Requirements
 
-| Requirement | Details                                                           |
+| Requirement | Details                             |
 | :---------- | :---------------------------------------------------------------- |
-| Resolution  | Minimum 512x512 pixels                                            |
+| Resolution  | 512x512 pixels or larger recommended                              |
 | Format      | PNG, JPG, JPEG, JFIF, WEBP, HEIC, HEIF, AVIF, JP2, TIFF, TIF, BMP |
-| Quality     | Higher quality enables better edits                               |
-| Clarity     | Clear images edit more accurately                                 |
+| Quality     | Higher quality enables better edits |
+| Clarity     | Clear images edit more accurately   |
 
 ## Code Examples
 
@@ -94,8 +94,8 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -122,7 +122,6 @@ const result = await client.v1.aiImageEditor.generate(
   }
 );
 
-console.log(`✅ Image edit complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 ```
