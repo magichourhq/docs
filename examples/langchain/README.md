@@ -88,27 +88,11 @@ different LangChain chat provider, pass its chat model as `promptModel` to
 - `outputs/` is ignored by Git. It contains private project references and generated
   media. The script prints local file paths instead of signed URLs.
 
-## Validation and limits
+## Limits
 
-```sh
-npm test       # Local MCP server and deterministic prompt model; no paid API calls
-npm run smoke # Live tool discovery, ping and invalid-key rejection; no generation
-```
-
-Eleven tests exercise the installed LangGraph engine and MCP adapter through a
-real local HTTP transport. They cover all three workflows, OpenAPI-derived input
-constraints, preserving multi-block structured results and signed URLs, saving
-the ID before waiting, recovery without creation, failure/cancellation/timeout,
-missing downloads, and ambiguous creation errors. The schemas were captured from
-the live server on September 7, 2026; smoke checks verify current tool availability.
-
-The live smoke check loaded 44 tools, received `pong`, and confirmed account access
-rejects an invalid key with HTTP 401. This is connectivity/authentication evidence,
-not authenticated media-generation validation of this LangChain example. Earlier
-real generation tests used Pipedream components and the compiled n8n node. The
-OpenAI prompt step is tested with a deterministic LangChain test model, not a paid
-OpenAI request. Hosted LangGraph deployment and third-party publish destinations
-are not covered.
+The optional OpenAI prompt step and each Magic Hour generation can incur separate
+charges. Hosted LangGraph deployment and third-party publish destinations are not
+included.
 
 This is a runnable example, not a separately published LangChain integration
 package or an approved LangChain catalog listing. See the official

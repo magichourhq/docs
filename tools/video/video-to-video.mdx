@@ -56,6 +56,8 @@ Video to Video transforms existing videos by applying new styles, effects, and v
 
 ### Style Prompts
 
+Choose a required `style.art_style`. Set `style.prompt_type` to `custom` to use your own prompt, or `append_default` to combine it with the preset prompt. The default prompt type ignores a supplied `style.prompt`.
+
 Describe the visual style you want to apply:
 
 **✅ Good prompts:**
@@ -118,9 +120,9 @@ if result.status == "complete":
     print(f"Downloaded to: {result.downloaded_paths}")
     print(f"Credits charged: {result.credits_charged}")
 else:
-    print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    print(f"Job ended with status: {result.status}")
+    if result.error:
+        print(f"Error: {result.error.message}")
 
 ```
 
@@ -129,30 +131,38 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.videoToVideo.generate({
-  assets: {
-    videoFilePath:
-      "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
-    videoSource: "file",
+const result = await client.v1.videoToVideo.generate(
+  {
+    assets: {
+      videoFilePath:
+        "https://raw.githubusercontent.com/runshouse/Sample_Assets/main/obamamicdrop.mov",
+      videoSource: "file",
+    },
+    endSeconds: 2,
+    fpsResolution: "HALF",
+    startSeconds: 0,
+    style: {
+      artStyle: "Studio Ghibli",
+      prompt: "Obama dropping the mic in anime style, soft pastel colors, whimsical and expressive",
+      promptType: "custom",
+      version: "default",
+    },
+    name: "Anime Mic Drop",
   },
-  endSeconds: 2,
-  fpsResolution: "HALF",
-  startSeconds: 0,
-  style: {
-    artStyle: "Studio Ghibli",
-    prompt: "Obama dropping the mic in anime style, soft pastel colors, whimsical and expressive",
-    promptType: "custom",
-    version: "default",
-  },
-  name: "Anime Mic Drop",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Video complete!`);
-console.log(`Status: ${result.status}`);
-console.log(`Downloaded to: ${result.downloadedPaths}`);
+if (result.status === "complete") {
+  console.log(`✅ Video complete!`);
+  console.log(`Downloaded to: ${result.downloadedPaths}`);
+} else {
+  console.error(`Job ended with status: ${result.status}`);
+  if (result.error) console.error(result.error.message);
+}
 ```
 
 </CodeGroup>
@@ -162,19 +172,13 @@ console.log(`Downloaded to: ${result.downloadedPaths}`);
 Video to Video uses credits based on video duration and frame rate. Credits are only charged for the frames that actually render — you'll see an estimate when the job is queued and the final total after it's done (in the job's `credits_charged` field).
 
 | Factor     | Impact                           |
-| :--------- | :------------------------------- |
+| :--------- | :-------------------------- |
 | Duration   | More seconds = more credits      |
 | Frame rate | Higher FPS = more credits        |
-| Resolution | Higher resolution = more credits |
 
 ## Resolution Limits
 
-Video to Video has a maximum resolution of **1472px** (either width or height).
-
-<Note>
-  **64-Pixel Increments**: Video to Video requires resolution dimensions to be in increments of 64
-  pixels (e.g., 512, 576, 640, 704, etc.).
-</Note>
+Output resolution is managed by the service and your subscription limits. The `width` and `height` request fields are deprecated and no longer affect output resolution. See [Resolution Limits](/billing/resolution-limits).
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample

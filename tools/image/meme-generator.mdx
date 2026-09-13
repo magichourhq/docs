@@ -8,7 +8,7 @@ import { ToolSection } from "/snippets/tool-section.mdx";
 
 ## Overview
 
-AI Meme Generator creates humorous memes by combining popular meme templates with your custom topics. The API automatically generates contextually appropriate text for both top and bottom panels that fits the chosen meme template and your specified topic.
+AI Meme Generator writes panel text for your chosen meme template and topic.
 
 <ToolSection
   title="AI Meme Generator"
@@ -71,14 +71,14 @@ Popular templates work best with their intended formats:
 | Two Buttons         | Difficult decisions  | "Fix bug or add feature"            |
 | Galaxy Brain        | Progressive ideas    | "Levels of code optimization"       |
 
-`template` accepts one of: `Random`, `Drake Hotline Bling`, `Galaxy Brain`, `Two Buttons`, `Gru's Plan`,
-`Tuxedo Winnie The Pooh`, `Is This a Pigeon`, `Panik Kalm Panik`, `Disappointed Guy`, `Waiting Skeleton`,
-`Bike Fall`, `Change My Mind`, `Side Eyeing Chloe`. Any other value returns a 400.
+`template` accepts `Random` or a supported template name, including `Distracted Boyfriend`, `This Is Fine`, and `Surprised Pikachu`. See the [API reference](/api-reference/image-projects/ai-meme-generator) for the complete template enum. Keep `topic` between 1 and 200 characters.
 
 ### Web Search Option
 
-- **Enable `search_web: true`** when your topic references current events or trends
-- **Disable `search_web: false`** for general topics that don't need context
+Use `search_web` in the Python SDK and `searchWeb` in Node.js or raw JSON.
+
+- Enable web search when your topic references current events or trends.
+- Leave web search disabled, the default, for topics that don't need current context.
 - Web search may add slight processing time but improves relevance
 
 ## Code Examples
@@ -111,8 +111,8 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -120,19 +120,22 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiMemeGenerator.generate({
-  style: {
-    searchWeb: false,
-    template: "Drake Hotline Bling",
-    topic: "When the code finally works after hours of debugging",
+const result = await client.v1.aiMemeGenerator.generate(
+  {
+    style: {
+      searchWeb: false,
+      template: "Drake Hotline Bling",
+      topic: "When the code finally works after hours of debugging",
+    },
+    name: "Code Works Meme",
   },
-  name: "Code Works Meme",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Meme complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 ```
@@ -162,22 +165,26 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiMemeGenerator.generate({
-  style: {
-    searchWeb: false,
-    template: "Drake Hotline Bling",
-    topic: "Developers and shiny new frameworks",
+const result = await client.v1.aiMemeGenerator.generate(
+  {
+    style: {
+      searchWeb: false,
+      template: "Random",
+      topic: "Developers and shiny new frameworks",
+    },
+    name: "Framework Meme",
   },
-  name: "Framework Meme",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
 ```
@@ -207,22 +214,26 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiMemeGenerator.generate({
-  style: {
-    searchWeb: true,
-    template: "Two Buttons",
-    topic: "Latest tech trends in AI development",
+const result = await client.v1.aiMemeGenerator.generate(
+  {
+    style: {
+      searchWeb: true,
+      template: "Two Buttons",
+      topic: "Latest tech trends in AI development",
+    },
+    name: "AI Trends Meme",
   },
-  name: "AI Trends Meme",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
 ```
@@ -257,7 +268,7 @@ console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
   <Card title="AI Image Generator" icon="wand-magic-sparkles" href="/tools/image/image-generator">
     Create images from text descriptions
   </Card>
-  <Card title="AI GIF Generator" icon="film" href="/api-reference/image-projects/ai-gif-generator">
+  <Card title="AI GIF Generator" icon="film" href="/tools/image/gif-generator">
     Create animated GIFs
   </Card>
 </CardGroup>

@@ -114,8 +114,8 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -123,20 +123,23 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiImageGenerator.generate({
-  imageCount: 1,
-  aspectRatio: "16:9",
-  style: {
-    prompt: "A serene mountain landscape at sunset with vibrant colors",
-    tool: "ai-photo-generator",
+const result = await client.v1.aiImageGenerator.generate(
+  {
+    imageCount: 1,
+    aspectRatio: "16:9",
+    style: {
+      prompt: "A serene mountain landscape at sunset with vibrant colors",
+      tool: "ai-photo-generator",
+    },
+    name: "Mountain Sunset",
   },
-  name: "Mountain Sunset",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Image complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 console.log(`Credits charged: ${result.creditsCharged}`);
@@ -144,19 +147,19 @@ console.log(`Credits charged: ${result.creditsCharged}`);
 
 </CodeGroup>
 
-### Generate Multiple Images
+### Square image
 
 <CodeGroup>
 
 ```python Python
 result = client.v1.ai_image_generator.generate(
-    image_count=4,  # Generate 4 variations
+    image_count=1,
     aspect_ratio="1:1",
     style={
         "prompt": "Cute cat wearing sunglasses, digital art style",
         "tool": "ai-anime-generator"
     },
-    name="Cat Variations",
+    name="Cat Illustration",
     wait_for_completion=True,
     download_outputs=True,
     download_directory="."
@@ -168,25 +171,28 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiImageGenerator.generate({
-  imageCount: 4, // Generate 4 variations
-  aspectRatio: "1:1",
-  style: {
-    prompt: "Cute cat wearing sunglasses, digital art style",
-    tool: "ai-anime-generator",
+const result = await client.v1.aiImageGenerator.generate(
+  {
+    imageCount: 1,
+    aspectRatio: "1:1",
+    style: {
+      prompt: "Cute cat wearing sunglasses, digital art style",
+      tool: "ai-anime-generator",
+    },
+    name: "Cat Illustration",
   },
-  name: "Cat Variations",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Image complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 console.log(`Credits charged: ${result.creditsCharged}`);
@@ -218,25 +224,28 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiImageGenerator.generate({
-  imageCount: 1,
-  aspectRatio: "9:16",
-  style: {
-    prompt: "Professional business woman in modern office",
-    tool: "ai-photo-generator",
+const result = await client.v1.aiImageGenerator.generate(
+  {
+    imageCount: 1,
+    aspectRatio: "9:16",
+    style: {
+      prompt: "Professional business woman in modern office",
+      tool: "ai-photo-generator",
+    },
+    name: "Business Portrait",
   },
-  name: "Business Portrait",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ Image complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 console.log(`Credits charged: ${result.creditsCharged}`);

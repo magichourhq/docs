@@ -104,8 +104,8 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
@@ -113,18 +113,21 @@ import { Client } from "magic-hour";
 
 const client = new Client({ token: process.env.MAGIC_HOUR_API_KEY });
 
-const result = await client.v1.aiQrCodeGenerator.generate({
-  content: "https://yourwebsite.com",
-  style: {
-    artStyle: "Ocean waves with blue and teal colors, flowing organic patterns",
+const result = await client.v1.aiQrCodeGenerator.generate(
+  {
+    content: "https://yourwebsite.com",
+    style: {
+      artStyle: "Ocean waves with blue and teal colors, flowing organic patterns",
+    },
+    name: "Brand QR Code",
   },
-  name: "Brand QR Code",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
-console.log(`✅ QR code complete!`);
 console.log(`Status: ${result.status}`);
 console.log(`Downloaded to: ${result.downloadedPaths}`);
 ```
@@ -153,21 +156,25 @@ if result.status == "complete":
     print(f"Credits charged: {result.credits_charged}")
 else:
     print(f"❌ Job failed with status: {result.status}")
-    if hasattr(result, 'error_message'):
-        print(f"Error: {result.error_message}")
+    if result.error:
+        print(f"Error: {result.error.code}: {result.error.message}")
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiQrCodeGenerator.generate({
-  content: "https://event.example.com/tickets",
-  style: {
-    artStyle: "Elegant gold and black art deco patterns",
+const result = await client.v1.aiQrCodeGenerator.generate(
+  {
+    content: "https://event.example.com/tickets",
+    style: {
+      artStyle: "Elegant gold and black art deco patterns",
+    },
+    name: "Event QR Code",
   },
-  name: "Event QR Code",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Downloaded to: ${result.downloadedPaths}`);
 ```

@@ -54,6 +54,15 @@ AI Video Editor changes existing footage from a text prompt. Use it to remove or
 - **Use clear footage** - Stable motion, good lighting, and visible subjects improve consistency
 - **Review the full clip** - Check transitions and fast-moving details before using the output
 
+## Models and limits
+
+| Model             | Clip duration  | Resolutions       | Default tier |
+| :---------------- | :------------- | :---------------- | :----------- |
+| `ltx-2.3`         | 0.5–45 seconds | 480p, 720p, 1080p | Free         |
+| `gemini-omni-1.1` | 3–10 seconds   | 720p, 1080p       | Paid         |
+
+The selected duration is `end_seconds - start_seconds`. Output resolution defaults to `480p` on the free tier and `720p` on paid tiers, subject to plan limits. Set `model` explicitly to use its duration and resolution limits. The older `gemini-omni` value is deprecated.
+
 ## Code Example
 
 The input file must be a direct URL or a `file_path` returned by the file upload API.
