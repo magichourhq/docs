@@ -1,6 +1,6 @@
 ---
 title: "Product Video and Lip-Sync Recipes"
-description: "Turn a product photo into a video or sync a video to a voiceover with the Magic Hour Python SDK."
+description: "Turn a product photo into a video, budget a catalog workflow, or sync a video to a voiceover with the Magic Hour Python SDK."
 ---
 
 These two standalone Python recipes upload local files, create one video project,
@@ -50,6 +50,25 @@ through its hidden prompt, and upload your files. Each notebook creates one vide
   balance](https://magichour.ai/developer) before running. Start with one short clip, review the
   output, then scale up. Interrupting the script does not cancel a submitted project.
 </Warning>
+
+## Choose a model for product video
+
+Start with one representative product image and compare the completed outputs, not only the
+generation price. Labels, logos, packaging, and geometry can change during generation, so keep a
+human review step before publishing a clip.
+
+| Option                    | Best fit                                                | Cost or constraint for a five-second clip                 |
+| :------------------------ | :------------------------------------------------------ | :-------------------------------------------------------- |
+| Account default           | First integration and lowest setup friction             | Uses the model and resolution available to your account   |
+| Kling 3.0, 720p, no audio | Camera movement from a product photo                    | 240 credits; paid plan required                           |
+| LTX 2.5, 480p             | Lower-cost prompt iteration                             | 120 credits                                               |
+| Seedance 2.0, 720p        | Reference-driven video experiments                      | 1,440 credits                                             |
+| Template rendering        | Exact prices, legal copy, logos, and repeatable layouts | Use a deterministic renderer instead of generative motion |
+
+Model duration, resolution, audio, and plan constraints differ. Check the current
+[model and credit matrix](/api-reference/models) before changing the example. For a direct provider
+comparison, hold the model, duration, resolution, and audio settings constant and test the same
+product images.
 
 ## Product photo → five-second video
 
@@ -109,6 +128,21 @@ changing the duration too.
 
 Review the rendered clip before using it in an ad or product page. The prompt is
 guidance, not a guarantee that labels, logos, or product details remain exact.
+
+### Move from one SKU to a catalog
+
+1. Run one image through the complete recipe and verify the product remains usable.
+2. Store the SKU, input-image version, prompt, model, settings, and returned project ID together.
+3. Queue one project per image. Start with one active job and increase concurrency only after
+   checking account limits and error rates.
+4. Budget for successful creative attempts, including variants you reject. At 240 credits each,
+   100 five-second Kling 3.0 clips use 24,000 credits; three attempts per SKU use 72,000 credits.
+5. Download completed outputs to your own storage and review each clip before marking the SKU ready.
+
+The endpoint creates one project per image; it does not accept a catalog in one request. A request
+timeout can conceal an accepted job, so reconcile the project before retrying to avoid duplicate
+spend. For a production catalog, use a durable queue, bounded concurrency, webhooks, and explicit
+per-item state in your database.
 
 ## Existing video + voiceover → lip-synced clip
 

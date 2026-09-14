@@ -50,6 +50,7 @@ Every generation follows the same lifecycle:
       Receive webhook
     </div>
     <span style={{ gridColumn: "10", gridRow: "3" }}>↗</span>
+
   </div>
 </div>
 
@@ -70,12 +71,11 @@ In this tutorial, you'll create a working application that generates an AI image
 - Code that creates a job, monitors its progress, and downloads the result
 - Proper file handling for inputs and outputs
 - Error handling for production use
-- A downloadable GitHub repository to reference
 
 <Note>
   **Estimated time**: 15-20 minutes **Prerequisites**: API key from [Developer
-  Hub](https://magichour.ai/developer?tab=api-keys&ref=docs-first-integration&utm_source=docs&utm_medium=referral&utm_campaign=first-integration), Python 3.8+ or
-  Node.js 16+ installed
+  Hub](https://magichour.ai/developer?tab=api-keys&ref=docs-first-integration&utm_source=docs&utm_medium=referral&utm_campaign=first-integration),
+  Python 3.10+ or Node.js 22+ installed
 </Note>
 
 ## Choose Your Language
@@ -123,8 +123,8 @@ pip install magic_hour python-dotenv requests
 
 <Info>
   **SDK Documentation**: Full Python SDK docs available at
-  [github.com/magichourhq/magic-hour-python](https://github.com/magichourhq/magic-hour-python).
-  The Python package is published as `magic_hour` on PyPI; the Node.js SDK is `magic-hour` on npm.
+  [github.com/magichourhq/magic-hour-python](https://github.com/magichourhq/magic-hour-python). The
+  Python package is published as `magic_hour` on PyPI; the Node.js SDK is `magic-hour` on npm.
 </Info>
 
 ### Step 3: Configure Your API Key
@@ -218,11 +218,11 @@ def main():
                 download_image(download_url, job_id)
                 break
 
-            elif status == "error":
+            elif status in ("error", "canceled"):
                 error_info = status_response.error
                 print(f"❌ Job failed with error:")
-                print(f"   Code: {error_info.get('code', 'unknown')}")
-                print(f"   Message: {error_info.get('message', 'No error message')}")
+                print(f"   Code: {getattr(error_info, 'code', 'unknown')}")
+                print(f"   Message: {getattr(error_info, 'message', 'No error message')}")
                 return
 
             elif status in ["queued", "rendering"]:
@@ -448,7 +448,7 @@ async function main() {
         const downloadUrl = statusResponse.downloads[0].url;
         await downloadImage(downloadUrl, jobId);
         break;
-      } else if (status === "error") {
+      } else if (status === "error" || status === "canceled") {
         const errorInfo = statusResponse.error;
         console.log("❌ Job failed with error:");
         console.log(`   Code: ${errorInfo?.code || "unknown"}`);
@@ -569,7 +569,7 @@ while attempt < max_attempts:
 
 - Periodically checks if the job is complete
 - Polls every 3 seconds (appropriate for image generation)
-- Handles different statuses: queued, rendering, complete, error
+- Handles different statuses: queued, rendering, complete, error, canceled
 
 ### 3. File Download
 
