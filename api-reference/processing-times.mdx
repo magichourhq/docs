@@ -4,11 +4,12 @@ description: "Recent typical end-to-end processing times for successful Magic Ho
 ---
 
 The baseline values cover successful API jobs created during the **30 complete UTC days from August
-7 through September 5, 2026**. Five values use the latest 48-hour cohort, from **September 5 at
-17:00 through September 7 at 17:00 UTC**, and are marked with §. Four unchanged values use the prior
-48-hour cohort, from **September 4 at 01:00 through September 6 at 01:00 UTC**, and are marked with
-‡. All values measure end-to-end time from project creation to completion, including queueing. The
-warehouse snapshot was queried on September 7, 2026.
+7 through September 5, 2026**. Two values use the latest 48-hour cohort, from **September 12 at
+16:00 through September 14 at 16:00 UTC**, and are marked with ¶. Five values use an earlier 48-hour
+cohort, from **September 5 at 17:00 through September 7 at 17:00 UTC**, and are marked with §. Four
+unchanged values use the prior 48-hour cohort, from **September 4 at 01:00 through September 6 at
+01:00 UTC**, and are marked with ‡. All values measure end-to-end time from project creation to
+completion, including queueing. The warehouse snapshot was queried on September 14, 2026.
 
 <Warning>
   These are directional observations, not an SLA or a prediction for an individual job. Processing
@@ -45,16 +46,19 @@ available.
 
 ‡ Uses the prior 48-hour API cohort, from September 4 at 01:00 through September 6 at 01:00 UTC.
 
-§ Uses the latest 48-hour API cohort, from September 5 at 17:00 through September 7 at 17:00 UTC,
+§ Uses an earlier 48-hour API cohort, from September 5 at 17:00 through September 7 at 17:00 UTC,
+because its median was faster than the value published before that refresh.
+
+¶ Uses the latest 48-hour API cohort, from September 12 at 16:00 through September 14 at 16:00 UTC,
 because its median was faster than the currently published value. Other rows retain their published
-baseline or prior 48-hour value.
+baseline or earlier 48-hour value.
 
 ## Image endpoints
 
 | Endpoint                                                                                      | Typical (p50) | Sample |
 | --------------------------------------------------------------------------------------------- | ------------: | -----: |
-| [`POST /v1/ai-clothes-changer`](/api-reference/image-projects/ai-clothes-changer)             |           18s |  1,464 |
-| [`POST /v1/ai-face-editor`](/api-reference/image-projects/ai-face-editor)                     |            4s |     64 |
+| [`POST /v1/ai-clothes-changer`](/api-reference/image-projects/ai-clothes-changer)             |           10s |    92¶ |
+| [`POST /v1/ai-face-editor`](/api-reference/image-projects/ai-face-editor)                     |            3s |    63¶ |
 | [`POST /v1/ai-gif-generator`](/api-reference/image-projects/ai-gif-generator)                 |           26s |    179 |
 | [`POST /v1/ai-headshot-generator`](/api-reference/image-projects/ai-headshot-generator)       |           16s |    147 |
 | [`POST /v1/ai-image-editor`](/api-reference/image-projects/ai-image-editor)                   |           10s |   299§ |
