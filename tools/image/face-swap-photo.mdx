@@ -172,9 +172,12 @@ Request failures return a `code` and `message`; for example, `invalid_request` i
 
 A render failure appears as `status: "error"` in [image project details](/api-reference/image-projects/get-image-details), with `error.code` and `error.message`. For example, `no_source_face` means the API could not detect a face in the source. Inspect the returned message before retrying.
 
-## Related Tools
+## Related Guides and Tools
 
 <CardGroup cols={2}>
+  <Card title="Bulk Face Swap Guide" icon="code" href="/get-started/bulk-face-swap">
+    Process a bounded list while preserving project IDs and recovery state
+  </Card>
   <Card title="Head Swap" icon="user" href="/tools/image/head-swap">
     Replace the full head while retaining the body and scene
   </Card>

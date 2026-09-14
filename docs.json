@@ -76,7 +76,8 @@
               "get-started/authentication",
               "integration/model-context-protocol",
               "get-started/cookbook",
-              "get-started/starter-recipes"
+              "get-started/starter-recipes",
+              "get-started/bulk-face-swap"
             ]
           },
           {

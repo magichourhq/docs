@@ -1,0 +1,222 @@
+---
+title: "Bulk Face Swap API: Safe Batch Processing"
+sidebarTitle: "Bulk Face Swap"
+description: "Process photo face swaps in a bounded batch with Python, JavaScript, or Bash while preserving project IDs and avoiding duplicate charges."
+---
+
+Use one permitted source face across a list of target photos while keeping a durable record of every
+request. This workflow fits opt-in event photos, personalized creative, and photo-editing products.
+
+Magic Hour processes one photo project per API request; there is no bulk face-swap endpoint. The
+runners below call the companion single-photo script sequentially, wait for each result, and stop on the
+first error. Start with one image before running a batch.
+
+<CardGroup cols={2}>
+  <Card title="Face Swap API page" icon="code" href="https://magichour.ai/api/face-swap">
+    Explore Face Swap API capabilities and pricing
+  </Card>
+  <Card
+    title="Face Swap Photo reference"
+    icon="code"
+    href="/api-reference/image-projects/face-swap-photo"
+  >
+    Check request fields and response schemas
+  </Card>
+</CardGroup>
+
+## Before you start
+
+1. [Create an API key](/get-started/authentication) and set `MAGIC_HOUR_API_KEY`.
+2. Download the matching companion worker from this guide's [versioned source](https://github.com/magichourhq/docs/tree/e5d62a0e81205cb1241480a73584dc30622e10c5/examples/bulk-face-swap):
+   `example.py`, `example.mjs`, or `example.sh`. These workers read `SOURCE_FACE_URL` and
+   `TARGET_IMAGE_URL`, print `PROJECT_ID` before polling, and support `PROJECT_ID` recovery.
+3. Run that example with one source and one target. Confirm the output and credit charge before
+   continuing.
+4. Create `targets.txt` beside the script with one direct HTTPS target-image URL per line. Use 1-100
+   images for the first batch.
+5. Set `SOURCE_FACE_URL` to a clear source image you control. Only process images and likenesses you
+   have permission to use.
+
+<Warning>
+  Every fresh create request uses generation credits. A timed-out client can hide an accepted job;
+  preserve its log and reconcile the project before retrying.
+</Warning>
+
+## Source, target, and cost
+
+`source_file_path` supplies the face identity. `target_file_path` supplies the scene and faces to
+replace. With `face_swap_mode: "all-faces"`, every detected target face receives the same identity.
+For different identities in a group photo, use [face detection](/api-reference/files/face-detection)
+and individual face mappings instead.
+
+Photo face swap costs 10 credits per image, so 10 completed photos cost 100 credits and 100 cost
+1,000 credits. A completed image that you reject creatively still uses credits. Check current
+[billing options](/billing/overview) before scaling.
+
+## Run a bounded batch
+
+Save the matching runner below as `batch.py`, `batch.mjs`, or `batch.sh`, then run it from the same
+folder as the single-photo example and `targets.txt`.
+
+<CodeGroup>
+
+```python Python
+# Download this guide's companion example.py first.
+# targets.txt: one direct target image URL per line, up to 100 images.
+import os
+from pathlib import Path
+import subprocess
+import sys
+
+targets = [line.strip() for line in Path("targets.txt").read_text().splitlines() if line.strip()]
+if not 1 <= len(targets) <= 100:
+    raise SystemExit("Start with 1–100 target images")
+if not os.environ.get("SOURCE_FACE_URL") or not os.environ.get("MAGIC_HOUR_API_KEY"):
+    raise SystemExit("Set SOURCE_FACE_URL and MAGIC_HOUR_API_KEY")
+Path("batch-logs").mkdir(exist_ok=True)
+for index, target in enumerate(targets):
+    log = Path(f"batch-logs/{index:03d}.log")
+    complete = log.with_suffix(".complete")
+    if complete.exists():
+        if not log.exists():
+            raise SystemExit(f"Completion marker is missing its log: {complete}")
+        print(log, "already complete")
+        continue
+    # A log without a completion marker means submitted OR uncertain.
+    if log.exists():
+        raise SystemExit(f"Review existing log before continuing: {log}")
+    env = dict(os.environ, TARGET_IMAGE_URL=target)
+    env.pop("PROJECT_ID", None)
+    with log.open("x") as output:
+        result = subprocess.run([sys.executable, "example.py"], env=env,
+                                stdout=output, stderr=subprocess.STDOUT)
+    if result.returncode != 0:
+        print(log, "needs review")
+        raise SystemExit(result.returncode)  # Reconcile before submitting more.
+    complete.touch(exist_ok=False)
+    print(log, "complete")
+```
+
+```javascript JavaScript
+// Download this guide's companion example.mjs first.
+// Save this as batch.mjs; run: node batch.mjs
+import { readFileSync, mkdirSync, existsSync, openSync, closeSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+
+const targets = readFileSync("targets.txt", "utf8")
+  .split(/\r?\n/)
+  .map((s) => s.trim())
+  .filter(Boolean);
+if (targets.length < 1 || targets.length > 100) throw new Error("Start with 1–100 images");
+if (!process.env.SOURCE_FACE_URL || !process.env.MAGIC_HOUR_API_KEY) {
+  throw new Error("Set SOURCE_FACE_URL and MAGIC_HOUR_API_KEY");
+}
+mkdirSync("batch-logs", { recursive: true });
+for (const [index, target] of targets.entries()) {
+  const log = "batch-logs/" + String(index).padStart(3, "0") + ".log";
+  const complete = log.slice(0, -4) + ".complete";
+  if (existsSync(complete)) {
+    if (!existsSync(log)) throw new Error("Completion marker is missing its log: " + complete);
+    console.log(log, "already complete");
+    continue;
+  }
+  if (existsSync(log)) throw new Error("Review existing log before continuing: " + log);
+  const env = { ...process.env, TARGET_IMAGE_URL: target };
+  delete env.PROJECT_ID;
+  const fd = openSync(log, "wx");
+  const result = spawnSync(process.execPath, ["example.mjs"], { env, stdio: ["ignore", fd, fd] });
+  closeSync(fd);
+  if (result.status !== 0) {
+    console.log(log, "needs review");
+    process.exit(result.status ?? 1);
+  }
+  const completeFd = openSync(complete, "wx");
+  closeSync(completeFd);
+  console.log(log, "complete");
+}
+```
+
+```bash curl / Bash
+#!/usr/bin/env bash
+# Download this guide's companion example.sh first.
+# targets.txt: one direct target image URL per line. Run: bash batch.sh
+set -euo pipefail
+: "${SOURCE_FACE_URL:?Set SOURCE_FACE_URL}"
+: "${MAGIC_HOUR_API_KEY:?Set MAGIC_HOUR_API_KEY}"
+target_count=$(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' targets.txt \
+  | awk 'length($0) > 0 { count++ } END { print count + 0 }')
+if [ "$target_count" -lt 1 ] || [ "$target_count" -gt 100 ]; then
+  echo "Start with 1–100 target images" >&2
+  exit 1
+fi
+mkdir -p batch-logs
+index=0
+while IFS= read -r target || [ -n "$target" ]; do
+  target=$(printf '%s' "$target" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+  [ -z "$target" ] && continue
+  log=$(printf 'batch-logs/%03d.log' "$index")
+  complete=$(printf 'batch-logs/%03d.complete' "$index")
+  index=$((index + 1))
+  if [ -e "$complete" ]; then
+    if [ ! -e "$log" ]; then echo "Completion marker is missing its log: $complete" >&2; exit 1; fi
+    echo "$log already complete"
+    continue
+  fi
+  if [ -e "$log" ]; then echo "Review existing log before continuing: $log" >&2; exit 1; fi
+  # Reserve the log before POST; never overwrite an uncertain submission.
+  (set -o noclobber; : > "$log")
+  if env -u PROJECT_ID TARGET_IMAGE_URL="$target" bash example.sh > "$log" 2>&1; then
+    (set -o noclobber; : > "$complete")
+    echo "$log complete"
+  else
+    echo "$log needs review"
+    exit 1
+  fi
+done < targets.txt
+```
+
+</CodeGroup>
+
+## Expected result
+
+Each `batch-logs/000.log` file contains the project ID, final charge, and expiring download URL, or
+the error that needs review. A matching `.complete` marker appears only after the single-photo script
+exits successfully. Completed items are skipped on rerun. A log without a completion marker stops
+the batch so an uncertain submission is not silently repeated.
+
+Download each completed output before its URL expires. Keep failed, timed-out, and completed work in
+distinct states.
+
+## Recover an interrupted item
+
+If a log contains a project ID, set `PROJECT_ID` to that ID and rerun the single-photo script to
+resume polling without another create request. Append its output to the same log. After it exits
+successfully and you verify that the result belongs to the target, create the matching marker without
+overwriting an existing one:
+
+```bash
+python3 -c 'from pathlib import Path; Path("batch-logs/001.complete").touch(exist_ok=False)'
+```
+
+Replace `001` with the reconciled log index. The next batch run skips that item and continues. If the
+log has no project ID after a timeout, do not submit the request again. Email support@magichour.ai
+with the `POST /v1/face-swap-photo` endpoint, request name, and UTC timestamp so the request can be
+traced first. Preserve the original logs; deleting them and rerunning the whole list can create
+duplicate charges.
+
+For a larger workload, replace these local runners with a durable job queue, bounded concurrency,
+webhook signature verification, and explicit per-item state in your database.
+
+## Troubleshooting
+
+| Problem                              | What to do                                                                                              |
+| :----------------------------------- | :------------------------------------------------------------------------------------------------------ |
+| `401`                                | Verify the API key and Bearer header. Keep keys in server environment variables.                        |
+| Invalid input                        | Use direct file URLs or uploaded paths. Photo requests use `source_file_path` and `target_file_path`.   |
+| `429` or a transient polling failure | Reduce concurrency, back off, and resume the existing project ID. Do not blindly retry create requests. |
+| No face detected                     | Use a clear, front-facing source face and target images with visible faces.                             |
+| A log exists without `.complete`     | Reconcile that job before continuing. Do not delete the log to bypass the stop.                         |
+
+This guide handles photos. [Video face swap](/api-reference/video-projects/face-swap-video) has
+duration-based costs and longer processing times. For motion from a product photo, use the
+[product-video recipe](/get-started/starter-recipes).
