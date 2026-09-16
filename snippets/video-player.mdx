@@ -1,0 +1,16 @@
+export const VideoPlayer = ({ src, loop = false, autoPlay = false }) => {
+  return (
+    <Frame className="relative">
+      <video
+        controls
+        preload="metadata"
+        playsInline
+        className="rounded-lg h-80"
+        src={`${src}#t=0.001`}
+        type={"video/mp4"}
+        loop={loop}
+        autoPlay={autoPlay}
+      ></video>
+    </Frame>
+  );
+};
