@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@ai-sdk/openai": "4.0.65",
-    "@clack/prompts": "1.7.0",
+    "@clack/prompts": "1.8.0",
     "@linear/sdk": "95.0.0",
     "@mintlify/scraping": "4.0.997",
     "@types/node": "26.4.1",

@@ -283,25 +283,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@clack/core@npm:1.4.3":
-  version: 1.4.3
-  resolution: "@clack/core@npm:1.4.3"
+"@clack/core@npm:1.5.0":
+  version: 1.5.0
+  resolution: "@clack/core@npm:1.5.0"
   dependencies:
     fast-wrap-ansi: "npm:^0.2.0"
     sisteransi: "npm:^1.0.5"
-  checksum: 10/9d875718cb161e0eca97c3ed3ba3063211436c4224a04556b840e045f18505c8fdb645754d9459181069b3a3b6699962d0f47e38e2502cb0acfef1649b3557b3
+  checksum: 10/637aa6044481c43a4ac5170bb889c5cfb48e6930e34ddbdd0990186ed30e096de6afbdcc66dde292d62844268c3da030a019527109c58a286ccfbcafabe35983
   languageName: node
   linkType: hard
 
-"@clack/prompts@npm:1.7.0":
-  version: 1.7.0
-  resolution: "@clack/prompts@npm:1.7.0"
+"@clack/prompts@npm:1.8.0":
+  version: 1.8.0
+  resolution: "@clack/prompts@npm:1.8.0"
   dependencies:
-    "@clack/core": "npm:1.4.3"
+    "@clack/core": "npm:1.5.0"
     fast-string-width: "npm:^3.0.2"
     fast-wrap-ansi: "npm:^0.2.0"
     sisteransi: "npm:^1.0.5"
-  checksum: 10/2bfc89d6755a1e10166a3b7a6cc883a09c1d4d82c08fbe98763284d522f256a58ed20c5ee4ab36f2a6e06bc1b3f0c16b02657159f7d593dab12c55260755f0c2
+  checksum: 10/78c56f5f736564d51ebf472950ceafad72d84654746c8f4ece0f05d560494fdaac0045e48cbdbbc7d18726074e1f114439206d980b188043ec7f843f38cf1ac4
   languageName: node
   linkType: hard
 
@@ -3971,7 +3971,7 @@ __metadata:
   resolution: "docs@workspace:."
   dependencies:
     "@ai-sdk/openai": "npm:4.0.65"
-    "@clack/prompts": "npm:1.7.0"
+    "@clack/prompts": "npm:1.8.0"
     "@linear/sdk": "npm:95.0.0"
     "@mintlify/scraping": "npm:4.0.997"
     "@types/node": "npm:26.4.1"
