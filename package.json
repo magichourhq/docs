@@ -10,21 +10,12 @@
     "dev": "mintlify dev --port 3001",
     "check": "mintlify broken-links",
     "scrape:api": "mintlify-scrape openapi-file api-reference/openapi.json -o api-reference",
-    "scrape:webhook": "mintlify-scrape openapi-file webhook-reference/openapi.json -o webhook-reference",
-    "changelog": "tsx scripts/generate-changelog.ts"
+    "scrape:webhook": "mintlify-scrape openapi-file webhook-reference/openapi.json -o webhook-reference"
   },
   "devDependencies": {
-    "@ai-sdk/openai": "4.0.65",
-    "@clack/prompts": "1.7.0",
-    "@linear/sdk": "95.0.0",
     "@mintlify/scraping": "4.0.997",
-    "@types/node": "26.4.1",
-    "ai": "7.0.97",
-    "dotenv": "17.4.2",
     "mintlify": "4.2.873",
     "prettier": "3.9.6",
-    "tsx": "4.23.13",
-    "typescript": "7.0.2",
-    "zod": "4.6.2"
+    "typescript": "7.0.2"
   }
 }

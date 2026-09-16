@@ -20,13 +20,3 @@ updates:
         patterns:
           - "mintlify"
           - "@mintlify/*"
-      changelog-generator:
-        patterns:
-          - "ai"
-          - "@ai-sdk/*"
-          - "@linear/sdk"
-          - "tsx"
-          - "typescript"
-          - "zod"
-          - "dotenv"
-          - "prettier"
