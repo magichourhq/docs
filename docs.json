@@ -51,6 +51,26 @@
   },
   "redirects": [
     {
+      "source": "/changelog",
+      "destination": "https://magichour.ai/changelog",
+      "permanent": true
+    },
+    {
+      "source": "/changelog/2025",
+      "destination": "https://magichour.ai/changelog/2025",
+      "permanent": true
+    },
+    {
+      "source": "/changelog/2024",
+      "destination": "https://magichour.ai/changelog/2024",
+      "permanent": true
+    },
+    {
+      "source": "/changelog/2023",
+      "destination": "https://magichour.ai/changelog/2023",
+      "permanent": true
+    },
+    {
       "source": "/integration/input-files",
       "destination": "/integration/inputs-and-outputs"
     },
