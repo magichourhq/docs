@@ -284,15 +284,6 @@
             ]
           }
         ]
-      },
-      {
-        "tab": "Changelog",
-        "pages": [
-          {
-            "group": "Product Updates",
-            "pages": ["changelog", "changelog/2025", "changelog/2024", "changelog/2023"]
-          }
-        ]
       }
     ],
     "global": {
