@@ -199,6 +199,7 @@
           {
             "group": "Files",
             "pages": [
+              "api-reference/files/list-saved-items",
               "api-reference/files/generate-asset-upload-urls",
               "api-reference/files/get-face-detection-details",
               "api-reference/files/face-detection"
