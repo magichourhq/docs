@@ -4203,6 +4203,19 @@
                       }
                     },
                     "required": ["prompt"]
+                  },
+                  "references": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "pattern": "^[A-Za-z][\\w-]*$" },
+                        "file_path": { "type": "string", "minLength": 1 }
+                      },
+                      "required": ["name", "file_path"]
+                    },
+                    "minItems": 1,
+                    "maxItems": 10
                   }
                 },
                 "required": ["end_seconds", "style"]
