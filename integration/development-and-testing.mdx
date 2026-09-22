@@ -11,7 +11,7 @@ Developing with APIs that charge per request requires careful testing strategies
 
 ### Mock Server (Recommended for Development)
 
-The Magic Hour SDKs include a mock server that returns realistic sample data without processing jobs or charging credits:
+The Magic Hour SDKs can use a hosted mock server that returns sample data without processing jobs or charging credits:
 
 <CodeGroup>
 
@@ -38,7 +38,7 @@ print(f"Job ID: {result.id}")  # Returns mock ID
 ```
 
 ```typescript Node.js SDK
-import Client, { Environment } from "magic-hour";
+import { Client, Environment } from "magic-hour";
 
 // Use mock server for development
 const client = new Client({
@@ -64,6 +64,10 @@ console.log(`Job ID: ${result.id}`); // Returns mock ID
   **`style.tool` is optional.** It selects an art-style preset; `ai-anime-generator` requests an
   anime look. Omit it to use the default `general` style.
 </Note>
+
+The mock server validates SDK wiring, not real generation quality, account eligibility, credit
+deductions, or webhook delivery. Its sample project is not a real job; do not wait for it to
+progress through rendering. Verify those behaviors separately against the real API.
 
 **Benefits:**
 
@@ -103,7 +107,7 @@ client = Client(
 ```
 
 ```javascript Node.js
-import Client, { Environment } from "magic-hour";
+import { Client, Environment } from "magic-hour";
 
 // Switch environments based on NODE_ENV
 // Environment.Environment is the production API (https://api.magichour.ai)
@@ -217,8 +221,9 @@ import time
 download_url = None
 
 job_id = "your_job_id" # Change this to your job ID
+deadline = time.monotonic() + 180
 
-while True:
+while time.monotonic() < deadline:
     status = client.v1.image_projects.get(id=job_id)
 
     if status.status == "complete":
@@ -244,6 +249,8 @@ while True:
         break
 
     time.sleep(3)
+else:
+    raise TimeoutError(f"Job {job_id} is still pending. Resume polling this ID; do not submit a new job.")
 
 if not download_url:
     raise RuntimeError("Job did not complete successfully; no download URL available.")
@@ -252,12 +259,16 @@ if not download_url:
 
 ```javascript Node.js
 // Poll for completion with error handling
-while (true) {
+const jobId = "your_job_id";
+const deadline = Date.now() + 180_000;
+let downloadUrl;
+
+while (Date.now() < deadline) {
   const status = await client.v1.imageProjects.get({ id: jobId });
 
   if (status.status === "complete") {
     // Success - download result
-    const downloadUrl = status.downloads[0].url;
+    downloadUrl = status.downloads[0].url;
     break;
   } else if (status.status === "error" || status.status === "canceled") {
     // Job failed during processing
@@ -287,6 +298,12 @@ while (true) {
 
   await new Promise((resolve) => setTimeout(resolve, 3000));
 }
+
+if (!downloadUrl) {
+  throw new Error(
+    `Job ${jobId} is still pending. Resume polling this ID; do not submit a new job.`
+  );
+}
 ```
 
 </CodeGroup>
@@ -302,7 +319,22 @@ while (true) {
 | `invalid_parameters`   | Invalid request parameters | Check API reference for valid values |
 | `unknown_error`        | Unexpected error           | Contact support with job ID          |
 
-<Note>**Credits Not Charged**: When a job fails with an error, you are never charged credits.</Note>
+<Note>
+  Creation charges credits up front. If generation fails, those credits are refunded. A client-side
+  timeout does not cancel the job or trigger a refund.
+</Note>
+
+### Retry without creating duplicate jobs
+
+- **Before receiving a project ID:** a network timeout or server error does not prove the creation
+  request failed. Check your project history before submitting again. Do not assume repeated POST
+  requests are deduplicated, or that sending an `Idempotency-Key` header makes them safe.
+- **After receiving a project ID:** save it immediately. Retry status reads for that same ID with
+  bounded exponential backoff; do not create a replacement job just because polling timed out.
+- **After completion:** retry downloading the existing output. If its signed URL expired, retrieve
+  the project again for a current download URL instead of paying for another generation.
+- **After `error` or `canceled`:** stop polling. Fix the reported input or account problem before
+  creating a new job. Cancellation does not emit a webhook, so keep polling as a recovery path.
 
 ## Status Monitoring Strategies
 
@@ -336,15 +368,13 @@ Always implement maximum wait times:
 
 ```python
 import time
-from datetime import datetime, timedelta
 
 def wait_for_completion(client, job_id, timeout_minutes=10):
     """Wait for job with timeout"""
 
-    start_time = datetime.now()
-    timeout = timedelta(minutes=timeout_minutes)
+    deadline = time.monotonic() + timeout_minutes * 60
 
-    while datetime.now() - start_time < timeout:
+    while time.monotonic() < deadline:
         status = client.v1.image_projects.get(id=job_id)
 
         if status.status == "complete":
@@ -354,7 +384,7 @@ def wait_for_completion(client, job_id, timeout_minutes=10):
 
         time.sleep(3)
 
-    raise TimeoutError(f"Job did not complete within {timeout_minutes} minutes")
+    raise TimeoutError(f"Job {job_id} is still pending. Resume polling this ID; do not submit a new job.")
 ```
 
 ## Testing Strategies
