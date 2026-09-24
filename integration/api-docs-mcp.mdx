@@ -73,3 +73,31 @@ After connecting, ask questions such as:
 - `Which Magic Hour endpoint turns an image into a video?`
 - `Show me the required parameters for AI Image Editor.`
 - `Why does a creation request return a project ID instead of a finished file?`
+
+## Machine-readable documentation
+
+Agents that cannot connect to MCP can fetch these public resources without an API key:
+
+- [Documentation index](https://docs.magichour.ai/llms.txt): find the relevant guide, then fetch its
+  linked Markdown page.
+- [OpenAPI JSON](https://docs.magichour.ai/api-reference/openapi.json): exact endpoint paths,
+  authentication, request fields, response schemas, and HTTP errors.
+- [Models and credit costs](/api-reference/models): model IDs, capabilities, plan eligibility, and
+  cost calculation. Check these before choosing a model; `default` can change.
+
+Give Codex, Claude Code, Cursor, or another coding assistant this integration brief:
+
+```text
+Integrate Magic Hour using https://docs.magichour.ai/llms.txt and
+https://docs.magichour.ai/api-reference/openapi.json as the API contract.
+Read the quickstart, models, and development-and-testing guides first.
+Use the current Python or Node SDK; keep MAGIC_HOUR_API_KEY server-side.
+First verify authentication and balance with GET /v1/account (no generation).
+Confirm model eligibility and estimated credits before creating media.
+Save the returned project ID before polling. Handle complete, error, canceled,
+and a bounded timeout; a timeout must not trigger another creation request.
+Download successful output before its signed URL expires. Propagate failures.
+For webhooks, verify the raw-body signature and handle duplicate deliveries.
+Use the hosted mock for SDK wiring only. Ask before spending generation credits.
+Do not claim a successful integration until a real output has been downloaded.
+```

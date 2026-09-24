@@ -193,7 +193,7 @@ def main():
 
     except Exception as e:
         print(f"❌ Failed to create job: {e}")
-        return
+        raise
 
     # Step 2: Poll for completion
     print(f"\n⏳ Waiting for job to complete...")
@@ -223,7 +223,7 @@ def main():
                 print(f"❌ Job failed with error:")
                 print(f"   Code: {getattr(error_info, 'code', 'unknown')}")
                 print(f"   Message: {getattr(error_info, 'message', 'No error message')}")
-                return
+                raise RuntimeError(f"Job {job_id} ended with status {status}")
 
             elif status in ["queued", "rendering"]:
                 # Still processing, wait before next check
@@ -237,11 +237,10 @@ def main():
 
         except Exception as e:
             print(f"❌ Error checking status: {e}")
-            return
+            raise
 
     if attempt >= max_attempts:
-        print(f"⏰ Timeout: Job did not complete within {max_attempts * 3} seconds")
-        return
+        raise TimeoutError(f"Job {job_id} is still pending. Resume polling this ID; do not submit a new job.")
 
     print("\n✨ Tutorial completed successfully!")
     print(f"📁 Check the 'outputs/' directory for your generated image")
@@ -276,8 +275,10 @@ def download_image(url, job_id):
 
     except requests.exceptions.RequestException as e:
         print(f"❌ Download failed: {e}")
+        raise
     except Exception as e:
         print(f"❌ Unexpected error during download: {e}")
+        raise
 
 if __name__ == "__main__":
     main()
@@ -453,7 +454,7 @@ async function main() {
         console.log("❌ Job failed with error:");
         console.log(`   Code: ${errorInfo?.code || "unknown"}`);
         console.log(`   Message: ${errorInfo?.message || "No error message"}`);
-        return;
+        throw new Error(`Job ${jobId} ended with status ${status}`);
       } else if (status === "queued" || status === "rendering") {
         // Still processing, wait before next check
         await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -466,14 +467,16 @@ async function main() {
     }
 
     if (attempt >= maxAttempts) {
-      console.log(`⏰ Timeout: Job did not complete within ${maxAttempts * 3} seconds`);
-      return;
+      throw new Error(
+        `Job ${jobId} is still pending. Resume polling this ID; do not submit a new job.`
+      );
     }
 
     console.log("\n✨ Tutorial completed successfully!");
     console.log("📁 Check the 'outputs/' directory for your generated image");
   } catch (error) {
     console.log(`❌ Error: ${error.message}`);
+    process.exitCode = 1;
   }
 }
 
@@ -482,14 +485,10 @@ async function downloadImage(url, jobId) {
 
   try {
     // Create outputs directory if it doesn't exist
-    try {
-      mkdirSync("outputs", { recursive: true });
-    } catch (e) {
-      // Directory already exists
-    }
+    mkdirSync("outputs", { recursive: true });
 
     // Download the file
-    const response = await fetch(url);
+    const response = await fetch(url, { signal: AbortSignal.timeout(30_000) });
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
@@ -509,6 +508,7 @@ async function downloadImage(url, jobId) {
     console.log(`   Size: ${fileSizeMB} MB`);
   } catch (error) {
     console.log(`❌ Download failed: ${error.message}`);
+    throw error;
   }
 }
 
@@ -518,19 +518,10 @@ main();
 
 ### Step 5: Update package.json
 
-Add `"type": "module"` to your `package.json` to enable ES modules:
+Enable ES modules without replacing the SDK version installed in Step 2:
 
-```json
-{
-  "name": "magic-hour-tutorial",
-  "version": "1.0.0",
-  "type": "module",
-  "main": "index.js",
-  "dependencies": {
-    "dotenv": "^16.0.0",
-    "magic-hour": "^0.70.0"
-  }
-}
+```bash
+npm pkg set type=module
 ```
 
 ### Step 6: Run Your Integration
