@@ -171,6 +171,22 @@
         "security": [{ "bearerAuth": [] }],
         "x-codeSamples": [
           {
+            "lang": "python",
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.account.list()"
+          },
+          {
+            "lang": "javascript",
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"]!! });\nconst res = await client.v1.account.list();"
+          },
+          {
+            "lang": "go",
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.Account.List()\n}"
+          },
+          {
+            "lang": "rust",
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client.v1().account().list().await;"
+          },
+          {
             "lang": "curl",
             "source": "curl --request GET \\\n     --url https://api.magichour.ai/v1/account \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\""
           },
@@ -368,6 +384,22 @@
         },
         "security": [{ "bearerAuth": [] }],
         "x-codeSamples": [
+          {
+            "lang": "python",
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.saved_items.list(limit=20, type_=\"character\")"
+          },
+          {
+            "lang": "javascript",
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"]!! });\nconst res = await client.v1.savedItems.list();"
+          },
+          {
+            "lang": "go",
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tsaved_items \"github.com/magichourhq/magic-hour-go/resources/v1/saved_items\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.SavedItems.List(saved_items.ListRequest{\n\t\tLimit: nullable.NewValue(20),\n\t\tType:  nullable.NewValue(types.V1SavedItemsListTypeEnumCharacter),\n\t})\n}"
+          },
+          {
+            "lang": "rust",
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .saved_items()\n    .list(magic_hour::resources::v1::saved_items::ListRequest {\n        limit: Some(20),\n        type_: Some(magic_hour::models::V1SavedItemsListTypeEnum::Character),\n        ..Default::default()\n    })\n    .await;"
+          },
           {
             "lang": "curl",
             "source": "curl --request GET \\\n     --url https://api.magichour.ai/v1/saved-items \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\""
@@ -1052,7 +1084,7 @@
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"]!! });\nconst res = await client.v1.faceDetection.generate(\n  {\n    assets: { targetFilePath: \"/path/to/1234.png\" },\n    confidenceScore: 0.5,\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n});"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"]!! });\nconst res = await client.v1.faceDetection.generate(\n  {\n    assets: { targetFilePath: \"/path/to/1234.png\" },\n    confidenceScore: 0.5,\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -2043,6 +2075,274 @@
             "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-video-editor\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Video Editor video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"model\\\":\\\"gemini-omni-1.1\\\",\\\"resolution\\\":\\\"720p\\\",\\\"style\\\":{\\\"prompt\\\":\\\"Change the car color to blue\\\"},\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\"}}\")\n  .asString();"
           }
         ]
+      }
+    },
+    "/v1/ai-video-translator": {
+      "post": {
+        "description": "**What this API does**\n\nCreate the same Video Translator you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video translator into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video translator job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/ai-video-translator).",
+        "summary": "AI Video Translator",
+        "tags": ["Video Projects"],
+        "parameters": [],
+        "operationId": "aiVideoTranslator.createVideo",
+        "requestBody": {
+          "required": true,
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Give your video a custom name for easy identification.",
+                    "example": "My Video Translator video",
+                    "default": "Video Translator - dateTime"
+                  },
+                  "start_seconds": {
+                    "default": 0,
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Start time of your clip (seconds). Must be ≥ 0.",
+                    "format": "float",
+                    "example": 0
+                  },
+                  "end_seconds": {
+                    "type": "number",
+                    "minimum": 0.1,
+                    "description": "End time of your clip (seconds). Must be greater than start_seconds. The clip must be 1-30 seconds long.",
+                    "format": "float",
+                    "example": 15
+                  },
+                  "target_language": {
+                    "type": "string",
+                    "enum": [
+                      "English",
+                      "Chinese (Simplified)",
+                      "Hindi",
+                      "Spanish",
+                      "Arabic",
+                      "French",
+                      "Afrikaans",
+                      "Bengali",
+                      "Bulgarian",
+                      "Catalan",
+                      "Croatian",
+                      "Czech",
+                      "Danish",
+                      "Dutch",
+                      "Estonian",
+                      "Finnish",
+                      "German",
+                      "Greek",
+                      "Gujarati",
+                      "Hebrew",
+                      "Hungarian",
+                      "Indonesian",
+                      "Italian",
+                      "Japanese",
+                      "Kannada",
+                      "Kazakh",
+                      "Korean",
+                      "Latvian",
+                      "Lithuanian",
+                      "Malay",
+                      "Malayalam",
+                      "Marathi",
+                      "Norwegian",
+                      "Persian",
+                      "Polish",
+                      "Portuguese",
+                      "Punjabi",
+                      "Romanian",
+                      "Russian",
+                      "Serbian",
+                      "Slovak",
+                      "Slovenian",
+                      "Swahili",
+                      "Swedish",
+                      "Tamil",
+                      "Telugu",
+                      "Thai",
+                      "Chinese (Traditional)",
+                      "Turkish",
+                      "Ukrainian",
+                      "Urdu",
+                      "Vietnamese",
+                      "Welsh"
+                    ],
+                    "description": "Language to translate the video's speech into.",
+                    "example": "Spanish"
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "enum": ["480p", "720p", "1080p"],
+                    "description": "Output video resolution. Defaults to 480p. 720p and 1080p require a paid plan.",
+                    "example": "720p"
+                  },
+                  "assets": {
+                    "type": "object",
+                    "properties": {
+                      "video_file_path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Source video containing the speech to translate. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "example": "api-assets/id/1234.mp4"
+                      }
+                    },
+                    "required": ["video_file_path"],
+                    "description": "Source video for the translation job."
+                  }
+                },
+                "required": ["end_seconds", "target_language", "assets"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "cuid-example",
+                      "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
+                    },
+                    "credits_charged": {
+                      "type": "integer",
+                      "description": "The amount of credits deducted from your account to generate the video. If the status is not 'complete', this value is an estimate and may be adjusted upon completion based on the actual FPS of the output video. \n\nIf video generation fails, credits will be refunded, and this field will be updated to include the refund.",
+                      "example": 450
+                    }
+                  },
+                  "required": ["id", "credits_charged"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["invalid_request"],
+                      "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["unauthorized"],
+                      "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "insufficient_credits",
+                        "subscription_required",
+                        "plan_upgrade_required"
+                      ],
+                      "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["not_found"],
+                      "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["unprocessable_entity"],
+                      "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["internal_server_error"],
+                      "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
       }
     },
     "/v1/animation": {
@@ -3258,7 +3558,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.character_replace.generate(\n    data={\n        \"assets\": {\n            \"image_file_path\": \"/path/to/5678.png\",\n            \"video_file_path\": \"/path/to/1234.mp4\",\n        },\n        \"end_seconds\": 15.0,\n        \"name\": \"My Character Replace video\",\n        \"resolution\": \"720p\",\n        \"start_seconds\": 0.0,\n        \"style\": {\"mode\": \"replace\", \"selection_mode\": \"auto\"},\n    },\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\",\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.character_replace.generate(\n    assets={\n        \"image_file_path\": \"/path/to/5678.png\",\n        \"video_file_path\": \"/path/to/1234.mp4\",\n    },\n    end_seconds=15.0,\n    name=\"My Character Replace video\",\n    resolution=\"720p\",\n    start_seconds=0.0,\n    style={\"mode\": \"replace\", \"selection_mode\": \"auto\"},\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\",\n)"
           },
           {
             "lang": "javascript",
@@ -3342,7 +3642,7 @@
                         "default": "all-faces",
                         "type": "string",
                         "enum": ["all-faces", "individual-faces"],
-                        "description": "Choose how to swap faces:\n**all-faces** (recommended) — swap all detected faces using one source image (`source_file_path` required)\n+- **individual-faces** — specify exact mappings using `face_mappings`",
+                        "description": "Choose how to swap faces:\n- **all-faces** (recommended) — swap all detected faces using one source image (`source_file_path` required)\n- **individual-faces** — specify exact mappings using `face_mappings`",
                         "example": "all-faces"
                       },
                       "image_file_path": {
@@ -3614,24 +3914,24 @@
                     "type": "string",
                     "enum": [
                       "default",
-                      "ltx-2",
+                      "kling-3.0",
+                      "gemini-omni-1.1",
+                      "seedance-2.0",
                       "ltx-2.5",
                       "minimax-h3",
                       "wan-3.0",
                       "wan-2.2",
                       "seedance-1.5",
-                      "seedance-2.0",
                       "seedance-2.0-mini",
                       "seedance-2.5",
-                      "kling-2.5",
                       "kling-2.6",
-                      "kling-3.0",
-                      "gemini-omni-1.1",
-                      "veo3.1",
                       "veo3.1-lite",
+                      "veo3.1",
                       "sora-2",
-                      "kling-1.6",
                       "ltx-2.3",
+                      "ltx-2",
+                      "kling-2.5",
+                      "kling-1.6",
                       "seedance",
                       "kling-2.5-audio",
                       "veo3.1-audio"
@@ -4175,24 +4475,24 @@
                     "type": "string",
                     "enum": [
                       "default",
-                      "ltx-2",
+                      "kling-3.0",
+                      "gemini-omni-1.1",
+                      "seedance-2.0",
                       "ltx-2.5",
                       "minimax-h3",
                       "wan-3.0",
                       "wan-2.2",
                       "seedance-1.5",
-                      "seedance-2.0",
                       "seedance-2.0-mini",
                       "seedance-2.5",
-                      "kling-2.5",
                       "kling-2.6",
-                      "kling-3.0",
-                      "gemini-omni-1.1",
-                      "veo3.1",
                       "veo3.1-lite",
+                      "veo3.1",
                       "sora-2",
-                      "kling-1.6",
                       "ltx-2.3",
+                      "ltx-2",
+                      "kling-2.5",
+                      "kling-1.6",
                       "seedance",
                       "kling-2.5-audio",
                       "veo3.1-audio"
@@ -4211,7 +4511,7 @@
                       "prompt": {
                         "type": "string",
                         "minLength": 1,
-                        "maxLength": 5000,
+                        "maxLength": 10000,
                         "example": "a dog running",
                         "description": "The prompt used for the video."
                       }
@@ -4385,11 +4685,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.text_to_video.generate(\n    end_seconds=5.0,\n    orientation=\"landscape\",\n    style={\"prompt\": \"a dog running\"},\n    name=\"Text To Video video\",\n    resolution=\"720p\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.text_to_video.generate(\n    end_seconds=5.0,\n    aspect_ratio=\"16:9\",\n    style={\"prompt\": \"a dog running\"},\n    name=\"Text To Video video\",\n    resolution=\"720p\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"]!! });\nconst res = await client.v1.textToVideo.generate(\n  {\n    endSeconds: 5.0,\n    name: \"Text To Video video\",\n    orientation: \"landscape\",\n    resolution: \"720p\",\n    style: { prompt: \"a dog running\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"]!! });\nconst res = await client.v1.textToVideo.generate(\n  {\n    aspectRatio: \"16:9\",\n    endSeconds: 5.0,\n    name: \"Text To Video video\",\n    resolution: \"720p\",\n    style: { prompt: \"a dog running\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -6229,7 +6529,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_image_editor.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    style={\"prompt\": \"Give me sunglasses\"},\n    name=\"Ai Image Editor image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_image_editor.generate(\n    assets={\"image_file_paths\": [\"/path/to/1234.png\"]},\n    style={\"prompt\": \"Give me sunglasses\"},\n    name=\"Ai Image Editor image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -6544,7 +6844,7 @@
                     "type": "string",
                     "enum": ["auto", "640px", "1k", "2k", "4k"],
                     "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` — up to 640px\n- `1k` — up to 1024px\n- `2k` — up to 2048px\n- `4k` — up to 4096px\n- `auto` — **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `flux-2-klein` - 640px, 1k, 2k\n- `flux-schnell` - 640px, 1k, 2k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n- `gpt-image-2.5-flare` - 640px, 1k, 2k, 4k\n- `krea-2` - 640px, 1k\n- `nano-banana` - 640px, 1k\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `nano-banana-2-lite` - 640px, 1k\n- `nano-banana-pro` - 1k, 2k, 4k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `seedream-v5-pro` - 640px, 1k, 2k\n- `z-image-turbo` - 640px, 1k, 2k\n\nNote: Resolution availability depends on the model and your subscription tier.",
-                    "example": "auto"
+                    "example": "1k"
                   },
                   "style": {
                     "type": "object",
@@ -6756,11 +7056,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_image_generator.generate(\n    image_count=1,\n    style={\n        \"prompt\": \"Cool image\",\n        \"tool\": \"ai-anime-generator\",\n    },\n    aspect_ratio=\"1:1\",\n    model=\"default\",\n    name=\"My Ai Image image\",\n    resolution=\"auto\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_image_generator.generate(\n    image_count=1,\n    style={\n        \"prompt\": \"Cool image\",\n        \"tool\": \"ai-anime-generator\",\n    },\n    aspect_ratio=\"1:1\",\n    model=\"default\",\n    name=\"My Ai Image image\",\n    resolution=\"1k\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"]!! });\nconst res = await client.v1.aiImageGenerator.generate(\n  {\n    aspectRatio: \"1:1\",\n    imageCount: 1,\n    model: \"default\",\n    name: \"My Ai Image image\",\n    resolution: \"auto\",\n    style: { prompt: \"Cool image\", tool: \"ai-anime-generator\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"]!! });\nconst res = await client.v1.aiImageGenerator.generate(\n  {\n    aspectRatio: \"1:1\",\n    imageCount: 1,\n    model: \"default\",\n    name: \"My Ai Image image\",\n    resolution: \"1k\",\n    style: { prompt: \"Cool image\", tool: \"ai-anime-generator\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -6995,11 +7295,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_image_upscaler.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    scale_factor=2.0,\n    style={\"enhancement\": \"Balanced\"},\n    name=\"Image Upscaler image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_image_upscaler.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    scale_factor=2.0,\n    style={\"mode\": \"balanced\"},\n    name=\"Image Upscaler image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"]!! });\nconst res = await client.v1.aiImageUpscaler.generate(\n  {\n    assets: { imageFilePath: \"/path/to/1234.png\" },\n    name: \"Image Upscaler image\",\n    scaleFactor: 2.0,\n    style: { enhancement: \"Balanced\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"]!! });\nconst res = await client.v1.aiImageUpscaler.generate(\n  {\n    assets: { imageFilePath: \"/path/to/1234.png\" },\n    name: \"Image Upscaler image\",\n    scaleFactor: 2.0,\n    style: { mode: \"balanced\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -7831,7 +8131,7 @@
                         "default": "all-faces",
                         "type": "string",
                         "enum": ["all-faces", "individual-faces"],
-                        "description": "Choose how to swap faces:\n**all-faces** (recommended) — swap all detected faces using one source image (`source_file_path` required)\n+- **individual-faces** — specify exact mappings using `face_mappings`",
+                        "description": "Choose how to swap faces:\n- **all-faces** (recommended) — swap all detected faces using one source image (`source_file_path` required)\n- **individual-faces** — specify exact mappings using `face_mappings`",
                         "example": "all-faces"
                       },
                       "source_file_path": {
@@ -10856,10 +11156,10 @@
     }
   },
   "tags": [
-    { "name": "Files", "description": "API related to uploading and reusing assets" },
-    { "name": "Image Projects", "description": "API related to image projects" },
     { "name": "Video Projects", "description": "API related to video projects" },
+    { "name": "Image Projects", "description": "API related to image projects" },
     { "name": "Audio Projects", "description": "API related to audio projects" },
+    { "name": "Files", "description": "API related to uploading and reusing assets" },
     { "name": "Account", "description": "API related to the account that owns the API key" }
   ],
   "servers": [{ "url": "https://api.magichour.ai" }]
