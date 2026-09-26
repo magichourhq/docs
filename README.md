@@ -8,6 +8,11 @@ Visit https://docs.magichour.ai to see the full documentation.
 
 Install the [Magic Hour agent skills](https://github.com/magichourhq/skills) for tested image, video, and audio workflows. They use the existing Magic Hour MCP or API and add guidance for prompting, sequencing, output review, and safe recovery.
 
+## Workflow examples
+
+- [LangChain and LangGraph](examples/langchain/README.md): generate, edit and animate
+  product images through Magic Hour MCP, with saved project IDs for recovery.
+
 ## Local Development
 
 Use Node.js 22 for local development; the current Mintlify preview fails under Node.js 26.
