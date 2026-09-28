@@ -85,7 +85,8 @@ $env:MAGIC_HOUR_API_KEY = "your_api_key_here"
 
 <Warning>
   **Never commit API keys to version control.** Always use environment variables or secure
-  credential management.
+  credential management. A new key's full secret is shown only when it is created; if you lose it,
+  create another key instead of trying to recover it from the Developer Hub.
 </Warning>
 
 ## 2. Set up your development environment
@@ -161,6 +162,19 @@ result. Choose the example that matches what you want to build:
 | :------------------ | :------------------------ | :------------------------------- | :----------- |
 | **Generate image**  | Cheapest first success    | 5 credits                        | 5-30 seconds |
 | **Face swap video** | Our most popular API path | ~200 credits for the sample clip | 2-5 minutes  |
+
+Prefer to submit your first image request in a browser? Use the
+[AI Image Generator interactive tester](/api-reference/image-projects/ai-image-generator). Whether
+you use the tester or the code below, reaching a first result takes three steps:
+
+1. **Request accepted:** Creating an image returns a project ID and `credits_charged`. This is not
+   a completed image yet.
+2. **Queued or rendering:** [Check the image project's status](/api-reference/image-projects/get-image-details)
+   until it is `complete`, `error`, or `canceled`. The Python and Node.js `generate()` examples
+   handle polling for you; the other examples show how to pause between status checks.
+3. **Result ready:** On `complete`, use the returned download URL (or the SDK's downloaded file)
+   and check the charged credits. `error` and `canceled` are terminal states, not download-ready
+   results.
 
 ### Copy the code and run it
 
@@ -826,6 +840,10 @@ If you encounter HTTP errors, here's what they mean:
 | `404`      | Not Found             | Check the route and project ID                                                    |
 | `422`      | Unprocessable Entity  | Change the request values before retrying                                         |
 | `500`      | Internal Server Error | Retry later; contact support if the error continues                               |
+
+For a `402`, keep the same prompt and settings, check your balance, then add credits or choose a
+less expensive option before retrying. Use the response's structured `code` to decide how to
+recover; don't parse its human-readable `message`.
 
 **For persistent errors:** Contact [support@magichour.ai](mailto:support@magichour.ai) with your project ID.
 
