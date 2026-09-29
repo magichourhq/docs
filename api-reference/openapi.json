@@ -1151,7 +1151,7 @@
                     },
                     "type": {
                       "type": "string",
-                      "description": "The type of the video project. Possible values are ANIMATION, AUTO_SUBTITLE, VIDEO_TO_VIDEO, FACE_SWAP, TEXT_TO_VIDEO, IMAGE_TO_VIDEO, LIP_SYNC, TALKING_PHOTO, AVATAR, VIDEO_UPSCALER, VIDEO_EDITOR, CHARACTER_REPLACE, VIDEO_COLORIZER, VIDEO_COLOR_GRADER, VIDEO_TRANSLATOR, MUSIC_VIDEO, EXTEND, AUDIO_TO_VIDEO, VIDEO_EXPANDER, UGC_AD",
+                      "description": "The type of the video project. Possible values are ANIMATION, AUTO_SUBTITLE, VIDEO_TO_VIDEO, FACE_SWAP, TEXT_TO_VIDEO, IMAGE_TO_VIDEO, LIP_SYNC, TALKING_PHOTO, AVATAR, VIDEO_UPSCALER, VIDEO_EDITOR, CHARACTER_REPLACE, VIDEO_COLORIZER, VIDEO_WATERMARK_REMOVER, VIDEO_COLOR_GRADER, VIDEO_TRANSLATOR, MUSIC_VIDEO, EXTEND, AUDIO_TO_VIDEO, VIDEO_EXPANDER, UGC_AD",
                       "example": "FACE_SWAP"
                     },
                     "created_at": { "type": "string", "format": "date-time" },
@@ -1853,7 +1853,7 @@
                   "end_seconds": {
                     "type": "number",
                     "minimum": 0.1,
-                    "description": "End time of your clip in seconds. Must be greater than `start_seconds`. Minimum duration depends on model: `gemini-omni-1.1`: 3s, LTX 2.5: 0.5s. Maximum duration depends on model: `gemini-omni-1.1`: 10s, LTX 2.5: 45s.",
+                    "description": "End time of your clip in seconds. Must be greater than `start_seconds`. Minimum duration depends on model: `gemini-omni-1.1`: 3s, LTX 2.5: 0.5s. Maximum duration depends on model: `gemini-omni-1.1`: 10s, LTX 2.5: 20s.",
                     "format": "float",
                     "example": 5
                   },
@@ -2342,7 +2342,37 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }]
+        "security": [{ "bearerAuth": [] }],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "source": "from magic_hour import Client\n\nclient = Client(token=\"YOUR_API_TOKEN\")\nres = client.v1.ai_video_translator.generate(\n    assets={\"video_file_path\": \"/path/to/video.mp4\"},\n    end_seconds=15.0,\n    target_language=\"Spanish\",\n    start_seconds=0.0,\n)"
+          },
+          {
+            "lang": "javascript",
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"]!! });\nconst res = await client.v1.aiVideoTranslator.generate({\n  assets: { videoFilePath: \"/path/to/video.mp4\" },\n  endSeconds: 15.0,\n  targetLanguage: \"Spanish\",\n  startSeconds: 0.0,\n});"
+          },
+          {
+            "lang": "go",
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_video_translator \"github.com/magichourhq/magic-hour-go/resources/v1/ai_video_translator\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiVideoTranslator.Create(ai_video_translator.CreateRequest{\n\t\tAssets: types.V1AiVideoTranslatorCreateBodyAssets{\n\t\t\tVideoFilePath: \"api-assets/id/1234.mp4\",\n\t\t},\n\t\tEndSeconds:     15.0,\n\t\tName:           nullable.NewValue(\"My Video Translator video\"),\n\t\tResolution:     nullable.NewValue(types.V1AiVideoTranslatorCreateBodyResolutionEnum720p),\n\t\tStartSeconds:   nullable.NewValue(0.0),\n\t\tTargetLanguage: types.V1AiVideoTranslatorCreateBodyTargetLanguageEnumSpanish,\n\t})\n}"
+          },
+          {
+            "lang": "rust",
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_video_translator()\n    .create(magic_hour::resources::v1::ai_video_translator::CreateRequest {\n        assets: magic_hour::models::V1AiVideoTranslatorCreateBodyAssets {\n            video_file_path: \"api-assets/id/1234.mp4\".to_string(),\n        },\n        end_seconds: 15.0,\n        name: Some(\"My Video Translator video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1AiVideoTranslatorCreateBodyResolutionEnum::Enum720p,\n        ),\n        start_seconds: Some(0.0),\n        target_language: magic_hour::models::V1AiVideoTranslatorCreateBodyTargetLanguageEnum::Spanish,\n    })\n    .await;"
+          },
+          {
+            "lang": "curl",
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-video-translator \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Video Translator video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 15,\n  \"target_language\": \"Spanish\",\n  \"resolution\": \"720p\",\n  \"assets\": {\n    \"video_file_path\": \"api-assets/id/1234.mp4\"\n  }\n}\n'"
+          },
+          {
+            "lang": "php",
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-video-translator\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Video Translator video',\n    'start_seconds' => 0,\n    'end_seconds' => 15,\n    'target_language' => 'Spanish',\n    'resolution' => '720p',\n    'assets' => [\n        'video_file_path' => 'api-assets/id/1234.mp4'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+          },
+          {
+            "lang": "java",
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-video-translator\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Video Translator video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":15,\\\"target_language\\\":\\\"Spanish\\\",\\\"resolution\\\":\\\"720p\\\",\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\"}}\")\n  .asString();"
+          }
+        ]
       }
     },
     "/v1/animation": {
@@ -3331,10 +3361,17 @@
                     "format": "float",
                     "example": 15
                   },
+                  "model": {
+                    "default": "wan-animate",
+                    "type": "string",
+                    "enum": ["wan-animate", "kling-3.0"],
+                    "description": "Model to use. Defaults to `wan-animate`.\n\n* **`wan-animate`**: 480p, 720p. Supports `points` subject selection.\n* **`kling-3.0`**: 720p, 1080p. Clips of 3–10 seconds in `replace` mode or 3–30 seconds in `animate` mode. Picks the main person automatically, so `points` are rejected.",
+                    "example": "wan-animate"
+                  },
                   "resolution": {
                     "type": "string",
-                    "enum": ["480p", "720p"],
-                    "description": "Output video resolution. Defaults to 480p, the lowest resolution available on your plan.",
+                    "enum": ["480p", "720p", "1080p"],
+                    "description": "Output video resolution. Must be supported by `model`. Defaults to the lowest resolution available on your plan for that model.",
                     "example": "720p"
                   },
                   "assets": {
@@ -3368,7 +3405,7 @@
                       "selection_mode": {
                         "type": "string",
                         "enum": ["auto", "point"],
-                        "description": "How to locate the subject in the source video. `auto` detects a person automatically. `point` uses your `points` to mark the subject. Defaults to `auto`.",
+                        "description": "How to locate the subject in the source video. `auto` detects a person automatically. `point` uses your `points` to mark the subject and is supported by `wan-animate`. Defaults to `auto`.",
                         "example": "auto"
                       },
                       "points": {
@@ -3398,7 +3435,7 @@
                           },
                           "required": ["position_x", "position_y", "time_seconds"]
                         },
-                        "description": "On-frame markers for manual subject selection. Required when `selection_mode` is `point`. Ignored when `selection_mode` is `auto` or omitted."
+                        "description": "On-frame markers for manual subject selection. Required when `selection_mode` is `point`. Ignored when `selection_mode` is `auto` or omitted. Rejected for models without subject selection (supported by `wan-animate`)."
                       }
                     },
                     "description": "Optional style controls for replace vs animate mode and subject selection.",
@@ -3574,15 +3611,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/character-replace \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Character Replace video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 15,\n  \"resolution\": \"720p\",\n  \"assets\": {\n    \"video_file_path\": \"api-assets/id/1234.mp4\",\n    \"image_file_path\": \"api-assets/id/5678.png\"\n  },\n  \"style\": {\n    \"mode\": \"replace\",\n    \"selection_mode\": \"auto\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/character-replace \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Character Replace video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 15,\n  \"model\": \"wan-animate\",\n  \"resolution\": \"720p\",\n  \"assets\": {\n    \"video_file_path\": \"api-assets/id/1234.mp4\",\n    \"image_file_path\": \"api-assets/id/5678.png\"\n  },\n  \"style\": {\n    \"mode\": \"replace\",\n    \"selection_mode\": \"auto\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/character-replace\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Character Replace video',\n    'start_seconds' => 0,\n    'end_seconds' => 15,\n    'resolution' => '720p',\n    'assets' => [\n        'video_file_path' => 'api-assets/id/1234.mp4',\n        'image_file_path' => 'api-assets/id/5678.png'\n    ],\n    'style' => [\n        'mode' => 'replace',\n        'selection_mode' => 'auto'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/character-replace\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Character Replace video',\n    'start_seconds' => 0,\n    'end_seconds' => 15,\n    'model' => 'wan-animate',\n    'resolution' => '720p',\n    'assets' => [\n        'video_file_path' => 'api-assets/id/1234.mp4',\n        'image_file_path' => 'api-assets/id/5678.png'\n    ],\n    'style' => [\n        'mode' => 'replace',\n        'selection_mode' => 'auto'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/character-replace\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Character Replace video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":15,\\\"resolution\\\":\\\"720p\\\",\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\",\\\"image_file_path\\\":\\\"api-assets/id/5678.png\\\"},\\\"style\\\":{\\\"mode\\\":\\\"replace\\\",\\\"selection_mode\\\":\\\"auto\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/character-replace\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Character Replace video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":15,\\\"model\\\":\\\"wan-animate\\\",\\\"resolution\\\":\\\"720p\\\",\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\",\\\"image_file_path\\\":\\\"api-assets/id/5678.png\\\"},\\\"style\\\":{\\\"mode\\\":\\\"replace\\\",\\\"selection_mode\\\":\\\"auto\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -3851,11 +3888,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.face_swap.generate(\n    assets={\n        \"face_mappings\": [\n            {\n                \"new_face\": \"/path/to/1234.png\",\n                \"original_face\": \"api-assets/id/0-0.png\",\n            }\n        ],\n        \"face_swap_mode\": \"all-faces\",\n        \"image_file_path\": \"image/id/1234.png\",\n        \"video_file_path\": \"/path/to/1234.mp4\",\n        \"video_source\": \"file\",\n    },\n    end_seconds=15.0,\n    start_seconds=0.0,\n    name=\"Face Swap video\",\n    style={\"version\": \"default\"},\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.face_swap.generate(\n    assets={\n        \"face_swap_mode\": \"all-faces\",\n        \"image_file_path\": \"image/id/1234.png\",\n        \"video_file_path\": \"/path/to/1234.mp4\",\n        \"video_source\": \"file\",\n    },\n    end_seconds=15.0,\n    start_seconds=0.0,\n    name=\"Face Swap video\",\n    style={\"version\": \"default\"},\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"]!! });\nconst res = await client.v1.faceSwap.generate(\n  {\n    assets: {\n      faceMappings: [\n        {\n          newFace: \"api-assets/id/1234.png\",\n          originalFace: \"api-assets/id/0-0.png\",\n        },\n      ],\n      faceSwapMode: \"all-faces\",\n      imageFilePath: \"image/id/1234.png\",\n      videoFilePath: \"/path/to/1234.mp4\",\n      videoSource: \"file\",\n    },\n    endSeconds: 15.0,\n    name: \"Face Swap video\",\n    startSeconds: 0.0,\n    style: { version: \"default\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"]!! });\nconst res = await client.v1.faceSwap.generate(\n  {\n    assets: {\n      faceSwapMode: \"all-faces\",\n      imageFilePath: \"image/id/1234.png\",\n      videoFilePath: \"/path/to/1234.mp4\",\n      videoSource: \"file\",\n    },\n    endSeconds: 15.0,\n    name: \"Face Swap video\",\n    startSeconds: 0.0,\n    style: { version: \"default\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
@@ -3905,7 +3942,7 @@
                     "type": "number",
                     "minimum": 1,
                     "maximum": 60,
-                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`gemini-omni-1.1`**: any integer from 3 to 10\n* **`kling-2.6`**: 5, 10\n* **`kling-3.0`**: any integer from 3 to 15\n* **`ltx-2.5`**: any integer from 1 to 60\n* **`minimax-h3`**: any integer from 1 to 30\n* **`seedance-1.5`**: any integer from 4 to 12\n* **`seedance-2.0`**: any integer from 4 to 15\n* **`seedance-2.0-mini`**: any integer from 4 to 15\n* **`seedance-2.5`**: any integer from 4 to 30\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1-lite`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`wan-3.0`**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n",
+                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`gemini-omni-1.1`**: any integer from 3 to 10\n* **`kling-2.6`**: 5, 10\n* **`kling-3.0`**: any integer from 3 to 15\n* **`ltx-2.5`**: any integer from 1 to 60\n* **`minimax-h3`**: any integer from 1 to 30\n* **`seedance-1.5`**: any integer from 4 to 12\n* **`seedance-2.0`**: any integer from 4 to 15\n* **`seedance-2.0-mini`**: any integer from 4 to 15\n* **`seedance-2.5`**: any integer from 4 to 30\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1-lite`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`wan-3.0`**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n",
                     "format": "float",
                     "example": 5
                   },
@@ -3915,19 +3952,19 @@
                     "enum": [
                       "default",
                       "kling-3.0",
-                      "gemini-omni-1.1",
-                      "seedance-2.0",
                       "ltx-2.5",
-                      "minimax-h3",
+                      "seedance-2.0-mini",
                       "wan-3.0",
+                      "seedance-2.5",
+                      "gemini-omni-1.1",
+                      "minimax-h3",
                       "wan-2.2",
                       "seedance-1.5",
-                      "seedance-2.0-mini",
-                      "seedance-2.5",
-                      "kling-2.6",
+                      "seedance-2.0",
                       "veo3.1-lite",
-                      "veo3.1",
                       "sora-2",
+                      "veo3.1",
+                      "kling-2.6",
                       "ltx-2.3",
                       "ltx-2",
                       "kling-2.5",
@@ -3936,18 +3973,18 @@
                       "kling-2.5-audio",
                       "veo3.1-audio"
                     ],
-                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.5`.\n* `gemini-omni-1.1`: Best for precise short clips, first/last frames, and high-resolution output.\n* `kling-2.6`: Best for action, motion blur, and controlled camera moves.\n* `kling-3.0`: Best for cinematic stories, references, and optional audio.\n* `ltx-2.5`: Fastest for general scenes, long clips, audio, and rapid iteration.\n* `minimax-h3`: Great for reference-driven clips with native audio and longer durations.\n* `seedance-1.5`: Best for smooth, consistent motion with an end frame.\n* `seedance-2.0`: Best for reference-led clips with precise subject control.\n* `seedance-2.0-mini`: Faster reference-led clips with consistent motion and audio.\n* `seedance-2.5`: Best for premium realism, detail, and natural motion.\n* `sora-2`: Best for creative concepts and longer clips with audio.\n* `veo3.1`: Best for romantic interactions and expressive action, with realistic detail.\n* `veo3.1-lite`: Balanced realism and audio at a lower cost than Veo 3.1.\n* `wan-2.2`: Best for physical motion, action, and camera movement.\n* `wan-3.0`: High-quality video with native audio, long clips, and end-frame control.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
+                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.5`.\n* `gemini-omni-1.1`: Best for precise short clips, first/last frames, and high-resolution output.\n* `kling-2.6`: Best for action, motion blur, and controlled camera moves.\n* `kling-3.0`: Best for cinematic stories, references, and optional audio.\n* `ltx-2.5`: Fastest for general scenes, long clips, audio, and rapid iteration.\n* `minimax-h3`: Great for reference-driven clips with native audio and longer durations.\n* `seedance-1.5`: Best for smooth, consistent motion with an end frame.\n* `seedance-2.0`: Best for reference-led clips with precise subject control.\n* `seedance-2.0-mini`: Faster reference-led clips with consistent motion and audio.\n* `seedance-2.5`: Best for premium realism, detail, and natural motion.\n* `veo3.1`: Best for romantic interactions and expressive action, with realistic detail.\n* `veo3.1-lite`: Balanced realism and audio at a lower cost than Veo 3.1.\n* `wan-2.2`: Best for physical motion, action, and camera movement.\n* `wan-3.0`: High-quality video with native audio, long clips, and end-frame control.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
                     "example": "kling-3.0"
                   },
                   "resolution": {
                     "type": "string",
                     "enum": ["360p", "480p", "720p", "1080p", "4k"],
                     "example": "720p",
-                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`gemini-omni-1.1`**: Supports 360p, 720p, 1080p, 4k.\n* **`kling-2.6`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`ltx-2.5`**: Supports 480p, 720p, 1080p.\n* **`minimax-h3`**: Supports 480p, 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0`**: Supports 480p, 720p, 1080p, 4k.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p, 1080p.\n* **`sora-2`**: Supports 720p.\n* **`veo3.1`**: Supports 720p, 1080p.\n* **`veo3.1-lite`**: Supports 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`wan-3.0`**: Supports 480p, 720p, 1080p.\n"
+                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`gemini-omni-1.1`**: Supports 360p, 720p, 1080p, 4k.\n* **`kling-2.6`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`ltx-2.5`**: Supports 480p, 720p, 1080p.\n* **`minimax-h3`**: Supports 480p, 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0`**: Supports 480p, 720p, 1080p, 4k.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p, 1080p.\n* **`veo3.1`**: Supports 720p, 1080p.\n* **`veo3.1-lite`**: Supports 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`wan-3.0`**: Supports 480p, 720p, 1080p.\n"
                   },
                   "audio": {
                     "type": "boolean",
-                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`gemini-omni-1.1`**: Not supported\n* **`kling-2.6`**: Not supported\n* **`kling-3.0`**: Toggle-able: audio adds extra credits when enabled\n* **`ltx-2.5`**: Toggle-able: no additional credits for audio\n* **`minimax-h3`**: Toggle-able: no additional credits for audio\n* **`seedance-1.5`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0`**: Toggle-able: no additional credits for audio\n* **`seedance-2.0-mini`**: Toggle-able: no additional credits for audio\n* **`seedance-2.5`**: Toggle-able: no additional credits for audio\n* **`sora-2`**: Toggle-able: no additional credits for audio\n* **`veo3.1`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1-lite`**: Toggle-able: audio adds extra credits when enabled\n* **`wan-2.2`**: Not supported\n* **`wan-3.0`**: Toggle-able: no additional credits for audio\n",
+                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`gemini-omni-1.1`**: Not supported\n* **`kling-2.6`**: Not supported\n* **`kling-3.0`**: Toggle-able: audio adds extra credits when enabled\n* **`ltx-2.5`**: Toggle-able: no additional credits for audio\n* **`minimax-h3`**: Toggle-able: no additional credits for audio\n* **`seedance-1.5`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0`**: Toggle-able: no additional credits for audio\n* **`seedance-2.0-mini`**: Toggle-able: no additional credits for audio\n* **`seedance-2.5`**: Toggle-able: no additional credits for audio\n* **`veo3.1`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1-lite`**: Toggle-able: audio adds extra credits when enabled\n* **`wan-2.2`**: Not supported\n* **`wan-3.0`**: Toggle-able: no additional credits for audio\n",
                     "example": true
                   },
                   "style": {
@@ -3973,12 +4010,12 @@
                       "end_image_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The image to use as the last frame of the video.\n\n* **`gemini-omni-1.1`**: Supports 360p, 720p, 1080p, 4k.\n* **`kling-2.6`**: Supports 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`ltx-2.5`**: Supports 480p, 720p, 1080p.\n* **`minimax-h3`**: Not supported\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0`**: Supports 480p, 720p, 1080p, 4k.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p, 1080p.\n* **`sora-2`**: Not supported\n* **`veo3.1`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`veo3.1-lite`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`wan-2.2`**: Not supported\n* **`wan-3.0`**: Supports 480p, 720p, 1080p.\n",
+                        "description": "The image to use as the last frame of the video.\n\n* **`gemini-omni-1.1`**: Supports 360p, 720p, 1080p, 4k.\n* **`kling-2.6`**: Supports 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`ltx-2.5`**: Supports 480p, 720p, 1080p.\n* **`minimax-h3`**: Not supported\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0`**: Supports 480p, 720p, 1080p, 4k.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p, 1080p.\n* **`veo3.1`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`veo3.1-lite`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`wan-2.2`**: Not supported\n* **`wan-3.0`**: Supports 480p, 720p, 1080p.\n",
                         "example": "api-assets/id/1234.png"
                       }
                     },
                     "required": ["image_file_path"],
-                    "description": "Provide the assets for image-to-video. Sora 2 only supports images with an aspect ratio of `9:16` or `16:9`."
+                    "description": "Provide the assets for image-to-video."
                   }
                 },
                 "required": ["end_seconds", "assets"]
@@ -4454,21 +4491,21 @@
                     "type": "number",
                     "minimum": 1,
                     "maximum": 60,
-                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`gemini-omni-1.1`**: any integer from 3 to 10\n* **`kling-2.6`**: 5, 10\n* **`kling-3.0`**: any integer from 3 to 15\n* **`ltx-2.5`**: any integer from 1 to 60\n* **`minimax-h3`**: any integer from 1 to 30\n* **`seedance-1.5`**: any integer from 4 to 12\n* **`seedance-2.0`**: any integer from 4 to 15\n* **`seedance-2.0-mini`**: any integer from 4 to 15\n* **`seedance-2.5`**: any integer from 4 to 30\n* **`sora-2`**: 4, 8, 12, 24, 36, 48, 60\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1-lite`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`wan-3.0`**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n",
+                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`gemini-omni-1.1`**: any integer from 3 to 10\n* **`kling-2.6`**: 5, 10\n* **`kling-3.0`**: any integer from 3 to 15\n* **`ltx-2.5`**: any integer from 1 to 60\n* **`minimax-h3`**: any integer from 1 to 30\n* **`seedance-1.5`**: any integer from 4 to 12\n* **`seedance-2.0`**: any integer from 4 to 15\n* **`seedance-2.0-mini`**: any integer from 4 to 15\n* **`seedance-2.5`**: any integer from 4 to 30\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1-lite`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`wan-3.0`**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n",
                     "format": "float",
                     "example": 5
                   },
                   "aspect_ratio": {
                     "type": "string",
                     "enum": ["16:9", "9:16", "1:1"],
-                    "description": "Determines the aspect ratio of the output video.\n\n* **`gemini-omni-1.1`**: Supports 16:9, 9:16.\n* **`kling-2.6`**: Supports 9:16, 16:9, 1:1.\n* **`kling-3.0`**: Supports 9:16, 16:9, 1:1.\n* **`ltx-2.5`**: Supports 9:16, 16:9, 1:1.\n* **`minimax-h3`**: Supports 16:9, 9:16, 1:1.\n* **`seedance-1.5`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0-mini`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.5`**: Supports 9:16, 16:9, 1:1.\n* **`sora-2`**: Supports 9:16, 16:9.\n* **`veo3.1`**: Supports 9:16, 16:9.\n* **`veo3.1-lite`**: Supports 9:16, 16:9.\n* **`wan-2.2`**: Supports 9:16, 16:9, 1:1.\n* **`wan-3.0`**: Supports 16:9, 9:16, 1:1.\n",
+                    "description": "Determines the aspect ratio of the output video.\n\n* **`gemini-omni-1.1`**: Supports 16:9, 9:16.\n* **`kling-2.6`**: Supports 9:16, 16:9, 1:1.\n* **`kling-3.0`**: Supports 9:16, 16:9, 1:1.\n* **`ltx-2.5`**: Supports 9:16, 16:9, 1:1.\n* **`minimax-h3`**: Supports 16:9, 9:16, 1:1.\n* **`seedance-1.5`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0-mini`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.5`**: Supports 9:16, 16:9, 1:1.\n* **`veo3.1`**: Supports 9:16, 16:9.\n* **`veo3.1-lite`**: Supports 9:16, 16:9.\n* **`wan-2.2`**: Supports 9:16, 16:9, 1:1.\n* **`wan-3.0`**: Supports 16:9, 9:16, 1:1.\n",
                     "example": "16:9"
                   },
                   "resolution": {
                     "type": "string",
                     "enum": ["360p", "480p", "720p", "1080p", "4k"],
                     "example": "720p",
-                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`gemini-omni-1.1`**: Supports 360p, 720p, 1080p, 4k.\n* **`kling-2.6`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`ltx-2.5`**: Supports 480p, 720p, 1080p.\n* **`minimax-h3`**: Supports 480p, 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0`**: Supports 480p, 720p, 1080p, 4k.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p, 1080p.\n* **`sora-2`**: Supports 720p.\n* **`veo3.1`**: Supports 720p, 1080p.\n* **`veo3.1-lite`**: Supports 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`wan-3.0`**: Supports 480p, 720p, 1080p.\n"
+                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`gemini-omni-1.1`**: Supports 360p, 720p, 1080p, 4k.\n* **`kling-2.6`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`ltx-2.5`**: Supports 480p, 720p, 1080p.\n* **`minimax-h3`**: Supports 480p, 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0`**: Supports 480p, 720p, 1080p, 4k.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p, 1080p.\n* **`veo3.1`**: Supports 720p, 1080p.\n* **`veo3.1-lite`**: Supports 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`wan-3.0`**: Supports 480p, 720p, 1080p.\n"
                   },
                   "model": {
                     "default": "default",
@@ -4476,19 +4513,19 @@
                     "enum": [
                       "default",
                       "kling-3.0",
-                      "gemini-omni-1.1",
-                      "seedance-2.0",
                       "ltx-2.5",
-                      "minimax-h3",
+                      "seedance-2.0-mini",
                       "wan-3.0",
+                      "seedance-2.5",
+                      "gemini-omni-1.1",
+                      "minimax-h3",
                       "wan-2.2",
                       "seedance-1.5",
-                      "seedance-2.0-mini",
-                      "seedance-2.5",
-                      "kling-2.6",
+                      "seedance-2.0",
                       "veo3.1-lite",
-                      "veo3.1",
                       "sora-2",
+                      "veo3.1",
+                      "kling-2.6",
                       "ltx-2.3",
                       "ltx-2",
                       "kling-2.5",
@@ -4497,12 +4534,12 @@
                       "kling-2.5-audio",
                       "veo3.1-audio"
                     ],
-                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.5`.\n* `gemini-omni-1.1`: Best for precise short clips, first/last frames, and high-resolution output.\n* `kling-2.6`: Best for action, motion blur, and controlled camera moves.\n* `kling-3.0`: Best for cinematic stories, references, and optional audio.\n* `ltx-2.5`: Fastest for general scenes, long clips, audio, and rapid iteration.\n* `minimax-h3`: Great for reference-driven clips with native audio and longer durations.\n* `seedance-1.5`: Best for smooth, consistent motion with an end frame.\n* `seedance-2.0`: Best for reference-led clips with precise subject control.\n* `seedance-2.0-mini`: Faster reference-led clips with consistent motion and audio.\n* `seedance-2.5`: Best for premium realism, detail, and natural motion.\n* `sora-2`: Best for creative concepts and longer clips with audio.\n* `veo3.1`: Best for romantic interactions and expressive action, with realistic detail.\n* `veo3.1-lite`: Balanced realism and audio at a lower cost than Veo 3.1.\n* `wan-2.2`: Best for physical motion, action, and camera movement.\n* `wan-3.0`: High-quality video with native audio, long clips, and end-frame control.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
+                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.5`.\n* `gemini-omni-1.1`: Best for precise short clips, first/last frames, and high-resolution output.\n* `kling-2.6`: Best for action, motion blur, and controlled camera moves.\n* `kling-3.0`: Best for cinematic stories, references, and optional audio.\n* `ltx-2.5`: Fastest for general scenes, long clips, audio, and rapid iteration.\n* `minimax-h3`: Great for reference-driven clips with native audio and longer durations.\n* `seedance-1.5`: Best for smooth, consistent motion with an end frame.\n* `seedance-2.0`: Best for reference-led clips with precise subject control.\n* `seedance-2.0-mini`: Faster reference-led clips with consistent motion and audio.\n* `seedance-2.5`: Best for premium realism, detail, and natural motion.\n* `veo3.1`: Best for romantic interactions and expressive action, with realistic detail.\n* `veo3.1-lite`: Balanced realism and audio at a lower cost than Veo 3.1.\n* `wan-2.2`: Best for physical motion, action, and camera movement.\n* `wan-3.0`: High-quality video with native audio, long clips, and end-frame control.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
                     "example": "kling-3.0"
                   },
                   "audio": {
                     "type": "boolean",
-                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`gemini-omni-1.1`**: Not supported\n* **`kling-2.6`**: Not supported\n* **`kling-3.0`**: Toggle-able: audio adds extra credits when enabled\n* **`ltx-2.5`**: Toggle-able: no additional credits for audio\n* **`minimax-h3`**: Toggle-able: no additional credits for audio\n* **`seedance-1.5`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0`**: Toggle-able: no additional credits for audio\n* **`seedance-2.0-mini`**: Toggle-able: no additional credits for audio\n* **`seedance-2.5`**: Toggle-able: no additional credits for audio\n* **`sora-2`**: Toggle-able: no additional credits for audio\n* **`veo3.1`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1-lite`**: Toggle-able: audio adds extra credits when enabled\n* **`wan-2.2`**: Not supported\n* **`wan-3.0`**: Toggle-able: no additional credits for audio\n",
+                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`gemini-omni-1.1`**: Not supported\n* **`kling-2.6`**: Not supported\n* **`kling-3.0`**: Toggle-able: audio adds extra credits when enabled\n* **`ltx-2.5`**: Toggle-able: no additional credits for audio\n* **`minimax-h3`**: Toggle-able: no additional credits for audio\n* **`seedance-1.5`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0`**: Toggle-able: no additional credits for audio\n* **`seedance-2.0-mini`**: Toggle-able: no additional credits for audio\n* **`seedance-2.5`**: Toggle-able: no additional credits for audio\n* **`veo3.1`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1-lite`**: Toggle-able: audio adds extra credits when enabled\n* **`wan-2.2`**: Not supported\n* **`wan-3.0`**: Toggle-able: no additional credits for audio\n",
                     "example": true
                   },
                   "style": {
@@ -4511,7 +4548,7 @@
                       "prompt": {
                         "type": "string",
                         "minLength": 1,
-                        "maxLength": 10000,
+                        "maxLength": 20000,
                         "example": "a dog running",
                         "description": "The prompt used for the video."
                       }
@@ -6321,16 +6358,16 @@
                     "type": "string",
                     "enum": [
                       "default",
-                      "nano-banana-2",
-                      "gpt-image-2",
-                      "gpt-image-2.5-flare",
+                      "qwen-edit",
                       "flux-2-klein",
                       "nano-banana-2-lite",
-                      "qwen-edit",
+                      "nano-banana-2",
                       "krea-2",
-                      "seedream-v4",
-                      "seedream-v4.5",
+                      "gpt-image-2.5-flare",
+                      "gpt-image-2",
                       "seedream-v5-pro",
+                      "seedream-v4.5",
+                      "seedream-v4",
                       "nano-banana",
                       "nano-banana-pro"
                     ],
@@ -6816,15 +6853,15 @@
                     "type": "string",
                     "enum": [
                       "default",
-                      "nano-banana-2",
-                      "gpt-image-2",
-                      "gpt-image-2.5-flare",
                       "z-image-turbo",
                       "flux-2-klein",
                       "nano-banana-2-lite",
+                      "nano-banana-2",
                       "krea-2",
-                      "seedream-v4",
+                      "gpt-image-2.5-flare",
+                      "gpt-image-2",
                       "seedream-v5-pro",
+                      "seedream-v4",
                       "nano-banana",
                       "nano-banana-pro",
                       "flux-schnell",
@@ -7064,23 +7101,23 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_image_generator \"github.com/magichourhq/magic-hour-go/resources/v1/ai_image_generator\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{\n\t\tAspectRatio: nullable.NewValue(types.V1AiImageGeneratorCreateBodyAspectRatioEnum11),\n\t\tImageCount:  1,\n\t\tModel:       nullable.NewValue(types.V1AiImageGeneratorCreateBodyModelEnumDefault),\n\t\tName:        nullable.NewValue(\"My Ai Image image\"),\n\t\tResolution:  nullable.NewValue(types.V1AiImageGeneratorCreateBodyResolutionEnumAuto),\n\t\tStyle: types.V1AiImageGeneratorCreateBodyStyle{\n\t\t\tPrompt: \"Cool image\",\n\t\t\tTool:   nullable.NewValue(types.V1AiImageGeneratorCreateBodyStyleToolEnumAiAnimeGenerator),\n\t\t},\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_image_generator \"github.com/magichourhq/magic-hour-go/resources/v1/ai_image_generator\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{\n\t\tAspectRatio: nullable.NewValue(types.V1AiImageGeneratorCreateBodyAspectRatioEnum11),\n\t\tImageCount:  1,\n\t\tModel:       nullable.NewValue(types.V1AiImageGeneratorCreateBodyModelEnumDefault),\n\t\tName:        nullable.NewValue(\"My Ai Image image\"),\n\t\tResolution:  nullable.NewValue(types.V1AiImageGeneratorCreateBodyResolutionEnum1k),\n\t\tStyle: types.V1AiImageGeneratorCreateBodyStyle{\n\t\t\tPrompt: \"Cool image\",\n\t\t\tTool:   nullable.NewValue(types.V1AiImageGeneratorCreateBodyStyleToolEnumAiAnimeGenerator),\n\t\t},\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_image_generator()\n    .create(magic_hour::resources::v1::ai_image_generator::CreateRequest {\n        aspect_ratio: Some(\n            magic_hour::models::V1AiImageGeneratorCreateBodyAspectRatioEnum::Enum11,\n        ),\n        image_count: 1,\n        model: Some(\n            magic_hour::models::V1AiImageGeneratorCreateBodyModelEnum::Default,\n        ),\n        name: Some(\"My Ai Image image\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1AiImageGeneratorCreateBodyResolutionEnum::Auto,\n        ),\n        style: magic_hour::models::V1AiImageGeneratorCreateBodyStyle {\n            prompt: \"Cool image\".to_string(),\n            tool: Some(\n                magic_hour::models::V1AiImageGeneratorCreateBodyStyleToolEnum::AiAnimeGenerator,\n            ),\n            ..Default::default()\n        },\n        ..Default::default()\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_image_generator()\n    .create(magic_hour::resources::v1::ai_image_generator::CreateRequest {\n        aspect_ratio: Some(\n            magic_hour::models::V1AiImageGeneratorCreateBodyAspectRatioEnum::Enum11,\n        ),\n        image_count: 1,\n        model: Some(\n            magic_hour::models::V1AiImageGeneratorCreateBodyModelEnum::Default,\n        ),\n        name: Some(\"My Ai Image image\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1AiImageGeneratorCreateBodyResolutionEnum::Enum1k,\n        ),\n        style: magic_hour::models::V1AiImageGeneratorCreateBodyStyle {\n            prompt: \"Cool image\".to_string(),\n            tool: Some(\n                magic_hour::models::V1AiImageGeneratorCreateBodyStyleToolEnum::AiAnimeGenerator,\n            ),\n            ..Default::default()\n        },\n        ..Default::default()\n    })\n    .await;"
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-image-generator \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Ai Image image\",\n  \"image_count\": 1,\n  \"model\": \"default\",\n  \"aspect_ratio\": \"1:1\",\n  \"resolution\": \"auto\",\n  \"style\": {\n    \"prompt\": \"Cool image\",\n    \"tool\": \"ai-anime-generator\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-image-generator \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Ai Image image\",\n  \"image_count\": 1,\n  \"model\": \"default\",\n  \"aspect_ratio\": \"1:1\",\n  \"resolution\": \"1k\",\n  \"style\": {\n    \"prompt\": \"Cool image\",\n    \"tool\": \"ai-anime-generator\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-image-generator\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Ai Image image',\n    'image_count' => 1,\n    'model' => 'default',\n    'aspect_ratio' => '1:1',\n    'resolution' => 'auto',\n    'style' => [\n        'prompt' => 'Cool image',\n        'tool' => 'ai-anime-generator'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-image-generator\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Ai Image image',\n    'image_count' => 1,\n    'model' => 'default',\n    'aspect_ratio' => '1:1',\n    'resolution' => '1k',\n    'style' => [\n        'prompt' => 'Cool image',\n        'tool' => 'ai-anime-generator'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-image-generator\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Ai Image image\\\",\\\"image_count\\\":1,\\\"model\\\":\\\"default\\\",\\\"aspect_ratio\\\":\\\"1:1\\\",\\\"resolution\\\":\\\"auto\\\",\\\"style\\\":{\\\"prompt\\\":\\\"Cool image\\\",\\\"tool\\\":\\\"ai-anime-generator\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-image-generator\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Ai Image image\\\",\\\"image_count\\\":1,\\\"model\\\":\\\"default\\\",\\\"aspect_ratio\\\":\\\"1:1\\\",\\\"resolution\\\":\\\"1k\\\",\\\"style\\\":{\\\"prompt\\\":\\\"Cool image\\\",\\\"tool\\\":\\\"ai-anime-generator\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -8331,11 +8368,11 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.face_swap_photo.generate(\n    assets={\n        \"face_mappings\": [\n            {\n                \"new_face\": \"/path/to/1234.png\",\n                \"original_face\": \"api-assets/id/0-0.png\",\n            }\n        ],\n        \"face_swap_mode\": \"all-faces\",\n        \"source_file_path\": \"/path/to/1234.png\",\n        \"target_file_path\": \"/path/to/1234.png\",\n    },\n    name=\"Face Swap image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.face_swap_photo.generate(\n    assets={\n        \"face_swap_mode\": \"all-faces\",\n        \"source_file_path\": \"/path/to/1234.png\",\n        \"target_file_path\": \"/path/to/1234.png\",\n    },\n    name=\"Face Swap image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"]!! });\nconst res = await client.v1.faceSwapPhoto.generate(\n  {\n    assets: {\n      faceMappings: [\n        {\n          newFace: \"api-assets/id/1234.png\",\n          originalFace: \"api-assets/id/0-0.png\",\n        },\n      ],\n      faceSwapMode: \"all-faces\",\n      sourceFilePath: \"/path/to/1234.png\",\n      targetFilePath: \"/path/to/1234.png\",\n    },\n    name: \"Face Swap image\",\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"]!! });\nconst res = await client.v1.faceSwapPhoto.generate(\n  {\n    assets: {\n      faceSwapMode: \"all-faces\",\n      sourceFilePath: \"/path/to/1234.png\",\n      targetFilePath: \"/path/to/1234.png\",\n    },\n    name: \"Face Swap image\",\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
           },
           {
             "lang": "go",
