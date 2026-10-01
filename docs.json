@@ -106,6 +106,7 @@
               "integration/overview",
               "integration/evaluating-media-apis",
               "integration/first-integration",
+              "integration/photo-activation",
               "integration/postman",
               "integration/adding-api-to-your-app",
               "integration/inputs-and-outputs",

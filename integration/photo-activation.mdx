@@ -1,0 +1,46 @@
+---
+title: "Photo activation starter"
+description: "Run a ready-to-brand photo experience with a server-held API key, asynchronous generation, and downloadable results."
+---
+
+Build a local agency demo: upload a photo → apply a campaign style → download or share the generated portrait. No packages to install; Node.js 22 or newer is required.
+
+## Run locally
+
+1. Clone the [documentation repository](https://github.com/magichourhq/docs) and open `examples/photo-activation`.
+2. Create an [API key](https://magichour.ai/developer) and ensure the account has credits.
+3. Set the key in your server environment, then start the app:
+
+```bash
+export MAGIC_HOUR_API_KEY="YOUR_API_KEY"
+export CAMPAIGN_NAME="Your campaign"
+export CAMPAIGN_PROMPT="Transform this photo into an editorial studio portrait with a vivid violet background. Preserve the person's identity. No text or logos."
+node server.mjs
+```
+
+Open `http://127.0.0.1:3002`. Choose a JPEG, PNG, or WebP under 10 MB, confirm photo permission, and generate. Each run creates one billable image; the key never goes to the browser.
+
+## Integration flow
+
+The [source](https://github.com/magichourhq/docs/tree/main/examples/photo-activation) uses:
+
+- `POST /v1/files/upload-urls`, then `PUT` the photo to its signed upload URL.
+- `POST /v1/ai-image-editor` with a fixed server-side campaign prompt, `flux-2-klein`, `640px`, and `image_count: 1`.
+- `GET /v1/image-projects/{id}` every 2.5 seconds until complete, error, or canceled.
+- A server download route that refreshes the expiring output URL. Native file sharing appears only on supported browsers.
+
+The creation response supplies `credits_charged`; check [current pricing](/billing/usage-based-pricing) before quoting a client. This demo does not enforce a campaign budget or automatically buy credits. A `402` stops the flow and asks the operator to top up.
+
+## Failure recovery
+
+Polling or downloading can be retried with **Check existing result** without creating another paid job. Creation is never automatically retried: a timeout or lost response may mean the API accepted the job. Check the API dashboard before making another request.
+
+This demo handles one portrait per page session. Download the result, then reload to start another. Reloading the page loses its handle; restarting the server clears its in-memory job mappings. Existing projects remain in your Magic Hour account.
+
+<Warning>
+  This is a localhost starter, not a public event service. Before deployment, add authenticated
+  operator/participant access, durable project ownership and recovery, request and concurrency
+  limits, a campaign spend cap, upload validation, and a photo retention/deletion policy. Do not
+  expose this server directly to the internet. Get participant consent and document your data
+  processing terms.
+</Warning>
