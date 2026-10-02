@@ -15,7 +15,7 @@
   "devDependencies": {
     "@mintlify/scraping": "4.0.1041",
     "mintlify": "4.2.935",
-    "prettier": "3.9.8",
+    "prettier": "3.9.9",
     "typescript": "7.0.2"
   }
 }
