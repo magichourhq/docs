@@ -39,18 +39,18 @@ durations and resolutions, and the credit-cost table below to compare costs.
 | Model               | Best for                                                        | Resolutions           | Durations (seconds)                                                                                  | Audio                 |
 | :------------------ | :-------------------------------------------------------------- | :-------------------- | :--------------------------------------------------------------------------------------------------- | :-------------------- |
 | `gemini-omni-1.1`   | Precise short clips, first and last frames, and high resolution | 360p, 720p, 1080p, 4k | 3, 4, 5, 6, 7, 8, 9, 10                                                                              | No                    |
-| `ltx-2.3`           | Fast output for general scenes and rapid iteration              | 480p, 720p, 1080p     | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30                                                        | Yes, no extra credits |
-| `ltx-2.5`           | Fast output for general scenes and clips up to 60 seconds       | 480p, 720p, 1080p     | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60                                | Yes, no extra credits |
-| `minimax-h3`        | Native-audio video with flexible duration                       | 480p, 720p, 1080p     | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30                                                        | Yes, no extra credits |
+| `ltx-2.5`           | Fast output for general scenes and clips up to 60 seconds       | 480p, 720p, 1080p     | Any integer from 1 to 60                                                                             | Yes, no extra credits |
+| `minimax-h3`        | Native-audio video with flexible duration                       | 480p, 720p, 1080p     | Any integer from 1 to 30                                                                             | Yes, no extra credits |
 | `wan-2.2`           | Strong physics, camera moves, and motion                        | 480p, 720p, 1080p     | 3, 4, 5, 6, 7, 8, 9, 10, 15                                                                          | No                    |
+| `wan-3.0`           | Native audio, long clips, and end-frame control                 | 480p, 720p, 1080p     | 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30                                                           | Yes, no extra credits |
 | `kling-2.6`         | Great for action, motion blur, and camera moves                 | 720p, 1080p           | 5, 10                                                                                                | No                    |
 | `kling-3.0`         | Best overall quality for cinematic storytelling                 | 720p, 1080p, 4k       | 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15                                                          | Yes, costs extra      |
 | `veo3.1-lite`       | Veo quality at a more accessible cost                           | 720p, 1080p           | 4, 6, 8, 16, 24, 32, 40, 48, 56                                                                      | Yes, costs extra      |
 | `veo3.1`            | Google's model. Highest realism and detail                      | 720p, 1080p           | 4, 6, 8, 16, 24, 32, 40, 48, 56                                                                      | Yes, costs extra      |
 | `seedance-1.5`      | Smooth, consistent motion with precision                        | 480p, 720p, 1080p     | 4, 5, 6, 7, 8, 9, 10, 11, 12                                                                         | Yes, costs extra      |
 | `seedance-2.0-mini` | Fast, consistent video with strong motion quality               | 480p, 720p            | 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15                                                             | Yes, no extra credits |
-| `seedance-2.0`      | Top quality with reference-to-video control                     | 480p, 720p            | 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15                                                             | Yes, no extra credits |
-| `seedance-2.5`      | Highest quality with superior realism, detail, and motion       | 480p, 720p            | 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30 | Yes, no extra credits |
+| `seedance-2.0`      | Top quality with reference-to-video control                     | 480p, 720p, 1080p, 4k | 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15                                                             | Yes, no extra credits |
+| `seedance-2.5`      | Highest quality with superior realism, detail, and motion       | 480p, 720p, 1080p     | 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30 | Yes, no extra credits |
 | `sora-2`            | Open AI's model. Great for creativity and viral clips           | 720p                  | 4, 8, 12, 24, 36, 48, 60                                                                             | Yes, no extra credits |
 
 <Note>
@@ -62,60 +62,73 @@ durations and resolutions, and the credit-cost table below to compare costs.
 
 ### Video credit costs
 
-Credits per second of output. For text-to-video and image-to-video, multiply by `end_seconds` to estimate a job.
+Credits per second of output without video references. For text-to-video and image-to-video, multiply
+by `end_seconds` to estimate a job.
 For endpoints that trim an input, the clip duration is `end_seconds - start_seconds`.
 
-| Model               | 360p | 480p | 720p | 1080p |  4k | With audio                    |
-| :------------------ | ---: | ---: | ---: | ----: | --: | :---------------------------- |
-| `gemini-omni-1.1`   |   48 |    — |  144 |   192 | 384 | Not supported                 |
-| `ltx-2.3`           |    — |   24 |   48 |    72 |   — | Included                      |
-| `ltx-2.5`           |    — |   24 |   48 |    72 |   — | Included                      |
-| `minimax-h3`        |    — |   24 |   48 |    72 |   — | Included                      |
-| `wan-2.2`           |    — |   24 |   48 |    72 |   — | Not supported                 |
-| `kling-2.6`         |    — |    — |   36 |    72 |   — | Not supported                 |
-| `kling-3.0`         |    — |    — |   48 |    72 | 240 | +24 at 720p, 1080p; +48 at 4k |
-| `veo3.1-lite`       |    — |    — |   48 |    72 |   — | +24                           |
-| `veo3.1`            |    — |    — |   96 |   120 |   — | +24                           |
-| `seedance-1.5`      |    — |   30 |   60 |    90 |   — | 2× the base rate              |
-| `seedance-2.0-mini` |    — |   96 |  192 |     — |   — | Included                      |
-| `seedance-2.0`      |    — |  144 |  288 |     — |   — | Included                      |
-| `seedance-2.5`      |    — |  288 |  576 |     — |   — | Included                      |
-| `sora-2`            |    — |    — |  120 |     — |   — | Included                      |
+| Model               | 360p | 480p | 720p | 1080p |   4k | With audio                    |
+| :------------------ | ---: | ---: | ---: | ----: | ---: | :---------------------------- |
+| `gemini-omni-1.1`   |   48 |    — |  144 |   192 |  384 | Not supported                 |
+| `ltx-2.5`           |    — |   24 |   48 |    72 |    — | Included                      |
+| `minimax-h3`        |    — |   24 |   48 |    72 |    — | Included                      |
+| `wan-2.2`           |    — |   24 |   48 |    72 |    — | Not supported                 |
+| `wan-3.0`           |    — |   48 |   96 |   180 |    — | Included                      |
+| `kling-2.6`         |    — |    — |   36 |    72 |    — | Not supported                 |
+| `kling-3.0`         |    — |    — |   48 |    72 |  240 | +24 at 720p, 1080p; +48 at 4k |
+| `veo3.1-lite`       |    — |    — |   48 |    72 |    — | +24                           |
+| `veo3.1`            |    — |    — |   96 |   120 |    — | +24                           |
+| `seedance-1.5`      |    — |   30 |   60 |    90 |    — | 2× the base rate              |
+| `seedance-2.0-mini` |    — |   48 |  120 |     — |    — | Included                      |
+| `seedance-2.0`      |    — |   96 |  168 |   528 | 1080 | Included                      |
+| `seedance-2.5`      |    — |  168 |  336 |   840 |    — | Included                      |
+| `sora-2`            |    — |    — |  120 |     — |    — | Included                      |
+
+For text-to-video requests containing a video reference, Seedance uses these rates instead. Image
+and audio references do not trigger this video-reference rate.
+
+| Model               | 480p | 720p | 1080p |   4k |
+| :------------------ | ---: | ---: | ----: | ---: |
+| `seedance-2.0-mini` |   72 |  144 |     — |    — |
+| `seedance-2.0`      |   96 |  216 |   672 | 1320 |
+| `seedance-2.5`      |  192 |  408 |  1008 |    — |
 
 The video formula is `duration × output fps × resolution multiplier`. Because output fps varies by
 model, two models at the same resolution can cost different amounts per second.
 
 ### Legacy model values
 
-The endpoints still accept `ltx-2`, `kling-2.5`, `kling-1.6`, `seedance` for backwards
+The endpoints still accept `ltx-2.3`, `ltx-2`, `kling-2.5`, `kling-1.6`, `seedance` for backwards
 compatibility, but these are no longer recommended and are absent from the tables above. New
-integrations should use a documented model.
+integrations should use a documented model. `ltx-2.3` and `ltx-2` resolve to `ltx-2.5`, with its
+capabilities and credit costs.
 
 [AI video editor](/api-reference/video-projects/ai-video-editor) has its own roster:
-`gemini-omni-1.1` and `ltx-2.3`, defaulting to `ltx-2.3` on the free tier and `gemini-omni-1.1` on paid
-tiers. The deprecated `gemini-omni` value is equivalent to `gemini-omni-1.1`.
+`gemini-omni-1.1` and `ltx-2.5`, defaulting to `ltx-2.5` on the free tier and `gemini-omni-1.1` on paid
+tiers. The compatibility value `ltx-2.3` resolves to `ltx-2.5`. The deprecated `gemini-omni` value is
+equivalent to `gemini-omni-1.1`.
 
 ## Image models
 
 Available on [AI image generator](/api-reference/image-projects/ai-image-generator) and
 [AI image editor](/api-reference/image-projects/ai-image-editor).
 
-| Model                | Generate | Edit | Resolutions       |        From | Tiers                        |
+| Model                 | Generate | Edit | Resolutions       |        From | Tiers                        |
 | :-------------------- | :------- | :--- | :---------------- | ----------: | :--------------------------- |
-| `flux-schnell`       | Yes      | —    | 640px, 1k, 2k     |   5 credits | free, creator, pro, business |
-| `flux-2-klein`       | Yes      | Yes  | 640px, 1k, 2k     |   5 credits | free, creator, pro, business |
-| `z-image-turbo`      | Yes      | —    | 640px, 1k, 2k     |   5 credits | free, creator, pro, business |
-| `seedream-v4`        | Yes      | Yes  | 640px, 1k, 2k, 4k |  40 credits | creator, pro, business       |
-| `seedream-v5-pro`    | Yes      | Yes  | 640px, 1k, 2k     |  75 credits | creator, pro, business       |
-| `nano-banana`        | Yes      | Yes  | 640px, 1k         |  50 credits | creator, pro, business       |
-| `nano-banana-2-lite` | Yes      | Yes  | 640px, 1k         |  50 credits | creator, pro, business       |
-| `nano-banana-2`      | Yes      | Yes  | 640px, 1k, 2k, 4k | 100 credits | creator, pro, business       |
-| `nano-banana-pro`    | Yes      | Yes  | 1k, 2k, 4k        | 150 credits | creator, pro, business       |
-| `gpt-image-2`        | Yes      | Yes  | 640px, 1k, 2k, 4k |  50 credits | creator, pro, business       |
+| `flux-schnell`        | Yes      | —    | 640px, 1k, 2k     |   5 credits | free, creator, pro, business |
+| `flux-2-klein`        | Yes      | Yes  | 640px, 1k, 2k     |   5 credits | free, creator, pro, business |
+| `z-image-turbo`       | Yes      | —    | 640px, 1k, 2k     |   5 credits | free, creator, pro, business |
+| `seedream-v4`         | Yes      | Yes  | 640px, 1k, 2k, 4k |  40 credits | creator, pro, business       |
+| `seedream-v5-pro`     | Yes      | Yes  | 640px, 1k, 2k     |  75 credits | creator, pro, business       |
+| `nano-banana`         | Yes      | Yes  | 640px, 1k         |  50 credits | creator, pro, business       |
+| `nano-banana-2-lite`  | Yes      | Yes  | 640px, 1k         |  50 credits | creator, pro, business       |
+| `nano-banana-2`       | Yes      | Yes  | 640px, 1k, 2k, 4k | 100 credits | creator, pro, business       |
+| `nano-banana-pro`     | Yes      | Yes  | 1k, 2k, 4k        | 150 credits | creator, pro, business       |
+| `gpt-image-2`         | Yes      | Yes  | 640px, 1k, 2k, 4k |  50 credits | creator, pro, business       |
 | `gpt-image-2.5-flare` | Yes      | Yes  | 640px, 1k, 2k, 4k | 100 credits | creator, pro, business       |
 | `krea-2`              | Yes      | Yes  | 640px, 1k         |  10 credits | free, creator, pro, business |
-| `qwen-edit`          | —        | Yes  | 640px, 1k, 2k     |  10 credits | free, creator, pro, business |
-| `seedream-v4.5`      | —        | Yes  | 640px, 1k, 2k, 4k |  50 credits | creator, pro, business       |
+| `qwen-edit`           | —        | Yes  | 640px, 1k, 2k     |  10 credits | free, creator, pro, business |
+| `qwen-image-2.1`      | Yes      | Yes  | 640px, 1k, 2k     |  10 credits | free, creator, pro, business |
+| `seedream-v4.5`       | —        | Yes  | 640px, 1k, 2k, 4k |  50 credits | creator, pro, business       |
 
 "From" is the cost of a single image at the model's lowest resolution. Higher resolutions cost more,
 and generating multiple images multiplies the cost. Free-plan image models are available at `640px`.
@@ -123,20 +136,21 @@ Larger resolutions require a paid plan even if the model is available on the fre
 
 | Model                 | Allowed image counts (generator) | Max additional input images (editor) |
 | :-------------------- | :------------------------------- | :----------------------------------- |
-| `flux-schnell`       | 1, 2, 3, 4                         | —                                    |
-| `flux-2-klein`       | 1                                  | 5                                    |
-| `z-image-turbo`      | 1, 2, 3, 4                         | —                                    |
-| `seedream-v4`        | 1, 2, 3, 4                         | 9                                    |
-| `seedream-v5-pro`    | 1, 2, 3, 4                         | 9                                    |
-| `nano-banana`        | 1, 2, 3, 4                         | 9                                    |
-| `nano-banana-2-lite` | 1, 2, 3, 4                         | 9                                    |
-| `nano-banana-2`      | 1, 4, 9, 16                        | 9                                    |
-| `nano-banana-pro`    | 1, 4, 9, 16                        | 9                                    |
-| `gpt-image-2`        | 1, 2, 3, 4                         | 9                                    |
+| `flux-schnell`        | 1, 2, 3, 4                       | —                                    |
+| `flux-2-klein`        | 1                                | 5                                    |
+| `z-image-turbo`       | 1, 2, 3, 4                       | —                                    |
+| `seedream-v4`         | 1, 2, 3, 4                       | 9                                    |
+| `seedream-v5-pro`     | 1, 2, 3, 4                       | 9                                    |
+| `nano-banana`         | 1, 2, 3, 4                       | 9                                    |
+| `nano-banana-2-lite`  | 1, 2, 3, 4                       | 9                                    |
+| `nano-banana-2`       | 1, 4, 9, 16                      | 9                                    |
+| `nano-banana-pro`     | 1, 4, 9, 16                      | 9                                    |
+| `gpt-image-2`         | 1, 2, 3, 4                       | 9                                    |
 | `gpt-image-2.5-flare` | 1, 2, 3, 4                       | 9                                    |
 | `krea-2`              | 1                                | 1                                    |
-| `qwen-edit`          | —                                  | 2                                    |
-| `seedream-v4.5`      | —                                  | 9                                    |
+| `qwen-edit`           | —                                | 2                                    |
+| `qwen-image-2.1`      | 1, 2, 3, 4                       | 2                                    |
+| `seedream-v4.5`       | —                                | 9                                    |
 
 ## Reference costs
 
