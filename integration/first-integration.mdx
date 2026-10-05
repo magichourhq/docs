@@ -604,18 +604,22 @@ print(f"✅ Complete! Files: {result.downloaded_paths}")
 
 ```javascript Node.js
 // All-in-one generate function
-const result = await client.v1.aiImageGenerator.generate({
-  imageCount: 1,
-  aspectRatio: "16:9",
-  style: {
-    prompt: "A serene mountain landscape at sunset",
-    tool: "ai-anime-generator",
+const result = await client.v1.aiImageGenerator.generate(
+  {
+    imageCount: 1,
+    aspectRatio: "16:9",
+    style: {
+      prompt: "A serene mountain landscape at sunset",
+      tool: "ai-anime-generator",
+    },
+    name: "Tutorial Image",
   },
-  name: "Tutorial Image",
-  waitForCompletion: true,
-  downloadOutputs: true,
-  downloadDirectory: ".",
-});
+  {
+    waitForCompletion: true,
+    downloadOutputs: true,
+    downloadDirectory: ".",
+  }
+);
 
 console.log(`✅ Complete! Files: ${result.downloadedPaths}`);
 ```
@@ -627,24 +631,24 @@ console.log(`✅ Complete! Files: ${result.downloadedPaths}`);
 - Use `create()` + polling: Production apps, webhook integration, custom monitoring
 - Use `generate()`: Quick scripts, testing, simple integrations
 
-## Download the Complete Project
+## Explore the SDK Examples
 
-Get the full working example from GitHub:
+See the official SDK usage examples on GitHub:
 
 <CardGroup cols={2}>
   <Card
-    title="Python Example"
+    title="Python SDK Examples"
     icon="python"
-    href="https://github.com/magichourhq/magic-hour-python/tree/main/examples"
+    href="https://github.com/magichourhq/magic-hour-python#usage"
   >
-    Complete Python tutorial project
+    Python SDK usage and generation examples
   </Card>
   <Card
-    title="Node.js Example"
+    title="Node.js SDK Examples"
     icon="node-js"
-    href="https://github.com/magichourhq/magic-hour-node/tree/main/examples"
+    href="https://github.com/magichourhq/magic-hour-node#usage"
   >
-    Complete Node.js tutorial project
+    Node.js SDK usage and generation examples
   </Card>
 </CardGroup>
 
