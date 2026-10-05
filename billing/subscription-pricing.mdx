@@ -34,9 +34,10 @@ description: Get credits upfront with predictable monthly or yearly billing and 
 
 ## Choose Your Plan
 
-Higher plans include more credits each month, larger uploads, and more concurrent jobs. Resolution is
-per tool: paid plans unlock higher-resolution options, and requesting those options costs more
-credits. See [resolution](/billing/resolution-limits).
+Higher plans include more credits each month, larger uploads, and more concurrent web generations.
+API generations do not count toward web plan concurrency limits. Jobs may queue while server capacity
+becomes available. Resolution is per tool: paid plans unlock higher-resolution options, and
+requesting those options costs more credits. See [resolution](/billing/resolution-limits).
 
 import { PricingCard } from "/snippets/pricing-card.mdx";
 
@@ -62,7 +63,7 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
   benefits={[
     "12,000 credits per month",
     "No watermarks, commercial use",
-    "2GB uploads, 3 concurrent generations",
+    "2GB uploads, 3 concurrent web generations",
   ]}
 />
 
@@ -75,7 +76,7 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
   benefits={[
     "25,000 credits per month",
     "No watermarks, commercial use",
-    "5GB uploads, 5 concurrent generations",
+    "5GB uploads, 5 concurrent web generations",
     "Priority support",
   ]}
 />
@@ -89,7 +90,7 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
   benefits={[
     "70,000 credits per month",
     "No watermarks, commercial use",
-    "10GB uploads, unlimited concurrent generations",
+    "10GB uploads, unlimited concurrent web generations",
     "Priority support",
   ]}
 />
@@ -107,16 +108,12 @@ If you use more credits than your plan includes, you can purchase additional cre
 
 ### **Credit Packs**
 
-| Pack     | Credits | Price | Discount | Credits per dollar |
-| :------- | ------: | ----: | -------: | -----------------: |
-| Starter  |   4,000 |   $10 |        - |                400 |
-| Standard |  12,000 |   $27 |      10% |                444 |
-| Large    |  32,000 |   $64 |      20% |                500 |
-| Max      |  64,000 |  $120 |      25% |                533 |
+Pack sizes, prices, and discounts vary by active offer. Check the [pricing page](https://magichour.ai/pricing#credit-pack) and final checkout for the current offer.
 
-Pack discounts are applied automatically at checkout. Credits are added immediately and never
-expire. Packs do not include subscription benefits other than removing watermarks. A pack alone
-does not unlock models, resolutions, upload limits, or concurrency reserved for a paid plan.
+Credits are added immediately and never expire. Packs include watermark-free exports and commercial
+use, subject to the [Terms of Service](https://magichour.ai/terms-of-service) and applicable content
+rights. A pack alone does not unlock models, resolutions, upload limits, or web concurrency reserved
+for a paid plan.
 
 ### **When to Buy Credit Packs**
 
