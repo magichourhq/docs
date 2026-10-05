@@ -5,15 +5,16 @@ description: "Recent typical end-to-end processing times for successful Magic Ho
 
 The published baseline values cover successful API jobs created during the **30 complete UTC
 days from August 18 through September 16, 2026**. Three values use the latest 48-hour cohort, from
-**September 22 at 16:00 through September 24 at 16:00 UTC**, and are marked with ※. Three values use
+**September 29 at 18:00 through October 1 at 18:00 UTC**, and are marked with ◎. Three values use
+the September 22 at 16:00 through September 24 at 16:00 UTC cohort and are marked with ※. Three values use
 the September 19 at 16:00 through September 21 at 16:00 UTC cohort and are marked with ◇. One value uses
 the September 12 at 16:00 through September 14 at 16:00 UTC cohort and is marked with ¶. Three
 values use the September 5 at 17:00 through September 7 at 17:00 UTC cohort and are marked with §.
 Two unchanged values use the September 4 at 01:00 through September 6 at 01:00 UTC cohort and are
 marked with ‡. Unmarked rows retain their published baseline value and sample. All values measure
 end-to-end time from project creation to completion, including queueing. The warehouse snapshot was
-queried on September 24, 2026. A fresh 30-complete-UTC-day comparison covered August 25 through
-September 23, 2026; unchanged rows retain their published sample and measurement window.
+queried on October 1, 2026. A fresh 30-complete-UTC-day comparison covered September 1 through
+September 30, 2026; unchanged rows retain their published sample and measurement window.
 
 <Warning>
   These are directional observations, not an SLA or a prediction for an individual job. Processing
@@ -38,7 +39,7 @@ of successful API jobs included. Errored, canceled, and still-active jobs are ex
 | [`POST /v1/animation`](/api-reference/video-projects/animation)                             |        2m 46s |    10† |
 | [`POST /v1/audio-to-video`](/api-reference/video-projects/audio-to-video)                   |        1m 11s |    26† |
 | [`POST /v1/auto-subtitle-generator`](/api-reference/video-projects/auto-subtitle-generator) |           52s |     30 |
-| [`POST /v1/character-replace`](/api-reference/video-projects/character-replace)             |       11m 30s |    331 |
+| [`POST /v1/character-replace`](/api-reference/video-projects/character-replace)             |        5m 23s |   144◎ |
 | [`POST /v1/face-swap`](/api-reference/video-projects/face-swap-video)                       |        1m 17s |   152※ |
 | [`POST /v1/image-to-video`](/api-reference/video-projects/image-to-video)                   |           33s |   140※ |
 | [`POST /v1/lip-sync`](/api-reference/video-projects/lip-sync)                               |        1m 30s |    61‡ |
@@ -59,7 +60,9 @@ baseline or earlier 48-hour value.
 
 ◇ Uses the September 19 at 16:00 through September 21 at 16:00 UTC API cohort.
 
-※ Uses the latest 48-hour API cohort, from September 22 at 16:00 through September 24 at 16:00 UTC,
+※ Uses the September 22 at 16:00 through September 24 at 16:00 UTC API cohort.
+
+◎ Uses the latest 48-hour API cohort, from September 29 at 18:00 through October 1 at 18:00 UTC,
 because its median was faster than the currently published value. Other rows retain their published
 baseline or earlier 48-hour value.
 
@@ -73,7 +76,7 @@ baseline or earlier 48-hour value.
 | [`POST /v1/ai-headshot-generator`](/api-reference/image-projects/ai-headshot-generator)       |           16s |    147 |
 | [`POST /v1/ai-image-editor`](/api-reference/image-projects/ai-image-editor)                   |           10s |   299§ |
 | [`POST /v1/ai-image-generator`](/api-reference/image-projects/ai-image-generator)             |            4s |   401◇ |
-| [`POST /v1/ai-image-upscaler`](/api-reference/image-projects/ai-image-upscaler)               |           27s |    443 |
+| [`POST /v1/ai-image-upscaler`](/api-reference/image-projects/ai-image-upscaler)               |           17s |    80◎ |
 | [`POST /v1/ai-meme-generator`](/api-reference/image-projects/ai-meme-generator)               |            6s |    322 |
 | [`POST /v1/ai-qr-code-generator`](/api-reference/image-projects/ai-qr-code-generator)         |            7s |    233 |
 | [`POST /v1/body-swap`](/api-reference/image-projects/body-swap)                               |           27s |     38 |
@@ -86,7 +89,7 @@ baseline or earlier 48-hour value.
 
 | Endpoint                                                                          | Typical (p50) | Sample |
 | --------------------------------------------------------------------------------- | ------------: | -----: |
-| [`POST /v1/ai-voice-generator`](/api-reference/audio-projects/ai-voice-generator) |           19s |    620 |
+| [`POST /v1/ai-voice-generator`](/api-reference/audio-projects/ai-voice-generator) |            4s |    46◎ |
 | [`POST /v1/ai-voice-cloner`](/api-reference/audio-projects/ai-voice-cloner)       |        1m 11s |    200 |
 
 ## Monitor every job
