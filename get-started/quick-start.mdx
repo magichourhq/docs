@@ -199,7 +199,7 @@ See the [image generation guide](/tools/image/image-generator) for prompt exampl
 
 - `image_count: 1` - Generate one image (costs 5 credits)
 - `aspect_ratio: "16:9"` - Widescreen (landscape) output; also supports `1:1` and `9:16`
-- `resolution: "640px"` - Use the supported free-plan image resolution; larger sizes require a paid plan
+- `resolution: "1k"` - Request an explicit supported resolution instead of deprecated `auto`
 - `wait_for_completion: true` - SDK polls until done
 - `download_outputs: true` - Automatically download to local disk
 - `download_directory: "."` - Save to the current directory
@@ -216,7 +216,7 @@ client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
 result = client.v1.ai_image_generator.generate(
     image_count=1,
     aspect_ratio="16:9",
-    resolution="640px",
+    resolution="1k",
     style={
         "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'"
     },
@@ -239,7 +239,7 @@ async function main() {
     {
       imageCount: 1,
       aspectRatio: "16:9",
-      resolution: "640px",
+      resolution: "1k",
       style: {
         prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
       },
@@ -282,7 +282,7 @@ func main() {
 	createRes, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{
 		ImageCount:  1,
 		AspectRatio: nullable.NewValue(types.V1AiImageGeneratorCreateBodyAspectRatioEnum169),
-		Resolution:  nullable.NewValue(types.V1AiImageGeneratorCreateBodyResolutionEnum640px),
+		Resolution:  nullable.NewValue(types.V1AiImageGeneratorCreateBodyResolutionEnum1k),
 		Style: types.V1AiImageGeneratorCreateBodyStyle{
 			Prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
 		},
@@ -356,7 +356,7 @@ async fn main() {
         .create(magic_hour::resources::v1::ai_image_generator::CreateRequest {
             image_count: 1,
             aspect_ratio: Some(magic_hour::models::V1AiImageGeneratorCreateBodyAspectRatioEnum::Enum169),
-            resolution: Some(magic_hour::models::V1AiImageGeneratorCreateBodyResolutionEnum::Enum640px),
+            resolution: Some(magic_hour::models::V1AiImageGeneratorCreateBodyResolutionEnum::Enum1k),
             style: magic_hour::models::V1AiImageGeneratorCreateBodyStyle {
                 prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'".to_string(),
                 ..Default::default()
@@ -427,7 +427,7 @@ create_response=$(curl -fsS "$URL" \
   --data '{
     "image_count": 1,
     "aspect_ratio": "16:9",
-    "resolution": "640px",
+    "resolution": "1k",
     "style": {
       "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says \"Magic Hour\""
     }
