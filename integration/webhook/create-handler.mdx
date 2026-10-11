@@ -17,28 +17,30 @@ Your production webhook handler should:
 
 - ✅ **Handle POST requests** with JSON payloads
 - ✅ **Return 2xx status codes** for successful processing
-- ✅ **Process requests quickly** (< 10 seconds recommended)
+- ✅ **Acknowledge promptly** after verifying and durably accepting the event
 - ✅ **Handle retries gracefully** (deduplicate repeated deliveries)
 - ✅ **Log events** for debugging and monitoring
 - ✅ **Verify signatures** for security
 
 ## Retry Behavior
 
-**Automatic Retries**: If your endpoint doesn't respond with a 2xx status code, Magic Hour will retry delivery:
+**Automatic Retries**: Network failures, timeouts, and non-2xx responses cause Magic Hour to schedule another delivery attempt:
 
-- **Duration**: Up to 24 hours
-- **Pattern**: Exponential backoff (1s, 2s, 4s, 8s, ...)
-- **After 24 hours**: Event marked as failed, no more retries
+- **Pattern**: Scheduled delays of 1, 2, 4, 8, ... minutes, capped at 60 minutes
+- **Expiry**: Events more than 24 hours old are marked as failed and are no longer delivered
+- **Security headers**: The timestamp and signature are regenerated for each delivery attempt
 
-**Disabled Webhooks**: Pending events are skipped and marked as failed after 24 hours.
+These are scheduled delays, not guaranteed delivery times. The expiry is measured from event creation, not the first failed attempt.
+
+**Disabled Webhooks**: Pending events are rescheduled without delivery and retain the same expiry. Re-enabling the webhook allows pending deliveries to resume before expiry.
 
 ## Production Handler Examples
 
 <Warning>
-  These examples omit signature verification. Before accepting events,
-  [verify the signature and timestamp](/integration/webhook/secure-handler) against the raw body.
-  Save the verified event to a database or durable queue before returning 2xx. A restart can lose
-  in-process background tasks after Magic Hour considers delivery complete.
+  These examples omit signature verification. Before accepting events, [verify the signature and
+  timestamp](/integration/webhook/secure-handler) against the raw body. Save the verified event to a
+  database or durable queue before returning 2xx. A restart can lose in-process background tasks
+  after Magic Hour considers delivery complete.
 </Warning>
 
 <CodeGroup>
@@ -238,7 +240,7 @@ with a delayed `started` event.
 
 ### 2. Quick Response Times
 
-Respond within 10 seconds to avoid timeouts:
+Acknowledge promptly after signature verification and durable acceptance. Run long processing from the saved event. The abbreviated timing examples below do not implement those production requirements:
 
 ```python
 # ✅ Good: Respond immediately, process in background
@@ -417,8 +419,8 @@ async def webhook(request: Request):
 
 **Webhook timeouts?**
 
-- Respond within 10 seconds
-- Use background tasks for long processing
+- Return 2xx promptly after signature verification and durable acceptance
+- Process long-running work from a durable queue or saved event, not only in-process background tasks
 - Check server resources and scaling
 
 **Missing events?**

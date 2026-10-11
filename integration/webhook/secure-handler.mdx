@@ -69,8 +69,9 @@ magic-hour-event-timestamp: 1729314984
 </Info>
 
 <Note>
-  **Optional but Recommended**: Signature verification is not required to receive webhooks, but it's
-  strongly recommended for production to ensure authenticity.
+  Webhook delivery does not enforce verification in your handler. Before accepting production
+  events, verify the signature using the timestamp and exact raw body. Reject missing or invalid
+  timestamps and those outside your configured past/future tolerance.
 </Note>
 
 <Steps>
