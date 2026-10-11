@@ -72,6 +72,12 @@ The default `assets.face_swap_mode="all-faces"` uses one `image_file_path` to re
 
 `style.version="default"` follows the recommended version over time. Set `v1` or `v2` when you need a specific version. Deprecated `width` and `height` fields do not control output resolution.
 
+<Note>
+  Face Swap Video uses the [subscription-tier longest-edge limits](/billing/resolution-limits), not
+  the web app's resolution presets. Credit packs remove the Free-tier watermark but do not change
+  these subscription-tier resolution limits.
+</Note>
+
 ### Video Segment Selection
 
 | Factor     | Recommendation                              |
