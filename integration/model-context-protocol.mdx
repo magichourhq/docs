@@ -199,13 +199,19 @@ When the user does not give different instructions, the current server tells the
 
 - Prefer AI Image Editor followed by Image-to-Video for multi-step video creation
 - Reuse reference images and preserve identity, style, color, lighting, and aspect ratio across scenes
-- Omit optional `model` and `resolution` unless requested, allowing plan-compatible API defaults
+- Omit optional `model` and `resolution` unless requested
 - For an image model recommendation, prefer `nano-banana-2-lite` only when account support is known;
   otherwise recommend `default`
 - For an Image-to-Video model recommendation, prefer `ltx-2.5`
 - Use Text-to-Video when visual consistency is not important
 
 User instructions take precedence over these defaults.
+
+For AI Image Editor, omitted `model` or `model="default"` currently selects `nano-banana`, which
+requires a paid plan. On Free, explicitly request `model="flux-2-klein"`, `resolution="640px"`, and
+`image_count=1`. Available credits alone do not unlock paid-only models or larger resolutions.
+If a request returns `plan_upgrade_required`, choose a model and resolution supported by the account
+or upgrade; do not retry the unchanged request. Do not silently change a user-selected model.
 
 ## Troubleshooting
 
