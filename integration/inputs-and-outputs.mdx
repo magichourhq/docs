@@ -517,7 +517,7 @@ Some APIs generate multiple files (e.g., multiple images):
 
 ```python Python
 # Download all outputs
-for i, download in enumerate(status_response.downloads):
+for i, download in enumerate(status.downloads):
     filename = f"output_{i+1}.png"
     filepath = f"outputs/{filename}"
     if download_file(download.url, filepath):
@@ -526,7 +526,7 @@ for i, download in enumerate(status_response.downloads):
 
 ```javascript Node.js
 // Download all outputs
-for (const [i, download] of statusResponse.downloads.entries()) {
+for (const [i, download] of status.downloads.entries()) {
   const filename = `output_${i + 1}.png`;
   const filepath = `outputs/${filename}`;
   if (await downloadFile(download.url, filepath)) {
