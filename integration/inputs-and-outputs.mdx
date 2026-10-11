@@ -387,8 +387,9 @@ When a job completes successfully, the response includes download URLs:
 ### Download URL Expiration
 
 <Warning>
-  **24-Hour Expiration**: Download URLs expire after 24 hours. Download files promptly or request
-  fresh URLs using the GET endpoint.
+  **Temporary URLs**: Download URLs are signed for 24 hours, but GET can return a still-valid cached
+  URL. Use each download's `expires_at` for its remaining validity. If a URL expires, retrieve the
+  same completed project using GET for a current URL; do not create another generation.
 </Warning>
 
 To get fresh download URLs for an existing project:
@@ -648,7 +649,7 @@ result2 = client.v1.ai_clothes_changer.create(assets={"image_file_path": file_pa
 
 **Permanent Storage**: Generated files are stored indefinitely in Magic Hour cloud storage.
 
-**Download URL Expiration**: Download URLs expire after 24 hours for security, but you can request fresh URLs anytime.
+**Download URL Expiration**: Use each download's `expires_at`; retrieving a project does not guarantee another full 24 hours. If a URL expires, retrieve that same available, completed project for current URLs rather than generating again.
 
 **Web Dashboard**: All generated content appears in your [magichour.ai/my-library](https://magichour.ai/my-library?utm_source=docs&utm_medium=referral&utm_campaign=inputs-and-outputs) dashboard.
 
