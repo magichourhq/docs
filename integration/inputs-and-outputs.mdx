@@ -412,7 +412,8 @@ const downloadUrl = status.downloads[0].url;
 
 ### Streaming Downloads
 
-For production applications, use streaming downloads to handle large files efficiently:
+The Python example streams response chunks. The Node.js example buffers the complete file in memory
+before writing; it is not a memory-efficient streaming implementation.
 
 <CodeGroup>
 
@@ -517,7 +518,8 @@ Some APIs generate multiple files (e.g., multiple images):
 
 ```python Python
 # Download all outputs
-for i, download in enumerate(status.downloads):
+status_response = client.v1.image_projects.get(id="project_id")
+for i, download in enumerate(status_response.downloads):
     filename = f"output_{i+1}.png"
     filepath = f"outputs/{filename}"
     if download_file(download.url, filepath):
@@ -526,7 +528,8 @@ for i, download in enumerate(status.downloads):
 
 ```javascript Node.js
 // Download all outputs
-for (const [i, download] of status.downloads.entries()) {
+const statusResponse = await client.v1.imageProjects.get({ id: "project_id" });
+for (const [i, download] of statusResponse.downloads.entries()) {
   const filename = `output_${i + 1}.png`;
   const filepath = `outputs/${filename}`;
   if (await downloadFile(download.url, filepath)) {
