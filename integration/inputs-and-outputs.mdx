@@ -558,14 +558,18 @@ print(f"✅ Downloaded to: {paths}" if paths else "✅ Done (no downloaded_paths
 ```
 
 ```javascript Node.js
-const result = await client.v1.aiImageGenerator.generate({
-  imageCount: 1,
-  aspectRatio: "16:9",
-  style: { prompt: "Mountain sunset", tool: "ai-anime-generator" },
-  waitForCompletion: true,
-  downloadOutputs: true, // Auto-download
-  downloadDirectory: ".", // Where to save
-});
+const result = await client.v1.aiImageGenerator.generate(
+  {
+    imageCount: 1,
+    aspectRatio: "16:9",
+    style: { prompt: "Mountain sunset", tool: "ai-anime-generator" },
+  },
+  {
+    waitForCompletion: true,
+    downloadOutputs: true, // Auto-download
+    downloadDirectory: ".", // Where to save
+  },
+);
 
 // Files are already downloaded
 console.log(`Downloaded to: ${result.downloadedPaths}`);
