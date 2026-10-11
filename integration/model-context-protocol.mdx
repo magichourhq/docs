@@ -199,9 +199,9 @@ When the user does not give different instructions, the current server tells the
 
 - Prefer AI Image Editor followed by Image-to-Video for multi-step video creation
 - Reuse reference images and preserve identity, style, color, lighting, and aspect ratio across scenes
-- Omit optional `model` and `resolution` unless requested
+- Omit optional `model` and `resolution` only when their defaults are compatible with the account
 - For an image model recommendation, prefer `nano-banana-2-lite` only when account support is known;
-  otherwise recommend `default`
+  otherwise check account access and tool model metadata before choosing a model
 - For an Image-to-Video model recommendation, prefer `ltx-2.5`
 - Use Text-to-Video when visual consistency is not important
 
