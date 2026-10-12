@@ -1181,7 +1181,7 @@
                       "minimum": 0.1,
                       "description": "End time of your clip (seconds). Must be greater than start_seconds.",
                       "format": "float",
-                      "example": 15
+                      "example": 5
                     },
                     "credits_charged": {
                       "type": "integer",
@@ -1587,7 +1587,7 @@
                     "minimum": 0.1,
                     "description": "The end time of the input audio in seconds. Maximum clip length depends on style.generation_mode: realistic 300s, prompted 45s.",
                     "format": "float",
-                    "example": 15
+                    "example": 5
                   },
                   "assets": {
                     "type": "object",
@@ -1627,7 +1627,8 @@
                       },
                       "prompt": {
                         "type": "string",
-                        "description": "A text prompt to guide the generation. Only applicable when generation_mode is `prompted`.\nThis field is ignored for other modes."
+                        "description": "A text prompt to guide the generation. Only applicable when generation_mode is `prompted`.\nThis field is ignored for other modes.",
+                        "example": "A person smiling and speaking naturally to the camera"
                       }
                     },
                     "description": "Attributes used to dictate the style of the output"
@@ -1635,7 +1636,7 @@
                   "max_resolution": {
                     "type": "integer",
                     "description": "Constrains the larger dimension (height or width) of the output video. Allows you to set a lower resolution than your plan's maximum if desired. The value is capped by your plan's max resolution.",
-                    "example": 1024
+                    "example": 512
                   }
                 },
                 "required": ["start_seconds", "end_seconds", "assets"],
@@ -1808,15 +1809,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-talking-photo \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Talking Photo video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 15,\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/1234.png\",\n    \"audio_file_path\": \"api-assets/id/1234.mp3\"\n  },\n  \"style\": {\n    \"generation_mode\": \"realistic\",\n    \"prompt\": \"string\"\n  },\n  \"max_resolution\": 1024\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-talking-photo \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Talking Photo video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/1234.png\",\n    \"audio_file_path\": \"api-assets/id/1234.mp3\"\n  },\n  \"style\": {\n    \"generation_mode\": \"realistic\",\n    \"prompt\": \"A person smiling and speaking naturally to the camera\"\n  },\n  \"max_resolution\": 512\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-talking-photo\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Talking Photo video',\n    'start_seconds' => 0,\n    'end_seconds' => 15,\n    'assets' => [\n        'image_file_path' => 'api-assets/id/1234.png',\n        'audio_file_path' => 'api-assets/id/1234.mp3'\n    ],\n    'style' => [\n        'generation_mode' => 'realistic',\n        'prompt' => 'string'\n    ],\n    'max_resolution' => 1024\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-talking-photo\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Talking Photo video',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'assets' => [\n        'image_file_path' => 'api-assets/id/1234.png',\n        'audio_file_path' => 'api-assets/id/1234.mp3'\n    ],\n    'style' => [\n        'generation_mode' => 'realistic',\n        'prompt' => 'A person smiling and speaking naturally to the camera'\n    ],\n    'max_resolution' => 512\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-talking-photo\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Talking Photo video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":15,\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\",\\\"audio_file_path\\\":\\\"api-assets/id/1234.mp3\\\"},\\\"style\\\":{\\\"generation_mode\\\":\\\"realistic\\\",\\\"prompt\\\":\\\"string\\\"},\\\"max_resolution\\\":1024}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-talking-photo\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Talking Photo video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\",\\\"audio_file_path\\\":\\\"api-assets/id/1234.mp3\\\"},\\\"style\\\":{\\\"generation_mode\\\":\\\"realistic\\\",\\\"prompt\\\":\\\"A person smiling and speaking naturally to the camera\\\"},\\\"max_resolution\\\":512}\")\n  .asString();"
           }
         ]
       }
@@ -1861,13 +1862,13 @@
                     "type": "string",
                     "enum": ["gemini-omni-1.1", "gemini-omni", "ltx-2.5", "ltx-2.3"],
                     "description": "Editing model. Defaults to LTX 2.5 for free tier and `gemini-omni-1.1` for paid. `gemini-omni` is deprecated; use `gemini-omni-1.1` instead.",
-                    "example": "gemini-omni-1.1"
+                    "example": "ltx-2.5"
                   },
                   "resolution": {
                     "type": "string",
                     "enum": ["480p", "720p", "1080p"],
                     "description": "Output resolution. Defaults to `480p` for free tier and `720p` for paid. `gemini-omni-1.1` and deprecated `gemini-omni` support 720p and 1080p; LTX 2.5 supports 480p, 720p, and 1080p.",
-                    "example": "720p"
+                    "example": "480p"
                   },
                   "style": {
                     "type": "object",
@@ -2064,15 +2065,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-video-editor \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Video Editor video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"model\": \"gemini-omni-1.1\",\n  \"resolution\": \"720p\",\n  \"style\": {\n    \"prompt\": \"Change the car color to blue\"\n  },\n  \"assets\": {\n    \"video_file_path\": \"api-assets/id/1234.mp4\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-video-editor \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Video Editor video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"model\": \"ltx-2.5\",\n  \"resolution\": \"480p\",\n  \"style\": {\n    \"prompt\": \"Change the car color to blue\"\n  },\n  \"assets\": {\n    \"video_file_path\": \"api-assets/id/1234.mp4\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-video-editor\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Video Editor video',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'model' => 'gemini-omni-1.1',\n    'resolution' => '720p',\n    'style' => [\n        'prompt' => 'Change the car color to blue'\n    ],\n    'assets' => [\n        'video_file_path' => 'api-assets/id/1234.mp4'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-video-editor\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Video Editor video',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'model' => 'ltx-2.5',\n    'resolution' => '480p',\n    'style' => [\n        'prompt' => 'Change the car color to blue'\n    ],\n    'assets' => [\n        'video_file_path' => 'api-assets/id/1234.mp4'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-video-editor\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Video Editor video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"model\\\":\\\"gemini-omni-1.1\\\",\\\"resolution\\\":\\\"720p\\\",\\\"style\\\":{\\\"prompt\\\":\\\"Change the car color to blue\\\"},\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-video-editor\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Video Editor video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"model\\\":\\\"ltx-2.5\\\",\\\"resolution\\\":\\\"480p\\\",\\\"style\\\":{\\\"prompt\\\":\\\"Change the car color to blue\\\"},\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -2111,7 +2112,7 @@
                     "minimum": 0.1,
                     "description": "End time of your clip (seconds). Must be greater than start_seconds. The clip must be 1-30 seconds long.",
                     "format": "float",
-                    "example": 15
+                    "example": 5
                   },
                   "target_language": {
                     "type": "string",
@@ -2177,7 +2178,7 @@
                     "type": "string",
                     "enum": ["480p", "720p", "1080p"],
                     "description": "Output video resolution. Defaults to 480p. 720p and 1080p require a paid plan.",
-                    "example": "720p"
+                    "example": "480p"
                   },
                   "assets": {
                     "type": "object",
@@ -2362,15 +2363,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-video-translator \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Video Translator video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 15,\n  \"target_language\": \"Spanish\",\n  \"resolution\": \"720p\",\n  \"assets\": {\n    \"video_file_path\": \"api-assets/id/1234.mp4\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-video-translator \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Video Translator video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"target_language\": \"Spanish\",\n  \"resolution\": \"480p\",\n  \"assets\": {\n    \"video_file_path\": \"api-assets/id/1234.mp4\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-video-translator\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Video Translator video',\n    'start_seconds' => 0,\n    'end_seconds' => 15,\n    'target_language' => 'Spanish',\n    'resolution' => '720p',\n    'assets' => [\n        'video_file_path' => 'api-assets/id/1234.mp4'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-video-translator\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Video Translator video',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'target_language' => 'Spanish',\n    'resolution' => '480p',\n    'assets' => [\n        'video_file_path' => 'api-assets/id/1234.mp4'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-video-translator\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Video Translator video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":15,\\\"target_language\\\":\\\"Spanish\\\",\\\"resolution\\\":\\\"720p\\\",\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-video-translator\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Video Translator video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"target_language\\\":\\\"Spanish\\\",\\\"resolution\\\":\\\"480p\\\",\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -2407,13 +2408,13 @@
                     "minimum": 0.1,
                     "description": "This value determines the duration of the output video.",
                     "format": "float",
-                    "example": 15
+                    "example": 5
                   },
                   "height": {
                     "type": "integer",
                     "minimum": 64,
                     "description": "The height of the final output video. The maximum height depends on your subscription. Please refer to our [pricing page](https://magichour.ai/pricing) for more details",
-                    "example": 960
+                    "example": 512
                   },
                   "width": {
                     "type": "integer",
@@ -2480,7 +2481,8 @@
                       },
                       "art_style_custom": {
                         "type": "string",
-                        "description": "Describe custom art style. This field is required if `art_style` is `Custom`"
+                        "description": "Describe custom art style. This field is required if `art_style` is `Custom`",
+                        "example": "Watercolor painting with soft pastel colors"
                       },
                       "camera_effect": {
                         "type": "string",
@@ -2592,7 +2594,12 @@
                       }
                     },
                     "required": ["audio_source"],
-                    "description": "Provide the assets for animation."
+                    "description": "Provide the assets for animation.",
+                    "example": {
+                      "audio_source": "file",
+                      "audio_file_path": "api-assets/id/1234.mp3",
+                      "image_file_path": "api-assets/id/1234.png"
+                    }
                   }
                 },
                 "required": ["fps", "end_seconds", "height", "width", "style", "assets"]
@@ -2764,15 +2771,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/animation \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Animation video\",\n  \"fps\": 12,\n  \"end_seconds\": 15,\n  \"height\": 960,\n  \"width\": 512,\n  \"style\": {\n    \"art_style\": \"Painterly Illustration\",\n    \"art_style_custom\": \"string\",\n    \"camera_effect\": \"Simple Zoom In\",\n    \"prompt_type\": \"custom\",\n    \"prompt\": \"Cyberpunk city\",\n    \"transition_speed\": 5\n  },\n  \"assets\": {\n    \"audio_source\": \"file\",\n    \"audio_file_path\": \"api-assets/id/1234.mp3\",\n    \"youtube_url\": \"string\",\n    \"image_file_path\": \"api-assets/id/1234.png\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/animation \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Animation video\",\n  \"fps\": 12,\n  \"end_seconds\": 5,\n  \"height\": 512,\n  \"width\": 512,\n  \"style\": {\n    \"art_style\": \"Painterly Illustration\",\n    \"art_style_custom\": \"Watercolor painting with soft pastel colors\",\n    \"camera_effect\": \"Simple Zoom In\",\n    \"prompt_type\": \"custom\",\n    \"prompt\": \"Cyberpunk city\",\n    \"transition_speed\": 5\n  },\n  \"assets\": {\n    \"audio_source\": \"file\",\n    \"audio_file_path\": \"api-assets/id/1234.mp3\",\n    \"image_file_path\": \"api-assets/id/1234.png\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/animation\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Animation video',\n    'fps' => 12,\n    'end_seconds' => 15,\n    'height' => 960,\n    'width' => 512,\n    'style' => [\n        'art_style' => 'Painterly Illustration',\n        'art_style_custom' => 'string',\n        'camera_effect' => 'Simple Zoom In',\n        'prompt_type' => 'custom',\n        'prompt' => 'Cyberpunk city',\n        'transition_speed' => 5\n    ],\n    'assets' => [\n        'audio_source' => 'file',\n        'audio_file_path' => 'api-assets/id/1234.mp3',\n        'youtube_url' => 'string',\n        'image_file_path' => 'api-assets/id/1234.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/animation\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Animation video',\n    'fps' => 12,\n    'end_seconds' => 5,\n    'height' => 512,\n    'width' => 512,\n    'style' => [\n        'art_style' => 'Painterly Illustration',\n        'art_style_custom' => 'Watercolor painting with soft pastel colors',\n        'camera_effect' => 'Simple Zoom In',\n        'prompt_type' => 'custom',\n        'prompt' => 'Cyberpunk city',\n        'transition_speed' => 5\n    ],\n    'assets' => [\n        'audio_source' => 'file',\n        'audio_file_path' => 'api-assets/id/1234.mp3',\n        'image_file_path' => 'api-assets/id/1234.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/animation\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Animation video\\\",\\\"fps\\\":12,\\\"end_seconds\\\":15,\\\"height\\\":960,\\\"width\\\":512,\\\"style\\\":{\\\"art_style\\\":\\\"Painterly Illustration\\\",\\\"art_style_custom\\\":\\\"string\\\",\\\"camera_effect\\\":\\\"Simple Zoom In\\\",\\\"prompt_type\\\":\\\"custom\\\",\\\"prompt\\\":\\\"Cyberpunk city\\\",\\\"transition_speed\\\":5},\\\"assets\\\":{\\\"audio_source\\\":\\\"file\\\",\\\"audio_file_path\\\":\\\"api-assets/id/1234.mp3\\\",\\\"youtube_url\\\":\\\"string\\\",\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/animation\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Animation video\\\",\\\"fps\\\":12,\\\"end_seconds\\\":5,\\\"height\\\":512,\\\"width\\\":512,\\\"style\\\":{\\\"art_style\\\":\\\"Painterly Illustration\\\",\\\"art_style_custom\\\":\\\"Watercolor painting with soft pastel colors\\\",\\\"camera_effect\\\":\\\"Simple Zoom In\\\",\\\"prompt_type\\\":\\\"custom\\\",\\\"prompt\\\":\\\"Cyberpunk city\\\",\\\"transition_speed\\\":5},\\\"assets\\\":{\\\"audio_source\\\":\\\"file\\\",\\\"audio_file_path\\\":\\\"api-assets/id/1234.mp3\\\",\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -2811,13 +2818,13 @@
                     "minimum": 0.1,
                     "description": "End time of your clip (seconds). Must be greater than start_seconds.",
                     "format": "float",
-                    "example": 15
+                    "example": 5
                   },
                   "resolution": {
                     "type": "string",
                     "enum": ["480p", "720p", "1080p"],
                     "description": "Output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.",
-                    "example": "720p"
+                    "example": "480p"
                   },
                   "assets": {
                     "type": "object",
@@ -3019,15 +3026,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/audio-to-video \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Audio To Video video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 15,\n  \"resolution\": \"720p\",\n  \"assets\": {\n    \"audio_file_path\": \"api-assets/id/1234.mp3\",\n    \"image_file_path\": \"api-assets/id/1234.png\"\n  },\n  \"style\": {\n    \"prompt\": \"Car driving through a city\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/audio-to-video \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Audio To Video video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"resolution\": \"480p\",\n  \"assets\": {\n    \"audio_file_path\": \"api-assets/id/1234.mp3\",\n    \"image_file_path\": \"api-assets/id/1234.png\"\n  },\n  \"style\": {\n    \"prompt\": \"Car driving through a city\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/audio-to-video\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Audio To Video video',\n    'start_seconds' => 0,\n    'end_seconds' => 15,\n    'resolution' => '720p',\n    'assets' => [\n        'audio_file_path' => 'api-assets/id/1234.mp3',\n        'image_file_path' => 'api-assets/id/1234.png'\n    ],\n    'style' => [\n        'prompt' => 'Car driving through a city'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/audio-to-video\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Audio To Video video',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'resolution' => '480p',\n    'assets' => [\n        'audio_file_path' => 'api-assets/id/1234.mp3',\n        'image_file_path' => 'api-assets/id/1234.png'\n    ],\n    'style' => [\n        'prompt' => 'Car driving through a city'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/audio-to-video\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Audio To Video video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":15,\\\"resolution\\\":\\\"720p\\\",\\\"assets\\\":{\\\"audio_file_path\\\":\\\"api-assets/id/1234.mp3\\\",\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\"},\\\"style\\\":{\\\"prompt\\\":\\\"Car driving through a city\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/audio-to-video\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Audio To Video video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"resolution\\\":\\\"480p\\\",\\\"assets\\\":{\\\"audio_file_path\\\":\\\"api-assets/id/1234.mp3\\\",\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\"},\\\"style\\\":{\\\"prompt\\\":\\\"Car driving through a city\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -3065,7 +3072,7 @@
                     "minimum": 0.1,
                     "description": "End time of your clip (seconds). Must be greater than start_seconds.",
                     "format": "float",
-                    "example": 15
+                    "example": 5
                   },
                   "assets": {
                     "type": "object",
@@ -3086,7 +3093,8 @@
                       "template": {
                         "type": "string",
                         "enum": ["karaoke", "cinematic", "minimalist", "highlight"],
-                        "description": "Preset subtitle templates. Please visit https://magichour.ai/create/auto-subtitle-generator to see the style of the existing templates."
+                        "description": "Preset subtitle templates. Please visit https://magichour.ai/create/auto-subtitle-generator to see the style of the existing templates.",
+                        "example": "karaoke"
                       },
                       "custom_config": {
                         "type": "object",
@@ -3312,15 +3320,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/auto-subtitle-generator \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Auto Subtitle video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 15,\n  \"assets\": {\n    \"video_file_path\": \"api-assets/id/1234.mp4\"\n  },\n  \"style\": {\n    \"template\": \"karaoke\",\n    \"custom_config\": {\n      \"font\": \"Noto Sans\",\n      \"font_size\": 24,\n      \"font_style\": \"normal\",\n      \"text_color\": \"#FFFFFF\",\n      \"highlighted_text_color\": \"#FFD700\",\n      \"stroke_color\": \"#000000\",\n      \"stroke_width\": 1,\n      \"vertical_position\": \"bottom\",\n      \"horizontal_position\": \"center\"\n    }\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/auto-subtitle-generator \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Auto Subtitle video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"assets\": {\n    \"video_file_path\": \"api-assets/id/1234.mp4\"\n  },\n  \"style\": {\n    \"template\": \"karaoke\",\n    \"custom_config\": {\n      \"font\": \"Noto Sans\",\n      \"font_size\": 24,\n      \"font_style\": \"normal\",\n      \"text_color\": \"#FFFFFF\",\n      \"highlighted_text_color\": \"#FFD700\",\n      \"stroke_color\": \"#000000\",\n      \"stroke_width\": 1,\n      \"vertical_position\": \"bottom\",\n      \"horizontal_position\": \"center\"\n    }\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/auto-subtitle-generator\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Auto Subtitle video',\n    'start_seconds' => 0,\n    'end_seconds' => 15,\n    'assets' => [\n        'video_file_path' => 'api-assets/id/1234.mp4'\n    ],\n    'style' => [\n        'template' => 'karaoke',\n        'custom_config' => [\n                'font' => 'Noto Sans',\n                'font_size' => 24,\n                'font_style' => 'normal',\n                'text_color' => '#FFFFFF',\n                'highlighted_text_color' => '#FFD700',\n                'stroke_color' => '#000000',\n                'stroke_width' => 1,\n                'vertical_position' => 'bottom',\n                'horizontal_position' => 'center'\n        ]\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/auto-subtitle-generator\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Auto Subtitle video',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'assets' => [\n        'video_file_path' => 'api-assets/id/1234.mp4'\n    ],\n    'style' => [\n        'template' => 'karaoke',\n        'custom_config' => [\n                'font' => 'Noto Sans',\n                'font_size' => 24,\n                'font_style' => 'normal',\n                'text_color' => '#FFFFFF',\n                'highlighted_text_color' => '#FFD700',\n                'stroke_color' => '#000000',\n                'stroke_width' => 1,\n                'vertical_position' => 'bottom',\n                'horizontal_position' => 'center'\n        ]\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/auto-subtitle-generator\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Auto Subtitle video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":15,\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\"},\\\"style\\\":{\\\"template\\\":\\\"karaoke\\\",\\\"custom_config\\\":{\\\"font\\\":\\\"Noto Sans\\\",\\\"font_size\\\":24,\\\"font_style\\\":\\\"normal\\\",\\\"text_color\\\":\\\"#FFFFFF\\\",\\\"highlighted_text_color\\\":\\\"#FFD700\\\",\\\"stroke_color\\\":\\\"#000000\\\",\\\"stroke_width\\\":1,\\\"vertical_position\\\":\\\"bottom\\\",\\\"horizontal_position\\\":\\\"center\\\"}}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/auto-subtitle-generator\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Auto Subtitle video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\"},\\\"style\\\":{\\\"template\\\":\\\"karaoke\\\",\\\"custom_config\\\":{\\\"font\\\":\\\"Noto Sans\\\",\\\"font_size\\\":24,\\\"font_style\\\":\\\"normal\\\",\\\"text_color\\\":\\\"#FFFFFF\\\",\\\"highlighted_text_color\\\":\\\"#FFD700\\\",\\\"stroke_color\\\":\\\"#000000\\\",\\\"stroke_width\\\":1,\\\"vertical_position\\\":\\\"bottom\\\",\\\"horizontal_position\\\":\\\"center\\\"}}}\")\n  .asString();"
           }
         ]
       }
@@ -3359,7 +3367,7 @@
                     "minimum": 0.1,
                     "description": "End time of your clip (seconds). Must be greater than start_seconds.",
                     "format": "float",
-                    "example": 15
+                    "example": 5
                   },
                   "model": {
                     "default": "wan-animate",
@@ -3372,7 +3380,7 @@
                     "type": "string",
                     "enum": ["480p", "720p", "1080p"],
                     "description": "Output video resolution. Must be supported by `model`. Defaults to the lowest resolution available on your plan for that model.",
-                    "example": "720p"
+                    "example": "480p"
                   },
                   "assets": {
                     "type": "object",
@@ -3611,15 +3619,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/character-replace \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Character Replace video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 15,\n  \"model\": \"wan-animate\",\n  \"resolution\": \"720p\",\n  \"assets\": {\n    \"video_file_path\": \"api-assets/id/1234.mp4\",\n    \"image_file_path\": \"api-assets/id/5678.png\"\n  },\n  \"style\": {\n    \"mode\": \"replace\",\n    \"selection_mode\": \"auto\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/character-replace \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Character Replace video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"model\": \"wan-animate\",\n  \"resolution\": \"480p\",\n  \"assets\": {\n    \"video_file_path\": \"api-assets/id/1234.mp4\",\n    \"image_file_path\": \"api-assets/id/5678.png\"\n  },\n  \"style\": {\n    \"mode\": \"replace\",\n    \"selection_mode\": \"auto\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/character-replace\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Character Replace video',\n    'start_seconds' => 0,\n    'end_seconds' => 15,\n    'model' => 'wan-animate',\n    'resolution' => '720p',\n    'assets' => [\n        'video_file_path' => 'api-assets/id/1234.mp4',\n        'image_file_path' => 'api-assets/id/5678.png'\n    ],\n    'style' => [\n        'mode' => 'replace',\n        'selection_mode' => 'auto'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/character-replace\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Character Replace video',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'model' => 'wan-animate',\n    'resolution' => '480p',\n    'assets' => [\n        'video_file_path' => 'api-assets/id/1234.mp4',\n        'image_file_path' => 'api-assets/id/5678.png'\n    ],\n    'style' => [\n        'mode' => 'replace',\n        'selection_mode' => 'auto'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/character-replace\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Character Replace video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":15,\\\"model\\\":\\\"wan-animate\\\",\\\"resolution\\\":\\\"720p\\\",\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\",\\\"image_file_path\\\":\\\"api-assets/id/5678.png\\\"},\\\"style\\\":{\\\"mode\\\":\\\"replace\\\",\\\"selection_mode\\\":\\\"auto\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/character-replace\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Character Replace video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"model\\\":\\\"wan-animate\\\",\\\"resolution\\\":\\\"480p\\\",\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\",\\\"image_file_path\\\":\\\"api-assets/id/5678.png\\\"},\\\"style\\\":{\\\"mode\\\":\\\"replace\\\",\\\"selection_mode\\\":\\\"auto\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -3657,7 +3665,7 @@
                     "minimum": 0.1,
                     "description": "End time of your clip (seconds). Must be greater than start_seconds.",
                     "format": "float",
-                    "example": 15
+                    "example": 5
                   },
                   "style": {
                     "type": "object",
@@ -3685,7 +3693,7 @@
                       "image_file_path": {
                         "type": "string",
                         "description": "The path of the input image with the face to be swapped.  The value is required if `face_swap_mode` is `all-faces`.\n\nThis value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
-                        "example": "image/id/1234.png"
+                        "example": "api-assets/id/1234.png"
                       },
                       "face_mappings": {
                         "type": "array",
@@ -3732,7 +3740,13 @@
                       }
                     },
                     "required": ["video_source"],
-                    "description": "Provide the assets for face swap. For video, The `video_source` field determines whether `video_file_path` or `youtube_url` field is used"
+                    "description": "Provide the assets for face swap. For video, The `video_source` field determines whether `video_file_path` or `youtube_url` field is used",
+                    "example": {
+                      "face_swap_mode": "all-faces",
+                      "image_file_path": "api-assets/id/1234.png",
+                      "video_source": "file",
+                      "video_file_path": "api-assets/id/1234.mp4"
+                    }
                   }
                 },
                 "required": ["start_seconds", "end_seconds", "assets"]
@@ -3904,15 +3918,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/face-swap \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Face Swap video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 15,\n  \"style\": {\n    \"version\": \"default\"\n  },\n  \"assets\": {\n    \"face_swap_mode\": \"all-faces\",\n    \"image_file_path\": \"image/id/1234.png\",\n    \"face_mappings\": [\n      {\n        \"original_face\": \"api-assets/id/0-0.png\",\n        \"new_face\": \"api-assets/id/1234.png\"\n      }\n    ],\n    \"video_source\": \"file\",\n    \"video_file_path\": \"api-assets/id/1234.mp4\",\n    \"youtube_url\": \"string\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/face-swap \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Face Swap video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"style\": {\n    \"version\": \"default\"\n  },\n  \"assets\": {\n    \"face_swap_mode\": \"all-faces\",\n    \"image_file_path\": \"api-assets/id/1234.png\",\n    \"video_source\": \"file\",\n    \"video_file_path\": \"api-assets/id/1234.mp4\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/face-swap\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Face Swap video',\n    'start_seconds' => 0,\n    'end_seconds' => 15,\n    'style' => [\n        'version' => 'default'\n    ],\n    'assets' => [\n        'face_swap_mode' => 'all-faces',\n        'image_file_path' => 'image/id/1234.png',\n        'face_mappings' => [\n                [\n                                'original_face' => 'api-assets/id/0-0.png',\n                                'new_face' => 'api-assets/id/1234.png'\n                ]\n        ],\n        'video_source' => 'file',\n        'video_file_path' => 'api-assets/id/1234.mp4',\n        'youtube_url' => 'string'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/face-swap\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Face Swap video',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'style' => [\n        'version' => 'default'\n    ],\n    'assets' => [\n        'face_swap_mode' => 'all-faces',\n        'image_file_path' => 'api-assets/id/1234.png',\n        'video_source' => 'file',\n        'video_file_path' => 'api-assets/id/1234.mp4'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/face-swap\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Face Swap video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":15,\\\"style\\\":{\\\"version\\\":\\\"default\\\"},\\\"assets\\\":{\\\"face_swap_mode\\\":\\\"all-faces\\\",\\\"image_file_path\\\":\\\"image/id/1234.png\\\",\\\"face_mappings\\\":[{\\\"original_face\\\":\\\"api-assets/id/0-0.png\\\",\\\"new_face\\\":\\\"api-assets/id/1234.png\\\"}],\\\"video_source\\\":\\\"file\\\",\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\",\\\"youtube_url\\\":\\\"string\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/face-swap\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Face Swap video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"style\\\":{\\\"version\\\":\\\"default\\\"},\\\"assets\\\":{\\\"face_swap_mode\\\":\\\"all-faces\\\",\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\",\\\"video_source\\\":\\\"file\\\",\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -3974,12 +3988,12 @@
                       "veo3.1-audio"
                     ],
                     "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.5`.\n* `gemini-omni-1.1`: Best for precise short clips, first/last frames, and high-resolution output.\n* `kling-2.6`: Best for action, motion blur, and controlled camera moves.\n* `kling-3.0`: Best for cinematic stories, references, and optional audio.\n* `ltx-2.5`: Fastest for general scenes, long clips, audio, and rapid iteration.\n* `minimax-h3`: Great for reference-driven clips with native audio and longer durations.\n* `seedance-1.5`: Best for smooth, consistent motion with an end frame.\n* `seedance-2.0`: Best for reference-led clips with precise subject control.\n* `seedance-2.0-mini`: Faster reference-led clips with consistent motion and audio.\n* `seedance-2.5`: Best for premium realism, detail, and natural motion.\n* `veo3.1`: Best for romantic interactions and expressive action, with realistic detail.\n* `veo3.1-lite`: Balanced realism and audio at a lower cost than Veo 3.1.\n* `wan-2.2`: Best for physical motion, action, and camera movement.\n* `wan-3.0`: High-quality video with native audio, long clips, and end-frame control.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
-                    "example": "kling-3.0"
+                    "example": "ltx-2.5"
                   },
                   "resolution": {
                     "type": "string",
                     "enum": ["360p", "480p", "720p", "1080p", "4k"],
-                    "example": "720p",
+                    "example": "480p",
                     "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`gemini-omni-1.1`**: Supports 360p, 720p, 1080p, 4k.\n* **`kling-2.6`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`ltx-2.5`**: Supports 480p, 720p, 1080p.\n* **`minimax-h3`**: Supports 480p, 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0`**: Supports 480p, 720p, 1080p, 4k.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p, 1080p.\n* **`veo3.1`**: Supports 720p, 1080p.\n* **`veo3.1-lite`**: Supports 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`wan-3.0`**: Supports 480p, 720p, 1080p.\n"
                   },
                   "audio": {
@@ -4010,7 +4024,7 @@
                       "end_image_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The image to use as the last frame of the video.\n\n* **`gemini-omni-1.1`**: Supports 360p, 720p, 1080p, 4k.\n* **`kling-2.6`**: Supports 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`ltx-2.5`**: Supports 480p, 720p, 1080p.\n* **`minimax-h3`**: Not supported\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0`**: Supports 480p, 720p, 1080p, 4k.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p, 1080p.\n* **`veo3.1`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`veo3.1-lite`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`wan-2.2`**: Not supported\n* **`wan-3.0`**: Supports 480p, 720p, 1080p.\n",
+                        "description": "The image to use as the last frame of the video.\n\n* **`gemini-omni-1.1`**: Supports 360p, 720p, 1080p, 4k.\n* **`kling-2.6`**: Supports 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`ltx-2.5`**: Supports 480p, 720p, 1080p.\n* **`minimax-h3`**: Supports 480p, 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0`**: Supports 480p, 720p, 1080p, 4k.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p, 1080p.\n* **`veo3.1`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`veo3.1-lite`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`wan-2.2`**: Not supported\n* **`wan-3.0`**: Supports 480p, 720p, 1080p.\n",
                         "example": "api-assets/id/1234.png"
                       }
                     },
@@ -4187,15 +4201,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/image-to-video \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Image To Video video\",\n  \"end_seconds\": 5,\n  \"model\": \"kling-3.0\",\n  \"resolution\": \"720p\",\n  \"audio\": true,\n  \"style\": {\n    \"prompt\": \"a dog running\"\n  },\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/1234.png\",\n    \"end_image_file_path\": \"api-assets/id/1234.png\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/image-to-video \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Image To Video video\",\n  \"end_seconds\": 5,\n  \"model\": \"ltx-2.5\",\n  \"resolution\": \"480p\",\n  \"audio\": true,\n  \"style\": {\n    \"prompt\": \"a dog running\"\n  },\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/1234.png\",\n    \"end_image_file_path\": \"api-assets/id/1234.png\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/image-to-video\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Image To Video video',\n    'end_seconds' => 5,\n    'model' => 'kling-3.0',\n    'resolution' => '720p',\n    'audio' => true,\n    'style' => [\n        'prompt' => 'a dog running'\n    ],\n    'assets' => [\n        'image_file_path' => 'api-assets/id/1234.png',\n        'end_image_file_path' => 'api-assets/id/1234.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/image-to-video\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Image To Video video',\n    'end_seconds' => 5,\n    'model' => 'ltx-2.5',\n    'resolution' => '480p',\n    'audio' => true,\n    'style' => [\n        'prompt' => 'a dog running'\n    ],\n    'assets' => [\n        'image_file_path' => 'api-assets/id/1234.png',\n        'end_image_file_path' => 'api-assets/id/1234.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/image-to-video\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Image To Video video\\\",\\\"end_seconds\\\":5,\\\"model\\\":\\\"kling-3.0\\\",\\\"resolution\\\":\\\"720p\\\",\\\"audio\\\":true,\\\"style\\\":{\\\"prompt\\\":\\\"a dog running\\\"},\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\",\\\"end_image_file_path\\\":\\\"api-assets/id/1234.png\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/image-to-video\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Image To Video video\\\",\\\"end_seconds\\\":5,\\\"model\\\":\\\"ltx-2.5\\\",\\\"resolution\\\":\\\"480p\\\",\\\"audio\\\":true,\\\"style\\\":{\\\"prompt\\\":\\\"a dog running\\\"},\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\",\\\"end_image_file_path\\\":\\\"api-assets/id/1234.png\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -4233,7 +4247,7 @@
                     "minimum": 0.1,
                     "description": "End time of your clip (seconds). Must be greater than start_seconds.",
                     "format": "float",
-                    "example": 15
+                    "example": 5
                   },
                   "max_fps_limit": {
                     "type": "number",
@@ -4268,7 +4282,12 @@
                       }
                     },
                     "required": ["audio_file_path", "video_source"],
-                    "description": "Provide the assets for lip-sync. For video, The `video_source` field determines whether `video_file_path` or `youtube_url` field is used"
+                    "description": "Provide the assets for lip-sync. For video, The `video_source` field determines whether `video_file_path` or `youtube_url` field is used",
+                    "example": {
+                      "audio_file_path": "api-assets/id/1234.mp3",
+                      "video_source": "file",
+                      "video_file_path": "api-assets/id/1234.mp4"
+                    }
                   },
                   "style": {
                     "type": "object",
@@ -4453,15 +4472,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/lip-sync \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Lip Sync video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 15,\n  \"max_fps_limit\": 12,\n  \"assets\": {\n    \"audio_file_path\": \"api-assets/id/1234.mp3\",\n    \"video_source\": \"file\",\n    \"video_file_path\": \"api-assets/id/1234.mp4\",\n    \"youtube_url\": \"string\"\n  },\n  \"style\": {\n    \"generation_mode\": \"lite\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/lip-sync \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Lip Sync video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"max_fps_limit\": 12,\n  \"assets\": {\n    \"audio_file_path\": \"api-assets/id/1234.mp3\",\n    \"video_source\": \"file\",\n    \"video_file_path\": \"api-assets/id/1234.mp4\"\n  },\n  \"style\": {\n    \"generation_mode\": \"lite\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/lip-sync\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Lip Sync video',\n    'start_seconds' => 0,\n    'end_seconds' => 15,\n    'max_fps_limit' => 12,\n    'assets' => [\n        'audio_file_path' => 'api-assets/id/1234.mp3',\n        'video_source' => 'file',\n        'video_file_path' => 'api-assets/id/1234.mp4',\n        'youtube_url' => 'string'\n    ],\n    'style' => [\n        'generation_mode' => 'lite'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/lip-sync\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Lip Sync video',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'max_fps_limit' => 12,\n    'assets' => [\n        'audio_file_path' => 'api-assets/id/1234.mp3',\n        'video_source' => 'file',\n        'video_file_path' => 'api-assets/id/1234.mp4'\n    ],\n    'style' => [\n        'generation_mode' => 'lite'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/lip-sync\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Lip Sync video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":15,\\\"max_fps_limit\\\":12,\\\"assets\\\":{\\\"audio_file_path\\\":\\\"api-assets/id/1234.mp3\\\",\\\"video_source\\\":\\\"file\\\",\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\",\\\"youtube_url\\\":\\\"string\\\"},\\\"style\\\":{\\\"generation_mode\\\":\\\"lite\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/lip-sync\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Lip Sync video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"max_fps_limit\\\":12,\\\"assets\\\":{\\\"audio_file_path\\\":\\\"api-assets/id/1234.mp3\\\",\\\"video_source\\\":\\\"file\\\",\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\"},\\\"style\\\":{\\\"generation_mode\\\":\\\"lite\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -4504,7 +4523,7 @@
                   "resolution": {
                     "type": "string",
                     "enum": ["360p", "480p", "720p", "1080p", "4k"],
-                    "example": "720p",
+                    "example": "480p",
                     "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`gemini-omni-1.1`**: Supports 360p, 720p, 1080p, 4k.\n* **`kling-2.6`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`ltx-2.5`**: Supports 480p, 720p, 1080p.\n* **`minimax-h3`**: Supports 480p, 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0`**: Supports 480p, 720p, 1080p, 4k.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p, 1080p.\n* **`veo3.1`**: Supports 720p, 1080p.\n* **`veo3.1-lite`**: Supports 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`wan-3.0`**: Supports 480p, 720p, 1080p.\n"
                   },
                   "model": {
@@ -4535,7 +4554,7 @@
                       "veo3.1-audio"
                     ],
                     "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.5`.\n* `gemini-omni-1.1`: Best for precise short clips, first/last frames, and high-resolution output.\n* `kling-2.6`: Best for action, motion blur, and controlled camera moves.\n* `kling-3.0`: Best for cinematic stories, references, and optional audio.\n* `ltx-2.5`: Fastest for general scenes, long clips, audio, and rapid iteration.\n* `minimax-h3`: Great for reference-driven clips with native audio and longer durations.\n* `seedance-1.5`: Best for smooth, consistent motion with an end frame.\n* `seedance-2.0`: Best for reference-led clips with precise subject control.\n* `seedance-2.0-mini`: Faster reference-led clips with consistent motion and audio.\n* `seedance-2.5`: Best for premium realism, detail, and natural motion.\n* `veo3.1`: Best for romantic interactions and expressive action, with realistic detail.\n* `veo3.1-lite`: Balanced realism and audio at a lower cost than Veo 3.1.\n* `wan-2.2`: Best for physical motion, action, and camera movement.\n* `wan-3.0`: High-quality video with native audio, long clips, and end-frame control.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
-                    "example": "kling-3.0"
+                    "example": "ltx-2.5"
                   },
                   "audio": {
                     "type": "boolean",
@@ -4560,8 +4579,16 @@
                     "items": {
                       "type": "object",
                       "properties": {
-                        "name": { "type": "string", "pattern": "^[A-Za-z][\\w-]*$" },
-                        "file_path": { "type": "string", "minLength": 1 }
+                        "name": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][\\w-]*$",
+                          "example": "hero"
+                        },
+                        "file_path": {
+                          "type": "string",
+                          "minLength": 1,
+                          "example": "api-assets/id/1234.png"
+                        }
                       },
                       "required": ["name", "file_path"]
                     },
@@ -4570,7 +4597,16 @@
                     "description": "Reference media for video generation. Name references without @ and refer to them as @name in style.prompt. Maximum 10 references total.\n\nSupported models and reference media:\n* **`kling-3.0`**: Supports images, videos.\n* **`minimax-h3`**: Supports images, videos, audio.\n* **`seedance-2.0`**: Supports images, videos, audio.\n* **`seedance-2.0-mini`**: Supports images, videos, audio.\n* **`seedance-2.5`**: Supports images, videos, audio.\n* **`wan-3.0`**: Supports images, videos, audio."
                   }
                 },
-                "required": ["end_seconds", "style"]
+                "required": ["end_seconds", "style"],
+                "example": {
+                  "name": "My Text To Video video",
+                  "end_seconds": 5,
+                  "aspect_ratio": "16:9",
+                  "resolution": "480p",
+                  "model": "ltx-2.5",
+                  "audio": true,
+                  "style": { "prompt": "a dog running" }
+                }
               }
             }
           }
@@ -4739,15 +4775,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/text-to-video \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Text To Video video\",\n  \"end_seconds\": 5,\n  \"aspect_ratio\": \"16:9\",\n  \"resolution\": \"720p\",\n  \"model\": \"kling-3.0\",\n  \"audio\": true,\n  \"style\": {\n    \"prompt\": \"a dog running\"\n  },\n  \"references\": [\n    {\n      \"name\": \"string\",\n      \"file_path\": \"string\"\n    }\n  ]\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/text-to-video \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Text To Video video\",\n  \"end_seconds\": 5,\n  \"aspect_ratio\": \"16:9\",\n  \"resolution\": \"480p\",\n  \"model\": \"ltx-2.5\",\n  \"audio\": true,\n  \"style\": {\n    \"prompt\": \"a dog running\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/text-to-video\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Text To Video video',\n    'end_seconds' => 5,\n    'aspect_ratio' => '16:9',\n    'resolution' => '720p',\n    'model' => 'kling-3.0',\n    'audio' => true,\n    'style' => [\n        'prompt' => 'a dog running'\n    ],\n    'references' => [\n        [\n                'name' => 'string',\n                'file_path' => 'string'\n        ]\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/text-to-video\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Text To Video video',\n    'end_seconds' => 5,\n    'aspect_ratio' => '16:9',\n    'resolution' => '480p',\n    'model' => 'ltx-2.5',\n    'audio' => true,\n    'style' => [\n        'prompt' => 'a dog running'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/text-to-video\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Text To Video video\\\",\\\"end_seconds\\\":5,\\\"aspect_ratio\\\":\\\"16:9\\\",\\\"resolution\\\":\\\"720p\\\",\\\"model\\\":\\\"kling-3.0\\\",\\\"audio\\\":true,\\\"style\\\":{\\\"prompt\\\":\\\"a dog running\\\"},\\\"references\\\":[{\\\"name\\\":\\\"string\\\",\\\"file_path\\\":\\\"string\\\"}]}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/text-to-video\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Text To Video video\\\",\\\"end_seconds\\\":5,\\\"aspect_ratio\\\":\\\"16:9\\\",\\\"resolution\\\":\\\"480p\\\",\\\"model\\\":\\\"ltx-2.5\\\",\\\"audio\\\":true,\\\"style\\\":{\\\"prompt\\\":\\\"a dog running\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -4785,7 +4821,7 @@
                     "minimum": 0.1,
                     "description": "End time of your clip (seconds). Must be greater than start_seconds.",
                     "format": "float",
-                    "example": 15
+                    "example": 5
                   },
                   "fps_resolution": {
                     "default": "HALF",
@@ -4875,14 +4911,15 @@
                           "Wu Kong",
                           "Wuxia Anime",
                           "Zelda"
-                        ]
+                        ],
+                        "example": "Minecraft"
                       },
                       "version": {
                         "default": "default",
                         "type": "string",
                         "enum": ["v1", "v2", "default"],
                         "example": "default",
-                        "description": "* `v1` - more detail, closer prompt adherence, and frame-by-frame previews.\n* `v2` - faster, more consistent, and less noisy.\n* `default` - use the default version for the selected art style."
+                        "description": "* `v1` - more detail, closer prompt adherence, and frame-by-frame previews.\n* `v2` - faster, more consistent, and less noisy.\n* `default` - use the selected art style's default version. Some art styles default to v3, which is unavailable through this API. For `Studio Ghibli`, explicitly set `version` to `v2` to use its supported preset."
                       },
                       "prompt_type": {
                         "default": "default",
@@ -4894,6 +4931,7 @@
                       "prompt": {
                         "type": "string",
                         "nullable": true,
+                        "example": "A cinematic scene with warm lighting",
                         "description": "The prompt used for the video. Prompt is required if `prompt_type` is `custom` or `append_default`. If `prompt_type` is `default`, then the `prompt` value passed will be ignored."
                       },
                       "model": {
@@ -4936,7 +4974,11 @@
                       }
                     },
                     "required": ["video_source"],
-                    "description": "Provide the assets for video-to-video. For video, The `video_source` field determines whether `video_file_path` or `youtube_url` field is used"
+                    "description": "Provide the assets for video-to-video. For video, The `video_source` field determines whether `video_file_path` or `youtube_url` field is used",
+                    "example": {
+                      "video_source": "file",
+                      "video_file_path": "api-assets/id/1234.mp4"
+                    }
                   }
                 },
                 "required": ["start_seconds", "end_seconds", "style", "assets"]
@@ -5108,15 +5150,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/video-to-video \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Video To Video video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 15,\n  \"fps_resolution\": \"HALF\",\n  \"style\": {\n    \"art_style\": \"Minecraft\",\n    \"version\": \"default\",\n    \"prompt_type\": \"default\",\n    \"prompt\": \"string\",\n    \"model\": \"default\"\n  },\n  \"assets\": {\n    \"video_source\": \"file\",\n    \"video_file_path\": \"api-assets/id/1234.mp4\",\n    \"youtube_url\": \"string\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/video-to-video \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Video To Video video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"fps_resolution\": \"HALF\",\n  \"style\": {\n    \"art_style\": \"Minecraft\",\n    \"version\": \"default\",\n    \"prompt_type\": \"default\",\n    \"prompt\": \"A cinematic scene with warm lighting\",\n    \"model\": \"default\"\n  },\n  \"assets\": {\n    \"video_source\": \"file\",\n    \"video_file_path\": \"api-assets/id/1234.mp4\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/video-to-video\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Video To Video video',\n    'start_seconds' => 0,\n    'end_seconds' => 15,\n    'fps_resolution' => 'HALF',\n    'style' => [\n        'art_style' => 'Minecraft',\n        'version' => 'default',\n        'prompt_type' => 'default',\n        'prompt' => 'string',\n        'model' => 'default'\n    ],\n    'assets' => [\n        'video_source' => 'file',\n        'video_file_path' => 'api-assets/id/1234.mp4',\n        'youtube_url' => 'string'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/video-to-video\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Video To Video video',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'fps_resolution' => 'HALF',\n    'style' => [\n        'art_style' => 'Minecraft',\n        'version' => 'default',\n        'prompt_type' => 'default',\n        'prompt' => 'A cinematic scene with warm lighting',\n        'model' => 'default'\n    ],\n    'assets' => [\n        'video_source' => 'file',\n        'video_file_path' => 'api-assets/id/1234.mp4'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/video-to-video\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Video To Video video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":15,\\\"fps_resolution\\\":\\\"HALF\\\",\\\"style\\\":{\\\"art_style\\\":\\\"Minecraft\\\",\\\"version\\\":\\\"default\\\",\\\"prompt_type\\\":\\\"default\\\",\\\"prompt\\\":\\\"string\\\",\\\"model\\\":\\\"default\\\"},\\\"assets\\\":{\\\"video_source\\\":\\\"file\\\",\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\",\\\"youtube_url\\\":\\\"string\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/video-to-video\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Video To Video video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"fps_resolution\\\":\\\"HALF\\\",\\\"style\\\":{\\\"art_style\\\":\\\"Minecraft\\\",\\\"version\\\":\\\"default\\\",\\\"prompt_type\\\":\\\"default\\\",\\\"prompt\\\":\\\"A cinematic scene with warm lighting\\\",\\\"model\\\":\\\"default\\\"},\\\"assets\\\":{\\\"video_source\\\":\\\"file\\\",\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -6375,7 +6417,7 @@
                       "nano-banana-pro"
                     ],
                     "description": "The AI model to use for image editing. Each model has different capabilities and costs.\n\n**Models:**\n- `default` - Use the model we recommend, which will change over time. This is recommended unless you need a specific model. This is the default behavior.\n- `flux-2-klein` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Max additional input images: 5\n- `gpt-image-2` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `gpt-image-2.5-flare` - from 100 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `krea-2` - from 10 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: free, creator, pro, business\n  - Max additional input images: 1\n- `nano-banana` - from 50 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `nano-banana-2` - from 100 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `nano-banana-2-lite` - from 50 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `nano-banana-2.1` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `nano-banana-pro` - from 150 credits/image\n  - Supported resolutions: 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `qwen-edit` - from 10 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Max additional input images: 2\n- `qwen-image-2.1` - from 10 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Max additional input images: 2\n- `seedream-v4` - from 40 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `seedream-v4.5` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `seedream-v5-pro` - from 75 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n",
-                    "example": "default"
+                    "example": "flux-2-klein"
                   },
                   "aspect_ratio": {
                     "type": "string",
@@ -6387,7 +6429,7 @@
                     "type": "string",
                     "enum": ["auto", "640px", "1k", "2k", "4k"],
                     "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` — up to 640px\n- `1k` — up to 1024px\n- `2k` — up to 2048px\n- `4k` — up to 4096px\n- `auto` — **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `flux-2-klein` - 640px, 1k, 2k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n- `gpt-image-2.5-flare` - 640px, 1k, 2k, 4k\n- `krea-2` - 640px, 1k\n- `nano-banana` - 640px, 1k\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `nano-banana-2-lite` - 640px, 1k\n- `nano-banana-2.1` - 640px, 1k, 2k, 4k\n- `nano-banana-pro` - 1k, 2k, 4k\n- `qwen-edit` - 640px, 1k, 2k\n- `qwen-image-2.1` - 640px, 1k, 2k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `seedream-v4.5` - 640px, 1k, 2k, 4k\n- `seedream-v5-pro` - 640px, 1k, 2k\n\nNote: Resolution availability depends on the model and your subscription tier.",
-                    "example": "1k"
+                    "example": "640px"
                   },
                   "style": {
                     "type": "object",
@@ -6437,7 +6479,7 @@
                     "credits_charged": {
                       "type": "integer",
                       "description": "The amount of credits deducted from your account to generate the image. We charge credits right when the request is made. \n\nIf an error occurred while generating the image(s), credits will be refunded and this field will be updated to include the refund.",
-                      "example": 50
+                      "example": 5
                     }
                   },
                   "required": ["id", "credits_charged"],
@@ -6585,15 +6627,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-image-editor \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Ai Image Editor image\",\n  \"image_count\": 1,\n  \"model\": \"default\",\n  \"aspect_ratio\": \"1:1\",\n  \"resolution\": \"1k\",\n  \"style\": {\n    \"prompt\": \"Give me sunglasses\"\n  },\n  \"assets\": {\n    \"image_file_paths\": [\n      \"api-assets/id/1234.png\",\n      \"api-assets/id/1235.png\"\n    ]\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-image-editor \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Ai Image Editor image\",\n  \"image_count\": 1,\n  \"model\": \"flux-2-klein\",\n  \"aspect_ratio\": \"1:1\",\n  \"resolution\": \"640px\",\n  \"style\": {\n    \"prompt\": \"Give me sunglasses\"\n  },\n  \"assets\": {\n    \"image_file_paths\": [\n      \"api-assets/id/1234.png\",\n      \"api-assets/id/1235.png\"\n    ]\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-image-editor\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Ai Image Editor image',\n    'image_count' => 1,\n    'model' => 'default',\n    'aspect_ratio' => '1:1',\n    'resolution' => '1k',\n    'style' => [\n        'prompt' => 'Give me sunglasses'\n    ],\n    'assets' => [\n        'image_file_paths' => [\n                'api-assets/id/1234.png',\n                'api-assets/id/1235.png'\n        ]\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-image-editor\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Ai Image Editor image',\n    'image_count' => 1,\n    'model' => 'flux-2-klein',\n    'aspect_ratio' => '1:1',\n    'resolution' => '640px',\n    'style' => [\n        'prompt' => 'Give me sunglasses'\n    ],\n    'assets' => [\n        'image_file_paths' => [\n                'api-assets/id/1234.png',\n                'api-assets/id/1235.png'\n        ]\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-image-editor\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Ai Image Editor image\\\",\\\"image_count\\\":1,\\\"model\\\":\\\"default\\\",\\\"aspect_ratio\\\":\\\"1:1\\\",\\\"resolution\\\":\\\"1k\\\",\\\"style\\\":{\\\"prompt\\\":\\\"Give me sunglasses\\\"},\\\"assets\\\":{\\\"image_file_paths\\\":[\\\"api-assets/id/1234.png\\\",\\\"api-assets/id/1235.png\\\"]}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-image-editor\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Ai Image Editor image\\\",\\\"image_count\\\":1,\\\"model\\\":\\\"flux-2-klein\\\",\\\"aspect_ratio\\\":\\\"1:1\\\",\\\"resolution\\\":\\\"640px\\\",\\\"style\\\":{\\\"prompt\\\":\\\"Give me sunglasses\\\"},\\\"assets\\\":{\\\"image_file_paths\\\":[\\\"api-assets/id/1234.png\\\",\\\"api-assets/id/1235.png\\\"]}}\")\n  .asString();"
           }
         ]
       }
@@ -6624,7 +6666,8 @@
                     "properties": {
                       "prompt": {
                         "type": "string",
-                        "description": "Prompt used to guide the style of your headshot. We recommend omitting the prompt unless you want to customize your headshot. You can visit [AI headshot generator](https://magichour.ai/create/ai-headshot-generator) to view an example of a good prompt used for our 'Professional' style."
+                        "description": "Prompt used to guide the style of your headshot. We recommend omitting the prompt unless you want to customize your headshot. You can visit [AI headshot generator](https://magichour.ai/create/ai-headshot-generator) to view an example of a good prompt used for our 'Professional' style.",
+                        "example": "Professional studio headshot with soft lighting and a neutral background"
                       }
                     }
                   },
@@ -6811,15 +6854,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-headshot-generator \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Ai Headshot image\",\n  \"style\": {\n    \"prompt\": \"string\"\n  },\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/1234.png\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-headshot-generator \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Ai Headshot image\",\n  \"style\": {\n    \"prompt\": \"Professional studio headshot with soft lighting and a neutral background\"\n  },\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/1234.png\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-headshot-generator\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Ai Headshot image',\n    'style' => [\n        'prompt' => 'string'\n    ],\n    'assets' => [\n        'image_file_path' => 'api-assets/id/1234.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-headshot-generator\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Ai Headshot image',\n    'style' => [\n        'prompt' => 'Professional studio headshot with soft lighting and a neutral background'\n    ],\n    'assets' => [\n        'image_file_path' => 'api-assets/id/1234.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-headshot-generator\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Ai Headshot image\\\",\\\"style\\\":{\\\"prompt\\\":\\\"string\\\"},\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-headshot-generator\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Ai Headshot image\\\",\\\"style\\\":{\\\"prompt\\\":\\\"Professional studio headshot with soft lighting and a neutral background\\\"},\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -6873,7 +6916,7 @@
                       "seedream"
                     ],
                     "description": "The AI model to use for image generation. Each model has different capabilities and costs.\n\n**Models:**\n- `default` - Use the model we recommend, which will change over time. This is recommended unless you need a specific model. This is the default behavior.\n- `flux-2-klein` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1\n- `flux-schnell` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `gpt-image-2` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `gpt-image-2.5-flare` - from 100 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `krea-2` - from 10 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1\n- `nano-banana` - from 50 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `nano-banana-2` - from 100 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 4, 9, 16\n- `nano-banana-2-lite` - from 50 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `nano-banana-2.1` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 4, 9, 16\n- `nano-banana-pro` - from 150 credits/image\n  - Supported resolutions: 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 4, 9, 16\n- `qwen-image-2.1` - from 10 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `seedream-v4` - from 40 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `seedream-v5-pro` - from 75 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n- `z-image-turbo` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Image count allowed: 1, 2, 3, 4\n\n**Deprecated Enum Values:**\n- `seedream` - Use `seedream-v4` instead.\n",
-                    "example": "default"
+                    "example": "z-image-turbo"
                   },
                   "aspect_ratio": {
                     "type": "string",
@@ -6886,7 +6929,7 @@
                     "type": "string",
                     "enum": ["auto", "640px", "1k", "2k", "4k"],
                     "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` — up to 640px\n- `1k` — up to 1024px\n- `2k` — up to 2048px\n- `4k` — up to 4096px\n- `auto` — **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `flux-2-klein` - 640px, 1k, 2k\n- `flux-schnell` - 640px, 1k, 2k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n- `gpt-image-2.5-flare` - 640px, 1k, 2k, 4k\n- `krea-2` - 640px, 1k\n- `nano-banana` - 640px, 1k\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `nano-banana-2-lite` - 640px, 1k\n- `nano-banana-2.1` - 640px, 1k, 2k, 4k\n- `nano-banana-pro` - 1k, 2k, 4k\n- `qwen-image-2.1` - 640px, 1k, 2k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `seedream-v5-pro` - 640px, 1k, 2k\n- `z-image-turbo` - 640px, 1k, 2k\n\nNote: Resolution availability depends on the model and your subscription tier.",
-                    "example": "1k"
+                    "example": "640px"
                   },
                   "style": {
                     "type": "object",
@@ -7114,15 +7157,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-image-generator \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Ai Image image\",\n  \"image_count\": 1,\n  \"model\": \"default\",\n  \"aspect_ratio\": \"1:1\",\n  \"resolution\": \"1k\",\n  \"style\": {\n    \"prompt\": \"Cool image\",\n    \"tool\": \"ai-anime-generator\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-image-generator \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Ai Image image\",\n  \"image_count\": 1,\n  \"model\": \"z-image-turbo\",\n  \"aspect_ratio\": \"1:1\",\n  \"resolution\": \"640px\",\n  \"style\": {\n    \"prompt\": \"Cool image\",\n    \"tool\": \"ai-anime-generator\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-image-generator\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Ai Image image',\n    'image_count' => 1,\n    'model' => 'default',\n    'aspect_ratio' => '1:1',\n    'resolution' => '1k',\n    'style' => [\n        'prompt' => 'Cool image',\n        'tool' => 'ai-anime-generator'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-image-generator\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Ai Image image',\n    'image_count' => 1,\n    'model' => 'z-image-turbo',\n    'aspect_ratio' => '1:1',\n    'resolution' => '640px',\n    'style' => [\n        'prompt' => 'Cool image',\n        'tool' => 'ai-anime-generator'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-image-generator\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Ai Image image\\\",\\\"image_count\\\":1,\\\"model\\\":\\\"default\\\",\\\"aspect_ratio\\\":\\\"1:1\\\",\\\"resolution\\\":\\\"1k\\\",\\\"style\\\":{\\\"prompt\\\":\\\"Cool image\\\",\\\"tool\\\":\\\"ai-anime-generator\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-image-generator\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Ai Image image\\\",\\\"image_count\\\":1,\\\"model\\\":\\\"z-image-turbo\\\",\\\"aspect_ratio\\\":\\\"1:1\\\",\\\"resolution\\\":\\\"640px\\\",\\\"style\\\":{\\\"prompt\\\":\\\"Cool image\\\",\\\"tool\\\":\\\"ai-anime-generator\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -7161,14 +7204,16 @@
                         "type": "string",
                         "enum": ["pro", "preserve", "balanced", "creative"],
                         "description": "The upscaling mode. `\"preserve\"` uses the fast pro pipeline (1× credit multiplier). `\"balanced\"` and `\"creative\"` use the creative pipeline (2× credit multiplier). `\"pro\"` is deprecated and maps to `\"preserve\"`. Defaults to `\"balanced\"`.",
-                        "example": "balanced"
+                        "example": "preserve"
                       },
                       "prompt": {
                         "type": "string",
-                        "description": "A prompt to guide the final image. Only used when mode is `creative`."
+                        "description": "A prompt to guide the final image. Only used when mode is `creative`.",
+                        "example": "Enhance fine details and keep the image natural"
                       }
                     },
-                    "description": "Style settings for the upscale. Use `mode` (`\"preserve\"`, `\"balanced\"`, or `\"creative\"`). Defaults to `\"balanced\"`."
+                    "description": "Style settings for the upscale. Use `mode` (`\"preserve\"`, `\"balanced\"`, or `\"creative\"`). Defaults to `\"balanced\"`.",
+                    "example": { "mode": "preserve" }
                   },
                   "assets": {
                     "type": "object",
@@ -7205,7 +7250,7 @@
                     "credits_charged": {
                       "type": "integer",
                       "description": "The amount of credits deducted from your account to generate the image. We charge credits right when the request is made. \n\nIf an error occurred while generating the image(s), credits will be refunded and this field will be updated to include the refund.",
-                      "example": 50
+                      "example": 25
                     }
                   },
                   "required": ["id", "credits_charged"],
@@ -7353,15 +7398,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-image-upscaler \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Image Upscaler image\",\n  \"scale_factor\": 2,\n  \"style\": {},\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/1234.png\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-image-upscaler \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Image Upscaler image\",\n  \"scale_factor\": 2,\n  \"style\": {\n    \"mode\": \"preserve\"\n  },\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/1234.png\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-image-upscaler\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Image Upscaler image',\n    'scale_factor' => 2,\n    'style' => [\n        \n    ],\n    'assets' => [\n        'image_file_path' => 'api-assets/id/1234.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-image-upscaler\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Image Upscaler image',\n    'scale_factor' => 2,\n    'style' => [\n        'mode' => 'preserve'\n    ],\n    'assets' => [\n        'image_file_path' => 'api-assets/id/1234.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-image-upscaler\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Image Upscaler image\\\",\\\"scale_factor\\\":2,\\\"style\\\":{},\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-image-upscaler\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Image Upscaler image\\\",\\\"scale_factor\\\":2,\\\"style\\\":{\\\"mode\\\":\\\"preserve\\\"},\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -7941,7 +7986,7 @@
                     "type": "string",
                     "enum": ["640px", "1k", "2k", "4k"],
                     "description": "Output resolution. Determines credits charged for the run.",
-                    "example": "1k"
+                    "example": "640px"
                   },
                   "assets": {
                     "type": "object",
@@ -8132,15 +8177,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/body-swap \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Body Swap image\",\n  \"resolution\": \"1k\",\n  \"assets\": {\n    \"person_file_path\": \"api-assets/id/1234.png\",\n    \"scene_file_path\": \"api-assets/id/5678.png\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/body-swap \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Body Swap image\",\n  \"resolution\": \"640px\",\n  \"assets\": {\n    \"person_file_path\": \"api-assets/id/1234.png\",\n    \"scene_file_path\": \"api-assets/id/5678.png\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/body-swap\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Body Swap image',\n    'resolution' => '1k',\n    'assets' => [\n        'person_file_path' => 'api-assets/id/1234.png',\n        'scene_file_path' => 'api-assets/id/5678.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/body-swap\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Body Swap image',\n    'resolution' => '640px',\n    'assets' => [\n        'person_file_path' => 'api-assets/id/1234.png',\n        'scene_file_path' => 'api-assets/id/5678.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/body-swap\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Body Swap image\\\",\\\"resolution\\\":\\\"1k\\\",\\\"assets\\\":{\\\"person_file_path\\\":\\\"api-assets/id/1234.png\\\",\\\"scene_file_path\\\":\\\"api-assets/id/5678.png\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/body-swap\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Body Swap image\\\",\\\"resolution\\\":\\\"640px\\\",\\\"assets\\\":{\\\"person_file_path\\\":\\\"api-assets/id/1234.png\\\",\\\"scene_file_path\\\":\\\"api-assets/id/5678.png\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -8217,7 +8262,12 @@
                       }
                     },
                     "required": ["target_file_path"],
-                    "description": "Provide the assets for face swap photo"
+                    "description": "Provide the assets for face swap photo",
+                    "example": {
+                      "face_swap_mode": "all-faces",
+                      "source_file_path": "api-assets/id/1234.png",
+                      "target_file_path": "api-assets/id/1234.png"
+                    }
                   }
                 },
                 "required": ["assets"]
@@ -8389,15 +8439,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/face-swap-photo \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Face Swap image\",\n  \"assets\": {\n    \"face_swap_mode\": \"all-faces\",\n    \"source_file_path\": \"api-assets/id/1234.png\",\n    \"face_mappings\": [\n      {\n        \"original_face\": \"api-assets/id/0-0.png\",\n        \"new_face\": \"api-assets/id/1234.png\"\n      }\n    ],\n    \"target_file_path\": \"api-assets/id/1234.png\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/face-swap-photo \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Face Swap image\",\n  \"assets\": {\n    \"face_swap_mode\": \"all-faces\",\n    \"source_file_path\": \"api-assets/id/1234.png\",\n    \"target_file_path\": \"api-assets/id/1234.png\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/face-swap-photo\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Face Swap image',\n    'assets' => [\n        'face_swap_mode' => 'all-faces',\n        'source_file_path' => 'api-assets/id/1234.png',\n        'face_mappings' => [\n                [\n                                'original_face' => 'api-assets/id/0-0.png',\n                                'new_face' => 'api-assets/id/1234.png'\n                ]\n        ],\n        'target_file_path' => 'api-assets/id/1234.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/face-swap-photo\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Face Swap image',\n    'assets' => [\n        'face_swap_mode' => 'all-faces',\n        'source_file_path' => 'api-assets/id/1234.png',\n        'target_file_path' => 'api-assets/id/1234.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/face-swap-photo\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Face Swap image\\\",\\\"assets\\\":{\\\"face_swap_mode\\\":\\\"all-faces\\\",\\\"source_file_path\\\":\\\"api-assets/id/1234.png\\\",\\\"face_mappings\\\":[{\\\"original_face\\\":\\\"api-assets/id/0-0.png\\\",\\\"new_face\\\":\\\"api-assets/id/1234.png\\\"}],\\\"target_file_path\\\":\\\"api-assets/id/1234.png\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/face-swap-photo\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Face Swap image\\\",\\\"assets\\\":{\\\"face_swap_mode\\\":\\\"all-faces\\\",\\\"source_file_path\\\":\\\"api-assets/id/1234.png\\\",\\\"target_file_path\\\":\\\"api-assets/id/1234.png\\\"}}\")\n  .asString();"
           }
         ]
       }
