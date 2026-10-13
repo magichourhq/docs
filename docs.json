@@ -105,6 +105,8 @@
             "pages": [
               "integration/overview",
               "integration/evaluating-media-apis",
+              "integration/commercial-media-workflows",
+              "integration/agency-lip-sync",
               "integration/first-integration",
               "integration/postman",
               "integration/adding-api-to-your-app",

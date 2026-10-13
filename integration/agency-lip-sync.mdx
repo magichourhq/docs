@@ -1,0 +1,66 @@
+---
+title: "Evaluate Lip Sync for Agency and Localization Work"
+sidebarTitle: "Agency Lip-Sync Pilot"
+description: "Test existing speaker footage with approved voiceovers, record quality and accepted-output cost, and prepare a repeatable client delivery workflow."
+---
+
+For an agency localizing an existing speaker video, Magic Hour's lip-sync workflow takes a video
+and replacement audio. It animates mouth movement; it does not by itself validate a translation,
+approve a voice or finish the ad. If your starting asset is a still portrait, use
+[Talking Photo](/tools/video/talking-photo) instead.
+
+This is a pilot process, not a claim that Magic Hour outperforms another provider.
+
+## Prepare one representative clip
+
+1. Obtain permission for the footage, likeness and voice. Approve the translated script and
+   replacement recording before generation. Check the current
+   [terms of service](https://magichour.ai/terms-of-service): commercial use requires a paid
+   subscription, credit-pack purchase or separately agreed paid usage-based arrangement, subject
+   to applicable rights.
+2. Start with a short, clear single-speaker segment with visible lips and stable lighting. Set the
+   segment with `start_seconds` and `end_seconds` and provide enough audio for it. The
+   [Lip Sync guide](/tools/video/lip-sync) lists input requirements and supported audio formats.
+3. Set a small generation budget and a fixed retry allowance. Check `style.generation_mode`,
+   `max_fps_limit` and current [pricing](/tools/video/lip-sync#pricing) before submitting.
+4. Run the [lip-sync starter recipe](/get-started/starter-recipes) or use the
+   [web workflow](https://magichour.ai/products/lip-sync) for a manual pilot. The recipe uploads
+   local files, submits a project, waits and downloads the output.
+
+## Review the delivered result
+
+Watch the complete output with sound and compare it with the source. Review speech onset, pauses,
+visible mouth closures, head turns, face texture and identity. Check duration, audio alignment and
+required export settings. Record a concrete reason when you reject an output.
+
+Keep separate cases for multiple speakers, frequent cuts, obscured mouths and larger movements.
+A result on a clean single-speaker clip does not establish quality for those cases.
+
+## Compare alternatives on the same client brief
+
+Use the same approved input video and voiceover for each compatible configuration. Fix the clip
+length, output requirements and retry budget. Record provider, model or generation mode, settings,
+date and every attempt, including failures.
+
+Use the [API evaluation scorecard](/integration/evaluating-media-apis) to calculate:
+
+- **Accepted-output rate:** accepted outputs divided by submitted jobs.
+- **Generation cost per accepted output:** all generation charges, including charged retries and
+  rejected outputs, divided by accepted outputs. Leave this undefined if none are accepted.
+- **Time to usable output:** submission through download and review, with operator time recorded
+  separately.
+
+For Magic Hour, record the project's `credits_charged` and convert credits using your own billing
+arrangement. Do not compare one provider's credit count directly with another provider's dollar
+price or treat a mock response as a quality benchmark.
+
+## Deliver and repeat safely
+
+Retain the project ID if polling times out and check that job before creating another. Download
+successful output before its signed URL expires. Keep client media, keys and signed URLs out of
+public scorecards; use permitted example assets for any public demonstration.
+
+For batch delivery, add bounded concurrency, per-client budget tracking and an explicit review
+step. Follow [production integration](/integration/adding-api-to-your-app) and
+[webhook signature verification](/integration/webhook/secure-handler) for application workflows.
+Re-run your matched cases when generation settings or the client brief change.
