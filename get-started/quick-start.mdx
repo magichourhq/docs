@@ -179,9 +179,9 @@ you use the tester or the code below, reaching a first result takes three steps:
 ### Copy the code and run it
 
 <Note>
-  **SDK version required for `generate()`:** Use Python SDK v0.36.0+ or Node SDK v0.37.0+. Older
-  versions do not include this helper. Go and Rust use the manual create/poll/download pattern shown
-  below.
+  **SDK compatibility:** Install or upgrade the current Python or Node.js SDK before running these
+  examples. Older SDKs may provide `generate()` but not support the `model`, aspect ratio, and
+  resolution fields used below. Go and Rust use the manual create/poll/download pattern shown below.
 </Note>
 
 1. **Choose an example tab**, then copy the code from your preferred language tab below.
@@ -227,6 +227,12 @@ result = client.v1.ai_image_generator.generate(
     download_directory=".", # save the outputs to the current directory
 )
 
+if result.status != "complete" or not result.downloaded_paths:
+    raise RuntimeError(
+        f"Project {result.id} did not save an output (status: {result.status}). "
+        "Retrieve this project before creating another request."
+    )
+
 print(f"created image with id {result.id}, spent {result.credits_charged} credits. Outputs are saved at {result.downloaded_paths}")
 ```
 
@@ -253,6 +259,12 @@ async function main() {
       downloadDirectory: ".", // save the outputs to the current directory
     }
   );
+
+  if (createRes.status !== "complete" || !createRes.downloadedPaths?.length) {
+    throw new Error(
+      `Project ${createRes.id} did not save an output (status: ${createRes.status}). Retrieve this project before creating another request.`
+    );
+  }
 
   console.log(
     `created image with id ${createRes.id}, spent ${createRes.creditsCharged} credits. Outputs are saved at ${createRes.downloadedPaths}`
@@ -316,6 +328,11 @@ func main() {
 				return
 			}
 			defer resp.Body.Close()
+
+			if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+				fmt.Printf("download failed: HTTP %d; retrieve the same project again for a fresh URL\n", resp.StatusCode)
+				return
+			}
 
 			out, err := os.Create(outputFile)
 			if err != nil {
@@ -514,6 +531,12 @@ result = client.v1.face_swap.generate(
     download_directory=".", # save the outputs to the current directory
 )
 
+if result.status != "complete" or not result.downloaded_paths:
+    raise RuntimeError(
+        f"Project {result.id} did not save an output (status: {result.status}). "
+        "Retrieve this project before creating another request."
+    )
+
 print(f"created face swap video with id {result.id}, spent {result.credits_charged} credits. Outputs are saved at {result.downloaded_paths}")
 ```
 
@@ -541,6 +564,12 @@ async function main() {
       downloadDirectory: ".", // save the outputs to the current directory
     }
   );
+
+  if (createRes.status !== "complete" || !createRes.downloadedPaths?.length) {
+    throw new Error(
+      `Project ${createRes.id} did not save an output (status: ${createRes.status}). Retrieve this project before creating another request.`
+    );
+  }
 
   console.log(
     `created face swap video with id ${createRes.id}, spent ${createRes.creditsCharged} credits. Outputs are saved at ${createRes.downloadedPaths}`
@@ -604,6 +633,11 @@ func main() {
 				return
 			}
 			defer resp.Body.Close()
+
+			if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+				fmt.Printf("download failed: HTTP %d; retrieve the same project again for a fresh URL\n", resp.StatusCode)
+				return
+			}
 
 			out, err := os.Create(outputFile)
 			if err != nil {
@@ -838,14 +872,14 @@ Authentication guide for platform-specific setup steps.
 
 If you encounter HTTP errors, here's what they mean:
 
-| Error Code | Meaning               | Solution                                                                          |
-| :--------- | :-------------------- | :-------------------------------------------------------------------------------- |
-| `400`      | Bad Request           | The response `message` names the invalid or missing field - fix it and resubmit   |
-| `401`      | Unauthorized          | Verify your API key is correct and sent as `Authorization: Bearer <key>`          |
-| `402`      | Payment Required      | Use the response `code` to add credits, start a subscription, or upgrade the plan |
-| `404`      | Not Found             | Check the route and project ID                                                    |
-| `422`      | Unprocessable Entity  | Change the request values before retrying                                         |
-| `500`      | Internal Server Error | Retry later; contact support if the error continues                               |
+| Error Code | Meaning               | Solution                                                                                                                                   |
+| :--------- | :-------------------- | :----------------------------------------------------------------------------------------------------------------------------------------- |
+| `400`      | Bad Request           | The response `message` names the invalid or missing field - fix it and resubmit                                                            |
+| `401`      | Unauthorized          | Verify your API key is correct and sent as `Authorization: Bearer <key>`                                                                   |
+| `402`      | Payment Required      | Use the response `code` to add credits, start a subscription, or upgrade the plan                                                          |
+| `404`      | Not Found             | Check the route and project ID                                                                                                             |
+| `422`      | Unprocessable Entity  | Change the request values before retrying                                                                                                  |
+| `500`      | Internal Server Error | Retry status reads for the same project ID. Before retrying a create request, check whether it was accepted; contact support if uncertain. |
 
 For a `402`, use the response's structured `code`, not its human-readable `message`:
 
