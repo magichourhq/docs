@@ -178,6 +178,8 @@ you use the tester or the code below, reaching a first result takes three steps:
 
 ### Copy the code and run it
 
+For cURL, use Bash with `curl` and `jq` installed, and set `MAGIC_HOUR_API_KEY`. The examples check these prerequisites before creating a generation.
+
 <Note>
   **SDK compatibility:** Install or upgrade the current Python or Node.js SDK before running these
   examples. Older SDKs may provide `generate()` but not support the `model`, aspect ratio, and
@@ -435,6 +437,14 @@ async fn main() {
 ```sh cURL
 #!/bin/bash
 set -e
+
+for dependency in curl jq; do
+    command -v "$dependency" >/dev/null 2>&1 || {
+        echo "Install $dependency before running this example." >&2
+        exit 1
+    }
+done
+: "${MAGIC_HOUR_API_KEY:?Set MAGIC_HOUR_API_KEY before running this example.}"
 
 URL="https://api.magichour.ai/v1/ai-image-generator"
 STATUS_URL="https://api.magichour.ai/v1/image-projects"
@@ -747,6 +757,14 @@ async fn main() {
 ```sh cURL
 #!/bin/bash
 set -e
+
+for dependency in curl jq; do
+    command -v "$dependency" >/dev/null 2>&1 || {
+        echo "Install $dependency before running this example." >&2
+        exit 1
+    }
+done
+: "${MAGIC_HOUR_API_KEY:?Set MAGIC_HOUR_API_KEY before running this example.}"
 
 URL="https://api.magichour.ai/v1/face-swap"
 STATUS_URL="https://api.magichour.ai/v1/video-projects"
