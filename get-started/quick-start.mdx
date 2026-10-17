@@ -619,7 +619,7 @@ func main() {
 	createRes, err := client.V1.FaceSwap.Create(face_swap.CreateRequest{
 		Name: nullable.NewValue("Swap Tom Cruise into Iron Man scene"),
 		Assets: types.V1FaceSwapCreateBodyAssets{
-			ImageFilePath: "https://videos.magichour.ai/api-assets/sample/tom-cruise.png",
+			ImageFilePath: nullable.NewValue("https://videos.magichour.ai/api-assets/sample/tom-cruise.png"),
 			VideoFilePath: nullable.NewValue("https://videos.magichour.ai/api-assets/sample/iron-man.mp4"),
 			VideoSource:   types.V1FaceSwapCreateBodyAssetsVideoSourceEnumFile,
 		},
