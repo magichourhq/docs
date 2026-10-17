@@ -137,6 +137,10 @@ touch main.go
 # Create new Rust project
 cargo new magic-hour-quickstart
 cd magic-hour-quickstart
+
+# Install the runtime and download dependencies used by the examples below
+cargo add tokio@1 --features macros,rt-multi-thread
+cargo add reqwest@0.12 --features blocking
 ```
 
 </CodeGroup>
