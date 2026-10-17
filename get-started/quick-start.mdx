@@ -151,6 +151,10 @@ import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 
 <SdkInstallation />
 
+**Rust on Linux:** Install OpenSSL development headers and `pkg-config` before building.
+On Ubuntu/Debian, run `sudo apt-get install pkg-config libssl-dev`. See the
+[OpenSSL setup guide](https://docs.rs/openssl/latest/openssl/#automatic) for other Linux distributions.
+
 <Tip>
   Want to test your integration without spending credits? The SDKs include a [mock
   server](/integration/development-and-testing#mock-server-recommended-for-development) that returns
@@ -368,7 +372,6 @@ func main() {
 ```rust Rust SDK
 use magic_hour;
 use reqwest;
-use std::io::Read;
 
 #[tokio::main]
 async fn main() {
@@ -695,8 +698,9 @@ async fn main() {
         .create(magic_hour::resources::v1::face_swap::CreateRequest {
             name: Some("Swap Tom Cruise into Iron Man scene".to_string()),
             assets: magic_hour::models::V1FaceSwapCreateBodyAssets {
-                image_file_path: "https://videos.magichour.ai/api-assets/sample/tom-cruise.png"
-                    .to_string(),
+                image_file_path: Some(
+                    "https://videos.magichour.ai/api-assets/sample/tom-cruise.png".to_string(),
+                ),
                 video_file_path: Some(
                     "https://videos.magichour.ai/api-assets/sample/iron-man.mp4".to_string(),
                 ),
