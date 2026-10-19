@@ -68,9 +68,9 @@ your API key private and never commit it to source control.
 2. Name it `Magic Hour` and use `https://mcp.magichour.ai/` as the connector URL.
 3. If Claude asks for an OAuth client ID in Advanced settings, enter `magic-hour-mcp`.
 4. Select **Connect**, sign in to Magic Hour if asked, and select **Allow** on the authorization page. A **Claude connector** API key is created automatically in your [Developer Hub](https://magichour.ai/developer?tab=api-keys&ref=docs-mcp-requirements&utm_source=docs&utm_medium=referral&utm_campaign=mcp); delete that key there to disconnect.
-5. Enable the connector and ask Claude: `Call the Magic Hour ping tool.`
+5. Enable the connector and ask Claude: `Call Magic Hour account_retrieve and confirm API access without generating media.`
 
-The expected response is `pong`.
+A returned credit balance confirms API authorization. Keep account details private.
 
 </Tab>
 
@@ -82,7 +82,8 @@ Add the hosted server with your API key as a bearer token:
 claude mcp add --scope user --transport http magic-hour https://mcp.magichour.ai/ --header "Authorization: Bearer YOUR_MAGIC_HOUR_API_KEY"
 ```
 
-Start a new Claude Code session and ask it to call the Magic Hour `ping` tool.
+Start a new Claude Code session and ask it to call `account_retrieve` to confirm API access without
+generating media.
 
 </Tab>
 
@@ -104,7 +105,8 @@ Add the hosted server:
 codex mcp add magic-hour --url https://mcp.magichour.ai/ --bearer-token-env-var MAGIC_HOUR_API_KEY
 ```
 
-Start Codex from the same shell and ask it to call the Magic Hour `ping` tool.
+Start Codex from the same shell and ask it to call `account_retrieve` to confirm API access without
+generating media.
 
 </Tab>
 
@@ -120,7 +122,7 @@ The server publishes OAuth discovery metadata and supports public client registr
 connector redirect URLs. Choose OAuth authentication, then complete the authorization prompt by
 signing in to Magic Hour and selecting **Allow**. A **ChatGPT connector** API key is created
 automatically; no manual key entry is needed. Enable the connector and ask ChatGPT to call the
-Magic Hour `ping` tool.
+Magic Hour `account_retrieve` tool to confirm API access without generating media.
 
 ChatGPT controls connector availability and where its setup controls appear.
 
@@ -130,7 +132,7 @@ ChatGPT controls connector availability and where its setup controls appear.
 
 ## Verify API access before generating
 
-After `ping`, ask the agent to call `account_retrieve` and check eligibility for the
+Use `account_retrieve` to confirm API access, then check eligibility for the
 intended generation. Tool discovery can work without credentials, and an invalid API key
 can still receive `pong`; the account read checks actual API authorization.
 
@@ -220,7 +222,7 @@ or upgrade; do not retry the unchanged request. Do not silently change a user-se
 
 ## Troubleshooting
 
-- **Tools do not appear:** Restart the client after adding the server, then call `ping`.
+- **Tools do not appear:** Restart the client after adding the server, then call `account_retrieve`.
 - **Authentication fails:** For Claude or ChatGPT OAuth connections, reconnect, sign in to Magic Hour,
   and select **Allow**. For manual bearer-token clients, confirm the full API key is active and
   authentication uses `Authorization: Bearer YOUR_MAGIC_HOUR_API_KEY`. Then call `account_retrieve`
