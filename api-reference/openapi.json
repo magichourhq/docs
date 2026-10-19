@@ -142,7 +142,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -161,14 +164,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -233,7 +243,10 @@
             "name": "cursor",
             "in": "query",
             "description": "Opaque pagination cursor from the previous response's next_cursor.",
-            "schema": { "type": "string", "minLength": 1 }
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           }
         ],
         "operationId": "savedItems.list",
@@ -337,7 +350,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -356,7 +372,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -375,14 +394,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -453,8 +479,14 @@
                     "minItems": 1,
                     "description": "The list of assets to upload. The response array will match the order of items in the request body.",
                     "example": [
-                      { "type": "video", "extension": "mp4" },
-                      { "type": "audio", "extension": "mp3" }
+                      {
+                        "type": "video",
+                        "extension": "mp4"
+                      },
+                      {
+                        "type": "audio",
+                        "extension": "mp3"
+                      }
                     ]
                   }
                 },
@@ -530,7 +562,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -549,7 +584,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -572,7 +610,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -591,7 +632,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -610,7 +654,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -629,14 +676,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -679,7 +733,10 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "example": "uuid-example" },
+            "schema": {
+              "type": "string",
+              "example": "uuid-example"
+            },
             "description": "The id of the task. This value is returned by the [face detection API](https://docs.magichour.ai/api-reference/files/face-detection#response-id)."
           }
         ],
@@ -753,7 +810,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -772,7 +832,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -795,7 +858,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -814,7 +880,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -833,7 +902,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -852,14 +924,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -970,7 +1049,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -989,7 +1071,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1012,7 +1097,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1031,7 +1119,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1050,7 +1141,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1069,14 +1163,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -1111,7 +1212,7 @@
     },
     "/v1/video-projects/{id}": {
       "get": {
-        "description": "Check the progress of a video project. The `downloads` field is populated after a successful render.\n  \n**Statuses**\n- `queued` — waiting to start\n- `rendering` — in progress\n- `complete` — ready; see `downloads`\n- `error` — a failure occurred (see `error`)\n- `canceled` — user canceled\n- `draft` — not used",
+        "description": "Check the progress of a video project. The `downloads` field is populated after a successful render.\n  \n**Statuses**\n- `queued` \u2014 waiting to start\n- `rendering` \u2014 in progress\n- `complete` \u2014 ready; see `downloads`\n- `error` \u2014 a failure occurred (see `error`)\n- `canceled` \u2014 user canceled\n- `draft` \u2014 not used",
         "summary": "Get video details",
         "tags": ["Video Projects"],
         "parameters": [
@@ -1119,7 +1220,10 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "example": "cuid-example" },
+            "schema": {
+              "type": "string",
+              "example": "cuid-example"
+            },
             "description": "Unique ID of the video project. This value is returned by all of the POST APIs that create a video."
           }
         ],
@@ -1154,7 +1258,10 @@
                       "description": "The type of the video project. Possible values are ANIMATION, AUTO_SUBTITLE, VIDEO_TO_VIDEO, FACE_SWAP, TEXT_TO_VIDEO, IMAGE_TO_VIDEO, LIP_SYNC, TALKING_PHOTO, AVATAR, VIDEO_UPSCALER, VIDEO_EDITOR, CHARACTER_REPLACE, VIDEO_COLORIZER, VIDEO_WATERMARK_REMOVER, VIDEO_COLOR_GRADER, VIDEO_TRANSLATOR, MUSIC_VIDEO, EXTEND, AUDIO_TO_VIDEO, VIDEO_EXPANDER, UGC_AD",
                       "example": "FACE_SWAP"
                     },
-                    "created_at": { "type": "string", "format": "date-time" },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
                     "width": {
                       "type": "integer",
                       "description": "The width of the final output video. A value of -1 indicates the width can be ignored.",
@@ -1172,7 +1279,7 @@
                     "start_seconds": {
                       "type": "number",
                       "minimum": 0,
-                      "description": "Start time of your clip (seconds). Must be ≥ 0.",
+                      "description": "Start time of your clip (seconds). Must be \u2265 0.",
                       "format": "float",
                       "example": 0
                     },
@@ -1267,7 +1374,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1286,7 +1396,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1309,7 +1422,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1328,7 +1444,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1347,14 +1466,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -1395,13 +1521,18 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "example": "cuid-example" },
+            "schema": {
+              "type": "string",
+              "example": "cuid-example"
+            },
             "description": "Unique ID of the video project. This value is returned by all of the POST APIs that create a video."
           }
         ],
         "operationId": "videoProjects.delete",
         "responses": {
-          "204": { "description": "204" },
+          "204": {
+            "description": "204"
+          },
           "400": {
             "description": "Invalid Request",
             "content": {
@@ -1415,7 +1546,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1434,7 +1568,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1457,7 +1594,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1476,7 +1616,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1495,7 +1638,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1514,14 +1660,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -1684,7 +1837,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1703,7 +1859,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1726,7 +1885,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1745,7 +1907,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1764,7 +1929,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1783,14 +1951,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -1918,7 +2093,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1937,7 +2115,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1960,7 +2141,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1979,7 +2163,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -1998,7 +2185,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -2017,14 +2207,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }]
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/v1/ai-video-editor": {
@@ -2052,7 +2249,7 @@
                     "default": 0,
                     "type": "number",
                     "minimum": 0,
-                    "description": "Start time of your clip (seconds). Must be ≥ 0.",
+                    "description": "Start time of your clip (seconds). Must be \u2265 0.",
                     "format": "float",
                     "example": 0
                   },
@@ -2144,7 +2341,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -2163,7 +2363,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -2186,7 +2389,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -2205,7 +2411,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -2224,7 +2433,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -2243,14 +2455,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -2308,7 +2527,7 @@
                     "default": 0,
                     "type": "number",
                     "minimum": 0,
-                    "description": "Start time of your clip (seconds). Must be ≥ 0.",
+                    "description": "Start time of your clip (seconds). Must be \u2265 0.",
                     "format": "float",
                     "example": 0
                   },
@@ -2442,7 +2661,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -2461,7 +2683,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -2484,7 +2709,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -2503,7 +2731,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -2522,7 +2753,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -2541,14 +2775,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -2850,7 +3091,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -2869,7 +3113,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -2892,7 +3139,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -2911,7 +3161,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -2930,7 +3183,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -2949,14 +3205,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -3014,7 +3277,7 @@
                     "default": 0,
                     "type": "number",
                     "minimum": 0,
-                    "description": "Start time of your clip (seconds). Must be ≥ 0.",
+                    "description": "Start time of your clip (seconds). Must be \u2265 0.",
                     "format": "float",
                     "example": 0
                   },
@@ -3105,7 +3368,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -3124,7 +3390,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -3147,7 +3416,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -3166,7 +3438,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -3185,7 +3460,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -3204,14 +3482,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -3268,7 +3553,7 @@
                   "start_seconds": {
                     "type": "number",
                     "minimum": 0,
-                    "description": "Start time of your clip (seconds). Must be ≥ 0.",
+                    "description": "Start time of your clip (seconds). Must be \u2265 0.",
                     "format": "float",
                     "example": 0
                   },
@@ -3399,7 +3684,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -3418,7 +3706,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -3441,7 +3732,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -3460,7 +3754,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -3479,7 +3776,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -3498,14 +3798,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -3563,7 +3870,7 @@
                     "default": 0,
                     "type": "number",
                     "minimum": 0,
-                    "description": "Start time of your clip (seconds). Must be ≥ 0.",
+                    "description": "Start time of your clip (seconds). Must be \u2265 0.",
                     "format": "float",
                     "example": 0
                   },
@@ -3578,7 +3885,7 @@
                     "default": "wan-animate",
                     "type": "string",
                     "enum": ["wan-animate", "kling-3.0"],
-                    "description": "Model to use. Defaults to `wan-animate`.\n\n* **`wan-animate`**: 480p, 720p. Supports `points` subject selection.\n* **`kling-3.0`**: 720p, 1080p. Clips of 3–10 seconds in `replace` mode or 3–30 seconds in `animate` mode. Picks the main person automatically, so `points` are rejected.",
+                    "description": "Model to use. Defaults to `wan-animate`.\n\n* **`wan-animate`**: 480p, 720p. Supports `points` subject selection.\n* **`kling-3.0`**: 720p, 1080p. Clips of 3\u201310 seconds in `replace` mode or 3\u201330 seconds in `animate` mode. Picks the main person automatically, so `points` are rejected.",
                     "example": "wan-animate"
                   },
                   "resolution": {
@@ -3652,7 +3959,10 @@
                       }
                     },
                     "description": "Optional style controls for replace vs animate mode and subject selection.",
-                    "example": { "mode": "replace", "selection_mode": "auto" }
+                    "example": {
+                      "mode": "replace",
+                      "selection_mode": "auto"
+                    }
                   }
                 },
                 "required": ["end_seconds", "assets"]
@@ -3698,7 +4008,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -3717,7 +4030,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -3740,7 +4056,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -3759,7 +4078,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -3778,7 +4100,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -3797,14 +4122,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -3861,7 +4193,7 @@
                   "start_seconds": {
                     "type": "number",
                     "minimum": 0,
-                    "description": "Start time of your clip (seconds). Must be ≥ 0.",
+                    "description": "Start time of your clip (seconds). Must be \u2265 0.",
                     "format": "float",
                     "example": 0
                   },
@@ -3883,7 +4215,9 @@
                       }
                     },
                     "description": "Style of the face swap video.",
-                    "example": { "version": "default" }
+                    "example": {
+                      "version": "default"
+                    }
                   },
                   "assets": {
                     "type": "object",
@@ -3892,7 +4226,7 @@
                         "default": "all-faces",
                         "type": "string",
                         "enum": ["all-faces", "individual-faces"],
-                        "description": "Choose how to swap faces:\n- **all-faces** (recommended) — swap all detected faces using one source image (`source_file_path` required)\n- **individual-faces** — specify exact mappings using `face_mappings`",
+                        "description": "Choose how to swap faces:\n- **all-faces** (recommended) \u2014 swap all detected faces using one source image (`source_file_path` required)\n- **individual-faces** \u2014 specify exact mappings using `face_mappings`",
                         "example": "all-faces"
                       },
                       "image_file_path": {
@@ -3997,7 +4331,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4016,7 +4353,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4039,7 +4379,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4058,7 +4401,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4077,7 +4423,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4096,14 +4445,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -4281,7 +4637,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4300,7 +4659,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4323,7 +4685,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4342,7 +4707,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4361,7 +4729,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4380,14 +4751,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -4444,7 +4822,7 @@
                   "start_seconds": {
                     "type": "number",
                     "minimum": 0,
-                    "description": "Start time of your clip (seconds). Must be ≥ 0.",
+                    "description": "Start time of your clip (seconds). Must be \u2265 0.",
                     "format": "float",
                     "example": 0
                   },
@@ -4552,7 +4930,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4571,7 +4952,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4594,7 +4978,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4613,7 +5000,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4632,7 +5022,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4651,14 +5044,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -4723,7 +5123,7 @@
                   "aspect_ratio": {
                     "type": "string",
                     "enum": ["16:9", "9:16", "1:1"],
-                    "description": "Provide `aspect_ratio` to set the video’s aspect ratio. Determines the aspect ratio of the output video.\n\n* **`gemini-omni-1.1`**: Supports 16:9, 9:16.\n* **`kling-2.6`**: Supports 9:16, 16:9, 1:1.\n* **`kling-3.0`**: Supports 9:16, 16:9, 1:1.\n* **`ltx-2.5`**: Supports 9:16, 16:9, 1:1.\n* **`minimax-h3`**: Supports 16:9, 9:16, 1:1.\n* **`seedance-1.5`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0-fast`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0-mini`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.5`**: Supports 9:16, 16:9, 1:1.\n* **`veo3.1`**: Supports 9:16, 16:9.\n* **`veo3.1-lite`**: Supports 9:16, 16:9.\n* **`wan-2.2`**: Supports 9:16, 16:9, 1:1.\n* **`wan-3.0`**: Supports 16:9, 9:16, 1:1.\n",
+                    "description": "Provide `aspect_ratio` to set the video\u2019s aspect ratio. Determines the aspect ratio of the output video.\n\n* **`gemini-omni-1.1`**: Supports 16:9, 9:16.\n* **`kling-2.6`**: Supports 9:16, 16:9, 1:1.\n* **`kling-3.0`**: Supports 9:16, 16:9, 1:1.\n* **`ltx-2.5`**: Supports 9:16, 16:9, 1:1.\n* **`minimax-h3`**: Supports 16:9, 9:16, 1:1.\n* **`seedance-1.5`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0-fast`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0-mini`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.5`**: Supports 9:16, 16:9, 1:1.\n* **`veo3.1`**: Supports 9:16, 16:9.\n* **`veo3.1-lite`**: Supports 9:16, 16:9.\n* **`wan-2.2`**: Supports 9:16, 16:9, 1:1.\n* **`wan-3.0`**: Supports 16:9, 9:16, 1:1.\n",
                     "example": "16:9"
                   },
                   "resolution": {
@@ -4808,7 +5208,9 @@
                 "example": {
                   "end_seconds": 5,
                   "aspect_ratio": "16:9",
-                  "style": { "prompt": "a dog running" }
+                  "style": {
+                    "prompt": "a dog running"
+                  }
                 }
               }
             }
@@ -4852,7 +5254,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4871,7 +5276,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4894,7 +5302,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4913,7 +5324,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4932,7 +5346,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -4951,14 +5368,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -5015,7 +5439,7 @@
                   "start_seconds": {
                     "type": "number",
                     "minimum": 0,
-                    "description": "Start time of your clip (seconds). Must be ≥ 0.",
+                    "description": "Start time of your clip (seconds). Must be \u2265 0.",
                     "format": "float",
                     "example": 0
                   },
@@ -5227,7 +5651,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -5246,7 +5673,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -5269,7 +5699,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -5288,7 +5721,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -5307,7 +5743,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -5326,14 +5765,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -5368,7 +5814,7 @@
     },
     "/v1/image-projects/{id}": {
       "get": {
-        "description": "Check the progress of a image project. The `downloads` field is populated after a successful render.\n  \n**Statuses**\n- `queued` — waiting to start\n- `rendering` — in progress\n- `complete` — ready; see `downloads`\n- `error` — a failure occurred (see `error`)\n- `canceled` — user canceled\n- `draft` — not used",
+        "description": "Check the progress of a image project. The `downloads` field is populated after a successful render.\n  \n**Statuses**\n- `queued` \u2014 waiting to start\n- `rendering` \u2014 in progress\n- `complete` \u2014 ready; see `downloads`\n- `error` \u2014 a failure occurred (see `error`)\n- `canceled` \u2014 user canceled\n- `draft` \u2014 not used",
         "summary": "Get image details",
         "tags": ["Image Projects"],
         "parameters": [
@@ -5376,7 +5822,10 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "example": "cuid-example" },
+            "schema": {
+              "type": "string",
+              "example": "cuid-example"
+            },
             "description": "Unique ID of the image project. This value is returned by all of the POST APIs that create an image."
           }
         ],
@@ -5416,7 +5865,10 @@
                       "description": "The type of the image project. Possible values are FACE_EDITOR, AI_IMAGE_EDITOR, GENERATIVE_FILL, AI_SELFIE, AI_HEADSHOT, AI_INFLUENCER, AI_IMAGE, AI_MEME, CLOTHES_CHANGER, BACKGROUND_REMOVER, FACE_SWAP, IMAGE_UPSCALER, IMAGE_ENHANCER, AI_GIF, QR_CODE, PHOTO_EDITOR, PHOTO_COLORIZER, IMAGE_COLOR_GRADER, HEAD_SWAP, BODY_SWAP, STORYBOARD, IMAGE_EXPANDER",
                       "example": "AI_IMAGE"
                     },
-                    "created_at": { "type": "string", "format": "date-time" },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
                     "enabled": {
                       "type": "boolean",
                       "description": "Whether this resource is active. If false, it is deleted."
@@ -5496,7 +5948,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -5515,7 +5970,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -5538,7 +5996,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -5557,7 +6018,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -5576,14 +6040,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -5624,13 +6095,18 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "example": "cuid-example" },
+            "schema": {
+              "type": "string",
+              "example": "cuid-example"
+            },
             "description": "Unique ID of the image project. This value is returned by all of the POST APIs that create an image."
           }
         ],
         "operationId": "imageProjects.delete",
         "responses": {
-          "204": { "description": "204" },
+          "204": {
+            "description": "204"
+          },
           "400": {
             "description": "Invalid Request",
             "content": {
@@ -5644,7 +6120,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -5663,7 +6142,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -5686,7 +6168,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -5705,7 +6190,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -5724,14 +6212,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -5854,7 +6349,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -5873,7 +6371,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -5896,7 +6397,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -5915,7 +6419,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -5934,7 +6441,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -5953,14 +6463,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -6209,7 +6726,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -6228,7 +6748,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -6251,7 +6774,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -6270,7 +6796,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -6289,7 +6818,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -6308,14 +6840,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -6433,7 +6972,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -6452,7 +6994,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -6475,7 +7020,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -6494,7 +7042,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -6513,7 +7064,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -6532,14 +7086,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -6631,7 +7192,7 @@
                   "resolution": {
                     "type": "string",
                     "enum": ["auto", "640px", "1k", "2k", "4k"],
-                    "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` — up to 640px\n- `1k` — up to 1024px\n- `2k` — up to 2048px\n- `4k` — up to 4096px\n- `auto` — **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `flux-2-klein` - 640px, 1k, 2k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n- `gpt-image-2.5-flare` - 640px, 1k, 2k, 4k\n- `krea-2` - 640px, 1k\n- `nano-banana` - 640px, 1k\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `nano-banana-2-lite` - 640px, 1k\n- `nano-banana-2.1` - 640px, 1k, 2k, 4k\n- `nano-banana-pro` - 1k, 2k, 4k\n- `qwen-edit` - 640px, 1k, 2k\n- `qwen-image-2.1` - 640px, 1k, 2k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `seedream-v4.5` - 640px, 1k, 2k, 4k\n- `seedream-v5-pro` - 640px, 1k, 2k\n\nNote: Resolution availability depends on the model and your subscription tier.",
+                    "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` \u2014 up to 640px\n- `1k` \u2014 up to 1024px\n- `2k` \u2014 up to 2048px\n- `4k` \u2014 up to 4096px\n- `auto` \u2014 **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `flux-2-klein` - 640px, 1k, 2k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n- `gpt-image-2.5-flare` - 640px, 1k, 2k, 4k\n- `krea-2` - 640px, 1k\n- `nano-banana` - 640px, 1k\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `nano-banana-2-lite` - 640px, 1k\n- `nano-banana-2.1` - 640px, 1k, 2k, 4k\n- `nano-banana-pro` - 1k, 2k, 4k\n- `qwen-edit` - 640px, 1k, 2k\n- `qwen-image-2.1` - 640px, 1k, 2k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `seedream-v4.5` - 640px, 1k, 2k, 4k\n- `seedream-v5-pro` - 640px, 1k, 2k\n\nNote: Resolution availability depends on the model and your subscription tier.",
                     "example": "640px"
                   },
                   "style": {
@@ -6652,7 +7213,10 @@
                     "properties": {
                       "image_file_paths": {
                         "type": "array",
-                        "items": { "type": "string", "minLength": 1 },
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        },
                         "maxItems": 10,
                         "description": "The image(s) used in the edit, maximum of 10 images. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": ["api-assets/id/1234.png", "api-assets/id/1235.png"]
@@ -6704,7 +7268,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -6723,7 +7290,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -6746,7 +7316,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -6765,7 +7338,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -6784,7 +7360,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -6803,14 +7382,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -6931,7 +7517,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -6950,7 +7539,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -6973,7 +7565,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -6992,7 +7587,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -7011,7 +7609,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -7030,14 +7631,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -7131,7 +7739,7 @@
                     "default": "auto",
                     "type": "string",
                     "enum": ["auto", "640px", "1k", "2k", "4k"],
-                    "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` — up to 640px\n- `1k` — up to 1024px\n- `2k` — up to 2048px\n- `4k` — up to 4096px\n- `auto` — **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `flux-2-klein` - 640px, 1k, 2k\n- `flux-schnell` - 640px, 1k, 2k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n- `gpt-image-2.5-flare` - 640px, 1k, 2k, 4k\n- `krea-2` - 640px, 1k\n- `nano-banana` - 640px, 1k\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `nano-banana-2-lite` - 640px, 1k\n- `nano-banana-2.1` - 640px, 1k, 2k, 4k\n- `nano-banana-pro` - 1k, 2k, 4k\n- `qwen-image-2.1` - 640px, 1k, 2k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `seedream-v5-pro` - 640px, 1k, 2k\n- `z-image-turbo` - 640px, 1k, 2k\n\nNote: Resolution availability depends on the model and your subscription tier.",
+                    "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` \u2014 up to 640px\n- `1k` \u2014 up to 1024px\n- `2k` \u2014 up to 2048px\n- `4k` \u2014 up to 4096px\n- `auto` \u2014 **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `flux-2-klein` - 640px, 1k, 2k\n- `flux-schnell` - 640px, 1k, 2k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n- `gpt-image-2.5-flare` - 640px, 1k, 2k, 4k\n- `krea-2` - 640px, 1k\n- `nano-banana` - 640px, 1k\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `nano-banana-2-lite` - 640px, 1k\n- `nano-banana-2.1` - 640px, 1k, 2k, 4k\n- `nano-banana-pro` - 1k, 2k, 4k\n- `qwen-image-2.1` - 640px, 1k, 2k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `seedream-v5-pro` - 640px, 1k, 2k\n- `z-image-turbo` - 640px, 1k, 2k\n\nNote: Resolution availability depends on the model and your subscription tier.",
                     "example": "640px"
                   },
                   "style": {
@@ -7234,7 +7842,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -7253,7 +7864,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -7276,7 +7890,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -7295,7 +7912,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -7314,7 +7934,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -7333,14 +7956,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -7406,7 +8036,7 @@
                       "mode": {
                         "type": "string",
                         "enum": ["pro", "preserve", "balanced", "creative"],
-                        "description": "The upscaling mode. `\"preserve\"` uses the fast pro pipeline (1× credit multiplier). `\"balanced\"` and `\"creative\"` use the creative pipeline (2× credit multiplier). `\"pro\"` is deprecated and maps to `\"preserve\"`. Defaults to `\"balanced\"`.",
+                        "description": "The upscaling mode. `\"preserve\"` uses the fast pro pipeline (1\u00d7 credit multiplier). `\"balanced\"` and `\"creative\"` use the creative pipeline (2\u00d7 credit multiplier). `\"pro\"` is deprecated and maps to `\"preserve\"`. Defaults to `\"balanced\"`.",
                         "example": "preserve"
                       },
                       "prompt": {
@@ -7416,7 +8046,9 @@
                       }
                     },
                     "description": "Style settings for the upscale. Use `mode` (`\"preserve\"`, `\"balanced\"`, or `\"creative\"`). Defaults to `\"balanced\"`.",
-                    "example": { "mode": "preserve" }
+                    "example": {
+                      "mode": "preserve"
+                    }
                   },
                   "assets": {
                     "type": "object",
@@ -7475,7 +8107,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -7494,7 +8129,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -7517,7 +8155,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -7536,7 +8177,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -7555,7 +8199,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -7574,14 +8221,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -7805,7 +8459,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -7824,7 +8481,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -7847,7 +8507,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -7866,7 +8529,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -7885,7 +8551,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -7904,14 +8573,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -8025,7 +8701,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8044,7 +8723,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8067,7 +8749,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8086,7 +8771,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8105,7 +8793,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8124,14 +8815,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -8254,7 +8952,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8273,7 +8974,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8296,7 +9000,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8315,7 +9022,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8334,7 +9044,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8353,14 +9066,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -8421,7 +9141,7 @@
                         "default": "all-faces",
                         "type": "string",
                         "enum": ["all-faces", "individual-faces"],
-                        "description": "Choose how to swap faces:\n- **all-faces** (recommended) — swap all detected faces using one source image (`source_file_path` required)\n- **individual-faces** — specify exact mappings using `face_mappings`",
+                        "description": "Choose how to swap faces:\n- **all-faces** (recommended) \u2014 swap all detected faces using one source image (`source_file_path` required)\n- **individual-faces** \u2014 specify exact mappings using `face_mappings`",
                         "example": "all-faces"
                       },
                       "source_file_path": {
@@ -8516,7 +9236,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8535,7 +9258,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8558,7 +9284,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8577,7 +9306,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8596,7 +9328,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8615,14 +9350,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -8744,7 +9486,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8763,7 +9508,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8786,7 +9534,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8805,7 +9556,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8824,7 +9578,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8843,14 +9600,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -8965,7 +9729,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -8984,7 +9751,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -9007,7 +9777,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -9026,7 +9799,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -9045,7 +9821,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -9064,14 +9843,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -9182,7 +9968,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -9201,7 +9990,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -9224,7 +10016,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -9243,7 +10038,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -9262,7 +10060,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -9281,14 +10082,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -9323,7 +10131,7 @@
     },
     "/v1/audio-projects/{id}": {
       "get": {
-        "description": "Check the progress of a audio project. The `downloads` field is populated after a successful render.\n  \n**Statuses**\n- `queued` — waiting to start\n- `rendering` — in progress\n- `complete` — ready; see `downloads`\n- `error` — a failure occurred (see `error`)\n- `canceled` — user canceled\n- `draft` — not used",
+        "description": "Check the progress of a audio project. The `downloads` field is populated after a successful render.\n  \n**Statuses**\n- `queued` \u2014 waiting to start\n- `rendering` \u2014 in progress\n- `complete` \u2014 ready; see `downloads`\n- `error` \u2014 a failure occurred (see `error`)\n- `canceled` \u2014 user canceled\n- `draft` \u2014 not used",
         "summary": "Get audio details",
         "tags": ["Audio Projects"],
         "parameters": [
@@ -9331,7 +10139,10 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "example": "cuid-example" },
+            "schema": {
+              "type": "string",
+              "example": "cuid-example"
+            },
             "description": "Unique ID of the audio project. This value is returned by all of the POST APIs that create an audio."
           }
         ],
@@ -9366,7 +10177,10 @@
                       "description": "The type of the audio project. Possible values are AUDIO_TRANSLATOR, VOICE_GENERATOR, VOICE_CHANGER, VOICE_CLONER, VIDEO_TO_AUDIO, MUSIC_GENERATOR, SOUND_EFFECT_GENERATOR",
                       "example": "VOICE_GENERATOR"
                     },
-                    "created_at": { "type": "string", "format": "date-time" },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
                     "enabled": {
                       "type": "boolean",
                       "description": "Whether this resource is active. If false, it is deleted."
@@ -9445,7 +10259,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -9464,7 +10281,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -9487,7 +10307,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -9506,7 +10329,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -9525,14 +10351,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -9573,13 +10406,18 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "example": "cuid-example" },
+            "schema": {
+              "type": "string",
+              "example": "cuid-example"
+            },
             "description": "Unique ID of the audio project. This value is returned by all of the POST APIs that create an audio."
           }
         ],
         "operationId": "audioProjects.delete",
         "responses": {
-          "204": { "description": "204" },
+          "204": {
+            "description": "204"
+          },
           "400": {
             "description": "Invalid Request",
             "content": {
@@ -9593,7 +10431,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -9612,7 +10453,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -9635,7 +10479,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -9654,7 +10501,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -9673,14 +10523,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -11019,7 +11876,10 @@
                     },
                     "required": ["prompt", "voice_name"],
                     "description": "The content used to generate speech.",
-                    "example": { "prompt": "Hello, how are you?", "voice_name": "Elon Musk" }
+                    "example": {
+                      "prompt": "Hello, how are you?",
+                      "voice_name": "Elon Musk"
+                    }
                   }
                 },
                 "required": ["style"]
@@ -11065,7 +11925,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -11084,7 +11947,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -11107,7 +11973,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -11126,7 +11995,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -11145,7 +12017,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -11164,14 +12039,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -11295,7 +12177,10 @@
                       "enum": ["invalid_request"],
                       "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -11314,7 +12199,10 @@
                       "enum": ["unauthorized"],
                       "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -11337,7 +12225,10 @@
                       ],
                       "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -11356,7 +12247,10 @@
                       "enum": ["not_found"],
                       "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -11375,7 +12269,10 @@
                       "enum": ["unprocessable_entity"],
                       "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
@@ -11394,14 +12291,21 @@
                       "enum": ["internal_server_error"],
                       "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
                     },
-                    "message": { "type": "string", "description": "Human-readable error message." }
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
                   }
                 }
               }
             }
           }
         },
-        "security": [{ "bearerAuth": [] }],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -11809,7 +12713,7 @@
                   "resolution": {
                     "type": "string",
                     "enum": ["auto", "640px", "1k", "2k", "4k"],
-                    "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` — up to 640px\n- `1k` — up to 1024px\n- `2k` — up to 2048px\n- `4k` — up to 4096px\n- `auto` — **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `flux-2-klein` - 640px, 1k, 2k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n- `gpt-image-2.5-flare` - 640px, 1k, 2k, 4k\n- `krea-2` - 640px, 1k\n- `nano-banana` - 640px, 1k\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `nano-banana-2-lite` - 640px, 1k\n- `nano-banana-2.1` - 640px, 1k, 2k, 4k\n- `nano-banana-pro` - 1k, 2k, 4k\n- `qwen-edit` - 640px, 1k, 2k\n- `qwen-image-2.1` - 640px, 1k, 2k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `seedream-v4.5` - 640px, 1k, 2k, 4k\n- `seedream-v5-pro` - 640px, 1k, 2k\n\nNote: Resolution availability depends on the model and your subscription tier.",
+                    "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` \u2014 up to 640px\n- `1k` \u2014 up to 1024px\n- `2k` \u2014 up to 2048px\n- `4k` \u2014 up to 4096px\n- `auto` \u2014 **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `flux-2-klein` - 640px, 1k, 2k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n- `gpt-image-2.5-flare` - 640px, 1k, 2k, 4k\n- `krea-2` - 640px, 1k\n- `nano-banana` - 640px, 1k\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `nano-banana-2-lite` - 640px, 1k\n- `nano-banana-2.1` - 640px, 1k, 2k, 4k\n- `nano-banana-pro` - 1k, 2k, 4k\n- `qwen-edit` - 640px, 1k, 2k\n- `qwen-image-2.1` - 640px, 1k, 2k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `seedream-v4.5` - 640px, 1k, 2k, 4k\n- `seedream-v5-pro` - 640px, 1k, 2k\n\nNote: Resolution availability depends on the model and your subscription tier.",
                     "example": "640px"
                   },
                   "style": {
@@ -12106,7 +13010,7 @@
                     "default": "auto",
                     "type": "string",
                     "enum": ["auto", "640px", "1k", "2k", "4k"],
-                    "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` — up to 640px\n- `1k` — up to 1024px\n- `2k` — up to 2048px\n- `4k` — up to 4096px\n- `auto` — **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `flux-2-klein` - 640px, 1k, 2k\n- `flux-schnell` - 640px, 1k, 2k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n- `gpt-image-2.5-flare` - 640px, 1k, 2k, 4k\n- `krea-2` - 640px, 1k\n- `nano-banana` - 640px, 1k\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `nano-banana-2-lite` - 640px, 1k\n- `nano-banana-2.1` - 640px, 1k, 2k, 4k\n- `nano-banana-pro` - 1k, 2k, 4k\n- `qwen-image-2.1` - 640px, 1k, 2k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `seedream-v5-pro` - 640px, 1k, 2k\n- `z-image-turbo` - 640px, 1k, 2k\n\nNote: Resolution availability depends on the model and your subscription tier.",
+                    "description": "Maximum resolution (longest edge) for the output image.\n\n**Options:**\n- `640px` \u2014 up to 640px\n- `1k` \u2014 up to 1024px\n- `2k` \u2014 up to 2048px\n- `4k` \u2014 up to 4096px\n- `auto` \u2014 **Deprecated.** Mapped server-side from your subscription tier to the best matching resolution the model supports\n\n**Per-model support:**\n- `flux-2-klein` - 640px, 1k, 2k\n- `flux-schnell` - 640px, 1k, 2k\n- `gpt-image-2` - 640px, 1k, 2k, 4k\n- `gpt-image-2.5-flare` - 640px, 1k, 2k, 4k\n- `krea-2` - 640px, 1k\n- `nano-banana` - 640px, 1k\n- `nano-banana-2` - 640px, 1k, 2k, 4k\n- `nano-banana-2-lite` - 640px, 1k\n- `nano-banana-2.1` - 640px, 1k, 2k, 4k\n- `nano-banana-pro` - 1k, 2k, 4k\n- `qwen-image-2.1` - 640px, 1k, 2k\n- `seedream-v4` - 640px, 1k, 2k, 4k\n- `seedream-v5-pro` - 640px, 1k, 2k\n- `z-image-turbo` - 640px, 1k, 2k\n\nNote: Resolution availability depends on the model and your subscription tier.",
                     "example": "640px"
                   },
                   "orientation": {
@@ -12170,7 +13074,7 @@
                       "quality_mode": {
                         "type": "string",
                         "enum": ["standard", "pro"],
-                        "description": "DEPRECATED: Use `model` field instead for explicit model selection.\n\nLegacy quality mode mapping:\n- `standard` → `z-image-turbo` model\n- `pro` → `seedream-v4` model\n\nIf model is specified, it will take precedence over the legacy quality_mode field.",
+                        "description": "DEPRECATED: Use `model` field instead for explicit model selection.\n\nLegacy quality mode mapping:\n- `standard` \u2192 `z-image-turbo` model\n- `pro` \u2192 `seedream-v4` model\n\nIf model is specified, it will take precedence over the legacy quality_mode field.",
                         "deprecated": true
                       }
                     },
@@ -12179,6 +13083,329 @@
                   }
                 },
                 "required": ["image_count", "style"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": ["ready", "blocked", "unavailable"]
+                    },
+                    "credits": {
+                      "type": "number",
+                      "minimum": 0,
+                      "description": "Credits charged on submission, before any later refunds. No credits are reserved or spent by this estimate."
+                    },
+                    "credits_available": {
+                      "type": "number"
+                    },
+                    "model": {
+                      "type": "string"
+                    },
+                    "resolution": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "credits",
+                    "credits_available",
+                    "model",
+                    "resolution",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["invalid_request"],
+                      "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["unauthorized"],
+                      "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "insufficient_credits",
+                        "subscription_required",
+                        "plan_upgrade_required"
+                      ],
+                      "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["not_found"],
+                      "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["unprocessable_entity"],
+                      "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["internal_server_error"],
+                      "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/text-to-video/estimate": {
+      "post": {
+        "description": "Read-only cost and eligibility check for the same body as the create endpoint. Does not create a project, reserve or spend credits, or start generation. Invalid settings use the same errors as creation. A ready result is a snapshot, not a reservation or a guarantee of generation success; creation rechecks the current account and request. Media-check outages and unverified public URL inputs return unavailable rather than claiming the input is valid. Credits are the submission charge before later refunds; this does not check moderation, provider availability, or queue admission.",
+        "summary": "Estimate Text-to-Video",
+        "tags": ["Video Projects"],
+        "parameters": [],
+        "operationId": "textToVideo.estimateVideo",
+        "requestBody": {
+          "required": true,
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Give your video a custom name for easy identification.",
+                    "example": "My Text To Video video",
+                    "default": "Text To Video - dateTime"
+                  },
+                  "end_seconds": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 60,
+                    "description": "The total duration of the output video in seconds. Supported durations depend on the chosen model:\n\n* **`gemini-omni-1.1`**: any integer from 3 to 10\n* **`kling-2.6`**: 5, 10\n* **`kling-3.0`**: any integer from 3 to 15\n* **`ltx-2.5`**: any integer from 1 to 60\n* **`minimax-h3`**: any integer from 1 to 30\n* **`seedance-1.5`**: any integer from 4 to 12\n* **`seedance-2.0`**: any integer from 4 to 15\n* **`seedance-2.0-fast`**: any integer from 4 to 15\n* **`seedance-2.0-mini`**: any integer from 4 to 15\n* **`seedance-2.5`**: any integer from 4 to 30\n* **`veo3.1`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`veo3.1-lite`**: 4, 6, 8, 16, 24, 32, 40, 48, 56\n* **`wan-2.2`**: 3, 4, 5, 6, 7, 8, 9, 10, 15\n* **`wan-3.0`**: 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30\n",
+                    "format": "float",
+                    "example": 5
+                  },
+                  "aspect_ratio": {
+                    "type": "string",
+                    "enum": ["16:9", "9:16", "1:1"],
+                    "description": "Provide `aspect_ratio` to set the video\u2019s aspect ratio. Determines the aspect ratio of the output video.\n\n* **`gemini-omni-1.1`**: Supports 16:9, 9:16.\n* **`kling-2.6`**: Supports 9:16, 16:9, 1:1.\n* **`kling-3.0`**: Supports 9:16, 16:9, 1:1.\n* **`ltx-2.5`**: Supports 9:16, 16:9, 1:1.\n* **`minimax-h3`**: Supports 16:9, 9:16, 1:1.\n* **`seedance-1.5`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0-fast`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.0-mini`**: Supports 9:16, 16:9, 1:1.\n* **`seedance-2.5`**: Supports 9:16, 16:9, 1:1.\n* **`veo3.1`**: Supports 9:16, 16:9.\n* **`veo3.1-lite`**: Supports 9:16, 16:9.\n* **`wan-2.2`**: Supports 9:16, 16:9, 1:1.\n* **`wan-3.0`**: Supports 16:9, 9:16, 1:1.\n",
+                    "example": "16:9"
+                  },
+                  "orientation": {
+                    "type": "string",
+                    "enum": ["portrait", "landscape", "square"],
+                    "description": "Deprecated. Use `aspect_ratio` instead.",
+                    "deprecated": true
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "enum": ["360p", "480p", "720p", "1080p", "4k"],
+                    "example": "480p",
+                    "description": "Controls the output video resolution. Defaults to `720p` on paid tiers and `480p` on free tiers.\n\n* **`gemini-omni-1.1`**: Supports 360p, 720p, 1080p, 4k.\n* **`kling-2.6`**: Supports 720p, 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`ltx-2.5`**: Supports 480p, 720p, 1080p.\n* **`minimax-h3`**: Supports 480p, 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0`**: Supports 480p, 720p, 1080p, 4k.\n* **`seedance-2.0-fast`**: Supports 480p, 720p.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p, 1080p.\n* **`veo3.1`**: Supports 720p, 1080p.\n* **`veo3.1-lite`**: Supports 720p, 1080p.\n* **`wan-2.2`**: Supports 480p, 720p, 1080p.\n* **`wan-3.0`**: Supports 480p, 720p, 1080p.\n"
+                  },
+                  "model": {
+                    "default": "default",
+                    "type": "string",
+                    "enum": [
+                      "default",
+                      "minimax-h3",
+                      "kling-3.0",
+                      "ltx-2.5",
+                      "wan-2.2",
+                      "seedance-2.5",
+                      "wan-3.0",
+                      "seedance-2.0-mini",
+                      "veo3.1",
+                      "veo3.1-lite",
+                      "seedance-2.0",
+                      "kling-2.6",
+                      "gemini-omni-1.1",
+                      "seedance-2.0-fast",
+                      "seedance-1.5",
+                      "sora-2",
+                      "ltx-2.3",
+                      "ltx-2",
+                      "kling-2.5",
+                      "kling-1.6",
+                      "seedance",
+                      "kling-2.5-audio",
+                      "veo3.1-audio"
+                    ],
+                    "description": "The AI model to use for video generation.\n\n* `default`: uses our currently recommended model for general use. For paid tiers, defaults to `kling-3.0`. For free tiers, it defaults to `ltx-2.5`.\n* `gemini-omni-1.1`: Best for precise short clips, first/last frames, and high-resolution output.\n* `kling-2.6`: Best for action, motion blur, and controlled camera moves.\n* `kling-3.0`: Best for cinematic stories, references, and optional audio.\n* `ltx-2.5`: Fastest for general scenes, long clips, audio, and rapid iteration.\n* `minimax-h3`: Great for reference-driven clips with native audio and longer durations.\n* `seedance-1.5`: Best for smooth, consistent motion with an end frame.\n* `seedance-2.0`: Best for reference-led clips with precise subject control.\n* `seedance-2.0-fast`: Fast reference-led clips with consistent motion and audio.\n* `seedance-2.0-mini`: Faster reference-led clips with consistent motion and audio.\n* `seedance-2.5`: Best for premium realism, detail, and natural motion.\n* `veo3.1`: Best for romantic interactions and expressive action, with realistic detail.\n* `veo3.1-lite`: Balanced realism and audio at a lower cost than Veo 3.1.\n* `wan-2.2`: Best for physical motion, action, and camera movement.\n* `wan-3.0`: High-quality video with native audio, long clips, and end-frame control.\n\nIf you specify the deprecated model value that includes the `-audio` suffix, this will be the same as included `audio` as `true`.",
+                    "example": "ltx-2.5"
+                  },
+                  "audio": {
+                    "type": "boolean",
+                    "description": "Whether to include audio in the video. Defaults to `false` if not specified.\n\nAudio support varies by model:\n* **`gemini-omni-1.1`**: Not supported\n* **`kling-2.6`**: Not supported\n* **`kling-3.0`**: Toggle-able: audio adds extra credits when enabled\n* **`ltx-2.5`**: Toggle-able: no additional credits for audio\n* **`minimax-h3`**: Toggle-able: no additional credits for audio\n* **`seedance-1.5`**: Toggle-able: audio adds extra credits when enabled\n* **`seedance-2.0`**: Toggle-able: no additional credits for audio\n* **`seedance-2.0-fast`**: Toggle-able: no additional credits for audio\n* **`seedance-2.0-mini`**: Toggle-able: no additional credits for audio\n* **`seedance-2.5`**: Toggle-able: no additional credits for audio\n* **`veo3.1`**: Toggle-able: audio adds extra credits when enabled\n* **`veo3.1-lite`**: Toggle-able: audio adds extra credits when enabled\n* **`wan-2.2`**: Not supported\n* **`wan-3.0`**: Toggle-able: no additional credits for audio\n",
+                    "example": true
+                  },
+                  "style": {
+                    "type": "object",
+                    "properties": {
+                      "prompt": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 20000,
+                        "example": "a dog running",
+                        "description": "The prompt used for the video."
+                      },
+                      "quality_mode": {
+                        "type": "string",
+                        "enum": ["quick", "studio"],
+                        "deprecated": true,
+                        "description": "DEPRECATED: Please use `resolution` field instead. For backward compatibility:\n* `quick` maps to 720p resolution\n* `studio` maps to 1080p resolution\n\nThis field will be removed in a future version. Use the `resolution` field to directly to specify the resolution."
+                      }
+                    },
+                    "required": ["prompt"]
+                  },
+                  "references": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][\\w-]*$",
+                          "example": "hero"
+                        },
+                        "file_path": {
+                          "type": "string",
+                          "minLength": 1,
+                          "example": "api-assets/id/1234.png"
+                        }
+                      },
+                      "required": ["name", "file_path"]
+                    },
+                    "minItems": 1,
+                    "maxItems": 10,
+                    "description": "Reference media for video generation. Name references without @ and refer to them as @name in style.prompt. Maximum 10 references total.\n\nSupported models and reference media:\n* **`gemini-omni-1.1`**: Supports images, videos. Up to 13 references.\n* **`kling-3.0`**: Supports images, videos.\n* **`minimax-h3`**: Supports images, videos, audio.\n* **`seedance-2.0`**: Supports images, videos, audio.\n* **`seedance-2.0-fast`**: Supports images, videos, audio.\n* **`seedance-2.0-mini`**: Supports images, videos, audio.\n* **`seedance-2.5`**: Supports images, videos, audio.\n* **`veo3.1`**: Supports images. Up to 3 references. Requires `end_seconds` of 8.\n* **`wan-3.0`**: Supports images, videos, audio."
+                  }
+                },
+                "required": ["end_seconds", "style"],
+                "example": {
+                  "end_seconds": 5,
+                  "aspect_ratio": "16:9",
+                  "style": {
+                    "prompt": "a dog running"
+                  }
+                }
               }
             }
           }
@@ -12386,11 +13613,30 @@
     }
   },
   "tags": [
-    { "name": "Video Projects", "description": "API related to video projects" },
-    { "name": "Image Projects", "description": "API related to image projects" },
-    { "name": "Audio Projects", "description": "API related to audio projects" },
-    { "name": "Files", "description": "API related to uploading and reusing assets" },
-    { "name": "Account", "description": "API related to the account that owns the API key" }
+    {
+      "name": "Video Projects",
+      "description": "API related to video projects"
+    },
+    {
+      "name": "Image Projects",
+      "description": "API related to image projects"
+    },
+    {
+      "name": "Audio Projects",
+      "description": "API related to audio projects"
+    },
+    {
+      "name": "Files",
+      "description": "API related to uploading and reusing assets"
+    },
+    {
+      "name": "Account",
+      "description": "API related to the account that owns the API key"
+    }
   ],
-  "servers": [{ "url": "https://api.magichour.ai" }]
+  "servers": [
+    {
+      "url": "https://api.magichour.ai"
+    }
+  ]
 }
