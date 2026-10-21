@@ -1802,23 +1802,23 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_talking_photo \"github.com/magichourhq/magic-hour-go/resources/v1/ai_talking_photo\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiTalkingPhoto.Create(ai_talking_photo.CreateRequest{\n\t\tAssets: types.V1AiTalkingPhotoCreateBodyAssets{\n\t\t\tAudioFilePath: \"api-assets/id/1234.mp3\",\n\t\t\tImageFilePath: \"api-assets/id/1234.png\",\n\t\t},\n\t\tEndSeconds:    15.0,\n\t\tMaxResolution: nullable.NewValue(1024),\n\t\tName:          nullable.NewValue(\"My Talking Photo video\"),\n\t\tStartSeconds:  0.0,\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_talking_photo \"github.com/magichourhq/magic-hour-go/resources/v1/ai_talking_photo\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiTalkingPhoto.Create(ai_talking_photo.CreateRequest{\n\t\tAssets: types.V1AiTalkingPhotoCreateBodyAssets{\n\t\t\tAudioFilePath: \"api-assets/id/1234.mp3\",\n\t\t\tImageFilePath: \"api-assets/id/1234.png\",\n\t\t},\n\t\tEndSeconds:   5.0,\n\t\tName:         nullable.NewValue(\"My Talking Photo video\"),\n\t\tResolution:   nullable.NewValue(types.V1AiTalkingPhotoCreateBodyResolutionEnum480p),\n\t\tStartSeconds: 0.0,\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_talking_photo()\n    .create(magic_hour::resources::v1::ai_talking_photo::CreateRequest {\n        assets: magic_hour::models::V1AiTalkingPhotoCreateBodyAssets {\n            audio_file_path: \"api-assets/id/1234.mp3\".to_string(),\n            image_file_path: \"api-assets/id/1234.png\".to_string(),\n        },\n        end_seconds: 15.0,\n        max_resolution: Some(1024),\n        name: Some(\"My Talking Photo video\".to_string()),\n        start_seconds: 0.0,\n        ..Default::default()\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_talking_photo()\n    .create(magic_hour::resources::v1::ai_talking_photo::CreateRequest {\n        assets: magic_hour::models::V1AiTalkingPhotoCreateBodyAssets {\n            audio_file_path: \"api-assets/id/1234.mp3\".to_string(),\n            image_file_path: \"api-assets/id/1234.png\".to_string(),\n        },\n        end_seconds: 5.0,\n        name: Some(\"My Talking Photo video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1AiTalkingPhotoCreateBodyResolutionEnum::Enum480p,\n        ),\n        start_seconds: 0.0,\n        ..Default::default()\n    })\n    .await;"
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-talking-photo \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Talking Photo video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/1234.png\",\n    \"audio_file_path\": \"api-assets/id/1234.mp3\"\n  },\n  \"style\": {\n    \"generation_mode\": \"realistic\",\n    \"prompt\": \"A person smiling and speaking naturally to the camera\"\n  },\n  \"max_resolution\": 512\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-talking-photo \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Talking Photo video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/1234.png\",\n    \"audio_file_path\": \"api-assets/id/1234.mp3\"\n  },\n  \"style\": {\n    \"generation_mode\": \"realistic\",\n    \"prompt\": \"A person smiling and speaking naturally to the camera\"\n  },\n  \"resolution\": \"480p\"\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-talking-photo\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Talking Photo video',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'assets' => [\n        'image_file_path' => 'api-assets/id/1234.png',\n        'audio_file_path' => 'api-assets/id/1234.mp3'\n    ],\n    'style' => [\n        'generation_mode' => 'realistic',\n        'prompt' => 'A person smiling and speaking naturally to the camera'\n    ],\n    'max_resolution' => 512\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-talking-photo\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Talking Photo video',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'assets' => [\n        'image_file_path' => 'api-assets/id/1234.png',\n        'audio_file_path' => 'api-assets/id/1234.mp3'\n    ],\n    'style' => [\n        'generation_mode' => 'realistic',\n        'prompt' => 'A person smiling and speaking naturally to the camera'\n    ],\n    'resolution' => '480p'\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-talking-photo\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Talking Photo video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\",\\\"audio_file_path\\\":\\\"api-assets/id/1234.mp3\\\"},\\\"style\\\":{\\\"generation_mode\\\":\\\"realistic\\\",\\\"prompt\\\":\\\"A person smiling and speaking naturally to the camera\\\"},\\\"max_resolution\\\":512}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-talking-photo\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Talking Photo video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/1234.png\\\",\\\"audio_file_path\\\":\\\"api-assets/id/1234.mp3\\\"},\\\"style\\\":{\\\"generation_mode\\\":\\\"realistic\\\",\\\"prompt\\\":\\\"A person smiling and speaking naturally to the camera\\\"},\\\"resolution\\\":\\\"480p\\\"}\")\n  .asString();"
           }
         ]
       }
@@ -1854,7 +1854,7 @@
                   "script": {
                     "type": "string",
                     "minLength": 1,
-                    "description": "The words the actor should speak. Character limits apply after trimming:\n* kling-3.0: 2500 characters.\n* ltx-2.5: 1981 characters.\n* veo3.1: 2500 characters.\nLTX's dialogue wrapper counts toward its model prompt limit.",
+                    "description": "The words the actor should speak. Character limits apply after trimming:\n* kling-3.0: 2500 characters.\n* ltx-2.5: 1804 characters.\n* veo3.1: 2500 characters.\nLTX's dialogue wrapper counts toward its model prompt limit.",
                     "example": "Meet your new everyday essential."
                   },
                   "end_seconds": {
@@ -2024,12 +2024,42 @@
             }
           }
         },
-        "security": [{ "bearerAuth": [] }]
+        "security": [{ "bearerAuth": [] }],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_ugc_ad.create(\n    assets={\"image_file_path\": \"api-assets/id/image.jpg\"},\n    end_seconds=4.0,\n    script=\"Meet your new everyday essential.\",\n)"
+          },
+          {
+            "lang": "javascript",
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"] });\nconst res = await client.v1.aiUgcAd.create({\n  assets: { imageFilePath: \"api-assets/id/image.jpg\" },\n  endSeconds: 4.0,\n  script: \"Meet your new everyday essential.\",\n});"
+          },
+          {
+            "lang": "go",
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tai_ugc_ad \"github.com/magichourhq/magic-hour-go/resources/v1/ai_ugc_ad\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiUgcAd.Create(ai_ugc_ad.CreateRequest{\n\t\tAssets: types.V1AiUgcAdCreateBodyAssets{\n\t\t\tImageFilePath: \"api-assets/id/image.jpg\",\n\t\t},\n\t\tEndSeconds: 4.0,\n\t\tScript:     \"Meet your new everyday essential.\",\n\t})\n}"
+          },
+          {
+            "lang": "rust",
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_ugc_ad()\n    .create(magic_hour::resources::v1::ai_ugc_ad::CreateRequest {\n        assets: magic_hour::models::V1AiUgcAdCreateBodyAssets {\n            image_file_path: \"api-assets/id/image.jpg\".to_string(),\n            ..Default::default()\n        },\n        end_seconds: 4.0,\n        script: \"Meet your new everyday essential.\".to_string(),\n        ..Default::default()\n    })\n    .await;"
+          },
+          {
+            "lang": "curl",
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-ugc-ad \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/image.jpg\"\n  },\n  \"script\": \"Meet your new everyday essential.\",\n  \"end_seconds\": 4,\n  \"model\": \"kling-3.0\",\n  \"resolution\": \"480p\"\n}\n'"
+          },
+          {
+            "lang": "php",
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-ugc-ad\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'assets' => [\n        'image_file_path' => 'api-assets/id/image.jpg'\n    ],\n    'script' => 'Meet your new everyday essential.',\n    'end_seconds' => 4,\n    'model' => 'kling-3.0',\n    'resolution' => '480p'\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+          },
+          {
+            "lang": "java",
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-ugc-ad\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/image.jpg\\\"},\\\"script\\\":\\\"Meet your new everyday essential.\\\",\\\"end_seconds\\\":4,\\\"model\\\":\\\"kling-3.0\\\",\\\"resolution\\\":\\\"480p\\\"}\")\n  .asString();"
+          }
+        ]
       }
     },
     "/v1/ai-video-editor": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Video Editor you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video editor into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video editor job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/ai-video-editor).",
+        "description": "**What this API does**\n\nCreate the same Video Editor you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video editor into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video editor job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/ai-video-editor).",
         "summary": "AI Video Editor",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2262,11 +2292,11 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_video_editor \"github.com/magichourhq/magic-hour-go/resources/v1/ai_video_editor\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiVideoEditor.Create(ai_video_editor.CreateRequest{\n\t\tAssets: types.V1AiVideoEditorCreateBodyAssets{\n\t\t\tVideoFilePath: \"api-assets/id/1234.mp4\",\n\t\t},\n\t\tEndSeconds:   5.0,\n\t\tModel:        nullable.NewValue(types.V1AiVideoEditorCreateBodyModelEnumGeminiOmni11),\n\t\tName:         nullable.NewValue(\"My Video Editor video\"),\n\t\tResolution:   nullable.NewValue(types.V1AiVideoEditorCreateBodyResolutionEnum720p),\n\t\tStartSeconds: nullable.NewValue(0.0),\n\t\tStyle: types.V1AiVideoEditorCreateBodyStyle{\n\t\t\tPrompt: \"Change the car color to blue\",\n\t\t},\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_video_editor \"github.com/magichourhq/magic-hour-go/resources/v1/ai_video_editor\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiVideoEditor.Create(ai_video_editor.CreateRequest{\n\t\tAssets: types.V1AiVideoEditorCreateBodyAssets{\n\t\t\tVideoFilePath: \"api-assets/id/1234.mp4\",\n\t\t},\n\t\tEndSeconds:   5.0,\n\t\tModel:        nullable.NewValue(types.V1AiVideoEditorCreateBodyModelEnumLtx25),\n\t\tName:         nullable.NewValue(\"My Video Editor video\"),\n\t\tResolution:   nullable.NewValue(types.V1AiVideoEditorCreateBodyResolutionEnum480p),\n\t\tStartSeconds: nullable.NewValue(0.0),\n\t\tStyle: types.V1AiVideoEditorCreateBodyStyle{\n\t\t\tPrompt: \"Change the car color to blue\",\n\t\t},\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_video_editor()\n    .create(magic_hour::resources::v1::ai_video_editor::CreateRequest {\n        assets: magic_hour::models::V1AiVideoEditorCreateBodyAssets {\n            video_file_path: \"api-assets/id/1234.mp4\".to_string(),\n        },\n        end_seconds: 5.0,\n        model: Some(\n            magic_hour::models::V1AiVideoEditorCreateBodyModelEnum::GeminiOmni11,\n        ),\n        name: Some(\"My Video Editor video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1AiVideoEditorCreateBodyResolutionEnum::Enum720p,\n        ),\n        start_seconds: Some(0.0),\n        style: magic_hour::models::V1AiVideoEditorCreateBodyStyle {\n            prompt: \"Change the car color to blue\".to_string(),\n        },\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_video_editor()\n    .create(magic_hour::resources::v1::ai_video_editor::CreateRequest {\n        assets: magic_hour::models::V1AiVideoEditorCreateBodyAssets {\n            video_file_path: \"api-assets/id/1234.mp4\".to_string(),\n        },\n        end_seconds: 5.0,\n        model: Some(magic_hour::models::V1AiVideoEditorCreateBodyModelEnum::Ltx25),\n        name: Some(\"My Video Editor video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1AiVideoEditorCreateBodyResolutionEnum::Enum480p,\n        ),\n        start_seconds: Some(0.0),\n        style: magic_hour::models::V1AiVideoEditorCreateBodyStyle {\n            prompt: \"Change the car color to blue\".to_string(),\n        },\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -2285,7 +2315,7 @@
     },
     "/v1/ai-video-translator": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Video Translator you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video translator into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video translator job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/ai-video-translator).",
+        "description": "**What this API does**\n\nCreate the same Video Translator you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video translator into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video translator job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/ai-video-translator).",
         "summary": "AI Video Translator",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -2560,11 +2590,11 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_video_translator \"github.com/magichourhq/magic-hour-go/resources/v1/ai_video_translator\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiVideoTranslator.Create(ai_video_translator.CreateRequest{\n\t\tAssets: types.V1AiVideoTranslatorCreateBodyAssets{\n\t\t\tVideoFilePath: \"api-assets/id/1234.mp4\",\n\t\t},\n\t\tEndSeconds:     15.0,\n\t\tName:           nullable.NewValue(\"My Video Translator video\"),\n\t\tResolution:     nullable.NewValue(types.V1AiVideoTranslatorCreateBodyResolutionEnum720p),\n\t\tStartSeconds:   nullable.NewValue(0.0),\n\t\tTargetLanguage: types.V1AiVideoTranslatorCreateBodyTargetLanguageEnumSpanish,\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_video_translator \"github.com/magichourhq/magic-hour-go/resources/v1/ai_video_translator\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiVideoTranslator.Create(ai_video_translator.CreateRequest{\n\t\tAssets: types.V1AiVideoTranslatorCreateBodyAssets{\n\t\t\tVideoFilePath: \"api-assets/id/1234.mp4\",\n\t\t},\n\t\tEndSeconds:     5.0,\n\t\tName:           nullable.NewValue(\"My Video Translator video\"),\n\t\tResolution:     nullable.NewValue(types.V1AiVideoTranslatorCreateBodyResolutionEnum480p),\n\t\tStartSeconds:   nullable.NewValue(0.0),\n\t\tTargetLanguage: types.V1AiVideoTranslatorCreateBodyTargetLanguageEnumSpanish,\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_video_translator()\n    .create(magic_hour::resources::v1::ai_video_translator::CreateRequest {\n        assets: magic_hour::models::V1AiVideoTranslatorCreateBodyAssets {\n            video_file_path: \"api-assets/id/1234.mp4\".to_string(),\n        },\n        end_seconds: 15.0,\n        name: Some(\"My Video Translator video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1AiVideoTranslatorCreateBodyResolutionEnum::Enum720p,\n        ),\n        start_seconds: Some(0.0),\n        target_language: magic_hour::models::V1AiVideoTranslatorCreateBodyTargetLanguageEnum::Spanish,\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_video_translator()\n    .create(magic_hour::resources::v1::ai_video_translator::CreateRequest {\n        assets: magic_hour::models::V1AiVideoTranslatorCreateBodyAssets {\n            video_file_path: \"api-assets/id/1234.mp4\".to_string(),\n        },\n        end_seconds: 5.0,\n        name: Some(\"My Video Translator video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1AiVideoTranslatorCreateBodyResolutionEnum::Enum480p,\n        ),\n        start_seconds: Some(0.0),\n        target_language: magic_hour::models::V1AiVideoTranslatorCreateBodyTargetLanguageEnum::Spanish,\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -2577,6 +2607,228 @@
           {
             "lang": "java",
             "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-video-translator\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Video Translator video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"target_language\\\":\\\"Spanish\\\",\\\"resolution\\\":\\\"480p\\\",\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\"}}\")\n  .asString();"
+          }
+        ]
+      }
+    },
+    "/v1/ai-video-upscaler": {
+      "post": {
+        "description": "**What this API does**\n\nCreate the same Video Upscaler you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video upscaler into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video upscaler job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-upscaler).",
+        "summary": "AI Video Upscaler",
+        "tags": ["Video Projects"],
+        "parameters": [],
+        "operationId": "aiVideoUpscaler.createVideo",
+        "requestBody": {
+          "required": true,
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Give your video a custom name for easy identification.",
+                    "example": "My Video Upscaler video",
+                    "default": "Video Upscaler - dateTime"
+                  },
+                  "start_seconds": {
+                    "default": 0,
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Start time of your clip (seconds). Must be ≥ 0.",
+                    "format": "float",
+                    "example": 0
+                  },
+                  "end_seconds": {
+                    "type": "number",
+                    "minimum": 0.1,
+                    "description": "End time of your clip (seconds). Must be greater than start_seconds.",
+                    "format": "float",
+                    "example": 5
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "enum": ["720p", "1080p", "2k", "4k"],
+                    "description": "Output resolution. `720p` and `1080p` set the output's short side, `2k` and `4k` its long side; the aspect ratio is kept. Requires a paid plan.",
+                    "example": "1080p"
+                  },
+                  "assets": {
+                    "type": "object",
+                    "properties": {
+                      "video_file_path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Video to upscale. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "example": "api-assets/id/1234.mp4"
+                      }
+                    },
+                    "required": ["video_file_path"],
+                    "description": "Source video for the upscale job."
+                  }
+                },
+                "required": ["end_seconds", "resolution", "assets"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "cuid-example",
+                      "description": "Unique ID of the video. Use it with the [Get video Project API](https://docs.magichour.ai/api-reference/video-projects/get-video-details) to fetch status and downloads."
+                    },
+                    "credits_charged": {
+                      "type": "integer",
+                      "description": "The amount of credits deducted from your account to generate the video. If the status is not 'complete', this value is an estimate and may be adjusted upon completion based on the actual FPS of the output video. \n\nIf video generation fails, credits will be refunded, and this field will be updated to include the refund.",
+                      "example": 450
+                    }
+                  },
+                  "required": ["id", "credits_charged"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["invalid_request"],
+                      "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["unauthorized"],
+                      "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "insufficient_credits",
+                        "subscription_required",
+                        "plan_upgrade_required"
+                      ],
+                      "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["not_found"],
+                      "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["unprocessable_entity"],
+                      "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["internal_server_error"],
+                      "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }],
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-video-upscaler \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Video Upscaler video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"resolution\": \"1080p\",\n  \"assets\": {\n    \"video_file_path\": \"api-assets/id/1234.mp4\"\n  }\n}\n'"
+          },
+          {
+            "lang": "php",
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-video-upscaler\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Video Upscaler video',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'resolution' => '1080p',\n    'assets' => [\n        'video_file_path' => 'api-assets/id/1234.mp4'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+          },
+          {
+            "lang": "java",
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-video-upscaler\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Video Upscaler video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"resolution\\\":\\\"1080p\\\",\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -2968,11 +3220,11 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tanimation \"github.com/magichourhq/magic-hour-go/resources/v1/animation\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.Animation.Create(animation.CreateRequest{\n\t\tAssets: types.V1AnimationCreateBodyAssets{\n\t\t\tAudioFilePath: nullable.NewValue(\"api-assets/id/1234.mp3\"),\n\t\t\tAudioSource:   types.V1AnimationCreateBodyAssetsAudioSourceEnumFile,\n\t\t\tImageFilePath: nullable.NewValue(\"api-assets/id/1234.png\"),\n\t\t},\n\t\tEndSeconds: 15.0,\n\t\tFps:        12.0,\n\t\tHeight:     960,\n\t\tName:       nullable.NewValue(\"My Animation video\"),\n\t\tStyle: types.V1AnimationCreateBodyStyle{\n\t\t\tArtStyle:        types.V1AnimationCreateBodyStyleArtStyleEnumPainterlyIllustration,\n\t\t\tCameraEffect:    types.V1AnimationCreateBodyStyleCameraEffectEnumSimpleZoomIn,\n\t\t\tPrompt:          nullable.NewValue(\"Cyberpunk city\"),\n\t\t\tPromptType:      types.V1AnimationCreateBodyStylePromptTypeEnumCustom,\n\t\t\tTransitionSpeed: 5,\n\t\t},\n\t\tWidth: 512,\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tanimation \"github.com/magichourhq/magic-hour-go/resources/v1/animation\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.Animation.Create(animation.CreateRequest{\n\t\tAssets: types.V1AnimationCreateBodyAssets{\n\t\t\tAudioFilePath: nullable.NewValue(\"api-assets/id/1234.mp3\"),\n\t\t\tAudioSource:   types.V1AnimationCreateBodyAssetsAudioSourceEnumFile,\n\t\t\tImageFilePath: nullable.NewValue(\"api-assets/id/1234.png\"),\n\t\t},\n\t\tEndSeconds: 5.0,\n\t\tFps:        12.0,\n\t\tHeight:     512,\n\t\tName:       nullable.NewValue(\"My Animation video\"),\n\t\tStyle: types.V1AnimationCreateBodyStyle{\n\t\t\tArtStyle:        types.V1AnimationCreateBodyStyleArtStyleEnumPainterlyIllustration,\n\t\t\tArtStyleCustom:  nullable.NewValue(\"Watercolor painting with soft pastel colors\"),\n\t\t\tCameraEffect:    types.V1AnimationCreateBodyStyleCameraEffectEnumSimpleZoomIn,\n\t\t\tPrompt:          nullable.NewValue(\"Cyberpunk city\"),\n\t\t\tPromptType:      types.V1AnimationCreateBodyStylePromptTypeEnumCustom,\n\t\t\tTransitionSpeed: 5,\n\t\t},\n\t\tWidth: 512,\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .animation()\n    .create(magic_hour::resources::v1::animation::CreateRequest {\n        assets: magic_hour::models::V1AnimationCreateBodyAssets {\n            audio_file_path: Some(\"api-assets/id/1234.mp3\".to_string()),\n            audio_source: magic_hour::models::V1AnimationCreateBodyAssetsAudioSourceEnum::File,\n            image_file_path: Some(\"api-assets/id/1234.png\".to_string()),\n            ..Default::default()\n        },\n        end_seconds: 15.0,\n        fps: 12.0,\n        height: 960,\n        name: Some(\"My Animation video\".to_string()),\n        style: magic_hour::models::V1AnimationCreateBodyStyle {\n            art_style: magic_hour::models::V1AnimationCreateBodyStyleArtStyleEnum::PainterlyIllustration,\n            camera_effect: magic_hour::models::V1AnimationCreateBodyStyleCameraEffectEnum::SimpleZoomIn,\n            prompt: Some(\"Cyberpunk city\".to_string()),\n            prompt_type: magic_hour::models::V1AnimationCreateBodyStylePromptTypeEnum::Custom,\n            transition_speed: 5,\n            ..Default::default()\n        },\n        width: 512,\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .animation()\n    .create(magic_hour::resources::v1::animation::CreateRequest {\n        assets: magic_hour::models::V1AnimationCreateBodyAssets {\n            audio_file_path: Some(\"api-assets/id/1234.mp3\".to_string()),\n            audio_source: magic_hour::models::V1AnimationCreateBodyAssetsAudioSourceEnum::File,\n            image_file_path: Some(\"api-assets/id/1234.png\".to_string()),\n            ..Default::default()\n        },\n        end_seconds: 5.0,\n        fps: 12.0,\n        height: 512,\n        name: Some(\"My Animation video\".to_string()),\n        style: magic_hour::models::V1AnimationCreateBodyStyle {\n            art_style: magic_hour::models::V1AnimationCreateBodyStyleArtStyleEnum::PainterlyIllustration,\n            art_style_custom: Some(\n                \"Watercolor painting with soft pastel colors\".to_string(),\n            ),\n            camera_effect: magic_hour::models::V1AnimationCreateBodyStyleCameraEffectEnum::SimpleZoomIn,\n            prompt: Some(\"Cyberpunk city\".to_string()),\n            prompt_type: magic_hour::models::V1AnimationCreateBodyStylePromptTypeEnum::Custom,\n            transition_speed: 5,\n        },\n        width: 512,\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -2991,7 +3243,7 @@
     },
     "/v1/audio-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Audio To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding audio to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a audio to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/audio-to-video).",
+        "description": "**What this API does**\n\nCreate the same Audio To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding audio to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a audio to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/audio-to-video).",
         "summary": "Audio-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -3223,11 +3475,11 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\taudio_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/audio_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AudioToVideo.Create(audio_to_video.CreateRequest{\n\t\tAssets: types.V1AudioToVideoCreateBodyAssets{\n\t\t\tAudioFilePath: \"api-assets/id/1234.mp3\",\n\t\t\tImageFilePath: nullable.NewValue(\"api-assets/id/1234.png\"),\n\t\t},\n\t\tEndSeconds:   15.0,\n\t\tName:         nullable.NewValue(\"My Audio To Video video\"),\n\t\tResolution:   nullable.NewValue(types.V1AudioToVideoCreateBodyResolutionEnum720p),\n\t\tStartSeconds: nullable.NewValue(0.0),\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\taudio_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/audio_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AudioToVideo.Create(audio_to_video.CreateRequest{\n\t\tAssets: types.V1AudioToVideoCreateBodyAssets{\n\t\t\tAudioFilePath: \"api-assets/id/1234.mp3\",\n\t\t\tImageFilePath: nullable.NewValue(\"api-assets/id/1234.png\"),\n\t\t},\n\t\tEndSeconds:   5.0,\n\t\tName:         nullable.NewValue(\"My Audio To Video video\"),\n\t\tResolution:   nullable.NewValue(types.V1AudioToVideoCreateBodyResolutionEnum480p),\n\t\tStartSeconds: nullable.NewValue(0.0),\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .audio_to_video()\n    .create(magic_hour::resources::v1::audio_to_video::CreateRequest {\n        assets: magic_hour::models::V1AudioToVideoCreateBodyAssets {\n            audio_file_path: \"api-assets/id/1234.mp3\".to_string(),\n            image_file_path: Some(\"api-assets/id/1234.png\".to_string()),\n        },\n        end_seconds: 15.0,\n        name: Some(\"My Audio To Video video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1AudioToVideoCreateBodyResolutionEnum::Enum720p,\n        ),\n        start_seconds: Some(0.0),\n        ..Default::default()\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .audio_to_video()\n    .create(magic_hour::resources::v1::audio_to_video::CreateRequest {\n        assets: magic_hour::models::V1AudioToVideoCreateBodyAssets {\n            audio_file_path: \"api-assets/id/1234.mp3\".to_string(),\n            image_file_path: Some(\"api-assets/id/1234.png\".to_string()),\n        },\n        end_seconds: 5.0,\n        name: Some(\"My Audio To Video video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1AudioToVideoCreateBodyResolutionEnum::Enum480p,\n        ),\n        start_seconds: Some(0.0),\n        ..Default::default()\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -3517,11 +3769,11 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tauto_subtitle_generator \"github.com/magichourhq/magic-hour-go/resources/v1/auto_subtitle_generator\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AutoSubtitleGenerator.Create(auto_subtitle_generator.CreateRequest{\n\t\tAssets: types.V1AutoSubtitleGeneratorCreateBodyAssets{\n\t\t\tVideoFilePath: \"api-assets/id/1234.mp4\",\n\t\t},\n\t\tEndSeconds:   15.0,\n\t\tName:         nullable.NewValue(\"My Auto Subtitle video\"),\n\t\tStartSeconds: 0.0,\n\t\tStyle:        types.V1AutoSubtitleGeneratorCreateBodyStyle{},\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tauto_subtitle_generator \"github.com/magichourhq/magic-hour-go/resources/v1/auto_subtitle_generator\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AutoSubtitleGenerator.Create(auto_subtitle_generator.CreateRequest{\n\t\tAssets: types.V1AutoSubtitleGeneratorCreateBodyAssets{\n\t\t\tVideoFilePath: \"api-assets/id/1234.mp4\",\n\t\t},\n\t\tEndSeconds:   5.0,\n\t\tName:         nullable.NewValue(\"My Auto Subtitle video\"),\n\t\tStartSeconds: 0.0,\n\t\tStyle: types.V1AutoSubtitleGeneratorCreateBodyStyle{\n\t\t\tTemplate: nullable.NewValue(types.V1AutoSubtitleGeneratorCreateBodyStyleTemplateEnumKaraoke),\n\t\t},\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .auto_subtitle_generator()\n    .create(magic_hour::resources::v1::auto_subtitle_generator::CreateRequest {\n        assets: magic_hour::models::V1AutoSubtitleGeneratorCreateBodyAssets {\n            video_file_path: \"api-assets/id/1234.mp4\".to_string(),\n        },\n        end_seconds: 15.0,\n        name: Some(\"My Auto Subtitle video\".to_string()),\n        start_seconds: 0.0,\n        style: magic_hour::models::V1AutoSubtitleGeneratorCreateBodyStyle {\n            ..Default::default()\n        },\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .auto_subtitle_generator()\n    .create(magic_hour::resources::v1::auto_subtitle_generator::CreateRequest {\n        assets: magic_hour::models::V1AutoSubtitleGeneratorCreateBodyAssets {\n            video_file_path: \"api-assets/id/1234.mp4\".to_string(),\n        },\n        end_seconds: 5.0,\n        name: Some(\"My Auto Subtitle video\".to_string()),\n        start_seconds: 0.0,\n        style: magic_hour::models::V1AutoSubtitleGeneratorCreateBodyStyle {\n            template: Some(\n                magic_hour::models::V1AutoSubtitleGeneratorCreateBodyStyleTemplateEnum::Karaoke,\n            ),\n            ..Default::default()\n        },\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -3540,7 +3792,7 @@
     },
     "/v1/character-replace": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Character Replace you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding character replace into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a character replace job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/character-replace).",
+        "description": "**What this API does**\n\nCreate the same Character Replace you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding character replace into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a character replace job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/character-replace).",
         "summary": "Character Replace",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -3816,11 +4068,11 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tcharacter_replace \"github.com/magichourhq/magic-hour-go/resources/v1/character_replace\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.CharacterReplace.Create(character_replace.CreateRequest{\n\t\tAssets: types.V1CharacterReplaceCreateBodyAssets{\n\t\t\tImageFilePath: \"api-assets/id/5678.png\",\n\t\t\tVideoFilePath: \"api-assets/id/1234.mp4\",\n\t\t},\n\t\tEndSeconds:   15.0,\n\t\tModel:        nullable.NewValue(types.V1CharacterReplaceCreateBodyModelEnumWanAnimate),\n\t\tName:         nullable.NewValue(\"My Character Replace video\"),\n\t\tResolution:   nullable.NewValue(types.V1CharacterReplaceCreateBodyResolutionEnum720p),\n\t\tStartSeconds: nullable.NewValue(0.0),\n\t\tStyle: nullable.NewValue(types.V1CharacterReplaceCreateBodyStyle{\n\t\t\tMode:          nullable.NewValue(types.V1CharacterReplaceCreateBodyStyleModeEnumReplace),\n\t\t\tSelectionMode: nullable.NewValue(types.V1CharacterReplaceCreateBodyStyleSelectionModeEnumAuto),\n\t\t}),\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tcharacter_replace \"github.com/magichourhq/magic-hour-go/resources/v1/character_replace\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.CharacterReplace.Create(character_replace.CreateRequest{\n\t\tAssets: types.V1CharacterReplaceCreateBodyAssets{\n\t\t\tImageFilePath: \"api-assets/id/5678.png\",\n\t\t\tVideoFilePath: \"api-assets/id/1234.mp4\",\n\t\t},\n\t\tEndSeconds:   5.0,\n\t\tModel:        nullable.NewValue(types.V1CharacterReplaceCreateBodyModelEnumWanAnimate),\n\t\tName:         nullable.NewValue(\"My Character Replace video\"),\n\t\tResolution:   nullable.NewValue(types.V1CharacterReplaceCreateBodyResolutionEnum480p),\n\t\tStartSeconds: nullable.NewValue(0.0),\n\t\tStyle: nullable.NewValue(types.V1CharacterReplaceCreateBodyStyle{\n\t\t\tMode:          nullable.NewValue(types.V1CharacterReplaceCreateBodyStyleModeEnumReplace),\n\t\t\tSelectionMode: nullable.NewValue(types.V1CharacterReplaceCreateBodyStyleSelectionModeEnumAuto),\n\t\t}),\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .character_replace()\n    .create(magic_hour::resources::v1::character_replace::CreateRequest {\n        assets: magic_hour::models::V1CharacterReplaceCreateBodyAssets {\n            image_file_path: \"api-assets/id/5678.png\".to_string(),\n            video_file_path: \"api-assets/id/1234.mp4\".to_string(),\n        },\n        end_seconds: 15.0,\n        model: Some(\n            magic_hour::models::V1CharacterReplaceCreateBodyModelEnum::WanAnimate,\n        ),\n        name: Some(\"My Character Replace video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1CharacterReplaceCreateBodyResolutionEnum::Enum720p,\n        ),\n        start_seconds: Some(0.0),\n        style: Some(magic_hour::models::V1CharacterReplaceCreateBodyStyle {\n            mode: Some(\n                magic_hour::models::V1CharacterReplaceCreateBodyStyleModeEnum::Replace,\n            ),\n            selection_mode: Some(\n                magic_hour::models::V1CharacterReplaceCreateBodyStyleSelectionModeEnum::Auto,\n            ),\n            ..Default::default()\n        }),\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .character_replace()\n    .create(magic_hour::resources::v1::character_replace::CreateRequest {\n        assets: magic_hour::models::V1CharacterReplaceCreateBodyAssets {\n            image_file_path: \"api-assets/id/5678.png\".to_string(),\n            video_file_path: \"api-assets/id/1234.mp4\".to_string(),\n        },\n        end_seconds: 5.0,\n        model: Some(\n            magic_hour::models::V1CharacterReplaceCreateBodyModelEnum::WanAnimate,\n        ),\n        name: Some(\"My Character Replace video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1CharacterReplaceCreateBodyResolutionEnum::Enum480p,\n        ),\n        start_seconds: Some(0.0),\n        style: Some(magic_hour::models::V1CharacterReplaceCreateBodyStyle {\n            mode: Some(\n                magic_hour::models::V1CharacterReplaceCreateBodyStyleModeEnum::Replace,\n            ),\n            selection_mode: Some(\n                magic_hour::models::V1CharacterReplaceCreateBodyStyleSelectionModeEnum::Auto,\n            ),\n            ..Default::default()\n        }),\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -3839,7 +4091,7 @@
     },
     "/v1/face-swap": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Face Swap you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding face swap into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a face swap job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/face-swap).",
+        "description": "**What this API does**\n\nCreate the same Face Swap you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding face swap into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a face swap job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/face-swap).",
         "summary": "Face Swap Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -4115,11 +4367,11 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tface_swap \"github.com/magichourhq/magic-hour-go/resources/v1/face_swap\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.FaceSwap.Create(face_swap.CreateRequest{\n\t\tAssets: types.V1FaceSwapCreateBodyAssets{\n\t\t\tFaceMappings: nullable.NewValue([]types.V1FaceSwapCreateBodyAssetsFaceMappingsItem{\n\t\t\t\ttypes.V1FaceSwapCreateBodyAssetsFaceMappingsItem{\n\t\t\t\t\tNewFace:      \"api-assets/id/1234.png\",\n\t\t\t\t\tOriginalFace: \"api-assets/id/0-0.png\",\n\t\t\t\t},\n\t\t\t}),\n\t\t\tFaceSwapMode:  nullable.NewValue(types.V1FaceSwapCreateBodyAssetsFaceSwapModeEnumAllFaces),\n\t\t\tImageFilePath: nullable.NewValue(\"image/id/1234.png\"),\n\t\t\tVideoFilePath: nullable.NewValue(\"api-assets/id/1234.mp4\"),\n\t\t\tVideoSource:   types.V1FaceSwapCreateBodyAssetsVideoSourceEnumFile,\n\t\t},\n\t\tEndSeconds:   15.0,\n\t\tName:         nullable.NewValue(\"My Face Swap video\"),\n\t\tStartSeconds: 0.0,\n\t\tStyle: nullable.NewValue(types.V1FaceSwapCreateBodyStyle{\n\t\t\tVersion: nullable.NewValue(types.V1FaceSwapCreateBodyStyleVersionEnumDefault),\n\t\t}),\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tface_swap \"github.com/magichourhq/magic-hour-go/resources/v1/face_swap\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.FaceSwap.Create(face_swap.CreateRequest{\n\t\tAssets: types.V1FaceSwapCreateBodyAssets{\n\t\t\tFaceSwapMode:  nullable.NewValue(types.V1FaceSwapCreateBodyAssetsFaceSwapModeEnumAllFaces),\n\t\t\tImageFilePath: nullable.NewValue(\"api-assets/id/1234.png\"),\n\t\t\tVideoFilePath: nullable.NewValue(\"api-assets/id/1234.mp4\"),\n\t\t\tVideoSource:   types.V1FaceSwapCreateBodyAssetsVideoSourceEnumFile,\n\t\t},\n\t\tEndSeconds:   5.0,\n\t\tName:         nullable.NewValue(\"My Face Swap video\"),\n\t\tStartSeconds: 0.0,\n\t\tStyle: nullable.NewValue(types.V1FaceSwapCreateBodyStyle{\n\t\t\tVersion: nullable.NewValue(types.V1FaceSwapCreateBodyStyleVersionEnumDefault),\n\t\t}),\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .face_swap()\n    .create(magic_hour::resources::v1::face_swap::CreateRequest {\n        assets: magic_hour::models::V1FaceSwapCreateBodyAssets {\n            face_mappings: Some(\n                vec![\n                    magic_hour::models::V1FaceSwapCreateBodyAssetsFaceMappingsItem {\n                    new_face : \"api-assets/id/1234.png\".to_string(), original_face :\n                    \"api-assets/id/0-0.png\".to_string() }\n                ],\n            ),\n            face_swap_mode: Some(\n                magic_hour::models::V1FaceSwapCreateBodyAssetsFaceSwapModeEnum::AllFaces,\n            ),\n            image_file_path: Some(\"image/id/1234.png\".to_string()),\n            video_file_path: Some(\"api-assets/id/1234.mp4\".to_string()),\n            video_source: magic_hour::models::V1FaceSwapCreateBodyAssetsVideoSourceEnum::File,\n            ..Default::default()\n        },\n        end_seconds: 15.0,\n        name: Some(\"My Face Swap video\".to_string()),\n        start_seconds: 0.0,\n        style: Some(magic_hour::models::V1FaceSwapCreateBodyStyle {\n            version: Some(\n                magic_hour::models::V1FaceSwapCreateBodyStyleVersionEnum::Default,\n            ),\n        }),\n        ..Default::default()\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .face_swap()\n    .create(magic_hour::resources::v1::face_swap::CreateRequest {\n        assets: magic_hour::models::V1FaceSwapCreateBodyAssets {\n            face_swap_mode: Some(\n                magic_hour::models::V1FaceSwapCreateBodyAssetsFaceSwapModeEnum::AllFaces,\n            ),\n            image_file_path: Some(\"api-assets/id/1234.png\".to_string()),\n            video_file_path: Some(\"api-assets/id/1234.mp4\".to_string()),\n            video_source: magic_hour::models::V1FaceSwapCreateBodyAssetsVideoSourceEnum::File,\n            ..Default::default()\n        },\n        end_seconds: 5.0,\n        name: Some(\"My Face Swap video\".to_string()),\n        start_seconds: 0.0,\n        style: Some(magic_hour::models::V1FaceSwapCreateBodyStyle {\n            version: Some(\n                magic_hour::models::V1FaceSwapCreateBodyStyleVersionEnum::Default,\n            ),\n        }),\n        ..Default::default()\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -4138,7 +4390,7 @@
     },
     "/v1/image-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Image To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding image to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a image to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/image-to-video).",
+        "description": "**What this API does**\n\nCreate the same Image To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding image to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a image to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/image-to-video).",
         "summary": "Image-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -4170,21 +4422,21 @@
                     "type": "string",
                     "enum": [
                       "default",
+                      "minimax-h3",
                       "kling-3.0",
                       "ltx-2.5",
-                      "seedance-2.0-mini",
-                      "seedance-2.0-fast",
-                      "wan-3.0",
-                      "seedance-2.5",
-                      "gemini-omni-1.1",
-                      "minimax-h3",
                       "wan-2.2",
-                      "seedance-1.5",
-                      "seedance-2.0",
-                      "veo3.1-lite",
-                      "sora-2",
+                      "seedance-2.5",
+                      "wan-3.0",
+                      "seedance-2.0-mini",
                       "veo3.1",
+                      "veo3.1-lite",
+                      "seedance-2.0",
                       "kling-2.6",
+                      "gemini-omni-1.1",
+                      "seedance-2.0-fast",
+                      "seedance-1.5",
+                      "sora-2",
                       "ltx-2.3",
                       "ltx-2",
                       "kling-2.5",
@@ -4399,11 +4651,11 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\timage_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/image_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.ImageToVideo.Create(image_to_video.CreateRequest{\n\t\tAssets: types.V1ImageToVideoCreateBodyAssets{\n\t\t\tEndImageFilePath: nullable.NewValue(\"api-assets/id/1234.png\"),\n\t\t\tImageFilePath:    \"api-assets/id/1234.png\",\n\t\t},\n\t\tAudio:      nullable.NewValue(true),\n\t\tEndSeconds: 5.0,\n\t\tModel:      nullable.NewValue(types.V1ImageToVideoCreateBodyModelEnumKling30),\n\t\tName:       nullable.NewValue(\"My Image To Video video\"),\n\t\tResolution: nullable.NewValue(types.V1ImageToVideoCreateBodyResolutionEnum720p),\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\timage_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/image_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.ImageToVideo.Create(image_to_video.CreateRequest{\n\t\tAssets: types.V1ImageToVideoCreateBodyAssets{\n\t\t\tEndImageFilePath: nullable.NewValue(\"api-assets/id/1234.png\"),\n\t\t\tImageFilePath:    \"api-assets/id/1234.png\",\n\t\t},\n\t\tAudio:      nullable.NewValue(true),\n\t\tEndSeconds: 5.0,\n\t\tModel:      nullable.NewValue(types.V1ImageToVideoCreateBodyModelEnumLtx25),\n\t\tName:       nullable.NewValue(\"My Image To Video video\"),\n\t\tResolution: nullable.NewValue(types.V1ImageToVideoCreateBodyResolutionEnum480p),\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .image_to_video()\n    .create(magic_hour::resources::v1::image_to_video::CreateRequest {\n        assets: magic_hour::models::V1ImageToVideoCreateBodyAssets {\n            end_image_file_path: Some(\"api-assets/id/1234.png\".to_string()),\n            image_file_path: \"api-assets/id/1234.png\".to_string(),\n        },\n        audio: Some(true),\n        end_seconds: 5.0,\n        model: Some(magic_hour::models::V1ImageToVideoCreateBodyModelEnum::Kling30),\n        name: Some(\"My Image To Video video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1ImageToVideoCreateBodyResolutionEnum::Enum720p,\n        ),\n        ..Default::default()\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .image_to_video()\n    .create(magic_hour::resources::v1::image_to_video::CreateRequest {\n        assets: magic_hour::models::V1ImageToVideoCreateBodyAssets {\n            end_image_file_path: Some(\"api-assets/id/1234.png\".to_string()),\n            image_file_path: \"api-assets/id/1234.png\".to_string(),\n        },\n        audio: Some(true),\n        end_seconds: 5.0,\n        model: Some(magic_hour::models::V1ImageToVideoCreateBodyModelEnum::Ltx25),\n        name: Some(\"My Image To Video video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1ImageToVideoCreateBodyResolutionEnum::Enum480p,\n        ),\n        ..Default::default()\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -4422,7 +4674,7 @@
     },
     "/v1/lip-sync": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Lip Sync you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding lip sync into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a lip sync job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/lip-sync).",
+        "description": "**What this API does**\n\nCreate the same Lip Sync you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding lip sync into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a lip sync job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/lip-sync).",
         "summary": "Lip Sync",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -4670,11 +4922,11 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tlip_sync \"github.com/magichourhq/magic-hour-go/resources/v1/lip_sync\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.LipSync.Create(lip_sync.CreateRequest{\n\t\tAssets: types.V1LipSyncCreateBodyAssets{\n\t\t\tAudioFilePath: \"api-assets/id/1234.mp3\",\n\t\t\tVideoFilePath: nullable.NewValue(\"api-assets/id/1234.mp4\"),\n\t\t\tVideoSource:   types.V1LipSyncCreateBodyAssetsVideoSourceEnumFile,\n\t\t},\n\t\tEndSeconds:   15.0,\n\t\tMaxFpsLimit:  nullable.NewValue(12.0),\n\t\tName:         nullable.NewValue(\"My Lip Sync video\"),\n\t\tStartSeconds: 0.0,\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tlip_sync \"github.com/magichourhq/magic-hour-go/resources/v1/lip_sync\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.LipSync.Create(lip_sync.CreateRequest{\n\t\tAssets: types.V1LipSyncCreateBodyAssets{\n\t\t\tAudioFilePath: \"api-assets/id/1234.mp3\",\n\t\t\tVideoFilePath: nullable.NewValue(\"api-assets/id/1234.mp4\"),\n\t\t\tVideoSource:   types.V1LipSyncCreateBodyAssetsVideoSourceEnumFile,\n\t\t},\n\t\tEndSeconds:   5.0,\n\t\tMaxFpsLimit:  nullable.NewValue(12.0),\n\t\tName:         nullable.NewValue(\"My Lip Sync video\"),\n\t\tStartSeconds: 0.0,\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .lip_sync()\n    .create(magic_hour::resources::v1::lip_sync::CreateRequest {\n        assets: magic_hour::models::V1LipSyncCreateBodyAssets {\n            audio_file_path: \"api-assets/id/1234.mp3\".to_string(),\n            video_file_path: Some(\"api-assets/id/1234.mp4\".to_string()),\n            video_source: magic_hour::models::V1LipSyncCreateBodyAssetsVideoSourceEnum::File,\n            ..Default::default()\n        },\n        end_seconds: 15.0,\n        max_fps_limit: Some(12.0),\n        name: Some(\"My Lip Sync video\".to_string()),\n        start_seconds: 0.0,\n        ..Default::default()\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .lip_sync()\n    .create(magic_hour::resources::v1::lip_sync::CreateRequest {\n        assets: magic_hour::models::V1LipSyncCreateBodyAssets {\n            audio_file_path: \"api-assets/id/1234.mp3\".to_string(),\n            video_file_path: Some(\"api-assets/id/1234.mp4\".to_string()),\n            video_source: magic_hour::models::V1LipSyncCreateBodyAssetsVideoSourceEnum::File,\n            ..Default::default()\n        },\n        end_seconds: 5.0,\n        max_fps_limit: Some(12.0),\n        name: Some(\"My Lip Sync video\".to_string()),\n        start_seconds: 0.0,\n        ..Default::default()\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -4693,7 +4945,7 @@
     },
     "/v1/text-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Text To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding text to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a text to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/text-to-video).",
+        "description": "**What this API does**\n\nCreate the same Text To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding text to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a text to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/text-to-video).",
         "summary": "Text-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -4737,21 +4989,21 @@
                     "type": "string",
                     "enum": [
                       "default",
+                      "minimax-h3",
                       "kling-3.0",
                       "ltx-2.5",
-                      "seedance-2.0-mini",
-                      "seedance-2.0-fast",
-                      "wan-3.0",
-                      "seedance-2.5",
-                      "gemini-omni-1.1",
-                      "minimax-h3",
                       "wan-2.2",
-                      "seedance-1.5",
-                      "seedance-2.0",
-                      "veo3.1-lite",
-                      "sora-2",
+                      "seedance-2.5",
+                      "wan-3.0",
+                      "seedance-2.0-mini",
                       "veo3.1",
+                      "veo3.1-lite",
+                      "seedance-2.0",
                       "kling-2.6",
+                      "gemini-omni-1.1",
+                      "seedance-2.0-fast",
+                      "seedance-1.5",
+                      "sora-2",
                       "ltx-2.3",
                       "ltx-2",
                       "kling-2.5",
@@ -4801,7 +5053,7 @@
                     },
                     "minItems": 1,
                     "maxItems": 10,
-                    "description": "Reference media for video generation. Name references without @ and refer to them as @name in style.prompt. Maximum 10 references total.\n\nSupported models and reference media:\n* **`kling-3.0`**: Supports images, videos.\n* **`minimax-h3`**: Supports images, videos, audio.\n* **`seedance-2.0`**: Supports images, videos, audio.\n* **`seedance-2.0-fast`**: Supports images, videos, audio.\n* **`seedance-2.0-mini`**: Supports images, videos, audio.\n* **`seedance-2.5`**: Supports images, videos, audio.\n* **`wan-3.0`**: Supports images, videos, audio."
+                    "description": "Reference media for video generation. Name references without @ and refer to them as @name in style.prompt. Maximum 10 references total.\n\nSupported models and reference media:\n* **`gemini-omni-1.1`**: Supports images, videos. Up to 13 references.\n* **`kling-3.0`**: Supports images, videos.\n* **`minimax-h3`**: Supports images, videos, audio.\n* **`seedance-2.0`**: Supports images, videos, audio.\n* **`seedance-2.0-fast`**: Supports images, videos, audio.\n* **`seedance-2.0-mini`**: Supports images, videos, audio.\n* **`seedance-2.5`**: Supports images, videos, audio.\n* **`veo3.1`**: Supports images. Up to 3 references. Requires `end_seconds` of 8.\n* **`wan-3.0`**: Supports images, videos, audio."
                   }
                 },
                 "required": ["end_seconds", "style"],
@@ -4970,11 +5222,11 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\ttext_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/text_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.TextToVideo.Create(text_to_video.CreateRequest{\n\t\tAspectRatio: nullable.NewValue(types.V1TextToVideoCreateBodyAspectRatioEnum169),\n\t\tAudio:       nullable.NewValue(true),\n\t\tEndSeconds:  5.0,\n\t\tModel:       nullable.NewValue(types.V1TextToVideoCreateBodyModelEnumKling30),\n\t\tName:        nullable.NewValue(\"My Text To Video video\"),\n\t\tResolution:  nullable.NewValue(types.V1TextToVideoCreateBodyResolutionEnum720p),\n\t\tStyle: types.V1TextToVideoCreateBodyStyle{\n\t\t\tPrompt: \"a dog running\",\n\t\t},\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\ttext_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/text_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.TextToVideo.Create(text_to_video.CreateRequest{\n\t\tAspectRatio: nullable.NewValue(types.V1TextToVideoCreateBodyAspectRatioEnum169),\n\t\tAudio:       nullable.NewValue(true),\n\t\tEndSeconds:  5.0,\n\t\tModel:       nullable.NewValue(types.V1TextToVideoCreateBodyModelEnumLtx25),\n\t\tName:        nullable.NewValue(\"My Text To Video video\"),\n\t\tResolution:  nullable.NewValue(types.V1TextToVideoCreateBodyResolutionEnum480p),\n\t\tStyle: types.V1TextToVideoCreateBodyStyle{\n\t\t\tPrompt: \"a dog running\",\n\t\t},\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .text_to_video()\n    .create(magic_hour::resources::v1::text_to_video::CreateRequest {\n        aspect_ratio: Some(\n            magic_hour::models::V1TextToVideoCreateBodyAspectRatioEnum::Enum169,\n        ),\n        audio: Some(true),\n        end_seconds: 5.0,\n        model: Some(magic_hour::models::V1TextToVideoCreateBodyModelEnum::Kling30),\n        name: Some(\"My Text To Video video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1TextToVideoCreateBodyResolutionEnum::Enum720p,\n        ),\n        style: magic_hour::models::V1TextToVideoCreateBodyStyle {\n            prompt: \"a dog running\".to_string(),\n            ..Default::default()\n        },\n        ..Default::default()\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .text_to_video()\n    .create(magic_hour::resources::v1::text_to_video::CreateRequest {\n        aspect_ratio: Some(\n            magic_hour::models::V1TextToVideoCreateBodyAspectRatioEnum::Enum169,\n        ),\n        audio: Some(true),\n        end_seconds: 5.0,\n        model: Some(magic_hour::models::V1TextToVideoCreateBodyModelEnum::Ltx25),\n        name: Some(\"My Text To Video video\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1TextToVideoCreateBodyResolutionEnum::Enum480p,\n        ),\n        style: magic_hour::models::V1TextToVideoCreateBodyStyle {\n            prompt: \"a dog running\".to_string(),\n            ..Default::default()\n        },\n        ..Default::default()\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -4993,7 +5245,7 @@
     },
     "/v1/video-to-video": {
       "post": {
-        "description": "**What this API does**\n\nCreate the same Video To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: free users are limited to 576px; higher plans unlock HD and larger sizes  \n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are only charged for the frames that actually render. You'll see an estimate when the job is queued, and the final total after it's done.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-to-video).",
+        "description": "**What this API does**\n\nCreate the same Video To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-to-video).",
         "summary": "Video-to-Video",
         "tags": ["Video Projects"],
         "parameters": [],
@@ -5345,11 +5597,11 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tvideo_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/video_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.VideoToVideo.Create(video_to_video.CreateRequest{\n\t\tAssets: types.V1VideoToVideoCreateBodyAssets{\n\t\t\tVideoFilePath: nullable.NewValue(\"api-assets/id/1234.mp4\"),\n\t\t\tVideoSource:   types.V1VideoToVideoCreateBodyAssetsVideoSourceEnumFile,\n\t\t},\n\t\tEndSeconds:    15.0,\n\t\tFpsResolution: nullable.NewValue(types.V1VideoToVideoCreateBodyFpsResolutionEnumHalf),\n\t\tName:          nullable.NewValue(\"My Video To Video video\"),\n\t\tStartSeconds:  0.0,\n\t\tStyle: types.V1VideoToVideoCreateBodyStyle{\n\t\t\tArtStyle:   types.V1VideoToVideoCreateBodyStyleArtStyleEnum3dRender,\n\t\t\tModel:      nullable.NewValue(types.V1VideoToVideoCreateBodyStyleModelEnumDefault),\n\t\t\tPromptType: nullable.NewValue(types.V1VideoToVideoCreateBodyStylePromptTypeEnumDefault),\n\t\t\tVersion:    nullable.NewValue(types.V1VideoToVideoCreateBodyStyleVersionEnumDefault),\n\t\t},\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tvideo_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/video_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.VideoToVideo.Create(video_to_video.CreateRequest{\n\t\tAssets: types.V1VideoToVideoCreateBodyAssets{\n\t\t\tVideoFilePath: nullable.NewValue(\"api-assets/id/1234.mp4\"),\n\t\t\tVideoSource:   types.V1VideoToVideoCreateBodyAssetsVideoSourceEnumFile,\n\t\t},\n\t\tEndSeconds:    5.0,\n\t\tFpsResolution: nullable.NewValue(types.V1VideoToVideoCreateBodyFpsResolutionEnumHalf),\n\t\tName:          nullable.NewValue(\"My Video To Video video\"),\n\t\tStartSeconds:  0.0,\n\t\tStyle: types.V1VideoToVideoCreateBodyStyle{\n\t\t\tArtStyle:   types.V1VideoToVideoCreateBodyStyleArtStyleEnumMinecraft,\n\t\t\tModel:      nullable.NewValue(types.V1VideoToVideoCreateBodyStyleModelEnumDefault),\n\t\t\tPrompt:     nullable.NewValue(\"A cinematic scene with warm lighting\"),\n\t\t\tPromptType: nullable.NewValue(types.V1VideoToVideoCreateBodyStylePromptTypeEnumDefault),\n\t\t\tVersion:    nullable.NewValue(types.V1VideoToVideoCreateBodyStyleVersionEnumDefault),\n\t\t},\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .video_to_video()\n    .create(magic_hour::resources::v1::video_to_video::CreateRequest {\n        assets: magic_hour::models::V1VideoToVideoCreateBodyAssets {\n            video_file_path: Some(\"api-assets/id/1234.mp4\".to_string()),\n            video_source: magic_hour::models::V1VideoToVideoCreateBodyAssetsVideoSourceEnum::File,\n            ..Default::default()\n        },\n        end_seconds: 15.0,\n        fps_resolution: Some(\n            magic_hour::models::V1VideoToVideoCreateBodyFpsResolutionEnum::Half,\n        ),\n        name: Some(\"My Video To Video video\".to_string()),\n        start_seconds: 0.0,\n        style: magic_hour::models::V1VideoToVideoCreateBodyStyle {\n            art_style: magic_hour::models::V1VideoToVideoCreateBodyStyleArtStyleEnum::Enum3dRender,\n            model: Some(\n                magic_hour::models::V1VideoToVideoCreateBodyStyleModelEnum::Default,\n            ),\n            prompt_type: Some(\n                magic_hour::models::V1VideoToVideoCreateBodyStylePromptTypeEnum::Default,\n            ),\n            version: Some(\n                magic_hour::models::V1VideoToVideoCreateBodyStyleVersionEnum::Default,\n            ),\n            ..Default::default()\n        },\n        ..Default::default()\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .video_to_video()\n    .create(magic_hour::resources::v1::video_to_video::CreateRequest {\n        assets: magic_hour::models::V1VideoToVideoCreateBodyAssets {\n            video_file_path: Some(\"api-assets/id/1234.mp4\".to_string()),\n            video_source: magic_hour::models::V1VideoToVideoCreateBodyAssetsVideoSourceEnum::File,\n            ..Default::default()\n        },\n        end_seconds: 5.0,\n        fps_resolution: Some(\n            magic_hour::models::V1VideoToVideoCreateBodyFpsResolutionEnum::Half,\n        ),\n        name: Some(\"My Video To Video video\".to_string()),\n        start_seconds: 0.0,\n        style: magic_hour::models::V1VideoToVideoCreateBodyStyle {\n            art_style: magic_hour::models::V1VideoToVideoCreateBodyStyleArtStyleEnum::Minecraft,\n            model: Some(\n                magic_hour::models::V1VideoToVideoCreateBodyStyleModelEnum::Default,\n            ),\n            prompt: magic_hour::Patch::new(\n                \"A cinematic scene with warm lighting\".to_string(),\n            ),\n            prompt_type: Some(\n                magic_hour::models::V1VideoToVideoCreateBodyStylePromptTypeEnum::Default,\n            ),\n            version: Some(\n                magic_hour::models::V1VideoToVideoCreateBodyStyleVersionEnum::Default,\n            ),\n        },\n        ..Default::default()\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -6605,19 +6857,19 @@
                     "enum": [
                       "default",
                       "qwen-image-2.1",
-                      "qwen-edit",
-                      "flux-2-klein",
-                      "nano-banana-2-lite",
-                      "nano-banana-2",
-                      "nano-banana-2.1",
-                      "krea-2",
-                      "gpt-image-2.5-flare",
                       "gpt-image-2",
+                      "nano-banana-2",
+                      "flux-2-klein",
+                      "nano-banana-pro",
                       "seedream-v5-pro",
                       "seedream-v4.5",
+                      "nano-banana-2.1",
+                      "qwen-edit",
+                      "nano-banana-2-lite",
+                      "krea-2",
+                      "gpt-image-2.5-flare",
                       "seedream-v4",
-                      "nano-banana",
-                      "nano-banana-pro"
+                      "nano-banana"
                     ],
                     "description": "The AI model to use for image editing. Each model has different capabilities and costs.\n\n**Models:**\n- `default` - Use the model we recommend, which will change over time. This is recommended unless you need a specific model. This is the default behavior.\n- `flux-2-klein` - from 5 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Max additional input images: 5\n- `gpt-image-2` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `gpt-image-2.5-flare` - from 100 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `krea-2` - from 10 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: free, creator, pro, business\n  - Max additional input images: 1\n- `nano-banana` - from 50 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `nano-banana-2` - from 100 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `nano-banana-2-lite` - from 50 credits/image\n  - Supported resolutions: 640px, 1k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `nano-banana-2.1` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `nano-banana-pro` - from 150 credits/image\n  - Supported resolutions: 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `qwen-edit` - from 10 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Max additional input images: 2\n- `qwen-image-2.1` - from 10 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: free, creator, pro, business\n  - Max additional input images: 2\n- `seedream-v4` - from 40 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `seedream-v4.5` - from 50 credits/image\n  - Supported resolutions: 640px, 1k, 2k, 4k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n- `seedream-v5-pro` - from 75 credits/image\n  - Supported resolutions: 640px, 1k, 2k\n  - Available for tiers: creator, pro, business\n  - Max additional input images: 9\n",
                     "example": "flux-2-klein"
@@ -6822,11 +7074,11 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_image_editor \"github.com/magichourhq/magic-hour-go/resources/v1/ai_image_editor\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiImageEditor.Create(ai_image_editor.CreateRequest{\n\t\tAspectRatio: nullable.NewValue(types.V1AiImageEditorCreateBodyAspectRatioEnum11),\n\t\tAssets: types.V1AiImageEditorCreateBodyAssets{\n\t\t\tImageFilePaths: nullable.NewValue([]string{\n\t\t\t\t\"api-assets/id/1234.png\",\n\t\t\t\t\"api-assets/id/1235.png\",\n\t\t\t}),\n\t\t},\n\t\tImageCount: nullable.NewValue(1.0),\n\t\tModel:      nullable.NewValue(types.V1AiImageEditorCreateBodyModelEnumDefault),\n\t\tName:       nullable.NewValue(\"My Ai Image Editor image\"),\n\t\tResolution: nullable.NewValue(types.V1AiImageEditorCreateBodyResolutionEnum1k),\n\t\tStyle: types.V1AiImageEditorCreateBodyStyle{\n\t\t\tPrompt: \"Give me sunglasses\",\n\t\t},\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_image_editor \"github.com/magichourhq/magic-hour-go/resources/v1/ai_image_editor\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiImageEditor.Create(ai_image_editor.CreateRequest{\n\t\tAspectRatio: nullable.NewValue(types.V1AiImageEditorCreateBodyAspectRatioEnum11),\n\t\tAssets: types.V1AiImageEditorCreateBodyAssets{\n\t\t\tImageFilePaths: nullable.NewValue([]string{\n\t\t\t\t\"api-assets/id/1234.png\",\n\t\t\t\t\"api-assets/id/1235.png\",\n\t\t\t}),\n\t\t},\n\t\tImageCount: nullable.NewValue(1.0),\n\t\tModel:      nullable.NewValue(types.V1AiImageEditorCreateBodyModelEnumFlux2Klein),\n\t\tName:       nullable.NewValue(\"My Ai Image Editor image\"),\n\t\tResolution: nullable.NewValue(types.V1AiImageEditorCreateBodyResolutionEnum640px),\n\t\tStyle: types.V1AiImageEditorCreateBodyStyle{\n\t\t\tPrompt: \"Give me sunglasses\",\n\t\t},\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_image_editor()\n    .create(magic_hour::resources::v1::ai_image_editor::CreateRequest {\n        aspect_ratio: Some(\n            magic_hour::models::V1AiImageEditorCreateBodyAspectRatioEnum::Enum11,\n        ),\n        assets: magic_hour::models::V1AiImageEditorCreateBodyAssets {\n            image_file_paths: Some(\n                vec![\n                    \"api-assets/id/1234.png\".to_string(), \"api-assets/id/1235.png\"\n                    .to_string()\n                ],\n            ),\n            ..Default::default()\n        },\n        image_count: Some(1.0),\n        model: Some(magic_hour::models::V1AiImageEditorCreateBodyModelEnum::Default),\n        name: Some(\"My Ai Image Editor image\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1AiImageEditorCreateBodyResolutionEnum::Enum1k,\n        ),\n        style: magic_hour::models::V1AiImageEditorCreateBodyStyle {\n            prompt: \"Give me sunglasses\".to_string(),\n            ..Default::default()\n        },\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_image_editor()\n    .create(magic_hour::resources::v1::ai_image_editor::CreateRequest {\n        aspect_ratio: Some(\n            magic_hour::models::V1AiImageEditorCreateBodyAspectRatioEnum::Enum11,\n        ),\n        assets: magic_hour::models::V1AiImageEditorCreateBodyAssets {\n            image_file_paths: Some(\n                vec![\n                    \"api-assets/id/1234.png\".to_string(), \"api-assets/id/1235.png\"\n                    .to_string()\n                ],\n            ),\n            ..Default::default()\n        },\n        image_count: Some(1.0),\n        model: Some(\n            magic_hour::models::V1AiImageEditorCreateBodyModelEnum::Flux2Klein,\n        ),\n        name: Some(\"My Ai Image Editor image\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1AiImageEditorCreateBodyResolutionEnum::Enum640px,\n        ),\n        style: magic_hour::models::V1AiImageEditorCreateBodyStyle {\n            prompt: \"Give me sunglasses\".to_string(),\n            ..Default::default()\n        },\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -7103,18 +7355,18 @@
                     "enum": [
                       "default",
                       "z-image-turbo",
+                      "gpt-image-2",
                       "qwen-image-2.1",
                       "flux-2-klein",
-                      "nano-banana-2-lite",
                       "nano-banana-2",
                       "nano-banana-2.1",
+                      "nano-banana-pro",
                       "krea-2",
-                      "gpt-image-2.5-flare",
-                      "gpt-image-2",
                       "seedream-v5-pro",
+                      "nano-banana-2-lite",
+                      "gpt-image-2.5-flare",
                       "seedream-v4",
                       "nano-banana",
-                      "nano-banana-pro",
                       "flux-schnell",
                       "seedream"
                     ],
@@ -7352,11 +7604,11 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_image_generator \"github.com/magichourhq/magic-hour-go/resources/v1/ai_image_generator\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{\n\t\tAspectRatio: nullable.NewValue(types.V1AiImageGeneratorCreateBodyAspectRatioEnum11),\n\t\tImageCount:  1,\n\t\tModel:       nullable.NewValue(types.V1AiImageGeneratorCreateBodyModelEnumDefault),\n\t\tName:        nullable.NewValue(\"My Ai Image image\"),\n\t\tResolution:  nullable.NewValue(types.V1AiImageGeneratorCreateBodyResolutionEnum1k),\n\t\tStyle: types.V1AiImageGeneratorCreateBodyStyle{\n\t\t\tPrompt: \"Cool image\",\n\t\t\tTool:   nullable.NewValue(types.V1AiImageGeneratorCreateBodyStyleToolEnumAiAnimeGenerator),\n\t\t},\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_image_generator \"github.com/magichourhq/magic-hour-go/resources/v1/ai_image_generator\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{\n\t\tAspectRatio: nullable.NewValue(types.V1AiImageGeneratorCreateBodyAspectRatioEnum11),\n\t\tImageCount:  1,\n\t\tModel:       nullable.NewValue(types.V1AiImageGeneratorCreateBodyModelEnumZImageTurbo),\n\t\tName:        nullable.NewValue(\"My Ai Image image\"),\n\t\tResolution:  nullable.NewValue(types.V1AiImageGeneratorCreateBodyResolutionEnum640px),\n\t\tStyle: types.V1AiImageGeneratorCreateBodyStyle{\n\t\t\tPrompt: \"Cool image\",\n\t\t\tTool:   nullable.NewValue(types.V1AiImageGeneratorCreateBodyStyleToolEnumAiAnimeGenerator),\n\t\t},\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_image_generator()\n    .create(magic_hour::resources::v1::ai_image_generator::CreateRequest {\n        aspect_ratio: Some(\n            magic_hour::models::V1AiImageGeneratorCreateBodyAspectRatioEnum::Enum11,\n        ),\n        image_count: 1,\n        model: Some(\n            magic_hour::models::V1AiImageGeneratorCreateBodyModelEnum::Default,\n        ),\n        name: Some(\"My Ai Image image\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1AiImageGeneratorCreateBodyResolutionEnum::Enum1k,\n        ),\n        style: magic_hour::models::V1AiImageGeneratorCreateBodyStyle {\n            prompt: \"Cool image\".to_string(),\n            tool: Some(\n                magic_hour::models::V1AiImageGeneratorCreateBodyStyleToolEnum::AiAnimeGenerator,\n            ),\n            ..Default::default()\n        },\n        ..Default::default()\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_image_generator()\n    .create(magic_hour::resources::v1::ai_image_generator::CreateRequest {\n        aspect_ratio: Some(\n            magic_hour::models::V1AiImageGeneratorCreateBodyAspectRatioEnum::Enum11,\n        ),\n        image_count: 1,\n        model: Some(\n            magic_hour::models::V1AiImageGeneratorCreateBodyModelEnum::ZImageTurbo,\n        ),\n        name: Some(\"My Ai Image image\".to_string()),\n        resolution: Some(\n            magic_hour::models::V1AiImageGeneratorCreateBodyResolutionEnum::Enum640px,\n        ),\n        style: magic_hour::models::V1AiImageGeneratorCreateBodyStyle {\n            prompt: \"Cool image\".to_string(),\n            tool: Some(\n                magic_hour::models::V1AiImageGeneratorCreateBodyStyleToolEnum::AiAnimeGenerator,\n            ),\n            ..Default::default()\n        },\n        ..Default::default()\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -7593,11 +7845,11 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_image_upscaler \"github.com/magichourhq/magic-hour-go/resources/v1/ai_image_upscaler\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiImageUpscaler.Create(ai_image_upscaler.CreateRequest{\n\t\tAssets: types.V1AiImageUpscalerCreateBodyAssets{\n\t\t\tImageFilePath: \"api-assets/id/1234.png\",\n\t\t},\n\t\tName:        nullable.NewValue(\"My Image Upscaler image\"),\n\t\tScaleFactor: 2.0,\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_image_upscaler \"github.com/magichourhq/magic-hour-go/resources/v1/ai_image_upscaler\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiImageUpscaler.Create(ai_image_upscaler.CreateRequest{\n\t\tAssets: types.V1AiImageUpscalerCreateBodyAssets{\n\t\t\tImageFilePath: \"api-assets/id/1234.png\",\n\t\t},\n\t\tName:        nullable.NewValue(\"My Image Upscaler image\"),\n\t\tScaleFactor: 2.0,\n\t\tStyle: nullable.NewValue(types.V1AiImageUpscalerCreateBodyStyle{\n\t\t\tMode: nullable.NewValue(types.V1AiImageUpscalerCreateBodyStyleModeEnumPreserve),\n\t\t}),\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_image_upscaler()\n    .create(magic_hour::resources::v1::ai_image_upscaler::CreateRequest {\n        assets: magic_hour::models::V1AiImageUpscalerCreateBodyAssets {\n            image_file_path: \"api-assets/id/1234.png\".to_string(),\n        },\n        name: Some(\"My Image Upscaler image\".to_string()),\n        scale_factor: 2.0,\n        ..Default::default()\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_image_upscaler()\n    .create(magic_hour::resources::v1::ai_image_upscaler::CreateRequest {\n        assets: magic_hour::models::V1AiImageUpscalerCreateBodyAssets {\n            image_file_path: \"api-assets/id/1234.png\".to_string(),\n        },\n        name: Some(\"My Image Upscaler image\".to_string()),\n        scale_factor: 2.0,\n        style: Some(magic_hour::models::V1AiImageUpscalerCreateBodyStyle {\n            mode: Some(\n                magic_hour::models::V1AiImageUpscalerCreateBodyStyleModeEnum::Preserve,\n            ),\n            ..Default::default()\n        }),\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -8372,11 +8624,11 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tbody_swap \"github.com/magichourhq/magic-hour-go/resources/v1/body_swap\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.BodySwap.Create(body_swap.CreateRequest{\n\t\tAssets: types.V1BodySwapCreateBodyAssets{\n\t\t\tPersonFilePath: \"api-assets/id/1234.png\",\n\t\t\tSceneFilePath:  \"api-assets/id/5678.png\",\n\t\t},\n\t\tName:       nullable.NewValue(\"My Body Swap image\"),\n\t\tResolution: types.V1BodySwapCreateBodyResolutionEnum1k,\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tbody_swap \"github.com/magichourhq/magic-hour-go/resources/v1/body_swap\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.BodySwap.Create(body_swap.CreateRequest{\n\t\tAssets: types.V1BodySwapCreateBodyAssets{\n\t\t\tPersonFilePath: \"api-assets/id/1234.png\",\n\t\t\tSceneFilePath:  \"api-assets/id/5678.png\",\n\t\t},\n\t\tName:       nullable.NewValue(\"My Body Swap image\"),\n\t\tResolution: types.V1BodySwapCreateBodyResolutionEnum640px,\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .body_swap()\n    .create(magic_hour::resources::v1::body_swap::CreateRequest {\n        assets: magic_hour::models::V1BodySwapCreateBodyAssets {\n            person_file_path: \"api-assets/id/1234.png\".to_string(),\n            scene_file_path: \"api-assets/id/5678.png\".to_string(),\n        },\n        name: Some(\"My Body Swap image\".to_string()),\n        resolution: magic_hour::models::V1BodySwapCreateBodyResolutionEnum::Enum1k,\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .body_swap()\n    .create(magic_hour::resources::v1::body_swap::CreateRequest {\n        assets: magic_hour::models::V1BodySwapCreateBodyAssets {\n            person_file_path: \"api-assets/id/1234.png\".to_string(),\n            scene_file_path: \"api-assets/id/5678.png\".to_string(),\n        },\n        name: Some(\"My Body Swap image\".to_string()),\n        resolution: magic_hour::models::V1BodySwapCreateBodyResolutionEnum::Enum640px,\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -8634,11 +8886,11 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tface_swap_photo \"github.com/magichourhq/magic-hour-go/resources/v1/face_swap_photo\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.FaceSwapPhoto.Create(face_swap_photo.CreateRequest{\n\t\tAssets: types.V1FaceSwapPhotoCreateBodyAssets{\n\t\t\tFaceMappings: nullable.NewValue([]types.V1FaceSwapPhotoCreateBodyAssetsFaceMappingsItem{\n\t\t\t\ttypes.V1FaceSwapPhotoCreateBodyAssetsFaceMappingsItem{\n\t\t\t\t\tNewFace:      \"api-assets/id/1234.png\",\n\t\t\t\t\tOriginalFace: \"api-assets/id/0-0.png\",\n\t\t\t\t},\n\t\t\t}),\n\t\t\tFaceSwapMode:   nullable.NewValue(types.V1FaceSwapPhotoCreateBodyAssetsFaceSwapModeEnumAllFaces),\n\t\t\tSourceFilePath: nullable.NewValue(\"api-assets/id/1234.png\"),\n\t\t\tTargetFilePath: \"api-assets/id/1234.png\",\n\t\t},\n\t\tName: nullable.NewValue(\"My Face Swap image\"),\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tface_swap_photo \"github.com/magichourhq/magic-hour-go/resources/v1/face_swap_photo\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.FaceSwapPhoto.Create(face_swap_photo.CreateRequest{\n\t\tAssets: types.V1FaceSwapPhotoCreateBodyAssets{\n\t\t\tFaceSwapMode:   nullable.NewValue(types.V1FaceSwapPhotoCreateBodyAssetsFaceSwapModeEnumAllFaces),\n\t\t\tSourceFilePath: nullable.NewValue(\"api-assets/id/1234.png\"),\n\t\t\tTargetFilePath: \"api-assets/id/1234.png\",\n\t\t},\n\t\tName: nullable.NewValue(\"My Face Swap image\"),\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .face_swap_photo()\n    .create(magic_hour::resources::v1::face_swap_photo::CreateRequest {\n        assets: magic_hour::models::V1FaceSwapPhotoCreateBodyAssets {\n            face_mappings: Some(\n                vec![\n                    magic_hour::models::V1FaceSwapPhotoCreateBodyAssetsFaceMappingsItem\n                    { new_face : \"api-assets/id/1234.png\".to_string(), original_face\n                    : \"api-assets/id/0-0.png\".to_string() }\n                ],\n            ),\n            face_swap_mode: Some(\n                magic_hour::models::V1FaceSwapPhotoCreateBodyAssetsFaceSwapModeEnum::AllFaces,\n            ),\n            source_file_path: Some(\"api-assets/id/1234.png\".to_string()),\n            target_file_path: \"api-assets/id/1234.png\".to_string(),\n        },\n        name: Some(\"My Face Swap image\".to_string()),\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .face_swap_photo()\n    .create(magic_hour::resources::v1::face_swap_photo::CreateRequest {\n        assets: magic_hour::models::V1FaceSwapPhotoCreateBodyAssets {\n            face_swap_mode: Some(\n                magic_hour::models::V1FaceSwapPhotoCreateBodyAssetsFaceSwapModeEnum::AllFaces,\n            ),\n            source_file_path: Some(\"api-assets/id/1234.png\".to_string()),\n            target_file_path: \"api-assets/id/1234.png\".to_string(),\n            ..Default::default()\n        },\n        name: Some(\"My Face Swap image\".to_string()),\n    })\n    .await;"
           },
           {
             "lang": "curl",
@@ -9709,6 +9961,442 @@
           {
             "lang": "java",
             "source": "HttpResponse<String> response = Unirest.delete(\"https://api.magichour.ai/v1/audio-projects/id\")\n  .header(\"accept\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .asString();"
+          }
+        ]
+      }
+    },
+    "/v1/ai-music-generator": {
+      "post": {
+        "description": "Generate music from a description, with optional custom lyrics or instrumental-only output. Costs 1 credits per requested second. Returns a project ID; poll GET /v1/audio-projects/{id} for status and downloads.",
+        "summary": "AI Music Generator",
+        "tags": ["Audio Projects"],
+        "parameters": [],
+        "operationId": "aiMusicGenerator.createAudio",
+        "requestBody": {
+          "required": true,
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Give your audio a custom name for easy identification.",
+                    "example": "My Music Generator audio",
+                    "default": "AI Music Generator"
+                  },
+                  "duration": {
+                    "type": "integer",
+                    "minimum": 15,
+                    "maximum": 300,
+                    "description": "Requested track duration in seconds, from 15 to 300. Determines credits charged.",
+                    "example": 120
+                  },
+                  "style": {
+                    "type": "object",
+                    "properties": {
+                      "prompt": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Describe the song, including genre, mood, and instruments.",
+                        "example": "Dreamy synthwave with warm bass and soft vocals"
+                      },
+                      "instrumental": {
+                        "default": false,
+                        "type": "boolean",
+                        "description": "Generate music without vocals. When true, lyrics is ignored.",
+                        "example": false
+                      },
+                      "lyrics": {
+                        "type": "string",
+                        "description": "Custom lyrics. Omit or leave blank for AI-generated lyrics when instrumental is false.",
+                        "example": "City lights are fading..."
+                      }
+                    },
+                    "required": ["prompt"],
+                    "additionalProperties": false
+                  }
+                },
+                "required": ["duration", "style"],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "cuid-example",
+                      "description": "Unique ID of the audio. Use it with the [Get audio Project API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
+                    },
+                    "credits_charged": {
+                      "type": "integer",
+                      "description": "The amount of credits deducted from your account to generate the audio. We charge credits right when the request is made. \n\nIf an error occurred while generating the audio, credits will be refunded and this field will be updated to include the refund.",
+                      "example": 120
+                    }
+                  },
+                  "required": ["id", "credits_charged"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["invalid_request"],
+                      "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["unauthorized"],
+                      "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "insufficient_credits",
+                        "subscription_required",
+                        "plan_upgrade_required"
+                      ],
+                      "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["not_found"],
+                      "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["unprocessable_entity"],
+                      "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["internal_server_error"],
+                      "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/v1/ai-voice-cloner": {
+      "post": {
+        "description": "Clone a voice from an audio sample and generate speech. \n* Each character costs 0.1 credits. \n* The cost is rounded up to the nearest whole number",
+        "summary": "AI Voice Cloner",
+        "tags": ["Audio Projects"],
+        "parameters": [],
+        "operationId": "aiVoiceCloner.createAudio",
+        "requestBody": {
+          "required": true,
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Give your audio a custom name for easy identification.",
+                    "example": "My Voice Cloner audio",
+                    "default": "Voice Cloner - dateTime"
+                  },
+                  "assets": {
+                    "type": "object",
+                    "properties": {
+                      "audio_file_path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The audio used to clone the voice. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "example": "api-assets/id/1234.mp3"
+                      }
+                    },
+                    "required": ["audio_file_path"],
+                    "description": "Provide the assets for voice cloning."
+                  },
+                  "style": {
+                    "type": "object",
+                    "properties": {
+                      "prompt": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "description": "Text used to generate speech from the cloned voice. The character limit is 1000 characters.",
+                        "example": "Hello, this is my cloned voice."
+                      }
+                    },
+                    "required": ["prompt"]
+                  }
+                },
+                "required": ["assets", "style"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "cuid-example",
+                      "description": "Unique ID of the audio. Use it with the [Get audio Project API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
+                    },
+                    "credits_charged": {
+                      "type": "integer",
+                      "description": "The amount of credits deducted from your account to generate the audio. We charge credits right when the request is made. \n\nIf an error occurred while generating the audio, credits will be refunded and this field will be updated to include the refund.",
+                      "example": 1
+                    }
+                  },
+                  "required": ["id", "credits_charged"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["invalid_request"],
+                      "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["unauthorized"],
+                      "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "insufficient_credits",
+                        "subscription_required",
+                        "plan_upgrade_required"
+                      ],
+                      "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["not_found"],
+                      "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["unprocessable_entity"],
+                      "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["internal_server_error"],
+                      "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
+                    },
+                    "message": { "type": "string", "description": "Human-readable error message." }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_voice_cloner.create(\n    assets={\"audio_file_path\": \"api-assets/id/1234.mp3\"},\n    style={\"prompt\": \"Hello, this is my cloned voice.\"},\n    name=\"My Voice Cloner audio\",\n)"
+          },
+          {
+            "lang": "javascript",
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"] });\nconst res = await client.v1.aiVoiceCloner.generate(\n  {\n    assets: { audioFilePath: \"/path/to/audio.mp3\" },\n    name: \"Voice Cloner audio\",\n    style: { prompt: \"Hello, this is my cloned voice.\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
+          },
+          {
+            "lang": "go",
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_voice_cloner \"github.com/magichourhq/magic-hour-go/resources/v1/ai_voice_cloner\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiVoiceCloner.Create(ai_voice_cloner.CreateRequest{\n\t\tAssets: types.V1AiVoiceClonerCreateBodyAssets{\n\t\t\tAudioFilePath: \"api-assets/id/1234.mp3\",\n\t\t},\n\t\tName: nullable.NewValue(\"My Voice Cloner audio\"),\n\t\tStyle: types.V1AiVoiceClonerCreateBodyStyle{\n\t\t\tPrompt: \"Hello, this is my cloned voice.\",\n\t\t},\n\t})\n}"
+          },
+          {
+            "lang": "rust",
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_voice_cloner()\n    .create(magic_hour::resources::v1::ai_voice_cloner::CreateRequest {\n        assets: magic_hour::models::V1AiVoiceClonerCreateBodyAssets {\n            audio_file_path: \"api-assets/id/1234.mp3\".to_string(),\n        },\n        name: Some(\"My Voice Cloner audio\".to_string()),\n        style: magic_hour::models::V1AiVoiceClonerCreateBodyStyle {\n            prompt: \"Hello, this is my cloned voice.\".to_string(),\n        },\n    })\n    .await;"
+          },
+          {
+            "lang": "curl",
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-voice-cloner \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Voice Cloner audio\",\n  \"assets\": {\n    \"audio_file_path\": \"api-assets/id/1234.mp3\"\n  },\n  \"style\": {\n    \"prompt\": \"Hello, this is my cloned voice.\"\n  }\n}\n'"
+          },
+          {
+            "lang": "php",
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-voice-cloner\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Voice Cloner audio',\n    'assets' => [\n        'audio_file_path' => 'api-assets/id/1234.mp3'\n    ],\n    'style' => [\n        'prompt' => 'Hello, this is my cloned voice.'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+          },
+          {
+            "lang": "java",
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-voice-cloner\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Voice Cloner audio\\\",\\\"assets\\\":{\\\"audio_file_path\\\":\\\"api-assets/id/1234.mp3\\\"},\\\"style\\\":{\\\"prompt\\\":\\\"Hello, this is my cloned voice.\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -11200,236 +11888,6 @@
           {
             "lang": "java",
             "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-voice-generator\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Voice Generator audio\\\",\\\"style\\\":{\\\"prompt\\\":\\\"Hello, how are you?\\\",\\\"voice_name\\\":\\\"Elon Musk\\\"}}\")\n  .asString();"
-          }
-        ]
-      }
-    },
-    "/v1/ai-voice-cloner": {
-      "post": {
-        "description": "Clone a voice from an audio sample and generate speech. \n* Each character costs 0.1 credits. \n* The cost is rounded up to the nearest whole number",
-        "summary": "AI Voice Cloner",
-        "tags": ["Audio Projects"],
-        "parameters": [],
-        "operationId": "aiVoiceCloner.createAudio",
-        "requestBody": {
-          "required": true,
-          "description": "Body",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "description": "Give your audio a custom name for easy identification.",
-                    "example": "My Voice Cloner audio",
-                    "default": "Voice Cloner - dateTime"
-                  },
-                  "assets": {
-                    "type": "object",
-                    "properties": {
-                      "audio_file_path": {
-                        "type": "string",
-                        "minLength": 1,
-                        "description": "The audio used to clone the voice. This value is either\n- a direct URL to the video file\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
-                        "example": "api-assets/id/1234.mp3"
-                      }
-                    },
-                    "required": ["audio_file_path"],
-                    "description": "Provide the assets for voice cloning."
-                  },
-                  "style": {
-                    "type": "object",
-                    "properties": {
-                      "prompt": {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 1000,
-                        "description": "Text used to generate speech from the cloned voice. The character limit is 1000 characters.",
-                        "example": "Hello, this is my cloned voice."
-                      }
-                    },
-                    "required": ["prompt"]
-                  }
-                },
-                "required": ["assets", "style"]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "cuid-example",
-                      "description": "Unique ID of the audio. Use it with the [Get audio Project API](https://docs.magichour.ai/api-reference/audio-projects/get-audio-details) to fetch status and downloads."
-                    },
-                    "credits_charged": {
-                      "type": "integer",
-                      "description": "The amount of credits deducted from your account to generate the audio. We charge credits right when the request is made. \n\nIf an error occurred while generating the audio, credits will be refunded and this field will be updated to include the refund.",
-                      "example": 1
-                    }
-                  },
-                  "required": ["id", "credits_charged"],
-                  "description": "Success"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["code", "message"],
-                  "properties": {
-                    "code": {
-                      "type": "string",
-                      "enum": ["invalid_request"],
-                      "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
-                    },
-                    "message": { "type": "string", "description": "Human-readable error message." }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["code", "message"],
-                  "properties": {
-                    "code": {
-                      "type": "string",
-                      "enum": ["unauthorized"],
-                      "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
-                    },
-                    "message": { "type": "string", "description": "Human-readable error message." }
-                  }
-                }
-              }
-            }
-          },
-          "402": {
-            "description": "Payment Required",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["code", "message"],
-                  "properties": {
-                    "code": {
-                      "type": "string",
-                      "enum": [
-                        "insufficient_credits",
-                        "subscription_required",
-                        "plan_upgrade_required"
-                      ],
-                      "description": "Machine-readable error code.\n\n- `insufficient_credits`: Purchase credits before retrying.\n\n- `subscription_required`: Start a subscription before retrying.\n\n- `plan_upgrade_required`: Upgrade the subscription plan before retrying."
-                    },
-                    "message": { "type": "string", "description": "Human-readable error message." }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["code", "message"],
-                  "properties": {
-                    "code": {
-                      "type": "string",
-                      "enum": ["not_found"],
-                      "description": "Machine-readable error code.\n\n- `not_found`: Check the route or resource identifier."
-                    },
-                    "message": { "type": "string", "description": "Human-readable error message." }
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["code", "message"],
-                  "properties": {
-                    "code": {
-                      "type": "string",
-                      "enum": ["unprocessable_entity"],
-                      "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
-                    },
-                    "message": { "type": "string", "description": "Human-readable error message." }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["code", "message"],
-                  "properties": {
-                    "code": {
-                      "type": "string",
-                      "enum": ["internal_server_error"],
-                      "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
-                    },
-                    "message": { "type": "string", "description": "Human-readable error message." }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": [{ "bearerAuth": [] }],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_voice_cloner.create(\n    assets={\"audio_file_path\": \"api-assets/id/1234.mp3\"},\n    style={\"prompt\": \"Hello, this is my cloned voice.\"},\n    name=\"My Voice Cloner audio\",\n)"
-          },
-          {
-            "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"] });\nconst res = await client.v1.aiVoiceCloner.generate(\n  {\n    assets: { audioFilePath: \"/path/to/audio.mp3\" },\n    name: \"Voice Cloner audio\",\n    style: { prompt: \"Hello, this is my cloned voice.\" },\n  },\n  {\n    waitForCompletion: true,\n    downloadOutputs: true,\n    downloadDirectory: \".\",\n  },\n);"
-          },
-          {
-            "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_voice_cloner \"github.com/magichourhq/magic-hour-go/resources/v1/ai_voice_cloner\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiVoiceCloner.Create(ai_voice_cloner.CreateRequest{\n\t\tAssets: types.V1AiVoiceClonerCreateBodyAssets{\n\t\t\tAudioFilePath: \"api-assets/id/1234.mp3\",\n\t\t},\n\t\tName: nullable.NewValue(\"My Voice Cloner audio\"),\n\t\tStyle: types.V1AiVoiceClonerCreateBodyStyle{\n\t\t\tPrompt: \"Hello, this is my cloned voice.\",\n\t\t},\n\t})\n}"
-          },
-          {
-            "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_voice_cloner()\n    .create(magic_hour::resources::v1::ai_voice_cloner::CreateRequest {\n        assets: magic_hour::models::V1AiVoiceClonerCreateBodyAssets {\n            audio_file_path: \"api-assets/id/1234.mp3\".to_string(),\n        },\n        name: Some(\"My Voice Cloner audio\".to_string()),\n        style: magic_hour::models::V1AiVoiceClonerCreateBodyStyle {\n            prompt: \"Hello, this is my cloned voice.\".to_string(),\n        },\n    })\n    .await;"
-          },
-          {
-            "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-voice-cloner \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Voice Cloner audio\",\n  \"assets\": {\n    \"audio_file_path\": \"api-assets/id/1234.mp3\"\n  },\n  \"style\": {\n    \"prompt\": \"Hello, this is my cloned voice.\"\n  }\n}\n'"
-          },
-          {
-            "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-voice-cloner\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Voice Cloner audio',\n    'assets' => [\n        'audio_file_path' => 'api-assets/id/1234.mp3'\n    ],\n    'style' => [\n        'prompt' => 'Hello, this is my cloned voice.'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
-          },
-          {
-            "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-voice-cloner\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Voice Cloner audio\\\",\\\"assets\\\":{\\\"audio_file_path\\\":\\\"api-assets/id/1234.mp3\\\"},\\\"style\\\":{\\\"prompt\\\":\\\"Hello, this is my cloned voice.\\\"}}\")\n  .asString();"
           }
         ]
       }
