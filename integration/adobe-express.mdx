@@ -1,0 +1,27 @@
+---
+title: Adobe Express add-on
+description: Animate an image or an explicitly exported page with Magic Hour and add the result to Adobe Express.
+---
+
+The stable development add-on accepts an uploaded image or an explicit current-page export, generates a short video, and adds the completed MP4 to Adobe Express after preview. Restricted exports are refused.
+
+<Warning>
+  Adobe's selected-element rendition API is experimental and cannot be distributed yet. A separate
+  development-only build captures one selected element. The stable build uses file upload or an
+  explicitly chosen current page, and does not silently substitute a page for a selected element.
+</Warning>
+
+<Card
+  title="Build and install"
+  icon="code"
+  href="https://github.com/magichourhq/docs/tree/main/examples/design-video/adobe-express"
+>
+  Build the stable add-on or the isolated experimental selection build, then load it through Adobe's
+  development tools.
+</Card>
+
+The API key stays in session memory. Prompts and the chosen image go to Magic Hour; generation uses API credits. **Add video to design** imports the MP4 Blob through Adobe's native video API. The source remains unchanged.
+
+The add-on saves accepted project IDs for recovery. **Stop waiting** stops the local wait; **Resume generation** retrieves the existing project without another paid submission.
+
+Live Magic Hour generation and browser preview passed. The native API contract was tested with simulated Adobe APIs. Actual Adobe Express installation and marketplace review remain required. See the [validation record](/integration/design-video-integrations-validation).

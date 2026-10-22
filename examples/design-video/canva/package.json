@@ -1,0 +1,20 @@
+{
+  "name": "magic-hour-canva",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "dependencies": {
+    "@canva/design": "2.13.1",
+    "@canva/asset": "2.3.1",
+    "@canva/platform": "2.2.3",
+    "@canva/intents": "2.7.1",
+    "@canva/app-ui-kit": "5.15.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "mobx": "^6.16.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0"
+  }
+}

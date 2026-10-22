@@ -1,0 +1,12 @@
+{
+  "name": "magic-hour-framer",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "dependencies": {
+    "@framer/plugin": "5.1.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "csstype": "^3.1.1"
+  }
+}

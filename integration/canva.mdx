@@ -1,0 +1,28 @@
+---
+title: Canva app
+description: Animate an image with Magic Hour and insert the completed video into a Canva design.
+---
+
+The development app uses Canva's Design Editor intent and App UI Kit. Choose one image or upload your own, describe its motion, generate a short video, then preview and add it to the design. Text-to-video is also available without an image.
+
+<Note>
+  This is a development integration. Register the app, configure its permissions, test it inside
+  Canva, and complete Canva's review before public distribution.
+</Note>
+
+<Card
+  title="Build and configure the app"
+  icon="code"
+  href="https://github.com/magichourhq/docs/tree/main/examples/design-video/canva"
+>
+  Build the Developer Portal JavaScript bundle and configure its Design Editor intent and read/write
+  scopes.
+</Card>
+
+Canva returns the full original selected image, including areas outside its visible crop or frame. Only that chosen image is sent to Magic Hour when you generate. Your API key stays in session memory, and generations use your Magic Hour API credits.
+
+**Add video to design** refreshes the output URL, uploads the video into Canva's native media library with an AI-generation disclosure, waits for ingestion, and adds it to the current design. It keeps the original image.
+
+Only the accepted project ID is saved locally for recovery. It belongs to the app origin and can be resumed into the currently open design. **Stop waiting** leaves the server job running; **Resume generation** does not submit another paid generation.
+
+Live Magic Hour generation, video decoding, and preview passed in the browser harness. Canva ingestion/insertion used simulated editor APIs; actual installation remains unverified. See the [validation record](/integration/design-video-integrations-validation).

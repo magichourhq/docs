@@ -1,0 +1,25 @@
+---
+title: Framer plugin
+description: Generate a short video with Magic Hour and add it as a native Framer video component.
+---
+
+Select an image or start from a creative brief, generate a short LTX 2.5 video, preview it, and add it to your Framer project. Image inputs keep their source aspect ratio. The inserted video plays muted and loops; seamless visual looping is not guaranteed.
+
+<Note>
+  This is a development integration. Actual Framer installation, publisher registration, and
+  marketplace review remain required.
+</Note>
+
+<Card
+  title="Build and install"
+  icon="code"
+  href="https://github.com/magichourhq/docs/tree/main/examples/design-video/framer"
+>
+  Build with the official Framer Vite tooling and follow the development-plugin setup instructions.
+</Card>
+
+The API key stays in session memory. Generating uploads only the chosen image and prompt to Magic Hour and consumes API credits. **Add video to design** copies the completed MP4 into Framer as a native file asset and adds a Video component. It keeps the source image.
+
+Accepted project IDs are saved before polling. **Stop waiting** leaves the server job running; **Resume generation** retrieves the saved ID without another paid generation. Insertion refreshes the download URL so a temporary media link is not the lasting result.
+
+Live Magic Hour generation and browser preview passed. Editor upload/insertion was tested with simulated Framer APIs; this does not establish installation in a real Framer project. See the [validation record](/integration/design-video-integrations-validation).
