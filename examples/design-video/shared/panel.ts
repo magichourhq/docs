@@ -1,6 +1,6 @@
 import { VideoPanel, type EditorHost, type VideoOptions } from "./video";
 import "./style.css";
-export function mountPanel(host: EditorHost) {
+export function mountPanel(host: EditorHost, requireGenerationConsent = false) {
   const root = document.getElementById("root")!;
   root.innerHTML = `<main class="panel"><header><span class="brand">MAGIC HOUR</span><h1>Bring your images to life</h1><p>Create a short video for your design.</p></header>
   <label>Magic Hour API key<input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="Enter your API key"></label>
@@ -11,6 +11,7 @@ export function mountPanel(host: EditorHost) {
   <div class="fields"><label>Duration<select id="duration"><option value="1">1 second</option><option value="3">3 seconds</option><option value="5" selected>5 seconds</option><option value="10">10 seconds</option></select></label><label>Resolution<select id="resolution"><option>480p</option><option>720p</option></select></label></div>
   <label id="ratio-label">Aspect ratio<select id="ratio"><option value="16:9">Landscape · 16:9</option><option value="1:1">Square · 1:1</option><option value="9:16">Portrait · 9:16</option></select></label>
   <p class="hint">LTX 2.5 · muted video. Image inputs keep their original aspect ratio. Loop playback does not guarantee a seamless visual loop.</p>
+  ${requireGenerationConsent ? `<label class="hint" style="display:block"><input id="consent" type="checkbox" required style="width:auto;margin-right:8px">I agree to send my prompt and chosen image, if any, to Magic Hour for AI video generation. Magic Hour credits apply.</label><p class="hint"><a href="https://magichour.ai/privacy-policy" target="_blank" rel="noreferrer">Magic Hour Privacy Policy</a></p>` : ""}
   <button id="generate">Generate video</button><button id="stop" class="secondary" hidden>Stop waiting</button>
   <p id="status" role="status" aria-live="polite"></p>
   <section id="result" hidden aria-label="Generated video"><video id="video" controls muted loop playsinline></video><button id="insert">Add video to design</button></section>
@@ -80,13 +81,15 @@ export function mountPanel(host: EditorHost) {
   el("remove").onclick = () => panel.removeImage();
   el("stop").onclick = () => panel.stop();
   el("reset").onclick = () => void panel.reset();
-  el("generate").onclick = () =>
+  el("generate").onclick = () => {
+    if (requireGenerationConsent && !el<HTMLInputElement>("consent").reportValidity()) return;
     void panel.generate(key.value, {
       prompt: prompt.value,
       duration: Number(el<HTMLSelectElement>("duration").value),
       resolution: el<HTMLSelectElement>("resolution").value as VideoOptions["resolution"],
       aspectRatio: el<HTMLSelectElement>("ratio").value as VideoOptions["aspectRatio"],
     });
+  };
   el("resume").onclick = () => void panel.resume(key.value, project.value.trim());
   el("insert").onclick = () => void panel.insert(key.value);
   addEventListener(
