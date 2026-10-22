@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Magic Hour GIF</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="panel">
+      <header>
+        <span class="brand">MAGIC HOUR GIF</span>
+        <h1>Create an AI GIF</h1>
+        <p>Describe an animation, preview it, then add it after the selected Webflow element.</p>
+      </header>
+      <form id="generate-form">
+        <label
+          >Magic Hour API key<input
+            id="key"
+            type="password"
+            required
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Enter your API key"
+        /></label>
+        <p class="hint">
+          Requires a Magic Hour account and API credits. Each GIF costs 50 credits. Your key stays
+          in this extension session.
+        </p>
+        <label
+          >Animation prompt<textarea
+            id="prompt"
+            required
+            maxlength="500"
+            rows="3"
+            placeholder="A cute dancing cat, pixel art"
+          ></textarea>
+        </label>
+        <label class="consent"
+          ><input id="consent" type="checkbox" required />I agree to send this prompt to Magic Hour
+          for AI GIF generation. Each GIF costs 50 Magic Hour API credits.</label
+        >
+        <p class="hint">
+          <a href="https://magichour.ai/privacy-policy" target="_blank" rel="noreferrer"
+            >Magic Hour Privacy Policy</a
+          >
+        </p>
+        <button id="generate" type="submit">Generate GIF · 50 credits</button>
+      </form>
+      <button id="stop" type="button" class="secondary" hidden>Stop waiting</button>
+      <p id="status" role="status" aria-live="polite">
+        Select an element inside the page before generating. The source element stays unchanged.
+      </p>
+      <section id="result" hidden aria-label="Generated GIF">
+        <img id="preview" alt="Preview of the generated AI animation" />
+        <p class="hint">
+          Add uploads this GIF to Webflow’s publicly accessible asset CDN and inserts a new Image
+          after your current selection. GIFs must be at most 4 MB.
+        </p>
+        <button id="add" type="button">Add GIF to Webflow</button>
+      </section>
+      <details id="recovery">
+        <summary>Resume an existing GIF</summary>
+        <label
+          >Magic Hour image project ID<input
+            id="project"
+            maxlength="128"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Paste the accepted project ID"
+        /></label>
+        <button id="resume" type="button" class="secondary">Resume · no new charge</button>
+        <p class="hint">
+          Copy the project ID before closing. Recovery is kept only while this extension is open.
+          Stop waiting leaves the server job running. Resume retrieves an existing GIF without
+          submitting another paid generation.
+        </p>
+      </details>
+      <button id="reset" type="button" class="quiet" hidden>New generation</button>
+      <footer>
+        <a
+          href="https://magichour.ai/developer?utm_source=webflow&amp;utm_medium=integration"
+          target="_blank"
+          rel="noreferrer"
+          >Get API key</a
+        ><a href="https://docs.magichour.ai/pricing" target="_blank" rel="noreferrer">API pricing</a
+        ><a href="mailto:support@magichour.ai">Support</a>
+      </footer>
+    </main>
+    <script src="./index.js"></script>
+  </body>
+</html>
