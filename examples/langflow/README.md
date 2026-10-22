@@ -41,4 +41,8 @@ The example uses the component's real Tool Mode discovery, submits one small ima
 .venv/bin/ruff check magic_hour.py example.py tests
 ```
 
-The automated compatibility tests instantiate the actual lfx component and check inputs, credential rotation, cache isolation, parent discovery delegation, and Tool Mode configuration. The hosted MCP server was also tested with an authenticated image generation and completion retrieval; see [validation](../../integration/creative-integrations-validation.md). A Langflow editor/Agent flow and upstream component-catalog acceptance remain separate checks.
+The automated compatibility tests instantiate the actual lfx component and check inputs, credential rotation, cache isolation, parent discovery delegation, and Tool Mode configuration. The hosted MCP server was also tested with an authenticated image generation and completion retrieval; see [validation](../../integration/creative-integrations-validation.md). The component was then verified in the full Langflow 1.12.7 editor: a global secret refreshed 46 tools, selecting image-project retrieval created its dynamic ID field, and Run component returned the completed project in the output inspector. A portable imported copy also passed the authenticated flow-run API. Upstream component-catalog acceptance remains pending.
+
+## Importable editor example
+
+Import `retrieve-image.flow.json` into Langflow, create a credential global variable named `MAGIC_HOUR_API_KEY`, select it in the component, and enter an existing image project ID. Run the component and inspect its Response output. This flow performs retrieval only, so importing or running it does not submit a generation. It embeds component source and has no dependency on the temporary custom-component directory used during validation.

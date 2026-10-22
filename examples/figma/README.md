@@ -42,3 +42,7 @@ The compiled canvas controller tests cover export, placement, explicit original-
 For opt-in live UI testing, set `MAGIC_HOUR_TEST_KEY_FILE` to an owner-readable API-key file and optionally `MAGIC_HOUR_TEST_IMAGE_FILE` to a source PNG, then run `npm run test:ui -- --live`. This spends credits. It saves screenshots with the key field cleared and receipts without credentials or signed URLs.
 
 See [validation](../../integration/creative-integrations-validation.md) for the live checks. The browser/canvas harnesses do not prove a development install in Figma Desktop or Community publication; those remain required before release.
+
+## Publisher-owned release bundle
+
+After Figma Desktop assigns the publishing account a plugin ID, set `FIGMA_PLUGIN_ID` and run `npm run build:release`. The `release` directory contains `manifest.json`, `code.js`, and `ui.html` with that ID and self-contained relative paths. The build refuses to invent an ID. Listing copy, support/privacy links, brand icon, and live UI previews are in `publishing/`. A release bundle is not a Community submission or approval.

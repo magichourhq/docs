@@ -5,7 +5,7 @@ Implementation for PX-576 (Vercel AI SDK), PX-593 (Langflow, despite the ticket'
 ## Controlled checks
 
 - AI SDK: 17 tests through real `generateImage`, `experimental_generateVideo`, and provider registry entrypoints. Covers image and video polling, binary upload, URL inputs, batching, HTTP 401/402/429/500, interrupted submissions, abort after acceptance, GET-only resume, unsupported options, failed downloads, and awaiting durable ID persistence before polling.
-- Langflow: 10 tests using the installed lfx runtime. Covers secret/string keys, validation, key rotation and hashed cache isolation, inherited discovery, Tool Mode, and clearing stale tools on key changes. Ruff passes. Upstream dependencies emit Pydantic deprecation warnings.
+- Langflow: 11 tests using the installed lfx runtime. Covers secret/string keys, validation, key rotation and hashed cache isolation, inherited discovery, Tool Mode, and clearing stale tools on key changes. Ruff passes. Upstream dependencies emit Pydantic deprecation warnings.
 - Figma: 7 tests against the compiled controller with a simulated Figma API, plus a browser test of the actual UI in an opaque-origin iframe. Covers generation/editing, preview/insertion messages, uploads, waiting/resume without another paid POST, API credit errors, original-layer identity, deleted layers, page changes, and invalid byte messages.
 - TypeScript checks and builds pass. The provider tarball and Figma development bundle are prepared locally. An installable CI template is provided in `examples/creative-integrations.workflow.yml`; it is not active because the available GitHub credential cannot write workflow files.
 
@@ -31,7 +31,7 @@ No API key or signed download URL is included in these receipts. The Figma scree
 
 - CI: copy the workflow template into `.github/workflows/creative-integrations.yml` using a credential with workflow write permission.
 - Vercel: authorized npm publishing identity/scope, npm release, and optional upstream community-provider directory submission.
-- Langflow: verify the component in a real editor/Agent flow and choose the upstream catalog distribution path. The supplied component and CLI example are usable from source.
+- Langflow: full editor loading, secret-variable selection, discovery of 46 tools, dynamic retrieval inputs, and completed-project output inspection passed in Langflow 1.12.7. A portable imported flow also ran through its authenticated API. Upstream review/publication remains separate.
 - Figma: obtain a publisher-owned development plugin ID, import and run the built manifest in Figma Desktop, validate canvas behavior there, and complete publisher/privacy/support requirements and Community review.
 
 Public marketplace approval and actual adoption are not established by code or local tests. These tickets should remain in review until the relevant release gates are handled.
@@ -42,3 +42,9 @@ Public marketplace approval and actual adoption are not established by code or l
 - [Langflow MCP component source](https://github.com/langflow-ai/langflow/blob/main/src/lfx/src/lfx/components/models_and_agents/mcp_component.py), plus installed `lfx==1.12.7` runtime.
 - [Figma plugin manifest](https://developers.figma.com/docs/plugins/manifest/), [network requests](https://developers.figma.com/docs/plugins/making-network-requests/), and [image API](https://developers.figma.com/docs/plugins/api/properties/figma-createimageasync/).
 - Magic Hour's current checked-in public OpenAPI schema at the implementation base, docs commit `bc909d4`.
+
+## Post-merge release validation
+
+The full Langflow editor test found that the API-key refresh handler cleared tools without opening the single-tool dropdown. The handler now routes through the canonical parent MCP-server refresh lifecycle. The fix and a regression test passed, then the editor discovered 46 tools and retrieved the previously completed image project. No new generation was submitted during this editor test. The portable example imports with an empty project ID and a global-secret reference; its copied validation instance returned HTTP 200 and the completed project through the authenticated flow-run API.
+
+Figma publishing assets and listing copy are prepared in `examples/figma/publishing`. The official classic-plugin process requires a macOS/Windows desktop app to register and submit a plugin. That desktop step remains owner-operated; the connected MCP account does not expose the standard-plugin publication surface.
