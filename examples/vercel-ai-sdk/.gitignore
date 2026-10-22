@@ -1,0 +1,6 @@
+dist/
+node_modules/
+*.tgz
+magic-hour-image.png
+magic-hour-video.mp4
+.env*

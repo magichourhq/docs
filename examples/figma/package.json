@@ -1,0 +1,20 @@
+{
+  "name": "magic-hour-figma-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "check": "tsc --noEmit",
+    "test": "tsx --test test/*.test.ts",
+    "test:ui": "node test/ui.mjs"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.0.0",
+    "@playwright/test": "^1.58.0",
+    "@types/node": "^24.0.0",
+    "esbuild": "^0.27.0",
+    "tsx": "^4.20.0",
+    "typescript": "^6.0.0"
+  }
+}
