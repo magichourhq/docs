@@ -110,6 +110,50 @@ generating media.
 
 </Tab>
 
+<Tab title="Hermes Agent">
+
+Install [Hermes Agent](https://hermes-agent.nousresearch.com/docs/getting-started/installation/)
+and configure its model provider separately. Connect Magic Hour as a custom MCP server; no
+additional Magic Hour server or plugin is needed.
+
+Set your Magic Hour API key in the shell that will launch Hermes:
+
+```bash
+export MAGIC_HOUR_API_KEY="YOUR_MAGIC_HOUR_API_KEY"
+```
+
+Merge this entry into `mcp_servers` in `~/.hermes/config.yaml` (or your selected profile’s config).
+Keep the `${MAGIC_HOUR_API_KEY}` placeholder literal so the key stays out of the YAML:
+
+```yaml
+mcp_servers:
+  magic_hour:
+    url: https://mcp.magichour.ai/
+    headers:
+      Authorization: "Bearer ${MAGIC_HOUR_API_KEY}"
+    timeout: 120
+```
+
+Check discovery, then start Hermes from the same shell:
+
+```bash
+hermes mcp test magic_hour
+hermes chat
+```
+
+Ask Hermes: `Call mcp__magic_hour__account_retrieve to confirm API access without generating media.`
+A returned credit balance confirms authorization; tool discovery alone does not.
+
+Then try the [first request below](#try-a-first-request). Generation uses Magic Hour credits.
+Keep the accepted project ID and resume its matching wait tool after an interruption rather
+than submitting another paid job. Local attachments still need the [upload flow below](#using-input-files).
+
+This custom connection does not imply inclusion in Hermes’ Nous-approved MCP catalog.
+[Hermes MCP documentation](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp/)
+explains configuration, tool filtering, and catalog review.
+
+</Tab>
+
 <Tab title="ChatGPT">
 
 If custom connectors are available for your ChatGPT plan or workspace, add a connector using:
