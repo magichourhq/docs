@@ -9,8 +9,17 @@ import {
   Title,
   Alert,
 } from "@canva/app-ui-kit";
+import { englishMessage, type MessageFormatter } from "../../../vercel-ai-sdk/src/client";
 import type { VideoPanel, VideoOptions } from "../../shared/video";
-export function App({ panel, openLink }: { panel: VideoPanel; openLink: (url: string) => void }) {
+export function App({
+  panel,
+  openLink,
+  formatMessage = englishMessage,
+}: {
+  panel: VideoPanel;
+  openLink: (url: string) => void;
+  formatMessage?: MessageFormatter;
+}) {
   const s = useSyncExternalStore(panel.subscribe, panel.snapshot);
   const [key, setKey] = useState(""),
     [prompt, setPrompt] = useState(""),
@@ -49,13 +58,24 @@ export function App({ panel, openLink }: { panel: VideoPanel; openLink: (url: st
   return (
     <div style={{ padding: 16, display: "grid", gap: 16 }}>
       <Title size="medium">Magic Hour</Title>
-      <Text>Animate an image or start from a creative brief.</Text>
+      <Text>
+        {formatMessage({
+          defaultMessage: "Animate an image or start from a creative brief.",
+          description: "Text or action in the Magic Hour video generation panel.",
+        })}
+      </Text>
       <FormField
-        label="Magic Hour API key"
+        label={formatMessage({
+          defaultMessage: "Magic Hour API key",
+          description: "Label or instruction in the Magic Hour video generation form.",
+        })}
         control={(props) => (
           <input
             id={props.id}
-            aria-label="Magic Hour API key"
+            aria-label={formatMessage({
+              defaultMessage: "Magic Hour API key",
+              description: "Label or instruction in the Magic Hour video generation form.",
+            })}
             type="password"
             value={key}
             onChange={(event) => setKey(event.target.value)}
@@ -66,18 +86,35 @@ export function App({ panel, openLink }: { panel: VideoPanel; openLink: (url: st
         )}
       />
       <Text size="small">
-        Your key stays in this session. Generations use your Magic Hour API credits.
+        {formatMessage({
+          defaultMessage:
+            "Your key stays in this session. Generations use your Magic Hour API credits.",
+          description: "Text or action in the Magic Hour video generation panel.",
+        })}
       </Text>
       <Button variant="secondary" disabled={s.busy} onClick={() => void panel.capture()}>
-        Use selected image
+        {formatMessage({
+          defaultMessage: "Use selected image",
+          description: "Text or action in the Magic Hour video generation panel.",
+        })}
       </Button>
       <Text size="small">
-        Canva provides the full original image, including areas outside the visible crop.
+        {formatMessage({
+          defaultMessage:
+            "Canva provides the full original image, including areas outside the visible crop.",
+          description: "Text or action in the Magic Hour video generation panel.",
+        })}
       </Text>
       <label style={{ display: "grid", gap: 8 }}>
-        Or upload an image
+        {formatMessage({
+          defaultMessage: "Or upload an image",
+          description: "Text or action in the Magic Hour video generation panel.",
+        })}
         <input
-          aria-label="Upload image"
+          aria-label={formatMessage({
+            defaultMessage: "Upload image",
+            description: "Label or instruction in the Magic Hour video generation form.",
+          })}
           type="file"
           accept="image/png,image/jpeg,image/webp"
           disabled={s.busy}
@@ -90,18 +127,27 @@ export function App({ panel, openLink }: { panel: VideoPanel; openLink: (url: st
       {sourceUrl && (
         <>
           <img
-            alt="Starting image"
+            alt={formatMessage({
+              defaultMessage: "Starting image",
+              description: "Label or instruction in the Magic Hour video generation form.",
+            })}
             src={sourceUrl}
             style={{ maxWidth: "100%", maxHeight: 180, objectFit: "contain" }}
           />
           <Text size="small">{s.source?.label}</Text>
           <Button variant="tertiary" disabled={s.busy} onClick={() => panel.removeImage()}>
-            Remove image
+            {formatMessage({
+              defaultMessage: "Remove image",
+              description: "Text or action in the Magic Hour video generation panel.",
+            })}
           </Button>
         </>
       )}
       <FormField
-        label="Motion or creative brief"
+        label={formatMessage({
+          defaultMessage: "Motion or creative brief",
+          description: "Label or instruction in the Magic Hour video generation form.",
+        })}
         control={(props) => (
           <MultilineInput
             {...props}
@@ -109,27 +155,62 @@ export function App({ panel, openLink }: { panel: VideoPanel; openLink: (url: st
             onChange={setPrompt}
             maxLength={2000}
             disabled={s.busy}
-            placeholder="A gentle camera push in. Keep the product steady."
+            placeholder={formatMessage({
+              defaultMessage: "A gentle camera push in. Keep the product steady.",
+              description: "Label or instruction in the Magic Hour video generation form.",
+            })}
           />
         )}
       />
       <FormField
-        label="Duration"
+        label={formatMessage({
+          defaultMessage: "Duration",
+          description: "Label or instruction in the Magic Hour video generation form.",
+        })}
         control={(props) => (
           <Select
             {...props}
             value={duration}
             onChange={setDuration}
             disabled={s.busy}
-            options={[1, 3, 5, 10].map((value) => ({
-              value,
-              label: `${value} second${value === 1 ? "" : "s"}`,
-            }))}
+            options={[
+              {
+                value: 1,
+                label: formatMessage({
+                  defaultMessage: "1 second",
+                  description: "Video duration option in seconds.",
+                }),
+              },
+              {
+                value: 3,
+                label: formatMessage({
+                  defaultMessage: "3 seconds",
+                  description: "Video duration option in seconds.",
+                }),
+              },
+              {
+                value: 5,
+                label: formatMessage({
+                  defaultMessage: "5 seconds",
+                  description: "Video duration option in seconds.",
+                }),
+              },
+              {
+                value: 10,
+                label: formatMessage({
+                  defaultMessage: "10 seconds",
+                  description: "Video duration option in seconds.",
+                }),
+              },
+            ]}
           />
         )}
       />
       <FormField
-        label="Resolution"
+        label={formatMessage({
+          defaultMessage: "Resolution",
+          description: "Label or instruction in the Magic Hour video generation form.",
+        })}
         control={(props) => (
           <Select
             {...props}
@@ -145,7 +226,10 @@ export function App({ panel, openLink }: { panel: VideoPanel; openLink: (url: st
       />
       {!s.source && (
         <FormField
-          label="Aspect ratio"
+          label={formatMessage({
+            defaultMessage: "Aspect ratio",
+            description: "Label or instruction in the Magic Hour video generation form.",
+          })}
           control={(props) => (
             <Select
               {...props}
@@ -153,16 +237,37 @@ export function App({ panel, openLink }: { panel: VideoPanel; openLink: (url: st
               onChange={setRatio}
               disabled={s.busy}
               options={[
-                { value: "16:9", label: "Landscape · 16:9" },
-                { value: "1:1", label: "Square · 1:1" },
-                { value: "9:16", label: "Portrait · 9:16" },
+                {
+                  value: "16:9",
+                  label: formatMessage({
+                    defaultMessage: "Landscape · 16:9",
+                    description: "Video aspect ratio option.",
+                  }),
+                },
+                {
+                  value: "1:1",
+                  label: formatMessage({
+                    defaultMessage: "Square · 1:1",
+                    description: "Video aspect ratio option.",
+                  }),
+                },
+                {
+                  value: "9:16",
+                  label: formatMessage({
+                    defaultMessage: "Portrait · 9:16",
+                    description: "Video aspect ratio option.",
+                  }),
+                },
               ]}
             />
           )}
         />
       )}
       <Text size="small">
-        LTX 2.5 · muted video. Image inputs keep their original aspect ratio.
+        {formatMessage({
+          defaultMessage: "LTX 2.5 · muted video. Image inputs keep their original aspect ratio.",
+          description: "Text or action in the Magic Hour video generation panel.",
+        })}
       </Text>
       <Button
         variant="primary"
@@ -171,11 +276,17 @@ export function App({ panel, openLink }: { panel: VideoPanel; openLink: (url: st
           void panel.generate(key, { prompt, duration, resolution, aspectRatio: ratio })
         }
       >
-        Generate video
+        {formatMessage({
+          defaultMessage: "Generate video",
+          description: "Text or action in the Magic Hour video generation panel.",
+        })}
       </Button>
       {s.busy && (
         <Button variant="secondary" onClick={() => panel.stop()}>
-          Stop waiting
+          {formatMessage({
+            defaultMessage: "Stop waiting",
+            description: "Text or action in the Magic Hour video generation panel.",
+          })}
         </Button>
       )}
       <div role="status" aria-live="polite">
@@ -192,12 +303,18 @@ export function App({ panel, openLink }: { panel: VideoPanel; openLink: (url: st
             style={{ width: "100%", maxHeight: 300 }}
           />
           <Button variant="primary" disabled={s.busy} onClick={() => void panel.insert(key)}>
-            Add video to design
+            {formatMessage({
+              defaultMessage: "Add video to design",
+              description: "Text or action in the Magic Hour video generation panel.",
+            })}
           </Button>
         </>
       )}
       <FormField
-        label="Video project ID"
+        label={formatMessage({
+          defaultMessage: "Video project ID",
+          description: "Label or instruction in the Magic Hour video generation form.",
+        })}
         control={(props) => <TextInput {...props} value={id} onChange={setId} disabled={s.busy} />}
       />
       <Button
@@ -205,15 +322,24 @@ export function App({ panel, openLink }: { panel: VideoPanel; openLink: (url: st
         disabled={s.busy || !id}
         onClick={() => void panel.resume(key, id.trim())}
       >
-        Resume generation
+        {formatMessage({
+          defaultMessage: "Resume generation",
+          description: "Text or action in the Magic Hour video generation panel.",
+        })}
       </Button>
       <Text size="small">
-        Resume retrieves an existing project without another generation charge. Stop waiting leaves
-        the server job running.
+        {formatMessage({
+          defaultMessage:
+            "Resume retrieves an existing project without another generation charge. Stop waiting leaves the server job running.",
+          description: "Text or action in the Magic Hour video generation panel.",
+        })}
       </Text>
       {s.savedId && (
         <Button variant="tertiary" disabled={s.busy} onClick={() => void panel.reset()}>
-          New generation
+          {formatMessage({
+            defaultMessage: "New generation",
+            description: "Text or action in the Magic Hour video generation panel.",
+          })}
         </Button>
       )}
       <Button
@@ -222,17 +348,29 @@ export function App({ panel, openLink }: { panel: VideoPanel; openLink: (url: st
           openLink("https://magichour.ai/developer?utm_source=canva&utm_medium=integration")
         }
       >
-        Get API key
+        {formatMessage({
+          defaultMessage: "Get API key",
+          description: "Text or action in the Magic Hour video generation panel.",
+        })}
       </Button>
       <Button variant="tertiary" onClick={() => openLink("https://docs.magichour.ai/pricing")}>
-        API pricing
+        {formatMessage({
+          defaultMessage: "API pricing",
+          description: "Text or action in the Magic Hour video generation panel.",
+        })}
       </Button>
       <Button variant="tertiary" onClick={() => openLink("https://magichour.ai/privacy-policy")}>
-        Privacy and support
+        {formatMessage({
+          defaultMessage: "Privacy and support",
+          description: "Text or action in the Magic Hour video generation panel.",
+        })}
       </Button>
       <Text size="small">
-        Your prompt and chosen image go to Magic Hour. The finished video is copied to your Canva
-        media library when you click Add. Support: support@magichour.ai.
+        {formatMessage({
+          defaultMessage:
+            "Your prompt and chosen image go to Magic Hour. The finished video is copied to your Canva media library when you click Add. Support: support@magichour.ai.",
+          description: "Text or action in the Magic Hour video generation panel.",
+        })}
       </Text>
     </div>
   );

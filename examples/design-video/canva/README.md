@@ -1,6 +1,6 @@
 # Magic Hour for Canva
 
-A Design Editor intent using the current Canva Developers SDK and App UI Kit. Build from `examples/design-video` with `npm run build`; the Developer Portal bundle is **`canva/dist/app.js`**. UI Kit CSS is included in the JS bundle so the portal does not need a separate stylesheet. The API key uses a masked native password field because the UI Kit TextInput does not support password input.
+A Design Editor intent using the current Canva Developers SDK and App UI Kit. Build from `examples/design-video` with `npm run build`; the Developer Portal bundle is **`canva/dist/app.js`**. UI Kit CSS is included in the JS bundle so the portal does not need a separate stylesheet. The same build generates `canva/dist/messages_en.json` for the Portal’s UI translation upload, with message IDs matching the bundled UI, status, and recovery text. Canva’s `AppI18nProvider` and `initIntl` load the approved translations; untranslated locales retain the existing English copy. The API key uses a masked native password field because the UI Kit TextInput does not support password input.
 
 ## Developer Portal setup
 

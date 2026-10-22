@@ -1,3 +1,4 @@
+import { englishMessage, type MessageFormatter } from "../../../vercel-ai-sdk/src/client";
 import type * as Asset from "@canva/asset";
 import type * as Design from "@canva/design";
 import type * as Platform from "@canva/platform";
@@ -12,7 +13,8 @@ export function canvaHost(
   api: CanvaPort,
   store: EditorHost["store"],
   fetcher: typeof fetch = globalThis.fetch.bind(globalThis),
-  poster = videoPoster
+  poster = (blob: Blob) => videoPoster(blob, formatMessage),
+  formatMessage: MessageFormatter = englishMessage
 ): { host: EditorHost; dispose: () => void } {
   let selected: Design.SelectionEvent<"image"> | undefined;
   const unsubscribe = api.features.isSupported(api.design.selection.registerOnChange)
@@ -26,7 +28,10 @@ export function canvaHost(
   const uploaded = new Map<string, Asset.VideoRef>();
   const host: EditorHost = {
     name: "Canva",
-    selectionLabel: "Use selected image",
+    selectionLabel: formatMessage({
+      defaultMessage: "Use selected image",
+      description: "Label or error for reading a Canva image or inserting a generated video.",
+    }),
     store,
     async prepareGeneration() {
       if (
@@ -34,22 +39,49 @@ export function canvaHost(
         !api.features.isSupported(api.design.addElementAtCursor)
       )
         throw new Error(
-          "Open a Canva editing context that supports video insertion before generating."
+          formatMessage({
+            defaultMessage:
+              "Open a Canva editing context that supports video insertion before generating.",
+            description: "Label or error for reading a Canva image or inserting a generated video.",
+          })
         );
     },
     async captureImage() {
       if (!selected || selected.count !== 1)
-        throw new Error("Select one image in Canva, or upload an image file.");
+        throw new Error(
+          formatMessage({
+            defaultMessage: "Select one image in Canva, or upload an image file.",
+            description: "Label or error for reading a Canva image or inserting a generated video.",
+          })
+        );
       const draft = await selected.read();
-      if (draft.contents.length !== 1) throw new Error("Select exactly one image in Canva.");
+      if (draft.contents.length !== 1)
+        throw new Error(
+          formatMessage({
+            defaultMessage: "Select exactly one image in Canva.",
+            description: "Label or error for reading a Canva image or inserting a generated video.",
+          })
+        );
       const { url } = await api.asset.getTemporaryUrl({
         type: "image",
         ref: draft.contents[0].ref,
       });
       // Canva returns the full underlying image, including areas outside its crop.
       const response = await fetcher(url, { credentials: "omit" });
-      if (!response.ok) throw new Error("Could not read the selected Canva image.");
-      return { blob: await response.blob(), label: "Selected Canva image (full original)" };
+      if (!response.ok)
+        throw new Error(
+          formatMessage({
+            defaultMessage: "Could not read the selected Canva image.",
+            description: "Label or error for reading a Canva image or inserting a generated video.",
+          })
+        );
+      return {
+        blob: await response.blob(),
+        label: formatMessage({
+          defaultMessage: "Selected Canva image (full original)",
+          description: "Label or error for reading a Canva image or inserting a generated video.",
+        }),
+      };
     },
     async insertVideo(result) {
       const add = api.features.isSupported(api.design.addElementAtPoint)
@@ -57,14 +89,23 @@ export function canvaHost(
         : api.features.isSupported(api.design.addElementAtCursor)
           ? api.design.addElementAtCursor
           : null;
-      if (!add) throw new Error("This Canva editing context does not support video insertion.");
+      if (!add)
+        throw new Error(
+          formatMessage({
+            defaultMessage: "This Canva editing context does not support video insertion.",
+            description: "Label or error for reading a Canva image or inserting a generated video.",
+          })
+        );
       let ref = uploaded.get(result.id);
       if (!ref) {
         const asset = await api.asset.upload({
           type: "video",
           mimeType: "video/mp4",
           url: result.url,
-          name: "Magic Hour video",
+          name: formatMessage({
+            defaultMessage: "Magic Hour video",
+            description: "Label or error for reading a Canva image or inserting a generated video.",
+          }),
           thumbnailImageUrl: await poster(result.blob),
           aiDisclosure: "app_generated",
         });
@@ -76,7 +117,13 @@ export function canvaHost(
       await add({
         type: "video",
         ref,
-        altText: { text: "Video generated with Magic Hour", decorative: false },
+        altText: {
+          text: formatMessage({
+            defaultMessage: "Video generated with Magic Hour",
+            description: "Label or error for reading a Canva image or inserting a generated video.",
+          }),
+          decorative: false,
+        },
       });
     },
   };

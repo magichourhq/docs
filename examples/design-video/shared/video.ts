@@ -1,4 +1,9 @@
-import { MagicHourClient, MagicHourError } from "../../vercel-ai-sdk/src/client";
+import {
+  MagicHourClient,
+  MagicHourError,
+  englishMessage,
+  type MessageFormatter,
+} from "../../vercel-ai-sdk/src/client";
 
 export type SourceImage = { blob: Blob; label: string };
 export type VideoOptions = {
@@ -28,15 +33,28 @@ const extensions: Record<string, string> = {
   "image/jpeg": "jpg",
   "image/webp": "webp",
 };
-export function projectId(value: string): string {
+export function projectId(value: string, formatMessage: MessageFormatter = englishMessage): string {
   if (!/^[A-Za-z0-9_-]{1,128}$/.test(value))
-    throw new Error("Enter a valid Magic Hour video project ID.");
+    throw new Error(
+      formatMessage({
+        defaultMessage: "Enter a valid Magic Hour video project ID.",
+        description: "Status or recovery instruction in the video generation panel.",
+      })
+    );
   return value;
 }
-export async function validateImage(blob: Blob): Promise<string> {
+export async function validateImage(
+  blob: Blob,
+  formatMessage: MessageFormatter = englishMessage
+): Promise<string> {
   const extension = extensions[blob.type];
   if (!extension || !blob.size || blob.size > 20 * 1024 * 1024)
-    throw new Error("Choose a PNG, JPEG, or WebP image up to 20 MB.");
+    throw new Error(
+      formatMessage({
+        defaultMessage: "Choose a PNG, JPEG, or WebP image up to 20 MB.",
+        description: "Status or recovery instruction in the video generation panel.",
+      })
+    );
   const b = new Uint8Array(await blob.slice(0, 12).arrayBuffer());
   const valid =
     extension === "png"
@@ -45,20 +63,30 @@ export async function validateImage(blob: Blob): Promise<string> {
         ? b[0] === 255 && b[1] === 216 && b[2] === 255
         : String.fromCharCode(...b.slice(0, 4)) === "RIFF" &&
           String.fromCharCode(...b.slice(8, 12)) === "WEBP";
-  if (!valid) throw new Error("The image bytes do not match its PNG, JPEG, or WebP type.");
+  if (!valid)
+    throw new Error(
+      formatMessage({
+        defaultMessage: "The image bytes do not match its PNG, JPEG, or WebP type.",
+        description: "Status or recovery instruction in the video generation panel.",
+      })
+    );
   return extension;
 }
 export class VideoService {
   constructor(
     private readonly settings: {
       apiKey: string;
+      formatMessage?: MessageFormatter;
       store: JobStore;
       fetch?: typeof fetch;
       pollIntervalMs?: number;
       timeoutMs?: number;
       platform: string;
     }
-  ) {}
+  ) {
+    this.formatMessage = settings.formatMessage ?? englishMessage;
+  }
+  private readonly formatMessage: MessageFormatter;
   private client() {
     return new MagicHourClient({
       ...this.settings,
@@ -71,15 +99,30 @@ export class VideoService {
     abort?: AbortSignal
   ): Promise<VideoResult> {
     if (!options.prompt.trim() || options.prompt.length > 2000)
-      throw new Error("Describe the motion in 1–2,000 characters.");
+      throw new Error(
+        this.formatMessage({
+          defaultMessage: "Describe the motion in 1–2,000 characters.",
+          description: "Status or recovery instruction in the video generation panel.",
+        })
+      );
     if (!Number.isInteger(options.duration) || options.duration < 1 || options.duration > 10)
-      throw new Error("Choose a duration from 1 to 10 seconds.");
+      throw new Error(
+        this.formatMessage({
+          defaultMessage: "Choose a duration from 1 to 10 seconds.",
+          description: "Status or recovery instruction in the video generation panel.",
+        })
+      );
     if (
       !["480p", "720p"].includes(options.resolution) ||
       !["16:9", "1:1", "9:16"].includes(options.aspectRatio)
     )
-      throw new Error("Choose a supported resolution and aspect ratio.");
-    const extension = source ? await validateImage(source.blob) : undefined;
+      throw new Error(
+        this.formatMessage({
+          defaultMessage: "Choose a supported resolution and aspect ratio.",
+          description: "Status or recovery instruction in the video generation panel.",
+        })
+      );
+    const extension = source ? await validateImage(source.blob, this.formatMessage) : undefined;
     const c = this.client(),
       signal = c.signal(abort);
     const path = source
@@ -102,16 +145,26 @@ export class VideoService {
     return this.retrieve(id, abort);
   }
   async retrieve(id: string, abort?: AbortSignal): Promise<VideoResult> {
-    projectId(id);
+    projectId(id, this.formatMessage);
     const c = this.client(),
       signal = c.signal(abort);
     const p = await c.wait(id, "video", signal);
     try {
       const bytes = await c.download(p.downloads[0].url, signal);
       if (!bytes.length || bytes.length > 100 * 1024 * 1024)
-        throw new Error("Video must be nonempty and at most 100 MB.");
+        throw new Error(
+          this.formatMessage({
+            defaultMessage: "Video must be nonempty and at most 100 MB.",
+            description: "Status or recovery instruction in the video generation panel.",
+          })
+        );
       if (String.fromCharCode(...bytes.slice(4, 8)) !== "ftyp")
-        throw new Error("The completed output is not an MP4 video.");
+        throw new Error(
+          this.formatMessage({
+            defaultMessage: "The completed output is not an MP4 video.",
+            description: "Status or recovery instruction in the video generation panel.",
+          })
+        );
       return {
         id,
         blob: new Blob([bytes as BlobPart], { type: "video/mp4" }),
@@ -121,8 +174,13 @@ export class VideoService {
       };
     } catch {
       throw new MagicHourError(
-        "Could not download the completed MP4. Resume to retrieve it again.",
-        id
+        this.formatMessage({
+          defaultMessage: "Could not download the completed MP4. Resume to retrieve it again.",
+          description: "Status or recovery instruction in the video generation panel.",
+        }),
+        id,
+        undefined,
+        this.formatMessage
       );
     }
   }
@@ -141,7 +199,7 @@ export class VideoPanel {
   state: PanelState = {
     ready: false,
     busy: false,
-    message: "Choose an image or start from a creative brief.",
+    message: "",
     error: false,
     savedId: "",
   };
@@ -151,7 +209,14 @@ export class VideoPanel {
   constructor(
     readonly host: EditorHost,
     private readonly transport: Partial<ConstructorParameters<typeof VideoService>[0]> = {}
-  ) {}
+  ) {
+    this.formatMessage = transport.formatMessage ?? englishMessage;
+    this.state.message = this.formatMessage({
+      defaultMessage: "Choose an image or start from a creative brief.",
+      description: "Initial instruction for the video generation panel.",
+    });
+  }
+  private readonly formatMessage: MessageFormatter;
   subscribe = (callback: () => void) => {
     this.listeners.add(callback);
     return () => {
@@ -169,13 +234,21 @@ export class VideoPanel {
       const id = await this.host.store.load();
       if (id)
         this.update({
-          savedId: projectId(id),
-          message: "A saved generation is available. Resume it without another generation charge.",
+          savedId: projectId(id, this.formatMessage),
+          message: this.formatMessage({
+            defaultMessage:
+              "A saved generation is available. Resume it without another generation charge.",
+            description: "Status or recovery instruction in the video generation panel.",
+          }),
         });
     } catch {
       this.update({
         error: true,
-        message: "Saved generation could not be read. You can enter its project ID to resume.",
+        message: this.formatMessage({
+          defaultMessage:
+            "Saved generation could not be read. You can enter its project ID to resume.",
+          description: "Status or recovery instruction in the video generation panel.",
+        }),
       });
     } finally {
       this.update({ ready: true });
@@ -197,7 +270,10 @@ export class VideoPanel {
             ? error.message
             : error instanceof Error
               ? error.message
-              : "The operation failed. Try again after checking the editor.",
+              : this.formatMessage({
+                  defaultMessage: "The operation failed. Try again after checking the editor.",
+                  description: "Status or recovery instruction in the video generation panel.",
+                }),
       });
     } finally {
       this.update({ busy: false });
@@ -206,24 +282,46 @@ export class VideoPanel {
   }
   async capture() {
     await this.run(async () => {
-      if (!this.host.captureImage) throw new Error("Upload an image to use with this editor.");
+      if (!this.host.captureImage)
+        throw new Error(
+          this.formatMessage({
+            defaultMessage: "Upload an image to use with this editor.",
+            description: "Status or recovery instruction in the video generation panel.",
+          })
+        );
       const source = await this.host.captureImage();
-      await validateImage(source.blob);
+      await validateImage(source.blob, this.formatMessage);
       this.update({
         source,
-        message: "Image ready. Only this captured image will be uploaded when you generate.",
+        message: this.formatMessage({
+          defaultMessage:
+            "Image ready. Only this captured image will be uploaded when you generate.",
+          description: "Status or recovery instruction in the video generation panel.",
+        }),
       });
     });
   }
   async selectFile(file: File) {
     await this.run(async () => {
-      await validateImage(file);
-      this.update({ source: { blob: file, label: file.name }, message: "Image ready to animate." });
+      await validateImage(file, this.formatMessage);
+      this.update({
+        source: { blob: file, label: file.name },
+        message: this.formatMessage({
+          defaultMessage: "Image ready to animate.",
+          description: "Status or recovery instruction in the video generation panel.",
+        }),
+      });
     });
   }
   removeImage() {
     if (!this.state.busy)
-      this.update({ source: undefined, message: "Start from a creative brief." });
+      this.update({
+        source: undefined,
+        message: this.formatMessage({
+          defaultMessage: "Start from a creative brief.",
+          description: "Status or recovery instruction in the video generation panel.",
+        }),
+      });
   }
   private service(key: string) {
     return new VideoService({
@@ -243,14 +341,26 @@ export class VideoPanel {
   async generate(key: string, options: VideoOptions) {
     await this.run(async () => {
       if (!this.state.ready)
-        throw new Error("Wait for saved generations to load before generating.");
+        throw new Error(
+          this.formatMessage({
+            defaultMessage: "Wait for saved generations to load before generating.",
+            description: "Status or recovery instruction in the video generation panel.",
+          })
+        );
       if (this.state.savedId)
         throw new Error(
-          "Resume the saved project, or choose New generation before another paid submission."
+          this.formatMessage({
+            defaultMessage:
+              "Resume the saved project, or choose New generation before another paid submission.",
+            description: "Status or recovery instruction in the video generation panel.",
+          })
         );
       await this.host.prepareGeneration?.();
       this.update({
-        message: "Generating with Magic Hour. You may stop waiting and resume later.",
+        message: this.formatMessage({
+          defaultMessage: "Generating with Magic Hour. You may stop waiting and resume later.",
+          description: "Status or recovery instruction in the video generation panel.",
+        }),
         result: undefined,
       });
       const result = await this.service(key).generate(
@@ -260,13 +370,20 @@ export class VideoPanel {
       );
       this.update({
         result,
-        message: `Video ready · ${result.credits} Magic Hour credits. Preview it before adding it to your design.`,
+        message: this.formatMessage(
+          {
+            defaultMessage:
+              "Video ready · {credits} Magic Hour credits. Preview it before adding it to your design.",
+            description: "Successful video generation with charged credit amount.",
+          },
+          { credits: result.credits }
+        ),
       });
     });
   }
   async resume(key: string, id: string) {
     await this.run(async () => {
-      projectId(id);
+      projectId(id, this.formatMessage);
       let saved = true;
       try {
         await this.host.store.save(id);
@@ -275,31 +392,71 @@ export class VideoPanel {
       }
       this.update({
         savedId: id,
-        message: "Retrieving the existing generation. No new generation is submitted.",
+        message: this.formatMessage({
+          defaultMessage: "Retrieving the existing generation. No new generation is submitted.",
+          description: "Status or recovery instruction in the video generation panel.",
+        }),
         result: undefined,
       });
       const result = await this.service(key).retrieve(id, this.abort!.signal);
       this.update({
         result,
-        message: `Video ready · original charge ${result.credits} Magic Hour credits.${saved ? "" : " Copy the project ID; local saving is unavailable."}`,
+        message: saved
+          ? this.formatMessage(
+              {
+                defaultMessage: "Video ready · original charge {credits} Magic Hour credits.",
+                description: "Existing video retrieved without a new charge.",
+              },
+              { credits: result.credits }
+            )
+          : this.formatMessage(
+              {
+                defaultMessage:
+                  "Video ready · original charge {credits} Magic Hour credits. Copy the project ID; local saving is unavailable.",
+                description:
+                  "Existing video retrieved, but local recovery pointer could not be saved.",
+              },
+              { credits: result.credits }
+            ),
       });
     });
   }
   async insert(key: string) {
     await this.run(async () => {
       const old = this.state.result;
-      if (!old) throw new Error("Generate or resume a video first.");
+      if (!old)
+        throw new Error(
+          this.formatMessage({
+            defaultMessage: "Generate or resume a video first.",
+            description: "Status or recovery instruction in the video generation panel.",
+          })
+        );
       // Refresh signed media URLs immediately before the host copies the output.
       const result = await this.service(key).retrieve(old.id, this.abort!.signal);
-      this.update({ result, message: "Adding the video to your design…" });
+      this.update({
+        result,
+        message: this.formatMessage({
+          defaultMessage: "Adding the video to your design…",
+          description: "Status or recovery instruction in the video generation panel.",
+        }),
+      });
       try {
         await this.host.insertVideo(result);
       } catch {
         throw new Error(
-          "The editor could not confirm insertion. Check your design before adding again. Your generation is saved."
+          this.formatMessage({
+            defaultMessage:
+              "The editor could not confirm insertion. Check your design before adding again. Your generation is saved.",
+            description: "Status or recovery instruction in the video generation panel.",
+          })
         );
       }
-      this.update({ message: "Video added to your design." });
+      this.update({
+        message: this.formatMessage({
+          defaultMessage: "Video added to your design.",
+          description: "Status or recovery instruction in the video generation panel.",
+        }),
+      });
     });
   }
   stop() {
@@ -313,13 +470,20 @@ export class VideoPanel {
         savedId: "",
         result: undefined,
         error: false,
-        message:
-          "Ready for a new paid generation. The previous project remains in your Magic Hour account.",
+        message: this.formatMessage({
+          defaultMessage:
+            "Ready for a new paid generation. The previous project remains in your Magic Hour account.",
+          description: "Status or recovery instruction in the video generation panel.",
+        }),
       });
     } catch {
       this.update({
         error: true,
-        message: "Could not clear the saved project. Resume it or try New generation again.",
+        message: this.formatMessage({
+          defaultMessage:
+            "Could not clear the saved project. Resume it or try New generation again.",
+          description: "Status or recovery instruction in the video generation panel.",
+        }),
       });
     }
   }
