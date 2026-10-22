@@ -1,0 +1,10 @@
+{
+  "name": "magic-hour-adobe-express",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "devDependencies": {
+    "@adobe/ccweb-add-on-sdk-types": "1.40.0",
+    "@adobe/ccweb-add-on-scripts": "3.11.0"
+  }
+}
