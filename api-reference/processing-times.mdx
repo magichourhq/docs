@@ -1,8 +1,21 @@
 ---
-title: "Processing Times"
-description: "Recent typical end-to-end processing times for successful Magic Hour API jobs."
+title: "Historical API Processing Times"
+sidebarTitle: "Processing Times"
+description: "Observed medians for successful jobs. Not a timeout or SLA."
 ---
 
+{/* Keep the freshness label and snapshot date in sync when publishing new measurement windows. */}
+
+<Note>
+  **Historical snapshot · October 1, 2026**
+
+Successful jobs only. Errors, cancellations, and still-active jobs are excluded.
+
+Baseline: August 18–September 16, 2026; later row-specific cohorts are documented below.
+
+</Note>
+
+<Accordion title="Measurement windows & refresh notes">
 The published baseline values cover successful API jobs created during the **30 complete UTC
 days from August 18 through September 16, 2026**. Three values use the latest 48-hour cohort, from
 **September 29 at 18:00 through October 1 at 18:00 UTC**, and are marked with ◎. Three values use
@@ -16,19 +29,19 @@ end-to-end time from project creation to completion, including queueing. The war
 queried on October 1, 2026. A fresh 30-complete-UTC-day comparison covered September 1 through
 September 30, 2026; unchanged rows retain their published sample and measurement window.
 
+**Typical (p50)** means half of successful jobs finished within this time. **Sample** is the number
+of successful API jobs included. Errored, canceled, and still-active jobs are excluded.
+
+If the end of a measurement window is more than seven days old, treat its figures as historical
+until the next refresh. The snapshot date does not mean every row uses the same cohort or window.
+
+</Accordion>
+
 <Warning>
   These are directional observations, not an SLA or a prediction for an individual job. Processing
   time varies with the endpoint, selected model and settings, input duration and size, output
   resolution, and current queue load. Build timeout handling into every integration.
 </Warning>
-
-**Typical (p50)** means half of successful jobs finished within this time. **Sample** is the number
-of successful API jobs included. Errored, canceled, and still-active jobs are excluded.
-
-<Note>
-  These metrics are reviewed twice weekly. If the end of the measurement window is more than seven
-  days old, treat the figures as historical until the next refresh.
-</Note>
 
 ## Video endpoints
 
