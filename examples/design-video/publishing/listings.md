@@ -24,7 +24,7 @@ Status: development implementations; no marketplace submission or approval is cl
 
 **Summary:** Turn an image or creative brief into a short video for your design.
 
-**Description:** Choose one image, describe its motion, and generate a video with Magic Hour. Preview the completed video and add it to your Canva design as a native video. You can also upload an image or start from text. Canva provides the full original selected image, including areas outside a visible crop. Saved project IDs let you resume waiting without another generation. Generated videos are disclosed as AI-generated during import.
+**Description:** Choose one image, describe its motion, and generate a video with Magic Hour. Preview the completed video and add it to your Canva design as a native video. You can also upload an image or start from text. Canva provides the full original selected image, including areas outside a visible crop. Saved project IDs let you resume waiting without another generation. The video and its generated preview image are copied into your media library when you add the result. Both assets are disclosed as AI-generated during import.
 
 ## Shared account and privacy disclosures
 

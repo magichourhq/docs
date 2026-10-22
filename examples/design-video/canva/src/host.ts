@@ -25,7 +25,7 @@ export function canvaHost(
         },
       })
     : () => {};
-  const uploaded = new Map<string, Asset.VideoRef>();
+  const uploaded = new Map<string, { preview?: Asset.ImageRef; video?: Asset.VideoRef }>();
   const host: EditorHost = {
     name: "Canva",
     selectionLabel: formatMessage({
@@ -99,9 +99,32 @@ export function canvaHost(
                 "Label or error for reading a Canva image or inserting a generated video.",
             })
           );
-        let ref = uploaded.get(result.id);
+        let refs = uploaded.get(result.id);
+        if (!refs) {
+          refs = {};
+          uploaded.set(result.id, refs);
+        }
+        let ref = refs.video;
         if (!ref) {
-          thumbnailImageUrl = await poster(result.blob);
+          if (!refs.preview) {
+            thumbnailImageUrl = await poster(result.blob);
+            const preview = await api.asset.upload({
+              type: "image",
+              mimeType: "image/jpeg",
+              url: thumbnailImageUrl,
+              thumbnailUrl: thumbnailImageUrl,
+              name: formatMessage({
+                defaultMessage: "Magic Hour video preview",
+                description:
+                  "Name of the generated video's preview image in the user's Canva media library.",
+              }),
+              aiDisclosure: "app_generated",
+            });
+            await preview.whenUploaded();
+            refs.preview = preview.ref;
+          }
+          const thumbnail = await api.asset.getTemporaryUrl({ type: "image", ref: refs.preview });
+          thumbnailImageUrl = thumbnail.url;
           const asset = await api.asset.upload({
             type: "video",
             mimeType: "video/mp4",
@@ -117,7 +140,7 @@ export function canvaHost(
           // Cache successful ingestion so explicit insertion retries reuse the native asset.
           await asset.whenUploaded();
           ref = asset.ref;
-          uploaded.set(result.id, ref);
+          refs.video = ref;
         }
         await add({
           type: "video",

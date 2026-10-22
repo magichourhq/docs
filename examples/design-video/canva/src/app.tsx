@@ -368,7 +368,7 @@ export function App({
       <Text size="small">
         {formatMessage({
           defaultMessage:
-            "Your prompt and chosen image go to Magic Hour. The finished video is copied to your Canva media library when you click Add. Support: support@magichour.ai.",
+            "Your prompt and chosen image go to Magic Hour. The finished video and its preview image are copied to your Canva media library when you click Add. Support: support@magichour.ai.",
           description: "Text or action in the Magic Hour video generation panel.",
         })}
       </Text>
