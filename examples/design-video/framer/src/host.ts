@@ -5,19 +5,32 @@ type FramerPort = Pick<
   typeof sdk,
   "getImage" | "getPluginData" | "setPluginData" | "uploadFile" | "addComponentInstance"
 > &
-  Partial<Pick<typeof sdk, "isAllowedTo">>;
+  Partial<Pick<typeof sdk, "isAllowedTo" | "getCurrentUser" | "getProjectInfo">>;
 export function framerHost(api: FramerPort, metadata = videoMetadata): EditorHost {
   const uploaded = new Map<string, Awaited<ReturnType<FramerPort["uploadFile"]>>>();
+  const recoveryKey = async () => {
+    const [user, project] = await Promise.all([api.getCurrentUser?.(), api.getProjectInfo?.()]);
+    if (!user?.id || !project?.id) throw new Error("Framer recovery identity is unavailable.");
+    return `magic-hour-video-project-v2:${user.id}:${project.id}`;
+  };
   return {
     name: "Framer",
     selectionLabel: "Use selected image",
     async prepareGeneration() {
-      if (api.isAllowedTo && !api.isAllowedTo("setPluginData", "addComponentInstance"))
+      if (api.isAllowedTo && !api.isAllowedTo("addComponentInstance"))
         throw new Error("Enable editing in Framer before generating a video.");
     },
     store: {
-      load: () => api.getPluginData("magic-hour-video-project-v1"),
-      save: (id) => api.setPluginData("magic-hour-video-project-v1", id),
+      async load() {
+        if (api.isAllowedTo?.("setPluginData"))
+          await api.setPluginData("magic-hour-video-project-v1", null);
+        return sessionStorage.getItem(await recoveryKey());
+      },
+      async save(id) {
+        const key = await recoveryKey();
+        if (id === null) sessionStorage.removeItem(key);
+        else sessionStorage.setItem(key, id);
+      },
     },
     async captureImage() {
       const image = await api.getImage();
