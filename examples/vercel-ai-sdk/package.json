@@ -42,5 +42,9 @@
   },
   "peerDependencies": {
     "ai": "^7.0.148"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

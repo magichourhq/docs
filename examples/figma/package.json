@@ -7,7 +7,8 @@
     "build": "node build.mjs",
     "check": "tsc --noEmit",
     "test": "tsx --test test/*.test.ts",
-    "test:ui": "node test/ui.mjs"
+    "test:ui": "node test/ui.mjs",
+    "build:release": "node build.mjs --release"
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.0.0",

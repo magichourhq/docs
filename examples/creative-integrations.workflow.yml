@@ -1,5 +1,13 @@
 name: creative-integrations
 on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - examples/vercel-ai-sdk/**
+      - examples/figma/**
+      - examples/langflow/**
+      - .github/workflows/creative-integrations.yml
   pull_request:
     paths:
       - examples/vercel-ai-sdk/**

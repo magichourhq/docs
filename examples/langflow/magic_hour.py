@@ -24,13 +24,20 @@ class MagicHourMCPComponent(MCPToolsComponent):
             required=True,
             real_time_refresh=True,
         ),
-        *[deepcopy(item) for item in MCPToolsComponent.inputs if item.name != "headers"],
+        *[
+            deepcopy(item)
+            for item in MCPToolsComponent.inputs
+            if item.name != "headers"
+        ],
     ]
     # Keep the hidden input because the parent UI lifecycle expects it to exist.
     for _item in inputs:
         if _item.name == "mcp_server":
             _item.show = False
-            _item.value = {"name": "Magic Hour (first-party)", "config": {"url": "https://mcp.magichour.ai/"}}
+            _item.value = {
+                "name": "Magic Hour (first-party)",
+                "config": {"url": "https://mcp.magichour.ai/"},
+            }
     del _item
 
     def _configure_server(self) -> None:
@@ -62,5 +69,11 @@ class MagicHourMCPComponent(MCPToolsComponent):
             self.tools = []
             build_config["tool"]["options"] = []
             build_config["tool"]["value"] = ""
-            return build_config
+            if not field_value:
+                build_config["tool"]["show"] = False
+                return build_config
+            self._configure_server()
+            return await super().update_build_config(
+                build_config, self.mcp_server, "mcp_server"
+            )
         return await super().update_build_config(build_config, field_value, field_name)
