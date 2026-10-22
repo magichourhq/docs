@@ -16,5 +16,9 @@
     "@webflow/webflow-cli": "2.14.0",
     "esbuild": "0.28.2",
     "typescript": "6.0.3"
+  },
+  "dependencies": {
+    "gifenc": "1.0.3",
+    "gifuct-js": "2.1.2"
   }
 }

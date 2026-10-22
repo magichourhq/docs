@@ -1,4 +1,5 @@
 import { MagicHourClient, MagicHourError } from "../../vercel-ai-sdk/src/client";
+import { fitGif } from "./gif";
 
 const el = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 const form = el<HTMLFormElement>("generate-form");
@@ -68,16 +69,19 @@ async function insertionTarget() {
 }
 async function retrieve(c: MagicHourClient, id: string, signal: AbortSignal) {
   const completed = await c.wait(projectId(id), "image", signal);
-  const bytes = await c.download(completed.downloads[0].url, signal);
-  if (!bytes.length || bytes.length > 4_000_000)
-    throw new Error(
-      "This GIF exceeds Webflow’s 4 MB image limit. Your project remains in Magic Hour; this GIF cannot be added at its current size."
-    );
+  let bytes = await c.download(completed.downloads[0].url, signal);
+  if (!bytes.length)
+    throw new Error("Magic Hour returned an empty GIF. Resume the existing project.");
   const signature = String.fromCharCode(...bytes.slice(0, 6));
   if (signature !== "GIF87a" && signature !== "GIF89a")
     throw new Error(
       "The completed output is not a GIF. Resume an AI GIF project generated with GIF output."
     );
+  const resized = bytes.length > 4_000_000;
+  if (resized) {
+    status("Resizing the animation locally for Webflow. No new generation or charge.");
+    bytes = await fitGif(bytes, signal);
+  }
   if (previewUrl) URL.revokeObjectURL(previewUrl);
   result = {
     id,
@@ -86,7 +90,9 @@ async function retrieve(c: MagicHourClient, id: string, signal: AbortSignal) {
   };
   previewUrl = URL.createObjectURL(result.blob);
   el<HTMLImageElement>("preview").src = previewUrl;
-  status(`GIF ready · original charge ${result.credits} credits. Preview it before Add.`);
+  status(
+    `GIF ready · original charge ${result.credits} credits. ${resized ? "Resized locally for Webflow; the original stays in Magic Hour. " : ""}Preview it before Add.`
+  );
 }
 async function run(task: (signal: AbortSignal) => Promise<void>, stoppable = true) {
   if (busy || disposed) return;
