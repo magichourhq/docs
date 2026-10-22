@@ -2,7 +2,7 @@ import { englishMessage, type MessageFormatter } from "../../../vercel-ai-sdk/sr
 import type * as Asset from "@canva/asset";
 import type * as Design from "@canva/design";
 import type * as Platform from "@canva/platform";
-import type { EditorHost } from "../../shared/video";
+import { EditorInsertionError, type EditorHost } from "../../shared/video";
 import { videoPoster } from "../../shared/media";
 export type CanvaPort = {
   asset: Pick<typeof Asset, "upload" | "getTemporaryUrl">;
@@ -84,47 +84,76 @@ export function canvaHost(
       };
     },
     async insertVideo(result) {
-      const add = api.features.isSupported(api.design.addElementAtPoint)
-        ? api.design.addElementAtPoint
-        : api.features.isSupported(api.design.addElementAtCursor)
-          ? api.design.addElementAtCursor
-          : null;
-      if (!add)
-        throw new Error(
-          formatMessage({
-            defaultMessage: "This Canva editing context does not support video insertion.",
-            description: "Label or error for reading a Canva image or inserting a generated video.",
-          })
-        );
-      let ref = uploaded.get(result.id);
-      if (!ref) {
-        const asset = await api.asset.upload({
+      try {
+        const add = api.features.isSupported(api.design.addElementAtPoint)
+          ? api.design.addElementAtPoint
+          : api.features.isSupported(api.design.addElementAtCursor)
+            ? api.design.addElementAtCursor
+            : null;
+        if (!add)
+          throw new Error(
+            formatMessage({
+              defaultMessage: "This Canva editing context does not support video insertion.",
+              description:
+                "Label or error for reading a Canva image or inserting a generated video.",
+            })
+          );
+        let ref = uploaded.get(result.id);
+        if (!ref) {
+          const asset = await api.asset.upload({
+            type: "video",
+            mimeType: "video/mp4",
+            url: result.url,
+            name: formatMessage({
+              defaultMessage: "Magic Hour video",
+              description:
+                "Label or error for reading a Canva image or inserting a generated video.",
+            }),
+            thumbnailImageUrl: await poster(result.blob),
+            aiDisclosure: "app_generated",
+          });
+          // Cache successful ingestion so explicit insertion retries reuse the native asset.
+          await asset.whenUploaded();
+          ref = asset.ref;
+          uploaded.set(result.id, ref);
+        }
+        await add({
           type: "video",
-          mimeType: "video/mp4",
-          url: result.url,
-          name: formatMessage({
-            defaultMessage: "Magic Hour video",
-            description: "Label or error for reading a Canva image or inserting a generated video.",
-          }),
-          thumbnailImageUrl: await poster(result.blob),
-          aiDisclosure: "app_generated",
+          ref,
+          altText: {
+            text: formatMessage({
+              defaultMessage: "Video generated with Magic Hour",
+              description:
+                "Label or error for reading a Canva image or inserting a generated video.",
+            }),
+            decorative: false,
+          },
         });
-        // Cache successful ingestion so explicit insertion retries reuse the native asset.
-        await asset.whenUploaded();
-        ref = asset.ref;
-        uploaded.set(result.id, ref);
+      } catch (error) {
+        const code =
+          typeof error === "object" && error !== null && "code" in error ? error.code : undefined;
+        if (
+          typeof code === "string" &&
+          [
+            "bad_external_service_response",
+            "bad_request",
+            "failed_precondition",
+            "internal_error",
+            "not_found",
+            "not_allowed",
+            "permission_denied",
+            "missing_permission",
+            "quota_exceeded",
+            "rate_limited",
+            "timeout",
+            "unsupported_surface",
+            "unsupported_page_type",
+            "user_offline",
+          ].includes(code)
+        )
+          throw new EditorInsertionError(code);
+        throw error;
       }
-      await add({
-        type: "video",
-        ref,
-        altText: {
-          text: formatMessage({
-            defaultMessage: "Video generated with Magic Hour",
-            description: "Label or error for reading a Canva image or inserting a generated video.",
-          }),
-          decorative: false,
-        },
-      });
     },
   };
   return { host, dispose: unsubscribe };

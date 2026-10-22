@@ -20,6 +20,11 @@ export type VideoResult = {
   credits: number;
 };
 export type JobStore = { load(): Promise<string | null>; save(id: string | null): Promise<void> };
+export class EditorInsertionError extends Error {
+  constructor(readonly code: string) {
+    super(code);
+  }
+}
 export type EditorHost = {
   name: string;
   selectionLabel: string;
@@ -442,13 +447,24 @@ export class VideoPanel {
       });
       try {
         await this.host.insertVideo(result);
-      } catch {
+      } catch (error) {
         throw new Error(
           this.formatMessage({
             defaultMessage:
               "The editor could not confirm insertion. Check your design before adding again. Your generation is saved.",
             description: "Status or recovery instruction in the video generation panel.",
-          })
+          }) +
+            (error instanceof EditorInsertionError
+              ? " " +
+                this.formatMessage(
+                  {
+                    defaultMessage: "Error code: {code}.",
+                    description:
+                      "Safe error code reported by the host editor during video insertion.",
+                  },
+                  { code: error.code }
+                )
+              : "")
         );
       }
       this.update({
