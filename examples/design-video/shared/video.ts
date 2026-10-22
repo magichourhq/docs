@@ -21,7 +21,10 @@ export type VideoResult = {
 };
 export type JobStore = { load(): Promise<string | null>; save(id: string | null): Promise<void> };
 export class EditorInsertionError extends Error {
-  constructor(readonly code: string) {
+  constructor(
+    readonly code: string,
+    readonly detail?: string
+  ) {
     super(code);
   }
 }
@@ -463,7 +466,18 @@ export class VideoPanel {
                       "Safe error code reported by the host editor during video insertion.",
                   },
                   { code: error.code }
-                )
+                ) +
+                (error.detail
+                  ? " " +
+                    this.formatMessage(
+                      {
+                        defaultMessage: "Details: {detail}",
+                        description:
+                          "A bounded, redacted explanation of a rejected editor request.",
+                      },
+                      { detail: error.detail }
+                    )
+                  : "")
               : "")
         );
       }

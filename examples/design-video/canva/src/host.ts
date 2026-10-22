@@ -84,6 +84,7 @@ export function canvaHost(
       };
     },
     async insertVideo(result) {
+      let thumbnailImageUrl: string | undefined;
       try {
         const add = api.features.isSupported(api.design.addElementAtPoint)
           ? api.design.addElementAtPoint
@@ -100,6 +101,7 @@ export function canvaHost(
           );
         let ref = uploaded.get(result.id);
         if (!ref) {
+          thumbnailImageUrl = await poster(result.blob);
           const asset = await api.asset.upload({
             type: "video",
             mimeType: "video/mp4",
@@ -109,7 +111,7 @@ export function canvaHost(
               description:
                 "Label or error for reading a Canva image or inserting a generated video.",
             }),
-            thumbnailImageUrl: await poster(result.blob),
+            thumbnailImageUrl,
             aiDisclosure: "app_generated",
           });
           // Cache successful ingestion so explicit insertion retries reuse the native asset.
@@ -150,8 +152,17 @@ export function canvaHost(
             "unsupported_page_type",
             "user_offline",
           ].includes(code)
-        )
-          throw new EditorInsertionError(code);
+        ) {
+          let detail: string | undefined;
+          if (code === "bad_request" && error instanceof Error) {
+            detail = error.message.replaceAll(result.url, "[video URL]");
+            if (thumbnailImageUrl) detail = detail.replaceAll(thumbnailImageUrl, "[video preview]");
+            detail = detail
+              .replace(/(?:https?:\/\/|data:)[^\s"'<>)]*/gi, "[media URL]")
+              .slice(0, 300);
+          }
+          throw new EditorInsertionError(code, detail);
+        }
         throw error;
       }
     },
