@@ -5,7 +5,7 @@ A Design Editor intent using the current Canva Developers SDK and App UI Kit. Bu
 ## Developer Portal setup
 
 1. Sign in to the authorized Magic Hour Canva developer account, create/select the app, and enable its Design Editor intent.
-2. Configure these scopes: `canva:design:content:read`, `canva:design:content:write`, `canva:asset:private:read`, and `canva:asset:private:write`. Selection and asset reads are needed only for **Use selected image**; uploads/insertion use the write scopes.
+2. Configure these scopes: `canva:design:content:read`, `canva:design:content:write`, `canva:asset:private:read`, and `canva:asset:private:write`. Design content reads are needed for **Use selected image**. Private asset reads retrieve both selected source images and the uploaded preview image’s temporary HTTPS URL during video insertion; uploads/insertion also use the write scopes.
 3. Upload `dist/app.js`, or run `npm run dev:canva` from the parent directory and configure the development JavaScript URL `http://localhost:5173/app.js`. Use the Portal's preview workflow; opening the bundle outside Canva is not a valid SDK runtime.
 4. Enter your own Magic Hour API key. Select exactly one raster image and click **Use selected image**, or upload your own PNG/JPEG/WebP. Canva returns the full underlying image, including content outside its crop/frame; the UI explains this before capture.
 5. Generate the video, preview it, and click **Add video to design**. The adapter copies a generated JPEG preview image into Canva, retrieves its temporary HTTPS URL, and uses it when uploading the refreshed HTTPS video URL. Both assets use `aiDisclosure: "app_generated"`. It waits for ingestion before adding the native video asset. The source image remains unchanged.
