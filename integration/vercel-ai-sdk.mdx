@@ -1,0 +1,35 @@
+---
+title: Vercel AI SDK
+description: Generate images and videos with the Magic Hour provider for Vercel AI SDK.
+---
+
+The Magic Hour provider supports AI SDK v7 image generation and experimental video generation, including text-to-video and image-to-video. It uses the public API and handles uploads, asynchronous completion, and output downloads.
+
+<Note>
+  The provider is available as source in the documentation repository. npm publication is pending;
+  install a local build or tarball using the instructions below.
+</Note>
+
+<Card
+  title="Provider source and installation"
+  icon="code"
+  href="https://github.com/magichourhq/docs/tree/main/examples/vercel-ai-sdk"
+>
+  Build the package, run the example, and review supported models and recovery behavior.
+</Card>
+
+```ts
+import { generateImage } from "ai";
+import { createMagicHour } from "@magichour/ai-sdk-provider";
+
+const magichour = createMagicHour(); // Reads MAGIC_HOUR_API_KEY server-side.
+const { image } = await generateImage({
+  model: magichour.image("flux-2-klein"),
+  prompt: "A blue ceramic mug in a sunlit studio",
+  aspectRatio: "1:1",
+  providerOptions: { magichour: { resolution: "640px" } },
+  maxRetries: 0,
+});
+```
+
+Generations consume Magic Hour credits. Persist the project ID in `onProjectCreated` before waiting. If waiting fails, retrieve the existing project instead of submitting another generation. See the source guide for video examples, supported options, and compatibility versions.

@@ -1,0 +1,26 @@
+---
+title: Figma plugin
+description: Generate or edit images with Magic Hour and insert the results into a Figma Design canvas.
+---
+
+The Magic Hour plugin prototype generates images from a prompt or edits one selected Figma layer. Preview the completed image, then add it to the canvas. Replacing the original layer's fill is opt-in.
+
+<Note>
+  This is a development plugin. Figma Desktop installation, publisher setup, and Community review
+  remain required before a public release.
+</Note>
+
+<Card
+  title="Build and install the development plugin"
+  icon="code"
+  href="https://github.com/magichourhq/docs/tree/main/examples/figma"
+>
+  Build the UI and controller, obtain a Figma-assigned development plugin ID, and import the
+  manifest.
+</Card>
+
+The API key stays in the plugin UI's session memory. The plugin stores the accepted project ID for resume, without storing the credential. Editing uploads the selected layer's PNG to Magic Hour. Generation uses API credits.
+
+**Stop waiting** stops the local wait while the server-side generation continues. Reopen the plugin and choose **Resume saved generation** to retrieve its result without submitting another paid job.
+
+The browser UI has been tested with live image generation and editing; canvas behavior has automated tests with a simulated Figma API. These checks do not replace testing the plugin inside a real Figma Design file.
