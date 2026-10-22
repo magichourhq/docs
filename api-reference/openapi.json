@@ -5053,7 +5053,7 @@
                     },
                     "minItems": 1,
                     "maxItems": 10,
-                    "description": "Reference media for video generation. Name references without @ and refer to them as @name in style.prompt. Maximum 10 references total.\n\nSupported models and reference media:\n* **`gemini-omni-1.1`**: Supports images, videos. Up to 13 references.\n* **`kling-3.0`**: Supports images, videos.\n* **`minimax-h3`**: Supports images, videos, audio.\n* **`seedance-2.0`**: Supports images, videos, audio.\n* **`seedance-2.0-fast`**: Supports images, videos, audio.\n* **`seedance-2.0-mini`**: Supports images, videos, audio.\n* **`seedance-2.5`**: Supports images, videos, audio.\n* **`veo3.1`**: Supports images. Up to 3 references. Requires `end_seconds` of 8.\n* **`wan-3.0`**: Supports images, videos, audio."
+                    "description": "Reference media for video generation. Name references without @ and refer to them as @name in style.prompt. Maximum 10 references total.\n\nSupported models and reference media:\n* **`gemini-omni-1.1`**: Supports images, videos. Up to 10 references.\n* **`kling-3.0`**: Supports images, videos.\n* **`minimax-h3`**: Supports images, videos, audio.\n* **`seedance-2.0`**: Supports images, videos, audio.\n* **`seedance-2.0-fast`**: Supports images, videos, audio.\n* **`seedance-2.0-mini`**: Supports images, videos, audio.\n* **`seedance-2.5`**: Supports images, videos, audio.\n* **`veo3.1`**: Supports images. Up to 3 references. Requires `end_seconds` of 8.\n* **`wan-3.0`**: Supports images, videos, audio."
                   }
                 },
                 "required": ["end_seconds", "style"],
