@@ -37,11 +37,10 @@ from google.adk.tools.tool_context import ToolContext
 
 
 def payload(result):
-    if result.get("isError") or result.get("is_error") or result.get("error"):
+    if result.get("isError") or result.get("error"):
         raise RuntimeError("Magic Hour returned an error; keep the saved project ID.")
-    for field in ("structuredContent", "structured_content"):
-        if isinstance(result.get(field), dict):
-            return result[field]
+    if isinstance(result.get("structuredContent"), dict):
+        return result["structuredContent"]
     for block in result.get("content", []):
         if block.get("type") == "text":
             try:
