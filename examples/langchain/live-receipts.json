@@ -1,0 +1,64 @@
+{
+  "credit_cap": 100,
+  "final_credits_charged": 34,
+  "source_commit": "6008825eba5994a7e92417dfeb1c779ec7ae06e0",
+  "owner_tests_only": true,
+  "runs": [
+    {
+      "projectId": "cmvkn3rgn0072i001pqmjp31v",
+      "mode": "generate",
+      "status": "complete",
+      "creditsCharged": 5,
+      "fileCount": 1,
+      "bytes": 307344,
+      "sha256": "304ba03f9a1bc9de22516f924597cb2c20a0649b470352b3db6404a9f3a03ba9",
+      "new_generation": true,
+      "submitted_then_resumed": true,
+      "width": 640,
+      "height": 640,
+      "mime": "image/png"
+    },
+    {
+      "projectId": "cmvkn8e6j043afc0126mopp5s",
+      "mode": "edit",
+      "status": "complete",
+      "creditsCharged": 5,
+      "fileCount": 1,
+      "bytes": 261367,
+      "sha256": "3bb258977910146f7fe775ae13c34e37d858f3b507782f82371357044b079aab",
+      "new_generation": true,
+      "submitted_then_resumed": true,
+      "width": 640,
+      "height": 640,
+      "mime": "image/png"
+    },
+    {
+      "projectId": "cmvkna0bx010rlt01uib9sgk1",
+      "mode": "animate",
+      "status": "complete",
+      "creditsCharged": 24,
+      "fileCount": 1,
+      "bytes": 151281,
+      "sha256": "28ebc742a8606b7b3149a827ba4a85141b93b7a0020f060712463948cc823211",
+      "new_generation": true,
+      "submitted_then_resumed": true,
+      "ffprobe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 640,
+            "height": 640,
+            "avg_frame_rate": "24/1",
+            "nb_frames": "25"
+          }
+        ],
+        "format": {
+          "duration": "1.041667",
+          "size": "151281"
+        }
+      }
+    }
+  ]
+}

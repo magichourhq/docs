@@ -122,6 +122,7 @@
               "integration/postman",
               "integration/adding-api-to-your-app",
               "integration/inputs-and-outputs",
+              "integration/langchain",
               "integration/mastra",
               "integration/development-and-testing",
               {
