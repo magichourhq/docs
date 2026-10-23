@@ -6,9 +6,16 @@ description: Generate images and videos with the Magic Hour provider for Vercel 
 The Magic Hour provider supports AI SDK v7 image generation and experimental video generation, including text-to-video and image-to-video. It uses the public API and handles uploads, asynchronous completion, and output downloads.
 
 <Note>
-  The provider is available as source in the documentation repository. npm publication is pending;
-  install a local build or tarball using the instructions below.
+  The provider is distributed as a GitHub-hosted package archive. npm publication remains pending.
 </Note>
+
+## Install
+
+```sh
+npm install https://github.com/magichourhq/docs/releases/download/ai-sdk-provider-v0.1.0/magichour-ai-sdk-provider-0.1.0.tgz ai@7.0.148
+```
+
+Requires Node.js 22 or newer. Version 0.1.0 was checked with `ai@7.0.148` and `@ai-sdk/provider@4.0.31`. Video APIs are experimental; retest before upgrading. The [GitHub release](https://github.com/magichourhq/docs/releases/tag/ai-sdk-provider-v0.1.0) includes the package checksum.
 
 <Card
   title="Provider source and installation"
