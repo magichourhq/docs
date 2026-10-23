@@ -2,9 +2,15 @@
 
 Image generation, text-to-video, and image-to-video through Magic Hour's public API. Implements the AI SDK v7 / provider v4 image and experimental video interfaces. No separate service is required.
 
-## Install from this repository
+## Install the GitHub release
 
-This package is prepared for npm publication as `@magichour/ai-sdk-provider`; it is **not yet published**. Use the local package or a tarball until publisher access is configured.
+Install the prebuilt [version 0.1.0 archive](https://github.com/magichourhq/docs/releases/tag/ai-sdk-provider-v0.1.0). The package keeps the name `@magichour/ai-sdk-provider`; it is **not yet published to npm**.
+
+```sh
+npm install https://github.com/magichourhq/docs/releases/download/ai-sdk-provider-v0.1.0/magichour-ai-sdk-provider-0.1.0.tgz ai@7.0.148
+```
+
+To build a local tarball instead:
 
 ```sh
 cd examples/vercel-ai-sdk
