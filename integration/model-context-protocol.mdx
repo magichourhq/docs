@@ -1,11 +1,11 @@
 ---
 title: Magic Hour MCP
-description: Connect an AI assistant to Magic Hour to create and edit images, video, and audio.
+description: Connect an AI assistant to Magic Hour to create and edit images and video.
 ---
 
 Model Context Protocol (MCP) lets AI assistants call external tools. Magic Hour MCP lets compatible
 assistants create and edit media through Magic Hour's API-backed tools. Connect the hosted server
-once, then ask for an image, video, or audio result in plain English. The assistant selects tools,
+once, then ask for an image or video result in plain English. The assistant selects tools,
 starts jobs, waits for renders, and returns the finished files.
 
 ```text Hosted MCP endpoint
@@ -18,7 +18,9 @@ https://mcp.magichour.ai/
   href="https://magichour.ai/developer?tab=api-keys&ref=docs-mcp&utm_source=docs&utm_medium=referral&utm_campaign=mcp"
   horizontal
 >
-  Create the key used to authorize MCP tool calls.
+  Create a key for clients that use manual bearer authentication, such as the Claude Code, Codex
+  CLI, and Manus setup below. Claude and ChatGPT OAuth connector users sign in and authorize the
+  connection instead.
 </Card>
 
 <Note>
@@ -31,11 +33,12 @@ https://mcp.magichour.ai/
 The current server builds tools from its bundled Magic Hour OpenAPI specification and adds helpers
 for the media workflow:
 
-- **Video:** talking photo, video editing, animation, audio-to-video, subtitles, character replace,
+- **Video:** talking photo, video editing and translation, animation, audio-to-video, subtitles, character replace,
   face swap, image-to-video, lip sync, text-to-video, and video-to-video
 - **Image:** generation and editing, clothes and face editing, GIFs, headshots, upscaling, memes,
   QR codes, body/face/head swaps, background removal, and photo colorization
-- **Audio:** voice generation and voice cloning
+- **Audio inputs:** use audio files with talking-photo and other tools that accept audio. Voice
+  generation and voice cloning are not currently exposed by the hosted MCP.
 - **Workflow:** server health, file-upload URLs, face detection, project status and deletion, render
   waiting, and secure retrieval of completed image, audio, and video files
 
@@ -46,7 +49,8 @@ Magic Hour web app.
 
 You need:
 
-- A [Magic Hour API key](https://magichour.ai/developer?tab=api-keys&ref=docs-mcp-requirements&utm_source=docs&utm_medium=referral&utm_campaign=mcp)
+- A Magic Hour account for the Claude or ChatGPT OAuth connector sign-in flow
+- For the Claude Code, Codex CLI, and Manus bearer-token setup below, a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys&ref=docs-mcp-requirements&utm_source=docs&utm_medium=referral&utm_campaign=mcp)
 - A client that supports remote Streamable HTTP MCP servers
 - Enough Magic Hour credits for the generations you request
 
@@ -63,10 +67,10 @@ your API key private and never commit it to source control.
 1. Open **Settings → Connectors** in Claude and add a custom connector.
 2. Name it `Magic Hour` and use `https://mcp.magichour.ai/` as the connector URL.
 3. If Claude asks for an OAuth client ID in Advanced settings, enter `magic-hour-mcp`.
-4. Select **Connect**. On the Magic Hour authorization page, paste your API key and continue.
-5. Enable the connector and ask Claude: `Call the Magic Hour ping tool.`
+4. Select **Connect**, sign in to Magic Hour if asked, and select **Allow** on the authorization page. A **Claude connector** API key is created automatically in your [Developer Hub](https://magichour.ai/developer?tab=api-keys&ref=docs-mcp-requirements&utm_source=docs&utm_medium=referral&utm_campaign=mcp); delete that key there to disconnect.
+5. Enable the connector and ask Claude: `Call Magic Hour account_retrieve and confirm API access without generating media.`
 
-The expected response is `pong`.
+A returned credit balance confirms API authorization. Keep account details private.
 
 </Tab>
 
@@ -78,7 +82,8 @@ Add the hosted server with your API key as a bearer token:
 claude mcp add --scope user --transport http magic-hour https://mcp.magichour.ai/ --header "Authorization: Bearer YOUR_MAGIC_HOUR_API_KEY"
 ```
 
-Start a new Claude Code session and ask it to call the Magic Hour `ping` tool.
+Start a new Claude Code session and ask it to call `account_retrieve` to confirm API access without
+generating media.
 
 </Tab>
 
@@ -100,7 +105,52 @@ Add the hosted server:
 codex mcp add magic-hour --url https://mcp.magichour.ai/ --bearer-token-env-var MAGIC_HOUR_API_KEY
 ```
 
-Start Codex from the same shell and ask it to call the Magic Hour `ping` tool.
+Start Codex from the same shell and ask it to call `account_retrieve` to confirm API access without
+generating media.
+
+</Tab>
+
+<Tab title="Hermes Agent">
+
+Install [Hermes Agent](https://hermes-agent.nousresearch.com/docs/getting-started/installation/)
+and configure its model provider separately. Connect Magic Hour as a custom MCP server; no
+additional Magic Hour server or plugin is needed.
+
+Set your Magic Hour API key in the shell that will launch Hermes:
+
+```bash
+export MAGIC_HOUR_API_KEY="YOUR_MAGIC_HOUR_API_KEY"
+```
+
+Merge this entry into `mcp_servers` in `~/.hermes/config.yaml` (or your selected profile’s config).
+Keep the `${MAGIC_HOUR_API_KEY}` placeholder literal so the key stays out of the YAML:
+
+```yaml
+mcp_servers:
+  magic_hour:
+    url: https://mcp.magichour.ai/
+    headers:
+      Authorization: "Bearer ${MAGIC_HOUR_API_KEY}"
+    timeout: 120
+```
+
+Check discovery, then start Hermes from the same shell:
+
+```bash
+hermes mcp test magic_hour
+hermes chat
+```
+
+Ask Hermes: `Call mcp__magic_hour__account_retrieve to confirm API access without generating media.`
+A returned credit balance confirms authorization; tool discovery alone does not.
+
+Then try the [first request below](#try-a-first-request). Generation uses Magic Hour credits.
+Keep the accepted project ID and resume its matching wait tool after an interruption rather
+than submitting another paid job. Local attachments still need the [upload flow below](#using-input-files).
+
+This custom connection does not imply inclusion in Hermes’ Nous-approved MCP catalog.
+[Hermes MCP documentation](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp/)
+explains configuration, tool filtering, and catalog review.
 
 </Tab>
 
@@ -113,10 +163,26 @@ https://mcp.magichour.ai/
 ```
 
 The server publishes OAuth discovery metadata and supports public client registration for ChatGPT
-connector redirect URLs. Complete the Magic Hour authorization screen with your API key, enable the
-connector, and ask ChatGPT to call the Magic Hour `ping` tool.
+connector redirect URLs. Choose OAuth authentication, then complete the authorization prompt by
+signing in to Magic Hour and selecting **Allow**. A **ChatGPT connector** API key is created
+automatically; no manual key entry is needed. Enable the connector and ask ChatGPT to call the
+Magic Hour `account_retrieve` tool to confirm API access without generating media.
 
 ChatGPT controls connector availability and where its setup controls appear.
+
+</Tab>
+
+<Tab title="Manus">
+
+1. Open **Settings → Connectors** in Manus, then select **Create → Custom MCP**.
+2. Name the connector `Magic Hour`, choose HTTP, and enter `https://mcp.magichour.ai/`.
+3. Add a header named `Authorization` with the value `Bearer YOUR_MAGIC_HOUR_API_KEY`.
+4. After connecting, ask Manus: `Call Magic Hour account_retrieve and confirm API access without generating media.`
+
+Manus receives and stores this API key with the connector. Use a dedicated key and revoke it in
+your [Developer Hub](https://magichour.ai/developer?tab=api-keys) to remove its Magic Hour access.
+Keep the key out of chat messages. Generation sends your prompt, settings, and explicitly selected
+media to Magic Hour and spends Magic Hour credits; only send inputs authorized for that purpose.
 
 </Tab>
 
@@ -124,7 +190,7 @@ ChatGPT controls connector availability and where its setup controls appear.
 
 ## Verify API access before generating
 
-After `ping`, ask the agent to call `account_retrieve` and check eligibility for the
+Use `account_retrieve` to confirm API access, then check eligibility for the
 intended generation. Tool discovery can work without credentials, and an invalid API key
 can still receive `pong`; the account read checks actual API authorization.
 
@@ -162,12 +228,12 @@ Other examples:
 | Edit an image        | `Add realistic sunglasses to this portrait and preserve the person's identity.` |
 | Animate a still      | `Turn this image into a five-second video with gentle camera movement.`         |
 | Swap faces           | `Swap this source face onto the person in this target image.`                   |
-| Create speech        | `Generate speech saying “Welcome to Magic Hour” with a warm narrator voice.`    |
 | Make a talking photo | `Make this portrait speak using my audio file.`                                 |
 
 ## How render jobs work
 
-Image, video, and audio creation is asynchronous:
+Image and video creation is asynchronous. Audio status, waiting, and download helpers can also
+retrieve existing API audio projects:
 
 1. A creation tool starts the job and immediately returns a project `id` and `credits_charged`.
 2. The assistant calls the matching `wait_for_image_project`, `wait_for_video_project`, or
@@ -192,23 +258,33 @@ Direct public media URLs may work when they return stable raw file bytes, but up
 `file_path` values are more reliable. A browser attachment only works when the MCP client provides
 the required upload bridge; the hosted server cannot fetch a caller-supplied local filesystem path.
 
-## Built-in video guidance
+## Recommended video guidance
 
-When the user does not give different instructions, the current server tells the assistant to:
+Unless the user gives different instructions, guide the assistant to:
 
 - Prefer AI Image Editor followed by Image-to-Video for multi-step video creation
 - Reuse reference images and preserve identity, style, color, lighting, and aspect ratio across scenes
-- Prefer `nano-banana-2-lite` for image creation/editing and `ltx-2.3` for Image-to-Video
-- Add an appropriate AI Voice Generator narration when it suits the video and let sentences finish
+- Omit optional `model` and `resolution` only when their defaults are compatible with the account
+- For an image model recommendation, prefer `nano-banana-2-lite` only when account support is known;
+  otherwise check account access and tool model metadata before choosing a model
+- For an Image-to-Video model recommendation, prefer `ltx-2.5`
 - Use Text-to-Video when visual consistency is not important
 
 User instructions take precedence over these defaults.
 
+For AI Image Editor, omitted `model` or `model="default"` currently selects `nano-banana`, which
+requires a paid plan. On Free, explicitly request `model="flux-2-klein"`, `resolution="640px"`, and
+`image_count=1`. Available credits alone do not unlock paid-only models or larger resolutions.
+If a request returns `plan_upgrade_required`, choose a model and resolution supported by the account
+or upgrade; do not retry the unchanged request. Do not silently change a user-selected model.
+
 ## Troubleshooting
 
-- **Tools do not appear:** Restart the client after adding the server, then call `ping`.
-- **Authentication fails:** Confirm the full API key is active and bearer authentication uses
-  `Authorization: Bearer YOUR_MAGIC_HOUR_API_KEY`.
+- **Tools do not appear:** Restart the client after adding the server, then call `account_retrieve`.
+- **Authentication fails:** For Claude or ChatGPT OAuth connections, reconnect, sign in to Magic Hour,
+  and select **Allow**. For manual bearer-token clients, confirm the full API key is active and
+  authentication uses `Authorization: Bearer YOUR_MAGIC_HOUR_API_KEY`. Then call `account_retrieve`
+  to verify API access.
 - **Codex cannot see the server:** Launch Codex from the shell where `MAGIC_HOUR_API_KEY` is set.
 - **You only received a project ID:** Ask the assistant to call the matching `wait_for_*_project`
   helper and return the finished result.

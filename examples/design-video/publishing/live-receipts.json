@@ -1,0 +1,89 @@
+[
+  {
+    "platform": "framer",
+    "id": "cmviym7mp05bchb01jyzv1y4k",
+    "completed": true,
+    "liveMagicHour": true,
+    "hostBridge": "simulated",
+    "dimensions": {
+      "width": 640,
+      "height": 640,
+      "duration": 1.041667
+    },
+    "assertions": "preview, explicit native adapter insertion, no stored API key",
+    "creditsCharged": 24,
+    "bytes": 112814,
+    "sha256": "a176d403bb216d29352c7b3f229664bafc214c8a5c46deb87542d2550e49c89a",
+    "ffprobe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 640,
+          "height": 640
+        }
+      ],
+      "format": {
+        "duration": "1.041667"
+      }
+    }
+  },
+  {
+    "platform": "adobe",
+    "id": "cmviymhoy058bfl017btblk0e",
+    "completed": true,
+    "liveMagicHour": true,
+    "hostBridge": "simulated",
+    "dimensions": {
+      "width": 640,
+      "height": 640,
+      "duration": 1.041667
+    },
+    "assertions": "preview, explicit native adapter insertion, no stored API key",
+    "creditsCharged": 24,
+    "bytes": 111046,
+    "sha256": "613da91f63b985291e25fd890b0cef4e6ab4eca1cb0daed4e93614ed9c272460",
+    "ffprobe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 640,
+          "height": 640
+        }
+      ],
+      "format": {
+        "duration": "1.041667"
+      }
+    }
+  },
+  {
+    "platform": "canva",
+    "id": "cmviymlmy025sg5011gl6fnkr",
+    "completed": true,
+    "liveMagicHour": true,
+    "hostBridge": "simulated",
+    "dimensions": {
+      "width": 640,
+      "height": 640,
+      "duration": 1.041667
+    },
+    "assertions": "preview, explicit native adapter insertion, no stored API key",
+    "creditsCharged": 24,
+    "bytes": 109558,
+    "sha256": "5e8c0edabac4cfdd5bb7fae3dd8b3c64e2778d4446c271ee98c9140a84b8d57a",
+    "ffprobe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 640,
+          "height": 640
+        }
+      ],
+      "format": {
+        "duration": "1.041667"
+      }
+    }
+  }
+]

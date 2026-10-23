@@ -1,0 +1,50 @@
+{
+  "name": "@magichour/ai-sdk-provider",
+  "version": "0.1.0",
+  "description": "Magic Hour image and video provider for Vercel AI SDK",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/magichourhq/docs.git",
+    "directory": "examples/vercel-ai-sdk"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "tsx --test test/*.test.ts",
+    "check": "tsc --noEmit -p tsconfig.test.json",
+    "example": "tsx example.ts",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "@ai-sdk/provider": "4.0.31"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "ai": "7.0.148",
+    "tsx": "^4.20.0",
+    "typescript": "^6.0.0"
+  },
+  "peerDependencies": {
+    "ai": "^7.0.148"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

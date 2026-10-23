@@ -1,0 +1,106 @@
+---
+title: OpenAI Agents SDK
+description: Connect the Python Agents SDK to Magic Hour MCP and recover an existing image without another generation.
+---
+
+Use the Python Agents SDK's native Streamable HTTP client with Magic Hour's hosted MCP.
+The walkthrough below discovers tools, checks Magic Hour authorization, and retrieves an existing
+image. It calls no model and needs no OpenAI API key.
+
+## Install and configure
+
+Requires Python 3.10+. Install the SDK and MCP versions verified together:
+
+```bash
+python -m pip install "openai-agents==0.24.0" "mcp==2.3.0"
+```
+
+Provide a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys) through your secret
+manager as `MAGIC_HOUR_API_KEY`. Set `MAGIC_HOUR_IMAGE_PROJECT_ID` to an image project ID already
+saved from an accepted generation. Keep keys, account details, and temporary download URLs private.
+
+## Verify access and recover an image
+
+Save this as your application entry point and run it with Python. It disables SDK tracing and
+closes the MCP connection when the `async with` block exits.
+
+```python
+import asyncio
+import base64
+import os
+from pathlib import Path
+
+from agents import set_tracing_disabled
+from agents.mcp import MCPServerStreamableHttp
+
+set_tracing_disabled(True)
+
+
+async def main():
+    async with MCPServerStreamableHttp(
+        name="Magic Hour",
+        params={
+            "url": "https://mcp.magichour.ai/",
+            "timeout": 30,
+            "sse_read_timeout": 60,
+            "headers": {
+                "Authorization": "Bearer " + os.environ["MAGIC_HOUR_API_KEY"]
+            },
+        },
+        client_session_timeout_seconds=60,
+        max_retry_attempts=0,
+    ) as server:
+        tools = await server.list_tools()
+        print(f"Discovered {len(tools)} tools.")
+
+        account = await server.call_tool("account_retrieve", {})
+        if account.is_error:
+            raise RuntimeError("Magic Hour authorization failed.")
+        print("Magic Hour API authorization confirmed.")
+
+        result = await server.call_tool(
+            "wait_for_image_project",
+            {
+                "id": os.environ["MAGIC_HOUR_IMAGE_PROJECT_ID"],
+                "timeout_seconds": 30,
+                "include_inline_downloads": True,
+                "max_inline_downloads": 1,
+                "max_bytes_per_download": 1048576,
+            },
+        )
+        if result.is_error:
+            raise RuntimeError("Recovery failed; keep the saved project ID.")
+        project = result.structured_content or {}
+        if project.get("status") != "complete":
+            raise RuntimeError("Image project is not complete; keep the saved ID and inspect its status.")
+        image = next((item for item in result.content if item.type == "image"), None)
+        if image is None:
+            raise RuntimeError("Completed image was not embedded; retrieve its exact download URL.")
+        Path("magic-hour-image.bin").write_bytes(base64.b64decode(image.data, validate=True))
+        print("Saved magic-hour-image.bin; inspect its format before renaming.")
+
+
+asyncio.run(main())
+```
+
+Discovery alone does not prove API authorization; `account_retrieve` checks the key. This example
+does not print the private account response. Reusing the same project ID reads the accepted job
+without submitting or charging for a new generation. A timeout does not cancel the job: keep its
+ID and retry recovery. This example limits inline media to 1 MiB; use the exact returned signed
+download URL when an output cannot be embedded, preserving its query parameters.
+
+## Use with an agent
+
+Pass the connected server to an Agents SDK agent through `mcp_servers=[server]` while its
+context remains open. Native validation confirmed tool discovery, authenticated account access,
+same-ID recovery, inline PNG retrieval, context teardown, and conversion of 48 tools through
+`Agent.get_mcp_tools`. No Runner or model was invoked. Model-backed runs require their own provider
+configuration and can spend provider tokens as well as Magic Hour credits when generation tools
+are called.
+
+Generation sends authorized prompts and media to Magic Hour and spends credits. Persist every
+accepted project ID before waiting; recover it instead of repeating a paid creation. See
+[Magic Hour MCP](/integration/model-context-protocol) for uploads, generation, and download rules,
+our [privacy policy](https://magichour.ai/privacy-policy), and the
+[official SDK transport source](https://github.com/openai/openai-agents-python/blob/v0.24.0/src/agents/mcp/server.py).
+

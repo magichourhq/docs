@@ -45,6 +45,8 @@ For a complete voice-to-video workflow, follow the [lip-sync starter recipe](/ge
 - **Entertainment** - Create fun lip-sync content for social media
 - **Accessibility** - Add voiceovers to silent video content
 
+For client localization projects, use the [agency lip-sync pilot](/integration/agency-lip-sync) to compare matched clips, review outputs and track delivery cost.
+
 ## Best Practices
 
 ### Video Requirements
@@ -159,11 +161,11 @@ if (result.status === "complete") {
 
 Lip Sync is charged per rendered frame, and the rate depends on `style.generation_mode`:
 
-| Generation mode      | Credits per frame | Notes                                          |
+| Generation mode | Credits per frame | Notes                                 |
 | :-------------- | :---------------- | :------------------------------------ |
-| `lite`               | 1                 | Available on all tiers                         |
-| `standard`           | 1                 | Creator, Pro, and Business tiers only          |
-| `pro`                | 2                 | Creator, Pro, and Business tiers only          |
+| `lite`          | 1                 | Available on all tiers                |
+| `standard`      | 1                 | Creator, Pro, and Business tiers only |
+| `pro`           | 2                 | Creator, Pro, and Business tiers only |
 
 For example, a 10-second clip capped at 30 FPS in `lite` mode costs about 300 credits. Use `max_fps_limit` to lower the frame rate and reduce cost. Credits are only charged for the frames that actually render, and the completed job's `credits_charged` shows the exact cost.
 

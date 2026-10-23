@@ -1,0 +1,106 @@
+---
+title: PydanticAI
+description: Connect PydanticAI to Magic Hour MCP and recover an existing image without another generation.
+---
+
+Use PydanticAI's native `MCPToolset` with Magic Hour's hosted MCP. This walkthrough checks API
+authorization and retrieves an existing image without a model, provider API key, or new generation.
+
+## Install and configure
+
+Requires Python 3.11+; native validation used Python 3.12 and these package versions:
+
+```bash
+python -m pip install "pydantic-ai-slim[mcp]==2.60.0" "fastmcp-slim==4.1.3" "mcp==2.3.0"
+```
+
+Provide a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys) through your secret
+manager as `MAGIC_HOUR_API_KEY`. Set `MAGIC_HOUR_IMAGE_PROJECT_ID` to an image project ID already
+saved from an accepted generation. Keep credentials, account details, and temporary download URLs
+private.
+
+## Verify access and recover an image
+
+Save this as your application entry point and run it with Python. It disables FastMCP telemetry
+and update checks before importing the client, and closes the connection when its context exits.
+
+```python
+import asyncio
+import os
+from pathlib import Path
+
+os.environ["FASTMCP_TELEMETRY_MODE"] = "off"
+os.environ["FASTMCP_CHECK_FOR_UPDATES"] = "off"
+
+from pydantic_ai.mcp import MCPToolset
+from pydantic_ai.messages import BinaryImage
+
+
+async def main():
+    async with MCPToolset(
+        "https://mcp.magichour.ai/",
+        headers={"Authorization": "Bearer " + os.environ["MAGIC_HOUR_API_KEY"]},
+        init_timeout=30,
+        read_timeout=60,
+        max_retries=0,
+        tool_error_behavior="error",
+    ) as toolset:
+        tools = await toolset.list_tools()
+        print(f"Discovered {len(tools)} tools.")
+        await toolset.direct_call_tool("account_retrieve", {})
+        print("Magic Hour API authorization confirmed.")
+
+        project_id = os.environ["MAGIC_HOUR_IMAGE_PROJECT_ID"]
+        project = await toolset.direct_call_tool(
+            "wait_for_image_project",
+            {"id": project_id, "timeout_seconds": 30, "include_inline_downloads": False},
+        )
+        if not isinstance(project, dict) or project.get("status") != "complete":
+            raise RuntimeError("Image project is not complete; keep the saved ID and inspect its status.")
+
+        parts = await toolset.direct_call_tool(
+            "wait_for_image_project",
+            {
+                "id": project_id,
+                "timeout_seconds": 30,
+                "include_inline_downloads": True,
+                "max_inline_downloads": 1,
+                "max_bytes_per_download": 1048576,
+            },
+        )
+        image = next((part for part in parts if isinstance(part, BinaryImage)), None)
+        if image is None:
+            raise RuntimeError("Completed image was not embedded; retrieve its exact download URL.")
+        Path("magic-hour-image.bin").write_bytes(image.data)
+        print("Saved magic-hour-image.bin; inspect its format before renaming.")
+
+
+asyncio.run(main())
+```
+
+Discovery is public; the account read checks actual Magic Hour authorization without printing
+private account fields. Tool errors raise instead of becoming model retries. `BinaryImage.data`
+already contains bytes, so it needs no base64 decoding.
+
+Both recovery calls reuse the saved ID without another creation or generation charge. A timeout
+does not cancel the accepted job: keep its ID and retry recovery. This example limits inline media
+to 1 MiB; larger outputs need the exact returned signed download URL, with query parameters intact.
+
+## Use with an agent
+
+Attach the toolset to a PydanticAI agent with `toolsets=[toolset]` and keep its async context open
+during use. For an uninstrumented agent, set `agent.instrument = False`; `instrument` is not an
+Agent constructor argument in this release. Model-backed runs need their own provider
+configuration and may spend provider tokens and Magic Hour credits.
+
+Generation sends authorized prompts and media to Magic Hour. Persist each accepted project ID
+before waiting and recover it instead of repeating a paid creation. See
+[Magic Hour MCP](/integration/model-context-protocol) for upload and generation workflows,
+our [privacy policy](https://magichour.ai/privacy-policy), and the
+[released MCPToolset source](https://github.com/pydantic/pydantic-ai/blob/v2.60.0/pydantic_ai_slim/pydantic_ai/mcp.py).
+
+Native validation discovered 48 tools, authenticated the account read, checked the saved project's
+completed status, and recovered its usable 640×640 PNG as a native `BinaryImage`. Full image decode
+and session teardown passed. An Agent retained the same toolset with instrumentation disabled.
+No schema conversion, model run, provider credentials, new generation, or additional credits were
+part of this validation.

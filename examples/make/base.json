@@ -1,0 +1,23 @@
+{
+  "baseUrl": "https://api.magichour.ai/v1",
+  "headers": {
+    "Authorization": "Bearer {{connection.apiKey}}"
+  },
+  "followRedirect": false,
+  "followAllRedirect": false,
+  "response": {
+    "valid": "{{statusCode >= 200 && statusCode < 300}}",
+    "error": {
+      "message": "[{{statusCode}}] {{ifempty(body.message, 'Magic Hour could not process this request. Check the request inputs and try again.')}}",
+      "401": {
+        "message": "[401] Magic Hour could not authenticate this connection. Check its API key."
+      },
+      "404": {
+        "message": "[404] Generation or API endpoint not found. {{ifempty(body.message, 'Check the generation ID, selected media format, and API path.')}}"
+      }
+    }
+  },
+  "log": {
+    "sanitize": ["request.headers.authorization"]
+  }
+}

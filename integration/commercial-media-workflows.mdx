@@ -1,0 +1,83 @@
+---
+title: "Choose a Commercial AI Media Workflow"
+sidebarTitle: "Choose a Workflow"
+description: "Match product ads, localization, portrait videos and application integrations to the right Magic Hour workflow, inputs and evaluation criteria."
+---
+
+Start with the assets you have and the result you need. A product photo, an existing speaker video
+and a text-only brief require different workflows. Magic Hour offers a web application for manual
+creation, an API for application integrations and a creation MCP for connected assistants. Their
+catalogs can differ; check the specific endpoint before committing to an integration.
+
+This guide is published by Magic Hour. It explains how to evaluate fit, not a measured comparison
+with another provider.
+
+## Match the workflow to your inputs
+
+| Your job                               | Inputs                                                | Web workflow                                                           | API documentation                                                | Acceptance check                                                |
+| :------------------------------------- | :---------------------------------------------------- | :--------------------------------------------------------------------- | :--------------------------------------------------------------- | :-------------------------------------------------------------- |
+| Replace a face in existing footage     | Video and approved replacement face                   | [Video Face Swap](https://magichour.ai/products/face-swap)             | [Face Swap Video](/api-reference/video-projects/face-swap-video) | Identity, occlusions and temporal stability                     |
+| Edit a product image or campaign asset | Source images and editing instruction                 | [AI Image Editor](https://magichour.ai/products/ai-image-editor)       | [AI Image Editor](/api-reference/image-projects/ai-image-editor) | Unchanged regions, packaging, logos and text                    |
+| Animate a product photo                | Reference image and motion instruction                | [Image-to-Video](https://magichour.ai/products/image-to-video)         | [Image-to-Video](/api-reference/video-projects/image-to-video)   | Product geometry, readable labels and useful motion             |
+| Generate a scene from a brief          | Text prompt                                           | [AI Video Generator](https://magichour.ai/products/ai-video-generator) | [Text-to-Video](/api-reference/video-projects/text-to-video)     | Prompt adherence, continuity and required output settings       |
+| Sync footage to a new voiceover        | Existing video and replacement audio                  | [Lip Sync](https://magichour.ai/products/lip-sync)                     | [Lip Sync](/api-reference/video-projects/lip-sync)               | Mouth timing, identity, pauses and cuts                         |
+| Make a portrait speak                  | Portrait and supported speech input                   | [Talking Photo](https://magichour.ai/products/ai-talking-photo)        | [Talking Photo](/api-reference/video-projects/ai-talking-photo)  | Facial motion, identity and speech timing                       |
+| Create a presenter-style product ad    | Prepared presenter/product image, script and duration | [AI UGC Generator](https://magichour.ai/products/ai-ugc-ad-generator)  | [UGC API contract](https://magichour.ai/openapi.json)            | Accuracy of claims, disclosure and suitability for the campaign |
+
+For developer tooling, begin with [API authentication](/get-started/authentication) and the
+[quickstart](/get-started/quick-start). For an assistant that creates media, connect the
+[Magic Hour creation MCP](/integration/model-context-protocol). The separate
+[API Docs MCP](/integration/api-docs-mcp) searches documentation and does not generate media.
+
+## Product ads: preserve what must be exact
+
+Use image editing to prepare a source asset, then image-to-video to experiment with motion. Check
+each output against the original product: packaging, proportions and labels can change during
+generation. Add exact prices, legal copy and final logos with deterministic editing or compositing.
+
+Start with the [product-video starter recipe](/get-started/starter-recipes). Review one short output
+before scaling to a catalog. A completed job is not automatically an accepted ad.
+
+## Presenter ads: prepare the image before generating
+
+The UGC API accepts a prepared image, an approved script and a supported duration. Compose the
+image separately with [Image Editor](/api-reference/image-projects/ai-image-editor) when needed,
+then submit `POST /v1/ai-ugc-ad` with `assets.image_file_path`, `script` and `end_seconds`. Read the
+[published API contract](https://magichour.ai/openapi.json) for current model, duration, resolution
+and account limits. This endpoint does not combine separate actor and product images in one call.
+
+Save the returned project ID, then poll [video project details](/api-reference/video-projects/get-video-details)
+until the job completes and includes downloads. In the creation MCP, use `ai_ugc_ad_create_video`
+and `wait_for_video_project` once the updated tool catalog is deployed. Review the spoken script,
+product appearance and claims before accepting the result.
+
+## Localization: existing footage or a still portrait?
+
+Choose lip sync when you already have a video and replacement audio. Choose talking photo when
+you start with a still portrait. Translating a script and producing the approved voiceover are
+separate decisions from matching a speaker's mouth to audio.
+
+For client work, follow the [agency lip-sync pilot](/integration/agency-lip-sync). Test difficult
+shots separately rather than assuming results on a clear front-facing speaker transfer to cuts,
+multiple speakers or large head turns.
+
+## Commercial delivery and cost
+
+Use assets, likenesses and voices you have permission to use. Check the current
+[terms of service](https://magichour.ai/terms-of-service) and your plan before commercial delivery.
+Commercial use requires a paid subscription, credit-pack purchase or separately agreed paid
+usage-based arrangement, subject to the terms and applicable rights. Assets created without one
+of these paid arrangements are limited to personal, non-commercial use. Do not present generated
+testimonials as real customer experience.
+
+Model access, supported duration, resolution, audio and credit charges vary. Read the current
+[model and credit matrix](/api-reference/models), then compare providers using the same inputs and
+acceptance criteria. Track [cost per accepted output](/integration/evaluating-media-apis), including
+charged retries and rejected outputs, rather than relying on the cheapest advertised generation.
+
+## Production integrations
+
+Keep credentials server-side, save the returned project ID and wait for a terminal state with a
+bounded timeout. Download successful output before signed URLs expire. A polling timeout must not
+silently create another billable job. Use the [input/output guide](/integration/inputs-and-outputs)
+and [production integration checklist](/integration/adding-api-to-your-app) when moving beyond a pilot.

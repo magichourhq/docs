@@ -1,0 +1,6 @@
+{
+  "id": "magic-hour-video-development",
+  "name": "Magic Hour Video",
+  "modes": ["canvas", "image", "editImage"],
+  "icon": "/icon.svg"
+}

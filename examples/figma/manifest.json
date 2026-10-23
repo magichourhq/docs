@@ -1,0 +1,18 @@
+{
+  "name": "Magic Hour",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/ui.html",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": [
+      "https://api.magichour.ai",
+      "https://*.magichour.ai",
+      "https://*.amazonaws.com",
+      "https://*.cloudfront.net",
+      "https://storage.googleapis.com"
+    ],
+    "reasoning": "Generate and edit images with Magic Hour, upload selected image bytes to signed storage URLs, and download finished images."
+  }
+}

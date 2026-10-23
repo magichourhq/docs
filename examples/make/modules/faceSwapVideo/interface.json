@@ -1,0 +1,12 @@
+[
+  {
+    "name": "id",
+    "type": "text",
+    "label": "Generation ID"
+  },
+  {
+    "name": "credits_charged",
+    "type": "uinteger",
+    "label": "Credits charged"
+  }
+]

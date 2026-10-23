@@ -1,0 +1,24 @@
+{
+  "name": "magic-hour-webflow",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "check": "tsc --noEmit",
+    "build": "node build.mjs && webflow extension bundle",
+    "dev": "webflow extension serve"
+  },
+  "devDependencies": {
+    "@webflow/designer-extension-typings": "2.2.2",
+    "@webflow/webflow-cli": "2.14.0",
+    "esbuild": "0.28.2",
+    "typescript": "6.0.3"
+  },
+  "dependencies": {
+    "gifenc": "1.0.3",
+    "gifuct-js": "2.1.2"
+  }
+}

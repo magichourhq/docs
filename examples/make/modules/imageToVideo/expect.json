@@ -1,0 +1,34 @@
+[
+  {
+    "name": "image",
+    "type": "text",
+    "label": "Starting image",
+    "required": true,
+    "validate": {
+      "min": 1
+    },
+    "help": "Provide a public HTTPS file URL that Magic Hour can download, or a file_path from the Magic Hour upload API. Use content you have permission to process."
+  },
+  {
+    "name": "prompt",
+    "type": "text",
+    "label": "Video description",
+    "required": true,
+    "validate": {
+      "min": 1
+    },
+    "help": "Describe how the image should move."
+  },
+  {
+    "name": "duration",
+    "type": "uinteger",
+    "label": "Video length (seconds)",
+    "required": true,
+    "default": 1,
+    "validate": {
+      "min": 1,
+      "max": 60
+    },
+    "help": "Uses LTX 2.5 at 480p. Longer videos consume more credits."
+  }
+]

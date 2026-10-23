@@ -1,0 +1,23 @@
+---
+title: Langflow
+description: Add Magic Hour image, video, and audio tools to Langflow with the hosted MCP server.
+---
+
+The Magic Hour custom component reuses Langflow's canonical MCP Tools component and connects to `https://mcp.magichour.ai/`. Tools and input schemas are discovered from the hosted server at runtime.
+
+<Card
+  title="Component source and runnable example"
+  icon="code"
+  href="https://github.com/magichourhq/docs/tree/main/examples/langflow"
+>
+  Install the component, configure a secret API key, and run a generation-to-download example.
+</Card>
+
+1. Add a Custom Component in Langflow and replace its source with `magic_hour.py` from the linked example.
+2. Enter a Magic Hour API key in the secret input.
+3. Enable Tool Mode and connect the Toolset output to an Agent's Tools input, or choose a single tool in the dropdown.
+4. Retain the ID returned by creation, then retrieve the matching image/video/audio project or use the hosted wait helper to obtain completed output.
+
+The component was tested with `lfx==1.12.7`. It is supplied as a custom component; the full Langflow 1.12.7 editor and an imported retrieval flow have been verified. An upstream catalog listing remains pending. This integration targets Langflow, rather than Langfuse tracing.
+
+Generations consume API credits. Keep API keys in Langflow secrets/global variables and out of shared flow exports. An interrupted wait should resume the saved project ID without another generation.

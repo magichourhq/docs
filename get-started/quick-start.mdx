@@ -137,6 +137,10 @@ touch main.go
 # Create new Rust project
 cargo new magic-hour-quickstart
 cd magic-hour-quickstart
+
+# Install the runtime and download dependencies used by the examples below
+cargo add tokio@1 --features macros,rt-multi-thread
+cargo add reqwest@0.12 --features blocking
 ```
 
 </CodeGroup>
@@ -146,6 +150,10 @@ cd magic-hour-quickstart
 import SdkInstallation from "/snippets/code-groups/sdk-installation.mdx";
 
 <SdkInstallation />
+
+**Rust on Linux:** Install OpenSSL development headers and `pkg-config` before building.
+On Ubuntu/Debian, run `sudo apt-get install pkg-config libssl-dev`. See the
+[OpenSSL setup guide](https://docs.rs/openssl/latest/openssl/#automatic) for other Linux distributions.
 
 <Tip>
   Want to test your integration without spending credits? The SDKs include a [mock
@@ -178,10 +186,12 @@ you use the tester or the code below, reaching a first result takes three steps:
 
 ### Copy the code and run it
 
+For cURL, use Bash with `curl` and `jq` installed, and set `MAGIC_HOUR_API_KEY`. The examples check these prerequisites before creating a generation.
+
 <Note>
-  **SDK version required for `generate()`:** Use Python SDK v0.36.0+ or Node SDK v0.37.0+. Older
-  versions do not include this helper. Go and Rust use the manual create/poll/download pattern shown
-  below.
+  **SDK compatibility:** Install or upgrade the current Python or Node.js SDK before running these
+  examples. Older SDKs may provide `generate()` but not support the `model`, aspect ratio, and
+  resolution fields used below. Go and Rust use the manual create/poll/download pattern shown below.
 </Note>
 
 1. **Choose an example tab**, then copy the code from your preferred language tab below.
@@ -198,8 +208,9 @@ See the [image generation guide](/tools/image/image-generator) for prompt exampl
 **Why these parameters:**
 
 - `image_count: 1` - Generate one image (costs 5 credits)
+- `model: "z-image-turbo"` - Use a specific model available on Free and paid plans
 - `aspect_ratio: "16:9"` - Widescreen (landscape) output; also supports `1:1` and `9:16`
-- `resolution: "1k"` - Request an explicit supported resolution instead of deprecated `auto`
+- `resolution: "640px"` - Use the resolution available on every plan instead of deprecated `auto`
 - `wait_for_completion: true` - SDK polls until done
 - `download_outputs: true` - Automatically download to local disk
 - `download_directory: "."` - Save to the current directory
@@ -215,8 +226,9 @@ client = Client(token=os.getenv("MAGIC_HOUR_API_KEY"))
 
 result = client.v1.ai_image_generator.generate(
     image_count=1,
+    model="z-image-turbo",
     aspect_ratio="16:9",
-    resolution="1k",
+    resolution="640px",
     style={
         "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'"
     },
@@ -224,6 +236,12 @@ result = client.v1.ai_image_generator.generate(
     download_outputs=True, # download the outputs to local disk
     download_directory=".", # save the outputs to the current directory
 )
+
+if result.status != "complete" or not result.downloaded_paths:
+    raise RuntimeError(
+        f"Project {result.id} did not save an output (status: {result.status}). "
+        "Retrieve this project before creating another request."
+    )
 
 print(f"created image with id {result.id}, spent {result.credits_charged} credits. Outputs are saved at {result.downloaded_paths}")
 ```
@@ -238,8 +256,9 @@ async function main() {
   const createRes = await client.v1.aiImageGenerator.generate(
     {
       imageCount: 1,
+      model: "z-image-turbo",
       aspectRatio: "16:9",
-      resolution: "1k",
+      resolution: "640px",
       style: {
         prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
       },
@@ -250,6 +269,12 @@ async function main() {
       downloadDirectory: ".", // save the outputs to the current directory
     }
   );
+
+  if (createRes.status !== "complete" || !createRes.downloadedPaths?.length) {
+    throw new Error(
+      `Project ${createRes.id} did not save an output (status: ${createRes.status}). Retrieve this project before creating another request.`
+    );
+  }
 
   console.log(
     `created image with id ${createRes.id}, spent ${createRes.creditsCharged} credits. Outputs are saved at ${createRes.downloadedPaths}`
@@ -281,8 +306,9 @@ func main() {
 	client := sdk.NewClient(sdk.WithBearerAuth(os.Getenv("MAGIC_HOUR_API_KEY")))
 	createRes, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{
 		ImageCount:  1,
+		Model: nullable.NewValue(types.V1AiImageGeneratorCreateBodyModelEnumZImageTurbo),
 		AspectRatio: nullable.NewValue(types.V1AiImageGeneratorCreateBodyAspectRatioEnum169),
-		Resolution:  nullable.NewValue(types.V1AiImageGeneratorCreateBodyResolutionEnum1k),
+		Resolution:  nullable.NewValue(types.V1AiImageGeneratorCreateBodyResolutionEnum640px),
 		Style: types.V1AiImageGeneratorCreateBodyStyle{
 			Prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'",
 		},
@@ -313,6 +339,11 @@ func main() {
 			}
 			defer resp.Body.Close()
 
+			if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+				fmt.Printf("download failed: HTTP %d; retrieve the same project again for a fresh URL\n", resp.StatusCode)
+				return
+			}
+
 			out, err := os.Create(outputFile)
 			if err != nil {
 				fmt.Println(err)
@@ -341,7 +372,6 @@ func main() {
 ```rust Rust SDK
 use magic_hour;
 use reqwest;
-use std::io::Read;
 
 #[tokio::main]
 async fn main() {
@@ -355,8 +385,9 @@ async fn main() {
         .ai_image_generator()
         .create(magic_hour::resources::v1::ai_image_generator::CreateRequest {
             image_count: 1,
+            model: Some(magic_hour::models::V1AiImageGeneratorCreateBodyModelEnum::ZImageTurbo),
             aspect_ratio: Some(magic_hour::models::V1AiImageGeneratorCreateBodyAspectRatioEnum::Enum169),
-            resolution: Some(magic_hour::models::V1AiImageGeneratorCreateBodyResolutionEnum::Enum1k),
+            resolution: Some(magic_hour::models::V1AiImageGeneratorCreateBodyResolutionEnum::Enum640px),
             style: magic_hour::models::V1AiImageGeneratorCreateBodyStyle {
                 prompt: "Epic anime art of wizard casting a cosmic spell in the sky that says 'Magic Hour'".to_string(),
                 ..Default::default()
@@ -414,6 +445,14 @@ async fn main() {
 #!/bin/bash
 set -e
 
+for dependency in curl jq; do
+    command -v "$dependency" >/dev/null 2>&1 || {
+        echo "Install $dependency before running this example." >&2
+        exit 1
+    }
+done
+: "${MAGIC_HOUR_API_KEY:?Set MAGIC_HOUR_API_KEY before running this example.}"
+
 URL="https://api.magichour.ai/v1/ai-image-generator"
 STATUS_URL="https://api.magichour.ai/v1/image-projects"
 # Use environment variable for security
@@ -426,8 +465,9 @@ create_response=$(curl -fsS "$URL" \
   --header "Authorization: Bearer $API_KEY" \
   --data '{
     "image_count": 1,
+    "model": "z-image-turbo",
     "aspect_ratio": "16:9",
-    "resolution": "1k",
+    "resolution": "640px",
     "style": {
       "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says \"Magic Hour\""
     }
@@ -508,6 +548,12 @@ result = client.v1.face_swap.generate(
     download_directory=".", # save the outputs to the current directory
 )
 
+if result.status != "complete" or not result.downloaded_paths:
+    raise RuntimeError(
+        f"Project {result.id} did not save an output (status: {result.status}). "
+        "Retrieve this project before creating another request."
+    )
+
 print(f"created face swap video with id {result.id}, spent {result.credits_charged} credits. Outputs are saved at {result.downloaded_paths}")
 ```
 
@@ -535,6 +581,12 @@ async function main() {
       downloadDirectory: ".", // save the outputs to the current directory
     }
   );
+
+  if (createRes.status !== "complete" || !createRes.downloadedPaths?.length) {
+    throw new Error(
+      `Project ${createRes.id} did not save an output (status: ${createRes.status}). Retrieve this project before creating another request.`
+    );
+  }
 
   console.log(
     `created face swap video with id ${createRes.id}, spent ${createRes.creditsCharged} credits. Outputs are saved at ${createRes.downloadedPaths}`
@@ -567,7 +619,7 @@ func main() {
 	createRes, err := client.V1.FaceSwap.Create(face_swap.CreateRequest{
 		Name: nullable.NewValue("Swap Tom Cruise into Iron Man scene"),
 		Assets: types.V1FaceSwapCreateBodyAssets{
-			ImageFilePath: "https://videos.magichour.ai/api-assets/sample/tom-cruise.png",
+			ImageFilePath: nullable.NewValue("https://videos.magichour.ai/api-assets/sample/tom-cruise.png"),
 			VideoFilePath: nullable.NewValue("https://videos.magichour.ai/api-assets/sample/iron-man.mp4"),
 			VideoSource:   types.V1FaceSwapCreateBodyAssetsVideoSourceEnumFile,
 		},
@@ -598,6 +650,11 @@ func main() {
 				return
 			}
 			defer resp.Body.Close()
+
+			if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+				fmt.Printf("download failed: HTTP %d; retrieve the same project again for a fresh URL\n", resp.StatusCode)
+				return
+			}
 
 			out, err := os.Create(outputFile)
 			if err != nil {
@@ -641,8 +698,9 @@ async fn main() {
         .create(magic_hour::resources::v1::face_swap::CreateRequest {
             name: Some("Swap Tom Cruise into Iron Man scene".to_string()),
             assets: magic_hour::models::V1FaceSwapCreateBodyAssets {
-                image_file_path: "https://videos.magichour.ai/api-assets/sample/tom-cruise.png"
-                    .to_string(),
+                image_file_path: Some(
+                    "https://videos.magichour.ai/api-assets/sample/tom-cruise.png".to_string(),
+                ),
                 video_file_path: Some(
                     "https://videos.magichour.ai/api-assets/sample/iron-man.mp4".to_string(),
                 ),
@@ -707,6 +765,14 @@ async fn main() {
 ```sh cURL
 #!/bin/bash
 set -e
+
+for dependency in curl jq; do
+    command -v "$dependency" >/dev/null 2>&1 || {
+        echo "Install $dependency before running this example." >&2
+        exit 1
+    }
+done
+: "${MAGIC_HOUR_API_KEY:?Set MAGIC_HOUR_API_KEY before running this example.}"
 
 URL="https://api.magichour.ai/v1/face-swap"
 STATUS_URL="https://api.magichour.ai/v1/video-projects"
@@ -832,18 +898,22 @@ Authentication guide for platform-specific setup steps.
 
 If you encounter HTTP errors, here's what they mean:
 
-| Error Code | Meaning               | Solution                                                                          |
-| :--------- | :-------------------- | :-------------------------------------------------------------------------------- |
-| `400`      | Bad Request           | The response `message` names the invalid or missing field - fix it and resubmit   |
-| `401`      | Unauthorized          | Verify your API key is correct and sent as `Authorization: Bearer <key>`          |
-| `402`      | Payment Required      | Use the response `code` to add credits, start a subscription, or upgrade the plan |
-| `404`      | Not Found             | Check the route and project ID                                                    |
-| `422`      | Unprocessable Entity  | Change the request values before retrying                                         |
-| `500`      | Internal Server Error | Retry later; contact support if the error continues                               |
+| Error Code | Meaning               | Solution                                                                                                                                   |
+| :--------- | :-------------------- | :----------------------------------------------------------------------------------------------------------------------------------------- |
+| `400`      | Bad Request           | The response `message` names the invalid or missing field - fix it and resubmit                                                            |
+| `401`      | Unauthorized          | Verify your API key is correct and sent as `Authorization: Bearer <key>`                                                                   |
+| `402`      | Payment Required      | Use the response `code` to add credits, start a subscription, or upgrade the plan                                                          |
+| `404`      | Not Found             | Check the route and project ID                                                                                                             |
+| `422`      | Unprocessable Entity  | Change the request values before retrying                                                                                                  |
+| `500`      | Internal Server Error | Retry status reads for the same project ID. Before retrying a create request, check whether it was accepted; contact support if uncertain. |
 
-For a `402`, keep the same prompt and settings, check your balance, then add credits or choose a
-less expensive option before retrying. Use the response's structured `code` to decide how to
-recover; don't parse its human-readable `message`.
+For a `402`, use the response's structured `code`, not its human-readable `message`:
+
+- `insufficient_credits`: add credits or choose a request that fits your balance.
+- `subscription_required`: start a subscription.
+- `plan_upgrade_required`: upgrade your plan or choose settings available on your current plan.
+
+Credit packs do not unlock paid-plan models or settings. Retry only after resolving the indicated requirement.
 
 **For persistent errors:** Contact [support@magichour.ai](mailto:support@magichour.ai) with your project ID.
 
