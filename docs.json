@@ -111,6 +111,7 @@
               "integration/first-integration",
               "integration/pydantic-ai",
               "integration/vercel-ai-sdk",
+              "integration/openai-agents-sdk",
               "integration/langflow",
               "integration/figma",
               "integration/framer",
