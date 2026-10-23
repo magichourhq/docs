@@ -1,0 +1,120 @@
+---
+title: Mastra
+description: Connect Mastra to Magic Hour MCP and recover a saved image project without another generation.
+---
+
+Use Mastra's native `MCPClient` to discover Magic Hour tools, verify API access, and retrieve a
+completed image project by its saved ID. This walkthrough needs no model or provider API key
+and submits no new generation.
+
+## Install and configure
+
+Requires Node.js 22.13+. These dependency versions were validated together on Node.js 24.21:
+
+```bash
+npm install @mastra/mcp@2.5.0 @mastra/core@1.79.0 zod@4.2.1
+```
+
+Provide a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys) through your secret
+manager as `MAGIC_HOUR_API_KEY`. Set `MAGIC_HOUR_IMAGE_PROJECT_ID` to an image project ID already
+saved from an accepted generation. Keep keys, account details, and signed download URLs private.
+
+## Verify access and recover a saved project
+
+Save this as `mastra.mjs` and run `node mastra.mjs`. Telemetry is disabled before importing
+Mastra. The `legacy` protocol setting selects MCP's initialization handshake.
+
+```js
+process.env.MASTRA_TELEMETRY_DISABLED = "1";
+
+const { MCPClient } = await import("@mastra/mcp");
+const apiKey = process.env.MAGIC_HOUR_API_KEY;
+const projectId = process.env.MAGIC_HOUR_IMAGE_PROJECT_ID;
+if (!apiKey || !projectId) {
+  throw new Error("Set MAGIC_HOUR_API_KEY and MAGIC_HOUR_IMAGE_PROJECT_ID.");
+}
+
+const mcp = new MCPClient({
+  servers: {
+    magic_hour: {
+      url: new URL("https://mcp.magichour.ai/"),
+      protocolVersion: "legacy",
+      allowedHosts: ["mcp.magichour.ai"],
+      requestInit: { headers: { Authorization: `Bearer ${apiKey}` } },
+    },
+  },
+  timeout: 15000,
+});
+
+try {
+  const { tools, errors } = await mcp.listToolsWithErrors({ perServerTimeoutMs: 15000 });
+  const accountTool = tools.magic_hour_account_retrieve;
+  const imageTool = tools.magic_hour_image_projects_retrieve_details;
+  if (
+    Object.keys(errors).length > 0 ||
+    typeof accountTool?.execute !== "function" ||
+    typeof imageTool?.execute !== "function"
+  ) {
+    throw new Error("Magic Hour discovery did not return the required tools.");
+  }
+  console.log(`Discovered ${Object.keys(tools).length} tools.`);
+
+  const account = await accountTool.execute({}, { abortSignal: AbortSignal.timeout(15000) });
+  if (
+    !account ||
+    typeof account !== "object" ||
+    account.error ||
+    account.isError ||
+    typeof account.id !== "string" ||
+    typeof account.credits !== "number"
+  ) {
+    throw new Error("Magic Hour authorization did not return an account.");
+  }
+  console.log("Magic Hour API authorization confirmed.");
+
+  const project = await imageTool.execute(
+    { id: projectId },
+    { abortSignal: AbortSignal.timeout(15000) },
+  );
+  if (
+    !project ||
+    typeof project !== "object" ||
+    project.error ||
+    project.isError ||
+    project.id !== projectId ||
+    project.status !== "complete"
+  ) {
+    throw new Error("Saved image project is not complete; keep its ID and inspect its status.");
+  }
+  console.log("Saved image project is complete.");
+} finally {
+  await mcp.disconnect();
+}
+```
+
+Discovery is public, so it does not establish authorization. The account check verifies API
+access without printing private fields. Mastra namespaces tools as `serverName_toolName`:
+the `magic_hour` server key produces `magic_hour_account_retrieve`. Check required tools as
+well as discovery errors, since individual tools can be absent.
+
+The project read reuses the accepted ID without another creation or generation charge. If a job
+is still queued or rendering, keep the same ID and retrieve it again later. Completed project
+metadata contains temporary download URLs; preserve them exactly, including query parameters.
+
+## Use tools in your agent
+
+Mastra accepts the discovered tool map as an agent's `tools` option. Keep the MCP client open
+while your agent uses those tools, then disconnect it during application shutdown. See
+[Mastra's MCPClient reference](https://mastra.ai/reference/tools/mcp-client) for agent wiring.
+This walkthrough validates direct tool execution; it does not run a model or test agent-driven
+tool selection.
+
+Generation sends authorized prompts and media to Magic Hour and spends credits. Save every
+accepted project ID before waiting, then resume that job instead of repeating creation. See
+[Magic Hour MCP](/integration/model-context-protocol) for uploads, generation, and exact download
+handling, and our [privacy policy](https://magichour.ai/privacy-policy).
+
+Native validation discovered 48 tools with no discovery errors, verified the account payload,
+and retrieved the existing completed image project with its exact saved ID. The client
+disconnected afterward. No new generation, model call, or media download was performed.
+Inline rendering and binary downloads are not demonstrated here.
