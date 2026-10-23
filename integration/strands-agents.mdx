@@ -32,6 +32,8 @@ creating another image.
 
 Use prompts and media you are authorized to send to Magic Hour. Run the creation step once;
 if a request fails without returning an ID, check your Magic Hour projects before trying again.
+An empty project file means creation was interrupted. Recover the accepted ID from your
+Magic Hour projects before editing or removing that file; do not repeat creation.
 
 ```python
 import json
@@ -80,6 +82,7 @@ with MCPClient(
     if project_file.exists():
         accepted = json.loads(project_file.read_text())
     else:
+        project_file.touch(exist_ok=False)
         accepted = metadata(
             client.call_tool_sync(
                 tool_use_id="create-image",
