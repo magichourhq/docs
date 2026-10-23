@@ -1,0 +1,111 @@
+---
+title: LlamaIndex
+description: Connect LlamaIndex tools to Magic Hour MCP and recover an existing image without another generation.
+---
+
+Use LlamaIndex's native MCP adapter with Magic Hour's hosted MCP. This walkthrough checks API
+authorization and retrieves an existing image without an LLM, model-provider key, or new generation.
+
+## Install and configure
+
+Requires Python 3.10+; native validation used Python 3.12. Install the versions verified together:
+
+```bash
+python -m pip install "llama-index-tools-mcp==0.6.0" "llama-index-core==0.14.25" "mcp==2.3.0"
+```
+
+Provide a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys) through your secret
+manager as `MAGIC_HOUR_API_KEY`. Set `MAGIC_HOUR_IMAGE_PROJECT_ID` to an image project ID already
+saved from an accepted generation. Keep credentials, account details, and temporary download URLs
+private.
+
+## Verify access and recover an image
+
+Save this as your application entry point and run it with Python. `McpToolSpec` converts MCP
+schemas into LlamaIndex `FunctionTool` objects. Calling `acall` invokes a tool directly, without
+running an agent or model. Each call closes its MCP session; the outer context closes the HTTP
+client after all calls finish.
+
+```python
+import asyncio
+import base64
+import os
+from pathlib import Path
+
+from httpx2 import AsyncClient, Timeout
+from llama_index.tools.mcp import BasicMCPClient, McpToolSpec
+
+
+async def main():
+    async with AsyncClient(
+        headers={"Authorization": "Bearer " + os.environ["MAGIC_HOUR_API_KEY"]},
+        timeout=Timeout(30.0, read=60.0),
+    ) as http:
+        client = BasicMCPClient(
+            "https://mcp.magichour.ai/",
+            http_client=http,
+            timeout=60,
+        )
+        tools = await McpToolSpec(
+            client=client,
+        ).to_tool_list_async()
+        print(f"Loaded {len(tools)} tools.")
+        by_name = {tool.metadata.name: tool for tool in tools}
+
+        account = (await by_name["account_retrieve"].acall()).raw_output
+        if account.is_error:
+            raise RuntimeError("Magic Hour authorization failed.")
+        print("Magic Hour API authorization confirmed.")
+
+        result = (
+            await by_name["wait_for_image_project"].acall(
+                id=os.environ["MAGIC_HOUR_IMAGE_PROJECT_ID"],
+                timeout_seconds=30,
+                include_inline_downloads=True,
+                max_inline_downloads=1,
+                max_bytes_per_download=8388608,
+            )
+        ).raw_output
+        if result.is_error:
+            raise RuntimeError("Recovery failed; keep the saved project ID.")
+        project = result.structured_content or {}
+        if project.get("status") != "complete":
+            raise RuntimeError("Image project is not complete; keep the saved ID and inspect its status.")
+        image = next((item for item in result.content if item.type == "image"), None)
+        if image is None:
+            raise RuntimeError("Completed image was not embedded; retrieve its exact download URL.")
+        Path("magic-hour-image.bin").write_bytes(base64.b64decode(image.data, validate=True))
+        print("Saved magic-hour-image.bin; inspect its format before renaming.")
+
+
+asyncio.run(main())
+```
+
+Tool discovery is public; the account read checks actual Magic Hour authorization without printing
+private account fields. The example only invokes account access and image recovery.
+
+Recovery reuses the saved project ID without another creation or generation charge. A timeout does
+not cancel the accepted job: keep its ID and retry recovery. Inline media is limited to 8 MiB here;
+use the exact returned signed download URL, preserving its query parameters, for larger outputs.
+
+## Use with an agent
+
+Pass the returned tools to a LlamaIndex agent while the HTTP client context remains open. Add only
+the tools your application needs through `allowed_tools`. Model-backed runs need their own provider
+configuration and may spend provider tokens and Magic Hour credits when generation tools are used.
+
+The independently maintained [Magic Hour ToolSpec](https://github.com/RhythmP28/llama-index-tools-magic-hour)
+also provides image generation, text-to-video and image-to-video through the Python SDK. This guide
+uses LlamaIndex's existing MCP adapter to access the hosted MCP's account and recovery tools.
+
+Generation sends authorized prompts and media to Magic Hour. Persist each accepted project ID
+before waiting and recover it instead of repeating a paid creation. See
+[Magic Hour MCP](/integration/model-context-protocol) for uploads, generation and download rules,
+our [privacy policy](https://magichour.ai/privacy-policy), and the
+[official LlamaIndex MCP guide](https://developers.llamaindex.ai/python/examples/tools/mcp/).
+
+Native validation converted 48 live tool schemas, invoked account access through `FunctionTool.acall`,
+and recovered a completed project as a typed inline 640×640 PNG. Its bytes matched the accepted
+job's output, full image decode passed, and the HTTP/MCP sessions closed. No model, new generation
+or additional credits were used. This proof covers the MCP adapter; the separate community
+ToolSpec and model-driven agent execution were not part of this validation.
