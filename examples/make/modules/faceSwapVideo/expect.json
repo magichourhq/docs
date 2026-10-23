@@ -12,7 +12,7 @@
   {
     "name": "targetVideo",
     "type": "text",
-    "label": "Video to update",
+    "label": "Target video",
     "required": true,
     "validate": {
       "min": 1

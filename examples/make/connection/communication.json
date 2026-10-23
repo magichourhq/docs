@@ -9,7 +9,17 @@
   "response": {
     "valid": "{{statusCode === 200}}",
     "error": {
-      "message": "[{{statusCode}}] {{body.message}}"
+      "message": "[{{statusCode}}] {{ifempty(body.message, 'Magic Hour could not process this request. Check the request inputs and try again.')}}",
+      "401": {
+        "message": "[401] Magic Hour could not authenticate this connection. Check its API key."
+      },
+      "404": {
+        "message": "[404] Generation or API endpoint not found. {{ifempty(body.message, 'Check the generation ID, selected media format, and API path.')}}"
+      }
+    },
+    "metadata": {
+      "type": "text",
+      "value": "{{ifempty(body.email, body.id)}}"
     }
   },
   "log": {

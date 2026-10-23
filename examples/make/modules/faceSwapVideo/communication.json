@@ -1,5 +1,5 @@
 {
-  "url": "https://api.magichour.ai/v1/face-swap",
+  "url": "/face-swap",
   "method": "POST",
   "type": "json",
   "body": {

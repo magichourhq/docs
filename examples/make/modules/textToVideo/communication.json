@@ -1,5 +1,5 @@
 {
-  "url": "https://api.magichour.ai/v1/text-to-video",
+  "url": "/text-to-video",
   "method": "POST",
   "type": "json",
   "body": {

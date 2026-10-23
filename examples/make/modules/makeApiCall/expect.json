@@ -40,6 +40,29 @@
     ]
   },
   {
+    "name": "headers",
+    "type": "array",
+    "label": "Headers",
+    "help": "You don't have to add authorization headers; we already did that for you. Authorization cannot be overridden.",
+    "spec": [
+      {
+        "name": "key",
+        "type": "text",
+        "label": "Name",
+        "required": true,
+        "validate": {
+          "pattern": "^(?![Aa][Uu][Tt][Hh][Oo][Rr][Ii][Zz][Aa][Tt][Ii][Oo][Nn]$)[!#$%&'*+.^_`|~0-9A-Za-z-]+$"
+        },
+        "help": "Enter an HTTP header name other than Authorization."
+      },
+      {
+        "name": "value",
+        "type": "text",
+        "label": "Value"
+      }
+    ]
+  },
+  {
     "name": "qs",
     "type": "array",
     "label": "Query string",
@@ -59,8 +82,8 @@
   },
   {
     "name": "body",
-    "type": "json",
+    "type": "any",
     "label": "Body",
-    "help": "Enter the JSON request body required by the endpoint. Authorization is supplied by your connection. A generation request consumes Magic Hour credits."
+    "help": "Map the JSON collection or array required by the endpoint. If you have JSON text, parse it with the JSON > Parse JSON module first. Authorization is supplied by your connection. A generation request consumes Magic Hour credits."
   }
 ]

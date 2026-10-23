@@ -15,5 +15,9 @@
       "headers": "{{headers}}",
       "statusCode": "{{statusCode}}"
     }
+  },
+  "headers": {
+    "{{...}}": "{{toCollection(parameters.headers, 'key', 'value')}}",
+    "Authorization": "Bearer {{connection.apiKey}}"
   }
 }

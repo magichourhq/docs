@@ -12,7 +12,7 @@
   {
     "name": "targetImage",
     "type": "text",
-    "label": "Image to update",
+    "label": "Target image",
     "required": true,
     "validate": {
       "min": 1
