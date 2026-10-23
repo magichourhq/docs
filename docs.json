@@ -113,6 +113,7 @@
               "integration/vercel-ai-sdk",
               "integration/openai-agents-sdk",
               "integration/langflow",
+              "integration/haystack",
               "integration/figma",
               "integration/framer",
               "integration/adobe-express",

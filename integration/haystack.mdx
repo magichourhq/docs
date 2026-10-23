@@ -1,0 +1,60 @@
+---
+title: Haystack
+description: Create an image once, then recover and download it with native Haystack Pipeline components.
+---
+
+Magic Hour's image-only Haystack integration provides generation, polling, and download components.
+Initial support creates one square 640-pixel Z-Image Turbo image. Generations consume Magic Hour
+credits; no LLM provider is required.
+
+## Install and configure
+
+Requires Python 3.11+ and Haystack 3.4. Install the published source at this verified revision:
+
+```bash
+git clone https://github.com/magichourhq/magic-hour-haystack.git
+cd magic-hour-haystack
+git checkout 8fe6474d48da71b5ef9d32b5c2c05ad8ed453ad5
+python -m pip install .
+```
+
+Create an [API key](https://magichour.ai/developer?tab=api-keys) and provide it through your secret
+manager as `MAGIC_HOUR_API_KEY` in the process environment. The generator and waiter default to
+Haystack's `Secret.from_env_var("MAGIC_HOUR_API_KEY")`; serialized pipelines retain the variable
+name, not its value. Keep keys out of source, shell history, and saved pipeline definitions.
+
+## Create once, then resume
+
+Run the repository's [image Pipeline example](https://github.com/magichourhq/magic-hour-haystack/blob/8fe6474d48da71b5ef9d32b5c2c05ad8ed453ad5/examples/image_pipeline.py):
+
+```bash
+HAYSTACK_TELEMETRY_ENABLED=false python examples/image_pipeline.py --output-dir output/bird --submit-only
+HAYSTACK_TELEMETRY_ENABLED=false python examples/image_pipeline.py --output-dir output/bird
+```
+
+The first command submits one paid image generation and saves the accepted project ID and charged
+credits in `output/bird/project.json` before polling. The second runs a separate status/download
+Pipeline against that ID and saves the image as `image-1.bin`. Inspect the image format before
+renaming it.
+
+Keep `project.json` and reuse the same output directory after a timeout or download failure.
+Repeating the second command retrieves the existing project without submitting another generation.
+A missing receipt causes creation, so use a new output directory only when you intend another paid
+job. If creation loses its response, check the Developer Hub before submitting again: the service
+may have accepted a job whose ID the example could not save.
+
+The downloader returns native Haystack `ByteStream` objects, keeps signed download URLs intact,
+and sends no API authorization to media storage. A fresh status lookup refreshes temporary links.
+Prompts are sent to Magic Hour for generation; see our [privacy policy](https://magichour.ai/privacy-policy).
+
+## Scope and validation
+
+Native validation used Haystack 3.4.1: one submission charged 5 credits, followed by two separate
+recoveries of the same saved project. Both downloaded the same usable 640×640 PNG without another
+creation. This initial integration does not support video, audio, uploaded inputs, or configurable
+image models and sizes.
+
+See the [source guide](https://github.com/magichourhq/magic-hour-haystack/tree/8fe6474d48da71b5ef9d32b5c2c05ad8ed453ad5)
+for component APIs, trusted-module pipeline loading, and security limits. Source is public and
+installable from GitHub; it is not published on PyPI. The [Haystack community listing](https://github.com/deepset-ai/haystack-integrations/pull/678)
+is submitted for review; catalog acceptance is pending.
