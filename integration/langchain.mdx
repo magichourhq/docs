@@ -1,0 +1,63 @@
+---
+title: LangChain and LangGraph
+description: Generate, edit, and animate media through Magic Hour MCP with durable job recovery.
+---
+
+The [first-party LangChain example](https://github.com/magichourhq/docs/tree/main/examples/langchain)
+connects the hosted Magic Hour MCP server to a LangGraph workflow. It uses the
+released MCP adapter 2 API and your existing Magic Hour API key. No separate model
+key is needed to run it.
+
+## Install and check your key
+
+Use Node.js 22 or newer:
+
+```sh
+git clone https://github.com/magichourhq/docs.git
+cd docs/examples/langchain
+npm ci
+# Set MAGIC_HOUR_API_KEY in your shell or secret manager.
+node run.mjs --check
+```
+
+[Get an API key](https://magichour.ai/developer?utm_source=langchain&utm_medium=integration&utm_campaign=api_distribution).
+The read-only check discovers tools and verifies authentication with
+`account_retrieve`. Public discovery alone does not prove that a key works.
+
+## Create an image
+
+```sh
+node run.mjs --mode generate --max-credits 5 \
+  --prompt "A blue ceramic mug on a cream studio background, product photography"
+```
+
+This requests one Flux 2 Klein image at 640px, saves its project ID, waits for
+completion, and downloads the output. The example also supports `--mode edit`
+and `--mode animate` with a public image URL or uploaded Magic Hour `file_path`.
+See [input files](/integration/inputs-and-outputs) for uploading your own media.
+
+<Note>
+  Generation spends Magic Hour credits. At the documented rates, the example's fixed image settings
+  use 5 credits and its one-second LTX 2.5 animation uses 24. `--max-credits` checks those fixed
+  settings locally; it is not a provider-side spending limit or live quote. Check [models and credit
+  costs](/api-reference/models) before running.
+</Note>
+
+## Recover an asynchronous job
+
+Add `--submit-only` to return immediately after the accepted project ID is saved.
+Then use the actual recovery path printed by the command:
+
+```sh
+node run.mjs --resume outputs/YOUR_RUN_ID/project.json
+```
+
+Resume retrieves the saved project and downloads the finished file. It never
+invokes the generation tool again. Rendering delays, terminal failures, and missing
+downloads are handled separately. If a creation response is lost before you have
+an ID, inspect project history before retrying to avoid another paid job.
+
+The example preserves signed download URLs exactly and does not forward the API
+key to output hosts. Private recovery records, local media, and receipts are ignored
+by Git. [Source and validation](https://github.com/magichourhq/docs/tree/main/examples/langchain)
+include the graph embedding API and controlled recovery tests.

@@ -109,6 +109,7 @@
               "integration/agency-lip-sync",
               "integration/first-integration",
               "integration/vercel-ai-sdk",
+              "integration/langchain",
               "integration/langflow",
               "integration/figma",
               "integration/framer",
