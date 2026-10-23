@@ -1,0 +1,120 @@
+---
+title: Google ADK
+description: Connect Google ADK's native MCP toolset to Magic Hour and check an existing image project without another generation.
+---
+
+Use Google ADK's native Streamable HTTP toolset with Magic Hour's hosted MCP server. This
+walkthrough discovers tools, checks API authorization, and reads an existing image project's
+status. It calls no model and needs no Google Cloud account or Gemini API key.
+
+## Install and configure
+
+Requires Python 3.11+. Install the versions verified together:
+
+```bash
+python -m pip install "google-adk[mcp]==2.13.0" "mcp==2.3.0"
+```
+
+Provide a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys) through your server-side
+secret manager as `MAGIC_HOUR_API_KEY`. Set `MAGIC_HOUR_IMAGE_PROJECT_ID` to the saved ID of an image
+project you already created. Keep keys, account responses, and temporary download URLs private.
+
+## Discover tools and check an existing project
+
+Save this as your application's Python entry point. The example uses a real in-memory ADK session
+and tool context, then closes the MCP toolset and deletes the session.
+
+```python
+import asyncio
+import json
+import os
+
+from google.adk.agents.invocation_context import InvocationContext
+from google.adk.sessions.in_memory_session_service import InMemorySessionService
+from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPConnectionParams
+from google.adk.tools.mcp_tool.mcp_toolset import McpToolset
+from google.adk.tools.tool_context import ToolContext
+
+
+def payload(result):
+    if result.get("isError") or result.get("is_error") or result.get("error"):
+        raise RuntimeError("Magic Hour returned an error; keep the saved project ID.")
+    for field in ("structuredContent", "structured_content"):
+        if isinstance(result.get(field), dict):
+            return result[field]
+    for block in result.get("content", []):
+        if block.get("type") == "text":
+            try:
+                data = json.loads(block.get("text", ""))
+            except json.JSONDecodeError:
+                continue
+            if isinstance(data, dict):
+                return data
+    raise RuntimeError("Magic Hour returned no project or account metadata.")
+
+
+async def check_project(api_key, project_id):
+    service = InMemorySessionService()
+    session = await service.create_session(app_name="magic_hour", user_id="local_user")
+    context = ToolContext(
+        InvocationContext(
+            session_service=service, session=session, invocation_id="check_project"
+        )
+    )
+    toolset = McpToolset(
+        connection_params=StreamableHTTPConnectionParams(
+            url="https://mcp.magichour.ai/",
+            headers={"Authorization": "Bearer " + api_key},
+            timeout=30,
+            sse_read_timeout=60,
+            terminate_on_close=True,
+        )
+    )
+    try:
+        tools = {tool.name: tool for tool in await toolset.get_tools()}
+        print(f"Discovered {len(tools)} tools.")
+        payload(await tools["account_retrieve"].run_async(args={}, tool_context=context))
+        print("Magic Hour API authorization confirmed.")
+        project = payload(
+            await tools["image_projects_retrieve_details"].run_async(
+                args={"id": project_id}, tool_context=context
+            )
+        )
+        if project.get("id") != project_id:
+            raise RuntimeError("Project response did not match the saved ID.")
+        print("Image project status:", project["status"])
+    finally:
+        try:
+            await toolset.close()
+        finally:
+            await service.delete_session(
+                app_name=session.app_name, user_id=session.user_id, session_id=session.id
+            )
+
+
+if __name__ == "__main__":
+    asyncio.run(
+        check_project(
+            os.environ["MAGIC_HOUR_API_KEY"], os.environ["MAGIC_HOUR_IMAGE_PROJECT_ID"]
+        )
+    )
+```
+
+Tool discovery is public; the separate `account_retrieve` call verifies API authorization. ADK
+returns an MCP result envelope, so the example checks errors and extracts metadata before reading
+the project status. It does not print private account details or download URLs.
+
+Native validation discovered 48 tools, verified authenticated account access, and read a completed
+image project using its existing ID. The toolset closed and the in-memory session was deleted.
+This was metadata-only validation: no media download, Agent, Runner, model, or generation was run.
+
+## Continue with an agent
+
+A model-driven ADK agent needs its own model-provider configuration, which this walkthrough does
+not test. Generation tools send authorized prompts and media to Magic Hour and spend credits.
+Persist every accepted project ID before waiting. A timeout does not cancel a job; read its saved
+ID again instead of automatically repeating a paid creation.
+
+See [Magic Hour MCP](/integration/model-context-protocol) for uploads, generation, and downloads,
+our [privacy policy](https://magichour.ai/privacy-policy), and the
+[official ADK toolset source](https://github.com/google/adk-python/blob/v2.13.0/src/google/adk/tools/mcp_tool/mcp_toolset.py).

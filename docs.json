@@ -112,6 +112,7 @@
               "integration/pydantic-ai",
               "integration/vercel-ai-sdk",
               "integration/openai-agents-sdk",
+              "integration/google-adk",
               "integration/langflow",
               "integration/haystack",
               "integration/figma",
