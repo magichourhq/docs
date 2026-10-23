@@ -108,6 +108,7 @@
               "integration/commercial-media-workflows",
               "integration/agency-lip-sync",
               "integration/first-integration",
+              "integration/pydantic-ai",
               "integration/vercel-ai-sdk",
               "integration/langflow",
               "integration/figma",
