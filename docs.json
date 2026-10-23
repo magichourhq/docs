@@ -107,6 +107,7 @@
               "integration/evaluating-media-apis",
               "integration/commercial-media-workflows",
               "integration/agency-lip-sync",
+              "integration/smolagents",
               "integration/first-integration",
               "integration/vercel-ai-sdk",
               "integration/langflow",
