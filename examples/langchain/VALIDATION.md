@@ -19,10 +19,22 @@ already merged upstream directory entries are not replaced or resubmitted.
   This is an older completed project. Its historical 5-credit charge is not new
   spending. This verification created zero new jobs and spent zero new credits.
 
-Pending: explicit test-credit cap, followed by fresh image, image-edit and
-one-second animation runs, and actual create/stop/resume verification. Controlled
-tests do not replace these live checks. New video generation, prompt-model
-execution, production publication and external customer activation are unverified.
+## Fresh generation verification
 
-Output files and private recovery receipts remain Git-ignored. No API keys or
-signed URLs are committed. No screenshot is applicable to this source example.
+Owner-approved total cap: 100 Magic Hour credits. Source commit: `6008825`.
+Each of the following CLI invocations used `--submit-only`, saved the accepted ID,
+exited, and resumed that same record to wait and download.
+
+- generate: `cmvkn3rgn0072i001pqmjp31v`, 5 final credits, 307344 bytes. SHA256 `304ba03f9a1bc9de22516f924597cb2c20a0649b470352b3db6404a9f3a03ba9`.
+- edit: `cmvkn8e6j043afc0126mopp5s`, 5 final credits, 261367 bytes. SHA256 `3bb258977910146f7fe775ae13c34e37d858f3b507782f82371357044b079aab`.
+- animate: `cmvkna0bx010rlt01uib9sgk1`, 24 final credits, 151281 bytes. SHA256 `28ebc742a8606b7b3149a827ba4a85141b93b7a0020f060712463948cc823211`.
+
+Total verified charge: **34 / 100 credits**. The two PNGs decode as 640 x 640.
+The image edit and animation reuse a binary input uploaded through the official
+Magic Hour Python SDK 0.89.0. The MP4 decodes as H.264, 640 x 640, 24 fps,
+25 frames / 1.041667 seconds. The still images were visually inspected; this
+validates the integration and output handling, not commercial image quality.
+
+These are owner-operated tests, not external developer activations or new paying
+customers. Source publication still requires PR review/merge and deployed-doc
+verification. Existing community package listings are tracked separately.
