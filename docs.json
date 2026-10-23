@@ -114,7 +114,7 @@
               "integration/openai-agents-sdk",
               "integration/google-adk",
               "integration/strands-agents",
-                "integration/llamaindex",
+              "integration/llamaindex",
               "integration/langflow",
               "integration/haystack",
               "integration/figma",
