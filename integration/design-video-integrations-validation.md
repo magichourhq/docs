@@ -39,12 +39,12 @@ The submitted version 2 bundle was tested inside the actual Canva editor. Genera
 
 The tested JavaScript bundle has SHA256 `c901ae7b38f5ae4be725240946fb34ffdd066ced201f3ddd5c0eb5a21b3fc882`; its translation catalog has SHA256 `de8b22ef08789bfb1a8360d610fbadf084ebb44d66480d7482dbc27f1cf858dd`. These match the recorded submitted artifacts. This later native validation supersedes the Canva harness-only and initial portal-access limitations above. Marketplace approval and publication remain pending.
 
-## Remaining release gates
+## Recorded release status and remaining gates
 
-- Framer: authorized publisher identifier, authenticated real-editor installation, actual native file upload/video placement, and marketplace submission/review.
-- Adobe Express: authenticated real-editor testing and publisher submission of the stable file/page build. Selected-element distribution remains blocked by Adobe's experimental API restriction.
+- Framer: the [Magic Hour Video listing](https://www.framer.com/marketplace/plugins/magic-hour-video/) was restored and verified publicly on October 22. Signed-in marketplace launch, close/reopen recovery, and native video upload/insertion passed without a new generation.
+- Adobe Express: stable version 0.1.0 was submitted and recorded In review. Private version 0.1.1, with byte-identical JavaScript, CSS, and HTML and only a manifest-version change, passed current-page capture, accepted-project retrieval, preview, and native video insertion. The local file-upload chooser remains unverified. Experimental selected-element capture is excluded from the submitted stable build.
 - Canva: marketplace naming review, approval, and publication remain pending after version 2 submission.
-- All three: review account/credit disclosures, platform branding, privacy/support, and actual production behavior before publication. No public listing or approval is claimed.
+- Adobe Express and Canva: marketplace approval and publication remain pending. Framer is already published; its recorded restoration is distinct from these pending reviews.
 
 During initial setup, Framer and Adobe browser sessions reached sign-in pages, and Canva's developer portal returned HTTP 403. The later native Canva validation above supersedes that initial Canva access failure. The connected Canva MCP surface does not register or install Developer SDK apps.
 
