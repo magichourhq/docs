@@ -1,0 +1,18 @@
+[
+  {
+    "label": "Generations",
+    "modules": ["getGenerationStatus"]
+  },
+  {
+    "label": "Images",
+    "modules": ["generateImage", "faceSwapPhoto"]
+  },
+  {
+    "label": "Videos",
+    "modules": ["imageToVideo", "textToVideo", "faceSwapVideo"]
+  },
+  {
+    "label": "Other",
+    "modules": ["makeApiCall"]
+  }
+]

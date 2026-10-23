@@ -1,0 +1,10 @@
+[
+  {
+    "name": "apiKey",
+    "label": "API key",
+    "type": "password",
+    "required": true,
+    "editable": true,
+    "help": "Create an API key on the [Magic Hour developer page](https://magichour.ai/developer). Magic Hour credits are required for generation."
+  }
+]

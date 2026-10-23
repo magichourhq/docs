@@ -1,4 +1,6 @@
 import { build } from "esbuild";
+import { transform } from "@formatjs/unplugin/transform";
+import { execFileSync } from "node:child_process";
 import { mkdir, readFile, writeFile, copyFile, rm } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { resolve, dirname } from "node:path";
@@ -21,12 +23,49 @@ for (const platform of ["adobe-express", "canva"]) {
     entryPoints: [`${platform}/src/main.${platform === "canva" ? "tsx" : "ts"}`],
     outfile: `${platform}/dist/app.js`,
     format: platform === "canva" ? "iife" : "esm",
+    plugins:
+      platform === "canva"
+        ? [
+            {
+              name: "formatjs",
+              setup(build) {
+                build.onLoad({ filter: /\.tsx?$/, namespace: "file" }, async ({ path }) => {
+                  if (path.includes("/node_modules/")) return;
+                  const result = transform(await readFile(path, "utf8"), path, {
+                    idInterpolationPattern: "[sha512:contenthash:base64:6]",
+                  });
+                  if (result)
+                    return {
+                      contents: result.code,
+                      loader: path.endsWith(".tsx") ? "tsx" : "ts",
+                      resolveDir: dirname(path),
+                    };
+                });
+              },
+            },
+          ]
+        : [],
     define: { ADOBE_SELECTION_DEVELOPMENT: "false", "process.env.NODE_ENV": '"production"' },
     external: ["https://express.adobe.com/static/add-on-sdk/sdk.js"],
     jsx: "automatic",
   });
   await writeFile(`${platform}/dist/index.html`, html(`Magic Hour for ${platform}`));
   if (platform === "canva") {
+    execFileSync(
+      process.execPath,
+      [
+        "node_modules/@formatjs/cli/bin/formatjs",
+        "extract",
+        "canva/src/**/*.{ts,tsx}",
+        "shared/{video,media}.ts",
+        "../vercel-ai-sdk/src/client.ts",
+        "--out-file",
+        "canva/dist/messages_en.json",
+        "--id-interpolation-pattern",
+        "[sha512:contenthash:base64:6]",
+      ],
+      { stdio: "inherit" }
+    );
     // The Canva Developer Portal accepts one JS bundle. Inline its generated UI Kit CSS.
     const css = await readFile(`${platform}/dist/app.css`, "utf8");
     const js = await readFile(`${platform}/dist/app.js`, "utf8");

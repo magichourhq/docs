@@ -1,0 +1,96 @@
+---
+title: smolagents
+description: Connect smolagents to Magic Hour MCP and retrieve an accepted image project without another generation.
+---
+
+Use smolagents' native `MCPClient` to discover Magic Hour tools, verify API authorization, and
+retrieve an existing image project's status. This connection walkthrough needs no model or
+provider API key and submits no new generation.
+
+## Install and configure
+
+Requires Python 3.12+ for this pinned adapter combination:
+
+```bash
+python -m pip install "smolagents[mcp]==1.26.0" "mcpadapt==0.1.20" "mcp==1.30.0"
+```
+
+Use these tested dependency versions together. The MCP extra does not require a local model or
+Torch.
+
+Provide a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys) through your secret
+manager as `MAGIC_HOUR_API_KEY`. Set `MAGIC_HOUR_IMAGE_PROJECT_ID` to an image project ID already
+saved from an accepted generation. Keep keys, account details, and signed download URLs private.
+
+## Verify access and retrieve a saved project
+
+Save this as your application entry point and run it with Python. Hugging Face telemetry and
+implicit cached-token use are disabled before import. The context manager closes the MCP client.
+
+```python
+import os
+
+os.environ["HF_HUB_DISABLE_TELEMETRY"] = "1"
+os.environ["HF_HUB_DISABLE_IMPLICIT_TOKEN"] = "1"
+
+from smolagents import MCPClient
+
+parameters = {
+    "url": "https://mcp.magichour.ai/",
+    "transport": "streamable-http",
+    "headers": {"Authorization": "Bearer " + os.environ["MAGIC_HOUR_API_KEY"]},
+    "timeout": 15,
+}
+
+with MCPClient(
+    parameters,
+    adapter_kwargs={"connect_timeout": 20, "client_session_timeout_seconds": 15},
+    structured_output=True,
+) as tools:
+    by_name = {tool.name: tool for tool in tools}
+    print(f"Discovered {len(tools)} tools.")
+
+    account = by_name["account_retrieve"]()
+    if (
+        not isinstance(account, dict)
+        or not isinstance(account.get("id"), str)
+        or not isinstance(account.get("credits"), int)
+    ):
+        raise RuntimeError("Magic Hour authorization did not return an account.")
+    print("Magic Hour API authorization confirmed.")
+
+    project_id = os.environ["MAGIC_HOUR_IMAGE_PROJECT_ID"]
+    project = by_name["image_projects_retrieve_details"](id=project_id)
+    if (
+        not isinstance(project, dict)
+        or project.get("id") != project_id
+        or project.get("status") != "complete"
+    ):
+        raise RuntimeError("Saved image project is not complete; keep its ID and inspect its status.")
+    print("Saved image project is complete.")
+```
+
+Discovery is public, so it does not establish authorization. The account payload check verifies
+API access without printing private fields. This adapter unwraps structured content; validate the
+expected payload rather than treating any returned value as success.
+
+The project read reuses your accepted ID without another creation or generation charge. If a job
+is still queued or rendering, keep the same ID and retrieve it again later. Completed project
+metadata contains temporary download URLs; preserve them exactly, including query parameters.
+
+## Scope
+
+The context provides named callable smolagents tools that can be supplied to your normal agent.
+This recipe covers direct tool-client access and completed-project metadata recovery. Model-driven
+tool selection, new generation, inline rendering, and binary downloads are not demonstrated here.
+
+Generation sends authorized prompts and media to Magic Hour and spends credits. Save every
+accepted project ID before waiting, then resume that job instead of repeating creation. See
+[Magic Hour MCP](/integration/model-context-protocol) for generation, uploads, and exact download
+handling, our [privacy policy](https://magichour.ai/privacy-policy), and the
+[released MCPClient source](https://github.com/huggingface/smolagents/blob/v1.26.0/src/smolagents/mcp_client.py).
+
+Native validation discovered 48 callable tools, verified the account payload, and retrieved an
+existing completed image project with the exact saved ID. Context cleanup finished with no
+remaining task threads. No model, new generation, or additional credits were used. Inline media
+and binary downloads remain unverified.

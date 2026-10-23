@@ -1,6 +1,6 @@
 # Design video integrations validation — October 22, 2026
 
-Framer PX-578, Adobe Express PX-577, and Canva PX-466. Source is in `examples/design-video`.
+Framer PX-578, Adobe Express PX-577, and Canva PX-466. Source is in `examples/design-video`. The automated and live Magic Hour sections below record initial harness verification; later native Canva checks are recorded separately.
 
 ## Implementation
 
@@ -10,7 +10,7 @@ Framer uses the actual `@framer/plugin@5.1.0` types and official `vite-plugin-fr
 
 Adobe uses `@adobe/ccweb-add-on-sdk-types@1.40.0`. The stable build exports only an explicitly chosen page (with export intent and export-permission checks), or accepts a file upload, and inserts native MP4 Blobs. Both manifests pass Adobe's developer-schema validator. Selected-element capture uses the experimental document-sandbox rendition API only in a separate development bundle; Adobe prohibits distributing it until stable. The stable build directory contains no experimental sandbox or manifest.
 
-Canva uses `@canva/design@2.13.1`, `@canva/asset@2.3.1`, platform 2.2.3, intents 2.7.1, and App UI Kit 5.15.0 with React 19. It captures the chosen original image, selects point/cursor insertion by feature support, discloses output as `app_generated`, builds a JPEG data-URL thumbnail from the output video, waits for asset ingestion, and adds the native video reference. The UI explains that selection reads include the full original image outside a crop.
+Canva uses `@canva/design@2.13.1`, `@canva/asset@2.3.1`, platform 2.2.3, intents 2.7.1, and App UI Kit 5.15.0 with React 19. It captures the chosen original image, selects point/cursor insertion by feature support, discloses output as `app_generated`, uploads a generated JPEG preview through the native image API, uses its temporary HTTPS URL as the video thumbnail, waits for asset ingestion, and adds the native video reference. The UI explains that selection reads include the full original image outside a crop.
 
 ## Automated checks
 
@@ -33,14 +33,20 @@ Total verified charge: **72 Magic Hour credits**.
 
 No credentials or signed output URLs are committed. Only accepted project IDs and sanitized verification receipts are recorded.
 
-## Remaining release gates
+## Canva native validation — October 22, 2026
 
-- Framer: authorized publisher identifier, authenticated real-editor installation, actual native file upload/video placement, and marketplace submission/review.
-- Adobe Express: authenticated real-editor testing and publisher submission of the stable file/page build. Selected-element distribution remains blocked by Adobe's experimental API restriction.
-- Canva: authorized developer app and scopes, actual editor selection/video-ingestion/insertion tests, review assets, and marketplace submission/review.
-- All three: review account/credit disclosures, platform branding, privacy/support, and actual production behavior before publication. No public listing or approval is claimed.
+The submitted version 2 bundle was tested inside the actual Canva editor. Generation, accepted-job recovery without a new generation, selected-image capture, native video ingestion and insertion, retry, empty-selection recovery, and light/dark rendering passed. The source image remained in the design; both the video and generated preview were copied through Canva's native asset APIs.
 
-Framer and Adobe browser sessions reached sign-in pages; Canva's developer portal returned HTTP 403. The connected Canva MCP surface does not register or install Developer SDK apps.
+The tested JavaScript bundle has SHA256 `c901ae7b38f5ae4be725240946fb34ffdd066ced201f3ddd5c0eb5a21b3fc882`; its translation catalog has SHA256 `de8b22ef08789bfb1a8360d610fbadf084ebb44d66480d7482dbc27f1cf858dd`. These match the recorded submitted artifacts. This later native validation supersedes the Canva harness-only and initial portal-access limitations above. Marketplace approval and publication remain pending.
+
+## Recorded release status and remaining gates
+
+- Framer: the [Magic Hour Video listing](https://www.framer.com/marketplace/plugins/magic-hour-video/) was restored and verified publicly on October 22. Signed-in marketplace launch, close/reopen recovery, and native video upload/insertion passed without a new generation.
+- Adobe Express: stable version 0.1.0 was submitted and recorded In review. Private version 0.1.1, with byte-identical JavaScript, CSS, and HTML and only a manifest-version change, passed current-page capture, accepted-project retrieval, preview, and native video insertion. The local file-upload chooser remains unverified. Experimental selected-element capture is excluded from the submitted stable build.
+- Canva: marketplace naming review, approval, and publication remain pending after version 2 submission.
+- Adobe Express and Canva: marketplace approval and publication remain pending. Framer is already published; its recorded restoration is distinct from these pending reviews.
+
+During initial setup, Framer and Adobe browser sessions reached sign-in pages, and Canva's developer portal returned HTTP 403. The later native Canva validation above supersedes that initial Canva access failure. The connected Canva MCP surface does not register or install Developer SDK apps.
 
 ## Official sources
 

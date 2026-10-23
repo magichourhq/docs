@@ -18,9 +18,9 @@ https://mcp.magichour.ai/
   href="https://magichour.ai/developer?tab=api-keys&ref=docs-mcp&utm_source=docs&utm_medium=referral&utm_campaign=mcp"
   horizontal
 >
-  Create a key for clients that use manual bearer authentication, such as the Claude Code and Codex
-  CLI setup below. Claude and ChatGPT OAuth connector users sign in and authorize the connection
-  instead.
+  Create a key for clients that use manual bearer authentication, such as the Claude Code, Codex
+  CLI, and Manus setup below. Claude and ChatGPT OAuth connector users sign in and authorize the
+  connection instead.
 </Card>
 
 <Note>
@@ -50,7 +50,7 @@ Magic Hour web app.
 You need:
 
 - A Magic Hour account for the Claude or ChatGPT OAuth connector sign-in flow
-- For the Claude Code and Codex CLI bearer-token setup below, a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys&ref=docs-mcp-requirements&utm_source=docs&utm_medium=referral&utm_campaign=mcp)
+- For the Claude Code, Codex CLI, and Manus bearer-token setup below, a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys&ref=docs-mcp-requirements&utm_source=docs&utm_medium=referral&utm_campaign=mcp)
 - A client that supports remote Streamable HTTP MCP servers
 - Enough Magic Hour credits for the generations you request
 
@@ -110,6 +110,50 @@ generating media.
 
 </Tab>
 
+<Tab title="Hermes Agent">
+
+Install [Hermes Agent](https://hermes-agent.nousresearch.com/docs/getting-started/installation/)
+and configure its model provider separately. Connect Magic Hour as a custom MCP server; no
+additional Magic Hour server or plugin is needed.
+
+Set your Magic Hour API key in the shell that will launch Hermes:
+
+```bash
+export MAGIC_HOUR_API_KEY="YOUR_MAGIC_HOUR_API_KEY"
+```
+
+Merge this entry into `mcp_servers` in `~/.hermes/config.yaml` (or your selected profile’s config).
+Keep the `${MAGIC_HOUR_API_KEY}` placeholder literal so the key stays out of the YAML:
+
+```yaml
+mcp_servers:
+  magic_hour:
+    url: https://mcp.magichour.ai/
+    headers:
+      Authorization: "Bearer ${MAGIC_HOUR_API_KEY}"
+    timeout: 120
+```
+
+Check discovery, then start Hermes from the same shell:
+
+```bash
+hermes mcp test magic_hour
+hermes chat
+```
+
+Ask Hermes: `Call mcp__magic_hour__account_retrieve to confirm API access without generating media.`
+A returned credit balance confirms authorization; tool discovery alone does not.
+
+Then try the [first request below](#try-a-first-request). Generation uses Magic Hour credits.
+Keep the accepted project ID and resume its matching wait tool after an interruption rather
+than submitting another paid job. Local attachments still need the [upload flow below](#using-input-files).
+
+This custom connection does not imply inclusion in Hermes’ Nous-approved MCP catalog.
+[Hermes MCP documentation](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp/)
+explains configuration, tool filtering, and catalog review.
+
+</Tab>
+
 <Tab title="ChatGPT">
 
 If custom connectors are available for your ChatGPT plan or workspace, add a connector using:
@@ -125,6 +169,20 @@ automatically; no manual key entry is needed. Enable the connector and ask ChatG
 Magic Hour `account_retrieve` tool to confirm API access without generating media.
 
 ChatGPT controls connector availability and where its setup controls appear.
+
+</Tab>
+
+<Tab title="Manus">
+
+1. Open **Settings → Connectors** in Manus, then select **Create → Custom MCP**.
+2. Name the connector `Magic Hour`, choose HTTP, and enter `https://mcp.magichour.ai/`.
+3. Add a header named `Authorization` with the value `Bearer YOUR_MAGIC_HOUR_API_KEY`.
+4. After connecting, ask Manus: `Call Magic Hour account_retrieve and confirm API access without generating media.`
+
+Manus receives and stores this API key with the connector. Use a dedicated key and revoke it in
+your [Developer Hub](https://magichour.ai/developer?tab=api-keys) to remove its Magic Hour access.
+Keep the key out of chat messages. Generation sends your prompt, settings, and explicitly selected
+media to Magic Hour and spends Magic Hour credits; only send inputs authorized for that purpose.
 
 </Tab>
 

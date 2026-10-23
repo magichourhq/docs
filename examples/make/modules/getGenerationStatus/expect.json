@@ -1,0 +1,34 @@
+[
+  {
+    "name": "mediaType",
+    "type": "select",
+    "label": "Generation format",
+    "required": true,
+    "default": "image",
+    "options": [
+      {
+        "value": "image",
+        "label": "Image"
+      },
+      {
+        "value": "video",
+        "label": "Video"
+      },
+      {
+        "value": "audio",
+        "label": "Audio"
+      }
+    ],
+    "mappable": false
+  },
+  {
+    "name": "generationId",
+    "type": "text",
+    "label": "Generation ID",
+    "required": true,
+    "validate": {
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "help": "Map the Generation ID returned by a creation module. Check again later while status is queued or rendering; download only when complete."
+  }
+]

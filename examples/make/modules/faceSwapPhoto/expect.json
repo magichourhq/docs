@@ -1,0 +1,22 @@
+[
+  {
+    "name": "sourceImage",
+    "type": "text",
+    "label": "Face image",
+    "required": true,
+    "validate": {
+      "min": 1
+    },
+    "help": "Provide a public HTTPS file URL that Magic Hour can download, or a file_path from the Magic Hour upload API. Use content you have permission to process."
+  },
+  {
+    "name": "targetImage",
+    "type": "text",
+    "label": "Target image",
+    "required": true,
+    "validate": {
+      "min": 1
+    },
+    "help": "Provide a public HTTPS file URL that Magic Hour can download, or a file_path from the Magic Hour upload API. Use content you have permission to process."
+  }
+]
