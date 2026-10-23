@@ -1,0 +1,140 @@
+---
+title: "Spring AI"
+description: "Connect Spring AI ToolCallbacks to Magic Hour MCP and recover a saved image project's status."
+---
+
+Use Spring AI's native MCP adapter from a Java backend to discover Magic Hour tools,
+verify API access, and retrieve an existing image project. This walkthrough calls no
+model and needs no model-provider API key.
+
+## Install and configure
+
+Requires JDK 17+ and Maven. Create `pom.xml` in your application directory:
+
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>ai.magichour.examples</groupId>
+  <artifactId>spring-ai-recovery</artifactId>
+  <version>1.0.0</version>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.ai</groupId>
+      <artifactId>spring-ai-mcp</artifactId>
+      <version>2.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>io.modelcontextprotocol.sdk</groupId>
+      <artifactId>mcp</artifactId>
+      <version>2.1.0</version>
+    </dependency>
+  </dependencies>
+</project>
+```
+
+Provide `MAGIC_HOUR_API_KEY` through your server's secret manager. Set
+`MAGIC_HOUR_IMAGE_PROJECT_ID` to an image project ID saved from an accepted generation.
+Keep the key, account details, and temporary download URLs private.
+
+## Discover tools and recover saved project status
+
+Save this as `MagicHourSpring.java` beside `pom.xml`. It uses the hosted Streamable HTTP
+transport with bearer authorization, adapts the tools into Spring AI `ToolCallback`s,
+and closes the MCP client in `finally`.
+
+```java
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import io.modelcontextprotocol.client.McpClient;
+import io.modelcontextprotocol.client.transport.HttpClientStreamableHttpTransport;
+import org.springframework.ai.mcp.SyncMcpToolCallbackProvider;
+import org.springframework.ai.tool.ToolCallback;
+import tools.jackson.databind.json.JsonMapper;
+
+public class MagicHourSpring {
+    public static void main(String[] args) {
+        String key = System.getenv("MAGIC_HOUR_API_KEY");
+        String projectId = System.getenv("MAGIC_HOUR_IMAGE_PROJECT_ID");
+        if (key == null || key.isBlank() || projectId == null || projectId.isBlank()) {
+            throw new IllegalArgumentException("Set MAGIC_HOUR_API_KEY and a saved MAGIC_HOUR_IMAGE_PROJECT_ID.");
+        }
+        var transport = HttpClientStreamableHttpTransport.builder("https://mcp.magichour.ai")
+            .endpoint("/")
+            .clientBuilder(HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NEVER))
+            .requestBuilder(HttpRequest.newBuilder().header("Authorization", "Bearer " + key))
+            .build();
+        var client = McpClient.sync(transport).requestTimeout(Duration.ofSeconds(30)).build();
+        try {
+            client.initialize();
+            ToolCallback[] tools = SyncMcpToolCallbackProvider.builder().mcpClients(client).build().getToolCallbacks();
+            System.out.println("Discovered " + tools.length + " Spring AI tool callbacks.");
+            var account = payload(find(tools, "account_retrieve").call("{}"));
+            if (!(account.get("id") instanceof String) || !(account.get("credits") instanceof Number)) {
+                throw new IllegalStateException("Unexpected account response.");
+            }
+            System.out.println("Magic Hour authorization verified; account id:String, credits:Number.");
+            String arguments = JsonMapper.builder().build().writeValueAsString(Map.of("id", projectId));
+            var project = payload(find(tools, "image_projects_retrieve_details").call(arguments));
+            if (!projectId.equals(project.get("id")) || !(project.get("status") instanceof String)) {
+                throw new IllegalStateException("Unexpected saved-project response.");
+            }
+            System.out.println("Saved project status: " + project.get("status"));
+        } finally {
+            boolean closed = client.closeGracefully();
+            if (!closed) client.close();
+            System.out.println("MCP graceful close: " + closed);
+        }
+    }
+
+    private static ToolCallback find(ToolCallback[] tools, String name) {
+        return Arrays.stream(tools).filter(t -> name.equals(t.getToolDefinition().name())).findFirst()
+            .orElseThrow(() -> new IllegalStateException("Required MCP tool unavailable: " + name));
+    }
+
+    private static Map<?, ?> payload(String result) {
+        var mapper = JsonMapper.builder().build();
+        List<?> content = mapper.readValue(result, List.class);
+        for (Object item : content) {
+            if (item instanceof Map<?, ?> block && block.get("text") instanceof String text) {
+                return mapper.readValue(text, Map.class);
+            }
+        }
+        throw new IllegalStateException("MCP result has no JSON text content.");
+    }
+}
+```
+
+From a POSIX shell in that directory, resolve the runtime dependencies and run the
+application with Java's single-file source launcher:
+
+```bash
+mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.9.0:build-classpath \
+  -DincludeScope=runtime -Dmdep.outputFile=classpath.txt
+java --class-path "$(cat classpath.txt)" MagicHourSpring.java
+```
+
+Spring AI's callback returns a JSON array of content blocks. The example reads the text
+block's JSON object and prints authorization success and project status without printing
+private account values or download URLs. A tool error propagates as an exception.
+
+If a request fails, keep the accepted project ID and check it again. A failed status read
+does not establish that generation failed. Do not automatically submit another paid job.
+
+## Verified scope
+
+Validated together: Spring AI 2.0.2, MCP Java SDK 2.1.0, and JDK 17.0.21. The native adapter
+discovered 48 tools, authenticated an account read, and returned `complete` for a previously
+accepted image project. Graceful client cleanup succeeded.
+
+This validates native tool discovery and authenticated metadata retrieval. It does not
+run a model-driven Spring AI agent, create a new image, download media, or verify an
+upstream directory listing. A model-driven application requires its own model setup.
+
+See [MCP setup](/mcp) for the full server capabilities and
+[recovering an existing result](/get-started/starter-recipes#recover-a-result-without-generating-again)
+for durable job recovery.
