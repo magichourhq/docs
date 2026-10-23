@@ -1,0 +1,48 @@
+---
+title: Webflow extension
+description: Generate an animated GIF with Magic Hour and add it to your Webflow site as a native image asset.
+---
+
+Create an animated GIF from a short creative brief, preview it, and add it to your Webflow page. The extension uses Webflow's native Assets and Image APIs; it does not add custom scripts to your published site.
+
+<Note>
+  This is a development integration. Native Webflow validation and marketplace submission are
+  pending.
+</Note>
+
+<Card
+  title="Build and install"
+  icon="code"
+  href="https://github.com/magichourhq/docs/tree/main/examples/webflow"
+>
+  Build the Designer Extension with the official Webflow CLI and follow the development-install
+  instructions.
+</Card>
+
+## Generate and add a GIF
+
+1. Open the extension in the Webflow Designer and select an element after which to add the GIF.
+2. Enter your [Magic Hour API key](https://magichour.ai/developer) and a creative brief of up to 500 characters.
+3. Review the external-processing and API-credit disclosure, agree, then choose **Generate GIF**.
+4. Preview the completed GIF. Choose **Add GIF to Webflow** to upload it into Webflow Assets and insert a native Image after your selection. Existing content stays in place.
+
+The extension is free; generation uses your Magic Hour API credits. The AI GIF Generator currently charges 50 credits per generation. Check [API pricing](/billing/overview) for current plan and credit requirements.
+
+Only your entered prompt is sent to Magic Hour. The extension does not scan or export site content. Your API key and prompt stay in the current extension's memory; they are not written to browser or shared project storage. Generated media stays in the preview until you explicitly add it to Webflow. The key is never attached to Webflow asset-upload requests. See [Magic Hour's privacy policy](https://magichour.ai/privacy-policy).
+
+<Warning>
+  Webflow assets are publicly accessible, including before the page is published. Add only content
+  you intend to make public. GIF files must fit Webflow's 4 MB image-asset limit. Oversized
+  animations are resized locally before preview and upload, preserving frames, timing, and looping.
+  The original stays in Magic Hour; resizing does not submit another generation.
+</Warning>
+
+## Resume without generating again
+
+The accepted project ID appears before polling. **Stop waiting** stops local waiting while the Magic Hour job continues. Keep the project ID: closing the extension clears its memory. Enter the same ID under **Resume an existing GIF** to retrieve the existing job without another generation charge.
+
+Paid generation requests are never automatically retried. If submission is interrupted before an ID is returned, check your Magic Hour account history before trying again. An upload or insertion error does not require a new generation. If an insertion response is lost, check the page before adding again to avoid a duplicate.
+
+The finished GIF is copied into Webflow storage when you add it. Your published asset does not depend on an expiring Magic Hour download URL. Native MP4 asset upload is not part of this extension.
+
+Need help? Contact [support@magichour.ai](mailto:support@magichour.ai).

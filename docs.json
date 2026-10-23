@@ -118,6 +118,7 @@
               "integration/framer",
               "integration/adobe-express",
               "integration/canva",
+              "integration/webflow",
               "integration/postman",
               "integration/adding-api-to-your-app",
               "integration/inputs-and-outputs",
