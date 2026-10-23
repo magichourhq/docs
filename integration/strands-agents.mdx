@@ -1,0 +1,158 @@
+---
+title: Strands Agents
+description: Generate and retrieve images with Strands Agents' native MCP client and Magic Hour.
+---
+
+Connect the Strands Agents Python SDK's native MCP client to Magic Hour's hosted server.
+Discover tools, verify API authorization, then generate an image and retrieve its actual
+image bytes. This example uses no Strands Agent, AWS account, or model-provider key.
+Magic Hour performs the image generation and charges API credits.
+
+## Install and configure
+
+Requires Python 3.10+. These versions were verified together using Python 3.12:
+
+```bash
+python -m pip install "strands-agents==1.62.0" "mcp==2.1.1"
+```
+
+Strands 1.62.0 requires MCP below 2.2. Use a separate environment if another application
+requires a newer MCP version.
+
+Provide your [Magic Hour API key](https://magichour.ai/developer?tab=api-keys) through a
+server-side secret manager as `MAGIC_HOUR_API_KEY`. Keep keys, account details, and temporary
+download URLs private. The SDK sends your key to Magic Hour's MCP server in a bearer header.
+
+## Generate an image and save the result
+
+This example requests one Flux 2 Klein image at 640px and 1:1, currently estimated at
+[5 credits](https://magichour.ai/models/flux-2-klein). It saves the accepted project ID before
+waiting. Running it again with the same local project file resumes that project instead of
+creating another image.
+
+Use prompts and media you are authorized to send to Magic Hour. Run the creation step once;
+if a request fails without returning an ID, check your Magic Hour projects before trying again.
+
+```python
+import json
+import os
+from datetime import timedelta
+from pathlib import Path
+
+os.environ["OTEL_SDK_DISABLED"] = "true"
+
+from strands.tools.mcp import MCPClient
+
+
+def metadata(result):
+    if result.get("status") != "success" or result.get("isError"):
+        raise RuntimeError("Magic Hour returned an error; retain the saved project ID.")
+    if isinstance(result.get("structuredContent"), dict):
+        return result["structuredContent"]
+    for block in result.get("content", []):
+        if "text" in block:
+            try:
+                value = json.loads(block["text"])
+            except json.JSONDecodeError:
+                continue
+            if isinstance(value, dict):
+                return value
+    raise RuntimeError("Magic Hour returned no project or account metadata.")
+
+
+project_file = Path("magic-hour-image-project.json")
+with MCPClient(
+    url="https://mcp.magichour.ai/",
+    headers={"Authorization": "Bearer " + os.environ["MAGIC_HOUR_API_KEY"]},
+    startup_timeout=30,
+) as client:
+    print(f"Discovered {len(client.list_tools_sync())} tools.")
+    metadata(
+        client.call_tool_sync(
+            tool_use_id="check-account",
+            name="account_retrieve",
+            arguments={},
+            read_timeout_seconds=timedelta(seconds=30),
+        )
+    )
+    print("Magic Hour API authorization confirmed.")
+
+    if project_file.exists():
+        accepted = json.loads(project_file.read_text())
+    else:
+        accepted = metadata(
+            client.call_tool_sync(
+                tool_use_id="create-image",
+                name="ai_image_generator_create_image",
+                arguments={
+                    "name": "Strands product draft",
+                    "model": "flux-2-klein",
+                    "resolution": "640px",
+                    "aspect_ratio": "1:1",
+                    "image_count": 1,
+                    "style": {
+                        "prompt": "Studio product photograph of an original unbranded cobalt-blue reusable water bottle on a pale stone pedestal, sunrise desert backdrop, no people, text, or logos.",
+                        "tool": "general",
+                    },
+                },
+                read_timeout_seconds=timedelta(seconds=45),
+            )
+        )
+        temporary_file = project_file.with_suffix(".tmp")
+        temporary_file.write_text(
+            json.dumps({"id": accepted["id"], "credits_charged": accepted["credits_charged"]})
+        )
+        temporary_file.replace(project_file)
+    print("Saved project:", accepted["id"])
+    print("Credits charged:", accepted["credits_charged"])
+
+    project = metadata(
+        client.call_tool_sync(
+            tool_use_id="wait-for-image",
+            name="wait_for_image_project",
+            arguments={
+                "id": accepted["id"],
+                "timeout_seconds": 90,
+                "include_inline_downloads": False,
+            },
+            read_timeout_seconds=timedelta(seconds=120),
+        )
+    )
+    if project.get("id") != accepted["id"] or project.get("status") != "complete":
+        raise RuntimeError("Image is not complete; resume the saved project, not creation.")
+
+    result = client.call_tool_sync(
+        tool_use_id="download-image",
+        name="fetch_image_download",
+        arguments={"download_url": project["downloads"][0]["url"], "max_bytes": 8388608},
+        read_timeout_seconds=timedelta(seconds=30),
+    )
+    if result.get("status") != "success" or result.get("isError"):
+        raise RuntimeError("Download failed; retain the saved project ID.")
+    image = next(block["image"] for block in result["content"] if "image" in block)
+    output = Path("magic-hour-image." + image["format"])
+    output.write_bytes(image["source"]["bytes"])
+    print("Saved image:", output)
+```
+
+Tool discovery is public; the separate account call verifies API authorization. Strands
+returns its own tool-result dictionary with a status, structured metadata when available,
+and content blocks. The native client converts inline MCP image content into image bytes.
+The context manager closes the MCP connection.
+
+A timeout does not cancel the server job. Retain the local project file and rerun only
+retrieval, waiting, or download. To start another image intentionally, use a separate saved
+project file. Never treat `tool_use_id` as a server idempotency key.
+
+## Verified behavior
+
+Native validation discovered and adapted 48 tools, verified account access, and retrieved
+an existing completed project. One separate native creation returned an accepted ID and
+charged 5 credits; waiting on that same ID completed and native download returned a
+640×640 PNG. The image was opened and visually inspected. The connection closed and the
+task process exited. No Strands Agent or model-provider inference was run; that flow
+requires separate provider configuration and remains unverified.
+
+See [Magic Hour MCP](/integration/model-context-protocol) for other media tools,
+our [privacy policy](https://magichour.ai/privacy-policy), and the
+[official Strands MCP client API](https://strandsagents.com/docs/api/python/strands.tools.mcp.mcp_client/).
