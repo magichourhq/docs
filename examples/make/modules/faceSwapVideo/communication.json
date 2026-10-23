@@ -1,0 +1,20 @@
+{
+  "url": "https://api.magichour.ai/v1/face-swap",
+  "method": "POST",
+  "type": "json",
+  "body": {
+    "start_seconds": "{{parameters.startSeconds}}",
+    "end_seconds": "{{parameters.endSeconds}}",
+    "assets": {
+      "face_swap_mode": "all-faces",
+      "image_file_path": "{{parameters.sourceImage}}",
+      "video_source": "file",
+      "video_file_path": "{{parameters.targetVideo}}"
+    }
+  },
+  "response": {
+    "output": "{{body}}"
+  },
+  "followRedirect": false,
+  "followAllRedirect": false
+}

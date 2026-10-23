@@ -1,0 +1,66 @@
+[
+  {
+    "name": "url",
+    "type": "text",
+    "label": "URL",
+    "required": true,
+    "validate": {
+      "pattern": "^/v[0-9]+/[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+)*$"
+    },
+    "help": "Enter an API path relative to https://api.magichour.ai, such as /v1/account. Include the leading slash and version. Put query parameters in Query string. Full URLs, dot segments, percent escapes, backslashes, fragments and query strings in this field are not accepted."
+  },
+  {
+    "name": "method",
+    "type": "select",
+    "label": "Method",
+    "required": true,
+    "default": "GET",
+    "mappable": false,
+    "options": [
+      {
+        "label": "GET",
+        "value": "GET"
+      },
+      {
+        "label": "POST",
+        "value": "POST"
+      },
+      {
+        "label": "PUT",
+        "value": "PUT"
+      },
+      {
+        "label": "PATCH",
+        "value": "PATCH"
+      },
+      {
+        "label": "DELETE",
+        "value": "DELETE"
+      }
+    ]
+  },
+  {
+    "name": "qs",
+    "type": "array",
+    "label": "Query string",
+    "spec": [
+      {
+        "name": "key",
+        "type": "text",
+        "label": "Name",
+        "required": true
+      },
+      {
+        "name": "value",
+        "type": "text",
+        "label": "Value"
+      }
+    ]
+  },
+  {
+    "name": "body",
+    "type": "json",
+    "label": "Body",
+    "help": "Enter the JSON request body required by the endpoint. Authorization is supplied by your connection. A generation request consumes Magic Hour credits."
+  }
+]

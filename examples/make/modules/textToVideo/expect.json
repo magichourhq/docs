@@ -1,0 +1,45 @@
+[
+  {
+    "name": "prompt",
+    "type": "text",
+    "label": "Video description",
+    "required": true,
+    "validate": {
+      "min": 1
+    },
+    "help": "Describe the scene and motion to create."
+  },
+  {
+    "name": "duration",
+    "type": "uinteger",
+    "label": "Video length (seconds)",
+    "required": true,
+    "default": 1,
+    "validate": {
+      "min": 1,
+      "max": 60
+    },
+    "help": "Uses LTX 2.5 at 480p. Longer videos consume more credits."
+  },
+  {
+    "name": "aspectRatio",
+    "type": "select",
+    "label": "Video shape",
+    "required": true,
+    "default": "16:9",
+    "options": [
+      {
+        "value": "16:9",
+        "label": "Landscape (16:9)"
+      },
+      {
+        "value": "9:16",
+        "label": "Portrait (9:16)"
+      },
+      {
+        "value": "1:1",
+        "label": "Square (1:1)"
+      }
+    ]
+  }
+]

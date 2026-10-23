@@ -1,0 +1,19 @@
+{
+  "url": "https://api.magichour.ai/v1/ai-image-generator",
+  "method": "POST",
+  "type": "json",
+  "body": {
+    "model": "z-image-turbo",
+    "image_count": 1,
+    "resolution": "{{parameters.resolution}}",
+    "aspect_ratio": "{{parameters.aspectRatio}}",
+    "style": {
+      "prompt": "{{parameters.prompt}}"
+    }
+  },
+  "response": {
+    "output": "{{body}}"
+  },
+  "followRedirect": false,
+  "followAllRedirect": false
+}

@@ -1,0 +1,17 @@
+{
+  "baseUrl": "https://api.magichour.ai/v1",
+  "headers": {
+    "Authorization": "Bearer {{connection.apiKey}}"
+  },
+  "followRedirect": false,
+  "followAllRedirect": false,
+  "response": {
+    "valid": "{{statusCode >= 200 && statusCode < 300}}",
+    "error": {
+      "message": "[{{statusCode}}] {{body.message}}"
+    }
+  },
+  "log": {
+    "sanitize": ["request.headers.authorization"]
+  }
+}

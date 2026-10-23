@@ -1,0 +1,17 @@
+{
+  "url": "https://api.magichour.ai/v1/face-swap-photo",
+  "method": "POST",
+  "type": "json",
+  "body": {
+    "assets": {
+      "face_swap_mode": "all-faces",
+      "source_file_path": "{{parameters.sourceImage}}",
+      "target_file_path": "{{parameters.targetImage}}"
+    }
+  },
+  "response": {
+    "output": "{{body}}"
+  },
+  "followRedirect": false,
+  "followAllRedirect": false
+}

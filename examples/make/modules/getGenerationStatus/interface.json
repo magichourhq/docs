@@ -1,0 +1,101 @@
+[
+  {
+    "name": "id",
+    "type": "text",
+    "label": "Generation ID"
+  },
+  {
+    "name": "name",
+    "type": "text",
+    "label": "Name"
+  },
+  {
+    "name": "status",
+    "type": "text",
+    "label": "Status"
+  },
+  {
+    "name": "type",
+    "type": "text",
+    "label": "Generation type"
+  },
+  {
+    "name": "created_at",
+    "type": "date",
+    "label": "Created at"
+  },
+  {
+    "name": "enabled",
+    "type": "boolean",
+    "label": "Active"
+  },
+  {
+    "name": "credits_charged",
+    "type": "uinteger",
+    "label": "Credits charged"
+  },
+  {
+    "name": "downloads",
+    "type": "array",
+    "label": "Downloads",
+    "spec": [
+      {
+        "name": "url",
+        "type": "url",
+        "label": "Download URL"
+      },
+      {
+        "name": "expires_at",
+        "type": "date",
+        "label": "URL expires at"
+      }
+    ]
+  },
+  {
+    "name": "error",
+    "type": "collection",
+    "label": "Error",
+    "spec": [
+      {
+        "name": "code",
+        "type": "text",
+        "label": "Error code"
+      },
+      {
+        "name": "message",
+        "type": "text",
+        "label": "Error message"
+      }
+    ]
+  },
+  {
+    "name": "image_count",
+    "type": "uinteger",
+    "label": "Image count"
+  },
+  {
+    "name": "width",
+    "type": "integer",
+    "label": "Width"
+  },
+  {
+    "name": "height",
+    "type": "integer",
+    "label": "Height"
+  },
+  {
+    "name": "fps",
+    "type": "number",
+    "label": "Frames per second"
+  },
+  {
+    "name": "start_seconds",
+    "type": "number",
+    "label": "Clip start (seconds)"
+  },
+  {
+    "name": "end_seconds",
+    "type": "number",
+    "label": "Clip end (seconds)"
+  }
+]
