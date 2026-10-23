@@ -1,0 +1,66 @@
+---
+title: Open WebUI
+description: Connect Open WebUI to Magic Hour's hosted MCP server with its native Streamable HTTP integration.
+---
+
+Connect Magic Hour directly under Open WebUI's admin integrations. No Python Tool,
+Function, proxy, or local Magic Hour server is needed. This setup was verified with
+Open WebUI 0.12.3 and its bundled MCP 1.27.2 client.
+
+<Warning>
+  A Bearer connection uses one Magic Hour account's API key. Users granted access to that connection
+  can use its tools and spend that account's API credits. Keep **Access Control** private unless you
+  intend to share that access. This is not per-user OAuth.
+</Warning>
+
+## Add Magic Hour
+
+Use an administrator account on your own Open WebUI instance. Get a
+[Magic Hour API key](https://magichour.ai/developer?tab=api-keys), then:
+
+1. Open **Settings → Admin → Integrations**.
+2. Under **External Tool Servers**, click **+** to add a connection.
+3. Change **Type** from OpenAPI to **MCP (Streamable HTTP)** and enter:
+
+| Field         | Value                                                   |
+| ------------- | ------------------------------------------------------- |
+| Name          | `Magic Hour`                                            |
+| Connection ID | `magichour`                                             |
+| URL           | `https://mcp.magichour.ai/`                             |
+| Auth          | **Bearer**                                              |
+| API Key       | Your raw Magic Hour API key, without a `Bearer ` prefix |
+
+Leave **Access Control** private, its default. Keep the key secret; do not include it
+in screenshots, exported connection files, or shared configuration.
+
+4. Click **Verify Connection** beside the URL, then **Save**.
+5. Reopen the connection with its **Configure** button to confirm the saved type,
+   endpoint, and authentication settings.
+
+![Open WebUI's native MCP connection with Magic Hour configured and its API key redacted](https://github.com/magichourhq/docs/releases/download/docs-render-proof-20261023/openwebui-px620-desktop.png)
+
+<Note>
+  **Verify Connection** checks MCP tool discovery. Magic Hour allows discovery without
+  authentication, so a successful connection does not prove that an API key is valid or that a
+  generation completed. Account and generation calls still require a valid key.
+</Note>
+
+Open WebUI currently labels MCP support experimental. Its native transport is
+Streamable HTTP; select MCP rather than importing MCP configuration into an
+OpenAPI connection. See [Open WebUI's MCP documentation](https://docs.openwebui.com/features/extensibility/mcp/).
+
+## Verified behavior
+
+The native editor discovered 48 Magic Hour tools, saved the Bearer connection, and
+restored its settings when reopened. The configured instance kept normal login,
+TLS verification, and private access controls enabled.
+
+Separately, Open WebUI 0.12.3's released native MCP client authenticated an account
+request and recovered an already completed Magic Hour image project. Its image
+fetch returned the original 640×640 PNG, with matching bytes and a full image
+decode. These checks created no new generation and spent no additional credits.
+
+A chat model must support tool calling to use the connection in conversations.
+Model selection and model-driven chat generation were not exercised by this
+validation. When generating, keep the accepted project ID and recover that same
+project after a timeout instead of submitting another paid creation.
