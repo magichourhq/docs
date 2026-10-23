@@ -1,0 +1,21 @@
+{
+  "url": "/image-to-video",
+  "method": "POST",
+  "type": "json",
+  "body": {
+    "model": "ltx-2.5",
+    "resolution": "480p",
+    "end_seconds": "{{parameters.duration}}",
+    "assets": {
+      "image_file_path": "{{parameters.image}}"
+    },
+    "style": {
+      "prompt": "{{parameters.prompt}}"
+    }
+  },
+  "response": {
+    "output": "{{body}}"
+  },
+  "followRedirect": false,
+  "followAllRedirect": false
+}

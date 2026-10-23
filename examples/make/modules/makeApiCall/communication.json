@@ -1,0 +1,23 @@
+{
+  "url": "https://api.magichour.ai/{{parameters.url}}",
+  "method": "{{parameters.method}}",
+  "type": "json",
+  "qs": {
+    "{{...}}": "{{toCollection(parameters.qs, 'key', 'value')}}"
+  },
+  "body": "{{parameters.body}}",
+  "followRedirect": false,
+  "followAllRedirect": false,
+  "response": {
+    "valid": "{{statusCode >= 200 && statusCode < 300}}",
+    "output": {
+      "body": "{{body}}",
+      "headers": "{{headers}}",
+      "statusCode": "{{statusCode}}"
+    }
+  },
+  "headers": {
+    "{{...}}": "{{toCollection(parameters.headers, 'key', 'value')}}",
+    "Authorization": "Bearer {{connection.apiKey}}"
+  }
+}

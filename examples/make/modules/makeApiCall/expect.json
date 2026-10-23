@@ -1,0 +1,89 @@
+[
+  {
+    "name": "url",
+    "type": "text",
+    "label": "URL",
+    "required": true,
+    "validate": {
+      "pattern": "^/v[0-9]+/[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+)*$"
+    },
+    "help": "Enter an API path relative to https://api.magichour.ai, such as /v1/account. Include the leading slash and version. Put query parameters in Query string. Full URLs, dot segments, percent escapes, backslashes, fragments and query strings in this field are not accepted."
+  },
+  {
+    "name": "method",
+    "type": "select",
+    "label": "Method",
+    "required": true,
+    "default": "GET",
+    "mappable": false,
+    "options": [
+      {
+        "label": "GET",
+        "value": "GET"
+      },
+      {
+        "label": "POST",
+        "value": "POST"
+      },
+      {
+        "label": "PUT",
+        "value": "PUT"
+      },
+      {
+        "label": "PATCH",
+        "value": "PATCH"
+      },
+      {
+        "label": "DELETE",
+        "value": "DELETE"
+      }
+    ]
+  },
+  {
+    "name": "headers",
+    "type": "array",
+    "label": "Headers",
+    "help": "You don't have to add authorization headers; we already did that for you. Authorization cannot be overridden.",
+    "spec": [
+      {
+        "name": "key",
+        "type": "text",
+        "label": "Name",
+        "required": true,
+        "validate": {
+          "pattern": "^(?![Aa][Uu][Tt][Hh][Oo][Rr][Ii][Zz][Aa][Tt][Ii][Oo][Nn]$)[!#$%&'*+.^_`|~0-9A-Za-z-]+$"
+        },
+        "help": "Enter an HTTP header name other than Authorization."
+      },
+      {
+        "name": "value",
+        "type": "text",
+        "label": "Value"
+      }
+    ]
+  },
+  {
+    "name": "qs",
+    "type": "array",
+    "label": "Query string",
+    "spec": [
+      {
+        "name": "key",
+        "type": "text",
+        "label": "Name",
+        "required": true
+      },
+      {
+        "name": "value",
+        "type": "text",
+        "label": "Value"
+      }
+    ]
+  },
+  {
+    "name": "body",
+    "type": "any",
+    "label": "Body",
+    "help": "Map the JSON collection or array required by the endpoint. If you have JSON text, parse it with the JSON > Parse JSON module first. Authorization is supplied by your connection. A generation request consumes Magic Hour credits."
+  }
+]

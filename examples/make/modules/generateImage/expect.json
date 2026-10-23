@@ -1,0 +1,52 @@
+[
+  {
+    "name": "prompt",
+    "type": "text",
+    "label": "Image description",
+    "required": true,
+    "validate": {
+      "min": 1
+    },
+    "help": "Describe the image to create. Uses Z-Image Turbo and creates one image. A generation consumes Magic Hour credits."
+  },
+  {
+    "name": "aspectRatio",
+    "type": "select",
+    "label": "Image shape",
+    "required": true,
+    "default": "1:1",
+    "options": [
+      {
+        "label": "Square (1:1)",
+        "value": "1:1"
+      },
+      {
+        "label": "Landscape (16:9)",
+        "value": "16:9"
+      },
+      {
+        "label": "Portrait (9:16)",
+        "value": "9:16"
+      }
+    ]
+  },
+  {
+    "name": "resolution",
+    "type": "select",
+    "label": "Resolution",
+    "required": true,
+    "default": "1k",
+    "options": [
+      {
+        "value": "640px",
+        "label": "Up to 640 pixels"
+      },
+      {
+        "value": "1k",
+        "label": "Up to 1024 pixels"
+      }
+    ],
+    "advanced": true,
+    "help": "1024 pixels requires a paid Magic Hour plan. Choose 640 pixels for the free plan or lower-cost checks."
+  }
+]

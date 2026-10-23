@@ -1,0 +1,9 @@
+{
+  "url": "/{{parameters.mediaType}}-projects/{{encodeURL(parameters.generationId)}}",
+  "method": "GET",
+  "response": {
+    "output": "{{body}}"
+  },
+  "followRedirect": false,
+  "followAllRedirect": false
+}
