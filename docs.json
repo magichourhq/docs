@@ -124,6 +124,7 @@
               "integration/llamaindex",
               "integration/spring-ai",
               "integration/open-webui",
+              "integration/anythingllm",
               "integration/node-red",
               "integration/windmill",
               "integration/prefect",

@@ -1,0 +1,120 @@
+---
+title: AnythingLLM
+description: Connect self-hosted AnythingLLM to Magic Hour MCP and retrieve a saved image project's status.
+---
+
+Connect AnythingLLM's native MCP client to Magic Hour, then use `@agent` to retrieve
+an image project you already created. This setup enables only the read-only image
+retrieval tool. It does not require another generation or a new model-provider key
+when you use your own local Ollama model.
+
+## Before you start
+
+Use a protected [self-hosted AnythingLLM instance](https://docs.anythingllm.com/installation-docker/local-docker) with administrator access, a
+[Magic Hour API key](https://magichour.ai/developer?tab=api-keys), and an existing
+image project owned by that account. These instructions cover self-hosted
+AnythingLLM 1.18.0.
+
+Have a tool-capable model installed and reachable from AnythingLLM. This flow was
+verified with Ollama 0.40.10 and `qwen2.5:7b-instruct-q4_K_M` at a 4096-token context:
+one native agent run retrieved an existing completed image project. No new Magic
+Hour generation was needed. Other models may choose or format tool calls differently.
+
+<Warning>
+  AnythingLLM stores MCP headers as plaintext in its instance-wide configuration
+  file. Administrators and anyone who can read that file can access the API key;
+  other enabled Magic Hour tools could spend credits. Use a dedicated key, restrict
+  the file to the application owner with permissions `0600`, protect the instance,
+  and keep configuration exports, logs and screenshots private. Do not put the key
+  in a chat prompt.
+</Warning>
+
+## Discover and restrict the tools
+
+1. In the instance's storage directory, open or create
+   `plugins/anythingllm_mcp_servers.json`. Merge this entry into any existing
+   `mcpServers` object; preserve other servers:
+
+   ```json
+   {
+     "mcpServers": {
+       "magic-hour": {
+         "type": "streamable",
+         "url": "https://mcp.magichour.ai/",
+         "headers": {}
+       }
+     }
+   }
+   ```
+
+   The full path is `<STORAGE_DIR>/plugins/anythingllm_mcp_servers.json`. The
+   standard Docker storage path is
+   `/app/server/storage/plugins/anythingllm_mcp_servers.json`; edit the corresponding
+   file in the host storage mount.
+2. Open **Settings → Agent Skills**. In the MCP section, click **Refresh** and
+   confirm the server restart. Select **Magic Hour**. Public discovery returns
+   tools without an API key; it does not prove account access.
+3. Turn off every Magic Hour tool except `image_projects_retrieve_details`.
+   The verified inventory had 48 tools, leaving **1/48 tools enabled**.
+4. Turn off **RAG & long-term memory**, **View & summarize documents**,
+   **Scrape websites**, and **Web Search**, then click **Save**. Keep other agent
+   skills, imported skills, flows and clarifying questions disabled for this
+   read-only setup.
+5. Reload the page and refresh the MCP server once more. Confirm that only the
+   image retrieval tool remains enabled and the four core skills remain off.
+
+Tool selection and MCP configuration apply across the instance. Use a dedicated
+instance if changing these settings would affect other users or workspaces.
+
+## Add the API key
+
+Replace the empty `headers` object with:
+
+```json
+{
+  "Authorization": "Bearer YOUR_MAGIC_HOUR_API_KEY"
+}
+```
+
+Replace the placeholder with your actual key in the protected configuration file.
+AnythingLLM reads this as a literal header: `${MAGIC_HOUR_API_KEY}` is not expanded
+from an environment variable. Keep the `Bearer ` prefix and never commit the file.
+
+Refresh the MCP server through the same native UI, then check that the one-tool
+selection is still saved. A connected server or successful discovery alone does
+not verify the API key; the authenticated project request does.
+
+## Configure the model and workspace
+
+1. Open **AI Providers → LLM** and select **Ollama**. Set its reachable base URL,
+   select your installed model, set the context size, and click **Save changes**.
+   If AnythingLLM runs in Docker, `localhost` refers to that container; use the
+   Ollama service's reachable address on your configured network.
+2. Create a workspace. In its **Agent Configuration**, select **Ollama** and the
+   same model. Allow the normal settings save to finish.
+3. Send one message in that workspace, replacing `YOUR_PROJECT_ID` with your own
+   saved image project ID:
+
+   ```text
+   @agent Use only magic-hour-image_projects_retrieve_details with id YOUR_PROJECT_ID. Return only a JSON object with the returned id and status. Do not call other tools or include download URLs.
+   ```
+
+The request retrieves a status snapshot; it does not poll, create a replacement
+job or download an image. If the project is still processing, check the same ID
+again later. Your model's inference may have costs even though this Magic Hour
+operation creates no new generation.
+
+## Check the result
+
+Look for the native tool invocation and its completion before relying on the
+agent's answer. Confirm that the returned ID matches your saved project and inspect
+its status. A model-written `complete` without an actual successful tool invocation
+is not evidence that Magic Hour was contacted.
+
+For an authorization error, check the literal bearer header and that the project
+belongs to the key's account. After editing the configuration, refresh the native
+MCP server and recheck the saved tool selection. Do not enable creation or deletion
+tools to troubleshoot a read-only retrieval.
+
+Project results may contain temporary signed download URLs. Keep raw tool results
+and instance logs private; do not share them with the configuration file or key.
