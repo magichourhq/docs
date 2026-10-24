@@ -39,7 +39,7 @@ asynchronously, and duration varies with the input, selected settings, and queue
 
 For a complete voice-to-video workflow, follow the [lip-sync starter recipe](/get-started/starter-recipes). It covers uploading your video and voiceover, submitting the lip-sync job, and downloading the result.
 
-- **Dubbing and localization** - Translate videos to new languages with matching lips
+- **Dubbing and localization** - Sync an existing translated audio track to the source video
 - **Personalized messages** - Create custom video messages with any voice
 - **Educational content** - Produce training videos with voiceovers
 - **Entertainment** - Create fun lip-sync content for social media
@@ -164,7 +164,7 @@ Lip Sync is charged per rendered frame, and the rate depends on `style.generatio
 | Generation mode | Credits per frame | Notes                                 |
 | :-------------- | :---------------- | :------------------------------------ |
 | `lite`          | 1                 | Available on all tiers                |
-| `standard`      | 1                 | Creator, Pro, and Business tiers only |
+| `standard`      | 1                 | Available on all tiers                |
 | `pro`           | 2                 | Creator, Pro, and Business tiers only |
 
 For example, a 10-second clip capped at 30 FPS in `lite` mode costs about 300 credits. Use `max_fps_limit` to lower the frame rate and reduce cost. Credits are only charged for the frames that actually render, and the completed job's `credits_charged` shows the exact cost.
