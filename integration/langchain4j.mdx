@@ -1,0 +1,86 @@
+---
+title: LangChain4j
+description: Check Magic Hour API access and recover a saved image through LangChain4j's native Java MCP client.
+---
+
+Connect LangChain4j's native `McpClient` to Magic Hour and download an image you already
+created. This Java example calls tools directly without a language model, provider API key,
+new generation, or additional Magic Hour generation credits.
+
+## Install and configure
+
+Requires Java 17+ and Maven. Download
+[pom.xml](https://raw.githubusercontent.com/magichourhq/docs/main/examples/langchain4j/pom.xml)
+and [MagicHour.java](https://raw.githubusercontent.com/magichourhq/docs/main/examples/langchain4j/src/main/java/MagicHour.java),
+preserving this layout:
+
+```text
+langchain4j/
+  pom.xml
+  src/main/java/MagicHour.java
+```
+
+The example pins `langchain4j-mcp` to `1.22.0-beta32` and uses its native
+`DefaultMcpClient` and `StreamableHttpMcpTransport`. Jackson `2.22.1` parses the
+native tool result's JSON text; it matches the released SDK's own dependency version.
+
+Provide a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys) through your
+server-side secret manager as `MAGIC_HOUR_API_KEY`. Keep the key, account data, saved
+project IDs, and temporary download URLs private.
+
+## Verify access
+
+From the example directory:
+
+```bash
+mvn -q compile exec:java -Dexec.args="account"
+```
+
+Discovery is public. The account command checks actual API authorization and prints only
+an authorization flag and discovered tool count, without exposing account fields.
+
+## Retrieve and download a saved image
+
+Use an image project ID returned by a previously accepted Magic Hour creation:
+
+```bash
+mvn -q compile exec:java -Dexec.args="get YOUR_SAVED_IMAGE_PROJECT_ID"
+mvn -q compile exec:java -Dexec.args="download YOUR_SAVED_IMAGE_PROJECT_ID recovered.png"
+```
+
+The retrieval command reports the project's ID, status, and charged credits. Downloading
+requires `complete` status. If it is still queued or rendering, retry retrieval later with
+that same ID. Neither command creates a replacement project.
+
+The download command preserves the exact signed URL and its query string. Its separate
+storage request does not receive your Magic Hour authorization header. It writes through a
+temporary file, preserves an existing output, and removes its temporary file after failure.
+
+## Native client behavior
+
+The example uses `McpClient.listTools()` and
+`McpClient.executeTool(ToolExecutionRequest)`. It checks the native
+`ToolExecutionResult.isError()` flag and parses `resultText()`.
+A try-with-resources block closes the MCP client.
+
+HTTP request/response logging and automatic health checks are disabled. The MCP transport
+uses the fixed Magic Hour endpoint, a Bearer header, and no redirects. The example pins
+protocol `2025-11-25`, which the hosted endpoint supports, rather than probing a newer
+unsupported protocol.
+
+This example intentionally exposes only read-only account and image-recovery operations.
+In this SDK release, the legacy HTTP transport can reinitialize and replay a request once
+after a session-expired HTTP 404. The modern `multiRoundTripMaxRetries` setting does not
+disable that legacy behavior. Consequently, this guide does not use that client path for a
+paid create operation or claim that it guarantees one submission.
+
+Create media through another verified Magic Hour integration or the
+[REST API](/get-started/quick-start), save its accepted ID, then recover it here. See
+[Magic Hour MCP](/integration/model-context-protocol) for the wider tool inventory and our
+[privacy policy](https://magichour.ai/privacy-policy) for external processing details.
+
+Native validation on October 24, 2026 discovered 48 tools, authenticated the account read,
+retrieved an existing completed image project, and downloaded its usable 640×640 PNG.
+The 310,597-byte file passed full image decoding, and the Maven processes exited successfully.
+These account, retrieval, and download commands created no new project or generation charge.
+No model-backed agent run or marketplace listing was part of this validation.

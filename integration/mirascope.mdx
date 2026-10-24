@@ -1,0 +1,96 @@
+---
+title: Mirascope
+description: Create one Magic Hour image and recover it using Mirascope's native tools.
+---
+
+Use [Magic Hour MCP](/integration/model-context-protocol) from Mirascope without a
+language model or an additional model-provider key. The standalone example provides
+explicit account, image creation, project retrieval, and download commands.
+
+<Note>
+Verified October 24, 2026 with Mirascope 2.8.2, MCP 1.30.0, and httpx 0.28.1:
+48 discovered tools, authenticated account retrieval, one accepted image creation,
+same-ID project retrieval, and download produced a usable 640×640 PNG. Full image
+decode passed. Commands exited successfully, including connection cleanup. This
+verification used native framework tools without a language model.
+</Note>
+
+## Install and configure
+
+Requires Python 3.10 or newer. Copy
+[magic_hour.py](https://github.com/magichourhq/docs/blob/main/examples/mirascope/magic_hour.py)
+and [requirements.txt](https://github.com/magichourhq/docs/blob/main/examples/mirascope/requirements.txt)
+into an empty directory:
+
+```bash
+python3.12 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+Provide your [Magic Hour API key](https://magichour.ai/developer?tab=api-keys) through
+your secret manager as `MAGIC_HOUR_API_KEY`. The authenticated endpoint is fixed to
+`https://mcp.magichour.ai/`. Credentials, account fields, prompts, and signed download
+URLs are not printed.
+
+```bash
+python magic_hour.py account
+```
+
+This command confirms authorization using the read-only account tool and prints only
+a success flag and discovered tool count. Public discovery alone does not prove that
+the API key works.
+
+## Create once
+
+Creation sends your prompt to Magic Hour and spends credits. This command requests
+one square 640px Flux 2 Klein image, starting at 5 credits:
+
+```bash
+python magic_hour.py create \
+  --prompt "A blue ceramic mug on a wooden table, product photography" \
+  --state image-project.json \
+  --confirm-create
+```
+
+The state file is created exclusively before the paid request. An existing file blocks
+another creation using that path. The example calls the generation tool once, saves
+the accepted project ID durably, and prints it. It does not poll or automatically
+repeat creation.
+
+A timeout can leave the outcome unknown. Preserve the pending state file and check
+your Magic Hour projects before deciding to create again. If the server returns an
+ID but saving fails, the example prints that ID with `saved: false`; keep it for recovery.
+
+## Retrieve and download the same project
+
+Use the accepted ID from the command output or state file:
+
+```bash
+python magic_hour.py get --id YOUR_PROJECT_ID
+python magic_hour.py download --id YOUR_PROJECT_ID --output image.png
+```
+
+Retrieval checks that the returned project ID matches your request. Download reads
+that same project once and saves the first returned image only when its status is
+`complete`. If it is still rendering, run the same download command later.
+Recovery never creates a replacement job, and an existing output file is not overwritten.
+
+The media download uses the exact returned HTTPS URL with a separate HTTP client,
+no API credentials, and no redirects. Signed URLs remain private.
+
+## Native framework behavior
+
+The authenticated stock MCP transport is passed to Mirascope's public `MCPClient`.
+Discovery converts tools to native `AsyncTool` instances; the recipe invokes those
+instances directly. It parses their text content as JSON and validates the expected
+account or project fields. The Mirascope adapter returns content blocks rather than
+preserving the full MCP result envelope. Transport and session contexts close on exit.
+No creation retry loop is configured.
+
+The example uses direct tool execution rather than a model-backed agent. It does not
+demonstrate model planning or paid model inference. For a model-backed workflow, expose
+only the tools it needs and require explicit approval for paid creation.
+
+See the [pinned framework source](https://github.com/Mirascope/mirascope/blob/2923e9bfd3e1069633d099757b4d830dbd0fcce7/python/mirascope/llm/mcp/mcp_client.py) and
+[Magic Hour privacy policy](https://magichour.ai/privacy-policy).

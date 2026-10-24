@@ -1,0 +1,88 @@
+---
+title: mcp-agent
+description: Create a Magic Hour image once, save its project ID, and recover it through mcp-agent.
+---
+
+Connect mcp-agent to [Magic Hour MCP](/integration/model-context-protocol) for image generation
+and recovery. This command-line example uses the framework's native tool calls without a
+language model or another provider key.
+
+<Note>
+Verified October 24, 2026 with mcp-agent 0.2.6 / MCP 1.30.0: 48 discovered tools, an
+authenticated account check, one accepted image creation, same-ID status retrieval, and
+native inline image recovery produced a usable 640×640 PNG. Full image decode
+passed. This verification used native tool calls without a language model.
+</Note>
+
+## Install and configure
+
+Requires Python 3.11+; native validation used Python 3.12. Copy [magic_hour.py](https://github.com/magichourhq/docs/blob/main/examples/mcp-agent/magic_hour.py)
+and [requirements.txt](https://github.com/magichourhq/docs/blob/main/examples/mcp-agent/requirements.txt)
+into an empty directory, then run:
+
+```bash
+python3.12 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+Provide your [Magic Hour API key](https://magichour.ai/developer?tab=api-keys) through your
+secret manager as `MAGIC_HOUR_API_KEY`. The MCP endpoint is fixed to
+`https://mcp.magichour.ai/`; the example disables logging and OpenTelemetry and does not
+print account fields, credentials, prompts, or signed download URLs.
+
+```bash
+python magic_hour.py account
+```
+
+The authorization command prints only its status, discovered tool count, and action count.
+Public tool discovery alone does not prove the API key works.
+
+## Create one image
+
+The `create` command sends your prompt to Magic Hour and spends credits. It requests one
+square 640px Flux 2 Klein image, starting at 5 credits. Run it once for each intended image:
+
+```bash
+python magic_hour.py create \
+  --prompt "A blue ceramic mug on a warm wooden table, product photography" \
+  --id-file image-project.txt
+```
+
+The example calls the native generation tool once and writes the accepted project ID to
+`image-project.txt` before returning. It does not poll or automatically repeat creation.
+The exclusive ID file prevents accidentally submitting the same command twice.
+
+If the response is interrupted, the file retains an unknown-outcome marker. Check your
+Magic Hour projects before submitting another creation. A timeout does not prove the job failed.
+If saving the accepted ID fails, the ID is still printed so you can preserve it.
+
+## Retrieve and download
+
+Use the saved ID for all subsequent reads:
+
+```bash
+python magic_hour.py get "$(cat image-project.txt)"
+python magic_hour.py download "$(cat image-project.txt)" --output magic-hour-image.png
+```
+
+`get` prints the ID and current status. `download` waits up to 30 seconds for the saved job and saves the first native inline image, up to 8 MiB. Larger outputs require a separate exact-URL download.
+
+These commands reuse the same project. An unfinished job or failed download never triggers
+a new generation. Keep the saved ID and retry recovery after the job completes.
+An existing output file is not overwritten.
+
+## Use in your application
+
+The example uses `MCPApp` and a native `Agent` configured for `streamable_http`.
+It discovers namespaced tools such as `magic_hour_account_retrieve` and invokes
+`Agent.call_tool` directly. The asyncio executor calls each requested operation once;
+usage telemetry, tracing, file logging, and automatic agent discovery are disabled.
+Both application and agent contexts close on exit.
+
+For a model-backed agent, expose only the tools your workflow needs and require explicit
+approval before paid creation. The native tool recipe does not establish model-driven behavior.
+
+See the [framework source](https://github.com/lastmile-ai/mcp-agent/blob/main/src/mcp_agent/agents/agent.py) and our
+[privacy policy](https://magichour.ai/privacy-policy). Tool errors are reported without
+printing private provider responses.
