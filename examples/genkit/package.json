@@ -1,0 +1,16 @@
+{
+  "name": "magic-hour-genkit-example",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Retrieve an existing Magic Hour image through Genkit's official native MCP client",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@genkit-ai/mcp": "1.43.0",
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "genkit": "1.43.0"
+  }
+}

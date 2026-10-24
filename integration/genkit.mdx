@@ -1,0 +1,79 @@
+---
+title: Genkit
+description: Retrieve an existing Magic Hour image with Genkit's official native MCP client, without a model call or another generation.
+---
+
+Connect Genkit's TypeScript MCP client to Magic Hour's hosted server. Discover tools,
+verify API authorization, and check an image project you already created. This example
+makes no model call and requires no Firebase account or Gemini API key.
+
+## Install and configure
+
+Requires Node.js 22+. The example pins `genkit` and `@genkit-ai/mcp` to 1.43.0 and
+`@modelcontextprotocol/sdk` to 1.32.2.
+
+Download [recover-image.mjs](https://raw.githubusercontent.com/magichourhq/docs/main/examples/genkit/recover-image.mjs)
+and [package.json](https://raw.githubusercontent.com/magichourhq/docs/main/examples/genkit/package.json)
+into the same directory, then install:
+
+```bash
+npm install
+```
+
+Provide a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys) through your
+server-side secret manager as `MAGIC_HOUR_API_KEY`. Set `MAGIC_HOUR_IMAGE_PROJECT_ID`
+to the saved ID of an existing image project. Keep keys, account details, and temporary
+download URLs private.
+
+## Check the saved project
+
+```bash
+node recover-image.mjs
+```
+
+The example converts discovered tools into native Genkit actions and calls
+`account_retrieve` and `wait_for_image_project` directly. Public discovery
+alone does not validate your key; the separate account call checks authorization.
+It prints the tool count and project status, without printing account details or
+private download URLs. The wait tool may poll the same saved ID for up to 30 seconds; it never creates another
+project. If the image is still pending, keep that ID and run recovery later.
+
+To save the first completed PNG image locally:
+
+```bash
+MAGIC_HOUR_SAVE_IMAGE=1 node recover-image.mjs
+```
+
+The same wait call requests at most one inline image with an 8 MiB limit and writes
+`magic-hour-image.png` in the current directory, replacing that filename if present.
+The example supports PNG output only. Retrieval does not start another generation;
+keep the saved project ID if a connection or download fails.
+
+## Verified behavior
+
+Native validation with Node.js 24.21.0 discovered 48 tools, verified authenticated account
+field types, and recovered an existing completed image using the same saved project ID.
+The exact example saved its 640×640 PNG, matching the existing 287,872-byte image byte for
+byte. The client closed and the process exited with no errors. No generation or model
+call was made; discovery does not mean all 48 tools were executed.
+
+## Result handling and connection lifecycle
+
+`rawToolResponses: true` preserves the MCP result envelope, including `isError`,
+structured metadata, and inline image content. Genkit's default conversion can prefer
+structured metadata over sibling media content. The example checks errors before
+reading results, validates account field types before confirming authorization, and uses
+`finally` to disable the MCP client. Failures report only the current operation and, when
+available, a numeric MCP error code; private response details are not printed.
+
+It disables reflection and OpenTelemetry before importing Genkit, loads no model or
+cloud telemetry plugin, and needs no model-provider key. A model-driven Genkit flow
+requires its own provider configuration and is outside this example's scope.
+
+Generation tools spend Magic Hour credits. If you add creation to your application,
+persist every accepted project ID before waiting, and never automatically repeat a
+paid request after a timeout. This example contains no creation call or retry loop.
+
+See [Magic Hour MCP](/integration/model-context-protocol), our
+[privacy policy](https://magichour.ai/privacy-policy), and the
+[official Genkit MCP documentation](https://genkit.dev/docs/js/model-context-protocol/).
