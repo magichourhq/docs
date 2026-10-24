@@ -12,10 +12,10 @@ The Magic Hour provider supports AI SDK v7 image generation and experimental vid
 ## Install
 
 ```sh
-npm install https://github.com/magichourhq/docs/releases/download/ai-sdk-provider-v0.1.0/magichour-ai-sdk-provider-0.1.0.tgz ai@7.0.148
+npm install https://github.com/magichourhq/docs/releases/download/ai-sdk-provider-v0.1.1/magichourhq-ai-sdk-provider-0.1.1.tgz ai@7.0.148
 ```
 
-Requires Node.js 22 or newer. Version 0.1.0 was checked with `ai@7.0.148` and `@ai-sdk/provider@4.0.31`. Video APIs are experimental; retest before upgrading. The [GitHub release](https://github.com/magichourhq/docs/releases/tag/ai-sdk-provider-v0.1.0) includes the package checksum.
+Requires Node.js 22 or newer. Version 0.1.1 was checked with `ai@7.0.148` and `@ai-sdk/provider@4.0.31`. Video APIs are experimental; retest before upgrading. The [GitHub release](https://github.com/magichourhq/docs/releases/tag/ai-sdk-provider-v0.1.1) includes the package checksum. The previous [version 0.1.0 archive](https://github.com/magichourhq/docs/releases/tag/ai-sdk-provider-v0.1.0) remains available and uses the old import name, `@magichour/ai-sdk-provider`.
 
 <Card
   title="Provider source and installation"
@@ -27,7 +27,7 @@ Requires Node.js 22 or newer. Version 0.1.0 was checked with `ai@7.0.148` and `@
 
 ```ts
 import { generateImage } from "ai";
-import { createMagicHour } from "@magichour/ai-sdk-provider";
+import { createMagicHour } from "@magichourhq/ai-sdk-provider";
 
 const magichour = createMagicHour(); // Reads MAGIC_HOUR_API_KEY server-side.
 const { image } = await generateImage({
