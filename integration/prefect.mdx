@@ -1,0 +1,107 @@
+---
+title: Prefect
+description: Recover an existing Magic Hour image project's status through a native Prefect flow and task without a language model.
+---
+
+Run a native Prefect flow that retrieves an existing Magic Hour image project.
+It makes one GET request, checks that the response belongs to the saved ID, and
+returns only its ID and status. It does not create a generation, call a language
+model, download media, or require a Prefect Cloud account.
+
+Download [recover-image.py](https://raw.githubusercontent.com/magichourhq/docs/main/examples/prefect/recover-image.py)
+and [requirements.txt](https://raw.githubusercontent.com/magichourhq/docs/main/examples/prefect/requirements.txt)
+into the same private working directory.
+
+## Install
+
+Use Python 3.12 and a dedicated virtual environment. The example pins Prefect
+3.9.0 and HTTPX 0.28.1. Install the normal declared dependencies:
+
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m pip check
+```
+
+Use the full `prefect` package for the local server. `prefect-client` alone does
+not include that server. No model provider credentials or optional integrations
+are needed.
+
+## Start a private local Prefect server
+
+Choose a private Prefect state directory and keep it separate from existing
+Prefect profiles or deployments. The directory contains local orchestration
+metadata, including the saved project ID. Use the same directory in both terminals.
+
+Set these supported options in the server terminal:
+
+```bash
+export PREFECT_HOME="/YOUR_PRIVATE_DIRECTORY/prefect-magic-hour"
+export PREFECT_API_URL="http://127.0.0.1:4200/api"
+export PREFECT_SERVER_ANALYTICS_ENABLED=false
+export DO_NOT_TRACK=1
+export PREFECT_LOGGING_TO_API_ENABLED=false
+env -u MAGIC_HOUR_API_KEY -u PREFECT_API_KEY prefect server start --host 127.0.0.1 --port 4200
+```
+
+Keep the server bound to loopback. Use an available port and update the API URL
+if 4200 is already in use. Do not expose this local server publicly.
+
+The server process does not need the Magic Hour key. Starting it separately also
+avoids passing that key to Prefect's automatic ephemeral server subprocess,
+which normally inherits its parent's environment.
+
+## Run the recovery flow
+
+In a separate terminal, activate the same virtual environment and set the same
+`PREFECT_HOME`, `PREFECT_API_URL`, telemetry, and logging options. Remove any
+inherited `PREFECT_API_KEY` when using this local server.
+
+Provide `MAGIC_HOUR_API_KEY` through your normal private environment configuration
+in this flow terminal only. Keep it out of scripts, command arguments, Prefect
+parameters, screenshots, and logs. Select an image project owned by that account:
+
+```bash
+export MAGIC_HOUR_IMAGE_PROJECT_ID="YOUR_EXISTING_IMAGE_PROJECT_ID"
+python recover-image.py
+```
+
+The task reads the key inside its function. The key is not a flow or task
+parameter, so it is not part of the saved parameter metadata.
+
+The production example uses native `@flow` and `@task` decorators with
+`retries=0`, `persist_result=False`, and `log_prints=False`. Result persistence
+is disabled for both; Prefect does not use a task result cache without persistence.
+API log delivery is also disabled. Only safe project ID/status metadata leaves
+the task, and errors use a static message without a raw API response or download URL.
+
+## Interpret the result
+
+The final output contains only `id` and `status`. A successful GET confirms
+retrieval, not necessarily a completed generation. If the provider reports a
+pending status, check the same ID again later. Do not submit a replacement
+generation to recover existing work.
+
+The example does not configure schedules, deployments, retries, or automatic
+polling. Stop your own local Prefect server when finished. For disposable runs,
+remove only the private state directory you created after stopping the server;
+preserve existing Prefect state.
+
+## Verification scope
+
+The exact example ran with Prefect 3.9.0 and HTTPX 0.28.1 against a stock local
+Prefect server. Its flow and task both reached `COMPLETED` after one authenticated
+GET of an existing Magic Hour project. The result contained only the requested
+ID and `complete` status. Both native run records had retries set to zero and no
+persisted state data.
+
+The server environment was verified free of the Magic Hour key before and after
+the flow. The task received the key through its own process environment; it was
+not a flow or task parameter. Normal Prefect lifecycle messages appeared on
+standard error; disabling API log delivery does not silence terminal logs. The
+owned server processes, private state and listener were cleaned up after the run.
+
+This verifies native local orchestration and saved-project status recovery. It
+does not prove image creation, media download, Prefect Cloud deployment or an
+upstream integration listing.

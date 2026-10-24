@@ -126,6 +126,7 @@
               "integration/open-webui",
               "integration/node-red",
               "integration/windmill",
+              "integration/prefect",
               "integration/langflow",
               "integration/haystack",
               "integration/figma",
