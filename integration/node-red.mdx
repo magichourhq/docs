@@ -1,0 +1,108 @@
+---
+title: Node-RED
+description: Generate and recover Magic Hour images with Node-RED's built-in HTTP Request and file nodes.
+---
+
+Use Node-RED's built-in nodes to create an image, recover it by project ID, and save
+the completed PNG. This flow was verified with Node-RED 5.0.9. No community node,
+SDK, or additional package is required.
+
+The example requests one 640px square image with `flux-2-klein` and saves the first
+download. The verified output format was PNG.
+
+<Warning>
+  The flow uses one Magic Hour account's API key. Anyone who can edit or run it can
+  spend that account's credits. Keep your [Node-RED editor protected](https://nodered.org/docs/user-guide/runtime/securing-node-red)
+  and share only a credential-free flow export. Restore the project-ID placeholder
+  before sharing a flow publicly.
+</Warning>
+
+## Import and configure
+
+1. [Download the flow JSON](https://raw.githubusercontent.com/magichourhq/docs/main/examples/node-red/generate-and-recover-image.json).
+2. In the Node-RED editor, select **Menu → Import**, choose the JSON file, and import it.
+3. Open **Magic Hour API — set bearer credential**. Select **Use authentication**,
+   set **Type** to **bearer authentication**, and paste your
+   [Magic Hour API key](https://magichour.ai/developer?tab=api-keys) into **Token**.
+   Enter the raw key, without a `Bearer ` prefix.
+4. Configure the output directory, then click **Deploy**.
+
+Node-RED adds the `Bearer ` prefix and stores the token as a password credential.
+Keep it out of node properties, HTTP headers, Debug output, screenshots, and
+exported JSON. The separate **Download image — NO authentication** node must not
+receive an API key.
+
+### Choose the output directory
+
+By default, **Prepare NO-AUTH media GET** sets `msg.filename` to
+`/data/magic-hour-<project-id>.png`. In Docker, this is inside the container: look
+in the host directory mounted at `/data` to find the saved file.
+
+For a local installation or another container mount, edit the **filename** rule in
+**Prepare NO-AUTH media GET** to use an existing absolute directory writable by
+Node-RED. Keep the project-ID filename expression. The file node does not create
+missing directories.
+
+## Create once
+
+1. Open **Create once (billable)** to review its image prompt and generation options.
+2. Click **Deploy** if you changed them.
+3. Click that node's inject button **once**. This sends a paid creation request.
+4. Copy and save the returned `id` from **ID / status / credits only** in the Debug sidebar.
+
+The flow never starts automatically, schedules a creation, polls, or retries a
+request. Clicking **Create once (billable)** again submits another paid creation.
+
+<Warning>
+  A timeout does not prove that creation failed. If no ID was returned, confirm
+  the request status with Magic Hour before resubmitting. If you have an accepted
+  ID, recover that existing project instead of restarting creation.
+</Warning>
+
+## Recover and save the image
+
+1. Open **Recover existing image (GET only)**.
+2. Replace `YOUR_EXISTING_IMAGE_PROJECT_ID` in **project_id** with the saved image project ID.
+3. Click **Done**, then **Deploy**.
+4. Click that node's inject button to retrieve the existing project.
+
+Recovery sends a GET request and does not create another generation. If the
+project is still running, check again later using the same recovery button and ID.
+
+Once the project is complete and has an HTTPS download URL, the flow fetches the
+image with a separate unauthenticated GET. It writes only an HTTP 200 response to
+the configured PNG path. **Saved file path only** appears in the Debug sidebar
+after the file node finishes writing.
+
+## Read results and errors
+
+**ID / status / credits only** shows the project ID, status, HTTP status, and any
+returned `credits_charged` and `credits_refunded` values, including zero. Provider
+status and a saved file are separate results: `complete` alone does not prove a
+successful download or write.
+
+| Result | Meaning and next step |
+| --- | --- |
+| `http_error` | The API returned a non-success HTTP status. Check the ID and account access before retrying a GET. |
+| `download_unavailable` | The project is complete but has no usable HTTPS download URL. Recover the same ID again to check for an available download. |
+| `download_failed` | The media server returned a non-200 status. `download_http_status` identifies the response; recover the same ID to obtain a current download. |
+| `request_or_file_error` | A request or file write failed. `source` identifies the node; check connectivity or the configured directory and permissions. |
+
+Keep Debug nodes limited to their configured summary or file path. Full-message
+Debug can expose credentials, response metadata, and temporary signed download
+URLs. A provider failure does not trigger a replacement generation.
+
+## Verified behavior
+
+An actual Node-RED editor run imported and deployed this flow, then created one
+image for 5 Magic Hour credits. A separate recovery GET retrieved the same accepted
+project ID, downloaded the completed image without authentication, and saved the
+640×640 PNG through the native file node. The saved PNG passed a full image decode.
+
+The tested runtime stored the API token as an encrypted native credential. Its
+editor export omitted credentials and signed download URLs; all 16 operational
+nodes matched the downloadable flow. No chat model or custom Node-RED package was used.
+
+![Node-RED's actual Magic Hour flow with complete status, credit summary, and saved PNG path in Debug](https://github.com/magichourhq/docs/releases/download/docs-render-proof-20261023/node-red-px622-canvas.png)
+
+![The 640×640 PNG created and saved by the native Node-RED flow](https://github.com/magichourhq/docs/releases/download/docs-render-proof-20261023/node-red-px622-output.png)

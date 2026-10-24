@@ -1,0 +1,493 @@
+[
+  {
+    "id": "mh-flow",
+    "type": "tab",
+    "label": "Magic Hour — create and recover",
+    "disabled": false,
+    "info": "Built-in nodes only. Enter API key in the shared HTTP Request node's bearer-token password field; credentials are excluded from editor exports. Create is manual and billable: click once, copy returned ID, and use Recover with that explicit ID. No automatic polling or retry. Configure the output path for your runtime. Do not enable full-message Debug or publish runtime responses/signed URLs."
+  },
+  {
+    "id": "mh-create",
+    "type": "inject",
+    "z": "mh-flow",
+    "name": "Create once (billable)",
+    "props": [
+      {
+        "p": "payload",
+        "v": "{\"image_count\":1,\"style\":{\"prompt\":\"A studio product photograph of a matte teal ceramic cube beside a copper sphere, soft daylight, no text or logos.\"},\"model\":\"flux-2-klein\",\"resolution\":\"640px\",\"aspect_ratio\":\"1:1\"}",
+        "vt": "json"
+      },
+      {
+        "p": "method",
+        "v": "POST",
+        "vt": "str"
+      },
+      {
+        "p": "url",
+        "v": "https://api.magichour.ai/v1/ai-image-generator",
+        "vt": "str"
+      },
+      {
+        "p": "headers",
+        "v": "{\"Content-Type\":\"application/json\"}",
+        "vt": "json"
+      },
+      {
+        "p": "followRedirects",
+        "v": "false",
+        "vt": "bool"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 170,
+    "y": 100,
+    "wires": [
+      [
+        "mh-api"
+      ]
+    ]
+  },
+  {
+    "id": "mh-recover",
+    "type": "inject",
+    "z": "mh-flow",
+    "name": "Recover existing image (GET only)",
+    "props": [
+      {
+        "p": "project_id",
+        "v": "YOUR_EXISTING_IMAGE_PROJECT_ID",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 190,
+    "y": 200,
+    "wires": [
+      [
+        "mh-prepare-get"
+      ]
+    ]
+  },
+  {
+    "id": "mh-prepare-get",
+    "type": "change",
+    "z": "mh-flow",
+    "name": "Prepare fixed API GET",
+    "rules": [
+      {
+        "t": "set",
+        "p": "url",
+        "pt": "msg",
+        "to": "\"https://api.magichour.ai/v1/image-projects/\" & $encodeUrlComponent(project_id)",
+        "tot": "jsonata"
+      },
+      {
+        "t": "set",
+        "p": "method",
+        "pt": "msg",
+        "to": "GET",
+        "tot": "str"
+      },
+      {
+        "t": "set",
+        "p": "headers",
+        "pt": "msg",
+        "to": "{}",
+        "tot": "json"
+      },
+      {
+        "t": "set",
+        "p": "followRedirects",
+        "pt": "msg",
+        "to": "false",
+        "tot": "bool"
+      },
+      {
+        "t": "delete",
+        "p": "payload",
+        "pt": "msg"
+      }
+    ],
+    "x": 470,
+    "y": 200,
+    "wires": [
+      [
+        "mh-api"
+      ]
+    ]
+  },
+  {
+    "id": "mh-api",
+    "type": "http request",
+    "z": "mh-flow",
+    "name": "Magic Hour API — set bearer credential",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "bearer",
+    "senderr": true,
+    "headers": [],
+    "x": 490,
+    "y": 100,
+    "wires": [
+      [
+        "mh-summary"
+      ]
+    ]
+  },
+  {
+    "id": "mh-summary",
+    "type": "change",
+    "z": "mh-flow",
+    "name": "Keep safe summary; remove metadata",
+    "rules": [
+      {
+        "t": "set",
+        "p": "summary",
+        "pt": "msg",
+        "to": "{\"id\": $exists(payload.id) ? payload.id : project_id, \"status\": $exists(payload.status) ? payload.status : (statusCode >= 200 and statusCode < 300 ? \"accepted\" : \"http_error\"), \"http_status\": statusCode, \"credits_refunded\": $exists(payload.credits_refunded) ? payload.credits_refunded : null, \"credits_charged\": $exists(payload.credits_charged) ? payload.credits_charged : payload.credits}",
+        "tot": "jsonata"
+      },
+      {
+        "t": "delete",
+        "p": "headers",
+        "pt": "msg"
+      },
+      {
+        "t": "delete",
+        "p": "cookies",
+        "pt": "msg"
+      },
+      {
+        "t": "delete",
+        "p": "responseCookies",
+        "pt": "msg"
+      },
+      {
+        "t": "delete",
+        "p": "redirectList",
+        "pt": "msg"
+      },
+      {
+        "t": "delete",
+        "p": "responseUrl",
+        "pt": "msg"
+      },
+      {
+        "t": "delete",
+        "p": "url",
+        "pt": "msg"
+      },
+      {
+        "t": "delete",
+        "p": "project_id",
+        "pt": "msg"
+      }
+    ],
+    "x": 820,
+    "y": 100,
+    "wires": [
+      [
+        "mh-debug",
+        "mh-complete"
+      ]
+    ]
+  },
+  {
+    "id": "mh-debug",
+    "type": "debug",
+    "z": "mh-flow",
+    "name": "ID / status / credits only",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "summary",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1150,
+    "y": 80,
+    "wires": []
+  },
+  {
+    "id": "mh-complete",
+    "type": "switch",
+    "z": "mh-flow",
+    "name": "Complete image + HTTPS download?",
+    "property": "statusCode = 200 and payload.status = \"complete\" and $exists(payload.downloads[0].url) and $substring(payload.downloads[0].url, 0, 8) = \"https://\"",
+    "propertyType": "jsonata",
+    "rules": [
+      {
+        "t": "true"
+      },
+      {
+        "t": "jsonata_exp",
+        "v": "statusCode = 200 and payload.status = \"complete\"",
+        "vt": "jsonata"
+      }
+    ],
+    "checkall": "false",
+    "repair": false,
+    "outputs": 2,
+    "x": 830,
+    "y": 240,
+    "wires": [
+      [
+        "mh-prepare-download"
+      ],
+      [
+        "mh-unavailable"
+      ]
+    ]
+  },
+  {
+    "id": "mh-prepare-download",
+    "type": "change",
+    "z": "mh-flow",
+    "name": "Prepare NO-AUTH media GET",
+    "rules": [
+      {
+        "t": "set",
+        "p": "url",
+        "pt": "msg",
+        "to": "payload.downloads[0].url",
+        "tot": "msg"
+      },
+      {
+        "t": "delete",
+        "p": "method",
+        "pt": "msg"
+      },
+      {
+        "t": "set",
+        "p": "headers",
+        "pt": "msg",
+        "to": "{}",
+        "tot": "json"
+      },
+      {
+        "t": "set",
+        "p": "followRedirects",
+        "pt": "msg",
+        "to": "false",
+        "tot": "bool"
+      },
+      {
+        "t": "set",
+        "p": "filename",
+        "pt": "msg",
+        "to": "\"/data/magic-hour-\" & $replace($string(summary.id), /[^A-Za-z0-9_-]/, \"_\") & \".png\"",
+        "tot": "jsonata"
+      },
+      {
+        "t": "delete",
+        "p": "payload",
+        "pt": "msg"
+      }
+    ],
+    "x": 1140,
+    "y": 240,
+    "wires": [
+      [
+        "mh-media"
+      ]
+    ]
+  },
+  {
+    "id": "mh-media",
+    "type": "http request",
+    "z": "mh-flow",
+    "name": "Download image — NO authentication",
+    "method": "GET",
+    "ret": "bin",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": true,
+    "headers": [],
+    "x": 1150,
+    "y": 340,
+    "wires": [
+      [
+        "mh-media-ok"
+      ]
+    ]
+  },
+  {
+    "id": "mh-media-ok",
+    "type": "switch",
+    "z": "mh-flow",
+    "name": "Write only HTTP 200",
+    "property": "statusCode",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "eq",
+        "v": "200",
+        "vt": "num"
+      },
+      {
+        "t": "else"
+      }
+    ],
+    "checkall": "false",
+    "repair": false,
+    "outputs": 2,
+    "x": 830,
+    "y": 340,
+    "wires": [
+      [
+        "mh-file"
+      ],
+      [
+        "mh-download-failed"
+      ]
+    ]
+  },
+  {
+    "id": "mh-file",
+    "type": "file",
+    "z": "mh-flow",
+    "name": "Save PNG using project ID",
+    "filename": "filename",
+    "filenameType": "msg",
+    "appendNewline": false,
+    "createDir": false,
+    "overwriteFile": "true",
+    "encoding": "none",
+    "x": 530,
+    "y": 340,
+    "wires": [
+      [
+        "mh-file-saved"
+      ]
+    ]
+  },
+  {
+    "id": "mh-file-saved",
+    "type": "debug",
+    "z": "mh-flow",
+    "name": "Saved file path only",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "filename",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 250,
+    "y": 340,
+    "wires": []
+  },
+  {
+    "id": "mh-unavailable",
+    "type": "change",
+    "z": "mh-flow",
+    "name": "Report missing HTTPS download",
+    "rules": [
+      {
+        "t": "set",
+        "p": "summary.status",
+        "pt": "msg",
+        "to": "download_unavailable",
+        "tot": "str"
+      }
+    ],
+    "x": 1130,
+    "y": 180,
+    "wires": [
+      [
+        "mh-debug"
+      ]
+    ]
+  },
+  {
+    "id": "mh-download-failed",
+    "type": "change",
+    "z": "mh-flow",
+    "name": "Report media HTTP failure",
+    "rules": [
+      {
+        "t": "set",
+        "p": "summary.status",
+        "pt": "msg",
+        "to": "download_failed",
+        "tot": "str"
+      },
+      {
+        "t": "set",
+        "p": "summary.download_http_status",
+        "pt": "msg",
+        "to": "statusCode",
+        "tot": "msg"
+      }
+    ],
+    "x": 840,
+    "y": 420,
+    "wires": [
+      [
+        "mh-debug"
+      ]
+    ]
+  },
+  {
+    "id": "mh-catch",
+    "type": "catch",
+    "z": "mh-flow",
+    "name": "API / download / file errors only",
+    "scope": [
+      "mh-api",
+      "mh-media",
+      "mh-file"
+    ],
+    "uncaught": false,
+    "x": 270,
+    "y": 500,
+    "wires": [
+      [
+        "mh-safe-error"
+      ]
+    ]
+  },
+  {
+    "id": "mh-safe-error",
+    "type": "change",
+    "z": "mh-flow",
+    "name": "Report safe error source only",
+    "rules": [
+      {
+        "t": "set",
+        "p": "summary",
+        "pt": "msg",
+        "to": "{\"id\": summary.id, \"status\": \"request_or_file_error\", \"source\": error.source.name}",
+        "tot": "jsonata"
+      }
+    ],
+    "x": 620,
+    "y": 500,
+    "wires": [
+      [
+        "mh-debug"
+      ]
+    ]
+  }
+]
