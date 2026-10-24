@@ -1,0 +1,97 @@
+---
+title: Fast Agent
+description: Create an image and recover its saved project with Fast Agent's native MCP client.
+---
+
+Use Fast Agent's native `McpAgent` to call Magic Hour tools directly. This example checks
+authorization, creates one image, and retrieves or downloads that same project. It does not
+attach a language model or require another provider's API key.
+
+## Install and configure
+
+Requires Python 3.12+. Download
+[magic_hour.py](https://raw.githubusercontent.com/magichourhq/docs/main/examples/fast-agent/magic_hour.py)
+and [requirements.txt](https://raw.githubusercontent.com/magichourhq/docs/main/examples/fast-agent/requirements.txt)
+into one directory, then install the pinned base package:
+
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+Provide a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys) through your
+server-side secret manager as `MAGIC_HOUR_API_KEY`. Keep the key, saved project files,
+account information, and temporary download URLs private.
+
+## Check access
+
+```bash
+python magic_hour.py account
+```
+
+Discovery is public. The account tool verifies actual API authorization; the example prints
+only an authorization flag and discovered tool count.
+
+## Create one image
+
+```bash
+python magic_hour.py --state image-project.json create \
+  --prompt "A glass greenhouse above a cloud city at sunrise"
+```
+
+This explicit command spends Magic Hour credits for one `flux-2-klein` image at `640px`.
+It prints the accepted ID immediately, saves it to `image-project.json`, and returns
+without waiting for generation.
+
+The state file is reserved before submission, and an existing file prevents another create.
+If submission times out with `submission_pending` still in that file, check your Magic Hour
+dashboard and recover the accepted ID before deciding whether to create anything else.
+Do not delete the state file and repeat the command merely because a response was interrupted.
+
+## Recover and download
+
+```bash
+python magic_hour.py --state image-project.json get --wait 120
+python magic_hour.py --state image-project.json download --wait 120 --output image.png
+```
+
+Both commands use the saved ID and make no new generation. `--wait` polls for up to
+300 seconds; its default is zero for a single status read. Downloading requires a completed
+project and preserves the exact signed URL, including its query string. The storage request
+does not receive your Magic Hour authorization header. An existing output file is preserved.
+
+To recover an image you created elsewhere:
+
+```bash
+python magic_hour.py get --id YOUR_SAVED_IMAGE_PROJECT_ID
+python magic_hour.py download --id YOUR_SAVED_IMAGE_PROJECT_ID --output recovered.png
+```
+
+A timeout leaves the original job running. Retry retrieval or download with that same ID.
+An errored or canceled project is reported without creating a replacement.
+
+## Native client behavior
+
+The example uses `Core.run()` and `McpAgent` async contexts to close the native MCP
+connection and application resources. HTTP is fixed to Magic Hour's hosted endpoint with a
+Bearer header. The harmless `?client=fast-agent` query preserves the root endpoint in this
+Fast Agent release; without a query its URL parser appends `/mcp`, which is a different route.
+The native `protocol_mode="legacy"` setting uses the supported initialize
+handshake instead of probing modern discovery. OAuth, automatic session reconnection, telemetry,
+history, skills, shell tools, and subagents are disabled. Disabling reconnection prevents automatic tool replay after a
+terminated session.
+
+Fast Agent 0.10.47 returns native `CallToolResult` objects. The example checks `is_error`
+and reads `structured_content`, falling back to JSON text when necessary. It calls only
+the discovered Magic Hour tools; there is no model choosing or retrying a paid operation.
+
+Generation sends your prompt to Magic Hour and spends your API credits. See our
+[privacy policy](https://magichour.ai/privacy-policy) and
+[MCP integration guide](/integration/model-context-protocol) for other media workflows.
+
+Native validation on October 24, 2026 discovered 48 tools, authenticated the account read,
+and accepted one image creation for 5 credits. Separate retrieval and download commands reused
+that saved ID and recovered its usable 640×640 PNG. The 235,286-byte file passed full image
+decoding, and the native processes exited successfully. No language model or separate provider
+credentials were used. No Fast Agent marketplace listing was part of this validation.

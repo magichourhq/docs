@@ -1,0 +1,89 @@
+---
+title: BeeAI Framework
+description: Create a Magic Hour image once, save its project ID, and recover it through BeeAI Framework.
+---
+
+Connect BeeAI Framework to [Magic Hour MCP](/integration/model-context-protocol) for image generation
+and recovery. This command-line example uses the framework's native tool calls without a
+language model or another provider key.
+
+<Note>
+Verified October 24, 2026 with BeeAI Framework 0.1.85 / MCP 1.30.0: 48 discovered tools, an
+authenticated account check, one accepted image creation, same-ID status retrieval, and
+download from the exact returned HTTPS image URL produced a usable 640×640 PNG. Full image decode
+passed. This verification used native tool calls without a language model.
+</Note>
+
+## Install and configure
+
+Requires Python 3.11–3.13. Copy [magic_hour.py](https://github.com/magichourhq/docs/blob/main/examples/beeai/magic_hour.py)
+and [requirements.txt](https://github.com/magichourhq/docs/blob/main/examples/beeai/requirements.txt)
+into an empty directory, then run:
+
+```bash
+python3.12 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+Provide your [Magic Hour API key](https://magichour.ai/developer?tab=api-keys) through your
+secret manager as `MAGIC_HOUR_API_KEY`. The MCP endpoint is fixed to
+`https://mcp.magichour.ai/`; the example disables logging and OpenTelemetry and does not
+print account fields, credentials, prompts, or signed download URLs.
+
+```bash
+python magic_hour.py account
+```
+
+The authorization command prints only its status, discovered tool count, and action count.
+Public tool discovery alone does not prove the API key works.
+
+## Create one image
+
+The `create` command sends your prompt to Magic Hour and spends credits. It requests one
+square 640px Flux 2 Klein image, starting at 5 credits. Run it once for each intended image:
+
+```bash
+python magic_hour.py create \
+  --prompt "A blue ceramic mug on a warm wooden table, product photography" \
+  --id-file image-project.txt
+```
+
+The example calls the native generation tool once and writes the accepted project ID to
+`image-project.txt` before returning. It does not poll or automatically repeat creation.
+The exclusive ID file prevents accidentally submitting the same command twice.
+
+If the response is interrupted, the file retains an unknown-outcome marker. Check your
+Magic Hour projects before submitting another creation. A timeout does not prove the job failed.
+If saving the accepted ID fails, the ID is still printed so you can preserve it.
+
+## Retrieve and download
+
+Use the saved ID for all subsequent reads:
+
+```bash
+python magic_hour.py get "$(cat image-project.txt)"
+python magic_hour.py download "$(cat image-project.txt)" --output magic-hour-image.png
+```
+
+`get` prints the ID and current status. `download` reads the saved job once and saves its first returned image when the status is `complete`. It does not poll; run it again later if the job is still queued or rendering.
+
+These commands reuse the same project. An unfinished job or failed download never triggers
+a new generation. Keep the saved ID and retry recovery after the job completes.
+An existing output file is not overwritten.
+
+## Use in your application
+
+The example connects over Streamable HTTP, adapts tools with `MCPTool.from_session`,
+and executes BeeAI `MCPTool.run`. Per-tool retries are explicitly zero.
+The session and transport close on exit. It does not construct a model-backed agent.
+BeeAI prefers a tool's structured JSON result and does not retain parallel inline image
+content in that result, so download uses the exact HTTPS URL returned by the native tool.
+The media request has no Magic Hour API headers and does not follow redirects.
+
+For a model-backed agent, expose only the tools your workflow needs and require explicit
+approval before paid creation. The native tool recipe does not establish model-driven behavior.
+
+See the [framework source](https://github.com/i-am-bee/beeai-framework/blob/main/python/beeai_framework/tools/mcp/mcp.py) and our
+[privacy policy](https://magichour.ai/privacy-policy). Tool errors are reported without
+printing private provider responses.
