@@ -81,6 +81,10 @@
     {
       "source": "/api-reference/image-projects/ai-photo-editor",
       "destination": "/api-reference/image-projects/ai-image-editor"
+    },
+    {
+      "source": "/api-reference/authentication",
+      "destination": "/get-started/authentication"
     }
   ],
   "navigation": {
