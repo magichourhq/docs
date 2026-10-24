@@ -635,22 +635,22 @@ Different subscription tiers have different upload limits:
 
 ### Uploaded Files (Inputs)
 
-**7-Day Retention**: Files uploaded to Magic Hour storage are automatically deleted after 7 days.
+**Temporary Storage**: Upload files shortly before use and keep source copies in your own storage. Reuse a `file_path` only while the file remains available. The upload URL's `expires_at` is the deadline for uploading, not a deletion deadline. Retention varies by feature and storage path; see [Trust & Privacy](https://magichour.ai/trust) for current data handling and deletion options.
 
 ```python
-# Upload once, use multiple times within 7 days
+# Upload once, reuse while the file remains available
 file_path = client.v1.files.upload_file("image.jpg")
 
-# Use in multiple API calls within the 7-day window
+# Use the available file in multiple API calls
 result1 = client.v1.face_swap_photo.create(assets={"source_file_path": file_path, ...})
 result2 = client.v1.ai_clothes_changer.create(assets={"image_file_path": file_path, ...})
 ```
 
-**Best practice:** Reuse the same `file_path` for multiple API calls to avoid duplicate uploads.
+**Best practice:** Reuse the same available `file_path` for multiple API calls to avoid duplicate uploads.
 
 ### Generated Files (Outputs)
 
-**Permanent Storage**: Generated files are stored indefinitely in Magic Hour cloud storage.
+**Output Storage**: Download completed outputs you want to retain and keep your own copies. Availability depends on the feature and whether the project or file has been deleted.
 
 **Download URL Expiration**: Use each download's `expires_at`; retrieving a project does not guarantee another full 24 hours. If a URL expires, retrieve that same available, completed project for current URLs rather than generating again.
 
@@ -658,7 +658,7 @@ result2 = client.v1.ai_clothes_changer.create(assets={"image_file_path": file_pa
 
 ### Getting Fresh Download URLs
 
-If your download URL expired, request a new one:
+If a download URL expires while the completed project and file remain available, retrieve that project for current URLs:
 
 <CodeGroup>
 
@@ -684,14 +684,14 @@ const freshUrl = status.downloads[0].url;
 
 - Validate file formats before uploading
 - Use the SDK upload helpers when available
-- Reuse uploaded files within the 7-day window
+- Reuse uploaded files while they remain available
 - Compress large files to save upload time
 
 ❌ **Don't:**
 
 - Upload the same file repeatedly (reuse the `file_path`)
 - Exceed your tier's file size limits
-- Rely on uploaded files after 7 days
+- Assume uploaded files remain available indefinitely
 
 ### For Downloads
 
@@ -705,7 +705,7 @@ const freshUrl = status.downloads[0].url;
 
 ❌ **Don't:**
 
-- Rely on download URLs after 24 hours
+- Rely on download URLs after their returned `expires_at`
 - Download the same file multiple times unnecessarily
 - Ignore download errors without retry logic
 
@@ -735,8 +735,8 @@ const freshUrl = status.downloads[0].url;
 
 **"URL expired" error:**
 
-- Request fresh download URLs using the GET endpoint
-- Download files within 24 hours of job completion
+- Retrieve the available, completed project using the GET endpoint for current download URLs
+- Download files before each URL's returned `expires_at`
 - Store files in your own storage for permanent access
 
 **Download fails or corrupts:**
