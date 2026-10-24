@@ -2,15 +2,9 @@
 
 Image generation, text-to-video, and image-to-video through Magic Hour's public API. Implements the AI SDK v7 / provider v4 image and experimental video interfaces. No separate service is required.
 
-## Install the GitHub release
+## Install
 
-Install the prebuilt [version 0.1.0 archive](https://github.com/magichourhq/docs/releases/tag/ai-sdk-provider-v0.1.0). The package keeps the name `@magichour/ai-sdk-provider`; it is **not yet published to npm**.
-
-```sh
-npm install https://github.com/magichourhq/docs/releases/download/ai-sdk-provider-v0.1.0/magichour-ai-sdk-provider-0.1.0.tgz ai@7.0.148
-```
-
-To build a local tarball instead:
+Version 0.1.1 uses the company-owned npm name `@magichourhq/ai-sdk-provider`. npm publication is pending; build a local tarball for this version:
 
 ```sh
 cd examples/vercel-ai-sdk
@@ -18,14 +12,16 @@ npm ci
 npm run build
 npm pack
 # In your consuming project:
-npm install /absolute/path/to/magichour-ai-sdk-provider-0.1.0.tgz ai@7.0.148
+npm install /absolute/path/to/magichourhq-ai-sdk-provider-0.1.1.tgz ai@7.0.148
 ```
+
+The previous [version 0.1.0 GitHub archive](https://github.com/magichourhq/docs/releases/tag/ai-sdk-provider-v0.1.0) remains available unchanged. That archive uses the old import name, `@magichour/ai-sdk-provider`; the examples below use the current company scope.
 
 Requires Node.js 22+. Compatibility was tested with `ai@7.0.148` and `@ai-sdk/provider@4.0.31`. Video APIs are experimental; retest before upgrading.
 
 ```ts
 import { generateImage, experimental_generateVideo as generateVideo } from "ai";
-import { createMagicHour } from "@magichour/ai-sdk-provider";
+import { createMagicHour } from "@magichourhq/ai-sdk-provider";
 
 const magichour = createMagicHour({
   // Defaults to process.env.MAGIC_HOUR_API_KEY. Keep this server-side.
