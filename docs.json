@@ -129,6 +129,7 @@
               "integration/prefect",
               "integration/dagster",
               "integration/crewai",
+              "integration/eino",
               "integration/langflow",
               "integration/haystack",
               "integration/figma",
