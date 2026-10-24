@@ -1,0 +1,140 @@
+---
+title: DSPy
+description: Check an existing Magic Hour image project with DSPy's native MCP tools, without a language-model call or another generation.
+---
+
+Connect DSPy's native MCP tools to Magic Hour, check API authorization, and recover
+metadata for an image project you already created. This example makes no model,
+creation, or media-download request.
+
+## Install and configure
+
+Requires Python 3.12. Download [recover-image.py](https://raw.githubusercontent.com/magichourhq/docs/main/examples/dspy/recover-image.py)
+and [requirements.txt](https://raw.githubusercontent.com/magichourhq/docs/main/examples/dspy/requirements.txt)
+into the same directory, then install in a virtual environment:
+
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+The example pins `dspy[mcp]` to 3.4.1, `mcp` to 2.3.0, and `httpx2` to 2.16.0.
+Provide a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys) through your
+server-side secret manager as `MAGIC_HOUR_API_KEY`. Set `MAGIC_HOUR_IMAGE_PROJECT_ID`
+to the saved ID returned by your original image-creation request. Keep keys, account
+details, and temporary download URLs private.
+
+## Check the saved project
+
+```bash
+python recover-image.py
+```
+
+DSPy's `Tool.from_mcp_tool` converts discovered tools into native DSPy tools.
+Calling `.acall()` directly invokes the selected tool without an LM or agent choosing
+what to call. Discovery alone does not validate your key; the example checks account
+field types before reporting authorization.
+
+```python
+import asyncio
+import json
+import os
+
+
+async def main():
+    phase = "configure"
+    try:
+        import dspy
+        import httpx2
+        from mcp import ClientSession
+        from mcp.client.streamable_http import streamable_http_client
+
+        dspy.configure(callbacks=[])
+        dspy.configure_cache(enable_disk_cache=False, enable_memory_cache=False)
+        project_id = os.environ["MAGIC_HOUR_IMAGE_PROJECT_ID"]
+        phase = "connect"
+        async with httpx2.AsyncClient(
+            headers={"Authorization": f"Bearer {os.environ['MAGIC_HOUR_API_KEY']}"},
+            follow_redirects=False,
+            timeout=60,
+        ) as http_client:
+            async with streamable_http_client(
+                "https://mcp.magichour.ai/", http_client=http_client
+            ) as (read, write):
+                async with ClientSession(read, write) as session:
+                    await session.initialize()
+                    phase = "convert_tools"
+                    available = await session.list_tools()
+                    tools = {
+                        tool.name: dspy.Tool.from_mcp_tool(
+                            session, tool, result_mode="structured"
+                        )
+                        for tool in available.tools
+                    }
+                    print({"tool_count": len(tools)})
+                    phase = "account"
+                    account = await tools["account_retrieve"].acall()
+                    if isinstance(account, str):
+                        account = json.loads(account)
+                    if not isinstance(account, dict):
+                        raise ValueError("Unexpected account result type")
+                    if not isinstance(account["id"], str) or type(account["credits"]) not in (int, float):
+                        raise ValueError("Unexpected account field types")
+                    print({"account_authenticated": True})
+                    phase = "project"
+                    project = await tools["wait_for_image_project"].acall(
+                        id=project_id,
+                        timeout_seconds=30,
+                        include_inline_downloads=False,
+                    )
+                    if isinstance(project, str):
+                        project = json.loads(project)
+                    if not isinstance(project, dict):
+                        raise ValueError("Unexpected project result type")
+                    if project["id"] != project_id or not isinstance(project["status"], str):
+                        raise ValueError("Unexpected project fields")
+                    print({"id": project["id"], "status": project["status"]})
+                    phase = "cleanup"
+        return 0
+    except Exception:
+        print({"error": "DSPy MCP example failed", "phase": phase})
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(asyncio.run(main()))
+```
+
+The example prints the discovered tool count, an authorization marker, and the requested
+project's ID and status. It does not print the account balance, credentials, raw responses,
+or signed media URLs. Each HTTP client and MCP session closes through its native async
+context. DSPy caches are disabled, callbacks are empty, and no model or tracer is configured.
+
+## Results and recovery
+
+`result_mode="structured"` uses MCP structured content when available. DSPy's fallback
+may return a JSON string; the example accepts a dictionary or that JSON-string form.
+It checks that the returned project ID matches the saved ID and that status is a string.
+
+The wait tool may poll the same saved project for up to 30 seconds. A timeout does not
+mean generation failed or stopped. Retain the saved ID and run recovery later. On failure,
+the example reports only a static phase label and exits with status 1. It never creates
+another project or automatically retries a creation request.
+
+This example recovers metadata only. Inline downloads are disabled. DSPy 3.4.1's MCP
+conversion can prefer text over non-text content when both are present; this example
+does not preserve inline images or save a media file. Model reasoning and image creation
+require separate application logic and are outside its scope.
+
+## Scope and verification
+
+Native validation with Python 3.12, DSPy 3.4.1, and MCP 2.3.0 converted 48 tools,
+verified account field types, and recovered the saved image project with status
+`complete`. The exact runnable example exited successfully with no stderr; its client
+contexts closed and the process ended. No model, creation, or media-download call was
+made. Discovery does not mean all 48 tools were executed.
+
+See [Magic Hour MCP](/integration/model-context-protocol), our
+[privacy policy](https://magichour.ai/privacy-policy), and
+[DSPy's official MCP tools documentation](https://dspy.ai/3.4.1/diving-deeper/tools/).
