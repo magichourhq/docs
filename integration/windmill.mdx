@@ -1,0 +1,146 @@
+---
+title: Windmill
+description: Create and recover Magic Hour images with separate native Windmill REST actions and an encrypted secret reference.
+---
+
+Use two separate Windmill REST scripts: create an image once, then recover its saved
+project ID. The example requests one 640px square `flux-2-klein` image, uses no SDK
+or chat model, and downloads only the first PNG result, up to 8 MiB.
+
+<Warning>
+  These actions use one Magic Hour account's credits. Keep the secret variable,
+  resource, and scripts under a private user path. Anyone granted permission to
+  run creation with that resource can spend the account's credits.
+</Warning>
+
+## Check worker tags
+
+A worker must listen for the `nativets` tag to run these actions. If your hosted or
+self-hosted instance already has one, keep its configuration.
+
+On a self-hosted Community Edition instance with only the default worker group,
+open **Workers → default → Edit config → Tags** and add `nativets`. Preserve all
+existing tags. Leave **Native Mode** off: these scripts do not require it.
+
+## Store the API key as a secret reference
+
+1. In **Variables**, add your Magic Hour API key at a private user path such as
+   `u/YOUR_USERNAME/magic_hour_api_key`, with **Secret** enabled. Enter the raw API
+   key without a `Bearer ` prefix.
+2. In **Resources**, add the custom resource type `magic_hour` with this schema:
+
+```json
+{
+  "type": "object",
+  "properties": { "api_key": { "type": "string" } },
+  "required": ["api_key"]
+}
+```
+
+3. Add a private resource of that type, such as `u/YOUR_USERNAME/magic_hour`, whose
+   value references the secret variable:
+
+```json
+{ "api_key": "$var:u/YOUR_USERNAME/magic_hour_api_key" }
+```
+
+Use Windmill's variable picker to select the existing secret. Do not paste the key
+into resource JSON: resource history preserves inline values. Scripts receive the
+resolved resource, while their saved input selects `$res:u/YOUR_USERNAME/magic_hour`.
+Keep credentials, raw job arguments, and temporary download URLs out of shared
+exports, screenshots, and logs.
+
+## Add the separate actions
+
+Download the scripts and companion metadata:
+
+- [Creation script](https://raw.githubusercontent.com/magichourhq/docs/main/examples/windmill/create-image.bun.ts)
+- [Creation metadata](https://raw.githubusercontent.com/magichourhq/docs/main/examples/windmill/create-image.script.json)
+- [Recovery script](https://raw.githubusercontent.com/magichourhq/docs/main/examples/windmill/recover-image.bun.ts)
+- [Recovery metadata](https://raw.githubusercontent.com/magichourhq/docs/main/examples/windmill/recover-image.script.json)
+
+Create two scripts through Windmill's native REST editor. Paste the creation script
+and recovery script into separate scripts under your private user path. Keep
+their `//native` header. They use the current BunNative builder; the normal worker
+must complete its native dependency/bundle job before the script is ready.
+
+The companion `.script.json` files describe the input forms and execution settings
+for an existing Windmill CLI workspace. Copy each `.bun.ts` file and matching
+`.script.json` beside one another under your own `u/<username>/` path. Let Windmill
+produce its lock through native deployment; no generated lock is supplied here.
+
+Use normal one-off scripts: no dedicated worker, perpetual restart, result cache,
+retry, or configured additional triggers, schedules, or handlers. Windmill's
+built-in authenticated webhook, email, and CLI routes still exist. On a self-hosted
+instance, ensure its operator has disabled automatic zombie-job restarts with
+`RESTART_ZOMBIE_JOBS=false`; this is not an exactly-once guarantee. Keep normal
+login, TLS verification, and instance security settings enabled.
+
+## Create once and save the ID
+
+1. Open the creation script and select your private **magic_hour** resource.
+2. Review **prompt**, then run the action once. The prompt is sent to Magic Hour.
+   This is a billable request.
+3. Save its returned **id** and **credits_charged** before doing anything else.
+
+Only creation submits a billable Magic Hour generation. It returns the accepted
+project ID and actual charge immediately, without polling, downloading media, or
+submitting another creation. A failed or timed-out run may
+have been accepted by Magic Hour: if no ID returned, confirm the request status
+before resubmitting. If you have an accepted ID, recover that project.
+
+## Recover and download
+
+1. Open the separate recovery script.
+2. Select the same private resource and enter the accepted **project_id**.
+3. Run it once. GET recovery does not create an image or submit a new paid generation.
+
+While the project is `queued` or `rendering`, it returns the ID, provider status,
+and actual charge/refund values, preserving zero and an absent refund field. It also
+returns provider `error` or `canceled` status with any actual error details, preserving
+a missing error field separately from `null`, without creating a replacement.
+Check the same ID again later when appropriate; there is no automatic polling.
+
+Once complete, the action makes a separate HTTPS media request without an API key
+or redirects. It rejects non-200 responses, downloads over 8 MiB, and non-PNG
+content. Its result contains a base64-encoded file with the filename
+`magic-hour-<project-id>.png`. The completed-file result does not include a signed
+URL or repeat the metadata object.
+
+For large results, the Run page may show **Download as JSON** instead of a PNG
+button. Windmill's job metadata can return `WINDMILL_TOO_BIG`; use its documented
+`GET /api/w/<workspace>/jobs_u/completed/get_result/<job-id>` endpoint with normal
+Windmill authentication to retrieve the full result JSON. Save it as `result.json`,
+then decode it with Python's standard library:
+
+```python
+import base64
+import json
+from pathlib import Path
+
+file = json.loads(Path("result.json").read_text())["file"]
+image = base64.b64decode(file["content"], validate=True)
+Path(file["filename"]).write_bytes(image)
+```
+
+The script runs in Windmill's editor; this full-result API download is a separate
+supported output-recovery step, not a guaranteed native PNG button.
+
+If a download expires or fails, run recovery again with the same ID. Do not run
+creation to recover a file. Never attach these scripts to automatic retry or
+restart logic around the paid request.
+
+## Verified behavior
+
+Windmill Community Edition 1.848.2 ran both scripts through its native editor.
+The tested setup stored the API key in a native secret variable and selected the
+private resource through a saved `$res` reference. A manual creation returned one
+accepted image ID and an actual charge of 5 Magic Hour credits. A separate native
+recovery run used that same ID and returned the completed PNG.
+
+Windmill's documented completed-result API retrieved the 353,212-byte, 640×640 PNG;
+it passed a full image decode. The large job metadata returned `WINDMILL_TOO_BIG`,
+so this proves editor execution plus native product API output recovery, rather
+than a GUI PNG download click. No chat model or Magic Hour SDK was used.
+
+![The 640×640 PNG created by the native Windmill action and recovered through Windmill's completed-result API](https://github.com/magichourhq/docs/releases/download/docs-render-proof-20261023/windmill-px623-output.png)

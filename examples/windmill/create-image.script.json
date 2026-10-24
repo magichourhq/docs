@@ -1,0 +1,29 @@
+{
+  "summary": "Create one Magic Hour image (billable)",
+  "description": "Run manually once. Save the accepted ID before recovery. Never automatically retry an ambiguous creation.",
+  "kind": "script",
+  "dedicated_worker": false,
+  "restart_unless_cancelled": false,
+  "cache_ttl": 0,
+  "timeout": 60,
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "magic_hour": {
+        "type": "string",
+        "format": "resource-magic_hour",
+        "description": "Select the private magic_hour resource whose api_key is an encrypted variable reference."
+      },
+      "prompt": {
+        "type": "string",
+        "minLength": 1,
+        "default": "A studio product photograph of a matte teal ceramic cube beside a copper sphere, soft daylight, no text or logos."
+      }
+    },
+    "required": [
+      "magic_hour",
+      "prompt"
+    ]
+  }
+}
