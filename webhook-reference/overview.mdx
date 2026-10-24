@@ -6,6 +6,8 @@ description: "Browse every Magic Hour webhook event by project type and status."
 Webhooks notify your application when a video, image, or audio project starts, completes, or fails.
 Use them to avoid frequent polling, especially for long-running projects.
 
+[Canceled projects do not emit a webhook](/integration/webhook/event-types); poll project status to detect cancellation.
+
 <CardGroup cols={2}>
   <Card title="Set up webhooks" icon="webhook" href="/integration/webhook/overview">
     Create an endpoint and handle its first event.
