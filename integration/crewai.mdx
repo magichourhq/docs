@@ -1,6 +1,6 @@
 ---
 title: CrewAI
-description: Retrieve an existing Magic Hour image project's status with native CrewAI MCP tools, without a model call.
+description: Retrieve saved Magic Hour image status with native CrewAI MCP tools or a read-only local Crew.
 ---
 
 Use CrewAI's `MCPServerAdapter` to authenticate and retrieve an image project you
@@ -125,6 +125,51 @@ before importing CrewAI. Keep verbose tool/response logging and tracing off when
 handling private metadata. Use a dedicated working directory and preserve any existing
 CrewAI storage when cleaning up your own disposable run.
 
+## Optional: let a local Crew choose the retrieval tool
+
+Download [recover-with-crew.py](https://raw.githubusercontent.com/magichourhq/docs/main/examples/crewai/recover-with-crew.py)
+when adding saved-project retrieval to an existing CrewAI agent.
+The direct-tool example remains the simpler choice for a deterministic lookup.
+This optional example lets one native Crew select one read-only tool, then returns
+that tool's result without asking the model to rewrite it.
+
+It uses the same `crewai==1.15.22` and `crewai-tools[mcp]==1.15.22` requirements;
+no additional dependencies or external model credentials are required. Start your
+own private local Ollama service with an already-installed tool-capable model:
+`qwen2.5:7b-instruct-q4_K_M`. Set `OLLAMA_BASE_URL` to its loopback URL,
+including `/v1`, if it differs from `http://127.0.0.1:11434/v1`. This example does not start a service or download
+a model. Keep the existing Magic Hour key and saved project-ID environment variables.
+
+Run `python recover-with-crew.py` in a dedicated private process and working
+directory. The example disables Crew telemetry and tracing, delegation, planning and retries. Only
+`image_projects_retrieve_details` is exposed; there is no account, creation or media
+tool. The native `result_as_answer=True` option returns the real tool result directly.
+The program also requires the public usage counter to equal one and validates the
+returned JSON ID/status. A plausible model answer without a tool invocation fails.
+A tool attempt alone is not success: its actual returned JSON must pass validation.
+
+CrewAI stores task outputs in its private `latest_kickoff_task_outputs.db` SQLite
+file even when `memory=False`. Its normal storage location follows CrewAI's settings;
+this example does not change or automatically remove that storage. Use a dedicated
+private process and working directory, and keep normal CrewAI state private.
+The complete project response can contain private download URLs. The example prints
+only ID/status; do not print `CrewOutput.raw`, enable verbose tracing or add an output
+file. Remove disposable state only after your process has stopped, preserving any
+existing CrewAI state.
+
+The LLM request has a 120-second timeout and the agent a 180-second execution limit.
+These native settings do not replace an external process deadline for operations.
+For a CPU-only service, bound its CPU/RAM and configure context length on the Ollama
+server. Do not assume arbitrary `num_ctx` or `num_thread` fields pass through the
+OpenAI-compatible client.
+
+The exact optional example ran with CrewAI 1.15.22, local Ollama 0.40.10 and the
+already-installed Qwen2.5 model. One Crew kickoff admitted one native retrieval tool
+attempt and returned the actual requested project ID with `complete` status. The
+program's usage-count and strict JSON checks passed; the process exited successfully.
+No account, creation or media tool was exposed. The native tool counter measures
+admitted attempts, not an independently instrumented HTTP request count.
+
 ## Verification scope
 
 The exact example ran with CrewAI and CrewAI Tools 1.15.22, MCP 1.28.1 and MCPAdapt
@@ -134,10 +179,11 @@ requested ID and `complete` status. The process exited successfully with no stde
 neither the key nor private response data appeared in captured output. The context
 closed, and the owned process and private runtime state were cleaned up.
 
-This verifies native direct tool invocation and saved-project metadata retrieval.
-It does not verify a model-driven Crew, image/video creation or media preservation.
-The optional Crew branch in the existing upstream notebook remains separately
-unverified; an open PR does not imply upstream acceptance.
+The direct example verifies native tool invocation and saved-project metadata
+retrieval. The separate optional example above verifies a model-dispatched read-only
+local Crew. Neither verifies image/video creation or media preservation. The original
+video-generation Crew branch in the existing upstream notebook remains unverified;
+an open PR does not imply upstream acceptance.
 
 See [Magic Hour MCP](/integration/model-context-protocol),
 [image-project retrieval](/api-reference/image-projects/get-image-details), and the
