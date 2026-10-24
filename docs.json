@@ -117,6 +117,7 @@
               "integration/vercel-ai-sdk",
               "integration/openai-agents-sdk",
               "integration/google-adk",
+              "integration/genkit",
               "integration/strands-agents",
               "integration/llamaindex",
               "integration/spring-ai",
