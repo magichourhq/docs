@@ -1,0 +1,77 @@
+---
+title: Dagster
+description: Materialize saved Magic Hour image status with a native Dagster asset, without creating another image.
+---
+
+Run a native Dagster asset that retrieves metadata for an image project you already
+created. This example makes one authenticated GET request and records the saved ID and
+status as a Dagster materialization. It requires no Dagster cloud account, webserver,
+model provider or media download.
+
+## Install and configure
+
+Use Python 3.12. Download [recover-image.py](https://raw.githubusercontent.com/magichourhq/docs/main/examples/dagster/recover-image.py)
+and [requirements.txt](https://raw.githubusercontent.com/magichourhq/docs/main/examples/dagster/requirements.txt)
+into the same directory, then install in a virtual environment:
+
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+The example pins Dagster to 1.13.26. It uses `requests`, which Dagster already declares
+as a dependency, without installing a separate Magic Hour SDK.
+
+Provide a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys) through your
+server-side secret manager as `MAGIC_HOUR_API_KEY`. Set `MAGIC_HOUR_IMAGE_PROJECT_ID`
+to the saved ID from the original image-creation request. The asset reads the key only
+when it executes; keep it out of run configuration, source files and logs.
+
+## Materialize the saved status
+
+```bash
+python recover-image.py
+```
+
+The `@asset` function calls `GET /v1/image-projects/{id}` once. It checks the HTTP
+response and requires the returned ID to match your saved ID. Only the ID and string
+status enter its `MaterializeResult`. The runnable example prints those two values
+and whether Dagster successfully materialized the status asset.
+
+A successful materialization means the lookup ran successfully, not that generation
+has completed. If the returned status is pending, keep the saved ID and run the lookup
+later. This example has no polling loop, retry policy, creation request, schedule or
+automatic trigger. An error produces a static Dagster failure message without the
+original HTTP exception or raw response.
+
+## Local execution and privacy
+
+`materialize_to_memory` runs the native asset in a single process. An explicit
+`DagsterInstance.ephemeral()` uses in-memory run/event storage, disables Dagster
+telemetry and uses NoOp compute-log capture. Ordinary Dagster console event logs still
+appear; this does not mean all logging is disabled. The HTTP response and instance close
+through their native context managers.
+
+The asset does not return the API key, account details, raw project JSON or temporary
+download URLs. Its output is metadata only; it does not save a media file or demonstrate
+a persistent Dagster deployment, UI execution or model reasoning.
+
+See [Magic Hour image-project retrieval](/api-reference/image-projects/get-image-details)
+and the [released Dagster materialization API](https://github.com/dagster-io/dagster/blob/fb6aeab1df0f2dc72cac644ba1fa332dbfa18593/python_modules/dagster/dagster/_core/definitions/materialize.py).
+
+## Verification scope
+
+The exact example ran with Dagster 1.13.26 and its normal declared dependencies on
+Python 3.12. It made one authenticated GET for an existing image project and recorded
+one native asset materialization with the requested ID and `complete` status. The
+Dagster run succeeded. No generation, media download, language model or server was used.
+
+Only the safe ID/status summary and materialization result were printed. Ordinary
+Dagster lifecycle logs appeared on standard error; neither the API key nor temporary
+download URLs appeared in the captured output. The native instance and HTTP context
+closed, and the owned execution process and private runtime state were cleaned up.
+
+This verifies native in-process asset materialization and saved-project retrieval.
+It does not demonstrate a persistent Dagster deployment, Dagster Cloud or an upstream
+integration package.
