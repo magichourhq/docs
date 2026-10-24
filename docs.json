@@ -119,6 +119,7 @@
               "integration/google-adk",
               "integration/genkit",
               "integration/dspy",
+              "integration/voltagent",
               "integration/strands-agents",
               "integration/llamaindex",
               "integration/spring-ai",
