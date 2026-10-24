@@ -1,0 +1,58 @@
+---
+title: "Eino"
+description: "Recover a saved Magic Hour image project through Eino's native MCP tools without a language model."
+---
+
+Use CloudWeGo Eino's released MCP adapter to discover Magic Hour tools and invoke them directly from Go. This example checks account field types, retrieves one saved image project's metadata, and prints only its ID, status and discovery count. It does not create a generation, download media or call a language model.
+
+## Install
+
+Use Go 1.25 or newer and a private working directory. Download [recover-image.go](https://raw.githubusercontent.com/magichourhq/docs/main/examples/eino/recover-image.go), [go.mod](https://raw.githubusercontent.com/magichourhq/docs/main/examples/eino/go.mod) and [go.sum](https://raw.githubusercontent.com/magichourhq/docs/main/examples/eino/go.sum) into that directory. Resolve and verify the normal declared dependencies:
+
+```bash
+go mod download
+go mod verify
+go build -mod=readonly -o magic-hour-eino .
+```
+
+The example pins Eino 0.9.22 and its official MCP adapter 0.1.1. The adapter requires the official MCP Go SDK 1.6.1. It does not import a model provider or require an OpenAI, Gemini, Azure or other model key.
+
+On Go 1.27, Sonic 1.15.0 intentionally selects its released `encoding/json` compatibility implementation. You may see a compatibility warning on stderr. No custom build tags, linker flags or dependency patches are needed.
+
+## Run the recovery example
+
+Provide your Magic Hour API key through the process environment and pass an image project ID you already saved:
+
+```bash
+read -r -s MAGIC_HOUR_API_KEY
+export MAGIC_HOUR_API_KEY
+./magic-hour-eino SAVED_IMAGE_PROJECT_ID
+unset MAGIC_HOUR_API_KEY
+```
+
+The hosted MCP endpoint is `https://mcp.magichour.ai/`. The native session's `Headers` configuration sends the Bearer credential to this fixed first-party endpoint. Redirects are rejected. The key is not part of tool arguments or printed output.
+
+The program uses `officialmcp.GetTools` for discovery, selects `account_retrieve` and `image_projects_retrieve_details`, and invokes each through Eino's `tool.InvokableTool` interface. It checks account ID/credit types without printing their values. The saved project's returned ID must match the requested ID, and its status must be a string.
+
+An example output shape is:
+
+```json
+{
+  "account_field_types": { "credits": "integer", "id": "string" },
+  "id": "SAVED_IMAGE_PROJECT_ID",
+  "status": "complete",
+  "tools_discovered": 48
+}
+```
+
+The discovery count reflects the server's current catalog. The program returns the actual project status; a queued or processing project is not treated as complete. Keep the saved ID and retrieve that same project again later when needed. Do not create a replacement simply because a status request failed.
+
+The official session may reconnect and retry a tool call once after a connection-level failure. This example only invokes read operations. That behavior must not be assumed safe for generation or other mutating operations. The program closes its session before returning and uses bounded network and execution deadlines.
+
+## Verification scope
+
+The exact example was built and run with Go 1.27.3 on Linux/arm64, Eino 0.9.22, officialmcp 0.1.1 and the official MCP Go SDK 1.6.1. On October 24, 2026, the native adapter discovered 48 tools, invoked account retrieval and saved-image retrieval once each, verified account field types, and returned the same saved project ID with `complete` status. The underlying HTTP retry count was not instrumented.
+
+The program exited successfully after its native session closed. Output contained only the safe result above; stderr contained the stock Sonic compatibility warning. No key, private account values or download URLs were printed. The child process and private runtime directory were removed after validation.
+
+This verifies direct native Eino tool invocation. An Agent, model-driven conversation, new generation and media download were not run.
