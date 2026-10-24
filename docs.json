@@ -121,6 +121,7 @@
               "integration/llamaindex",
               "integration/spring-ai",
               "integration/open-webui",
+              "integration/node-red",
               "integration/langflow",
               "integration/haystack",
               "integration/figma",
