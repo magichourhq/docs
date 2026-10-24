@@ -1,0 +1,29 @@
+{
+  "summary": "Recover an existing Magic Hour image (GET only)",
+  "description": "Retrieve one explicit accepted image ID. Return status while pending, or a native PNG file download when complete. No polling or creation.",
+  "kind": "script",
+  "dedicated_worker": false,
+  "restart_unless_cancelled": false,
+  "cache_ttl": 0,
+  "timeout": 60,
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "magic_hour": {
+        "type": "string",
+        "format": "resource-magic_hour",
+        "description": "Select the private magic_hour resource whose api_key is an encrypted variable reference."
+      },
+      "project_id": {
+        "type": "string",
+        "minLength": 1,
+        "description": "The accepted image project ID saved from creation."
+      }
+    },
+    "required": [
+      "magic_hour",
+      "project_id"
+    ]
+  }
+}

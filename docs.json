@@ -125,6 +125,7 @@
               "integration/spring-ai",
               "integration/open-webui",
               "integration/node-red",
+              "integration/windmill",
               "integration/langflow",
               "integration/haystack",
               "integration/figma",
