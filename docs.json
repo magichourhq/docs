@@ -127,6 +127,7 @@
               "integration/node-red",
               "integration/windmill",
               "integration/prefect",
+              "integration/dagster",
               "integration/langflow",
               "integration/haystack",
               "integration/figma",
