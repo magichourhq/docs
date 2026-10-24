@@ -1,0 +1,124 @@
+---
+title: Goose
+description: Connect Goose CLI to Magic Hour MCP and retrieve an existing image project's status.
+---
+
+Connect Goose CLI directly to Magic Hour's hosted MCP server, then ask your model to retrieve
+an image project you already created. The recipe below enables only the read-only image
+retrieval tool from Magic Hour. It does not create a new generation.
+
+## Before you start
+
+Use [Goose CLI 1.56.0](https://github.com/aaif-goose/goose/releases/tag/v1.56.0), a
+[Magic Hour API key](https://magichour.ai/developer?tab=api-keys), and an existing image
+project owned by that account. You also need a configured model that supports tool calls.
+
+This flow was verified with the released Goose CLI, local Ollama 0.40.10 and
+`qwen2.5:7b-instruct-q4_K_M` at a 4096-token context. The native agent retrieved an existing
+completed image project and returned its ID and status. Other models may choose or format
+tool calls differently. This guide covers the CLI, rather than Goose Desktop or a catalog install.
+
+## Configure a dedicated profile
+
+Choose an unused absolute directory for this setup, then configure your model through Goose:
+
+```bash
+export GOOSE_PATH_ROOT="$HOME/.config/goose-magic-hour"
+mkdir -p "$GOOSE_PATH_ROOT/config"
+goose configure
+```
+
+Select your model provider and model. For the verified local setup, select Ollama and
+`qwen2.5:7b-instruct-q4_K_M`; Ollama must already have that model installed and be reachable
+from Goose. You can instead use your own configured tool-capable model.
+
+`GOOSE_PATH_ROOT` separates Goose's configuration, data and state directories. It does not
+prevent discovery of legacy skills in your home directory or machine-wide configuration.
+Use an empty working directory and review your existing Goose configuration before running
+a recipe. The permission rule below denies the built-in skill-loading tool for this setup.
+
+## Add the read-only recipe
+
+Save this as `magic-hour.yaml` in your working directory. Replace `YOUR_PROJECT_ID` with
+an existing image project ID; keep the API key out of the recipe and prompt.
+
+```yaml
+version: "1.0.0"
+title: "Magic Hour saved image lookup"
+description: "Retrieve details of one existing saved image project."
+extensions:
+  - type: streamable_http
+    name: magichour
+    uri: https://mcp.magichour.ai/
+    env_keys:
+      - MAGIC_HOUR_API_KEY
+    headers:
+      Authorization: "Bearer ${MAGIC_HOUR_API_KEY}"
+    timeout: 60
+    available_tools:
+      - image_projects_retrieve_details
+prompt: >
+  Call magichour__image_projects_retrieve_details exactly once for the
+  existing image project YOUR_PROJECT_ID. Do not create or modify anything.
+  Return only a JSON object containing the returned id and status.
+```
+
+The endpoint is `https://mcp.magichour.ai/`, including its root path. Goose resolves
+`MAGIC_HOUR_API_KEY` from its process environment and expands the header placeholder.
+The explicit `extensions` block replaces the default extension selection for this recipe.
+`available_tools` restricts Magic Hour tools; it does not remove Goose's built-in `load_skill`
+from the model's advertised tools.
+
+Create `$GOOSE_PATH_ROOT/config/permission.yaml` with:
+
+```yaml
+user:
+  always_allow:
+    - magichour__image_projects_retrieve_details
+  ask_before: []
+  never_allow:
+    - load_skill
+```
+
+This setup uses **Smart approval** mode: the saved-image lookup is allowed and skill loading
+is denied. Do not remove the tool list or add creation/deletion tools to troubleshoot a lookup.
+
+## Set the key and run
+
+Set `MAGIC_HOUR_API_KEY` in the terminal environment that will launch Goose, using your
+normal protected secret-injection method. Do not paste it into the recipe, command arguments,
+chat prompt or a committed file. Keep the `Bearer ` prefix and placeholder in the recipe.
+
+Run from the empty working directory containing `magic-hour.yaml`:
+
+```bash
+GOOSE_MODE=smart_approve goose run \
+  --recipe magic-hour.yaml \
+  --no-session \
+  --max-turns 3
+```
+
+Use the same terminal where you set `GOOSE_PATH_ROOT` and the key. Do not add
+`--no-profile`: it discards the recipe's extension configuration.
+
+<Note>
+  `--no-session` hides the session from the normal list; Goose still writes local hidden
+  session data and request logs. Keep that profile and its logs private. Tool results can
+  include temporary signed download URLs.
+</Note>
+
+The request retrieves a status snapshot. It does not poll, create a replacement job or download
+an image. Model inference may have costs even though this Magic Hour lookup creates no new
+generation. If the project is still processing, check the same ID again later.
+
+## Verify the result
+
+Check the native invocation of `magichour__image_projects_retrieve_details` and its successful
+tool result. Confirm that the returned ID matches your project and that the agent's final
+status matches the tool result. A model-written `complete` without a successful tool result
+does not prove that Magic Hour was contacted.
+
+If authorization fails, check that the Goose process inherited `MAGIC_HOUR_API_KEY` and that
+the project belongs to that key's account. Successful public tool discovery alone does not
+verify account access. If the model does not call the retrieval tool, check your configured
+provider's tool support and the recipe's tool name; keep the read-only selection in place.

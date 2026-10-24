@@ -125,6 +125,7 @@
               "integration/spring-ai",
               "integration/open-webui",
               "integration/anythingllm",
+              "integration/goose",
               "integration/node-red",
               "integration/windmill",
               "integration/prefect",
