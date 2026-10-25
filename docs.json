@@ -131,6 +131,7 @@
               "integration/praisonai",
               "integration/open-webui",
               "integration/anythingllm",
+              "integration/lobehub",
               "integration/goose",
               "integration/node-red",
               "integration/windmill",

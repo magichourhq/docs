@@ -1,0 +1,76 @@
+---
+title: LobeHub
+description: Connect LobeHub to Magic Hour's hosted MCP server with native Streamable HTTP and API Key authentication.
+---
+
+Connect Magic Hour through LobeHub's native custom connectors. No bridge, proxy,
+or local Magic Hour server is needed. This setup was verified with self-hosted
+LobeHub 2.2.20.
+
+## Add Magic Hour
+
+Use a LobeHub instance where you can manage custom connectors. Get a
+[Magic Hour API key](https://magichour.ai/developer?tab=api-keys), then:
+
+1. Open **Settings → Connectors** and choose **Add Custom Connector**.
+2. Select **Streamable HTTP** and enter:
+
+| Field      | Value                                                   |
+| ---------- | ------------------------------------------------------- |
+| Identifier | `magic-hour`                                            |
+| Server URL | `https://mcp.magichour.ai/`                             |
+| Auth type  | **API Key**                                             |
+| API Key    | Your raw Magic Hour API key, without a `Bearer ` prefix |
+
+3. Click **Install**. For an existing connector, use **Edit → API Key → Update**.
+4. Open the installed connector to inspect its discovered tools and permissions.
+
+Use the native **API Key** field rather than adding an `Authorization` custom
+header. LobeHub stores the Bearer credential in its encrypted connector storage.
+Keep the key out of prompts, screenshots, and shared configuration.
+
+<Note>
+  Discovery can succeed without authentication. A successful **Test Connection** or a list of tools
+  does not prove that your key is valid. An authenticated tool request is needed to verify access to
+  your Magic Hour account.
+</Note>
+
+## Start with an existing image
+
+To begin without creating paid work, open the connector's tool permissions. Set
+all tools to **Disabled**, then set only
+`image_projects_retrieve_details` to **Auto**. Reopen the settings to confirm that
+this permission is saved.
+
+With a tool-capable chat model configured in LobeHub, enable the Magic Hour
+connector for your conversation. Use the ID of an image project that already
+belongs to your Magic Hour account:
+
+```text
+Use image_projects_retrieve_details to check image project YOUR_IMAGE_PROJECT_ID.
+Report its ID and status. Do not create or delete any project.
+```
+
+The project ID is returned when an image is created. Keep that ID when recovering
+from a timeout; do not submit another paid creation to check the first project's
+status.
+
+<Note>
+  Disabled permissions block calls, but LobeHub 2.2.20 still includes those tools' schemas in model
+  context. Choose a model with enough context for the discovered tools and your conversation.
+  Disabling tools does not reduce that context use.
+</Note>
+
+## Verified behavior
+
+The native connector discovered 48 Magic Hour tools. Normal UI permission changes
+and reload confirmed 47 Disabled tools and only the saved-image read set to Auto.
+The ordinary **Edit → API Key → Update** flow saved the credential, and one
+same-session native LobeHub connector API request retrieved an existing completed
+image project. The response returned HTTP 200, the requested ID, and `complete`
+status. No generation or additional credits were used.
+
+This validation covered native credential settings and authenticated connector API
+execution. Model-driven chat and generation were not exercised. Keep normal login
+and connector permissions enabled; allow additional tools only when you intend to
+use them and, for creation calls, spend API credits.
