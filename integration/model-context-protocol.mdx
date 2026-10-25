@@ -262,7 +262,8 @@ the required upload bridge; the hosted server cannot fetch a caller-supplied loc
 
 Unless the user gives different instructions, guide the assistant to:
 
-- Prefer AI Image Editor followed by Image-to-Video for multi-step video creation
+- Use Image-to-Video directly when the user already has an approved image to animate
+- Use AI Image Editor first only when the requested appearance must change or the source needs editing
 - Reuse reference images and preserve identity, style, color, lighting, and aspect ratio across scenes
 - Omit optional `model` and `resolution` only when their defaults are compatible with the account
 - For an image model recommendation, prefer `nano-banana-2-lite` only when account support is known;

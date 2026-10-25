@@ -16,17 +16,21 @@ If you are choosing between manual creation, an API and a connected assistant, s
 
 ## Match the API to the job
 
-| Your input and goal                             | Magic Hour endpoint                                              | What to compare                                                                           |
-| :---------------------------------------------- | :--------------------------------------------------------------- | :---------------------------------------------------------------------------------------- |
-| Text prompt to a new video                      | [Text-to-Video](/api-reference/video-projects/text-to-video)     | Prompt adherence, motion, supported duration, resolution, and audio                       |
-| Product photo to a moving clip                  | [Image-to-Video](/api-reference/video-projects/image-to-video)   | Product geometry, logo preservation, camera movement, and usable output rate              |
-| Existing video with replacement audio           | [Lip Sync](/api-reference/video-projects/lip-sync)               | Mouth timing, identity preservation, head movement, and behavior at cuts                  |
-| Portrait plus audio or text to a speaking video | [Talking Photo](/api-reference/video-projects/ai-talking-photo)  | Facial motion, identity consistency, speech timing, and input support                     |
-| Photo plus an editing instruction               | [AI Image Editor](/api-reference/image-projects/ai-image-editor) | Edit accuracy, preservation of unchanged regions, resolution, and cost per accepted image |
-| Video plus an approved replacement face         | [Face Swap Video](/api-reference/video-projects/face-swap-video) | Identity consistency, occlusion handling, temporal stability, and consent requirements    |
+| Your input and goal                     | Magic Hour endpoint                                              | What to compare                                                                           |
+| :-------------------------------------- | :--------------------------------------------------------------- | :---------------------------------------------------------------------------------------- |
+| Text prompt to a new video              | [Text-to-Video](/api-reference/video-projects/text-to-video)     | Prompt adherence, motion, supported duration, resolution, and audio                       |
+| Product photo to a moving clip          | [Image-to-Video](/api-reference/video-projects/image-to-video)   | Product geometry, logo preservation, camera movement, and usable output rate              |
+| Existing video with replacement audio   | [Lip Sync](/api-reference/video-projects/lip-sync)               | Mouth timing, identity preservation, head movement, and behavior at cuts                  |
+| Portrait plus audio to a speaking video | [Talking Photo](/api-reference/video-projects/ai-talking-photo)  | Facial motion, identity consistency, speech timing, and input support                     |
+| Photo plus an editing instruction       | [AI Image Editor](/api-reference/image-projects/ai-image-editor) | Edit accuracy, preservation of unchanged regions, resolution, and cost per accepted image |
+| Video plus an approved replacement face | [Face Swap Video](/api-reference/video-projects/face-swap-video) | Identity consistency, occlusion handling, temporal stability, and consent requirements    |
 
 Check the exact model and settings in [Models and Credit Costs](/api-reference/models). An API
 platform's model catalog and supported parameters can differ from its web application.
+
+Talking Photo requires an audio file. To start from a script, generate speech first with the
+[AI Voice Generator](/api-reference/audio-projects/ai-voice-generator), then pass that audio to
+Talking Photo. Speech generation is a separate API request with its own credit cost.
 
 ## Set up a fair pilot
 
