@@ -56,16 +56,21 @@ asynchronously, and duration varies with the input, selected settings, and queue
 
 ### Image Requirements
 
-| Requirement | Details                             |
+| Requirement | Details                                                           |
 | :---------- | :---------------------------------------------------------------- |
 | Resolution  | 512x512 pixels or larger recommended                              |
 | Format      | PNG, JPG, JPEG, JFIF, WEBP, HEIC, HEIF, AVIF, JP2, TIFF, TIF, BMP |
-| Quality     | Higher quality enables better edits |
-| Clarity     | Clear images edit more accurately   |
+| Quality     | Higher quality enables better edits                               |
+| Clarity     | Clear images edit more accurately                                 |
 
 ## Code Examples
 
 ### Basic Image Edit
+
+These examples select `flux-2-klein`, `640px`, and one output, which are supported on the Free
+plan when your account has enough credits. Omitting `model` uses the current default, which may
+require a paid plan. Compare [model access and credit costs](/api-reference/models) before choosing
+a different model or resolution.
 
 <CodeGroup>
 
@@ -83,6 +88,9 @@ result = client.v1.ai_image_editor.generate(
         "prompt": "Turn this image into studio ghibli style"
     },
     name="Image Editor image",
+    model="flux-2-klein",
+    resolution="640px",
+    image_count=1,
     wait_for_completion=True,
     download_outputs=True,
     download_directory="."
@@ -114,6 +122,9 @@ const result = await client.v1.aiImageEditor.generate(
       prompt: "Change the background to a sunset beach scene",
     },
     name: "Image Editor image",
+    model: "flux-2-klein",
+    resolution: "640px",
+    imageCount: 1,
   },
   {
     waitForCompletion: true,
@@ -122,8 +133,12 @@ const result = await client.v1.aiImageEditor.generate(
   }
 );
 
-console.log(`Status: ${result.status}`);
-console.log(`Downloaded to: ${result.downloadedPaths}`);
+if (result.status === "complete") {
+  console.log(`Downloaded to: ${result.downloadedPaths}`);
+} else {
+  console.error(`Job ended with status: ${result.status}`);
+  if (result.error) console.error(result.error.message);
+}
 ```
 
 </CodeGroup>
