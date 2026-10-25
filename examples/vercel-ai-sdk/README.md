@@ -4,7 +4,13 @@ Image generation, text-to-video, and image-to-video through Magic Hour's public 
 
 ## Install
 
-Version 0.1.1 uses the company-owned npm name `@magichourhq/ai-sdk-provider`. npm publication is pending; build a local tarball for this version:
+Install the prebuilt [version 0.1.1 archive](https://github.com/magichourhq/docs/releases/tag/ai-sdk-provider-v0.1.1). It uses the company-owned package name `@magichourhq/ai-sdk-provider`; npm publication remains pending.
+
+```sh
+npm install https://github.com/magichourhq/docs/releases/download/ai-sdk-provider-v0.1.1/magichourhq-ai-sdk-provider-0.1.1.tgz ai@7.0.148
+```
+
+To build a local tarball instead:
 
 ```sh
 cd examples/vercel-ai-sdk
