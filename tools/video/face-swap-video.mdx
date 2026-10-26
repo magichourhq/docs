@@ -78,6 +78,33 @@ The default `assets.face_swap_mode="all-faces"` uses one `image_file_path` to re
   these subscription-tier resolution limits.
 </Note>
 
+### Two people, two replacement portraits
+
+Run [face detection](/api-reference/files/face-detection) on the target video, then retrieve its
+[details](/api-reference/files/get-face-detection-details) until `status="complete"`. Preview
+`faces[].url` to choose the two people and retain each matching `faces[].path`; do not assume the
+array order identifies a particular person.
+
+Pass those detected paths as `original_face` and a different uploaded portrait path as each
+`new_face`. For the Python example below, set `assets` as follows, then pass `assets=assets` to
+`client.v1.face_swap.generate`. Keep the required `start_seconds` and `end_seconds`:
+
+```python
+assets = {
+    "face_swap_mode": "individual-faces",
+    "video_source": "file",
+    "video_file_path": target_video_path,
+    "face_mappings": [
+        {"original_face": first_detected_face_path, "new_face": first_portrait_path},
+        {"original_face": second_detected_face_path, "new_face": second_portrait_path},
+    ],
+}
+```
+
+Here, `target_video_path` is the video you inspected. The two `*_detected_face_path` variables are
+selected `faces[].path` values from that video's detection result; the two `*_portrait_path`
+variables are replacement images uploaded with the [file upload API](/api-reference/files/generate-asset-upload-urls).
+
 ### Video Segment Selection
 
 | Factor     | Recommendation                              |
