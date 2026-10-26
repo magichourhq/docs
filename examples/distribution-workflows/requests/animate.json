@@ -1,0 +1,10 @@
+{
+  "end_seconds": 5,
+  "model": "ltx-2.5",
+  "resolution": "480p",
+  "audio": false,
+  "style": {
+    "prompt": "A slow, steady product shot. Preserve the product's shape and printed details."
+  },
+  "assets": { "image_file_path": "REPLACE_WITH_YOUR_UPLOADED_IMAGE_FILE_PATH" }
+}

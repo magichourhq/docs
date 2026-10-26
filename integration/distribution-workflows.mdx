@@ -1,0 +1,56 @@
+---
+title: "Media workflow starters"
+description: "Generate, edit, animate and lip sync with a small HTTP adapter and resumable project receipts."
+---
+
+Use these examples to add a media step to an existing automation. They run with Node.js 22+
+without a new web application, database or deployment.
+
+[Open the runnable starter](https://github.com/magichourhq/docs/tree/main/examples/distribution-workflows).
+
+## Submit once and keep the project ID
+
+```sh
+git clone https://github.com/magichourhq/docs.git
+cd docs/examples/distribution-workflows
+# Set MAGIC_HOUR_API_KEY through your environment or secret store.
+node run.mjs generate receipts/example.json requests/generate.json
+```
+
+A creation call can consume credits. The starter records an intent before submitting and
+saves the accepted project ID before waiting. If polling fails or the wait ends, resume it:
+
+```sh
+node run.mjs resume receipts/example.json
+```
+
+Do not delete the receipt and repeat create to recover an accepted output. If the submission
+outcome is unknown, reconcile account history before another creation call.
+
+## Choose the media step
+
+- Generate an image from a prompt.
+- Edit an approved product photo after [uploading its input](/integration/inputs-and-outputs).
+- Animate an uploaded image.
+- Apply replacement audio to a short video segment through [lip sync](/api-reference/video-projects/lip-sync).
+
+The source includes editable request examples, a dependency-free HTTP adapter, CLI commands
+and controlled tests. Keep the exact output URLs and expiry fields when retrieving a result;
+copy approved files into storage you control before using them as permanent assets.
+
+## Connect an existing workflow
+
+The starter includes mappings for custom HTTP/app-building facilities, a product-image
+editing recipe, a Gumloop MCP handoff and a Fuser provider-review packet. Native connector
+catalogs and recipe galleries are controlled by their respective platforms; these examples
+do not establish a native listing or an installed adapter.
+
+For clients that support remote Streamable HTTP MCP, use the
+[Magic Hour MCP server](/integration/model-context-protocol).
+
+## Review the output
+
+A complete project status means the API finished processing. Review product identity,
+labels, motion, mouth alignment and other task-specific details before approving an asset
+for use. The sample's fixture tests check its request and recovery behavior; they do not
+measure visual quality or demonstrate installation in another platform.

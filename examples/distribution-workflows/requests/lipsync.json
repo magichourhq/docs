@@ -1,0 +1,10 @@
+{
+  "start_seconds": 0,
+  "end_seconds": 3,
+  "assets": {
+    "video_source": "file",
+    "video_file_path": "REPLACE_WITH_YOUR_UPLOADED_VIDEO_FILE_PATH",
+    "audio_file_path": "REPLACE_WITH_YOUR_UPLOADED_AUDIO_FILE_PATH"
+  },
+  "style": { "generation_mode": "lite" }
+}
