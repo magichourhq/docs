@@ -1,0 +1,191 @@
+---
+title: Cloudflare Workflows
+description: Run Magic Hour image and video jobs with Cloudflare Workflows, retaining accepted project IDs for read-only recovery.
+---
+
+Generate an image or a short text-to-video clip in a native Cloudflare Workflow.
+The example checkpoints the accepted Magic Hour project ID, polls that same
+project with Workflow steps and sleeps, and returns temporary download links.
+A separate recovery operation retrieves a project you already own without
+submitting another generation.
+
+<Note>
+  This is a [Magic Hour-maintained example](https://github.com/magichourhq/magic-hour-cloudflare-workflows),
+  not an accepted Cloudflare template. The verified scope below distinguishes
+  local recovery from image/video creation and cloud deployment.
+</Note>
+
+## Install and configure
+
+Use Node.js 22 or newer and npm. Node.js 24 is suitable. Clone the example into
+its own private working directory and install its declared dependencies:
+
+```bash
+git clone https://github.com/magichourhq/magic-hour-cloudflare-workflows.git
+cd magic-hour-cloudflare-workflows
+npm ci
+```
+
+The example pins Wrangler 4.153.0 and includes the lockfile from native
+validation. `npm ci` installs that recorded dependency closure with normal
+workerd and esbuild lifecycle scripts. No separate Magic Hour SDK, upstream model-provider credential,
+R2 bucket or additional database is required.
+
+Create a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys).
+Provide `MAGIC_HOUR_API_KEY` through your private secret manager in the Wrangler
+process environment. The example's declared `secrets.required` binding reads it
+without putting the value in workflow parameters or command arguments.
+
+Alternatively, use Cloudflare's normal local `.dev.vars` file beside
+`wrangler.jsonc`. Create it with restrictive permissions, then populate it using
+a private editor or secret manager:
+
+```bash
+umask 077
+touch .dev.vars
+chmod 600 .dev.vars
+```
+
+Its contents should follow this format. Replace the placeholder privately:
+
+```dotenv
+MAGIC_HOUR_API_KEY="<your-key>"
+```
+
+The example ignores `.dev.vars*`, `.env*` and `.wrangler/`. Keep credentials out
+of source control, workflow payloads, screenshots and logs. Use either a local
+secret file or your secret manager; do not copy real keys into these commands.
+
+## Start the local workflow
+
+With the private secret configured, start the ordinary local dev server:
+
+```bash
+npm run dev
+```
+
+Open `http://127.0.0.1:18787/cdn-cgi/local/explorer` and select
+`magic-hour-media` under Workflows. Keep the server bound to loopback and
+running while work is active. This local development session does not require
+a Cloudflare account. Do not expose Local Explorer through a public tunnel.
+
+Workflow history contains parameters, project IDs and output URLs. Keep the
+local `.wrangler/` state private. Local persisted history is useful for
+inspection, but it does not establish that interrupted workflows automatically
+resume after restarting the dev server. This example has not been deployed to
+Cloudflare's production service.
+
+## Recover a project first
+
+In a second terminal, replace the placeholder with an image project owned by
+your Magic Hour account and choose a fresh Workflow instance ID:
+
+```bash
+npx wrangler workflows trigger magic-hour-media '{"operation":"recover","media":"image","projectId":"<accepted-image-project-id>"}' --id mug-image-recovery-001 --local --port 18787 --json
+```
+
+The JSON is a positional argument. `--params` is not the payload option for this
+command. You can also trigger the same payload through Local Explorer.
+
+Recovery calls `GET /v1/image-projects/{id}` only. For a saved video project,
+set `media` to `video` and use that video's ID; it then calls
+`GET /v1/video-projects/{id}`. Neither operation creates a new media project.
+
+Use the returned instance ID to inspect that exact workflow:
+
+```bash
+npx wrangler workflows instances describe magic-hour-media mug-image-recovery-001 --local --port 18787 --json
+```
+
+The result includes `projectId`, `media`, `status`, `credits_charged`, and
+`downloads` with temporary `url` and `expires_at` values. The credit field
+belongs to the original media project; a recovery result is not evidence of a
+new generation charge. Treat raw JSON as private because it can include signed
+URLs. Local Explorer displays `accepted-project` and `status-*` steps.
+
+Use temporary URLs unchanged before they expire. The workflow returns metadata
+and does not save media files. Replaying a completed cached result does not
+refresh its URLs; start a new GET-only recovery instance for the same project
+when you need current details.
+
+## Create an image
+
+Creation spends Magic Hour credits and sends your chosen prompt to Magic Hour.
+Review [current API pricing](/billing/overview) and the
+[privacy policy](https://magichour.ai/privacy-policy) before running it.
+
+This payload requests one square `640px` image using `z-image-turbo`:
+
+```bash
+npx wrangler workflows trigger magic-hour-media '{"operation":"create","media":"image","prompt":"A blue ceramic mug on a sunlit kitchen counter, product photograph."}' --id mug-image-create-001 --local --port 18787 --json
+```
+
+It submits `POST /v1/ai-image-generator`. The accepted ID is saved in
+`create-project-no-retries` before status polling. Resolution is a requested
+maximum size; this guide does not guarantee every output's dimensions or cost.
+Save the accepted project ID so you can recover it later.
+
+## Create a video
+
+This payload requests a five-second, `480p`, `16:9` text-to-video clip with
+`ltx-2.5` and audio disabled:
+
+```bash
+npx wrangler workflows trigger magic-hour-media '{"operation":"create","media":"video","prompt":"A slow camera orbit around a blue ceramic mug on a sunlit kitchen counter."}' --id mug-video-create-001 --local --port 18787 --json
+```
+
+It submits `POST /v1/text-to-video`. This operation uses the text prompt; it does
+not animate the image from the preceding example. Model access and charges
+depend on the account and current API pricing. Inspect the saved project and
+output before using it in production.
+
+## Recover without duplicating paid work
+
+The paid POST step sets `retries.limit: 0`, and the code adds no fetch retry
+loop. Magic Hour can nevertheless accept a request before its response reaches
+the workflow, or a process can fail before Cloudflare checkpoints the returned
+ID. There is no exactly-once or API-idempotency guarantee here.
+
+If acceptance is uncertain, inspect your Magic Hour projects first. Do not
+retry, restart or duplicate the create instance. Recover a confirmed accepted
+project ID in a separate `recover` instance instead. A manual Workflow restart
+can rerun a create step.
+
+Status lookup uses at most 120 observations, with 15-second durable sleeps
+between incomplete results. A GET step can retry three times for network
+errors, HTTP 429 and 5xx responses. Other HTTP errors stop immediately. Each
+HTTP attempt has a 30-second deadline. If polling ends, preserve the project
+ID and retrieve it again later. Ending the workflow does not cancel the media
+job.
+
+The default HTTP handler returns 404 and cannot start paid work. `workers.dev`
+and preview URLs are disabled. Production invocation would require the
+authenticated Cloudflare dashboard/API or a separately secured binding; this
+example does not add an anonymous paid-trigger endpoint.
+
+## Verified scope
+
+Normal installation completed from the committed lockfile with Wrangler 4.153.0
+and workerd 2026-10-23. The stock Local Explorer loaded the workflow, and native
+CLI/UI validation confirmed GET-only recovery of an existing completed Magic
+Hour image without creating another project.
+
+A separate image-creation workflow completed in 27.6 seconds, charged 5 Magic
+Hour credits and produced a usable cobalt-water-bottle product photograph.
+The downloaded PNG was 640 × 640 pixels and 455,372 bytes. Full decoding and
+visual review passed. Its SHA256 was
+`3c6fe482c730331766a97616c5ab9b031e47115bb4d16a0d5854238127585694`.
+These are observed results for one job, not guaranteed timing, dimensions or
+pricing.
+
+A separate native five-second video creation completed in 27.41 seconds and
+charged 120 Magic Hour credits. The normal CLI and Local Explorer showed its
+exact accepted project complete. The downloaded H.264 MP4 was 854 × 480 pixels,
+601,823 bytes and 5.041667 seconds long, with no audio stream. Full-file decoding
+passed. Three sampled frames showed a consistent cobalt product scene; this
+does not establish full motion quality. Its SHA256 was
+`da2568384341609fc6607b5f51090ce70571cbdd0bad41bf82d3579239c5b8b5`.
+
+Automatic local restart recovery and cloud deployment remain unverified. This
+is a maintained first-party example; it does not establish upstream template
+acceptance.

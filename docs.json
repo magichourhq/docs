@@ -140,6 +140,7 @@
               "integration/windmill",
               "integration/prefect",
               "integration/dagster",
+              "integration/cloudflare-workflows",
               "integration/crewai",
               "integration/eino",
               "integration/langflow",
