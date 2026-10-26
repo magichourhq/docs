@@ -14,13 +14,34 @@ This guide covers both sides of file handling: **getting your files to Magic Hou
 
 ### How to Provide Input Files
 
-You have three options for providing input files to the API:
+Choose the input route that fits where your media is stored:
 
-| Method                      | Best For                  | Pros                        | Cons                                 |
-| :-------------------------- | :------------------------ | :-------------------------- | :----------------------------------- |
-| **Public URLs**             | Files already hosted      | Simple, no upload needed    | Requires public hosting              |
-| **Magic Hour Library URLs** | Reusing generated content | No upload, direct reference | Must be from your Magic Hour account |
-| **Upload to Magic Hour**    | Local files, secure files | No hosting required, secure | Extra upload step                    |
+| Method                      | Best For                     | Pros                             | Cons                                          |
+| :-------------------------- | :--------------------------- | :------------------------------- | :-------------------------------------------- |
+| **Public URLs**             | Files already hosted         | Simple, no upload needed         | Requires public hosting                       |
+| **Magic Hour Library URLs** | Reusing generated content    | No upload, direct reference      | Must be from your Magic Hour account          |
+| **Upload to Magic Hour**    | Local files, secure files    | No hosting required, secure      | Extra upload step                             |
+| **Saved-item file paths**   | Reusing saved library assets | No re-upload; durable file paths | Use an owned asset of a compatible media type |
+
+## Reuse saved assets
+
+Call [`GET /v1/saved-items`](/api-reference/files/list-saved-items) to list characters, references,
+voices, moodboards, and brand kits owned by the account behind your API key. Filter with `type`
+when you need one saved-item category.
+
+Each item contains an `assets` array. Match an asset's `media_kind` to the endpoint's required
+input type, and pass its returned `file_path` to a compatible asset field without uploading again.
+Use the asset path rather than the saved item's `id`. This reuses the file; it does not apply the
+web app's saved-character, moodboard, or brand-kit prompt binding automatically.
+
+Asset `url` values are temporary preview/download links; use `url_expires_at` to check expiry.
+The saved asset's `file_path` is durable. To continue listing, pass the response's non-null
+`next_cursor` as `cursor`.
+
+For example, an image asset can be supplied to
+[Image Editor](/api-reference/image-projects/ai-image-editor), and an audio asset can be supplied
+to [Voice Cloner](/api-reference/audio-projects/ai-voice-cloner), subject to those endpoints' input
+and model requirements.
 
 ## Option 1: Using Public URLs
 

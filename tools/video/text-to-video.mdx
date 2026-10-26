@@ -69,11 +69,11 @@ For best results, include these elements:
 
 ### Duration Guidelines
 
-| Duration      | Best For                             |
+| Duration         | Best For                                                                                                                                                     |
 | :--------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 3-5 seconds   | Social media clips, GIF-like content |
-| 5-10 seconds  | Short-form content, product demos    |
-| 10-15 seconds | Story segments, longer narratives    |
+| 3-5 seconds      | Social media clips, GIF-like content                                                                                                                         |
+| 5-10 seconds     | Short-form content, product demos                                                                                                                            |
+| 10-15 seconds    | Story segments, longer narratives                                                                                                                            |
 | Up to 60 seconds | Long-form scenes (model-dependent; see the `end_seconds` values supported by each model in the [API reference](/api-reference/video-projects/text-to-video)) |
 
 ## Model selection
@@ -81,6 +81,21 @@ For best results, include these elements:
 `model="default"` currently selects `kling-3.0` on paid tiers and `ltx-2.5` on the free tier. Set a model explicitly when your workflow needs a fixed duration and resolution combination. The examples use `ltx-2.5`, which supports five-second clips at 480p; the paid default does not support 480p.
 
 Other current options include `gemini-omni-1.1`, `minimax-h3`, `seedance-2.0-mini`, `seedance-2.5`, and `veo3.1-lite`. Check the [API reference](/api-reference/video-projects/text-to-video) for each model's supported durations, resolutions, and audio settings. Audio is disabled by default and is unavailable on some models.
+
+## Reference media
+
+Supported models can use images, video, or audio as references alongside the text prompt. Supply
+a `references` array; each entry has a unique `name` and a `file_path` pointing to a direct media URL,
+an uploaded file, or a compatible [saved asset](/integration/inputs-and-outputs#reuse-saved-assets).
+
+Name each reference without the `@` prefix and mention it as `@name` in `style.prompt`. For example,
+a reference named `hero` must be mentioned as `@hero` in the prompt. Every supplied reference must
+be mentioned, and every reference mention must have a matching entry.
+
+Media types, reference counts, and duration/resolution combinations depend on the model. Check
+the [endpoint reference](/api-reference/video-projects/text-to-video) before choosing a model or
+combining reference media. Video references can also change the
+[credit rate](/api-reference/models#video-reference-pricing).
 
 ## Code Examples
 
