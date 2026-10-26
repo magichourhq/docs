@@ -1,0 +1,97 @@
+---
+title: Microsoft Agent Framework
+description: Connect Microsoft Agent Framework's native MCP tools to Magic Hour and recover an existing image project's status.
+---
+
+Connect Microsoft Agent Framework to Magic Hour's hosted MCP server using its native Python
+client. This walkthrough discovers tools, verifies API authorization, and reads an existing image
+project without submitting another generation. It calls no model and needs no Azure or OpenAI key.
+
+## Install and configure
+
+Requires Python 3.10+. Install the core package and compatible MCP SDK:
+
+```bash
+python -m pip install "agent-framework-core==1.23.0" "mcp==2.3.0" "tenacity==9.1.4"
+```
+
+The core package supports this workflow without installing every model-provider integration.
+Tenacity is required by the native MCP connection's capability-list subscription.
+Provide your [Magic Hour API key](https://magichour.ai/developer?tab=api-keys) through your server-side
+secret manager as `MAGIC_HOUR_API_KEY`. Set `MAGIC_HOUR_IMAGE_PROJECT_ID` to a saved image project ID.
+Keep keys, private account responses, and temporary download URLs private.
+
+## Verify access and read a saved job
+
+Save this as your Python entry point. The async context closes the owned MCP connection when it
+exits. OpenTelemetry is disabled before importing the SDK.
+
+```python
+import asyncio
+import json
+import os
+
+os.environ["OTEL_SDK_DISABLED"] = "true"
+
+from agent_framework import MCPStreamableHTTPTool
+
+
+def metadata(contents):
+    text = next(item.text for item in contents if item.type == "text" and item.text)
+    data = json.loads(text)
+    if not isinstance(data, dict):
+        raise RuntimeError("Magic Hour returned unexpected metadata.")
+    return data
+
+
+async def check_project(api_key, project_id):
+    async with MCPStreamableHTTPTool(
+        name="magic_hour",
+        url="https://mcp.magichour.ai/",
+        static_headers={"Authorization": "Bearer " + api_key},
+        load_prompts=False,
+        request_timeout=30,
+        terminate_on_close=True,
+    ) as server:
+        functions = {function.name: function for function in server.functions}
+        print(f"Discovered {len(functions)} tools.")
+        account = metadata(await functions["account_retrieve"].invoke(arguments={}))
+        if not isinstance(account.get("id"), str) or not isinstance(account.get("credits"), int):
+            raise RuntimeError("Magic Hour authorization returned unexpected account fields.")
+        print("Magic Hour API authorization confirmed.")
+        project = metadata(
+            await functions["image_projects_retrieve_details"].invoke(
+                arguments={"id": project_id}
+            )
+        )
+        if project.get("id") != project_id or not isinstance(project.get("status"), str):
+            raise RuntimeError("Project response did not match the saved job.")
+        print("Image project status:", project["status"])
+    return project["status"]
+
+
+if __name__ == "__main__":
+    asyncio.run(
+        check_project(
+            os.environ["MAGIC_HOUR_API_KEY"], os.environ["MAGIC_HOUR_IMAGE_PROJECT_ID"]
+        )
+    )
+```
+
+Discovery is public; the account call separately verifies the API key. Native MCP errors raise an
+exception. The SDK converts structured results into text content; the example parses that metadata
+without printing the private account response or signed download URLs.
+
+Reusing an accepted project ID reads its status without charging for another creation. A timeout
+does not cancel a generation: keep its ID and recover it instead of repeating a paid request.
+The SDK may reconnect and retry a tool call after a lost connection, so this example uses only
+read operations. Review retry behavior before adding paid generation tools.
+
+## Add model-driven behavior separately
+
+Model-driven agents require their own provider configuration and can spend model tokens and
+Magic Hour credits. This recipe covers native MCP tool discovery and direct function calls;
+Agent execution, model selection, new generation, and media downloads are separate workflows.
+See [Magic Hour MCP](/integration/model-context-protocol) for generation, upload and download rules,
+our [privacy policy](https://magichour.ai/privacy-policy), and the
+[official MCP client source](https://github.com/microsoft/agent-framework/blob/python-1.23.0/python/packages/core/agent_framework/_mcp.py).

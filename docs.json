@@ -118,6 +118,7 @@
               "integration/vercel-ai-sdk",
               "integration/litellm",
               "integration/openai-agents-sdk",
+              "integration/microsoft-agent-framework",
               "integration/google-adk",
               "integration/genkit",
               "integration/dspy",
