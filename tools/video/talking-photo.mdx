@@ -59,7 +59,7 @@ asynchronously, and duration varies with the input, selected settings, and queue
 
 ### Audio Guidelines
 
-| Audio Type       | Best Practice                                                                     |
+| Audio Type       | Best Practice                                                                      |
 | :--------------- | :--------------------------------------------------------------------------------- |
 | Voice recording  | Clear speech without background noise                                              |
 | Generated speech | Create the audio first with the [AI Voice Generator](/tools/audio/voice-generator) |
@@ -68,7 +68,7 @@ asynchronously, and duration varies with the input, selected settings, and queue
 
 ## Generation modes
 
-Set `style.generation_mode` to `realistic`, the default, to preserve likeness, or `prompted` to guide the scene with `style.prompt`. The maximum selected audio duration is 300 seconds for `realistic` and 45 seconds for `prompted`.
+Set `style.generation_mode` to `realistic`, the default, to preserve likeness, or `prompted` to guide the scene with `style.prompt`. The maximum selected audio duration is 300 seconds for `realistic` and 60 seconds for `prompted`.
 
 The older `pro`, `standard`, `stable`, and `expressive` values are deprecated. Use the current mode names for new integrations; `style.intensity` is also deprecated.
 
@@ -92,6 +92,7 @@ result = client.v1.ai_talking_photo.generate(
     name="Talking Photo",
     start_seconds=0,
     end_seconds=2,
+    resolution="480p",
     wait_for_completion=True,
     download_outputs=True,
     download_directory="."
@@ -122,6 +123,7 @@ const result = await client.v1.aiTalkingPhoto.generate(
     name: "Talking Photo",
     startSeconds: 0,
     endSeconds: 2,
+    resolution: "480p",
   },
   {
     waitForCompletion: true,
@@ -152,7 +154,18 @@ Talking Photo pricing depends on the output duration, `end_seconds` minus `start
 
 ## Resolution Limits
 
-Use `max_resolution` to constrain the larger output dimension in pixels. The API caps this setting at your plan maximum; supported output sizes also depend on the tool. See [Resolution Limits](/billing/resolution-limits) for current limits.
+Set `resolution` to `480p` or `720p`, subject to your plan and generation mode.
+
+When neither `resolution` nor the legacy `max_resolution` is provided:
+
+- **Prompted mode:** defaults to `480p`.
+- **Realistic mode:** maps your plan's maximum output dimension to `480p` below 1280px, or `720p` at 1280px and above.
+
+`max_resolution` is deprecated. Legacy requests still accept it as a larger-dimension cap, limited
+by your plan and mapped to the supported presets. An explicit `resolution` takes precedence.
+
+See [Resolution Limits](/billing/resolution-limits) for plan guidance and the
+[API reference](/api-reference/video-projects/ai-talking-photo) for the current parameters.
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample
