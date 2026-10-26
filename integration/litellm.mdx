@@ -1,0 +1,148 @@
+---
+title: LiteLLM
+description: Generate images with Magic Hour through LiteLLM's SDK and authenticated OpenAI-compatible proxy.
+---
+
+Magic Hour's first-party CustomLLM adapter connects LiteLLM 1.106.3 to image generation. It supports one square Z-Image Turbo image per call, with `640px`, `1k`, or `2k` resolution. Resolution is the maximum longest edge, not a promise of exact dimensions.
+
+<Note>
+  This is an installable Magic Hour adapter, not a built-in LiteLLM provider. The package is available from GitHub Releases; it is not published on PyPI.
+</Note>
+
+## Install and configure
+
+Use Python 3.10 or newer in your application's virtual environment:
+
+```bash
+python -m pip install 'https://github.com/magichourhq/magic-hour-litellm/releases/download/v0.1.0/magic_hour_litellm-0.1.0-py3-none-any.whl#sha256=b64e6e29c56d9432b5c5db2a40c70756ebabcbad5e5f9cbf677cf901d3113bde'
+```
+
+The [version 0.1.0 release](https://github.com/magichourhq/magic-hour-litellm/releases/tag/v0.1.0) includes the 9,929-byte wheel and checksums. It pins LiteLLM 1.106.3. Review compatibility before upgrading.
+
+Create a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys), then supply `MAGIC_HOUR_API_KEY` through your server's environment or secret manager. No OpenAI API key is required. Keep credentials out of browser code, source control, and logs.
+
+## Create an image through the SDK
+
+This call submits a paid generation. Prompts are sent to Magic Hour; see our [privacy policy](https://magichour.ai/privacy-policy).
+
+```python
+import os
+from magic_hour_litellm import image_generation
+
+result = image_generation(
+    model="magichour/z-image-turbo",
+    prompt="A studio product photograph of a blue ceramic mug on a warm white background",
+    api_key=os.environ["MAGIC_HOUR_API_KEY"],
+    n=1,
+    size="auto",
+    response_format="url",
+    magic_hour_resolution="640px",
+    timeout=600,
+    num_retries=0,
+)
+metadata = result.data[0].provider_specific_fields
+project_id = metadata["project_id"]
+download_url = result.data[0].url
+```
+
+Use the adapter's `image_generation` or asynchronous `aimage_generation` entrypoint. Bare `litellm.image_generation` calls without the adapter's validated options fail before making an API call. Unsupported counts, sizes, response formats, and other options are rejected rather than silently ignored.
+
+The adapter submits at most one creation request per invocation, then polls that same project. Save `project_id` when it reaches your application. `metadata` also contains `expires_at` and the latest `credits_charged` when returned by Magic Hour. Charges depend on the current operation and account; LiteLLM's token usage is not a measure of Magic Hour credit cost.
+
+The timeout limits the polling budget; it does not cancel the job or guarantee hard wall-clock cancellation of an in-flight request. After acceptance, handled request errors retain the project ID. A hard process crash can prevent that ID from reaching your application. If acceptance is unknown, inspect your Magic Hour projects before submitting again.
+
+## Recover the same project
+
+Set the existing ID to retrieve its status without another creation request:
+
+```python
+import os
+from magic_hour_litellm import image_generation
+
+recovered = image_generation(
+    model="magichour/z-image-turbo",
+    prompt="Recovery of an existing image project",  # Required; not sent on resume.
+    magic_hour_project_id="<accepted-project-id>",
+    api_key=os.environ["MAGIC_HOUR_API_KEY"],
+    num_retries=0,
+    timeout=600,
+)
+download_url = recovered.data[0].url
+```
+
+Recovery uses `GET /v1/image-projects/{id}` and performs no POST. Keep signed download URLs unchanged and private, and use them before expiry. Retrieve the same project again when a temporary download link expires. Ordinary SDK/proxy logs can contain prompts or output URLs, so do not publish raw logs.
+
+Do not automatically retry a failed create, add fallback models, or restart the create example after a timeout. Those actions can submit another paid job; there is no public create-idempotency guarantee for this adapter.
+
+## Use the OpenAI-compatible proxy
+
+In the same environment, install LiteLLM's proxy extra and its required authentication-error dependency:
+
+```bash
+python -m pip install 'litellm[proxy]==1.106.3' 'prisma==0.15.0'
+```
+
+LiteLLM 1.106.3 imports Prisma when handling rejected authentication, even without a database. This configuration needs no database, generated Prisma client, or engine. Supply a separate private `LITELLM_MASTER_KEY` through the proxy's environment. Keep `MAGIC_HOUR_API_KEY` on the proxy server.
+
+Save this as `proxy.yaml`, keeping the model alias and hook together:
+
+```yaml
+model_list:
+  - model_name: magic-hour-image
+    litellm_params:
+      model: magichour/z-image-turbo
+      api_key: os.environ/MAGIC_HOUR_API_KEY
+    model_info:
+      mode: image_generation
+
+litellm_settings:
+  num_retries: 0
+  callbacks:
+    - magic_hour_litellm.proxy_hook
+  custom_provider_map:
+    - provider: magichour
+      custom_handler: magic_hour_litellm.provider
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+```
+
+Start the authenticated proxy on loopback:
+
+```bash
+litellm --config proxy.yaml --host 127.0.0.1 --port 4000
+```
+
+The following normal OpenAI client request recovers an existing project. Replace the placeholder with the ID from your SDK result:
+
+```python
+import os
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="http://127.0.0.1:4000/v1",
+    api_key=os.environ["LITELLM_MASTER_KEY"],
+    max_retries=0,
+    timeout=650,
+)
+recovered = client.images.generate(
+    model="magic-hour-image",
+    prompt="Recovery of an existing image project",
+    n=1,
+    size="auto",
+    response_format="url",
+    extra_body={
+        "magic_hour_resolution": "640px",
+        "magic_hour_project_id": "<accepted-project-id>",
+    },
+)
+client.close()
+```
+
+The supplied hook preserves and validates image options before LiteLLM's CustomLLM dispatch. Keep it enabled. See the [source guide](https://github.com/magichourhq/magic-hour-litellm) before changing the model alias or proxy configuration.
+
+## Verified scope
+
+Native SDK validation created one usable 640×640 PNG and charged 5 credits. The built adapter was also installed and run through the stock authenticated LiteLLM proxy and normal OpenAI client: unauthenticated requests were rejected with 401, and the client recovered the same completed project with credit metadata and a fresh HTTPS output URL. The proxy check requested no new generation. Twelve mocked tests passed separately.
+
+Image creation was verified through the SDK; proxy verification covered same-ID recovery. These results do not establish built-in LiteLLM support or upstream acceptance. Video, audio, uploaded inputs, multiple images, and non-URL response formats are outside this initial adapter's scope.
