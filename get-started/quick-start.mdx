@@ -1,7 +1,7 @@
 ---
 title: "Magic Hour API Quickstart"
 sidebarTitle: "Quick Start"
-description: "Create a Magic Hour API key and generate your first image or video with Python, Node.js, Go, Rust, or cURL."
+description: "Generate your first image from the terminal, or create an API key and use Python, Node.js, Go, Rust, or cURL."
 ---
 
 Magic Hour is an AI video and image generation platform. You submit a job, we render it, and you download the result. This guide gets you to your first output in a few minutes.
@@ -37,7 +37,9 @@ Compare [API pricing and payment options](/billing/overview) and
   </Card>
 </CardGroup>
 
-**What you'll accomplish:**
+Prefer your terminal? [Use the CLI](#generate-from-your-terminal) to generate and download an image without writing SDK code.
+
+**For the SDK path, you'll:**
 
 1. **Create an API key** - Get credentials to authenticate with our API
 2. **Set up your development environment** - Install SDK and create project files
@@ -875,6 +877,41 @@ cargo run
 ```
 
 </CodeGroup>
+
+## Generate from your terminal
+
+Install `mh` using the [CLI installation instructions](https://github.com/magichourhq/magic-hour-cli#install)
+for macOS, Linux, or Windows. Then sign in through your browser and check your account and credits:
+
+```sh
+mh login
+mh whoami
+```
+
+<Warning>
+  Each generation creates a new project and uses credits. The command below requests one
+  `z-image-turbo` image at `640px`, currently 5 credits. Check your balance before running it.
+  Stopping the command does not cancel a submitted project.
+</Warning>
+
+```sh
+mh image generate --prompt "A mountain landscape at sunrise" --model z-image-turbo --resolution 640px --count 1
+```
+
+The CLI waits for completion, downloads the image into your current directory, and prints its
+path and project ID. No SDK project or manual polling loop is needed.
+
+If waiting or downloading is interrupted, keep the project ID printed by the CLI. Recover the
+same project instead of running the generation command again:
+
+```sh
+mh image wait PROJECT_ID
+mh image download PROJECT_ID
+```
+
+Replace `PROJECT_ID` with your existing image project ID. These commands do not create another
+generation. An errored or canceled project cannot be resumed this way. If creation times out
+before returning an ID, check your [dashboard](https://magichour.ai/create) before retrying.
 
 ## Troubleshooting
 
