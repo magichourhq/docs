@@ -255,22 +255,12 @@ console.log(`Credits charged: ${result.creditsCharged}`);
 
 ## Pricing
 
-Cost depends on the `model` you choose (the default model is picked automatically and may change over time):
+Cost depends on the model, resolution, and image count. The
+[Models and Credit Costs reference](/api-reference/models#image-models) lists all current image
+models, starting credit costs, supported resolutions, plan tiers, and batch sizes.
 
-| Model                | Credits per image (from) | Tiers                        |
-| :------------------- | :----------------------- | :--------------------------- |
-| `flux-schnell`       | 5                        | All (including free)         |
-| `flux-2-klein`       | 5                        | All (including free)         |
-| `z-image-turbo`      | 5                        | All (including free)         |
-| `seedream-v4`        | 40                       | Creator, Pro, Business       |
-| `gpt-image-2`        | 50                       | Creator, Pro, Business       |
-| `nano-banana`        | 50                       | Creator, Pro, Business       |
-| `nano-banana-2-lite` | 50                       | Creator, Pro, Business       |
-| `seedream-v5-pro`    | 75                       | Creator, Pro, Business       |
-| `nano-banana-2`      | 100                      | Creator, Pro, Business       |
-| `nano-banana-pro`    | 150                      | Creator, Pro, Business       |
-
-Higher resolutions can increase the cost — see the `model` parameter in the [API reference](/api-reference/image-projects/ai-image-generator) for supported resolutions and image counts per model.
+See the [API reference](/api-reference/image-projects/ai-image-generator) for the complete request
+parameters and model-specific limits.
 
 <Tip>
   **Try this in our Google Colab Cookbook:** [Run this API with sample
