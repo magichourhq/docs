@@ -95,7 +95,9 @@ uploaded_image = client.v1.files.upload_file(file=str(image))
 job = client.v1.image_to_video.create(
     assets={"image_file_path": uploaded_image},
     end_seconds=5,
-    model="default",
+    model="ltx-2.5",
+    resolution="480p",
+    audio=False,
     name="Product photo starter recipe",
     style={
         "prompt": (
@@ -121,10 +123,13 @@ for path in result.downloaded_paths:
     print(f"Downloaded: {path}")
 ```
 
-The script uses the account's default model and resolution, rather than requiring
-a particular paid model. See [Image-to-Video](/api-reference/video-projects/image-to-video)
-for supported models, durations, and resolutions. Changing the model can require
-changing the duration too.
+The script pins `ltx-2.5`, five seconds, `480p`, and no audio: 120 credits at the current
+24-credit-per-second rate. These settings are available on Free and paid plans with enough
+credits. See the [worked funding example](/integration/evaluating-media-apis)
+for subscription, pack, and usage-based USD calculations and commercial-use requirements.
+
+See [Image-to-Video](/api-reference/video-projects/image-to-video) before changing the model,
+duration, resolution, or audio setting. Changing those options can change cost and plan eligibility.
 
 Review the rendered clip before using it in an ad or product page. The prompt is
 guidance, not a guarantee that labels, logos, or product details remain exact.

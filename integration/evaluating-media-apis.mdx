@@ -32,6 +32,44 @@ Talking Photo requires an audio file. To start from a script, generate speech fi
 [AI Voice Generator](/api-reference/audio-projects/ai-voice-generator), then pass that audio to
 Talking Photo. Speech generation is a separate API request with its own credit cost.
 
+## Example: budget a five-second product clip
+
+For one product photo, the [starter recipe](/get-started/starter-recipes)
+uses `ltx-2.5`, five seconds, `480p`, and `audio=False`. The current
+[model table](/api-reference/models#video-credit-costs) lists 24 credits per second for this
+configuration: **5 × 24 = 120 credits per attempt**. These settings are available on Free and paid
+plans; your account still needs enough credits. The example creates one video project, waits for
+its terminal status, and downloads the result.
+
+The USD amount depends on how you fund those credits. This arithmetic was checked October 26,
+2026; it is not a measured quality result or a standalone price at checkout.
+
+| Funding arrangement                                    | Allocation for 120 credits                                                       | Payment or setup requirement                                     |
+| :----------------------------------------------------- | :------------------------------------------------------------------------------- | :--------------------------------------------------------------- |
+| Creator monthly subscription                           | $0.19 at full use of the included 12,000 credits                                 | $19 upfront for the month, with recurring renewal until canceled |
+| Creator annual subscription                            | $0.12 at full use of the included 144,000 credits                                | $144 upfront for the year, with recurring renewal until canceled |
+| Creator usage-based billing, first 100,000-credit band | $0.144 at $0.001200 per credit                                                   | Requires setup assistance; credits consumed are invoiced monthly |
+| One-time credit pack                                   | Use the price divided by the credits in your selected pack, then multiply by 120 | Pack offers vary; verify the full purchase amount at checkout    |
+
+Subscription allocations assume all included credits are eventually used. They are not the amount
+you can pay to buy a single clip. Unused prepaid credits never expire. Compare the current
+[subscription and pack terms](/billing/subscription-pricing) with
+[usage-based rates and graduated bands](/billing/usage-based-pricing).
+
+A paid subscription, credit-pack purchase, or separately agreed paid usage-based arrangement is
+required for commercial use, subject to the [Terms of Service](https://magichour.ai/terms-of-service)
+and your rights to the input content. Free-plan model access alone does not grant commercial use.
+
+Budget for rejected creative attempts as well as accepted clips. Three attempts at this setting
+use 360 credits if all are charged; that does not promise three usable outputs. Read the completed
+project for final `credits_charged`, inspect the downloaded video, and keep the project ID if a
+local download needs recovery. Do not create a second generation just to retrieve the first.
+
+For inspectable media, use the existing [public benchmark and complete output gallery](https://github.com/magichourhq/ai-video-model-benchmark).
+That separate workload used eight-second, 720p clips without audio and produced 58 downloadable
+videos from 60 requests. Its prompts, attempts, charged credits, and output files are public;
+completion is not human acceptance, and those results do not predict this five-second example.
+
 ## Set up a fair pilot
 
 1. Select representative cases before looking at provider outputs. Include ordinary inputs and
