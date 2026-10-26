@@ -1,11 +1,18 @@
 ---
 title: Audio Tools
-description: Explore voice generation and voice cloning APIs.
+description: Explore music generation, voice generation, and voice cloning APIs.
 ---
 
-Use Magic Hour's audio tools to synthesize speech from text or create a reusable voice from a reference recording.
+Use Magic Hour's audio tools to generate music, synthesize speech from text, or create a reusable voice from a reference recording.
 
 <CardGroup cols={2}>
+  <Card
+    title="AI Music Generator"
+    icon="music"
+    href="/api-reference/audio-projects/ai-music-generator"
+  >
+    Generate a 15–300 second track from a description, with optional lyrics or instrumental output.
+  </Card>
   <Card title="AI Voice Cloner" icon="microphone-lines" href="/tools/audio/voice-cloner">
     Clone a voice from a reference audio sample.
   </Card>
@@ -13,3 +20,12 @@ Use Magic Hour's audio tools to synthesize speech from text or create a reusable
     Generate speech from text with available voices.
   </Card>
 </CardGroup>
+
+## Music generation
+
+Music costs 1 credit per requested second. Set `duration` and `style.prompt`; use
+`style.instrumental: true` for music without vocals, or supply `style.lyrics` for custom lyrics.
+
+The create response returns a project ID. Keep it and poll
+[Get Audio Details](/api-reference/audio-projects/get-audio-details) until the project is
+`complete`, then retrieve the result from `downloads`.
