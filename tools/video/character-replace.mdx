@@ -56,9 +56,33 @@ Character Replace substitutes a person in a video with the character from a refe
 
 ## Modes and resolution
 
-Use `style.mode="replace"` to substitute the selected subject, or `"animate"` to transfer the source video's motion to the reference character. Subject selection defaults to `auto`. For manual selection, set `selection_mode="point"` and provide `points`; coordinates are pixels in the source frame, and timestamps use the source video's timeline. Points are ignored in automatic mode.
+Use `style.mode="replace"` to substitute the selected subject, or `"animate"` to transfer the source
+video's motion to the reference character. Set `model` to select a model explicitly.
+The default model is `wan-animate`.
 
-The API accepts `480p` and `720p`, subject to your plan, and defaults to `480p`. `end_seconds` is required; `start_seconds` defaults to zero.
+| Model         | Resolutions       | Replace duration | Animate duration |
+| :------------ | :---------------- | :--------------- | :--------------- |
+| `wan-animate` | 480p, 720p        | Up to 60 seconds | Up to 60 seconds |
+| `kling-3.0`   | 720p, 1080p       | 3–10 seconds     | 3–30 seconds     |
+| `minimax-h3`  | 480p, 720p, 1080p | 1–60 seconds     | 1–60 seconds     |
+
+Duration limits for your plan still apply. Resolution must be supported by the model and your plan. If omitted, it defaults to the lowest
+resolution available on your plan for that model. `end_seconds` is required; `start_seconds`
+defaults to zero. The selected duration is `end_seconds - start_seconds`.
+
+### Subject selection and prompts
+
+Subject selection defaults to `auto`. For manual selection, set `style.selection_mode="point"`
+and provide `style.points`. Coordinates are pixels in the source frame, and timestamps use the
+source video's timeline.
+
+- **Wan Animate:** supports point selection in both modes.
+- **Kling 3.0:** automatically selects the main person. Omit `style.points`; supplying points is rejected.
+- **MiniMax H3:** supports point selection only in `replace` mode. In `animate` mode,
+  `selection_mode="point"` returns 422; points are ignored when selection is `auto` or omitted.
+
+For models that support manual selection, points are ignored when selection is `auto` or omitted.
+Optional `style.prompt` direction is supported by Kling 3.0 and MiniMax H3.
 
 ## Code Example
 
@@ -75,6 +99,7 @@ curl --request POST \
   "name": "My Character Replace video",
   "start_seconds": 0,
   "end_seconds": 15,
+  "model": "wan-animate",
   "resolution": "720p",
   "assets": {
     "video_file_path": "api-assets/id/1234.mp4",
@@ -97,7 +122,7 @@ curl --request POST \
 
 ## Pricing
 
-Credits are charged for frames that render. The create response provides an estimate, and the completed job reports the final total in `credits_charged`. See [Billing](/billing/overview) for current rates.
+Credits are charged for frames that render. The create response provides an estimate, and the completed job reports the final total in `credits_charged`. See [model-specific credit rates](/api-reference/models#character-replace) for pricing by model and resolution.
 
 ## API Reference
 
