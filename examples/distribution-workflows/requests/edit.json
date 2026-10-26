@@ -1,0 +1,9 @@
+{
+  "image_count": 1,
+  "model": "flux-2-klein",
+  "resolution": "640px",
+  "style": {
+    "prompt": "Place this product on a neutral studio background. Preserve its shape, label, colors, and packaging."
+  },
+  "assets": { "image_file_paths": ["REPLACE_WITH_YOUR_UPLOADED_IMAGE_FILE_PATH"] }
+}

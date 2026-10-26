@@ -108,6 +108,7 @@
             "group": "Integration",
             "pages": [
               "integration/overview",
+              "integration/distribution-workflows",
               "integration/evaluating-media-apis",
               "integration/commercial-media-workflows",
               "integration/agency-lip-sync",
