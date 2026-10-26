@@ -116,6 +116,7 @@
               "integration/first-integration",
               "integration/pydantic-ai",
               "integration/vercel-ai-sdk",
+              "integration/litellm",
               "integration/openai-agents-sdk",
               "integration/google-adk",
               "integration/genkit",
