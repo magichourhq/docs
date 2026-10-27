@@ -172,6 +172,8 @@ if (result.status === "complete") {
 
 Image to Video pricing depends on the model, resolution, and duration you choose. You pay for the frames that render. The create response estimates `credits_charged`; read the completed job for the final cost.
 
+For example, the five-second `ltx-2.5` request at `480p` without audio above uses 120 credits. See [model credit costs](/api-reference/models#video-credit-costs) and the [worked budget example](/integration/evaluating-media-apis#example-budget-a-five-second-product-clip) to compare funding options.
+
 ## Resolution Limits
 
 Supported resolutions are 360p, 480p, 720p, 1080p, and 4k, depending on the model and your subscription tier. For example, `kling-3.0` supports 4k. Output defaults to `720p` on paid tiers and `480p` on the free tier. See [Resolution Limits](/billing/resolution-limits) for tier details.
