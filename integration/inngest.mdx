@@ -10,7 +10,7 @@ paid creation.
 
 This example uses Inngest 4.26.0 and the official Magic Hour Node.js SDK 0.86.0.
 It is a [Magic Hour-maintained example](https://github.com/magichourhq/inngest-js/tree/05ced85364eaddd4d22c6953ac4035c82f4ee3d7/examples/with-magic-hour).
-A [draft upstream contribution](https://github.com/inngest/inngest-js/pull/1854)
+An [upstream contribution](https://github.com/inngest/inngest-js/pull/1854)
 is open. Upstream acceptance and cloud deployment remain separate from
 the local verification described here.
 
@@ -175,8 +175,10 @@ observed result. Two generations charged 77 credits in total. These measured
 charges and outputs are not guarantees of future pricing, dimensions or availability.
 
 Both modules passed scoped Biome 2.1.2 checks with the upstream configuration.
-Full SDK lint remains unverified: an attempted `pnpm lint` stopped during
-pnpm 12.15.0 automatic dependency acquisition before lint completed. The current SDK repository's
+A full SDK Biome 2.1.2 `biome check` also passed: 381 files checked, no fixes
+applied. The `pnpm lint` wrapper did not complete because pnpm 12.15.0 began
+automatic dependency acquisition; this is not a claim that `pnpm lint` passed.
+The current SDK repository's
 `pnpm dev:example` selector accepts only `framework-*` and `bun*` names,
 excluding `with-magic-hour`; native validation used the standalone app directly.
 Upstream acceptance and cloud deployment remain unverified.
