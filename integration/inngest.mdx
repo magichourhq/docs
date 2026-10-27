@@ -1,0 +1,184 @@
+---
+title: Inngest
+description: Create Magic Hour images and image-to-video jobs with separate durable retrieval workflows in Inngest.
+---
+
+Create a Magic Hour image, then animate that completed image with Inngest.
+The example saves the accepted project ID before triggering a separate
+retrieval workflow. You can also recover an existing project without another
+paid creation.
+
+This example uses Inngest 4.26.0 and the official Magic Hour Node.js SDK 0.86.0.
+It is a [Magic Hour-maintained example](https://github.com/magichourhq/inngest-js/tree/05ced85364eaddd4d22c6953ac4035c82f4ee3d7/examples/with-magic-hour).
+An [upstream contribution](https://github.com/inngest/inngest-js/pull/1854)
+is open. Upstream acceptance and cloud deployment remain separate from
+the local verification described here.
+
+## Install the example
+
+Use Node.js 22.15 or newer and pnpm. Native validation used Node.js 24.21.0.
+Create a private folder, then download all four files from the same source
+commit:
+
+```bash
+mkdir magic-hour-inngest
+cd magic-hour-inngest
+curl -fSLO https://raw.githubusercontent.com/magichourhq/inngest-js/05ced85364eaddd4d22c6953ac4035c82f4ee3d7/examples/with-magic-hour/package.json
+curl -fSLO https://raw.githubusercontent.com/magichourhq/inngest-js/05ced85364eaddd4d22c6953ac4035c82f4ee3d7/examples/with-magic-hour/index.mjs
+curl -fSLO https://raw.githubusercontent.com/magichourhq/inngest-js/05ced85364eaddd4d22c6953ac4035c82f4ee3d7/examples/with-magic-hour/functions.mjs
+curl -fSLO https://raw.githubusercontent.com/magichourhq/inngest-js/05ced85364eaddd4d22c6953ac4035c82f4ee3d7/examples/with-magic-hour/README.md
+pnpm install
+```
+
+The upstream example does not commit a lockfile. Normal dependency installation
+emitted seven OpenTelemetry peer-version warnings. No overrides, forced peer
+resolution or warning suppression were applied. Review these warnings when
+changing dependency versions.
+
+## Start the app and Dev Server
+
+Create a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys).
+Provide `MAGIC_HOUR_API_KEY` privately to the app process through your secret
+manager or server environment. Keep it out of source, event JSON and logs.
+Start the app in one terminal:
+
+```bash
+INNGEST_DEV=http://127.0.0.1:8288 pnpm dev
+```
+
+Install the [Inngest Dev Server CLI](https://www.inngest.com/docs/local-development)
+using its official instructions. In a separate terminal, start the installed
+Dev Server without the Magic Hour key:
+
+```bash
+env -u MAGIC_HOUR_API_KEY inngest dev --host 127.0.0.1 --no-discovery --queue-workers 5 -u http://127.0.0.1:3047/api/inngest
+```
+
+Open `http://127.0.0.1:8288` and confirm the `magic-hour-media-example` app and
+both functions are listed. If port 3047 is occupied, set `PORT` on the app
+process and update `-u` to match. Keep the Dev Server in a private development
+environment. Local event invocation is not a public production API or an
+authorization boundary.
+
+Save accepted project IDs before stopping the Dev Server. Its default local
+state is not a production job store. Optional `--persist` and `--sqlite-dir`
+settings retain private local history, not a guarantee that interrupted work
+resumes automatically after restarting the server.
+
+## Create one image
+
+Creation spends Magic Hour credits and sends your prompt to Magic Hour.
+Review [current API pricing](/billing/overview) and the
+[privacy policy](https://magichour.ai/privacy-policy) before running it.
+
+In the Dev Server's **Test Event** interface, send this event once:
+
+```json
+{
+  "name": "magichour/media.create",
+  "data": {
+    "kind": "image",
+    "prompt": "A studio product photograph of a blue ceramic mug on a warm white background, soft window light, no text or logos"
+  }
+}
+```
+
+The profile requests one square Z-Image Turbo image at `640px`. Open the
+`magic-hour-create-media` run and save its `projectId`. After checkpointing
+that ID, the function sends `magichour/media.recover`. Open the retrieval run
+to inspect the status, reported credits and temporary download metadata.
+Review the generated image before using it as a product depiction.
+
+## Animate the completed image
+
+Replace the placeholder with the completed image's saved project ID. Send a
+separate creation event with its motion prompt:
+
+```json
+{
+  "name": "magichour/media.create",
+  "data": {
+    "kind": "video",
+    "imageProjectId": "REPLACE_WITH_COMPLETED_IMAGE_PROJECT_ID",
+    "prompt": "A slow camera push-in toward the ceramic mug, subtle changing window light, the mug stays still"
+  }
+}
+```
+
+The app retrieves the image's fresh download URL internally. It requests one
+three-second LTX-2.5 image-to-video job at `480p`, with audio disabled. This is
+an additional paid generation. The source image is retrieved without creating
+another image. Save the accepted video project ID; the same retrieval workflow
+checks its completion and returns temporary download metadata.
+
+## Recover accepted work
+
+If a run stops or a download URL expires, send a new recovery event with the
+accepted ID and its correct media kind:
+
+```json
+{
+  "name": "magichour/media.recover",
+  "data": {
+    "kind": "video",
+    "projectId": "REPLACE_WITH_ACCEPTED_VIDEO_PROJECT_ID"
+  }
+}
+```
+
+Use `kind: image` for an image project. Recovery makes project GET requests
+only. Each run makes at most 24 reads, separated by five-second durable sleeps.
+SDK requests have a 20-second timeout; this is not a two-minute wall-clock
+guarantee. If still pending, the result includes `pending: true`. Send another
+recovery event with the same ID. `error` and `canceled` are terminal states,
+not completed media. `draft`, `queued` and `rendering` remain pending.
+
+Signed output URLs are private and temporary. Download completed media to your
+own storage before expiry, without forwarding the Magic Hour API key. Keep the
+Dev Server, event history and outputs private. A fresh recovery event can
+refresh URLs; replaying a cached completed step can return an expired URL.
+
+## Avoid duplicate paid jobs
+
+Both functions and SDK requests set retries to zero. A timeout or crash can
+still leave paid creation acceptance unknown before its ID is checkpointed.
+Inspect your Magic Hour projects before deciding to create again. Recover a
+confirmed ID instead of retrying or duplicating its create event. The example
+does not provide exactly-once creation or a public API-idempotency guarantee.
+
+For deployment, the plain Node server binds only to loopback. Use a normal
+reverse proxy or the official Inngest framework adapter. Configure the Magic
+Hour secret, ordinary Inngest event/signing keys and authenticated application
+routes, then remove `INNGEST_DEV`. This local example does not establish a
+deployed cloud integration. Refer to the source README for the Next.js adapter
+route and further deployment considerations.
+
+## Verified scope
+
+Native validation used installed Inngest CLI `1.49.0-28cb5336b`. Normal
+installation and the actual Dev Server editor registered both functions.
+A native existing-image retrieval completed without a new generation. A separate
+image creation and its accepted-project retrieval also completed, charging five
+Magic Hour credits. The exported PNG was 640 × 640 pixels and 422,760 bytes.
+Full decoding and visual review passed. Its SHA256 was
+`06f76ce5b7236a117f8a93d09bd41eb8d367c1a5399483a10688b609bfe3c692`.
+
+A separate image-to-video creation charged 72 credits. Both native function rows
+reached `Completed`, and the project result reported `complete`. The normal Dev Server **Output** tab rendered the completed video result and
+its download metadata. Private output URLs were masked in saved evidence.
+The exported H.264 video was 640 × 640 pixels, 3.041667 seconds and 468,094 bytes, with no
+audio. Full decoding passed, and three sampled frames were visually consistent
+with the source mug. Its SHA256 was
+`9523b407ce60aead6e81e94a3b5ed1a58453e740ef2b24b57393f012b907638b`.
+The API request specified `480p`; the actual output dimensions above are the
+observed result. Two generations charged 77 credits in total. These measured
+charges and outputs are not guarantees of future pricing, dimensions or availability.
+
+Both modules passed scoped Biome 2.1.2 checks with the upstream configuration.
+A full SDK Biome 2.1.2 `biome check` also passed: 381 files checked, no fixes
+applied. The `pnpm lint` wrapper did not complete because pnpm 12.15.0 began
+automatic dependency acquisition; this is not a claim that `pnpm lint` passed.
+The current SDK repository's
+`pnpm dev:example` selector accepts only `framework-*` and `bun*` names,
+excluding `with-magic-hour`; native validation used the standalone app directly.
+Upstream acceptance and cloud deployment remain unverified.

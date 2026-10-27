@@ -141,6 +141,7 @@
               "integration/prefect",
               "integration/dagster",
               "integration/cloudflare-workflows",
+              "integration/inngest",
               "integration/crewai",
               "integration/eino",
               "integration/langflow",
