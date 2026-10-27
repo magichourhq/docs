@@ -175,7 +175,8 @@ observed result. Two generations charged 77 credits in total. These measured
 charges and outputs are not guarantees of future pricing, dimensions or availability.
 
 Both modules passed scoped Biome 2.1.2 checks with the upstream configuration.
-The full SDK-wide `pnpm lint` was not run. The current SDK repository's
+Full SDK lint remains unverified: an attempted `pnpm lint` stopped during
+pnpm 12.15.0 automatic dependency acquisition before lint completed. The current SDK repository's
 `pnpm dev:example` selector accepts only `framework-*` and `bun*` names,
 excluding `with-magic-hour`; native validation used the standalone app directly.
 Upstream acceptance and cloud deployment remain unverified.
