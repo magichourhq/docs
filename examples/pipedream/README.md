@@ -2,6 +2,8 @@
 
 Generate images, animate product photos, edit images, swap faces, and create talking or lip-synced videos in a workflow. These are **custom components**, not an approved Pipedream marketplace app. Native app onboarding is tracked in [Pipedream #21920](https://github.com/PipedreamHQ/pipedream/issues/21920).
 
+> **Pipedream Workflows availability:** These examples target existing Workflows accounts. Pipedream has stopped new Workflows signups and subscriptions and will shut down Workflows on March 31, 2027; Workflows data will be deleted by April 30, 2027. See [Pipedream’s announcement](https://pipedream.com/docs/workflows). Pipedream Connect remains supported, but publishing and running these components as Connect custom tools has not been verified.
+
 ## Install
 
 Requires Node.js 22+, a Pipedream workspace, and a [Magic Hour API key](https://magichour.ai/developer?utm_source=pipedream&utm_medium=integration&utm_campaign=api_distribution). Generation consumes Magic Hour credits; Pipedream execution has its own plan limits and pricing.
