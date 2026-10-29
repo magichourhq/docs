@@ -417,7 +417,7 @@
     },
     "/v1/files/upload-urls": {
       "post": {
-        "description": "Generates a list of pre-signed upload URLs for the assets required. This API is only necessary if you want to upload to Magic Hour's storage. Refer to the [Input Files Guide](https://docs.magichour.ai/integration/inputs-and-outputs) for more details.\n\nThe response array will match the order of items in the request body.\n\n**Valid file extensions per asset type**:\n- video: mp4, m4v, mov, webm\n- audio: mp3, wav, aac, flac, webm, weba, m4a, opus, ogg, oga, aiff, amr\n- image: png, jpg, jpeg, jfif, heic, heif, webp, avif, jp2, tiff, tif, bmp\n- gif: gif, webp, webm\n\n> Note: `gif` is only supported for face swap API `video_file_path` field.\n\nOnce you receive an upload URL, send a `PUT` request to upload the file directly.\n\nExample:\n\n```\ncurl -X PUT --data '@/path/to/file/video.mp4' \\\n  https://videos.magichour.ai/api-assets/id/video.mp4?<auth params from the API response>\n```\n",
+        "description": "Generates a list of pre-signed upload URLs for the assets required. This API is only necessary if you want to upload to Magic Hour's storage. Refer to the [Input Files Guide](https://docs.magichour.ai/integration/inputs-and-outputs) for more details.\n\nThe response array will match the order of items in the request body.\n\n**Valid file extensions per asset type**:\n- video: mp4, m4v, mov, webm\n- audio: mp3, wav, aac, flac, webm, weba, m4a, opus, ogg, oga, aiff, amr\n- image: png, jpg, jpeg, jpe, jfif, heic, heif, webp, avif, jp2, tiff, tif, bmp\n- gif: gif, webp, webm\n\n> Note: `gif` is only supported for face swap API `video_file_path` field.\n\nOnce you receive an upload URL, send a `PUT` request to upload the file directly.\n\nExample:\n\n```\ncurl -X PUT --data '@/path/to/file/video.mp4' \\\n  https://videos.magichour.ai/api-assets/id/video.mp4?<auth params from the API response>\n```\n",
         "summary": "Generate asset upload urls",
         "tags": ["Files"],
         "parameters": [],
@@ -444,7 +444,7 @@
                         "extension": {
                           "type": "string",
                           "pattern": "^[a-z0-9]+$",
-                          "description": "The extension of the file to upload. Do not include the dot (.) before the extension. Possible extensions are mp4,m4v,mov,webm,mp3,wav,aac,flac,webm,weba,m4a,opus,ogg,oga,aiff,amr,png,jpg,jpeg,jfif,heic,heif,webp,avif,jp2,tiff,tif,bmp,gif,webp,webm",
+                          "description": "The extension of the file to upload. Do not include the dot (.) before the extension. Possible extensions are mp4,m4v,mov,webm,mp3,wav,aac,flac,webm,weba,m4a,opus,ogg,oga,aiff,amr,png,jpg,jpeg,jpe,jfif,heic,heif,webp,avif,jp2,tiff,tif,bmp,gif,webp,webm",
                           "example": "mp4"
                         }
                       },
@@ -1854,7 +1854,7 @@
                   "script": {
                     "type": "string",
                     "minLength": 1,
-                    "description": "The words the actor should speak. Character limits apply after trimming:\n* kling-3.0: 2500 characters.\n* ltx-2.5: 1804 characters.\n* veo3.1: 2500 characters.\nLTX's dialogue wrapper counts toward its model prompt limit.",
+                    "description": "The words the actor should speak. Character limits apply after trimming:\n* kling-3.0: 2304 characters.\n* ltx-2.5: 1804 characters.\n* veo3.1: 2500 characters.\nLTX and Kling dialogue wrappers count toward their model prompt limit.",
                     "example": "Meet your new everyday essential."
                   },
                   "end_seconds": {
