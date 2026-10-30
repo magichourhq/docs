@@ -104,7 +104,11 @@ https://docs.magichour.ai/api-reference/openapi.json as the API contract.
 Read the quickstart, models, and development-and-testing guides first.
 Use the current Python or Node SDK; keep MAGIC_HOUR_API_KEY server-side.
 First verify authentication and balance with GET /v1/account (no generation).
-Confirm model eligibility and estimated credits before creating media.
+If a matching estimate operation is published, send the exact create body and
+resolve blocked or unavailable results before creation. A ready estimate is a
+snapshot, not a reservation or authorization to spend. Create rechecks access
+and balance. If no matching estimate is published, explain that a request-specific
+quote is unavailable and obtain an explicit credit budget before generating.
 Save the returned project ID before polling. Handle complete, error, canceled,
 and a bounded timeout; a timeout must not trigger another creation request.
 Download successful output before its signed URL expires. Propagate failures.
