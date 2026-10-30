@@ -4,6 +4,8 @@
   background: #fff;
   font-synthesis: none;
   font-size: 13px;
+  user-select: none;
+  -webkit-user-select: none;
 }
 * {
   box-sizing: border-box;
@@ -46,6 +48,8 @@ body {
 .panel input,
 .panel textarea,
 .panel select {
+  user-select: text;
+  -webkit-user-select: text;
   font: inherit;
   width: 100%;
   padding: 10px;
@@ -172,4 +176,9 @@ body {
   .panel .fields {
     grid-template-columns: 1fr;
   }
+}
+
+.panel input[type="checkbox"] {
+  width: auto;
+  padding: 0;
 }
