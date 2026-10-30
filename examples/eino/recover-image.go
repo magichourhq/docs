@@ -73,7 +73,7 @@ func recoverImage(ctx context.Context, key, id string) (output map[string]any, e
 		if infoErr != nil {
 			return nil, errors.New("MCP tool metadata is invalid")
 		}
-		if info.Name == "account_retrieve" || info.Name == "image_projects_retrieve_details" {
+		if info.Name == "get_account_info" || info.Name == "get_image_project" {
 			callable, ok := candidate.(tool.InvokableTool)
 			if !ok {
 				return nil, errors.New("MCP tool cannot be invoked directly")
@@ -84,7 +84,7 @@ func recoverImage(ctx context.Context, key, id string) (output map[string]any, e
 	if len(selected) != 2 {
 		return nil, errors.New("Required Magic Hour tools are unavailable")
 	}
-	accountRaw, err := selected["account_retrieve"].InvokableRun(ctx, "{}")
+	accountRaw, err := selected["get_account_info"].InvokableRun(ctx, "{}")
 	if err != nil {
 		return nil, errors.New("Magic Hour account retrieval failed")
 	}
@@ -102,7 +102,7 @@ func recoverImage(ctx context.Context, key, id string) (output map[string]any, e
 	if err != nil {
 		return nil, errors.New("Project arguments are invalid")
 	}
-	projectRaw, err := selected["image_projects_retrieve_details"].InvokableRun(ctx, string(args))
+	projectRaw, err := selected["get_image_project"].InvokableRun(ctx, string(args))
 	if err != nil {
 		return nil, errors.New("Magic Hour image retrieval failed")
 	}

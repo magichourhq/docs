@@ -39,7 +39,7 @@ try {
   await client.connect();
   phase = "tool discovery";
   const tools = await client.getAgentTools();
-  const account = tools.magic_hour_account_retrieve;
+  const account = tools.magic_hour_get_account_info;
   const wait = tools.magic_hour_wait_for_image_project;
   if (typeof account?.execute !== "function" || typeof wait?.execute !== "function") {
     throw new Error("Required Magic Hour tools are unavailable.");

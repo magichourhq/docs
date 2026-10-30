@@ -30,6 +30,10 @@ https://mcp.magichour.ai/
 
 ## What the server exposes
 
+These examples use the verb-first MCP tool names. Refresh cached tool inventories after a server
+update and use the exact names your client exposes, including any client prefix. Dated validation
+receipts retain the tool names that were actually tested at the time.
+
 The current server builds tools from its bundled Magic Hour OpenAPI specification and adds helpers
 for the media workflow:
 
@@ -72,7 +76,7 @@ private and never commit it to source control.
 2. Name it `Magic Hour` and use `https://mcp.magichour.ai/` as the connector URL.
 3. If Claude asks for an OAuth client ID in Advanced settings, enter `magic-hour-mcp`.
 4. Select **Connect**, sign in to Magic Hour if asked, and select **Allow** on the authorization page. A **Claude connector** API key is created automatically in your [Developer Hub](https://magichour.ai/developer?tab=api-keys&ref=docs-mcp-requirements&utm_source=docs&utm_medium=referral&utm_campaign=mcp); delete that key there to disconnect.
-5. Enable the connector and ask Claude: `Call Magic Hour account_retrieve and confirm API access without generating media.`
+5. Enable the connector and ask Claude: `Call Magic Hour get_account_info and confirm API access without generating media.`
 
 A returned credit balance confirms API authorization. Keep account details private.
 
@@ -86,7 +90,7 @@ Add the hosted server with your API key as a bearer token:
 claude mcp add --scope user --transport http magic-hour https://mcp.magichour.ai/ --header "Authorization: Bearer YOUR_MAGIC_HOUR_API_KEY"
 ```
 
-Start a new Claude Code session and ask it to call `account_retrieve` to confirm API access without
+Start a new Claude Code session and ask it to call `get_account_info` to confirm API access without
 generating media.
 
 </Tab>
@@ -109,7 +113,7 @@ Add the hosted server:
 codex mcp add magic-hour --url https://mcp.magichour.ai/ --bearer-token-env-var MAGIC_HOUR_API_KEY
 ```
 
-Start Codex from the same shell and ask it to call `account_retrieve` to confirm API access without
+Start Codex from the same shell and ask it to call `get_account_info` to confirm API access without
 generating media.
 
 </Tab>
@@ -145,7 +149,7 @@ hermes mcp test magic_hour
 hermes chat
 ```
 
-Ask Hermes: `Call mcp__magic_hour__account_retrieve to confirm API access without generating media.`
+Ask Hermes: `Call mcp__magic_hour__get_account_info to confirm API access without generating media.`
 A returned credit balance confirms authorization; tool discovery alone does not.
 
 Then try the [first request below](#try-a-first-request). Generation uses Magic Hour credits.
@@ -170,7 +174,7 @@ The server publishes OAuth discovery metadata and supports public client registr
 connector redirect URLs. Choose OAuth authentication, then complete the authorization prompt by
 signing in to Magic Hour and selecting **Allow**. A **ChatGPT connector** API key is created
 automatically; no manual key entry is needed. Enable the connector and ask ChatGPT to call the
-Magic Hour `account_retrieve` tool to confirm API access without generating media.
+Magic Hour `get_account_info` tool to confirm API access without generating media.
 
 ChatGPT controls connector availability and where its setup controls appear.
 
@@ -181,7 +185,7 @@ ChatGPT controls connector availability and where its setup controls appear.
 1. Open **Settings → Connectors** in Manus, then select **Create → Custom MCP**.
 2. Name the connector `Magic Hour`, choose HTTP, and enter `https://mcp.magichour.ai/`.
 3. Add a header named `Authorization` with the value `Bearer YOUR_MAGIC_HOUR_API_KEY`.
-4. After connecting, ask Manus: `Call Magic Hour account_retrieve and confirm API access without generating media.`
+4. After connecting, ask Manus: `Call Magic Hour get_account_info and confirm API access without generating media.`
 
 Manus receives and stores this API key with the connector. Use a dedicated key and revoke it in
 your [Developer Hub](https://magichour.ai/developer?tab=api-keys) to remove its Magic Hour access.
@@ -194,7 +198,7 @@ media to Magic Hour and spends Magic Hour credits; only send inputs authorized f
 
 ## Verify API access before generating
 
-Use `account_retrieve` to confirm API access, then check eligibility for the
+Use `get_account_info` to confirm API access, then check eligibility for the
 intended generation. Tool discovery can work without credentials, and an invalid API key
 can still receive `pong`; the account read checks actual API authorization.
 
@@ -253,8 +257,7 @@ Compatible clients can also receive completed media inline from the wait and dow
 The hosted server deliberately does not read a path on your computer. For local media, the complete
 flow is:
 
-1. Call `video_assets_generate_presigned_url`. Despite its name, it accepts image, audio, and video
-   items.
+1. Call `get_upload_urls` for image, audio, or video items.
 2. Have the client or an upload bridge send the raw bytes to the returned `upload_url`.
 3. Pass the matching returned `file_path` to the creation tool.
 
@@ -285,10 +288,10 @@ or upgrade; do not retry the unchanged request. Do not silently change a user-se
 
 ## Troubleshooting
 
-- **Tools do not appear:** Restart the client after adding the server, then call `account_retrieve`.
+- **Tools do not appear:** Restart the client after adding the server, then call `get_account_info`.
 - **Authentication fails:** For Claude or ChatGPT OAuth connections, reconnect, sign in to Magic Hour,
   and select **Allow**. For manual bearer-token clients, confirm the full API key is active and
-  authentication uses `Authorization: Bearer YOUR_MAGIC_HOUR_API_KEY`. Then call `account_retrieve`
+  authentication uses `Authorization: Bearer YOUR_MAGIC_HOUR_API_KEY`. Then call `get_account_info`
   to verify API access.
 - **Codex cannot see the server:** Launch Codex from the shell where `MAGIC_HOUR_API_KEY` is set.
 - **You only received a project ID:** Ask the assistant to call the matching `wait_for_*_project`

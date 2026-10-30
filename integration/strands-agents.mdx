@@ -72,7 +72,7 @@ with MCPClient(
     metadata(
         client.call_tool_sync(
             tool_use_id="check-account",
-            name="account_retrieve",
+            name="get_account_info",
             arguments={},
             read_timeout_seconds=timedelta(seconds=30),
         )
@@ -86,7 +86,7 @@ with MCPClient(
         accepted = metadata(
             client.call_tool_sync(
                 tool_use_id="create-image",
-                name="ai_image_generator_create_image",
+                name="generate_image",
                 arguments={
                     "name": "Strands product draft",
                     "model": "flux-2-klein",

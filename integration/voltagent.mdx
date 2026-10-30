@@ -33,7 +33,7 @@ node recover-image.mjs
 
 The example connects to `https://mcp.magichour.ai/` with explicit Streamable HTTP
 and bearer authorization. `getAgentTools()` prefixes each tool name with the client
-name, so it calls `magic_hour_account_retrieve` and
+name, so it calls `magic_hour_get_account_info` and
 `magic_hour_wait_for_image_project`. Discovery alone does not validate your key;
 the separate account call checks field types before reporting authorization.
 

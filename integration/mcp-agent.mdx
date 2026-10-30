@@ -75,7 +75,7 @@ An existing output file is not overwritten.
 ## Use in your application
 
 The example uses `MCPApp` and a native `Agent` configured for `streamable_http`.
-It discovers namespaced tools such as `magic_hour_account_retrieve` and invokes
+It discovers namespaced tools such as `magic_hour_get_account_info` and invokes
 `Agent.call_tool` directly. The asyncio executor calls each requested operation once;
 usage telemetry, tracing, file logging, and automatic agent discovery are disabled.
 Both application and agent contexts close on exit.

@@ -145,14 +145,14 @@ async def run(args):
             return response_json(await tools[name](**kwargs))
 
         if args.command == "account":
-            account = await call("account_retrieve")
+            account = await call("get_account_info")
             if not isinstance(account.get("id"), str) or not isinstance(account.get("credits"), int):
                 raise ValueError("Account authorization was not confirmed")
             emit({"authorized": True, "tools": len(tools)})
         elif args.command == "create":
             reserve_creation(args.state)
             result = await call(
-                "ai_image_generator_create_image",
+                "generate_image",
                 image_count=1,
                 model="flux-2-klein",
                 resolution="640px",
@@ -167,7 +167,7 @@ async def run(args):
                 raise
             emit({"id": identifier, "saved": True})
         else:
-            project = await call("image_projects_retrieve_details", id=args.id)
+            project = await call("get_image_project", id=args.id)
             if project_id(project) != args.id:
                 raise ValueError("Returned project ID does not match the requested ID")
             if args.command == "get":

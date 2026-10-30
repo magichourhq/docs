@@ -54,7 +54,7 @@ Hour generation was needed. Other models may choose or format tool calls differe
 2. Open **Settings → Agent Skills**. In the MCP section, click **Refresh** and
    confirm the server restart. Select **Magic Hour**. Public discovery returns
    tools without an API key; it does not prove account access.
-3. Turn off every Magic Hour tool except `image_projects_retrieve_details`.
+3. Turn off every Magic Hour tool except `get_image_project`.
    The verified inventory had 48 tools, leaving **1/48 tools enabled**.
 4. Turn off **RAG & long-term memory**, **View & summarize documents**,
    **Scrape websites**, and **Web Search**, then click **Save**. Keep other agent
@@ -96,7 +96,7 @@ not verify the API key; the authenticated project request does.
    saved image project ID:
 
    ```text
-   @agent Use only magic-hour-image_projects_retrieve_details with id YOUR_PROJECT_ID. Return only a JSON object with the returned id and status. Do not call other tools or include download URLs.
+   @agent Use only magic-hour-get_image_project with id YOUR_PROJECT_ID. Return only a JSON object with the returned id and status. Do not call other tools or include download URLs.
    ```
 
 The request retrieves a status snapshot; it does not poll, create a replacement

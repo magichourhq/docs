@@ -73,13 +73,13 @@ public class MagicHourSpring {
             client.initialize();
             ToolCallback[] tools = SyncMcpToolCallbackProvider.builder().mcpClients(client).build().getToolCallbacks();
             System.out.println("Discovered " + tools.length + " Spring AI tool callbacks.");
-            var account = payload(find(tools, "account_retrieve").call("{}"));
+            var account = payload(find(tools, "get_account_info").call("{}"));
             if (!(account.get("id") instanceof String) || !(account.get("credits") instanceof Number)) {
                 throw new IllegalStateException("Unexpected account response.");
             }
             System.out.println("Magic Hour authorization verified; account id:String, credits:Number.");
             String arguments = JsonMapper.builder().build().writeValueAsString(Map.of("id", projectId));
-            var project = payload(find(tools, "image_projects_retrieve_details").call(arguments));
+            var project = payload(find(tools, "get_image_project").call(arguments));
             if (!projectId.equals(project.get("id")) || !(project.get("status") instanceof String)) {
                 throw new IllegalStateException("Unexpected saved-project response.");
             }

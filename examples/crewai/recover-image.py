@@ -16,13 +16,13 @@ def recover_image() -> dict[str, str]:
     }
     with MCPServerAdapter(
         server_params,
-        "account_retrieve",
-        "image_projects_retrieve_details",
+        "get_account_info",
+        "get_image_project",
         connect_timeout=60,
     ) as tools:
         if len(tools) != 2:
             raise ValueError("Required tools unavailable")
-        account = json.loads(tools["account_retrieve"].run())
+        account = json.loads(tools["get_account_info"].run())
         if (
             not isinstance(account, dict)
             or not isinstance(account.get("id"), str)
@@ -31,7 +31,7 @@ def recover_image() -> dict[str, str]:
         ):
             raise ValueError("Unexpected account metadata")
         project = json.loads(
-            tools["image_projects_retrieve_details"].run(id=project_id)
+            tools["get_image_project"].run(id=project_id)
         )
         if (
             not isinstance(project, dict)

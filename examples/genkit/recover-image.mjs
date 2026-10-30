@@ -41,7 +41,7 @@ try {
   await client.ready();
   phase = "tool discovery";
   const tools = await client.getActiveTools(genkit({ promptDir: null }));
-  const account = tools.find((tool) => tool.__action.name === "magic_hour/account_retrieve");
+  const account = tools.find((tool) => tool.__action.name === "magic_hour/get_account_info");
   const wait = tools.find((tool) => tool.__action.name === "magic_hour/wait_for_image_project");
   if (!account || !wait) throw new Error("Required Magic Hour tools are unavailable.");
   console.log(`Discovered ${tools.length} tools.`);

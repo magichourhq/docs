@@ -74,7 +74,7 @@ async def main():
                     }
                     print({"tool_count": len(tools)})
                     phase = "account"
-                    account = await tools["account_retrieve"].acall()
+                    account = await tools["get_account_info"].acall()
                     if isinstance(account, str):
                         account = json.loads(account)
                     if not isinstance(account, dict):

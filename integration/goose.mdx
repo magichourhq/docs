@@ -56,9 +56,9 @@ extensions:
       Authorization: "Bearer ${MAGIC_HOUR_API_KEY}"
     timeout: 60
     available_tools:
-      - image_projects_retrieve_details
+      - get_image_project
 prompt: >
-  Call magichour__image_projects_retrieve_details exactly once for the
+  Call magichour__get_image_project exactly once for the
   existing image project YOUR_PROJECT_ID. Do not create or modify anything.
   Return only a JSON object containing the returned id and status.
 ```
@@ -74,7 +74,7 @@ Create `$GOOSE_PATH_ROOT/config/permission.yaml` with:
 ```yaml
 user:
   always_allow:
-    - magichour__image_projects_retrieve_details
+    - magichour__get_image_project
   ask_before: []
   never_allow:
     - load_skill
@@ -113,7 +113,7 @@ generation. If the project is still processing, check the same ID again later.
 
 ## Verify the result
 
-Check the native invocation of `magichour__image_projects_retrieve_details` and its successful
+Check the native invocation of `magichour__get_image_project` and its successful
 tool result. Confirm that the returned ID matches your project and that the agent's final
 status matches the tool result. A model-written `complete` without a successful tool result
 does not prove that Magic Hour was contacted.

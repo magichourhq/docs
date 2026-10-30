@@ -50,7 +50,7 @@ with MCPClient(
     by_name = {tool.name: tool for tool in tools}
     print(f"Discovered {len(tools)} tools.")
 
-    account = by_name["account_retrieve"]()
+    account = by_name["get_account_info"]()
     if (
         not isinstance(account, dict)
         or not isinstance(account.get("id"), str)
@@ -60,7 +60,7 @@ with MCPClient(
     print("Magic Hour API authorization confirmed.")
 
     project_id = os.environ["MAGIC_HOUR_IMAGE_PROJECT_ID"]
-    project = by_name["image_projects_retrieve_details"](id=project_id)
+    project = by_name["get_image_project"](id=project_id)
     if (
         not isinstance(project, dict)
         or project.get("id") != project_id

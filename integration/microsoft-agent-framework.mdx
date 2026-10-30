@@ -55,12 +55,12 @@ async def check_project(api_key, project_id):
     ) as server:
         functions = {function.name: function for function in server.functions}
         print(f"Discovered {len(functions)} tools.")
-        account = metadata(await functions["account_retrieve"].invoke(arguments={}))
+        account = metadata(await functions["get_account_info"].invoke(arguments={}))
         if not isinstance(account.get("id"), str) or not isinstance(account.get("credits"), int):
             raise RuntimeError("Magic Hour authorization returned unexpected account fields.")
         print("Magic Hour API authorization confirmed.")
         project = metadata(
-            await functions["image_projects_retrieve_details"].invoke(
+            await functions["get_image_project"].invoke(
                 arguments={"id": project_id}
             )
         )
