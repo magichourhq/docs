@@ -52,7 +52,7 @@ async def main():
         print(f"Loaded {len(tools)} tools.")
         by_name = {tool.metadata.name: tool for tool in tools}
 
-        account = (await by_name["account_retrieve"].acall()).raw_output
+        account = (await by_name["get_account_info"].acall()).raw_output
         if account.is_error:
             raise RuntimeError("Magic Hour authorization failed.")
         print("Magic Hour API authorization confirmed.")

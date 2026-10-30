@@ -11,7 +11,7 @@ test("missing durable persistence rejects before a paid create", async () => {
   assert.deepEqual(calls, []);
 });
 function toolsFor({ create = { id: "accepted-job", credits_charged: 5 }, wait, calls }) {
-  return ["ai_image_generator_create_image", "wait_for_image_project"].map((name) => ({
+  return ["generate_image", "wait_for_image_project"].map((name) => ({
     name,
     invoke: async (call) => {
       calls.push(name);
@@ -50,7 +50,7 @@ test("a failed durable save stops before polling and exposes the accepted ID", a
     graph.invoke({ mode: "generate", prompt: "blue mug" }),
     /accepted-job.*resume/
   );
-  assert.deepEqual(calls, ["ai_image_generator_create_image"]);
+  assert.deepEqual(calls, ["generate_image"]);
 });
 
 test("submit-only awaits persistence and returns without polling", async () => {
@@ -65,7 +65,7 @@ test("submit-only awaits persistence and returns without polling", async () => {
   });
   const result = await graph.invoke({ mode: "generate", prompt: "blue mug", submitOnly: true });
   assert.equal(result.projectId, "accepted-job");
-  assert.deepEqual(calls, ["ai_image_generator_create_image", "persisted"]);
+  assert.deepEqual(calls, ["generate_image", "persisted"]);
 });
 
 for (const status of ["error", "canceled", "rendering"]) {

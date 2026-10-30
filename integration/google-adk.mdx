@@ -72,10 +72,10 @@ async def check_project(api_key, project_id):
     try:
         tools = {tool.name: tool for tool in await toolset.get_tools()}
         print(f"Discovered {len(tools)} tools.")
-        payload(await tools["account_retrieve"].run_async(args={}, tool_context=context))
+        payload(await tools["get_account_info"].run_async(args={}, tool_context=context))
         print("Magic Hour API authorization confirmed.")
         project = payload(
-            await tools["image_projects_retrieve_details"].run_async(
+            await tools["get_image_project"].run_async(
                 args={"id": project_id}, tool_context=context
             )
         )
@@ -99,7 +99,7 @@ if __name__ == "__main__":
     )
 ```
 
-Tool discovery is public; the separate `account_retrieve` call verifies API authorization. ADK
+Tool discovery is public; the separate `get_account_info` call verifies API authorization. ADK
 returns an MCP result envelope, so the example checks errors and extracts metadata before reading
 the project status. It does not print private account details or download URLs.
 

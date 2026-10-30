@@ -45,13 +45,13 @@ try {
     );
   client = connectMagicHour(process.env.MAGIC_HOUR_API_KEY);
   const tools = await client.listTools();
-  const accountTool = tools.find((tool) => tool.name === "account_retrieve");
+  const accountTool = tools.find((tool) => tool.name === "get_account_info");
   if (!accountTool) throw new Error("Magic Hour account verification tool is unavailable.");
   const account = projectData(
     await accountTool.invoke({
       type: "tool_call",
       id: randomUUID(),
-      name: "account_retrieve",
+      name: "get_account_info",
       args: {},
     })
   );

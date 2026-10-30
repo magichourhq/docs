@@ -32,7 +32,7 @@ unset MAGIC_HOUR_API_KEY
 
 The hosted MCP endpoint is `https://mcp.magichour.ai/`. The native session's `Headers` configuration sends the Bearer credential to this fixed first-party endpoint. Redirects are rejected. The key is not part of tool arguments or printed output.
 
-The program uses `officialmcp.GetTools` for discovery, selects `account_retrieve` and `image_projects_retrieve_details`, and invokes each through Eino's `tool.InvokableTool` interface. It checks account ID/credit types without printing their values. The saved project's returned ID must match the requested ID, and its status must be a string.
+The program uses `officialmcp.GetTools` for discovery, selects `get_account_info` and `get_image_project`, and invokes each through Eino's `tool.InvokableTool` interface. It checks account ID/credit types without printing their values. The saved project's returned ID must match the requested ID, and its status must be a string.
 
 An example output shape is:
 

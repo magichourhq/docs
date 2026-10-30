@@ -3,9 +3,9 @@ import { MCPAdapter } from "@langchain/mcp-adapters";
 import { randomUUID } from "node:crypto";
 
 export const operations = {
-  generate: "ai_image_generator_create_image",
-  edit: "ai_image_editor_create_image",
-  animate: "image_to_video_create_video",
+  generate: "generate_image",
+  edit: "edit_image",
+  animate: "create_video_from_image",
 };
 
 export function connectMagicHour(apiKey) {

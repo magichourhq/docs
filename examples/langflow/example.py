@@ -42,7 +42,7 @@ async def main():
     receipt = {"projectId": args.resume}
     if args.generate:
         # Exactly one paid submission. Never retry this operation automatically.
-        created = unwrap(await tools["ai_image_generator_create_image"].ainvoke({
+        created = unwrap(await tools["generate_image"].ainvoke({
             "name": "Langflow example", "image_count": 1, "model": "flux-2-klein",
             "resolution": "640px", "aspect_ratio": "1:1", "style": {"prompt": args.prompt},
         }))
@@ -52,7 +52,7 @@ async def main():
     Path("magic-hour-project.json").write_text(json.dumps(receipt, indent=2))
     print(f"Project: {project_id}. Resume with --resume {project_id} if interrupted.")
     for _ in range(300):
-        project = unwrap(await tools["image_projects_retrieve_details"].ainvoke({"id": project_id}))
+        project = unwrap(await tools["get_image_project"].ainvoke({"id": project_id}))
         if project["status"] == "complete":
             if not project.get("downloads"):
                 raise RuntimeError(f"No output is available for {project_id}.")

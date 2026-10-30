@@ -48,8 +48,8 @@ const mcp = new MCPClient({
 
 try {
   const { tools, errors } = await mcp.listToolsWithErrors({ perServerTimeoutMs: 15000 });
-  const accountTool = tools.magic_hour_account_retrieve;
-  const imageTool = tools.magic_hour_image_projects_retrieve_details;
+  const accountTool = tools.magic_hour_get_account_info;
+  const imageTool = tools.magic_hour_get_image_project;
   if (
     Object.keys(errors).length > 0 ||
     typeof accountTool?.execute !== "function" ||
@@ -94,7 +94,7 @@ try {
 
 Discovery is public, so it does not establish authorization. The account check verifies API
 access without printing private fields. Mastra namespaces tools as `serverName_toolName`:
-the `magic_hour` server key produces `magic_hour_account_retrieve`. Check required tools as
+the `magic_hour` server key produces `magic_hour_get_account_info`. Check required tools as
 well as discovery errors, since individual tools can be absent.
 
 The project read reuses the accepted ID without another creation or generation charge. If a job

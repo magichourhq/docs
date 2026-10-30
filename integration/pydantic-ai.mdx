@@ -47,7 +47,7 @@ async def main():
     ) as toolset:
         tools = await toolset.list_tools()
         print(f"Discovered {len(tools)} tools.")
-        await toolset.direct_call_tool("account_retrieve", {})
+        await toolset.direct_call_tool("get_account_info", {})
         print("Magic Hour API authorization confirmed.")
 
         project_id = os.environ["MAGIC_HOUR_IMAGE_PROJECT_ID"]

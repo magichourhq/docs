@@ -49,7 +49,7 @@ async def main(args):
                 inventory = await MCPTool.from_session(session)
                 tools = {tool.name: tool for tool in inventory}
                 if args.command == "account":
-                    await tools["account_retrieve"].run({}, options)
+                    await tools["get_account_info"].run({}, options)
                     print(json.dumps({"status": "authorized", "tools": len(inventory), "tool_calls": 1}))
                 elif args.command == "create":
                     # Keep an unknown-outcome marker if a response is lost; never replay creation.
@@ -57,7 +57,7 @@ async def main(args):
                         state.write("Creation outcome unknown. Check Magic Hour before another create.\n")
                         state.flush()
                         os.fsync(state.fileno())
-                        result = await tools["ai_image_generator_create_image"].run(
+                        result = await tools["generate_image"].run(
                             {
                                 "image_count": 1,
                                 "model": "flux-2-klein",
@@ -79,7 +79,7 @@ async def main(args):
                             raise
                         print(json.dumps({"id": project_id, "status": "accepted", "id_file": str(args.id_file), "tool_calls": 1}), flush=True)
                 else:
-                    result = await tools["image_projects_retrieve_details"].run({"id": args.id}, options)
+                    result = await tools["get_image_project"].run({"id": args.id}, options)
                     project = result.result
                     if project.get("id") != args.id:
                         raise RuntimeError("The returned project ID does not match the saved ID.")

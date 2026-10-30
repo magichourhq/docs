@@ -16,7 +16,7 @@ node run.mjs --check
 ```
 
 Create a key in the [Developer Hub](https://magichour.ai/developer?utm_source=langchain&utm_medium=integration&utm_campaign=api_distribution).
-The check discovers tools and calls `account_retrieve` to verify real authorization.
+The check discovers tools and calls `get_account_info` to verify real authorization.
 Public tool discovery alone does not validate your key. It starts no generation and
 prints no account identifiers or balance.
 

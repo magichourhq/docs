@@ -70,7 +70,7 @@ async def main(args):
             ) as agent:
                 inventory = await agent.list_tools()
                 if args.command == "account":
-                    tool_json(await agent.call_tool("magic_hour_account_retrieve", {}))
+                    tool_json(await agent.call_tool("magic_hour_get_account_info", {}))
                     print(json.dumps({"status": "authorized", "tools": len(inventory.tools), "tool_calls": 1}))
                 elif args.command == "create":
                     # Exclusive creation prevents accidental resubmission with the same ID file.
@@ -79,7 +79,7 @@ async def main(args):
                         state.flush()
                         os.fsync(state.fileno())
                         result = tool_json(await agent.call_tool(
-                            "magic_hour_ai_image_generator_create_image",
+                            "magic_hour_generate_image",
                             {
                                 "image_count": 1,
                                 "model": "flux-2-klein",
@@ -101,7 +101,7 @@ async def main(args):
                         print(json.dumps({"id": project_id, "status": "accepted", "id_file": str(args.id_file), "tool_calls": 1}), flush=True)
                 elif args.command == "get":
                     project = tool_json(await agent.call_tool(
-                        "magic_hour_image_projects_retrieve_details", {"id": args.id}
+                        "magic_hour_get_image_project", {"id": args.id}
                     ))
                     if project.get("id") != args.id:
                         raise RuntimeError("The returned project ID does not match the saved ID.")

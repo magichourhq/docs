@@ -47,7 +47,7 @@ then submit `POST /v1/ai-ugc-ad` with `assets.image_file_path`, `script` and `en
 and account limits. This endpoint does not combine separate actor and product images in one call.
 
 Save the returned project ID, then poll [video project details](/api-reference/video-projects/get-video-details)
-until the job completes and includes downloads. In the creation MCP, use `ai_ugc_ad_create_video`
+until the job completes and includes downloads. In the creation MCP, use `create_spoken_ad_video`
 and `wait_for_video_project` once the updated tool catalog is deployed. Review the spoken script,
 product appearance and claims before accepting the result.
 

@@ -79,10 +79,10 @@ async def run(args):
             available = await agent.list_tools()
             names = {tool.name for tool in available.tools}
             required = {
-                "account": "account_retrieve",
-                "create": "ai_image_generator_create_image",
-                "get": "image_projects_retrieve_details",
-                "download": "image_projects_retrieve_details",
+                "account": "get_account_info",
+                "create": "generate_image",
+                "get": "get_image_project",
+                "download": "get_image_project",
             }[args.command]
             if f"magic_hour__{required}" not in names:
                 raise RuntimeError("The required Magic Hour tool was not discovered.")

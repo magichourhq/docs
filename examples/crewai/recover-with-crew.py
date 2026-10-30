@@ -25,12 +25,12 @@ def recover_with_crew() -> dict[str, str]:
             "transport": "streamable-http",
             "headers": {"Authorization": f"Bearer {os.environ['MAGIC_HOUR_API_KEY']}"},
         },
-        "image_projects_retrieve_details",
+        "get_image_project",
         connect_timeout=30,
     ) as tools:
         if len(tools) != 1:
             raise ValueError("Required retrieval tool unavailable")
-        tool = tools["image_projects_retrieve_details"]
+        tool = tools["get_image_project"]
         tool.result_as_answer = True
         tool.max_usage_count = 1
         agent = Agent(
@@ -48,7 +48,7 @@ def recover_with_crew() -> dict[str, str]:
             memory=False,
         )
         task = Task(
-            description=f"Call image_projects_retrieve_details exactly once with id={project_id}. Return its result.",
+            description=f"Call get_image_project exactly once with id={project_id}. Return its result.",
             expected_output="The unmodified retrieval tool result.",
             agent=agent,
         )

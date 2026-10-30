@@ -32,7 +32,7 @@ node recover-image.mjs
 ```
 
 The example converts discovered tools into native Genkit actions and calls
-`account_retrieve` and `wait_for_image_project` directly. Public discovery
+`get_account_info` and `wait_for_image_project` directly. Public discovery
 alone does not validate your key; the separate account call checks authorization.
 It prints the tool count and project status, without printing account details or
 private download URLs. The wait tool may poll the same saved ID for up to 30 seconds; it never creates another

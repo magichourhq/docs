@@ -93,7 +93,7 @@ public final class MagicHour {
                 .toolExecutionTimeout(Duration.ofSeconds(60))
                 .build()) {
             var tools = client.listTools();
-            String name = args[0].equals("account") ? "account_retrieve" : "image_projects_retrieve_details";
+            String name = args[0].equals("account") ? "get_account_info" : "get_image_project";
             if (tools.stream().noneMatch(tool -> tool.name().equals(name))) {
                 throw new IllegalStateException("The required Magic Hour tool was not discovered.");
             }

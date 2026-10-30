@@ -9,7 +9,7 @@ Tested with `lfx==1.12.7` (Langflow's component runtime). Recheck compatibility 
 1. In a Langflow flow, add a **Custom Component**, open its code editor, replace the scaffold with [magic_hour.py](magic_hour.py), and save.
 2. Enter your [Magic Hour API key](https://magichour.ai/developer?utm_source=langflow&utm_medium=integration) in the secret input. Use a Langflow secret/global variable for shared flows; do not hard-code the value in source or exported flow JSON.
 3. Enable **Tool Mode** and connect the Toolset output to an Agent's Tools input. The component discovers the hosted server's current tools and schemas at runtime.
-4. Ask the Agent to generate an image using `flux-2-klein`, resolution `640px`, and `image_count=1`. Have it retain the returned project ID, then use `image_projects_retrieve_details` or the hosted wait helper to retrieve the completed output. Generations consume your Magic Hour credits.
+4. Ask the Agent to generate an image using `flux-2-klein`, resolution `640px`, and `image_count=1`. Have it retain the returned project ID, then use `get_image_project` or the hosted wait helper to retrieve the completed output. Generations consume your Magic Hour credits.
 5. Alternatively, select one tool in the component's Tool dropdown, refresh its schema, fill its generated inputs, and run the component directly.
 
 Tool discovery alone is not proof that a key can generate. Creation returns an accepted project ID; completion requires retrieving that project. Never automatically repeat a generation after a lost response or a waiting timeout.

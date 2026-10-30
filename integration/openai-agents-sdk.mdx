@@ -53,7 +53,7 @@ async def main():
         tools = await server.list_tools()
         print(f"Discovered {len(tools)} tools.")
 
-        account = await server.call_tool("account_retrieve", {})
+        account = await server.call_tool("get_account_info", {})
         if account.is_error:
             raise RuntimeError("Magic Hour authorization failed.")
         print("Magic Hour API authorization confirmed.")
@@ -83,7 +83,7 @@ async def main():
 asyncio.run(main())
 ```
 
-Discovery alone does not prove API authorization; `account_retrieve` checks the key. This example
+Discovery alone does not prove API authorization; `get_account_info` checks the key. This example
 does not print the private account response. Reusing the same project ID reads the accepted job
 without submitting or charging for a new generation. A timeout does not cancel the job: keep its
 ID and retry recovery. This example limits inline media to 1 MiB; use the exact returned signed
