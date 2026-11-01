@@ -22,7 +22,7 @@ with another provider.
 | Generate a scene from a brief          | Text prompt                                           | [AI Video Generator](https://magichour.ai/products/ai-video-generator) | [Text-to-Video](/api-reference/video-projects/text-to-video)     | Prompt adherence, continuity and required output settings       |
 | Sync footage to a new voiceover        | Existing video and replacement audio                  | [Lip Sync](https://magichour.ai/products/lip-sync)                     | [Lip Sync](/api-reference/video-projects/lip-sync)               | Mouth timing, identity, pauses and cuts                         |
 | Make a portrait speak                  | Portrait and supported speech input                   | [Talking Photo](https://magichour.ai/products/ai-talking-photo)        | [Talking Photo](/api-reference/video-projects/ai-talking-photo)  | Facial motion, identity and speech timing                       |
-| Create a presenter-style product ad    | Prepared presenter/product image, script and duration | [AI UGC Generator](https://magichour.ai/products/ai-ugc-ad-generator)  | [AI UGC Ad Generator](/api-reference/video-projects/ai-ugc-ad-generator)            | Accuracy of claims, disclosure and suitability for the campaign |
+| Create a presenter-style product ad    | Prepared presenter/product image, script and duration | [AI UGC Generator](https://magichour.ai/products/ai-ugc-ad-generator)  | [UGC API contract](/api-reference/video-projects/ai-ugc-ad-generator)            | Accuracy of claims, disclosure and suitability for the campaign |
 
 For developer tooling, begin with [API authentication](/get-started/authentication) and the
 [quickstart](/get-started/quick-start). For an assistant that creates media, connect the
@@ -43,10 +43,8 @@ before scaling to a catalog. A completed job is not automatically an accepted ad
 The UGC API accepts a prepared image, an approved script and a supported duration. Compose the
 image separately with [Image Editor](/api-reference/image-projects/ai-image-editor) when needed,
 then submit `POST /v1/ai-ugc-ad` with `assets.image_file_path`, `script` and `end_seconds`. Read the
-[UGC API reference](/api-reference/video-projects/ai-ugc-ad-generator) for current model, duration,
-resolution and account limits. The [OpenAPI contract](https://magichour.ai/openapi.json) provides the
-machine-readable request schema. This endpoint does not combine separate actor and product images
-in one call.
+[published API contract](https://magichour.ai/openapi.json) for current model, duration, resolution
+and account limits. This endpoint does not combine separate actor and product images in one call.
 
 Save the returned project ID, then poll [video project details](/api-reference/video-projects/get-video-details)
 until the job completes and includes downloads. In the creation MCP, use `create_spoken_ad_video`
