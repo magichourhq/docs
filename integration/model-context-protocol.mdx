@@ -19,7 +19,8 @@ https://mcp.magichour.ai/
   horizontal
 >
   Create a key for clients that use manual bearer authentication, such as the Claude Code, Codex
-  CLI, and Manus setup below. Claude and ChatGPT users sign in and authorize the connection instead.
+  CLI, and Manus setup below. Claude and ChatGPT OAuth connector users sign in and authorize the
+  connection instead.
 </Card>
 
 <Note>
@@ -53,7 +54,7 @@ Magic Hour web app.
 
 You need:
 
-- A Magic Hour account for the Claude or ChatGPT sign-in flow
+- A Magic Hour account for the Claude or ChatGPT OAuth connector sign-in flow
 - For the Claude Code, Codex CLI, and Manus bearer-token setup below, a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys&ref=docs-mcp-requirements&utm_source=docs&utm_medium=referral&utm_campaign=mcp)
 - A client that supports remote Streamable HTTP MCP servers
 - Enough Magic Hour credits for the generations you request
@@ -168,13 +169,11 @@ No API key setup is needed. Generations use your Magic Hour credits.
 
 1. Open the [Magic Hour AI plugin](https://chatgpt.com/plugins/plugin_asdk_app_6abd6b5b6494819188475d7f1ff8204c) and select **Install plugin**.
 2. If ChatGPT asks, select **Connect**, then sign in to Magic Hour or create an account and approve the connection.
-3. Paste this into a new chat, or mention Magic Hour AI with `@`:
+3. Paste this into a new chat:
 
    ```text
    Use Magic Hour to create a square product image of a fictional reusable water bottle on a sunlit kitchen counter. Confirm a credit budget with me before generating. Wait for completion and show the finished image.
    ```
-
-If you only receive a project ID, ask ChatGPT to wait for the Magic Hour result.
 
 The plugin bundles the `create-with-magic-hour` skill, so ChatGPT users can start with it directly.
 It does not include the other skills in the [Magic Hour skills
