@@ -44,6 +44,7 @@ durations and resolutions, and the credit-cost table below to compare costs.
 | `wan-2.2`           | Strong physics, camera moves, and motion                        | 480p, 720p, 1080p     | 3, 4, 5, 6, 7, 8, 9, 10, 15                                                                          | No                    |
 | `wan-3.0`           | Native-audio video, long clips, and end-frame control           | 480p, 720p, 1080p     | 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30                                                           | Yes, no extra credits |
 | `kling-2.6`         | Great for action, motion blur, and camera moves                 | 720p, 1080p           | 5, 10                                                                                                | No                    |
+| `kling-4.0`         | Cinematic video with image/video references and optional audio | 720p, 1080p | Any integer from 3 to 30 | Yes, no extra credits |
 | `kling-3.0`         | Best overall quality for cinematic storytelling                 | 720p, 1080p, 4k       | 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15                                                          | Yes, costs extra      |
 | `veo3.1-lite`       | Veo quality at a more accessible cost                           | 720p, 1080p           | 4, 6, 8, 16, 24, 32, 40, 48, 56                                                                      | Yes, costs extra      |
 | `veo3.1`            | Google's model. Highest realism and detail                      | 720p, 1080p           | 4, 6, 8, 16, 24, 32, 40, 48, 56                                                                      | Yes, costs extra      |
@@ -58,6 +59,7 @@ durations and resolutions, and the credit-cost table below to compare costs.
   `default` resolves to `kling-3.0` on paid tiers and `ltx-2.5` on the free tier. Free typically
   requests `480p`; paid plans (Creator, Pro, Business) can request the higher resolutions a model
   supports, at that resolution's credit cost. `wan-3.0` requires a paid plan at every resolution.
+  `kling-4.0` requires a paid plan and supports up to 10 API references total, including at most one video.
   The deprecated `kling-2.5-audio` and `veo3.1-audio` values are equivalent to passing the base
   model with `audio: true`.
 </Note>
@@ -78,6 +80,7 @@ For Kling 3.0, compare the [Creator, Pro and Business annual subscription exampl
 | `wan-2.2`           |    — |   24 |   48 |    72 |    — | Not supported                 |
 | `wan-3.0`           |    — |   48 |   96 |   180 |    — | Included                      |
 | `kling-2.6`         |    — |    — |   36 |    72 |    — | Not supported                 |
+| `kling-4.0`         |    — |    — |   80 |   120 |    — | Included |
 | `kling-3.0`         |    — |    — |   48 |    72 |  240 | +24 at 720p, 1080p; +48 at 4k |
 | `veo3.1-lite`       |    — |    — |   48 |    72 |    — | +24                           |
 | `veo3.1`            |    — |    — |   96 |   120 |    — | +24                           |
@@ -99,6 +102,7 @@ rate. For other supported combinations, use the model's base or audio rate.
 
 | Model               | 480p | 720p | 1080p |   4k |
 | :------------------ | ---: | ---: | ----: | ---: |
+| `kling-4.0`         |    - |   96 |   144 |    - |
 | `kling-3.0`         |    - |   96 |   144 |    - |
 | `seedance-2.0-mini` |   72 |  144 |     - |    - |
 | `seedance-2.0-fast` |   96 |  216 |     - |    - |
@@ -115,9 +119,9 @@ compatibility, but these are no longer recommended and are absent from the table
 integrations should use a documented model.
 
 [AI video editor](/api-reference/video-projects/ai-video-editor) has its own roster:
-`gemini-omni-1.1` and `ltx-2.5`, defaulting to `ltx-2.5` on the free tier and `gemini-omni-1.1` on paid
+`gemini-omni-1.1`, `wan-3.0` and `ltx-2.5`, defaulting to `ltx-2.5` on the free tier and `gemini-omni-1.1` on paid
 tiers. On this endpoint, the accepted `ltx-2.3` value maps to `ltx-2.5`; deprecated `gemini-omni`
-maps to `gemini-omni-1.1`.
+maps to `gemini-omni-1.1`. `wan-3.0` requires a paid plan.
 
 ## Image models
 
