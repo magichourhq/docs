@@ -13,6 +13,10 @@ Face Swap Video replaces faces in videos with frame-by-frame precision and tempo
 **Processing:** See recent [typical API-job times](/api-reference/processing-times). Jobs run
 asynchronously, and duration varies with the input, selected settings, and queue load.
 
+Use the [Webhook Quickstart](/integration/webhook/overview) for completion and error notifications.
+Cancellation does not emit a webhook, so poll [video project details](/api-reference/video-projects/get-video-details)
+to detect `canceled` status.
+
 <ToolSection
   title="Face Swap Video"
   productSlug="face-swap/video"
