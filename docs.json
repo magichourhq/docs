@@ -297,6 +297,7 @@
           {
             "group": "Audio Projects",
             "pages": [
+              "api-reference/audio-projects/list-voices",
               "api-reference/audio-projects/get-audio-details",
               "api-reference/audio-projects/delete-audio",
               "api-reference/audio-projects/ai-music-generator",

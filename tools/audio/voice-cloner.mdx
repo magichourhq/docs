@@ -8,7 +8,7 @@ description: Clone any voice and generate realistic speech audio from text using
 
 AI Voice Cloner creates realistic speech audio from text by cloning voices from sample audio files. The API analyzes the unique characteristics of a voice sample and produces high-quality voice synthesis with natural intonation, emotion, and speaking patterns that closely match the original voice.
 
-The API accepts a voice sample and text. It has no language parameter.
+The API accepts a voice sample and text in `style.prompt` (up to 5,000 characters). Optional `style.language` accepts a canonical lowercase language name and defaults to `auto`; optional `style.speed` accepts 0.75–1.30 and defaults to 1. See the [endpoint reference](/api-reference/audio-projects/ai-voice-cloner) for current language options.
 
 ## How It Works
 

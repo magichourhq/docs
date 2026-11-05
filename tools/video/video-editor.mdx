@@ -60,9 +60,13 @@ AI Video Editor changes existing footage from a text prompt. Use it to remove or
 | :---------------- | :------------- | :---------------- | :----------- |
 | `ltx-2.5`         | 0.5–60 seconds (30 at 1080p) | 480p, 720p, 1080p | Free         |
 | `wan-3.0` | 2–15 seconds | 480p, 720p, 1080p | Paid only, not the default |
-| `gemini-omni-1.1` | 3–10 seconds   | 720p, 1080p       | Paid         |
+| `gemini-omni-1.1` | 3–10 seconds   | 360p, 720p, 1080p, 4k | Paid         |
 
 The selected duration is `end_seconds - start_seconds`. Output resolution defaults to `480p` on the free tier and `720p` on paid tiers, subject to plan limits. Set `model` explicitly to use its duration and resolution limits. The accepted `ltx-2.3` value maps to `ltx-2.5`; the deprecated `gemini-omni` value maps to `gemini-omni-1.1`.
+
+### Reference images
+
+For `gemini-omni-1.1` (including its deprecated alias) or `wan-3.0`, you can supply up to 10 reference images in `references`. Each entry requires `name` and `file_path`. Use unique names, ignoring case, without `@` in the entry; refer to them as `@name` in `style.prompt`. LTX does not support reference images.
 
 ## Code Example
 
