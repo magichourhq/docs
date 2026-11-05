@@ -42,9 +42,9 @@ AI Voice Generator creates realistic speech audio from text using celebrity and 
 
 ## Available Voices
 
-Use an exact `voice_name` value from the [API reference](/api-reference/audio-projects/ai-voice-generator), such as `Morgan Freeman`, `Joe Rogan`, or `Donald Trump`.
+Call [List voices](/api-reference/audio-projects/list-voices) and pass the selected voice's `id` as `style.voice_name`. Display names are not unique. Follow `next_cursor` with the `cursor` query parameter to fetch additional pages; `limit` defaults to 20 and accepts 1–100. Existing named voice values remain accepted.
 
-The published API takes `prompt` and `voice_name`. It has no language parameter.
+Supply text in `style.prompt` (up to 5,000 characters). Optional `style.language` accepts a canonical lowercase language name from the endpoint reference and defaults to `auto`. Optional `style.speed` accepts 0.75–1.30 and defaults to 1. See the [API reference](/api-reference/audio-projects/ai-voice-generator) for the complete current language and voice options.
 
 ## Best Practices
 

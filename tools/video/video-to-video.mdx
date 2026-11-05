@@ -32,6 +32,12 @@ Video to Video transforms existing videos by applying new styles, effects, and v
 3. **API transforms the video** - AI applies the style while preserving motion
 4. **Download the result** - Retrieve your stylized video
 
+## Version 3 inputs
+
+To use image-guided restyling, set `style.version` to `v3` and use `style.model` of `Default` (or lowercase `default` to resolve the version default). Supply your own reference image in `assets.initial_image_path`; this route does not generate that image for you. Use an uploaded image path or a completed image output that you own.
+
+V3 also requires the source video's positive integer `width` and `height`. Supply its `fps` for frame limits and credit estimates; omitted FPS defaults to 30. Review the [endpoint reference](/api-reference/video-projects/video-to-video) before changing versions. The v1/v2 examples below retain their existing behavior.
+
 ## Use Cases
 
 - **Style transfer** - Apply artistic styles to real footage
