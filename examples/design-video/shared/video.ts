@@ -3,6 +3,7 @@ import {
   MagicHourError,
   englishMessage,
   type MessageFormatter,
+  type Project,
 } from "../../vercel-ai-sdk/src/client";
 
 export type SourceImage = { blob: Blob; label: string };
@@ -20,6 +21,7 @@ export type VideoResult = {
   credits: number;
 };
 export type JobStore = { load(): Promise<string | null>; save(id: string | null): Promise<void> };
+const unknownSubmission = "magic-hour:submission-unknown";
 export class EditorInsertionError extends Error {
   constructor(
     readonly code: string,
@@ -89,6 +91,7 @@ export class VideoService {
       fetch?: typeof fetch;
       pollIntervalMs?: number;
       timeoutMs?: number;
+      onProjectStatus?: (status: Project["status"]) => void | Promise<void>;
       platform: string;
     }
   ) {
@@ -136,20 +139,50 @@ export class VideoService {
     const path = source
       ? await c.uploadImage(new Uint8Array(await source.blob.arrayBuffer()), extension!, signal)
       : undefined;
-    const id = await c.create(
-      path ? "image-to-video" : "text-to-video",
-      "video",
-      {
-        name: `Magic Hour for ${this.settings.platform}`,
-        model: "ltx-2.5",
-        end_seconds: options.duration,
-        resolution: options.resolution,
-        style: { prompt: options.prompt.trim() },
-        audio: false,
-        ...(path ? { assets: { image_file_path: path } } : { aspect_ratio: options.aspectRatio }),
-      },
-      signal
-    );
+    try {
+      await this.settings.store.save(unknownSubmission);
+    } catch {
+      throw new Error(
+        this.formatMessage({
+          defaultMessage:
+            "Could not save recovery information. No generation was submitted. Reopen the add-on and try again.",
+          description: "Instruction when recovery storage is unavailable before a paid submission.",
+        })
+      );
+    }
+    let id: string;
+    try {
+      id = await c.create(
+        path ? "image-to-video" : "text-to-video",
+        "video",
+        {
+          name: `Magic Hour for ${this.settings.platform}`,
+          model: "ltx-2.5",
+          end_seconds: options.duration,
+          resolution: options.resolution,
+          style: { prompt: options.prompt.trim() },
+          audio: false,
+          ...(path ? { assets: { image_file_path: path } } : { aspect_ratio: options.aspectRatio }),
+        },
+        signal
+      );
+    } catch (error) {
+      if (error instanceof MagicHourError && !error.acceptanceUnknown && !error.projectId) {
+        try {
+          await this.settings.store.save(null);
+        } catch {
+          throw new Error(
+            this.formatMessage({
+              defaultMessage:
+                "The generation was rejected, but recovery information could not be cleared. Check account history before clearing the interrupted submission.",
+              description:
+                "Recovery instruction when a rejected submission's local intent cannot be cleared.",
+            })
+          );
+        }
+      }
+      throw error;
+    }
     return this.retrieve(id, abort);
   }
   async retrieve(id: string, abort?: AbortSignal): Promise<VideoResult> {
@@ -197,8 +230,12 @@ export class VideoService {
 export type PanelState = {
   ready: boolean;
   busy: boolean;
+  activeProject: boolean;
+  keyLocked: boolean;
+  submissionUnknown: boolean;
   message: string;
   error: boolean;
+  apiStatus?: number;
   savedId: string;
   source?: SourceImage;
   result?: VideoResult;
@@ -207,6 +244,9 @@ export class VideoPanel {
   state: PanelState = {
     ready: false,
     busy: false,
+    activeProject: false,
+    keyLocked: false,
+    submissionUnknown: false,
     message: "",
     error: false,
     savedId: "",
@@ -232,6 +272,9 @@ export class VideoPanel {
     };
   };
   snapshot = () => this.state;
+  clearApiError() {
+    this.update({ error: false, message: "", apiStatus: undefined });
+  }
   private update(patch: Partial<PanelState>) {
     if (this.disposed) return;
     this.state = { ...this.state, ...patch };
@@ -240,9 +283,21 @@ export class VideoPanel {
   async init() {
     try {
       const id = await this.host.store.load();
-      if (id)
+      if (id === unknownSubmission)
+        this.update({
+          activeProject: true,
+          submissionUnknown: true,
+          message: this.formatMessage({
+            defaultMessage:
+              "A previous submission may still be running. Check your Magic Hour account history and resume the exact project ID from that submission before generating again.",
+            description:
+              "Recovery instruction after an interrupted paid submission with no returned project ID.",
+          }),
+        });
+      else if (id)
         this.update({
           savedId: projectId(id, this.formatMessage),
+          activeProject: true,
           message: this.formatMessage({
             defaultMessage:
               "A saved generation is available. Resume it without another generation charge.",
@@ -252,6 +307,8 @@ export class VideoPanel {
     } catch {
       this.update({
         error: true,
+        activeProject: true,
+        submissionUnknown: true,
         message: this.formatMessage({
           defaultMessage:
             "Saved generation could not be read. You can enter its project ID to resume.",
@@ -270,18 +327,83 @@ export class VideoPanel {
       await task();
     } catch (error) {
       const id = error instanceof MagicHourError ? error.projectId : undefined;
+      const status = error instanceof MagicHourError ? error.status : undefined;
+      const acceptanceUnknown = error instanceof MagicHourError && error.acceptanceUnknown;
+      let recoverySaved = true;
+      if (acceptanceUnknown) {
+        this.update({ activeProject: true, submissionUnknown: true, keyLocked: true });
+        try {
+          await this.host.store.save(unknownSubmission);
+        } catch {
+          recoverySaved = false;
+        }
+      }
+      const activeProject =
+        this.state.activeProject &&
+        !(status === 404 && !this.state.savedId && !this.state.submissionUnknown);
+      const apiMessage =
+        status === 401
+          ? this.formatMessage({
+              defaultMessage:
+                "Your API key is invalid or no longer active. Check or replace it in your Magic Hour account.",
+              description: "Account guidance after an API key is rejected.",
+            })
+          : status === 402
+            ? this.formatMessage({
+                defaultMessage:
+                  "This generation needs more credits or a plan that supports these settings. Check your Magic Hour balance, plan and API pricing.",
+                description: "Account guidance after a credit or plan restriction.",
+              })
+            : status === 403
+              ? this.formatMessage({
+                  defaultMessage:
+                    "This key cannot access the project or operation. Check that you are using the right Magic Hour account and plan.",
+                  description: "Account guidance after API access is denied.",
+                })
+              : status === 404 && id
+                ? this.formatMessage({
+                    defaultMessage:
+                      "This project was not found for this key. Check the project ID and use a key from the account that created it.",
+                    description: "Recovery guidance when an existing project is not accessible.",
+                  })
+                : status === 429
+                  ? this.formatMessage({
+                      defaultMessage:
+                        "Magic Hour is receiving too many requests. Wait a moment before trying again.",
+                      description: "Guidance after the API rate limit is reached.",
+                    })
+                  : status
+                    ? this.formatMessage({
+                        defaultMessage:
+                          "Magic Hour could not complete this operation. Check your account and try again later, or contact support.",
+                        description: "Guidance after an unrecognized API response error.",
+                      })
+                    : undefined;
       this.update({
         error: true,
-        ...(id ? { savedId: id } : {}),
+        apiStatus: status,
+        activeProject,
+        keyLocked:
+          acceptanceUnknown ||
+          (activeProject && ![401, 403, 404].includes(status ?? 0) && this.state.keyLocked),
         message:
-          error instanceof MagicHourError
-            ? error.message
-            : error instanceof Error
+          (apiMessage
+            ? new MagicHourError(apiMessage, id, status, this.formatMessage).message
+            : error instanceof MagicHourError
               ? error.message
-              : this.formatMessage({
-                  defaultMessage: "The operation failed. Try again after checking the editor.",
-                  description: "Status or recovery instruction in the video generation panel.",
-                }),
+              : error instanceof Error
+                ? error.message
+                : this.formatMessage({
+                    defaultMessage: "The operation failed. Try again after checking the editor.",
+                    description: "Status or recovery instruction in the video generation panel.",
+                  })) +
+          (recoverySaved
+            ? ""
+            : this.formatMessage({
+                defaultMessage:
+                  " Keep this add-on open while checking account history; the recovery state could not be saved.",
+                description: "Warning when unknown submission recovery could not be persisted.",
+              })),
       });
     } finally {
       this.update({ busy: false });
@@ -331,17 +453,35 @@ export class VideoPanel {
         }),
       });
   }
-  private service(key: string) {
+  private service(key: string, onStatus?: (status: Project["status"]) => Promise<void>) {
+    this.update({ keyLocked: !!key.trim() });
     return new VideoService({
       ...this.transport,
       apiKey: key,
       platform: this.host.name,
+      onProjectStatus: async (status) => {
+        if (["draft", "queued", "rendering", "complete", "error", "canceled"].includes(status)) {
+          this.update({
+            activeProject: ["draft", "queued", "rendering"].includes(status),
+            keyLocked: ["draft", "queued", "rendering"].includes(status),
+          });
+          await onStatus?.(status);
+        }
+      },
       store: {
         load: () => this.host.store.load(),
         save: async (id) => {
           // Show the accepted ID even if durable storage fails.
-          this.update({ savedId: id ?? "" });
-          await this.host.store.save(id);
+          if (id === unknownSubmission) {
+            await this.host.store.save(id);
+            this.update({ activeProject: true, submissionUnknown: true });
+          } else if (id) {
+            this.update({ savedId: id, activeProject: true, submissionUnknown: false });
+            await this.host.store.save(id);
+          } else {
+            await this.host.store.save(null);
+            this.update({ savedId: "", activeProject: false, submissionUnknown: false });
+          }
         },
       },
     });
@@ -355,7 +495,7 @@ export class VideoPanel {
             description: "Status or recovery instruction in the video generation panel.",
           })
         );
-      if (this.state.savedId)
+      if (this.state.savedId || this.state.activeProject)
         throw new Error(
           this.formatMessage({
             defaultMessage:
@@ -392,21 +532,33 @@ export class VideoPanel {
   async resume(key: string, id: string) {
     await this.run(async () => {
       projectId(id, this.formatMessage);
-      let saved = true;
-      try {
-        await this.host.store.save(id);
-      } catch {
-        saved = false;
-      }
+      if (this.state.activeProject && this.state.savedId && id !== this.state.savedId)
+        throw new Error(
+          this.formatMessage({
+            defaultMessage:
+              "Resume the saved project first. Its status is unresolved, so its ID cannot be replaced.",
+            description: "Recovery instruction preventing replacement of a running project ID.",
+          })
+        );
+      let saved = true,
+        recorded = false;
       this.update({
-        savedId: id,
         message: this.formatMessage({
           defaultMessage: "Retrieving the existing generation. No new generation is submitted.",
           description: "Status or recovery instruction in the video generation panel.",
         }),
         result: undefined,
       });
-      const result = await this.service(key).retrieve(id, this.abort!.signal);
+      const result = await this.service(key, async () => {
+        if (recorded) return;
+        recorded = true;
+        this.update({ savedId: id, submissionUnknown: false });
+        try {
+          await this.host.store.save(id);
+        } catch {
+          saved = false;
+        }
+      }).retrieve(id, this.abort!.signal);
       this.update({
         result,
         message: saved
@@ -492,14 +644,23 @@ export class VideoPanel {
   stop() {
     this.abort?.abort();
   }
-  async reset() {
-    if (this.state.busy) return;
+  async reset(historyChecked = false) {
+    if (
+      this.state.busy ||
+      (this.state.activeProject && !(historyChecked && this.state.submissionUnknown))
+    )
+      return;
+    this.update({ busy: true });
     try {
       await this.host.store.save(null);
       this.update({
         savedId: "",
+        activeProject: false,
+        keyLocked: false,
+        submissionUnknown: false,
         result: undefined,
         error: false,
+        apiStatus: undefined,
         message: this.formatMessage({
           defaultMessage:
             "Ready for a new paid generation. The previous project remains in your Magic Hour account.",
@@ -515,6 +676,8 @@ export class VideoPanel {
           description: "Status or recovery instruction in the video generation panel.",
         }),
       });
+    } finally {
+      this.update({ busy: false });
     }
   }
   dispose() {
