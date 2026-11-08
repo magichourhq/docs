@@ -26,7 +26,7 @@ export default {
       throw new Error("Magic Hour did not return the requested active project.");
     if (["error", "canceled"].includes(project.status))
       throw new Error(`Magic Hour project ended with status ${project.status}. Inspect the saved project before creating another generation.`);
-    if (!["queued", "rendering", "complete"].includes(project.status))
+    if (!["draft", "queued", "rendering", "complete"].includes(project.status))
       throw new Error("Magic Hour returned an unexpected project status.");
     const downloads = project.status === "complete" ? project.downloads : [];
     if (!Array.isArray(downloads) || (project.status === "complete" && !downloads.length))

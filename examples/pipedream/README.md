@@ -31,7 +31,7 @@ Keep `common.mjs` beside the action files: it is a relative import bundled with 
 
 ## Connect: retrieve an existing project once
 
-`get-existing-project.mjs` is a GET-only custom action for the supported Connect route. It checks the saved image, video, or audio project ID once, with no generation, polling, or Workflows scheduler dependency. It returns `status`; pending projects have `output_url: null` and `output_urls: []`. Continue to a file destination only when `status` is `complete`. Failed, canceled, deleted, unexpected, or invalid responses stop the action. Completed downloads must have HTTPS URLs and future `expires_at` values; save the files promptly. An expired link requires retrieving the **same project ID**, not generating again.
+`get-existing-project.mjs` is a GET-only custom action for the supported Connect route. It checks the saved image, video, or audio project ID once, with no generation, polling, or Workflows scheduler dependency. It returns `status`; draft, queued, and rendering projects have `output_url: null` and `output_urls: []`. A draft has not been submitted for rendering. Continue to a file destination only when `status` is `complete`. Failed, canceled, deleted, unexpected, or invalid responses stop the action. Completed downloads must have HTTPS URLs and future `expires_at` values; save the files promptly. An expired link requires retrieving the **same project ID**, not generating again.
 
 Publishing [Connect custom tools](https://pipedream.com/docs/connect/components/custom-tools) requires a Pipedream Business plan and an authenticated workspace. If your workspace already has this access, keep `common.mjs` beside the action and publish to development first:
 
