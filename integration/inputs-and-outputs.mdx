@@ -19,7 +19,7 @@ Choose the input route that fits where your media is stored:
 | Method                      | Best For                     | Pros                             | Cons                                          |
 | :-------------------------- | :--------------------------- | :------------------------------- | :-------------------------------------------- |
 | **Public URLs**             | Files already hosted         | Simple, no upload needed         | Requires public hosting                       |
-| **Magic Hour Library URLs** | Reusing generated content    | No upload, direct reference      | Must be from your Magic Hour account          |
+| **Completed output URLs**  | Reusing generated content    | No re-upload                     | Retrieve a current signed download URL         |
 | **Upload to Magic Hour**    | Local files, secure files    | No hosting required, secure      | Extra upload step                             |
 | **Saved-item file paths**   | Reusing saved library assets | No re-upload; durable file paths | Use an owned asset of a compatible media type |
 
@@ -69,38 +69,34 @@ The simplest method if your files are already hosted somewhere publicly accessib
 - Should use HTTPS for security
 - Files must be in supported formats
 
-## Option 2: Using Magic Hour Library URLs
+<a id="option-2-using-magic-hour-library-urls" />
 
-You can reference files from your Magic Hour library directly using library URLs. This is useful when you want to reuse previously generated content or files you've uploaded to Magic Hour.
+## Option 2: Reusing Completed Outputs
 
-### Library URL Format
+A My Library URL such as `https://magichour.ai/my-library?videoId=...` opens a dashboard page. Do not pass it as `video_file_path`, `image_file_path`, or `audio_file_path`.
 
-Magic Hour library URLs follow this pattern:
+Retrieve the existing project with [Get video details](/api-reference/video-projects/get-video-details), [Get image details](/api-reference/image-projects/get-image-details), or [Get audio details](/api-reference/audio-projects/get-audio-details), using the same account's API key. Wait until `status` is `complete`, then use the matching `downloads[].url` as the input for another compatible endpoint.
 
-- **Videos**: `https://magichour.ai/my-library?videoId={video_id}`
-- **Images**: `https://magichour.ai/my-library?imageId={image_id}`
-- **Audio**: `https://magichour.ai/my-library?audioId={audio_id}`
+### Using Completed Outputs in API Calls
 
-### Using Library URLs in API Calls
-
-```json
-{
-  "assets": {
-    "video_file_path": "https://magichour.ai/my-library?videoId=cmj86i5yy006x4m0z6znwowjb",
-    "image_file_path": "https://magichour.ai/my-library?imageId=cmjag94dw01mr5s0zqf8ug0or",
-    "audio_file_path": "https://magichour.ai/my-library?audioId=cmj8cx1gn009f1k0z89zg97u9"
-  }
-}
-```
+Use your initialized SDK client and replace the project ID variables below with your own video and image project IDs. These lookups reuse existing projects; the Face Swap call creates a new generation and uses credits.
 
 <CodeGroup>
 
 ```python Python
-# Use library URLs for assets
+# Retrieve existing completed projects without creating another generation.
+video = client.v1.video_projects.get(id=existing_video_id)
+image = client.v1.image_projects.get(id=existing_image_id)
+
+if video.status != "complete" or image.status != "complete":
+    raise RuntimeError("Both projects must be complete before reusing their outputs.")
+if not video.downloads or not image.downloads:
+    raise RuntimeError("No download URL is available. Check the project details.")
+
 result = client.v1.face_swap.create(
     assets={
-        "image_file_path": "https://magichour.ai/my-library?imageId=cmjag94dw01mr5s0zqf8ug0or",
-        "video_file_path": "https://magichour.ai/my-library?videoId=cmj86i5yy006x4m0z6znwowjb",
+        "image_file_path": image.downloads[0].url,
+        "video_file_path": video.downloads[0].url,
         "video_source": "file"
     },
     start_seconds=0,
@@ -109,11 +105,21 @@ result = client.v1.face_swap.create(
 ```
 
 ```javascript Node.js
-// Use library URLs for assets
+// Retrieve existing completed projects without creating another generation.
+const video = await client.v1.videoProjects.get({ id: existingVideoId });
+const image = await client.v1.imageProjects.get({ id: existingImageId });
+
+if (video.status !== "complete" || image.status !== "complete") {
+  throw new Error("Both projects must be complete before reusing their outputs.");
+}
+if (!video.downloads?.length || !image.downloads?.length) {
+  throw new Error("No download URL is available. Check the project details.");
+}
+
 const result = await client.v1.faceSwap.create({
   assets: {
-    imageFilePath: "https://magichour.ai/my-library?imageId=cmjag94dw01mr5s0zqf8ug0or",
-    videoFilePath: "https://magichour.ai/my-library?videoId=cmj86i5yy006x4m0z6znwowjb",
+    imageFilePath: image.downloads[0].url,
+    videoFilePath: video.downloads[0].url,
     videoSource: "file",
   },
   startSeconds: 0,
@@ -124,18 +130,10 @@ const result = await client.v1.faceSwap.create({
 </CodeGroup>
 
 <Info>
-  **Library Access**: You can only use library URLs for files in your own Magic Hour account. The
-  file IDs are available from your [my-library
-  dashboard](https://magichour.ai/my-library?utm_source=docs&utm_medium=referral&utm_campaign=inputs-and-outputs)
-  or from API responses.
+  Download URLs are temporary. Check `expires_at` and retrieve project details again for a fresh URL when needed. Keep the complete signed URL, including its query parameters. Reusing a file still requires a compatible media type and supported endpoint inputs.
 </Info>
 
-**Benefits:**
-
-- ✅ Reuse previously generated content
-- ✅ No need to re-upload files
-- ✅ Direct reference to your Magic Hour files
-- ✅ Works with any file type (video, image, audio)
+For saved library assets, use the durable `assets[].file_path` returned by [List saved items](/api-reference/files/list-saved-items), as described [above](#reuse-saved-assets).
 
 ## Option 3: Uploading to Magic Hour Storage
 
