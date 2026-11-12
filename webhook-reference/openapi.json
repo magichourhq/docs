@@ -36,7 +36,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "type": { "type": "string", "enum": ["video.started"] },
+                  "type": {
+                    "type": "string",
+                    "enum": ["video.started"]
+                  },
                   "payload": {
                     "type": "object",
                     "properties": {
@@ -62,7 +65,10 @@
                         "description": "The type of the video project. Possible values are ANIMATION, AUTO_SUBTITLE, VIDEO_TO_VIDEO, FACE_SWAP, TEXT_TO_VIDEO, IMAGE_TO_VIDEO, LIP_SYNC, TALKING_PHOTO, AVATAR, VIDEO_UPSCALER, VIDEO_EDITOR, CHARACTER_REPLACE, VIDEO_COLORIZER, VIDEO_WATERMARK_REMOVER, VIDEO_COLOR_GRADER, VIDEO_TRANSLATOR, MUSIC_VIDEO, EXTEND, AUDIO_TO_VIDEO, VIDEO_EXPANDER, UGC_AD",
                         "example": "FACE_SWAP"
                       },
-                      "created_at": { "type": "string", "format": "date-time" },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
                       "width": {
                         "type": "integer",
                         "description": "The width of the final output video. A value of -1 indicates the width can be ignored.",
@@ -173,7 +179,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Success message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Success message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Success"
@@ -188,7 +197,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Error message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Error"
@@ -203,7 +215,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Error message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Error"
@@ -249,7 +264,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "type": { "type": "string", "enum": ["video.completed"] },
+                  "type": {
+                    "type": "string",
+                    "enum": ["video.completed"]
+                  },
                   "payload": {
                     "type": "object",
                     "properties": {
@@ -275,7 +293,10 @@
                         "description": "The type of the video project. Possible values are ANIMATION, AUTO_SUBTITLE, VIDEO_TO_VIDEO, FACE_SWAP, TEXT_TO_VIDEO, IMAGE_TO_VIDEO, LIP_SYNC, TALKING_PHOTO, AVATAR, VIDEO_UPSCALER, VIDEO_EDITOR, CHARACTER_REPLACE, VIDEO_COLORIZER, VIDEO_WATERMARK_REMOVER, VIDEO_COLOR_GRADER, VIDEO_TRANSLATOR, MUSIC_VIDEO, EXTEND, AUDIO_TO_VIDEO, VIDEO_EXPANDER, UGC_AD",
                         "example": "FACE_SWAP"
                       },
-                      "created_at": { "type": "string", "format": "date-time" },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
                       "width": {
                         "type": "integer",
                         "description": "The width of the final output video. A value of -1 indicates the width can be ignored.",
@@ -386,7 +407,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Success message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Success message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Success"
@@ -401,7 +425,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Error message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Error"
@@ -416,7 +443,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Error message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Error"
@@ -462,7 +492,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "type": { "type": "string", "enum": ["video.errored"] },
+                  "type": {
+                    "type": "string",
+                    "enum": ["video.errored"]
+                  },
                   "payload": {
                     "type": "object",
                     "properties": {
@@ -488,7 +521,10 @@
                         "description": "The type of the video project. Possible values are ANIMATION, AUTO_SUBTITLE, VIDEO_TO_VIDEO, FACE_SWAP, TEXT_TO_VIDEO, IMAGE_TO_VIDEO, LIP_SYNC, TALKING_PHOTO, AVATAR, VIDEO_UPSCALER, VIDEO_EDITOR, CHARACTER_REPLACE, VIDEO_COLORIZER, VIDEO_WATERMARK_REMOVER, VIDEO_COLOR_GRADER, VIDEO_TRANSLATOR, MUSIC_VIDEO, EXTEND, AUDIO_TO_VIDEO, VIDEO_EXPANDER, UGC_AD",
                         "example": "FACE_SWAP"
                       },
-                      "created_at": { "type": "string", "format": "date-time" },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
                       "width": {
                         "type": "integer",
                         "description": "The width of the final output video. A value of -1 indicates the width can be ignored.",
@@ -599,7 +635,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Success message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Success message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Success"
@@ -614,7 +653,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Error message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Error"
@@ -629,7 +671,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Error message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Error"
@@ -675,7 +720,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "type": { "type": "string", "enum": ["image.started"] },
+                  "type": {
+                    "type": "string",
+                    "enum": ["image.started"]
+                  },
                   "payload": {
                     "type": "object",
                     "properties": {
@@ -706,7 +754,10 @@
                         "description": "The type of the image project. Possible values are FACE_EDITOR, AI_IMAGE_EDITOR, GENERATIVE_FILL, AI_SELFIE, AI_HEADSHOT, AI_INFLUENCER, AI_IMAGE, AI_MEME, CLOTHES_CHANGER, BACKGROUND_REMOVER, FACE_SWAP, IMAGE_UPSCALER, IMAGE_ENHANCER, AI_GIF, QR_CODE, PHOTO_EDITOR, PHOTO_COLORIZER, IMAGE_COLOR_GRADER, HEAD_SWAP, BODY_SWAP, STORYBOARD, IMAGE_EXPANDER",
                         "example": "AI_IMAGE"
                       },
-                      "created_at": { "type": "string", "format": "date-time" },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
                       "enabled": {
                         "type": "boolean",
                         "description": "Whether this resource is active. If false, it is deleted."
@@ -784,7 +835,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Success message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Success message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Success"
@@ -799,7 +853,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Error message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Error"
@@ -814,7 +871,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Error message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Error"
@@ -860,7 +920,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "type": { "type": "string", "enum": ["image.completed"] },
+                  "type": {
+                    "type": "string",
+                    "enum": ["image.completed"]
+                  },
                   "payload": {
                     "type": "object",
                     "properties": {
@@ -891,7 +954,10 @@
                         "description": "The type of the image project. Possible values are FACE_EDITOR, AI_IMAGE_EDITOR, GENERATIVE_FILL, AI_SELFIE, AI_HEADSHOT, AI_INFLUENCER, AI_IMAGE, AI_MEME, CLOTHES_CHANGER, BACKGROUND_REMOVER, FACE_SWAP, IMAGE_UPSCALER, IMAGE_ENHANCER, AI_GIF, QR_CODE, PHOTO_EDITOR, PHOTO_COLORIZER, IMAGE_COLOR_GRADER, HEAD_SWAP, BODY_SWAP, STORYBOARD, IMAGE_EXPANDER",
                         "example": "AI_IMAGE"
                       },
-                      "created_at": { "type": "string", "format": "date-time" },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
                       "enabled": {
                         "type": "boolean",
                         "description": "Whether this resource is active. If false, it is deleted."
@@ -969,7 +1035,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Success message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Success message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Success"
@@ -984,7 +1053,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Error message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Error"
@@ -999,7 +1071,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Error message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Error"
@@ -1045,7 +1120,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "type": { "type": "string", "enum": ["image.errored"] },
+                  "type": {
+                    "type": "string",
+                    "enum": ["image.errored"]
+                  },
                   "payload": {
                     "type": "object",
                     "properties": {
@@ -1076,7 +1154,10 @@
                         "description": "The type of the image project. Possible values are FACE_EDITOR, AI_IMAGE_EDITOR, GENERATIVE_FILL, AI_SELFIE, AI_HEADSHOT, AI_INFLUENCER, AI_IMAGE, AI_MEME, CLOTHES_CHANGER, BACKGROUND_REMOVER, FACE_SWAP, IMAGE_UPSCALER, IMAGE_ENHANCER, AI_GIF, QR_CODE, PHOTO_EDITOR, PHOTO_COLORIZER, IMAGE_COLOR_GRADER, HEAD_SWAP, BODY_SWAP, STORYBOARD, IMAGE_EXPANDER",
                         "example": "AI_IMAGE"
                       },
-                      "created_at": { "type": "string", "format": "date-time" },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
                       "enabled": {
                         "type": "boolean",
                         "description": "Whether this resource is active. If false, it is deleted."
@@ -1154,7 +1235,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Success message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Success message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Success"
@@ -1169,7 +1253,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Error message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Error"
@@ -1184,7 +1271,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Error message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Error"
@@ -1230,7 +1320,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "type": { "type": "string", "enum": ["audio.started"] },
+                  "type": {
+                    "type": "string",
+                    "enum": ["audio.started"]
+                  },
                   "payload": {
                     "type": "object",
                     "properties": {
@@ -1256,7 +1349,10 @@
                         "description": "The type of the audio project. Possible values are AUDIO_TRANSLATOR, VOICE_GENERATOR, VOICE_CHANGER, VOICE_CLONER, VIDEO_TO_AUDIO, MUSIC_GENERATOR, SOUND_EFFECT_GENERATOR",
                         "example": "VOICE_GENERATOR"
                       },
-                      "created_at": { "type": "string", "format": "date-time" },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
                       "enabled": {
                         "type": "boolean",
                         "description": "Whether this resource is active. If false, it is deleted."
@@ -1333,7 +1429,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Success message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Success message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Success"
@@ -1348,7 +1447,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Error message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Error"
@@ -1363,7 +1465,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Error message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Error"
@@ -1409,7 +1514,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "type": { "type": "string", "enum": ["audio.completed"] },
+                  "type": {
+                    "type": "string",
+                    "enum": ["audio.completed"]
+                  },
                   "payload": {
                     "type": "object",
                     "properties": {
@@ -1435,7 +1543,10 @@
                         "description": "The type of the audio project. Possible values are AUDIO_TRANSLATOR, VOICE_GENERATOR, VOICE_CHANGER, VOICE_CLONER, VIDEO_TO_AUDIO, MUSIC_GENERATOR, SOUND_EFFECT_GENERATOR",
                         "example": "VOICE_GENERATOR"
                       },
-                      "created_at": { "type": "string", "format": "date-time" },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
                       "enabled": {
                         "type": "boolean",
                         "description": "Whether this resource is active. If false, it is deleted."
@@ -1512,7 +1623,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Success message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Success message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Success"
@@ -1527,7 +1641,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Error message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Error"
@@ -1542,7 +1659,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Error message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Error"
@@ -1588,7 +1708,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "type": { "type": "string", "enum": ["audio.errored"] },
+                  "type": {
+                    "type": "string",
+                    "enum": ["audio.errored"]
+                  },
                   "payload": {
                     "type": "object",
                     "properties": {
@@ -1614,7 +1737,10 @@
                         "description": "The type of the audio project. Possible values are AUDIO_TRANSLATOR, VOICE_GENERATOR, VOICE_CHANGER, VOICE_CLONER, VIDEO_TO_AUDIO, MUSIC_GENERATOR, SOUND_EFFECT_GENERATOR",
                         "example": "VOICE_GENERATOR"
                       },
-                      "created_at": { "type": "string", "format": "date-time" },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
                       "enabled": {
                         "type": "boolean",
                         "description": "Whether this resource is active. If false, it is deleted."
@@ -1691,7 +1817,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Success message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Success message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Success"
@@ -1706,7 +1835,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Error message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Error"
@@ -1721,7 +1853,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Error message from your endpoint" }
+                    "message": {
+                      "type": "string",
+                      "example": "Error message from your endpoint"
+                    }
                   },
                   "required": ["message"],
                   "description": "Error"
@@ -1739,10 +1874,23 @@
     "description": "## Introduction \n\nConfiguring a webhook allow Magic Hour to notify you whenever an event occurs in your account. To get started, create a webhook [here](https://magichour.ai/developer?tab=webhooks&utm_source=docs&utm_medium=referral&utm_campaign=webhook-reference).\n\nAPI documentation can be found [here](https://docs.magichour.ai/webhook-reference).\n\nIf you have any questions, please reach out to us via [discord](https://discord.gg/JX5rgsZaJp).\n\n## Securing your endpoint\n\nEvents includes two headers to help verify the authenticity of the payload. \n- `magic-hour-event-signature` - A 64-character hexadecimal HMAC-SHA256 signature. Use the complete webhook secret, not an API key, to sign the timestamp header, a period, and the exact raw request body.\n- `magic-hour-event-timestamp` - Unix time in seconds for this delivery attempt. Reject missing or invalid timestamps; a five-minute window before or after the current time is recommended to limit replay.\n\nVerify the signature and timestamp before accepting production events. Read the entire raw request body before parsing JSON.\n\nTo compute the signature to verify:\n1. Create a `signed_payload` by concatenating:\n      - the timestamp header exactly as received\n      - the character `.`\n      - the exact raw UTF-8 request body, including both `type` and `payload`\n\nDo not parse and re-stringify the body or sign `payload` alone.\n\n2. Compute HMAC-SHA256 with the complete webhook secret as the key and `signed_payload` as the message. Do not strip the secret prefix or use your API key.\n3. Compare its hexadecimal digest with `magic-hour-event-signature` using a constant-time comparison. Reject missing or invalid headers, mismatches, and timestamps outside your configured past/future tolerance. See the [secure-handler guide](https://docs.magichour.ai/integration/webhook/secure-handler) for complete Python and Node examples.\n\n## Retry behavior\n\nFailed deliveries, including timeouts and non-`2XX` responses, are scheduled after 1, 2, 4, 8... minutes, capped at 60 minutes, until the event is more than 24 hours old. These are scheduled delays, not guaranteed delivery times. Verify and durably accept the event before returning `2XX`; acknowledge promptly. Timestamp and signature are regenerated for every delivery attempt.\n\nDisabled webhooks do not receive pending deliveries. Those events remain subject to the same expiry; re-enabling a webhook allows pending events to resume before expiry.\n",
     "termsOfService": "https://magichour.ai/terms-of-service"
   },
-  "servers": [{ "url": "https://your-webhook.com" }],
+  "servers": [
+    {
+      "url": "https://your-webhook.com"
+    }
+  ],
   "tags": [
-    { "name": "Image Events", "description": "Events related to image" },
-    { "name": "Video Events", "description": "Events related to video" },
-    { "name": "Audio Events", "description": "Events related to audio" }
+    {
+      "name": "Image Events",
+      "description": "Events related to image"
+    },
+    {
+      "name": "Video Events",
+      "description": "Events related to video"
+    },
+    {
+      "name": "Audio Events",
+      "description": "Events related to audio"
+    }
   ]
 }
