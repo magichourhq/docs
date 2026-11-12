@@ -89,9 +89,9 @@ The motion prompt is optional. Use it to describe the movement you want:
 
 `model="default"` currently selects `kling-3.0` on paid tiers and `ltx-2.5` on the free tier. Set a model explicitly when your workflow needs a fixed duration and resolution combination. The examples use `ltx-2.5`, which supports five-second clips at 480p; the paid default does not support 480p.
 
-Other current options include `gemini-omni-1.1`, `minimax-h3`, `seedance-2.0-mini`, `seedance-2.5`, and `veo3.1-lite`. Check the [API reference](/api-reference/video-projects/image-to-video) for each model's supported durations, resolutions, and audio settings. Audio is disabled by default and is unavailable on some models.
+Other current options include `gemini-omni-1.2`, `minimax-h3`, `seedance-2.0-mini`, `seedance-2.5`, and `veo3.1-lite`. Check the [API reference](/api-reference/video-projects/image-to-video) for each model's supported durations, resolutions, and audio settings. Audio is disabled by default. With `gemini-omni-1.2`, set `audio: true` to include audio at the same credit rate.
 
-For a final reference frame, set `assets.end_image_file_path` on a supported model. End-frame support can depend on resolution and duration; for example, Veo 3.1 variants require a duration of eight seconds or less.
+For a final reference frame, set `assets.end_image_file_path` on a supported model. End-frame support can depend on resolution and duration; for example, Google Omni 1.2 supports an end frame on clips up to 10 seconds, and Veo 3.1 variants support it on clips up to eight seconds.
 
 ## Code Examples
 

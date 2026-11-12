@@ -38,7 +38,7 @@ durations and resolutions, and the credit-cost table below to compare costs.
 
 | Model               | Best for                                                        | Resolutions           | Durations (seconds)                                                                                  | Audio                 |
 | :------------------ | :-------------------------------------------------------------- | :-------------------- | :--------------------------------------------------------------------------------------------------- | :-------------------- |
-| `gemini-omni-1.1`   | Precise short clips, first and last frames, and high resolution | 360p, 720p, 1080p, 4k | 3, 4, 5, 6, 7, 8, 9, 10                                                                              | No                    |
+| `gemini-omni-1.2`   | Precise short clips, first and last frames, and high resolution | 360p, 720p, 1080p, 4k | Any integer from 3 to 15                                                                             | Yes, no extra credits |
 | `ltx-2.5`           | Fast output for general scenes and clips up to 60 seconds       | 480p, 720p, 1080p     | Any integer from 1 to 60                                                                             | Yes, no extra credits |
 | `minimax-h3`        | Native-audio video with flexible duration                       | 480p, 720p, 1080p     | Any integer from 1 to 30                                                                             | Yes, no extra credits |
 | `wan-2.2`           | Strong physics, camera moves, and motion                        | 480p, 720p, 1080p     | 3, 4, 5, 6, 7, 8, 9, 10, 15                                                                          | No                    |
@@ -59,6 +59,7 @@ durations and resolutions, and the credit-cost table below to compare costs.
   `default` resolves to `kling-3.0` on paid tiers and `ltx-2.5` on the free tier. Free typically
   requests `480p`; paid plans (Creator, Pro, Business) can request the higher resolutions a model
   supports, at that resolution's credit cost. `wan-3.0` requires a paid plan at every resolution.
+  `gemini-omni-1.2` requires a paid plan. Image-to-Video clips that use an end frame can be up to 10 seconds.
   `kling-4.0` requires a paid plan and supports up to 10 API references total, including at most one video.
   The deprecated `kling-2.5-audio` and `veo3.1-audio` values are equivalent to passing the base
   model with `audio: true`.
@@ -74,7 +75,7 @@ For Kling 3.0, compare the [Creator, Pro and Business annual subscription exampl
 
 | Model               | 360p | 480p | 720p | 1080p |   4k | With audio                    |
 | :------------------ | ---: | ---: | ---: | ----: | ---: | :---------------------------- |
-| `gemini-omni-1.1`   |   48 |    — |  144 |   192 |  384 | Not supported                 |
+| `gemini-omni-1.2`   |   30 |    — |   72 |   102 |  192 | Included                      |
 | `ltx-2.5`           |    — |   24 |   48 |    72 |    — | Included                      |
 | `minimax-h3`        |    — |   24 |   48 |    72 |    — | Included                      |
 | `wan-2.2`           |    — |   24 |   48 |    72 |    — | Not supported                 |
@@ -100,14 +101,15 @@ Supplying a video in `references` can change the rate. These are total credits p
 not additions to the base price. A listed video-reference rate takes precedence over the audio
 rate. For other supported combinations, use the model's base or audio rate.
 
-| Model               | 480p | 720p | 1080p |   4k |
-| :------------------ | ---: | ---: | ----: | ---: |
-| `kling-4.0`         |    - |   96 |   144 |    - |
-| `kling-3.0`         |    - |  108 |   144 |    - |
-| `seedance-2.0-mini` |   72 |  144 |     - |    - |
-| `seedance-2.0-fast` |   96 |  216 |     - |    - |
-| `seedance-2.0`      |   96 |  216 |   672 | 1320 |
-| `seedance-2.5`      |  192 |  408 |  1008 |    - |
+| Model               | 360p | 480p | 720p | 1080p |   4k |
+| :------------------ | ---: | ---: | ---: | ----: | ---: |
+| `gemini-omni-1.2`   |   54 |    - |   96 |   126 |  216 |
+| `kling-4.0`         |    - |    - |   96 |   144 |    - |
+| `kling-3.0`         |    - |    - |  108 |   144 |    - |
+| `seedance-2.0-mini` |    - |   72 |  144 |     - |    - |
+| `seedance-2.0-fast` |    - |   96 |  216 |     - |    - |
+| `seedance-2.0`      |    - |   96 |  216 |   672 | 1320 |
+| `seedance-2.5`      |    - |  192 |  408 |  1008 |    - |
 
 A dash means no separate video-reference rate is listed. Check the endpoint reference for supported
 input types and model/resolution combinations.
@@ -116,12 +118,13 @@ input types and model/resolution combinations.
 
 The endpoints still accept `ltx-2`, `ltx-2.3`, `kling-2.5`, `kling-1.6`, `seedance` for backwards
 compatibility, but these are no longer recommended and are absent from the tables above. New
-integrations should use a documented model.
+integrations should use a documented model. Existing Text-to-Video and Image-to-Video requests
+using `gemini-omni-1.1` run on `gemini-omni-1.2` at the 1.2 rates.
 
 [AI video editor](/api-reference/video-projects/ai-video-editor) has its own roster:
-`gemini-omni-1.1`, `wan-3.0` and `ltx-2.5`, defaulting to `ltx-2.5` on the free tier and `gemini-omni-1.1` on paid
-tiers. On this endpoint, the accepted `ltx-2.3` value maps to `ltx-2.5`; deprecated `gemini-omni`
-maps to `gemini-omni-1.1`. `wan-3.0` requires a paid plan.
+`gemini-omni-1.2`, `wan-3.0`, `ltx-2.5`, and `kling-4.0`. The default is `ltx-2.5` on the free
+tier and `gemini-omni-1.2` on paid tiers. The other models require a paid plan. On this endpoint,
+`ltx-2.3` maps to `ltx-2.5`, and `gemini-omni` and `gemini-omni-1.1` map to `gemini-omni-1.2`.
 
 ## Image models
 
@@ -137,7 +140,6 @@ Available on [AI image generator](/api-reference/image-projects/ai-image-generat
 | `seedream-v5-pro`     | Yes      | Yes  | 640px, 1k, 2k     |  75 credits | creator, pro, business       |
 | `nano-banana`         | Yes      | Yes  | 640px, 1k         |  50 credits | creator, pro, business       |
 | `nano-banana-2-lite`  | Yes      | Yes  | 640px, 1k         |  50 credits | creator, pro, business       |
-| `nano-banana-2`       | Yes      | Yes  | 640px, 1k, 2k, 4k | 100 credits | creator, pro, business       |
 | `nano-banana-2.1`     | Yes      | Yes  | 640px, 1k, 2k, 4k |  50 credits | creator, pro, business       |
 | `nano-banana-pro`     | Yes      | Yes  | 1k, 2k, 4k        | 150 credits | creator, pro, business       |
 | `gpt-image-2`         | Yes      | Yes  | 640px, 1k, 2k, 4k |  50 credits | creator, pro, business       |
@@ -145,13 +147,15 @@ Available on [AI image generator](/api-reference/image-projects/ai-image-generat
 | `krea-2`              | Yes      | Yes  | 640px, 1k         |  10 credits | free, creator, pro, business |
 | `qwen-edit`           | —        | Yes  | 640px, 1k, 2k     |  10 credits | free, creator, pro, business |
 | `qwen-image-2.1`      | Yes      | Yes  | 640px, 1k, 2k     |  10 credits | free, creator, pro, business |
-| `seedream-v4.5`       | —        | Yes  | 640px, 1k, 2k, 4k |  50 credits | creator, pro, business       |
+| `seedream-v4.5`       | Yes      | Yes  | 640px, 1k, 2k, 4k for editing | 50 credits for editing | creator, pro, business |
 
 "From" is the cost of a single image at the model's lowest resolution. Cost depends on the model,
 resolution, and image count; do not assume every batch costs the single-image rate multiplied by
 the count. For example, `nano-banana-2.1` costs 50 credits for one image at `640px` or `1k`, and
 150 credits total for a grid of 4, 9, or 16 images. Free-plan image models are available at `640px`.
-Larger resolutions require a paid plan even if the model is available on the free plan.
+Larger resolutions require a paid plan even if the model is available on the free plan. Existing
+requests using `nano-banana-2` run on `nano-banana-2.1` at the 2.1 rates. For Seedream 4.5 generation,
+see the [generator model details](/api-reference/image-projects/ai-image-generator#body-model) for available resolutions and credits.
 
 | Model                 | Allowed image counts (generator) | Max additional input images (editor) |
 | :-------------------- | :------------------------------- | :----------------------------------- |
@@ -162,7 +166,6 @@ Larger resolutions require a paid plan even if the model is available on the fre
 | `seedream-v5-pro`     | 1, 2, 3, 4                       | 9                                    |
 | `nano-banana`         | 1, 2, 3, 4                       | 9                                    |
 | `nano-banana-2-lite`  | 1, 2, 3, 4                       | 9                                    |
-| `nano-banana-2`       | 1, 4, 9, 16                      | 9                                    |
 | `nano-banana-2.1`     | 1, 4, 9, 16                      | 9                                    |
 | `nano-banana-pro`     | 1, 4, 9, 16                      | 9                                    |
 | `gpt-image-2`         | 1, 2, 3, 4                       | 9                                    |
@@ -170,7 +173,7 @@ Larger resolutions require a paid plan even if the model is available on the fre
 | `krea-2`              | 1                                | 1                                    |
 | `qwen-edit`           | —                                | 2                                    |
 | `qwen-image-2.1`      | 1, 2, 3, 4                       | 2                                    |
-| `seedream-v4.5`       | —                                | 9                                    |
+| `seedream-v4.5`       | 1, 2, 3, 4                       | 9                                    |
 
 ## Reference costs
 
