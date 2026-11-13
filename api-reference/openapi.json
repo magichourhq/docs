@@ -5720,7 +5720,6 @@
                       "prompt": {
                         "type": "string",
                         "minLength": 1,
-                        "maxLength": 20000,
                         "example": "a dog running",
                         "description": "The prompt used for the video. Maximum length depends on the model that runs, in characters:\n\n* **`gemini-omni-1.2`**: 2500 characters.\n* **`kling-2.6`**: 2500 characters.\n* **`kling-3.0`**: 2500 characters.\n* **`kling-4.0`**: 10000 characters.\n* **`ltx-2.5`**: 2000 characters.\n* **`minimax-h3`**: 20000 characters.\n* **`seedance-1.5`**: 2000 characters.\n* **`seedance-2.0`**: 2000 characters.\n* **`seedance-2.0-fast`**: 2000 characters.\n* **`seedance-2.0-mini`**: 2000 characters.\n* **`seedance-2.5`**: 2000 characters.\n* **`veo3.1`**: 2500 characters.\n* **`veo3.1-lite`**: 2500 characters.\n* **`wan-2.2`**: 10000 characters.\n* **`wan-3.0`**: 10000 characters.\n\nFor `default`, the limit of the automatically selected model applies. Selection depends on subscription tier, resolution and duration. Specify an explicit model to use a known prompt limit. Prompts exceeding the effective model's limit are rejected, not truncated."
                       }
