@@ -8109,7 +8109,7 @@
                   "aspect_ratio": {
                     "type": "string",
                     "enum": ["auto", "16:9", "9:16", "4:3", "3:2", "1:1", "4:5", "2:3"],
-                    "description": "The aspect ratio of the output image(s). If not specified, defaults to `auto`.",
+                    "description": "The aspect ratio of the output image(s). If not specified, defaults to `auto`. Ignored for `krea-2` and `flux-2-klein` when an input image is provided; the output keeps the source image's aspect ratio.",
                     "example": "1:1"
                   },
                   "resolution": {
@@ -12406,7 +12406,6 @@
                           "Rihanna",
                           "Eminem",
                           "Snoop Dogg",
-                          "Jay-Z",
                           "Ed Sheeran",
                           "Billie Eilish",
                           "Ariana Grande",
