@@ -9,6 +9,8 @@ def main():
     parser.add_argument("image", type=Path)
     parser.add_argument("output", type=Path)
     args = parser.parse_args()
+    if args.output.suffix.lower() != ".png":
+        parser.error("Choose a .png output filename.")
     if args.image.exists() and args.output.exists() and args.image.samefile(args.output):
         parser.error("Choose a separate output file to keep the input image.")
 
