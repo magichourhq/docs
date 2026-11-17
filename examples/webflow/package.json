@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "@webflow/designer-extension-typings": "2.2.2",
-    "@webflow/webflow-cli": "2.14.0",
+    "@webflow/webflow-cli": "2.16.0",
     "esbuild": "0.28.2",
     "typescript": "6.0.3"
   },
