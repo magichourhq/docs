@@ -2170,7 +2170,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_talking_photo.generate(\n    assets={\n        \"audio_file_path\": \"/path/to/1234.mp3\",\n        \"image_file_path\": \"/path/to/1234.png\",\n    },\n    end_seconds=5.0,\n    start_seconds=0.0,\n    name=\"Talking Photo image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_talking_photo.generate(\n    assets={\n        \"audio_file_path\": \"/path/to/1234.mp3\",\n        \"image_file_path\": \"/path/to/1234.png\",\n    },\n    end_seconds=5.0,\n    start_seconds=0.0,\n    name=\"My Talking Photo video\",\n    resolution=\"480p\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -2428,31 +2428,31 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_ugc_ad.create(\n    assets={\"image_file_path\": \"api-assets/id/image.jpg\"},\n    end_seconds=4.0,\n    script=\"Meet your new everyday essential.\",\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_ugc_ad.create(\n    assets={\"image_file_path\": \"api-assets/id/image.jpg\"},\n    end_seconds=4.0,\n    script=\"Meet your new everyday essential.\",\n    model=\"ltx-2.5\",\n    resolution=\"480p\",\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"] });\nconst res = await client.v1.aiUgcAd.create({\n  assets: { imageFilePath: \"api-assets/id/image.jpg\" },\n  endSeconds: 4.0,\n  script: \"Meet your new everyday essential.\",\n});"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"] });\nconst res = await client.v1.aiUgcAd.create({\n  assets: { imageFilePath: \"api-assets/id/image.jpg\" },\n  endSeconds: 4.0,\n  model: \"ltx-2.5\",\n  resolution: \"480p\",\n  script: \"Meet your new everyday essential.\",\n});"
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tai_ugc_ad \"github.com/magichourhq/magic-hour-go/resources/v1/ai_ugc_ad\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiUgcAd.Create(ai_ugc_ad.CreateRequest{\n\t\tAssets: types.V1AiUgcAdCreateBodyAssets{\n\t\t\tImageFilePath: \"api-assets/id/image.jpg\",\n\t\t},\n\t\tEndSeconds: 4.0,\n\t\tScript:     \"Meet your new everyday essential.\",\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tai_ugc_ad \"github.com/magichourhq/magic-hour-go/resources/v1/ai_ugc_ad\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.AiUgcAd.Create(ai_ugc_ad.CreateRequest{\n\t\tAssets: types.V1AiUgcAdCreateBodyAssets{\n\t\t\tImageFilePath: \"api-assets/id/image.jpg\",\n\t\t},\n\t\tEndSeconds: 4.0,\n\t\tModel:      nullable.NewValue(types.V1AiUgcAdCreateBodyModelEnumLtx25),\n\t\tResolution: nullable.NewValue(types.V1AiUgcAdCreateBodyResolutionEnum480p),\n\t\tScript:     \"Meet your new everyday essential.\",\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_ugc_ad()\n    .create(magic_hour::resources::v1::ai_ugc_ad::CreateRequest {\n        assets: magic_hour::models::V1AiUgcAdCreateBodyAssets {\n            image_file_path: \"api-assets/id/image.jpg\".to_string(),\n            ..Default::default()\n        },\n        end_seconds: 4.0,\n        script: \"Meet your new everyday essential.\".to_string(),\n        ..Default::default()\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .ai_ugc_ad()\n    .create(magic_hour::resources::v1::ai_ugc_ad::CreateRequest {\n        assets: magic_hour::models::V1AiUgcAdCreateBodyAssets {\n            image_file_path: \"api-assets/id/image.jpg\".to_string(),\n            ..Default::default()\n        },\n        end_seconds: 4.0,\n        model: Some(magic_hour::models::V1AiUgcAdCreateBodyModelEnum::Ltx25),\n        resolution: Some(\n            magic_hour::models::V1AiUgcAdCreateBodyResolutionEnum::Enum480p,\n        ),\n        script: \"Meet your new everyday essential.\".to_string(),\n        ..Default::default()\n    })\n    .await;"
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-ugc-ad \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/image.jpg\"\n  },\n  \"script\": \"Meet your new everyday essential.\",\n  \"end_seconds\": 4,\n  \"model\": \"kling-3.0\",\n  \"resolution\": \"480p\"\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-ugc-ad \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"assets\": {\n    \"image_file_path\": \"api-assets/id/image.jpg\"\n  },\n  \"script\": \"Meet your new everyday essential.\",\n  \"end_seconds\": 4,\n  \"model\": \"ltx-2.5\",\n  \"resolution\": \"480p\"\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-ugc-ad\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'assets' => [\n        'image_file_path' => 'api-assets/id/image.jpg'\n    ],\n    'script' => 'Meet your new everyday essential.',\n    'end_seconds' => 4,\n    'model' => 'kling-3.0',\n    'resolution' => '480p'\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-ugc-ad\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'assets' => [\n        'image_file_path' => 'api-assets/id/image.jpg'\n    ],\n    'script' => 'Meet your new everyday essential.',\n    'end_seconds' => 4,\n    'model' => 'ltx-2.5',\n    'resolution' => '480p'\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-ugc-ad\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/image.jpg\\\"},\\\"script\\\":\\\"Meet your new everyday essential.\\\",\\\"end_seconds\\\":4,\\\"model\\\":\\\"kling-3.0\\\",\\\"resolution\\\":\\\"480p\\\"}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-ugc-ad\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"assets\\\":{\\\"image_file_path\\\":\\\"api-assets/id/image.jpg\\\"},\\\"script\\\":\\\"Meet your new everyday essential.\\\",\\\"end_seconds\\\":4,\\\"model\\\":\\\"ltx-2.5\\\",\\\"resolution\\\":\\\"480p\\\"}\")\n  .asString();"
           }
         ]
       }
@@ -2750,7 +2750,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_video_editor.generate(\n    assets={\"video_file_path\": \"/path/to/1234.mp4\"},\n    end_seconds=5.0,\n    style={\"prompt\": \"Change the car color to blue\"},\n    name=\"My Video Editor video\",\n    start_seconds=0.0,\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\",\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_video_editor.generate(\n    assets={\"video_file_path\": \"/path/to/1234.mp4\"},\n    end_seconds=5.0,\n    style={\"prompt\": \"Change the car color to blue\"},\n    model=\"ltx-2.5\",\n    name=\"My Video Editor video\",\n    resolution=\"480p\",\n    start_seconds=0.0,\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -2766,15 +2766,15 @@
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-video-editor \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Video Editor video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"model\": \"ltx-2.5\",\n  \"resolution\": \"480p\",\n  \"style\": {\n    \"prompt\": \"Change the car color to blue\"\n  },\n  \"references\": [\n    {\n      \"name\": \"hero\",\n      \"file_path\": \"api-assets/id/1234.png\"\n    }\n  ],\n  \"assets\": {\n    \"video_file_path\": \"api-assets/id/1234.mp4\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/ai-video-editor \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Video Editor video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"model\": \"ltx-2.5\",\n  \"resolution\": \"480p\",\n  \"style\": {\n    \"prompt\": \"Change the car color to blue\"\n  },\n  \"assets\": {\n    \"video_file_path\": \"api-assets/id/1234.mp4\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-video-editor\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Video Editor video',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'model' => 'ltx-2.5',\n    'resolution' => '480p',\n    'style' => [\n        'prompt' => 'Change the car color to blue'\n    ],\n    'references' => [\n        [\n                'name' => 'hero',\n                'file_path' => 'api-assets/id/1234.png'\n        ]\n    ],\n    'assets' => [\n        'video_file_path' => 'api-assets/id/1234.mp4'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/ai-video-editor\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Video Editor video',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'model' => 'ltx-2.5',\n    'resolution' => '480p',\n    'style' => [\n        'prompt' => 'Change the car color to blue'\n    ],\n    'assets' => [\n        'video_file_path' => 'api-assets/id/1234.mp4'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-video-editor\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Video Editor video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"model\\\":\\\"ltx-2.5\\\",\\\"resolution\\\":\\\"480p\\\",\\\"style\\\":{\\\"prompt\\\":\\\"Change the car color to blue\\\"},\\\"references\\\":[{\\\"name\\\":\\\"hero\\\",\\\"file_path\\\":\\\"api-assets/id/1234.png\\\"}],\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/ai-video-editor\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Video Editor video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"model\\\":\\\"ltx-2.5\\\",\\\"resolution\\\":\\\"480p\\\",\\\"style\\\":{\\\"prompt\\\":\\\"Change the car color to blue\\\"},\\\"assets\\\":{\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -3760,7 +3760,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.animation.generate(\n    assets={\n        \"audio_file_path\": \"/path/to/1234.mp3\",\n        \"audio_source\": \"file\",\n        \"image_file_path\": \"/path/to/1234.png\",\n    },\n    end_seconds=5.0,\n    fps=12.0,\n    height=512,\n    style={\n        \"art_style\": \"Painterly Illustration\",\n        \"camera_effect\": \"Simple Zoom In\",\n        \"prompt\": \"Cyberpunk city\",\n        \"prompt_type\": \"custom\",\n        \"transition_speed\": 5,\n    },\n    width=512,\n    name=\"Animation video\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.animation.generate(\n    assets={\n        \"audio_file_path\": \"/path/to/1234.mp3\",\n        \"audio_source\": \"file\",\n        \"image_file_path\": \"/path/to/1234.png\",\n    },\n    end_seconds=5.0,\n    fps=12.0,\n    height=512,\n    style={\n        \"art_style\": \"Painterly Illustration\",\n        \"art_style_custom\": \"Watercolor painting with soft pastel colors\",\n        \"camera_effect\": \"Simple Zoom In\",\n        \"prompt\": \"Cyberpunk city\",\n        \"prompt_type\": \"custom\",\n        \"transition_speed\": 5,\n    },\n    width=512,\n    name=\"My Animation video\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -4037,7 +4037,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.audio_to_video.generate(\n    assets={\n        \"audio_file_path\": \"/path/to/1234.mp3\",\n        \"image_file_path\": \"/path/to/1234.png\",\n    },\n    end_seconds=5.0,\n    name=\"My Audio To Video video\",\n    resolution=\"480p\",\n    start_seconds=0.0,\n    style={\"prompt\": \"Car driving through a city\"},\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.audio_to_video.generate(\n    assets={\n        \"audio_file_path\": \"/path/to/1234.mp3\",\n        \"image_file_path\": \"/path/to/1234.png\",\n    },\n    end_seconds=5.0,\n    name=\"My Audio To Video video\",\n    resolution=\"480p\",\n    start_seconds=0.0,\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -4353,7 +4353,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.auto_subtitle_generator.generate(\n    assets={\"video_file_path\": \"/path/to/1234.mp4\"},\n    end_seconds=5.0,\n    start_seconds=0.0,\n    style={\"template\": \"karaoke\"},\n    name=\"Auto Subtitle video\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.auto_subtitle_generator.generate(\n    assets={\"video_file_path\": \"/path/to/1234.mp4\"},\n    end_seconds=5.0,\n    start_seconds=0.0,\n    style={\"template\": \"karaoke\"},\n    name=\"My Auto Subtitle video\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -4682,7 +4682,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.character_replace.generate(\n    assets={\n        \"image_file_path\": \"/path/to/5678.png\",\n        \"video_file_path\": \"/path/to/1234.mp4\",\n    },\n    end_seconds=5.0,\n    name=\"My Character Replace video\",\n    resolution=\"480p\",\n    start_seconds=0.0,\n    style={\"mode\": \"replace\", \"selection_mode\": \"auto\"},\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\",\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.character_replace.generate(\n    assets={\n        \"image_file_path\": \"/path/to/5678.png\",\n        \"video_file_path\": \"/path/to/1234.mp4\",\n    },\n    end_seconds=5.0,\n    model=\"wan-animate\",\n    name=\"My Character Replace video\",\n    resolution=\"480p\",\n    start_seconds=0.0,\n    style={\"mode\": \"replace\", \"selection_mode\": \"auto\"},\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -5005,7 +5005,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.face_swap.generate(\n    assets={\n        \"face_swap_mode\": \"all-faces\",\n        \"image_file_path\": \"image/id/1234.png\",\n        \"video_file_path\": \"/path/to/1234.mp4\",\n        \"video_source\": \"file\",\n    },\n    end_seconds=5.0,\n    start_seconds=0.0,\n    name=\"Face Swap video\",\n    style={\"version\": \"default\"},\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.face_swap.generate(\n    assets={\n        \"face_swap_mode\": \"all-faces\",\n        \"image_file_path\": \"/path/to/1234.png\",\n        \"video_file_path\": \"/path/to/1234.mp4\",\n        \"video_source\": \"file\",\n    },\n    end_seconds=5.0,\n    start_seconds=0.0,\n    name=\"My Face Swap video\",\n    style={\"version\": \"default\"},\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -5313,7 +5313,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.image_to_video.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    end_seconds=5.0,\n    name=\"Image To Video video\",\n    resolution=\"480p\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.image_to_video.generate(\n    assets={\n        \"end_image_file_path\": \"/path/to/1234.png\",\n        \"image_file_path\": \"/path/to/1234.png\",\n    },\n    end_seconds=5.0,\n    audio=True,\n    model=\"ltx-2.5\",\n    name=\"My Image To Video video\",\n    resolution=\"480p\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -5606,7 +5606,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.lip_sync.generate(\n    assets={\n        \"audio_file_path\": \"/path/to/1234.mp3\",\n        \"video_file_path\": \"/path/to/1234.mp4\",\n        \"video_source\": \"file\",\n    },\n    style={\n        \"generation_mode\": \"lite\",\n    },\n    end_seconds=5.0,\n    start_seconds=0.0,\n    max_fps_limit=12.0,\n    name=\"Lip Sync video\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.lip_sync.generate(\n    assets={\n        \"audio_file_path\": \"/path/to/1234.mp3\",\n        \"video_file_path\": \"/path/to/1234.mp4\",\n        \"video_source\": \"file\",\n    },\n    end_seconds=5.0,\n    start_seconds=0.0,\n    max_fps_limit=12.0,\n    name=\"My Lip Sync video\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -5934,7 +5934,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.text_to_video.generate(\n    end_seconds=5.0,\n    aspect_ratio=\"16:9\",\n    style={\"prompt\": \"a dog running\"},\n    name=\"Text To Video video\",\n    resolution=\"480p\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.text_to_video.generate(\n    end_seconds=5.0,\n    style={\"prompt\": \"a dog running\"},\n    aspect_ratio=\"16:9\",\n    audio=True,\n    model=\"ltx-2.5\",\n    name=\"My Text To Video video\",\n    resolution=\"480p\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -6705,7 +6705,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.video_to_video.generate(\n    assets={\"video_file_path\": \"/path/to/1234.mp4\", \"video_source\": \"file\"},\n    end_seconds=5.0,\n    start_seconds=0.0,\n    style={\n        \"art_style\": \"3D Render\",\n        \"model\": \"default\",\n        \"prompt\": \"string\",\n        \"prompt_type\": \"default\",\n        \"version\": \"default\",\n    },\n    fps_resolution=\"HALF\",\n    name=\"Video To Video video\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.video_to_video.generate(\n    assets={\"video_file_path\": \"/path/to/1234.mp4\", \"video_source\": \"file\"},\n    end_seconds=5.0,\n    start_seconds=0.0,\n    style={\n        \"art_style\": \"3D Render\",\n        \"model\": \"default\",\n        \"prompt\": \"A cinematic scene with warm lighting\",\n        \"prompt_type\": \"default\",\n        \"version\": \"default\",\n    },\n    fps=30.0,\n    fps_resolution=\"HALF\",\n    height=704,\n    name=\"My Video To Video video\",\n    width=1024,\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -6713,23 +6713,23 @@
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tvideo_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/video_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.VideoToVideo.Create(video_to_video.CreateRequest{\n\t\tAssets: types.V1VideoToVideoCreateBodyAssets{\n\t\t\tVideoFilePath: nullable.NewValue(\"api-assets/id/1234.mp4\"),\n\t\t\tVideoSource:   types.V1VideoToVideoCreateBodyAssetsVideoSourceEnumFile,\n\t\t},\n\t\tEndSeconds:    5.0,\n\t\tFps:           nullable.NewValue(30.0),\n\t\tFpsResolution: nullable.NewValue(types.V1VideoToVideoCreateBodyFpsResolutionEnumHalf),\n\t\tHeight:        nullable.NewValue(704),\n\t\tName:          nullable.NewValue(\"My Video To Video video\"),\n\t\tStartSeconds:  0.0,\n\t\tStyle: types.V1VideoToVideoCreateBodyStyle{\n\t\t\tArtStyle:   types.V1VideoToVideoCreateBodyStyleArtStyleEnumMinecraft,\n\t\t\tModel:      nullable.NewValue(types.V1VideoToVideoCreateBodyStyleModelEnumDefault),\n\t\t\tPrompt:     nullable.NewValue(\"A cinematic scene with warm lighting\"),\n\t\t\tPromptType: nullable.NewValue(types.V1VideoToVideoCreateBodyStylePromptTypeEnumDefault),\n\t\t\tVersion:    nullable.NewValue(types.V1VideoToVideoCreateBodyStyleVersionEnumDefault),\n\t\t},\n\t\tWidth: nullable.NewValue(1024),\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\tvideo_to_video \"github.com/magichourhq/magic-hour-go/resources/v1/video_to_video\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.VideoToVideo.Create(video_to_video.CreateRequest{\n\t\tAssets: types.V1VideoToVideoCreateBodyAssets{\n\t\t\tVideoFilePath: nullable.NewValue(\"api-assets/id/1234.mp4\"),\n\t\t\tVideoSource:   types.V1VideoToVideoCreateBodyAssetsVideoSourceEnumFile,\n\t\t},\n\t\tEndSeconds:    5.0,\n\t\tFps:           nullable.NewValue(30.0),\n\t\tFpsResolution: nullable.NewValue(types.V1VideoToVideoCreateBodyFpsResolutionEnumHalf),\n\t\tHeight:        nullable.NewValue(704),\n\t\tName:          nullable.NewValue(\"My Video To Video video\"),\n\t\tStartSeconds:  0.0,\n\t\tStyle: types.V1VideoToVideoCreateBodyStyle{\n\t\t\tArtStyle:   types.V1VideoToVideoCreateBodyStyleArtStyleEnum3dRender,\n\t\t\tModel:      nullable.NewValue(types.V1VideoToVideoCreateBodyStyleModelEnumDefault),\n\t\t\tPrompt:     nullable.NewValue(\"A cinematic scene with warm lighting\"),\n\t\t\tPromptType: nullable.NewValue(types.V1VideoToVideoCreateBodyStylePromptTypeEnumDefault),\n\t\t\tVersion:    nullable.NewValue(types.V1VideoToVideoCreateBodyStyleVersionEnumDefault),\n\t\t},\n\t\tWidth: nullable.NewValue(1024),\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .video_to_video()\n    .create(magic_hour::resources::v1::video_to_video::CreateRequest {\n        assets: magic_hour::models::V1VideoToVideoCreateBodyAssets {\n            video_file_path: Some(\"api-assets/id/1234.mp4\".to_string()),\n            video_source: magic_hour::models::V1VideoToVideoCreateBodyAssetsVideoSourceEnum::File,\n            ..Default::default()\n        },\n        end_seconds: 5.0,\n        fps: Some(30.0),\n        fps_resolution: Some(\n            magic_hour::models::V1VideoToVideoCreateBodyFpsResolutionEnum::Half,\n        ),\n        height: magic_hour::Patch::new(704),\n        name: Some(\"My Video To Video video\".to_string()),\n        start_seconds: 0.0,\n        style: magic_hour::models::V1VideoToVideoCreateBodyStyle {\n            art_style: magic_hour::models::V1VideoToVideoCreateBodyStyleArtStyleEnum::Minecraft,\n            model: Some(\n                magic_hour::models::V1VideoToVideoCreateBodyStyleModelEnum::Default,\n            ),\n            prompt: magic_hour::Patch::new(\n                \"A cinematic scene with warm lighting\".to_string(),\n            ),\n            prompt_type: Some(\n                magic_hour::models::V1VideoToVideoCreateBodyStylePromptTypeEnum::Default,\n            ),\n            version: Some(\n                magic_hour::models::V1VideoToVideoCreateBodyStyleVersionEnum::Default,\n            ),\n        },\n        width: magic_hour::Patch::new(1024),\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .video_to_video()\n    .create(magic_hour::resources::v1::video_to_video::CreateRequest {\n        assets: magic_hour::models::V1VideoToVideoCreateBodyAssets {\n            video_file_path: Some(\"api-assets/id/1234.mp4\".to_string()),\n            video_source: magic_hour::models::V1VideoToVideoCreateBodyAssetsVideoSourceEnum::File,\n            ..Default::default()\n        },\n        end_seconds: 5.0,\n        fps: Some(30.0),\n        fps_resolution: Some(\n            magic_hour::models::V1VideoToVideoCreateBodyFpsResolutionEnum::Half,\n        ),\n        height: magic_hour::Patch::new(704),\n        name: Some(\"My Video To Video video\".to_string()),\n        start_seconds: 0.0,\n        style: magic_hour::models::V1VideoToVideoCreateBodyStyle {\n            art_style: magic_hour::models::V1VideoToVideoCreateBodyStyleArtStyleEnum::Enum3dRender,\n            model: Some(\n                magic_hour::models::V1VideoToVideoCreateBodyStyleModelEnum::Default,\n            ),\n            prompt: magic_hour::Patch::new(\n                \"A cinematic scene with warm lighting\".to_string(),\n            ),\n            prompt_type: Some(\n                magic_hour::models::V1VideoToVideoCreateBodyStylePromptTypeEnum::Default,\n            ),\n            version: Some(\n                magic_hour::models::V1VideoToVideoCreateBodyStyleVersionEnum::Default,\n            ),\n        },\n        width: magic_hour::Patch::new(1024),\n    })\n    .await;"
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/video-to-video \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Video To Video video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"height\": 704,\n  \"fps\": 30,\n  \"width\": 1024,\n  \"fps_resolution\": \"HALF\",\n  \"style\": {\n    \"art_style\": \"Minecraft\",\n    \"version\": \"default\",\n    \"prompt_type\": \"default\",\n    \"prompt\": \"A cinematic scene with warm lighting\",\n    \"model\": \"default\"\n  },\n  \"assets\": {\n    \"video_source\": \"file\",\n    \"video_file_path\": \"api-assets/id/1234.mp4\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/video-to-video \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Video To Video video\",\n  \"start_seconds\": 0,\n  \"end_seconds\": 5,\n  \"height\": 704,\n  \"fps\": 30,\n  \"width\": 1024,\n  \"fps_resolution\": \"HALF\",\n  \"style\": {\n    \"art_style\": \"3D Render\",\n    \"version\": \"default\",\n    \"prompt_type\": \"default\",\n    \"prompt\": \"A cinematic scene with warm lighting\",\n    \"model\": \"default\"\n  },\n  \"assets\": {\n    \"video_source\": \"file\",\n    \"video_file_path\": \"api-assets/id/1234.mp4\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/video-to-video\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Video To Video video',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'height' => 704,\n    'fps' => 30,\n    'width' => 1024,\n    'fps_resolution' => 'HALF',\n    'style' => [\n        'art_style' => 'Minecraft',\n        'version' => 'default',\n        'prompt_type' => 'default',\n        'prompt' => 'A cinematic scene with warm lighting',\n        'model' => 'default'\n    ],\n    'assets' => [\n        'video_source' => 'file',\n        'video_file_path' => 'api-assets/id/1234.mp4'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/video-to-video\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Video To Video video',\n    'start_seconds' => 0,\n    'end_seconds' => 5,\n    'height' => 704,\n    'fps' => 30,\n    'width' => 1024,\n    'fps_resolution' => 'HALF',\n    'style' => [\n        'art_style' => '3D Render',\n        'version' => 'default',\n        'prompt_type' => 'default',\n        'prompt' => 'A cinematic scene with warm lighting',\n        'model' => 'default'\n    ],\n    'assets' => [\n        'video_source' => 'file',\n        'video_file_path' => 'api-assets/id/1234.mp4'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/video-to-video\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Video To Video video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"height\\\":704,\\\"fps\\\":30,\\\"width\\\":1024,\\\"fps_resolution\\\":\\\"HALF\\\",\\\"style\\\":{\\\"art_style\\\":\\\"Minecraft\\\",\\\"version\\\":\\\"default\\\",\\\"prompt_type\\\":\\\"default\\\",\\\"prompt\\\":\\\"A cinematic scene with warm lighting\\\",\\\"model\\\":\\\"default\\\"},\\\"assets\\\":{\\\"video_source\\\":\\\"file\\\",\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/video-to-video\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Video To Video video\\\",\\\"start_seconds\\\":0,\\\"end_seconds\\\":5,\\\"height\\\":704,\\\"fps\\\":30,\\\"width\\\":1024,\\\"fps_resolution\\\":\\\"HALF\\\",\\\"style\\\":{\\\"art_style\\\":\\\"3D Render\\\",\\\"version\\\":\\\"default\\\",\\\"prompt_type\\\":\\\"default\\\",\\\"prompt\\\":\\\"A cinematic scene with warm lighting\\\",\\\"model\\\":\\\"default\\\"},\\\"assets\\\":{\\\"video_source\\\":\\\"file\\\",\\\"video_file_path\\\":\\\"api-assets/id/1234.mp4\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -7780,7 +7780,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_face_editor.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    style={\n        \"enhance_face\": False,\n        \"eye_gaze_horizontal\": 0.0,\n        \"eye_gaze_vertical\": 0.0,\n        \"eye_open_ratio\": 0.0,\n        \"eyebrow_direction\": 0.0,\n        \"head_pitch\": 0.0,\n        \"head_roll\": 0.0,\n        \"head_yaw\": 0.0,\n        \"lip_open_ratio\": 0.0,\n        \"mouth_grim\": 0.0,\n        \"mouth_position_horizontal\": 0.0,\n        \"mouth_position_vertical\": 0.0,\n        \"mouth_pout\": 0.0,\n        \"mouth_purse\": 0.0,\n        \"mouth_smile\": 0.0,\n    },\n    name=\"Face Editor image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_face_editor.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    style={\n        \"enhance_face\": False,\n        \"eye_gaze_horizontal\": 0.0,\n        \"eye_gaze_vertical\": 0.0,\n        \"eye_open_ratio\": 0.0,\n        \"eyebrow_direction\": 0.0,\n        \"head_pitch\": 0.0,\n        \"head_roll\": 0.0,\n        \"head_yaw\": 0.0,\n        \"lip_open_ratio\": 0.0,\n        \"mouth_grim\": 0.0,\n        \"mouth_position_horizontal\": 0.0,\n        \"mouth_position_vertical\": 0.0,\n        \"mouth_pout\": 0.0,\n        \"mouth_purse\": 0.0,\n        \"mouth_smile\": 0.0,\n    },\n    name=\"My Face Editor image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -8026,7 +8026,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_gif_generator.generate(\n    style={\"prompt\": \"Cute dancing cat, pixel art\"},\n    name=\"Ai Gif gif\",\n    output_format=\"gif\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_gif_generator.generate(\n    style={\"prompt\": \"Cute dancing cat, pixel art\"},\n    name=\"My Ai Gif gif\",\n    output_format=\"gif\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -8323,7 +8323,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_image_editor.generate(\n    assets={\"image_file_paths\": [\"/path/to/1234.png\"]},\n    style={\"prompt\": \"Give me sunglasses\"},\n    name=\"Ai Image Editor image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_image_editor.generate(\n    assets={\"image_file_paths\": [\"api-assets/id/1234.png\", \"api-assets/id/1235.png\"]},\n    style={\"prompt\": \"Give me sunglasses\"},\n    aspect_ratio=\"1:1\",\n    image_count=1.0,\n    model=\"flux-2-klein\",\n    name=\"My Ai Image Editor image\",\n    resolution=\"640px\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -8572,7 +8572,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_headshot_generator.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"}, name=\"Ai Headshot image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_headshot_generator.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"}, name=\"My Ai Headshot image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -8899,7 +8899,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_image_generator.generate(\n    image_count=1,\n    style={\n        \"prompt\": \"Cool image\",\n        \"tool\": \"ai-anime-generator\",\n    },\n    aspect_ratio=\"1:1\",\n    model=\"default\",\n    name=\"My Ai Image image\",\n    resolution=\"640px\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_image_generator.generate(\n    image_count=1,\n    style={\"prompt\": \"Cool image\", \"tool\": \"ai-anime-generator\"},\n    aspect_ratio=\"1:1\",\n    model=\"z-image-turbo\",\n    name=\"My Ai Image image\",\n    resolution=\"640px\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -9164,7 +9164,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_image_upscaler.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    scale_factor=2.0,\n    style={\"mode\": \"balanced\"},\n    name=\"Image Upscaler image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_image_upscaler.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    scale_factor=2.0,\n    name=\"My Image Upscaler image\",\n    style={\"mode\": \"preserve\"},\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -9758,7 +9758,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_qr_code_generator.generate(\n    content=\"https://magichour.ai\",\n    style={\"art_style\": \"Watercolor\"},\n    name=\"Qr Code image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_qr_code_generator.generate(\n    content=\"https://magichour.ai\",\n    style={\"art_style\": \"Watercolor\"},\n    name=\"My Qr Code image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -10009,7 +10009,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.body_swap.generate(\n    assets={\n        \"person_file_path\": \"/path/to/person.png\",\n        \"scene_file_path\": \"/path/to/scene.png\",\n    },\n    resolution=\"640px\",\n    name=\"My Body Swap image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\",\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.body_swap.generate(\n    assets={\n        \"person_file_path\": \"/path/to/1234.png\",\n        \"scene_file_path\": \"/path/to/5678.png\",\n    },\n    resolution=\"640px\",\n    name=\"My Body Swap image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -10293,7 +10293,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.face_swap_photo.generate(\n    assets={\n        \"face_swap_mode\": \"all-faces\",\n        \"source_file_path\": \"/path/to/1234.png\",\n        \"target_file_path\": \"/path/to/1234.png\",\n    },\n    name=\"Face Swap image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.face_swap_photo.generate(\n    assets={\n        \"face_swap_mode\": \"all-faces\",\n        \"source_file_path\": \"/path/to/1234.png\",\n        \"target_file_path\": \"/path/to/1234.png\",\n    },\n    name=\"My Face Swap image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -10543,31 +10543,31 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.head_swap.generate(\n    assets={\n        \"body_file_path\": \"/path/to/body.png\",\n        \"head_file_path\": \"/path/to/head.png\",\n    },\n    max_resolution=512,\n    name=\"My Head Swap image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\",\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.head_swap.generate(\n    assets={\n        \"body_file_path\": \"/path/to/1234.png\",\n        \"head_file_path\": \"/path/to/5678.png\",\n    },\n    max_resolution=512,\n    name=\"My Head Swap image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
-            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"] });\nconst res = await client.v1.headSwap.create({\n  assets: {\n    bodyFilePath: \"api-assets/id/1234.png\",\n    headFilePath: \"api-assets/id/5678.png\",\n  },\n  maxResolution: 1024,\n  name: \"My Head Swap image\",\n});"
+            "source": "import { Client } from \"magic-hour\";\n\nconst client = new Client({ token: process.env[\"MAGIC_HOUR_API_KEY\"] });\nconst res = await client.v1.headSwap.create({\n  assets: {\n    bodyFilePath: \"api-assets/id/1234.png\",\n    headFilePath: \"api-assets/id/5678.png\",\n  },\n  maxResolution: 512,\n  name: \"My Head Swap image\",\n});"
           },
           {
             "lang": "go",
-            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\thead_swap \"github.com/magichourhq/magic-hour-go/resources/v1/head_swap\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.HeadSwap.Create(head_swap.CreateRequest{\n\t\tAssets: types.V1HeadSwapCreateBodyAssets{\n\t\t\tBodyFilePath: \"api-assets/id/1234.png\",\n\t\t\tHeadFilePath: \"api-assets/id/5678.png\",\n\t\t},\n\t\tMaxResolution: nullable.NewValue(1024),\n\t\tName:          nullable.NewValue(\"My Head Swap image\"),\n\t})\n}"
+            "source": "package main\n\nimport (\n\tos \"os\"\n\n\tsdk \"github.com/magichourhq/magic-hour-go/client\"\n\tnullable \"github.com/magichourhq/magic-hour-go/nullable\"\n\thead_swap \"github.com/magichourhq/magic-hour-go/resources/v1/head_swap\"\n\ttypes \"github.com/magichourhq/magic-hour-go/types\"\n)\n\nfunc main() {\n\tclient := sdk.NewClient(\n\t\tsdk.WithBearerAuth(os.Getenv(\"MAGIC_HOUR_API_KEY\")),\n\t)\n\tres, err := client.V1.HeadSwap.Create(head_swap.CreateRequest{\n\t\tAssets: types.V1HeadSwapCreateBodyAssets{\n\t\t\tBodyFilePath: \"api-assets/id/1234.png\",\n\t\t\tHeadFilePath: \"api-assets/id/5678.png\",\n\t\t},\n\t\tMaxResolution: nullable.NewValue(512),\n\t\tName:          nullable.NewValue(\"My Head Swap image\"),\n\t})\n}"
           },
           {
             "lang": "rust",
-            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .head_swap()\n    .create(magic_hour::resources::v1::head_swap::CreateRequest {\n        assets: magic_hour::models::V1HeadSwapCreateBodyAssets {\n            body_file_path: \"api-assets/id/1234.png\".to_string(),\n            head_file_path: \"api-assets/id/5678.png\".to_string(),\n        },\n        max_resolution: Some(1024),\n        name: Some(\"My Head Swap image\".to_string()),\n    })\n    .await;"
+            "source": "let client = magic_hour::Client::default()\n    .with_bearer_auth(&std::env::var(\"MAGIC_HOUR_API_KEY\").unwrap());\nlet res = client\n    .v1()\n    .head_swap()\n    .create(magic_hour::resources::v1::head_swap::CreateRequest {\n        assets: magic_hour::models::V1HeadSwapCreateBodyAssets {\n            body_file_path: \"api-assets/id/1234.png\".to_string(),\n            head_file_path: \"api-assets/id/5678.png\".to_string(),\n        },\n        max_resolution: Some(512),\n        name: Some(\"My Head Swap image\".to_string()),\n    })\n    .await;"
           },
           {
             "lang": "curl",
-            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/head-swap \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Head Swap image\",\n  \"max_resolution\": 1024,\n  \"assets\": {\n    \"body_file_path\": \"api-assets/id/1234.png\",\n    \"head_file_path\": \"api-assets/id/5678.png\"\n  }\n}\n'"
+            "source": "curl --request POST \\\n     --url https://api.magichour.ai/v1/head-swap \\\n     --header 'accept: application/json' \\\n     --header \"authorization: Bearer $MAGIC_HOUR_API_KEY\" \\\n     --header 'content-type: application/json' \\\n     --data '\n{\n  \"name\": \"My Head Swap image\",\n  \"max_resolution\": 512,\n  \"assets\": {\n    \"body_file_path\": \"api-assets/id/1234.png\",\n    \"head_file_path\": \"api-assets/id/5678.png\"\n  }\n}\n'"
           },
           {
             "lang": "php",
-            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/head-swap\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Head Swap image',\n    'max_resolution' => 1024,\n    'assets' => [\n        'body_file_path' => 'api-assets/id/1234.png',\n        'head_file_path' => 'api-assets/id/5678.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+            "source": "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://api.magichour.ai/v1/head-swap\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => json_encode([\n    'name' => 'My Head Swap image',\n    'max_resolution' => 512,\n    'assets' => [\n        'body_file_path' => 'api-assets/id/1234.png',\n        'head_file_path' => 'api-assets/id/5678.png'\n    ]\n  ]),\n  CURLOPT_HTTPHEADER => [\n    \"accept: application/json\",\n    \"authorization: Bearer <token>\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
           },
           {
             "lang": "java",
-            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/head-swap\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Head Swap image\\\",\\\"max_resolution\\\":1024,\\\"assets\\\":{\\\"body_file_path\\\":\\\"api-assets/id/1234.png\\\",\\\"head_file_path\\\":\\\"api-assets/id/5678.png\\\"}}\")\n  .asString();"
+            "source": "HttpResponse<String> response = Unirest.post(\"https://api.magichour.ai/v1/head-swap\")\n  .header(\"accept\", \"application/json\")\n  .header(\"content-type\", \"application/json\")\n  .header(\"authorization\", \"Bearer <token>\")\n  .body(\"{\\\"name\\\":\\\"My Head Swap image\\\",\\\"max_resolution\\\":512,\\\"assets\\\":{\\\"body_file_path\\\":\\\"api-assets/id/1234.png\\\",\\\"head_file_path\\\":\\\"api-assets/id/5678.png\\\"}}\")\n  .asString();"
           }
         ]
       }
@@ -10786,7 +10786,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.image_background_remover.generate(\n    assets={\n        \"background_image_file_path\": \"/path/to/1234.png\",\n        \"image_file_path\": \"/path/to/1234.png\",\n    },\n    name=\"Background Remover image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.image_background_remover.generate(\n    assets={\n        \"background_image_file_path\": \"/path/to/1234.png\",\n        \"image_file_path\": \"/path/to/1234.png\",\n    },\n    name=\"My Background Remover image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -11025,7 +11025,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.photo_colorizer.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"}, name=\"Photo Colorizer image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.photo_colorizer.generate(\n    assets={\"image_file_path\": \"/path/to/1234.png\"},\n    name=\"My Photo Colorizer image\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
@@ -14169,7 +14169,7 @@
         "x-codeSamples": [
           {
             "lang": "python",
-            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_voice_generator.generate(\n    style={\"prompt\": \"Hello, how are you?\", \"voice_name\": \"Elon Musk\"},\n    name=\"Voice Generator audio\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
+            "source": "from magic_hour import Client\nfrom os import getenv\n\nclient = Client(token=getenv(\"MAGIC_HOUR_API_KEY\"))\nres = client.v1.ai_voice_generator.generate(\n    style={\n        \"language\": \"spanish\",\n        \"prompt\": \"Hello, how are you?\",\n        \"speed\": 1.15,\n        \"voice_name\": \"Elon Musk\",\n    },\n    name=\"My Voice Generator audio\",\n    wait_for_completion=True,\n    download_outputs=True,\n    download_directory=\".\"\n)"
           },
           {
             "lang": "javascript",
