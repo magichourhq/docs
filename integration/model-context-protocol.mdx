@@ -229,13 +229,25 @@ The MCP gives your assistant access to Magic Hour tools. The [Magic Hour skills
 cookbook](https://github.com/magichourhq/skills) adds workflows and published examples for
 prompting, tool sequencing, output review, and recovery without duplicate paid jobs.
 
+For a product photo you want to animate, install the Image-to-Video skill and choose your agent
+in the installer.
+
 ```bash
-npx skills add magichourhq/skills --skill '*'
+npx skills add magichourhq/skills --skill magic-hour-image-to-video
 ```
 
-Choose your agent in the installer. You can also install one workflow from the
-[cookbook](https://github.com/magichourhq/skills). Published examples record their
-validation limits; tool availability alone does not establish output quality.
+Give your agent the photo using the [input file flow below](#using-input-files), then try this request:
+
+```text
+Turn this product photo into a five-second video with a slow camera push-in.
+Wait for the render and return the finished MP4.
+```
+
+Generation uses credits. Check the [model and credit table](/api-reference/models) for
+current settings, plan requirements, and costs.
+
+To install the full cookbook, run `npx skills add magichourhq/skills --skill '*'`.
+Published examples record their validation limits; tool availability alone does not establish output quality.
 
 ## Try a first request
 
