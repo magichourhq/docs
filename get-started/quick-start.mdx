@@ -381,7 +381,13 @@ async fn main() {
     // Use environment variable for security
     let api_key = std::env::var("MAGIC_HOUR_API_KEY")
         .expect("MAGIC_HOUR_API_KEY environment variable not set");
-    let mut client = magic_hour::Client::default().with_bearer_auth(&api_key);
+    let http_client = reqwest::Client::builder()
+        .timeout(std::time::Duration::from_secs(30))
+        .build()
+        .expect("Build HTTP client");
+    let mut client = magic_hour::Client::default()
+        .with_client(http_client)
+        .with_bearer_auth(&api_key);
 
     let create_res = client
         .v1()
@@ -415,7 +421,8 @@ async fn main() {
         match res.status {
             magic_hour::models::V1ImageProjectsGetResponseStatusEnum::Complete => {
                 println!("render complete!");
-                let url = res.downloads.first()
+                let url = res.downloads
+                    .first()
                     .expect("Completed project has no download URL. Retrieve the same project again.")
                     .url.clone();
 
@@ -700,7 +707,13 @@ async fn main() {
     // Use environment variable for security
     let api_key = std::env::var("MAGIC_HOUR_API_KEY")
         .expect("MAGIC_HOUR_API_KEY environment variable not set");
-    let mut client = magic_hour::Client::default().with_bearer_auth(&api_key);
+    let http_client = reqwest::Client::builder()
+        .timeout(std::time::Duration::from_secs(30))
+        .build()
+        .expect("Build HTTP client");
+    let mut client = magic_hour::Client::default()
+        .with_client(http_client)
+        .with_bearer_auth(&api_key);
 
     let create_res = client
         .v1()
@@ -743,7 +756,8 @@ async fn main() {
                     "render complete! Final credit charged is {}, actual fps is {}",
                     res.credits_charged, res.fps
                 );
-                let url = res.downloads.first()
+                let url = res.downloads
+                    .first()
                     .expect("Completed project has no download URL. Retrieve the same project again.")
                     .url.clone();
 
