@@ -402,6 +402,6 @@
     }
   },
   "contextual": {
-    "options": ["chatgpt", "claude", "perplexity", "mcp", "cursor", "vscode", "copy", "view"]
+    "options": ["chatgpt", "claude", "perplexity", "mcp", "cursor", "vscode", "copy", "view", "download-spec"]
   }
 }
