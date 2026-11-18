@@ -292,6 +292,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"time"
@@ -305,7 +306,10 @@ import (
 
 func main() {
 	// Use environment variable for security
-	client := sdk.NewClient(sdk.WithBearerAuth(os.Getenv("MAGIC_HOUR_API_KEY")))
+	client := sdk.NewClient(
+		sdk.WithBearerAuth(os.Getenv("MAGIC_HOUR_API_KEY")),
+		sdk.WithHTTPClient(&http.Client{Timeout: 30 * time.Second}),
+	)
 	createRes, err := client.V1.AiImageGenerator.Create(ai_image_generator.CreateRequest{
 		ImageCount:  1,
 		Model: nullable.NewValue(types.V1AiImageGeneratorCreateBodyModelEnumZImageTurbo),
@@ -317,57 +321,54 @@ func main() {
 	})
 
 	if err != nil {
-		fmt.Println(err)
-		return
+		log.Fatal(err)
 	}
 
 	fmt.Printf("queued image with id %s, spent %d credits\n", createRes.Id, createRes.CreditsCharged)
 
-	for {
+	for deadline := time.Now().Add(3 * time.Minute); time.Now().Before(deadline); {
 		res, err := client.V1.ImageProjects.Get(image_projects.GetRequest{Id: createRes.Id})
 		if err != nil {
-			fmt.Println(err)
-			return
+			log.Fatal(err)
 		}
-        if res.Status == "complete" {
+		if res.Status == "complete" {
 			println("render complete!")
+			if len(res.Downloads) == 0 || res.Downloads[0].Url == "" {
+				log.Fatalf("No download URL for project %s. Retrieve that project again.", createRes.Id)
+			}
 			url := res.Downloads[0].Url
 			outputFile := "output.png"
 
-			resp, err := http.Get(url)
+			resp, err := (&http.Client{Timeout: 120 * time.Second}).Get(url)
 			if err != nil {
-				fmt.Println(err)
-				return
+				log.Fatal(err)
 			}
 			defer resp.Body.Close()
 
 			if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-				fmt.Printf("download failed: HTTP %d; retrieve the same project again for a fresh URL\n", resp.StatusCode)
-				return
+				log.Fatalf("download failed: HTTP %d; retrieve the same project again for a fresh URL\n", resp.StatusCode)
 			}
 
 			out, err := os.Create(outputFile)
 			if err != nil {
-				fmt.Println(err)
-				return
+				log.Fatal(err)
 			}
 			defer out.Close()
 
 			_, err = io.Copy(out, resp.Body)
 			if err != nil {
-				fmt.Println(err)
-				return
+				log.Fatal(err)
 			}
 			fmt.Printf("file downloaded successfully to %s\n", outputFile)
-			break
+			return
 		} else if res.Status == "error" || res.Status == "canceled" {
-			println("render failed")
-			break
+			log.Fatalf("Project %s ended with status %s.", createRes.Id, res.Status)
 		} else {
 			fmt.Printf("render in progress: %s\n", res.Status)
 			time.Sleep(1 * time.Second)
 		}
 	}
+	log.Fatalf("Stopped waiting for project %s. Check its status before submitting another job.", createRes.Id)
 }
 ```
 
@@ -401,7 +402,8 @@ async fn main() {
     let project_id = create_res.id;
     let credits_charged = create_res.credits_charged;
     println!("queued image with id {project_id}, spent {credits_charged} credits");
-    loop {
+    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(180);
+    while std::time::Instant::now() < deadline {
         let res = client
             .v1()
             .image_projects()
@@ -413,7 +415,9 @@ async fn main() {
         match res.status {
             magic_hour::models::V1ImageProjectsGetResponseStatusEnum::Complete => {
                 println!("render complete!");
-                let url = res.downloads[0].url.clone();
+                let url = res.downloads.first()
+                    .expect("Completed project has no download URL. Retrieve the same project again.")
+                    .url.clone();
 
                 tokio::task::block_in_place(move || {
                     let mut response = reqwest::blocking::get(url).unwrap();
@@ -423,7 +427,8 @@ async fn main() {
                         std::io::copy(&mut response, &mut output_file).unwrap();
                         println!("file downloaded successfully to {}", output_path);
                     } else {
-                        println!("failed to download file: {}", response.status());
+                        eprintln!("Failed to download file: {}. Retrieve the same project again.", response.status());
+                        std::process::exit(1);
                     }
                 });
 
@@ -431,8 +436,8 @@ async fn main() {
             }
             magic_hour::models::V1ImageProjectsGetResponseStatusEnum::Error
             | magic_hour::models::V1ImageProjectsGetResponseStatusEnum::Canceled => {
-                println!("render failed");
-                return;
+                eprintln!("Project {project_id} ended with status {}.", res.status);
+                std::process::exit(1);
             }
             _ => {
                 println!("render in progress: {}", res.status);
@@ -440,6 +445,8 @@ async fn main() {
             }
         }
     }
+    eprintln!("Stopped waiting for project {project_id}. Check its status before submitting another job.");
+    std::process::exit(1);
 }
 ```
 
@@ -604,6 +611,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"time"
@@ -617,7 +625,10 @@ import (
 
 func main() {
 	// Use environment variable for security
-	client := sdk.NewClient(sdk.WithBearerAuth(os.Getenv("MAGIC_HOUR_API_KEY")))
+	client := sdk.NewClient(
+		sdk.WithBearerAuth(os.Getenv("MAGIC_HOUR_API_KEY")),
+		sdk.WithHTTPClient(&http.Client{Timeout: 30 * time.Second}),
+	)
 	createRes, err := client.V1.FaceSwap.Create(face_swap.CreateRequest{
 		Name: nullable.NewValue("Swap Tom Cruise into Iron Man scene"),
 		Assets: types.V1FaceSwapCreateBodyAssets{
@@ -629,57 +640,54 @@ func main() {
 		EndSeconds:   8.5,
 	})
 	if err != nil {
-		fmt.Println(err)
-		return
+		log.Fatal(err)
 	}
 
 	fmt.Printf("queued video with id %s, spent %d estimated credits. The final charge is available after rendering.\n", createRes.Id, createRes.CreditsCharged)
 
-	for {
+	for deadline := time.Now().Add(10 * time.Minute); time.Now().Before(deadline); {
 		res, err := client.V1.VideoProjects.Get(video_projects.GetRequest{Id: createRes.Id})
 		if err != nil {
-			fmt.Println(err)
-			return
+			log.Fatal(err)
 		}
 		if res.Status == "complete" {
 			fmt.Printf("render complete! Final credits charged is %d, actual fps is %f.\n", res.CreditsCharged, res.Fps)
+			if len(res.Downloads) == 0 || res.Downloads[0].Url == "" {
+				log.Fatalf("No download URL for project %s. Retrieve that project again.", createRes.Id)
+			}
 			url := res.Downloads[0].Url
 			outputFile := "output.mp4"
 
-			resp, err := http.Get(url)
+			resp, err := (&http.Client{Timeout: 120 * time.Second}).Get(url)
 			if err != nil {
-				fmt.Println(err)
-				return
+				log.Fatal(err)
 			}
 			defer resp.Body.Close()
 
 			if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-				fmt.Printf("download failed: HTTP %d; retrieve the same project again for a fresh URL\n", resp.StatusCode)
-				return
+				log.Fatalf("download failed: HTTP %d; retrieve the same project again for a fresh URL\n", resp.StatusCode)
 			}
 
 			out, err := os.Create(outputFile)
 			if err != nil {
-				fmt.Println(err)
-				return
+				log.Fatal(err)
 			}
 			defer out.Close()
 
 			_, err = io.Copy(out, resp.Body)
 			if err != nil {
-				fmt.Println(err)
-				return
+				log.Fatal(err)
 			}
 			fmt.Printf("file downloaded successfully to %s\n", outputFile)
-			break
+			return
 		} else if res.Status == "error" || res.Status == "canceled" {
-			println("render failed")
-			break
+			log.Fatalf("Project %s ended with status %s.", createRes.Id, res.Status)
 		} else {
 			fmt.Printf("render in progress: %s\n", res.Status)
 			time.Sleep(1 * time.Second)
 		}
 	}
+	log.Fatalf("Stopped waiting for project %s. Check its status before submitting another job.", createRes.Id)
 }
 ```
 
@@ -719,7 +727,8 @@ async fn main() {
     let credits_charged = create_res.credits_charged;
     println!("queued face swap video with id {project_id}, spent {credits_charged} estimated credits. The final charge is available after rendering.");
 
-    loop {
+    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(600);
+    while std::time::Instant::now() < deadline {
         let res = client
             .v1()
             .video_projects()
@@ -734,7 +743,9 @@ async fn main() {
                     "render complete! Final credit charged is {}, actual fps is {}",
                     res.credits_charged, res.fps
                 );
-                let url = res.downloads[0].url.clone();
+                let url = res.downloads.first()
+                    .expect("Completed project has no download URL. Retrieve the same project again.")
+                    .url.clone();
 
                 tokio::task::block_in_place(move || {
                     let mut response = reqwest::blocking::get(url).unwrap();
@@ -744,7 +755,8 @@ async fn main() {
                         std::io::copy(&mut response, &mut output_file).unwrap();
                         println!("file downloaded successfully to {}", output_path);
                     } else {
-                        println!("failed to download file: {}", response.status());
+                        eprintln!("Failed to download file: {}. Retrieve the same project again.", response.status());
+                        std::process::exit(1);
                     }
                 });
 
@@ -752,8 +764,8 @@ async fn main() {
             }
             magic_hour::models::V1VideoProjectsGetResponseStatusEnum::Error
             | magic_hour::models::V1VideoProjectsGetResponseStatusEnum::Canceled => {
-                println!("render failed");
-                return;
+                eprintln!("Project {project_id} ended with status {}.", res.status);
+                std::process::exit(1);
             }
             _ => {
                 println!("render in progress: {}", res.status);
@@ -761,6 +773,8 @@ async fn main() {
             }
         }
     }
+    eprintln!("Stopped waiting for project {project_id}. Check its status before submitting another job.");
+    std::process::exit(1);
 }
 ```
 
