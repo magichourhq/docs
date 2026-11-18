@@ -97,6 +97,11 @@ For security best practices, regularly rotate your API keys:
 
 ## Using API Keys
 
+Set `MAGIC_HOUR_API_KEY` in your environment as shown below. The cURL example calls
+[Get account details](/api-reference/account/get-account-details) so you can verify the key without
+spending credits. A successful response includes your `tier` and available `credits`. Keep the
+account response private.
+
 ### In Code
 
 <CodeGroup>
@@ -106,31 +111,21 @@ from magic_hour import Client
 
 import os
 
-# Initialize client with your API key, or read it from an environment variable
-client = Client(token=os.getenv("MAGIC_HOUR_API_KEY", "your_api_key_here"))
+client = Client(token=os.environ["MAGIC_HOUR_API_KEY"])
 ```
 
 ```javascript Node.js SDK
 import { Client } from "magic-hour";
 
-// Initialize client with your API key, or read it from an environment variable
-const client = new Client({
-  token: process.env.MAGIC_HOUR_API_KEY ?? "your_api_key_here",
-});
+const token = process.env.MAGIC_HOUR_API_KEY;
+if (!token) throw new Error("Set MAGIC_HOUR_API_KEY first.");
+
+const client = new Client({ token });
 ```
 
 ```bash cURL
-curl -X POST "https://api.magichour.ai/v1/ai-image-generator" \
-  -H "Authorization: Bearer your_api_key_here" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "image_count": 1,
-    "aspect_ratio": "16:9",
-    "resolution": "640px",
-    "style": {
-      "prompt": "A beautiful sunset over mountains"
-    }
-  }'
+curl -fsS "https://api.magichour.ai/v1/account" \
+  -H "Authorization: Bearer ${MAGIC_HOUR_API_KEY:?Set MAGIC_HOUR_API_KEY first.}"
 ```
 
 </CodeGroup>

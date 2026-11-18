@@ -65,7 +65,8 @@ Every generation follows the same lifecycle:
 
 ## What You'll Build
 
-In this tutorial, you'll create a working application that generates an AI image using the Magic Hour API. By the end, you'll have:
+In this tutorial, you'll create a working application that generates one `z-image-turbo` image at
+`640px`. By the end, you'll have:
 
 - A complete project structure ready for development
 - Code that creates a job, monitors its progress, and downloads the result
@@ -176,7 +177,9 @@ def main():
     try:
         create_response = client.v1.ai_image_generator.create(
             image_count=1,
+            model="z-image-turbo",
             aspect_ratio="16:9",
+            resolution="640px",
             style={
                 "prompt": "A serene mountain landscape at sunset with vibrant colors",
                 "tool": "ai-anime-generator"
@@ -413,7 +416,9 @@ async function main() {
 
     const createResponse = await client.v1.aiImageGenerator.create({
       imageCount: 1,
+      model: "z-image-turbo",
       aspectRatio: "16:9",
+      resolution: "640px",
       style: {
         prompt: "A serene mountain landscape at sunset with vibrant colors",
         tool: "ai-anime-generator",
@@ -588,7 +593,9 @@ The SDK also provides a `generate()` function that handles polling and downloadi
 # All-in-one generate function
 result = client.v1.ai_image_generator.generate(
     image_count=1,
+    model="z-image-turbo",
     aspect_ratio="16:9",
+    resolution="640px",
     style={
         "prompt": "A serene mountain landscape at sunset",
         "tool": "ai-anime-generator"
@@ -599,6 +606,12 @@ result = client.v1.ai_image_generator.generate(
     download_directory="."
 )
 
+if result.status != "complete" or not result.downloaded_paths:
+    raise RuntimeError(
+        f"Project {result.id} did not save an image (status: {result.status}). "
+        "Check that project before trying again."
+    )
+
 print(f"✅ Complete! Files: {result.downloaded_paths}")
 ```
 
@@ -607,7 +620,9 @@ print(f"✅ Complete! Files: {result.downloaded_paths}")
 const result = await client.v1.aiImageGenerator.generate(
   {
     imageCount: 1,
+    model: "z-image-turbo",
     aspectRatio: "16:9",
+    resolution: "640px",
     style: {
       prompt: "A serene mountain landscape at sunset",
       tool: "ai-anime-generator",
@@ -620,6 +635,12 @@ const result = await client.v1.aiImageGenerator.generate(
     downloadDirectory: ".",
   }
 );
+
+if (result.status !== "complete" || !result.downloadedPaths?.length) {
+  throw new Error(
+    `Project ${result.id} did not save an image (status: ${result.status}). Check that project before trying again.`
+  );
+}
 
 console.log(`✅ Complete! Files: ${result.downloadedPaths}`);
 ```
