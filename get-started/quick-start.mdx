@@ -186,7 +186,7 @@ exact request fields. To get a finished image, follow these three steps:
 
 ### Copy the code and run it
 
-For cURL, use Bash with `curl` and `jq` installed, and set `MAGIC_HOUR_API_KEY`. The examples check these prerequisites before creating a generation.
+For cURL, use Bash with cURL 7.76 or later and `jq` installed, and set `MAGIC_HOUR_API_KEY`.
 
 <Note>
   **SDK compatibility:** Install or upgrade the current Python or Node.js SDK before running these
@@ -459,7 +459,7 @@ STATUS_URL="https://api.magichour.ai/v1/image-projects"
 API_KEY="$MAGIC_HOUR_API_KEY"
 OUTPUT_PATH="output.png"
 
-create_response=$(curl -fsS --max-time 30 "$URL" \
+create_response=$(curl --fail-with-body -sS --max-time 30 "$URL" \
   --request POST \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer $API_KEY" \
@@ -471,7 +471,10 @@ create_response=$(curl -fsS --max-time 30 "$URL" \
     "style": {
       "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says \"Magic Hour\""
     }
-  }')
+  }') || {
+    printf '%s\n' "$create_response" >&2
+    exit 1
+}
 
 project_id=$(echo "$create_response" | jq -er '.id')
 credits_charged=$(echo "$create_response" | jq -r '.credits_charged')
@@ -489,7 +492,8 @@ while (( SECONDS < deadline )); do
             exit 1
         }
         curl -fsS --max-time 60 "$download_url" -o "$OUTPUT_PATH"
-        echo "Saved $OUTPUT_PATH"
+        echo "render complete!"
+        echo "file downloaded successfully to $OUTPUT_PATH"
         exit 0
     elif [ "$status" == "error" ] || [ "$status" == "canceled" ]; then
         echo "Project $project_id ended with status $status." >&2
@@ -782,7 +786,7 @@ STATUS_URL="https://api.magichour.ai/v1/video-projects"
 API_KEY="$MAGIC_HOUR_API_KEY"
 OUTPUT_PATH="output.mp4"
 
-create_response=$(curl -fsS --max-time 30 "$URL" \
+create_response=$(curl --fail-with-body -sS --max-time 30 "$URL" \
   --request POST \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer $API_KEY" \
@@ -795,7 +799,10 @@ create_response=$(curl -fsS --max-time 30 "$URL" \
     },
     "start_seconds": 2.3,
     "end_seconds": 8.5
-  }')
+  }') || {
+    printf '%s\n' "$create_response" >&2
+    exit 1
+}
 
 project_id=$(echo "$create_response" | jq -er '.id')
 credits_charged=$(echo "$create_response" | jq -r '.credits_charged')
