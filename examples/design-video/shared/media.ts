@@ -1,4 +1,4 @@
-import { englishMessage, type MessageFormatter } from "../../vercel-ai-sdk/src/client";
+import { englishMessage, type MessageFormatter } from "@magichourhq/browser-client";
 export async function videoMetadata(
   blob: Blob,
   formatMessage: MessageFormatter = englishMessage

@@ -1,4 +1,4 @@
-import { MagicHourClient } from "../../vercel-ai-sdk/src/client.js";
+import { MagicHourClient } from "@magichourhq/browser-client";
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 const prompt = $<HTMLTextAreaElement>("prompt"),
   apiKey = $<HTMLInputElement>("api-key");

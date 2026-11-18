@@ -3,7 +3,7 @@ import {
   MagicHourError,
   englishMessage,
   type MessageFormatter,
-} from "../../vercel-ai-sdk/src/client";
+} from "@magichourhq/browser-client";
 
 export type SourceImage = { blob: Blob; label: string };
 export type VideoOptions = {

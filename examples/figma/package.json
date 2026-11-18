@@ -17,5 +17,8 @@
     "esbuild": "^0.27.0",
     "tsx": "^4.20.0",
     "typescript": "^6.0.0"
+  },
+  "dependencies": {
+    "@magichourhq/browser-client": "file:../browser-client"
   }
 }

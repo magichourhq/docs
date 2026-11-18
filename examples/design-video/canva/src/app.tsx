@@ -9,7 +9,7 @@ import {
   Title,
   Alert,
 } from "@canva/app-ui-kit";
-import { englishMessage, type MessageFormatter } from "../../../vercel-ai-sdk/src/client";
+import { englishMessage, type MessageFormatter } from "@magichourhq/browser-client";
 import type { VideoPanel, VideoOptions } from "../../shared/video";
 export function App({
   panel,

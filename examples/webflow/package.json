@@ -18,6 +18,7 @@
     "typescript": "6.0.3"
   },
   "dependencies": {
+    "@magichourhq/browser-client": "file:../browser-client",
     "gifenc": "1.0.3",
     "gifuct-js": "2.1.2"
   }

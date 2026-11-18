@@ -9,5 +9,5 @@
     "noEmit": true,
     "types": ["@webflow/designer-extension-typings"]
   },
-  "include": ["src", "../vercel-ai-sdk/src/client.ts"]
+  "include": ["src"]
 }

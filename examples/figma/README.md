@@ -5,13 +5,15 @@ Generate an image from a prompt, or export one selected Figma layer and edit it 
 ## Build and install for development
 
 ```sh
+npm ci --prefix examples
+npm run build --prefix examples --workspace @magichourhq/browser-client
 cd examples/figma
 npm ci
 npm run check
 npm run build
 ```
 
-The shared REST transport is bundled from `../vercel-ai-sdk/src/client.ts`, so keep both example directories in the checkout. No Node dependencies are required at runtime.
+The plugin bundles `@magichourhq/browser-client` from the local package. No Node dependencies are required at runtime.
 
 1. In **Figma Desktop**, choose **Plugins → Development → New Plugin**, select a plugin with a UI, and create it to obtain your own Figma-assigned plugin ID.
 2. Add that assigned `id` to this directory's `manifest.json`. Do not invent an ID or reuse another publisher's ID.

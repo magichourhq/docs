@@ -6,8 +6,8 @@ import {
   type Experimental_VideoModelV4CallOptions as VideoModelV4CallOptions,
   type ProviderV4,
 } from "@ai-sdk/provider";
-import { MagicHourClient, MagicHourError, httpsURL, type ClientSettings } from "./client.js";
-export { MagicHourError } from "./client.js";
+import { MagicHourClient, MagicHourError, httpsURL, type ClientSettings } from "@magichourhq/browser-client";
+export { MagicHourError } from "@magichourhq/browser-client";
 export type MagicHourSettings = Omit<ClientSettings, "apiKey"> & { apiKey?: string };
 const imageModels = ["default", "flux-2-klein", "z-image-turbo", "qwen-image-2.1"] as const;
 const videoModels = ["default", "ltx-2.5", "minimax-h3", "wan-2.2"] as const;

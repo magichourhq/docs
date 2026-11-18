@@ -27,6 +27,6 @@ for (const file of ["package.json", "package-lock.json", "webflow.json"])
   await copyFile(file, resolve(review, file));
 await writeFile(
   resolve(review, "README.md"),
-  "Private review files for the exact generated public/index.js and public/style.css. Source content is embedded in their external source maps. The production bundle excludes all source maps. Build with npm ci, then npm run build using Node 22.13 or later.\n"
+  "Private review files for the exact generated public/index.js and public/style.css. Source content is embedded in their external source maps. The production bundle excludes all source maps. Use Node 22.13 or later and follow the build instructions in examples/webflow/README.md in the source repository.\n"
 );
 console.log("Production assets: public/. Private source maps and manifests: " + review);

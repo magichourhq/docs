@@ -1,6 +1,6 @@
 # Magic Hour video integrations
 
-Development integrations for **Framer (PX-578)**, **Adobe Express (PX-577)**, and **Canva (PX-466)**. Generate a short video from an image or creative brief, preview the completed MP4, and explicitly add it to the design. They reuse the public API transport from `../vercel-ai-sdk/src/client.ts`.
+Development integrations for **Framer (PX-578)**, **Adobe Express (PX-577)**, and **Canva (PX-466)**. Generate a short video from an image or creative brief, preview the completed MP4, and explicitly add it to the design. They bundle `@magichourhq/browser-client` for Magic Hour API requests.
 
 These are development implementations, not published marketplace listings. Actual editor installation and marketplace review require the authorized platform accounts. Browser tests simulate editor APIs; they do not prove installed-editor behavior.
 
@@ -9,6 +9,8 @@ These are development implementations, not published marketplace listings. Actua
 Requires Node.js 22.12+ (tested on Node.js 24).
 
 ```sh
+npm ci --prefix examples
+npm run build --prefix examples --workspace @magichourhq/browser-client
 cd examples/design-video
 npm ci --no-audit --no-fund
 npm run check
@@ -18,7 +20,7 @@ npx playwright install chromium
 npm run test:ui
 ```
 
-Build outputs are self-contained under `framer/dist`, `adobe-express/dist`, `adobe-express/selection-dist`, and `canva/dist`. No test harness or test credential is included in these bundles. Keep the complete source checkout to rebuild; the shared transport is outside this directory. The lockfile pins each host SDK and keeps Framer's React 18 peer separate from Canva's React 19 UI Kit.
+Build outputs are self-contained under `framer/dist`, `adobe-express/dist`, `adobe-express/selection-dist`, and `canva/dist`. No test harness or test credential is included in these bundles. Local builds use the browser client from the same checkout. The lockfile pins each host SDK and keeps Framer's React 18 peer separate from Canva's React 19 UI Kit.
 
 The model is explicitly **LTX 2.5**, with 1/3/5/10-second duration choices, 480p/720p, and no generated audio. Text-to-video offers 16:9, 1:1, and 9:16; image-to-video inherits the source ratio. Availability, plan eligibility, and pricing are enforced by Magic Hour. Consult [current API pricing](https://docs.magichour.ai/pricing) before running paid tests. Looping playback is supported in Framer; a seamless visual loop is not guaranteed.
 

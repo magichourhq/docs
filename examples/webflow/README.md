@@ -7,6 +7,9 @@ A pure Designer Extension: describe an animation, generate one GIF with Magic Ho
 Use Node 22.13 or later.
 
 ```sh
+npm ci --prefix examples
+npm run build --prefix examples --workspace @magichourhq/browser-client
+cd examples/webflow
 npm ci
 npm run check
 npm run build

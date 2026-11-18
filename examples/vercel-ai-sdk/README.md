@@ -13,12 +13,12 @@ npm install https://github.com/magichourhq/docs/releases/download/ai-sdk-provide
 To build a local tarball instead:
 
 ```sh
-cd examples/vercel-ai-sdk
+cd examples
 npm ci
-npm run build
-npm pack
+npm run build --workspace @magichourhq/browser-client
+npm pack --workspace @magichourhq/browser-client --workspace @magichourhq/ai-sdk-provider
 # In your consuming project:
-npm install /absolute/path/to/magichourhq-ai-sdk-provider-0.1.1.tgz ai@7.0.148
+npm install /absolute/path/to/magichourhq-browser-client-0.1.0.tgz /absolute/path/to/magichourhq-ai-sdk-provider-0.1.1.tgz ai@7.0.148
 ```
 
 The previous [version 0.1.0 GitHub archive](https://github.com/magichourhq/docs/releases/tag/ai-sdk-provider-v0.1.0) remains available unchanged. That archive uses the old import name, `@magichour/ai-sdk-provider`; the examples below use the current company scope.

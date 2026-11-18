@@ -2,6 +2,7 @@
 
 Source implementations and installation instructions:
 
+- [Browser client](browser-client/README.md)
 - [Vercel AI SDK](https://github.com/magichourhq/docs/tree/main/examples/vercel-ai-sdk)
 - [Langflow](https://github.com/magichourhq/docs/tree/main/examples/langflow)
 - [Figma](https://github.com/magichourhq/docs/tree/main/examples/figma)
