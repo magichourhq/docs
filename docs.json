@@ -108,55 +108,12 @@
             "group": "Integration",
             "pages": [
               "integration/overview",
-              "integration/distribution-workflows",
-              "integration/evaluating-media-apis",
-              "integration/commercial-media-workflows",
-              "integration/agency-lip-sync",
-              "integration/smolagents",
               "integration/first-integration",
-              "integration/pydantic-ai",
-              "integration/vercel-ai-sdk",
-              "integration/litellm",
-              "integration/openai-agents-sdk",
-              "integration/microsoft-agent-framework",
-              "integration/google-adk",
-              "integration/genkit",
-              "integration/dspy",
-              "integration/voltagent",
-              "integration/strands-agents",
-              "integration/llamaindex",
-              "integration/spring-ai",
-              "integration/langchain4j",
-              "integration/mcp-agent",
-              "integration/beeai",
-              "integration/fast-agent",
-              "integration/mirascope",
-              "integration/praisonai",
-              "integration/open-webui",
-              "integration/anythingllm",
-              "integration/lobehub",
-              "integration/goose",
-              "integration/node-red",
-              "integration/windmill",
-              "integration/prefect",
-              "integration/dagster",
-              "integration/cloudflare-workflows",
-              "integration/inngest",
-              "integration/crewai",
-              "integration/eino",
-              "integration/langflow",
-              "integration/haystack",
-              "integration/figma",
-              "integration/framer",
-              "integration/adobe-express",
-              "integration/canva",
-              "integration/webflow",
-              "integration/postman",
-              "integration/adding-api-to-your-app",
               "integration/inputs-and-outputs",
-              "integration/langchain",
-              "integration/mastra",
+              "integration/adding-api-to-your-app",
               "integration/development-and-testing",
+              "integration/postman",
+              "integration/api-docs-mcp",
               {
                 "group": "Webhook",
                 "pages": [
@@ -167,8 +124,70 @@
                   "integration/webhook/event-types"
                 ]
               },
-              "integration/postman",
-              "integration/api-docs-mcp"
+              "integration/commercial-media-workflows",
+              "integration/evaluating-media-apis",
+              "integration/distribution-workflows",
+              "integration/agency-lip-sync",
+              {
+                "group": "Agent frameworks and SDKs",
+                "pages": [
+                  "integration/beeai",
+                  "integration/crewai",
+                  "integration/dspy",
+                  "integration/eino",
+                  "integration/fast-agent",
+                  "integration/genkit",
+                  "integration/google-adk",
+                  "integration/haystack",
+                  "integration/langchain",
+                  "integration/langchain4j",
+                  "integration/litellm",
+                  "integration/llamaindex",
+                  "integration/mastra",
+                  "integration/mcp-agent",
+                  "integration/microsoft-agent-framework",
+                  "integration/mirascope",
+                  "integration/openai-agents-sdk",
+                  "integration/praisonai",
+                  "integration/pydantic-ai",
+                  "integration/smolagents",
+                  "integration/spring-ai",
+                  "integration/strands-agents",
+                  "integration/vercel-ai-sdk",
+                  "integration/voltagent"
+                ]
+              },
+              {
+                "group": "Assistant apps",
+                "pages": [
+                  "integration/anythingllm",
+                  "integration/goose",
+                  "integration/lobehub",
+                  "integration/open-webui"
+                ]
+              },
+              {
+                "group": "Workflow platforms",
+                "pages": [
+                  "integration/cloudflare-workflows",
+                  "integration/dagster",
+                  "integration/inngest",
+                  "integration/langflow",
+                  "integration/node-red",
+                  "integration/prefect",
+                  "integration/windmill"
+                ]
+              },
+              {
+                "group": "Design apps",
+                "pages": [
+                  "integration/adobe-express",
+                  "integration/canva",
+                  "integration/figma",
+                  "integration/framer",
+                  "integration/webflow"
+                ]
+              }
             ]
           },
           {
