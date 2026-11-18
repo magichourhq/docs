@@ -1,24 +1,25 @@
 ---
 title: "Magic Hour API Quickstart"
 sidebarTitle: "Quick Start"
-description: "Generate your first image from the terminal, or create an API key and use Python, Node.js, Go, Rust, or cURL."
+description: "Generate and download your first Magic Hour image in the browser, from your terminal, or in code."
 ---
-
-Magic Hour is an AI video and image generation platform. You submit a job, we render it, and you download the result. This guide gets you to your first output in a few minutes.
-
-Compare [API pricing and payment options](/billing/overview) and
-[per-model credit costs](/api-reference/models) before running a generation. You can use the
-[account endpoint](/api-reference/account/get-account-details) to check your balance.
 
 ## Choose your path
 
 <CardGroup cols={3}>
   <Card
-    title="Build with an SDK"
-    icon="key"
-    href="https://magichour.ai/developer?tab=api-keys&ref=docs-quickstart-path&utm_source=docs&utm_medium=referral&utm_campaign=quick-start"
+    title="Try the API in your browser"
+    icon="flask"
+    href="https://magichour.ai/developer?tab=playground&tool=ai-image-generator&ref=docs-quickstart-playground&utm_source=docs&utm_medium=referral&utm_campaign=quick-start"
   >
-    Create an API key, then follow the runnable example below.
+    Sign in and run an image request in the API Playground.
+  </Card>
+  <Card
+    title="Build with code"
+    icon="key"
+    href="#1-create-your-api-key"
+  >
+    Create a key and follow the SDK or cURL example below.
   </Card>
   <Card
     title="Connect an AI agent"
@@ -27,17 +28,12 @@ Compare [API pricing and payment options](/billing/overview) and
   >
     Use Magic Hour from Claude, ChatGPT, Claude Code, or Codex through MCP.
   </Card>
-  <Card
-    title="Run in Google Colab"
-    icon="code"
-    href="https://colab.research.google.com/drive/1NTHL_lr_s-qBJ-mSecSXPzRLi9_V5JiU?usp=sharing"
-    openInNewTab
-  >
-    Try the APIs in your browser without setting up a local project.
-  </Card>
 </CardGroup>
 
 Prefer your terminal? [Use the CLI](#generate-from-your-terminal) to generate and download an image without writing SDK code.
+
+Before generating, check [model credit costs](/api-reference/models), your
+[credit balance](/api-reference/account/get-account-details), and [API billing options](/billing/overview).
 
 **For the SDK path, you'll:**
 
@@ -173,9 +169,8 @@ result. Choose the example that matches what you want to build:
 | **Generate image**  | Cheapest first success    | 5 credits                        | 5-30 seconds |
 | **Face swap video** | Our most popular API path | ~200 credits for the sample clip | 2-5 minutes  |
 
-Prefer to submit your first image request in a browser? Use the
-[AI Image Generator interactive tester](/api-reference/image-projects/ai-image-generator). Whether
-you use the tester or the code below, reaching a first result takes three steps:
+Use the [AI Image Generator reference](/api-reference/image-projects/ai-image-generator) to check
+exact request fields. To get a finished image, follow these three steps:
 
 1. **Request accepted:** Creating an image returns a project ID and `credits_charged`. This is not
    a completed image yet.
@@ -188,7 +183,7 @@ you use the tester or the code below, reaching a first result takes three steps:
 
 ### Copy the code and run it
 
-For cURL, use Bash with `curl` and `jq` installed, and set `MAGIC_HOUR_API_KEY`. The examples check these prerequisites before creating a generation.
+For cURL, use Bash with cURL 7.76 or later and `jq` installed, and set `MAGIC_HOUR_API_KEY`.
 
 <Note>
   **SDK compatibility:** Install or upgrade the current Python or Node.js SDK before running these
@@ -461,7 +456,7 @@ STATUS_URL="https://api.magichour.ai/v1/image-projects"
 API_KEY="$MAGIC_HOUR_API_KEY"
 OUTPUT_PATH="output.png"
 
-create_response=$(curl -fsS "$URL" \
+create_response=$(curl --fail-with-body -sS --max-time 30 "$URL" \
   --request POST \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer $API_KEY" \
@@ -473,34 +468,40 @@ create_response=$(curl -fsS "$URL" \
     "style": {
       "prompt": "Epic anime art of wizard casting a cosmic spell in the sky that says \"Magic Hour\""
     }
-  }')
+  }') || {
+    printf '%s\n' "$create_response" >&2
+    exit 1
+}
 
 project_id=$(echo "$create_response" | jq -er '.id')
 credits_charged=$(echo "$create_response" | jq -r '.credits_charged')
 
 echo "queued image with id $project_id, spent $credits_charged credits"
-while true; do
-    status_response=$(curl -fsS "$STATUS_URL/$project_id" --header "Authorization: Bearer $API_KEY")
+deadline=$((SECONDS + 180))
+while (( SECONDS < deadline )); do
+    status_response=$(curl -fsS --max-time 15 "$STATUS_URL/$project_id" --header "Authorization: Bearer $API_KEY")
 
     status=$(echo "$status_response" | jq -r '.status')
 
     if [ "$status" == "complete" ]; then
+        download_url=$(jq -er '.downloads[0].url | strings | select(length > 0)' <<< "$status_response") || {
+            echo "No download URL for project $project_id. Retrieve that project again." >&2
+            exit 1
+        }
+        curl -fsS --max-time 60 "$download_url" -o "$OUTPUT_PATH"
         echo "render complete!"
-        download_url=$(echo "$status_response" | jq -r '.downloads[0].url')
-
-        echo "downloading image from $download_url..."
-        curl -fsS "$download_url" -o "$OUTPUT_PATH"
-
         echo "file downloaded successfully to $OUTPUT_PATH"
-        break
+        exit 0
     elif [ "$status" == "error" ] || [ "$status" == "canceled" ]; then
-        echo "render failed"
-        break
+        echo "Project $project_id ended with status $status." >&2
+        exit 1
     else
         echo "render in progress"
         sleep 1
     fi
 done
+echo "Stopped waiting for project $project_id. Check its status before submitting another job." >&2
+exit 1
 ```
 
 </CodeGroup>
@@ -782,7 +783,7 @@ STATUS_URL="https://api.magichour.ai/v1/video-projects"
 API_KEY="$MAGIC_HOUR_API_KEY"
 OUTPUT_PATH="output.mp4"
 
-create_response=$(curl -fsS "$URL" \
+create_response=$(curl --fail-with-body -sS --max-time 30 "$URL" \
   --request POST \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer $API_KEY" \
@@ -795,36 +796,42 @@ create_response=$(curl -fsS "$URL" \
     },
     "start_seconds": 2.3,
     "end_seconds": 8.5
-  }')
+  }') || {
+    printf '%s\n' "$create_response" >&2
+    exit 1
+}
 
 project_id=$(echo "$create_response" | jq -er '.id')
 credits_charged=$(echo "$create_response" | jq -r '.credits_charged')
 
 echo "queued face swap video with id $project_id, spent $credits_charged estimated credits. The final charge is available after rendering."
-while true; do
-    status_response=$(curl -fsS "$STATUS_URL/$project_id" --header "Authorization: Bearer $API_KEY")
+deadline=$((SECONDS + 600))
+while (( SECONDS < deadline )); do
+    status_response=$(curl -fsS --max-time 15 "$STATUS_URL/$project_id" --header "Authorization: Bearer $API_KEY")
 
     status=$(echo "$status_response" | jq -r '.status')
 
     if [ "$status" == "complete" ]; then
         credits_charged=$(echo "$status_response" | jq -r '.credits_charged')
         fps=$(echo "$status_response" | jq -r '.fps')
-        download_url=$(echo "$status_response" | jq -r '.downloads[0].url')
+        download_url=$(jq -er '.downloads[0].url | strings | select(length > 0)' <<< "$status_response") || {
+            echo "No download URL for project $project_id. Retrieve that project again." >&2
+            exit 1
+        }
         echo "render complete! Final credit charged is $credits_charged, actual fps is $fps."
-
-        echo "downloading video from $download_url..."
-        curl -fsS "$download_url" -o "$OUTPUT_PATH"
-
-        echo "file downloaded successfully to $OUTPUT_PATH"
-        break
+        curl -fsS --max-time 120 "$download_url" -o "$OUTPUT_PATH"
+        echo "Saved $OUTPUT_PATH"
+        exit 0
     elif [ "$status" == "error" ] || [ "$status" == "canceled" ]; then
-        echo "render failed"
-        break
+        echo "Project $project_id ended with status $status." >&2
+        exit 1
     else
         echo "render in progress: $status"
         sleep 3
     fi
 done
+echo "Stopped waiting for project $project_id. Check its status before submitting another job." >&2
+exit 1
 ```
 
 </CodeGroup>
@@ -839,7 +846,7 @@ created face swap video with id clx1234567890, spent 186 credits. Outputs are sa
 
 </Tabs>
 
-2. **Paste it into your file** (`main.py`, `main.js`, `main.go`, etc.)
+2. **Paste it into your file.** For cURL, save it as `generate.sh`.
 3. **Run the code:**
 
 <CodeGroup>
@@ -876,7 +883,16 @@ cd magic-hour-quickstart
 cargo run
 ```
 
+```bash cURL
+bash generate.sh
+```
+
 </CodeGroup>
+
+If cURL stops after printing a project ID, use [Get Image Details](/api-reference/image-projects/get-image-details)
+or [Get Video Details](/api-reference/video-projects/get-video-details) to check that same project
+before running the script again. If the create request times out without an ID, check your
+[library](https://magichour.ai/my-library) before retrying. Running the script again submits another job.
 
 ## Generate from your terminal
 
