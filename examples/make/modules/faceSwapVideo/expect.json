@@ -20,7 +20,7 @@
     "help": "Provide a public HTTPS file URL that Magic Hour can download, or a file_path from the Magic Hour upload API. Use content you have permission to process."
   },
   {
-    "name": "startSeconds",
+    "name": "start_seconds",
     "type": "number",
     "label": "Clip start (seconds)",
     "required": true,
@@ -30,7 +30,7 @@
     }
   },
   {
-    "name": "endSeconds",
+    "name": "end_seconds",
     "type": "number",
     "label": "Clip end (seconds)",
     "required": true,

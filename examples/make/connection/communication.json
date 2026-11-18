@@ -4,8 +4,8 @@
   "headers": {
     "Authorization": "Bearer {{parameters.apiKey}}"
   },
-  "followRedirect": false,
-  "followAllRedirect": false,
+  "followRedirects": false,
+  "followAllRedirects": false,
   "response": {
     "valid": "{{statusCode === 200}}",
     "error": {

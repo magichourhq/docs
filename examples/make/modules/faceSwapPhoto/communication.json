@@ -12,6 +12,6 @@
   "response": {
     "output": "{{body}}"
   },
-  "followRedirect": false,
-  "followAllRedirect": false
+  "followRedirects": false,
+  "followAllRedirects": false
 }

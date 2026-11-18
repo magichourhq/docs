@@ -2,8 +2,17 @@
   "url": "/{{parameters.mediaType}}-projects/{{encodeURL(parameters.generationId)}}",
   "method": "GET",
   "response": {
-    "output": "{{body}}"
+    "iterate": "{{body.downloads}}",
+    "output": {
+      "{{...}}": "{{item}}",
+      "expires_at": "{{parseDate(item.expires_at; if(contains(item.expires_at; '.'); 'YYYY-MM-DDTHH:mm:ss.SSSZ'; 'YYYY-MM-DDTHH:mm:ssZ'))}}"
+    },
+    "wrapper": {
+      "{{...}}": "{{body}}",
+      "created_at": "{{parseDate(body.created_at; if(contains(body.created_at; '.'); 'YYYY-MM-DDTHH:mm:ss.SSSZ'; 'YYYY-MM-DDTHH:mm:ssZ'))}}",
+      "downloads": "{{ifempty(output; body.downloads)}}"
+    }
   },
-  "followRedirect": false,
-  "followAllRedirect": false
+  "followRedirects": false,
+  "followAllRedirects": false
 }

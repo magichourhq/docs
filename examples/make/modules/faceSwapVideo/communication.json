@@ -3,8 +3,7 @@
   "method": "POST",
   "type": "json",
   "body": {
-    "start_seconds": "{{parameters.startSeconds}}",
-    "end_seconds": "{{parameters.endSeconds}}",
+    "{{...}}": "{{omit(parameters, 'sourceImage', 'targetVideo')}}",
     "assets": {
       "face_swap_mode": "all-faces",
       "image_file_path": "{{parameters.sourceImage}}",
@@ -15,6 +14,6 @@
   "response": {
     "output": "{{body}}"
   },
-  "followRedirect": false,
-  "followAllRedirect": false
+  "followRedirects": false,
+  "followAllRedirects": false
 }
