@@ -625,7 +625,7 @@
     },
     "/v1/files/upload-urls": {
       "post": {
-        "description": "Generates a list of pre-signed upload URLs for the assets required. This API is only necessary if you want to upload to Magic Hour's storage. Refer to the [Input Files Guide](https://docs.magichour.ai/integration/inputs-and-outputs) for more details.\n\nThe response array will match the order of items in the request body.\n\n**Valid file extensions per asset type**:\n- video: mp4, m4v, mov, webm\n- audio: mp3, wav, aac, flac, webm, weba, m4a, opus, ogg, oga, aiff, amr\n- image: png, jpg, jpeg, jpe, jfif, heic, heif, webp, avif, jp2, tiff, tif, bmp\n- gif: gif, webp, webm\n\n> Note: `gif` is only supported for face swap API `video_file_path` field.\n\nOnce you receive an upload URL, send a `PUT` request to upload the file directly.\n\nExample:\n\n```\ncurl -X PUT --data '@/path/to/file/video.mp4' \\\n  https://videos.magichour.ai/api-assets/id/video.mp4?<auth params from the API response>\n```\n",
+        "description": "Generates a list of pre-signed upload URLs for the assets required. This API is only necessary if you want to upload to Magic Hour's storage. Refer to the [Input Files Guide](https://docs.magichour.ai/integration/inputs-and-outputs) for more details.\n\nThe response array will match the order of items in the request body.\n\n**Valid file extensions per asset type**:\n- video: mp4, m4v, mov, webm\n- audio: mp3, wav, aac, flac, webm, weba, m4a, opus, ogg, oga, aiff, amr\n- image: png, jpg, jpeg, jpe, jfif, heic, heif, webp, avif, jp2, tiff, tif, bmp\n- gif: gif, webp, webm\n\n> Note: `gif` is only supported for face swap API `video_file_path` field.\n\nOnce you receive an upload URL, send a `PUT` request to upload the file directly.\n\nExample:\n\n```\ncurl -X PUT --data-binary '@/path/to/file/video.mp4' \\\n  \"https://videos.magichour.ai/api-assets/id/video.mp4?<auth params from the API response>\"\n```\n",
         "summary": "Generate asset upload urls",
         "tags": ["Files"],
         "parameters": [],
@@ -4422,7 +4422,7 @@
                     "default": "wan-animate",
                     "type": "string",
                     "enum": ["wan-animate", "kling-3.0", "minimax-h3"],
-                    "description": "Model to use. Defaults to `wan-animate`.\n\n* **`wan-animate`**: 480p, 720p. Supports `points` subject selection.\n* **`kling-3.0`**: 720p, 1080p. Clips of 3–10 seconds in `replace` mode or 3–30 seconds in `animate` mode. Picks the main person automatically, so `points` are rejected.\n* **`minimax-h3`**: 480p, 720p, 1080p. Clips of 1–60 seconds in `replace` mode or 1–60 seconds in `animate` mode. Subject `points` are `replace`-only; `animate` with `selection_mode` `point` returns 422, and with `auto` or no `selection_mode` the points are ignored.",
+                    "description": "Model to use. Defaults to `wan-animate`.\n\n* **`wan-animate`**: 480p, 720p. Supports `points` subject selection.\n* **`kling-3.0`**: 720p, 1080p. Clips of 3–10 seconds in `replace` mode or 3–30 seconds in `animate` mode. Picks the main person automatically, so `points` are rejected.\n* **`minimax-h3`**: 480p, 720p, 1080p. Clips of 1–30 seconds in `replace` mode or 1–60 seconds in `animate` mode. Subject `points` are `replace`-only; `animate` with `selection_mode` `point` returns 422, and with `auto` or no `selection_mode` the points are ignored.",
                     "example": "wan-animate"
                   },
                   "resolution": {
@@ -4462,7 +4462,7 @@
                       "prompt": {
                         "type": "string",
                         "maxLength": 2000,
-                        "description": "Optional direction. Supported by kling-3.0, minimax-h3."
+                        "description": "Optional direction. Supported by kling-3.0, minimax-h3. For MiniMax H3 in replace mode, ignored and not saved when `selection_mode` is `point`; applies only to automatic person selection."
                       },
                       "selection_mode": {
                         "type": "string",
@@ -4490,14 +4490,14 @@
                             "time_seconds": {
                               "type": "number",
                               "minimum": 0,
-                              "description": "Timestamp on the source video timeline in seconds. Uses the same clock as `start_seconds` and `end_seconds`.",
+                              "description": "Timestamp on the source video timeline in seconds. Uses the same clock as `start_seconds` and `end_seconds`. For MiniMax H3 manual replacement, `start_seconds <= time_seconds < end_seconds`.",
                               "format": "float",
                               "example": 2.5
                             }
                           },
                           "required": ["position_x", "position_y", "time_seconds"]
                         },
-                        "description": "On-frame markers for manual subject selection. Required when `selection_mode` is `point`. Ignored when `selection_mode` is `auto` or omitted. Rejected for models without subject selection (supported by `wan-animate`, `minimax-h3`). `minimax-h3` subject `points` are `replace`-only; `animate` with `selection_mode` `point` returns 422, and with `auto` or no `selection_mode` the points are ignored."
+                        "description": "On-frame markers for manual subject selection. Required when `selection_mode` is `point`. Ignored when `selection_mode` is `auto` or omitted. Rejected for models without subject selection (supported by `wan-animate`, `minimax-h3`). `minimax-h3` subject `points` are `replace`-only; `animate` with `selection_mode` `point` returns 422, and with `auto` or no `selection_mode` the points are ignored. MiniMax H3 manual replacement accepts 1 to 10 points; each must satisfy `start_seconds <= time_seconds < end_seconds`."
                       }
                     },
                     "description": "Optional style controls for replace vs animate mode and subject selection.",
