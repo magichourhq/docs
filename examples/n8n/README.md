@@ -1,6 +1,8 @@
 # Magic Hour n8n workflows
 
-Import these workflow JSON files into n8n after installing [`@gladiator1st/n8n-nodes-magichour`](https://www.npmjs.com/package/@gladiator1st/n8n-nodes-magichour) under **Settings → Community Nodes**. Installation on n8n Cloud depends on the package's verified status; self-hosted users can install community packages. Select your own Magic Hour credential after import; no credential is included.
+For a new self-hosted n8n setup, go to **Settings → Community Nodes → Install** and enter the official [`@magichourhq/n8n-nodes-magichour`](https://www.npmjs.com/package/@magichourhq/n8n-nodes-magichour) package. The [official node README](https://github.com/magichourhq/n8n-nodes-magichour#installation) covers setup and migration from the earlier unscoped package. n8n Cloud requires community nodes to be verified before they can be installed.
+
+The workflow JSON files below reference the earlier [`@gladiator1st/n8n-nodes-magichour`](https://www.npmjs.com/package/@gladiator1st/n8n-nodes-magichour) package. To import these files as written, install that package on self-hosted n8n and select your own Magic Hour credential after import.
 
 | Workflow                                                | Setup                                                                                                                    | Output                                                          |
 | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------- |
@@ -10,7 +12,7 @@ Import these workflow JSON files into n8n after installing [`@gladiator1st/n8n-n
 
 Download the result from the n8n execution, or connect **Download result** to a Google Drive Upload/S3/storage node with binary input field `data`. To drive generation from Sheets, Airtable, Shopify or a CRM, replace the manual trigger and map its fields into the Magic Hour node. Source/destination accounts and permissions must be configured in your own instance.
 
-Each flow explicitly checks `status === complete` before downloading. This also protects against the published node's known polling-timeout behavior while [the upstream fix](https://github.com/Gladiator1st/n8n-nodes-magichour/pull/1) awaits release. If execution stops, keep the project ID and use the recovery flow. Do not enable automatic retries on a paid generation step or restart the full workflow just to retrieve an existing result.
+Each flow explicitly checks `status === complete` before downloading. This protects the examples if the earlier node returns before the job completes. If execution stops, keep the project ID and use the recovery flow. Do not enable automatic retries on a paid generation step or restart the full workflow just to retrieve an existing result.
 
 Private Drive share pages are not direct media URLs. Download the file using its authenticated source connector, obtain a Magic Hour [upload URL](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls), PUT the raw bytes without a Magic Hour bearer header, then use `file_path` as the input. Model availability, duration and cost vary by plan; verify the [API reference](https://docs.magichour.ai/api-reference) before a batch run.
 
