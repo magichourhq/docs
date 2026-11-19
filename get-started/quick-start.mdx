@@ -988,13 +988,13 @@ If you encounter HTTP errors, here's what they mean:
 | `422`      | Unprocessable Entity  | Change the request values before retrying                                                                                                  |
 | `500`      | Internal Server Error | Retry status reads for the same project ID. Before retrying a create request, check whether it was accepted; contact support if uncertain. |
 
-For a `402`, use the response's structured `code`, not its human-readable `message`:
+For a `402`, use the response's structured `code` to choose the next step.
 
-- `insufficient_credits`: add credits or choose a request that fits your balance.
-- `subscription_required`: start a subscription.
-- `plan_upgrade_required`: upgrade your plan or choose settings available on your current plan.
+- If you get `insufficient_credits`, [buy a credit pack](https://magichour.ai/pricing?ref=docs-quickstart-402#credit-pack) or choose a request that fits your balance.
+- If you get `subscription_required`, [choose a subscription](https://magichour.ai/pricing?ref=docs-quickstart-402#plans).
+- If you get `plan_upgrade_required`, choose settings included in your current plan or [switch to a plan that supports your request](https://magichour.ai/pricing?ref=docs-quickstart-402#plans).
 
-Credit packs do not unlock paid-plan models or settings. Retry only after resolving the indicated requirement.
+Paid-plan models and settings require an eligible subscription. When buying credits or changing plans, sign in to the account that owns your API key. Use [Get account details](/api-reference/account/get-account-details) to confirm your balance and plan before retrying.
 
 **For persistent errors:** Contact [support@magichour.ai](mailto:support@magichour.ai) with your project ID.
 
