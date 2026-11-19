@@ -1,0 +1,64 @@
+{
+  "v": 2,
+  "name": "Magic Hour API - Recover completed media",
+  "folders": [],
+  "requests": [
+    {
+      "v": "3",
+      "endpoint": "https://api.magichour.ai/v1/image-projects/<<magic_hour_image_project_id>>",
+      "name": "Get image project and downloads",
+      "method": "GET",
+      "headers": [
+        {
+          "key": "Accept",
+          "value": "application/json",
+          "active": true
+        }
+      ],
+      "params": [],
+      "preRequestScript": "",
+      "testScript": "",
+      "body": {
+        "contentType": null,
+        "body": null
+      },
+      "auth": {
+        "authType": "bearer",
+        "authActive": true,
+        "token": "<<magic_hour_api_key>>"
+      },
+      "requestVariables": []
+    },
+    {
+      "v": "3",
+      "endpoint": "https://api.magichour.ai/v1/video-projects/<<magic_hour_video_project_id>>",
+      "name": "Get video project and downloads",
+      "method": "GET",
+      "headers": [
+        {
+          "key": "Accept",
+          "value": "application/json",
+          "active": true
+        }
+      ],
+      "params": [],
+      "preRequestScript": "",
+      "testScript": "",
+      "body": {
+        "contentType": null,
+        "body": null
+      },
+      "auth": {
+        "authType": "bearer",
+        "authActive": true,
+        "token": "<<magic_hour_api_key>>"
+      },
+      "requestVariables": []
+    }
+  ],
+  "auth": {
+    "authType": "inherit",
+    "authActive": true
+  },
+  "headers": []
+}
