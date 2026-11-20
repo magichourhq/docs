@@ -60,9 +60,9 @@ human review step before publishing a clip.
 | Option                    | Best fit                                                | Cost or constraint for a five-second clip                 |
 | :------------------------ | :------------------------------------------------------ | :-------------------------------------------------------- |
 | Account default           | First integration and lowest setup friction             | Uses the model and resolution available to your account   |
-| Kling 3.0, 720p, no audio | Camera movement from a product photo                    | 240 credits; paid plan required                           |
+| Kling 3.0, 720p, audio off, no video reference | Camera movement from a product photo | 300 credits. Requires a paid plan. |
 | LTX 2.5, 480p             | Lower-cost prompt iteration                             | 120 credits                                               |
-| Seedance 2.0, 720p        | Reference-driven video experiments                      | 1,440 credits                                             |
+| Seedance 2.0, 720p        | Reference-driven video experiments                      | 1,080 credits                                             |
 | Template rendering        | Exact prices, legal copy, logos, and repeatable layouts | Use a deterministic renderer instead of generative motion |
 
 Model duration, resolution, audio, and plan constraints differ. Check the current
@@ -145,8 +145,8 @@ guidance, not a guarantee that labels, logos, or product details remain exact.
 2. Store the SKU, input-image version, prompt, model, settings, and returned project ID together.
 3. Queue one project per image. Start with one active job and increase concurrency only after
    checking account limits and error rates.
-4. Budget for successful creative attempts, including variants you reject. At 240 credits each,
-   100 five-second Kling 3.0 clips use 24,000 credits; three attempts per SKU use 72,000 credits.
+4. Budget for successful creative attempts, including variants you reject. At 300 credits each,
+   100 five-second Kling 3.0 clips use 30,000 credits. Three attempts per SKU use 90,000 credits.
 5. Download completed outputs to your own storage and review each clip before marking the SKU ready.
 
 The endpoint creates one project per image; it does not accept a catalog in one request. A request
