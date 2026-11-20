@@ -87,7 +87,7 @@ The motion prompt is optional. Use it to describe the movement you want:
 
 ## Model selection
 
-`model="default"` currently selects `kling-3.0` on paid tiers and `ltx-2.5` on the free tier. Set a model explicitly when your workflow needs a fixed duration and resolution combination. The examples use `ltx-2.5`, which supports five-second clips at 480p; the paid default does not support 480p.
+At five seconds and 480p, `model="default"` selects `ltx-2.5` on Free and `seedance-1.5` on paid plans. Set the model explicitly to reproduce a quoted price. The examples below set `model="ltx-2.5"` and use 120 credits for a five-second clip without audio.
 
 Other current options include `gemini-omni-1.2`, `minimax-h3`, `seedance-2.0-mini`, `seedance-2.5`, and `veo3.1-lite`. Check the [API reference](/api-reference/video-projects/image-to-video) for each model's supported durations, resolutions, and audio settings. Audio is disabled by default. With `gemini-omni-1.2`, set `audio: true` to include audio at the same credit rate.
 
