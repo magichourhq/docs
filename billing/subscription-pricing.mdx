@@ -57,11 +57,12 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
 <PricingCard
   title="Creator"
   prices={[
-    { amount: 19, label: "/month" },
-    { amount: 12, label: "/month billed annually" },
+    { amount: 24, label: "/month" },
+    { amount: 15, label: "/month billed annually" },
   ]}
   benefits={[
-    "12,000 credits per month",
+    "15,000 credits per month on monthly billing",
+    "180,000 credits upfront on annual billing",
     "No watermarks, commercial use",
     "2GB uploads, 3 concurrent web generations",
   ]}
@@ -99,19 +100,18 @@ import { PricingCard } from "/snippets/pricing-card.mdx";
 These are standard USD prices. Check the [pricing page](https://magichour.ai/pricing) and checkout
 for the offer and currency available to you.
 
-Annual Creator is $144/year, Pro $300/year, Business $792/year. Credit totals above are the monthly
-allotment; annual plans include twelve months of that allotment (144,000 / 300,000 / 840,000
-credits per year).
+Annual plans include twelve months of credits upfront. Creator costs \$180 for 180,000 credits,
+Pro costs \$300 for 300,000 credits, and Business costs \$792 for 840,000 credits.
 
 ### Kling 3.0 annual pricing example
 
 A five-second `kling-3.0` video at `720p`, with audio off and no video reference, uses 300 credits.
-Creator annual includes enough credits for 480 such generations: $144 paid upfront, equivalent to
-$0.30 per video when all included credits are used.
+Creator annual costs \$180 upfront and covers 600 such clips at \$0.30 per clip when all included
+credits are used.
 
 | Annual plan | Upfront payment | Included credits | 720p, audio off | 720p, audio on | 1080p, audio off | 1080p, audio on |
 | :---------- | --------------: | ---------------: | --------------: | -------------: | ---------------: | --------------: |
-| Creator     |       $144/year |          144,000 |          $0.300 |         $0.420 |           $0.360 |          $0.540 |
+| Creator     |       $180/year |          180,000 |          $0.300 |         $0.420 |           $0.360 |          $0.540 |
 | Pro         |       $300/year |          300,000 |          $0.300 |         $0.420 |           $0.360 |          $0.540 |
 | Business    |       $792/year |          840,000 |          $0.283 |         $0.396 |           $0.339 |          $0.509 |
 
@@ -166,26 +166,18 @@ Ready to subscribe? Here's how to set up your subscription in minutes.
 <Steps>
 <Step title="Visit the Pricing Page">
   Go to [magichour.ai/pricing](https://magichour.ai/pricing?ref=docs-subscription-pricing) to see all available plans and current pricing.
-
-![Current pricing page](./images/pricing-page-1.jpg)
-
 </Step>
 
 <Step title="Choose Billing Frequency">
   **Monthly**: Pay monthly, cancel anytime. **Yearly**: Pay upfront at the discount shown on the
   live pricing page.
-
-![Billing-frequency control](./images/pricing-page-2.jpg)
-
 </Step>
 
 <Step title="Select Your Plan">
   Choose based on monthly credits and which resolution options you need:
-  - **Creator**: $19/month ($12/month billed annually), 12,000 credits
+  - **Creator**: \$24/month for 15,000 credits, or \$180/year for 180,000 credits upfront
   - **Pro**: $39/month ($25/month billed annually), 25,000 credits
   - **Business**: $99/month ($66/month billed annually), 70,000 credits
-
-![Plan selection buttons](./images/pricing-page-3.jpg)
 
 Click the button for your chosen plan to proceed to checkout.
 
