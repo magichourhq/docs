@@ -29,6 +29,20 @@ pd publish wait-for-result.mjs
 
 Keep `common.mjs` beside the action files: it is a relative import bundled with each component. Add a published action to a workflow and enter the API key in its secret field. Publishing to your account does not create a public marketplace listing.
 
+## Connect: retrieve an existing project once
+
+`get-existing-project.mjs` is a GET-only custom action for the supported Connect route. It checks the saved image, video, or audio project ID once, with no generation, polling, or Workflows scheduler dependency. It returns `status`; draft, queued, and rendering projects have `output_url: null` and `output_urls: []`. A draft has not been submitted for rendering. Continue to a file destination only when `status` is `complete`. Failed, canceled, deleted, unexpected, or invalid responses stop the action. Completed downloads must have HTTPS URLs and future `expires_at` values; save the files promptly. An expired link requires retrieving the **same project ID**, not generating again.
+
+Publishing [Connect custom tools](https://pipedream.com/docs/connect/components/custom-tools) requires a Pipedream Business plan and an authenticated workspace. If your workspace already has this access, keep `common.mjs` beside the action and publish to development first:
+
+```sh
+pd publish get-existing-project.mjs --connect-environment development
+```
+
+Retrieve and run the published key `~/magic_hour-get-existing-project@0.0.1` in the matching Connect environment, with the intended `external_user_id` and configured `apiKey`, `projectId`, and `projectType` props. Supply only the authorized user's Magic Hour key in the existing secret prop; this action does not provide OAuth or enforce your application's end-user/project ownership mapping. Treat both Connect errors/observations and the action's `ret.status` as part of the result; an outer HTTP success alone does not mean the media is complete. Keep keys and signed download URLs out of public exports, logs, and shared histories. Returned URLs are disclosed to Pipedream and the Connect caller; restrict access and retain them only as needed.
+
+This is a source example: Connect publication, hosted execution, secret-prop behavior and destination handoff remain unverified. The existing **Wait for Result** action remains unchanged for deployed Workflows; its scheduled reruns are not claimed to work in Connect.
+
 ## Generate, wait, save
 
 1. Add a trigger and choose one generation action. Map the prompt or source media from the trigger.
