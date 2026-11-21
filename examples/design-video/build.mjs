@@ -54,11 +54,10 @@ for (const platform of ["adobe-express", "canva"]) {
     execFileSync(
       process.execPath,
       [
-        "node_modules/@formatjs/cli/bin/formatjs",
+        fileURLToPath(import.meta.resolve("@formatjs/cli/bin/formatjs")),
         "extract",
         "canva/src/**/*.{ts,tsx}",
         "shared/{video,media}.ts",
-        "../vercel-ai-sdk/src/client.ts",
         "--out-file",
         "canva/dist/messages_en.json",
         "--id-interpolation-pattern",
@@ -66,6 +65,15 @@ for (const platform of ["adobe-express", "canva"]) {
       ],
       { stdio: "inherit" }
     );
+    const clientMessages = JSON.parse(
+      await readFile(new URL(import.meta.resolve("@magichourhq/browser-client/messages_en.json")), "utf8")
+    );
+    const catalogPath = "canva/dist/messages_en.json";
+    const appMessages = JSON.parse(await readFile(catalogPath, "utf8"));
+    const messages = Object.entries({ ...clientMessages, ...appMessages }).sort(([a], [b]) =>
+      a < b ? -1 : a > b ? 1 : 0
+    );
+    await writeFile(catalogPath, JSON.stringify(Object.fromEntries(messages), null, 2) + "\n");
     // The Canva Developer Portal accepts one JS bundle. Inline its generated UI Kit CSS.
     const css = await readFile(`${platform}/dist/app.css`, "utf8");
     const js = await readFile(`${platform}/dist/app.js`, "utf8");

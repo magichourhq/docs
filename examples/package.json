@@ -1,0 +1,8 @@
+{
+  "name": "magic-hour-integration-examples",
+  "private": true,
+  "workspaces": [
+    "browser-client",
+    "vercel-ai-sdk"
+  ]
+}

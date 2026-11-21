@@ -6,7 +6,7 @@ import {
   experimental_generateVideo as generateVideo,
 } from "ai";
 import { createMagicHour, MagicHourError } from "../src/index.js";
-import { MagicHourClient } from "../src/client.js";
+import { MagicHourClient } from "@magichourhq/browser-client";
 const png = Buffer.from(
   "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=",
   "base64"

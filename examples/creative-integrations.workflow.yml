@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
     paths:
+      - examples/browser-client/**
+      - examples/package.json
+      - examples/package-lock.json
+      - examples/creative-integrations.workflow.yml
+      - examples/webflow/**
       - examples/vercel-ai-sdk/**
       - examples/figma/**
       - examples/langflow/**
@@ -11,6 +16,11 @@ on:
       - .github/workflows/creative-integrations.yml
   pull_request:
     paths:
+      - examples/browser-client/**
+      - examples/package.json
+      - examples/package-lock.json
+      - examples/creative-integrations.workflow.yml
+      - examples/webflow/**
       - examples/vercel-ai-sdk/**
       - examples/figma/**
       - examples/langflow/**
@@ -27,7 +37,9 @@ jobs:
         with:
           node-version: "22"
       - run: npm ci
-        working-directory: examples/vercel-ai-sdk
+        working-directory: examples
+      - run: npm pack --dry-run --workspace @magichourhq/browser-client
+        working-directory: examples
       - run: npm run check && npm test && npm run build && npm pack --dry-run
         working-directory: examples/vercel-ai-sdk
       - run: npm ci
@@ -38,6 +50,8 @@ jobs:
         working-directory: examples/figma
       - run: npm run test:ui
         working-directory: examples/figma
+      - run: npm ci && npm run check && npm run build
+        working-directory: examples/webflow
   langflow:
     runs-on: ubuntu-latest
     steps:
@@ -56,6 +70,8 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "22"
+      - run: npm ci && npm run build --workspace @magichourhq/browser-client
+        working-directory: examples
       - run: npm ci --no-audit --no-fund
         working-directory: examples/design-video
       - run: npm run check && npm test && npm run build

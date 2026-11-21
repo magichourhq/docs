@@ -1,4 +1,4 @@
-import { englishMessage, type MessageFormatter } from "../../../vercel-ai-sdk/src/client";
+import { englishMessage, type MessageFormatter } from "@magichourhq/browser-client";
 import type * as Asset from "@canva/asset";
 import type * as Design from "@canva/design";
 import type * as Platform from "@canva/platform";

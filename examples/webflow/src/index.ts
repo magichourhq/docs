@@ -1,4 +1,4 @@
-import { MagicHourClient, MagicHourError } from "../../vercel-ai-sdk/src/client";
+import { MagicHourClient, MagicHourError } from "@magichourhq/browser-client";
 import { fitGif } from "./gif";
 
 const el = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;

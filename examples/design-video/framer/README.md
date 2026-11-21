@@ -1,6 +1,6 @@
 # Magic Hour for Framer
 
-From `examples/design-video`, run `npm ci --no-audit --no-fund`, then `npm run build`. The production bundle is `framer/dist` and uses Framer's official `vite-plugin-framer` build convention, including `.mjs` entry files and `framer.json`.
+Follow the [design-video build steps](../README.md#build-and-check). The production bundle is `framer/dist` and uses Framer's official `vite-plugin-framer` build convention, including `.mjs` entry files and `framer.json`.
 
 ## Development installation
 
