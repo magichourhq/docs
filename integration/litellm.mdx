@@ -6,7 +6,7 @@ description: Generate images with Magic Hour through LiteLLM's SDK and authentic
 Magic Hour's first-party CustomLLM adapter connects LiteLLM 1.106.3 to image generation. It supports one square Z-Image Turbo image per call, with `640px`, `1k`, or `2k` resolution. Resolution is the maximum longest edge, not a promise of exact dimensions.
 
 <Note>
-  This is an installable Magic Hour adapter, not a built-in LiteLLM provider. The package is available from GitHub Releases; it is not published on PyPI.
+  Install the Magic Hour adapter from [PyPI](https://pypi.org/project/magic-hour-litellm/). The adapter registers Magic Hour as a custom provider.
 </Note>
 
 ## Install and configure
@@ -14,10 +14,10 @@ Magic Hour's first-party CustomLLM adapter connects LiteLLM 1.106.3 to image gen
 Use Python 3.10 or newer in your application's virtual environment:
 
 ```bash
-python -m pip install 'https://github.com/magichourhq/magic-hour-litellm/releases/download/v0.1.0/magic_hour_litellm-0.1.0-py3-none-any.whl#sha256=b64e6e29c56d9432b5c5db2a40c70756ebabcbad5e5f9cbf677cf901d3113bde'
+python -m pip install 'magic-hour-litellm==0.1.1' 'litellm==1.106.3'
 ```
 
-The [version 0.1.0 release](https://github.com/magichourhq/magic-hour-litellm/releases/tag/v0.1.0) includes the 9,929-byte wheel and checksums. It pins LiteLLM 1.106.3. Review compatibility before upgrading.
+This guide uses [Magic Hour LiteLLM 0.1.1](https://pypi.org/project/magic-hour-litellm/0.1.1/) with LiteLLM 1.106.3.
 
 Create a [Magic Hour API key](https://magichour.ai/developer?tab=api-keys), then supply `MAGIC_HOUR_API_KEY` through your server's environment or secret manager. No OpenAI API key is required. Keep credentials out of browser code, source control, and logs.
 
@@ -143,6 +143,8 @@ The supplied hook preserves and validates image options before LiteLLM's CustomL
 
 ## Verified scope
 
-Native SDK validation created one usable 640×640 PNG and charged 5 credits. The built adapter was also installed and run through the stock authenticated LiteLLM proxy and normal OpenAI client: unauthenticated requests were rejected with 401, and the client recovered the same completed project with credit metadata and a fresh HTTPS output URL. The proxy check requested no new generation. Twelve mocked tests passed separately.
+Version 0.1.1 installed from PyPI with LiteLLM 1.106.3. The SDK and proxy both reached the adapter’s missing-key check without sending a generation request.
+
+With version 0.1.0, native SDK validation created one usable 640×640 PNG and charged 5 credits. The built adapter was also installed and run through the stock authenticated LiteLLM proxy and normal OpenAI client: unauthenticated requests were rejected with 401, and the client recovered the same completed project with credit metadata and a fresh HTTPS output URL. The proxy check requested no new generation. Twelve mocked tests passed separately.
 
 Image creation was verified through the SDK; proxy verification covered same-ID recovery. These results do not establish built-in LiteLLM support or upstream acceptance. Video, audio, uploaded inputs, multiple images, and non-URL response formats are outside this initial adapter's scope.
