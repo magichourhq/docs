@@ -4,6 +4,8 @@ sidebarTitle: "Agency Lip-Sync Pilot"
 description: "Test existing speaker footage with approved voiceovers, record quality and accepted-output cost, and prepare a repeatable client delivery workflow."
 ---
 
+import { VideoPlayer } from "/snippets/video-player.mdx";
+
 For an agency localizing an existing speaker video, Magic Hour's lip-sync workflow takes a video
 and replacement audio. It animates mouth movement; it does not by itself validate a translation,
 approve a voice or finish the ad. If your starting asset is a still portrait, use
@@ -28,6 +30,28 @@ This is a pilot process, not a claim that Magic Hour outperforms another provide
    local files, submits a project, waits and downloads the output.
 
 ## Review the delivered result
+
+This example uses a fictional presenter and a 2.96-second synthetic voiceover. Play the result with
+sound to compare the mouth movement with the silent source.
+
+<Columns cols={2}>
+  <Column>
+    <p>
+      <strong>Original clip</strong>
+    </p>
+    <VideoPlayer src="/integration/images/agency-lip-sync-source.mp4" />
+  </Column>
+  <Column>
+    <p>
+      <strong>Lip-synced result</strong>
+    </p>
+    <VideoPlayer src="/integration/images/agency-lip-sync-result.mp4" />
+  </Column>
+</Columns>
+
+This run used **Lip Sync Standard**, exported at **640 × 640**, and charged **72 credits**.
+
+[Try with your video](https://magichour.ai/create/lip-sync)
 
 Watch the complete output with sound and compare it with the source. Review speech onset, pauses,
 visible mouth closures, head turns, face texture and identity. Check duration, audio alignment and
