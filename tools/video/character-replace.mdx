@@ -64,9 +64,10 @@ The default model is `wan-animate`.
 | :------------ | :---------------- | :--------------- | :--------------- |
 | `wan-animate` | 480p, 720p        | Up to 60 seconds | Up to 60 seconds |
 | `kling-3.0`   | 720p, 1080p       | 3–10 seconds     | 3–30 seconds     |
+| `kling-4.0`   | 720p, 1080p       | 3–30 seconds     | Unavailable      |
 | `minimax-h3`  | 480p, 720p, 1080p | 1–30 seconds     | 1–60 seconds     |
 
-Duration limits for your plan still apply. Resolution must be supported by the model and your plan. If omitted, it defaults to the lowest
+Kling 4.0 requires a paid subscription. Duration limits for your plan still apply. Resolution must be supported by the model and your plan. If omitted, it defaults to the lowest
 resolution available on your plan for that model. `end_seconds` is required; `start_seconds`
 defaults to zero. The selected duration is `end_seconds - start_seconds`.
 
@@ -77,13 +78,13 @@ and provide `style.points`. Coordinates are pixels in the source frame, and time
 source video's timeline.
 
 - **Wan Animate:** supports point selection in both modes.
-- **Kling 3.0:** automatically selects the main person. Omit `style.points`; supplying points is rejected.
+- **Kling 3.0 and 4.0:** automatically select the main person. Omit `style.points`; supplying points is rejected.
 - **MiniMax H3:** In `replace` mode, manual selection accepts 1 to 10 points. Each
   `time_seconds` must be at or after `start_seconds` and before `end_seconds`. In
   `animate` mode, `selection_mode="point"` returns 422.
 
 For models that support manual selection, points are ignored when selection is `auto` or omitted.
-Optional `style.prompt` direction is supported by Kling 3.0 and MiniMax H3. In MiniMax H3
+Kling 3.0, Kling 4.0, and MiniMax H3 support optional `style.prompt` instructions. In MiniMax H3
 `replace` mode, the API applies the prompt only for automatic selection. Omit it for
 manual selection.
 
