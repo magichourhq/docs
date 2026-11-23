@@ -23,9 +23,10 @@ Requires AI SDK 7 and Node.js 22 or newer.
 
 ## Usage
 
-Set `MAGIC_HOUR_API_KEY` on the server, then:
+Set `MAGIC_HOUR_API_KEY` in your terminal and save this as `generate.mjs`. Keep the key server-side.
 
-```ts
+```js
+import { writeFile } from "node:fs/promises";
 import { experimental_generateVideo as generateVideo, generateImage } from "ai";
 import { magichour } from "@magichourhq/ai-sdk-provider";
 
@@ -39,7 +40,11 @@ const { video } = await generateVideo({
   model: magichour.video("ltx-2.5"),
   prompt: { image: image.uint8Array, text: "A slow camera push toward the mug" },
 });
+
+await writeFile("magic-hour-video.mp4", video.uint8Array);
 ```
+
+Run `node generate.mjs`, then open `magic-hour-video.mp4` in the same folder.
 
 For text-to-video, pass a string prompt.
 
