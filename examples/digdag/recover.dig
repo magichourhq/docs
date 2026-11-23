@@ -1,0 +1,7 @@
+timezone: UTC
+
++recover_image:
+  sh>: python3 recover_magic_hour.py
+
++decode_png:
+  sh>: ffmpeg -nostdin -hide_banner -loglevel error -xerror -threads 1 -i output/magic-hour-image.png -f null -
