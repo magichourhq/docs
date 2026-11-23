@@ -315,11 +315,13 @@ Unless the user gives different instructions, guide the assistant to:
 
 User instructions take precedence over these defaults.
 
-For AI Image Editor, omitted `model` or `model="default"` currently selects `nano-banana`, which
-requires a paid plan. On Free, explicitly request `model="flux-2-klein"`, `resolution="640px"`, and
-`image_count=1`. Available credits alone do not unlock paid-only models or larger resolutions.
-If a request returns `plan_upgrade_required`, choose a model and resolution supported by the account
-or upgrade; do not retry the unchanged request. Do not silently change a user-selected model.
+For AI Image Editor, omitted `model` or `model="default"` selects a default model the account's
+plan can use. When the user hasn't chosen a model, resolution, or image count, leave them out and let
+the API choose defaults the plan can use. Keep any model, resolution, or image count the user chose.
+Available credits alone do not unlock paid-only models or larger resolutions. If a request returns
+`plan_upgrade_required`, explain the limit and offer a model and resolution supported by the
+account, or an upgrade, before changing anything; do not retry the unchanged request. Do not
+silently change a user-selected model.
 
 ## Troubleshooting
 
