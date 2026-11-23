@@ -990,7 +990,7 @@ If you encounter HTTP errors, here's what they mean:
 
 For a `402`, use the response's structured `code` to choose the next step.
 
-- If you get `insufficient_credits`, [buy a credit pack](https://magichour.ai/pricing?ref=docs-quickstart-402#credit-pack) or choose a request that fits your balance.
+- If you get `insufficient_credits`, `credit_shortfall` tells you how many more credits the request needs when that field is present. [Buy a credit pack](https://magichour.ai/pricing?ref=docs-quickstart-402#credit-pack) or choose a request that fits your balance.
 - If you get `subscription_required`, [choose a subscription](https://magichour.ai/pricing?ref=docs-quickstart-402#plans).
 - If you get `plan_upgrade_required`, choose settings included in your current plan or [switch to a plan that supports your request](https://magichour.ai/pricing?ref=docs-quickstart-402#plans).
 

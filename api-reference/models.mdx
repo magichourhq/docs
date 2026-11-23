@@ -52,7 +52,7 @@ durations and resolutions, and the credit-cost table below to compare costs.
 | `seedance-2.0-mini` | Fast, consistent video with strong motion quality               | 480p, 720p            | 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15                                                             | Yes, no extra credits |
 | `seedance-2.0-fast` | Fast reference-led clips with consistent motion and audio       | 480p, 720p            | 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15                                                             | Yes, no extra credits |
 | `seedance-2.0`      | Top quality with reference-to-video control                     | 480p, 720p, 1080p, 4k | 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15                                                             | Yes, no extra credits |
-| `seedance-2.5`      | Highest quality with superior realism, detail, and motion       | 480p, 720p, 1080p     | 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30 | Yes, no extra credits |
+| `seedance-2.5`      | Highest quality with superior realism, detail, and motion       | 480p, 720p, 1080p, 4k | 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30 | Yes, no extra credits |
 | `sora-2`            | Open AI's model. Great for creativity and viral clips           | 720p                  | 4, 8, 12, 24, 36, 48, 60                                                                             | Yes, no extra credits |
 
 <Note>
@@ -89,7 +89,7 @@ For Kling 3.0, compare the [Creator, Pro and Business annual subscription exampl
 | `seedance-2.0-mini` |    — |   48 |  120 |     — |    — | Included                      |
 | `seedance-2.0-fast` |    — |   84 |  180 |     — |    — | Included                      |
 | `seedance-2.0`      |    — |   96 |  216 |   528 | 1104 | Included                      |
-| `seedance-2.5`      |    — |  168 |  336 |   840 |    — | Included                      |
+| `seedance-2.5`      |    — |  168 |  336 |   840 | 1260 | Included                      |
 | `sora-2`            |    — |    — |  120 |     — |    — | Included                      |
 
 The video formula is `duration × output fps × resolution multiplier`. Because output fps varies by
@@ -109,7 +109,7 @@ rate. For other supported combinations, use the model's base or audio rate.
 | `seedance-2.0-mini` |    - |   72 |  144 |     - |    - |
 | `seedance-2.0-fast` |    - |   96 |  216 |     - |    - |
 | `seedance-2.0`      |    - |   96 |  216 |   672 | 1320 |
-| `seedance-2.5`      |    - |  192 |  408 |  1008 |    - |
+| `seedance-2.5`      |    - |  192 |  408 |  1008 | 1548 |
 
 A dash means no separate video-reference rate is listed. Check the endpoint reference for supported
 input types and model/resolution combinations.
@@ -135,6 +135,7 @@ Available on [AI image generator](/api-reference/image-projects/ai-image-generat
 | :-------------------- | :------- | :--- | :---------------- | ----------: | :--------------------------- |
 | `flux-schnell`        | Yes      | —    | 640px, 1k, 2k     |   5 credits | free, creator, pro, business |
 | `flux-2-klein`        | Yes      | Yes  | 640px, 1k, 2k     |   5 credits | free, creator, pro, business |
+| `flux-3-klein`        | Yes      | Yes  | 640px, 1k, 2k     |   5 credits | free, creator, pro, business |
 | `z-image-turbo`       | Yes      | —    | 640px, 1k, 2k     |   5 credits | free, creator, pro, business |
 | `seedream-v4`         | Yes      | Yes  | 640px, 1k, 2k, 4k |  40 credits | creator, pro, business       |
 | `seedream-v5-flash`   | Yes      | Yes  | 640px, 1k, 2k     |  30 credits | creator, pro, business       |
@@ -162,6 +163,7 @@ see the [generator model details](/api-reference/image-projects/ai-image-generat
 | :-------------------- | :------------------------------- | :----------------------------------- |
 | `flux-schnell`        | 1, 2, 3, 4                       | —                                    |
 | `flux-2-klein`        | 1                                | 5                                    |
+| `flux-3-klein`        | 1, 2, 3, 4                       | 1                                    |
 | `z-image-turbo`       | 1, 2, 3, 4                       | —                                    |
 | `seedream-v4`         | 1, 2, 3, 4                       | 9                                    |
 | `seedream-v5-flash`   | 1, 2, 3, 4                       | 9                                    |
@@ -238,6 +240,7 @@ Credits per output second depend on `model` and `resolution`.
 | :------------ | ---: | ---: | ----: |
 | `wan-animate` |   48 |   96 |     - |
 | `kling-3.0`   |    - |   60 |    72 |
+| `kling-4.0`   |    - |   96 |   144 |
 | `minimax-h3`  |   48 |   96 |   144 |
 
 A dash means that resolution is unsupported for that model in Character Replace. See the
