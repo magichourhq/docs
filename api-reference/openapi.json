@@ -211,6 +211,117 @@
         ]
       }
     },
+    "/v1/account/checkout": {
+      "post": {
+        "description": "Create a Stripe Checkout link for the account that owns the API key. Nothing is charged until the checkout is completed in a browser.",
+        "summary": "Create checkout",
+        "tags": ["Account"],
+        "parameters": [],
+        "operationId": "checkout.create",
+        "requestBody": {
+          "required": true,
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["credit_pack"],
+                    "description": "What to buy. `credit_pack` is a one-time credit purchase."
+                  },
+                  "pack_count": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10000,
+                    "example": 3,
+                    "description": "Number of credit packs the checkout starts with. Takes priority over `credit_shortfall`."
+                  },
+                  "credit_shortfall": {
+                    "type": "number",
+                    "minimum": 1,
+                    "example": 150,
+                    "description": "Credits a blocked request is missing, e.g. `credit_shortfall` from a 402 response. The checkout starts with enough packs to cover it. Defaults to one pack."
+                  }
+                },
+                "required": ["type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "checkout_url": {
+                      "type": "string",
+                      "example": "https://pay.magichour.ai/c/pay/cs_live_...",
+                      "description": "Open in a browser to complete the purchase."
+                    }
+                  },
+                  "required": ["checkout_url"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["unauthorized"],
+                      "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["internal_server_error"],
+                      "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-excluded": true
+      }
+    },
     "/v1/saved-items": {
       "get": {
         "description": "Returns active saved items owned by the authenticated account, newest first. Each item includes every saved asset with a durable file_path for reuse in compatible generation APIs and a temporary signed URL for previewing or downloading. Filter by type to find characters, references, voices, moodboards, or brand kits. To fetch the next page, pass the response's next_cursor as cursor.",
@@ -5190,7 +5301,7 @@
                       "end_image_file_path": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "The image to use as the last frame of the video.\n\n* **`gemini-omni-1.2`**: Supports 360p, 720p, 1080p, 4k. Requires a duration of 10 seconds or less.\n* **`kling-2.6`**: Supports 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`kling-4.0`**: Supports 720p, 1080p.\n* **`ltx-2.5`**: Supports 480p, 720p, 1080p.\n* **`minimax-h3`**: Supports 480p, 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0`**: Supports 480p, 720p, 1080p, 4k.\n* **`seedance-2.0-fast`**: Supports 480p, 720p.\n* **`seedance-2.0-mini`**: Supports 480p, 720p.\n* **`seedance-2.5`**: Supports 480p, 720p, 1080p, 4k.\n* **`veo3.1`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`veo3.1-lite`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`wan-2.2`**: Not supported\n* **`wan-3.0`**: Supports 480p, 720p, 1080p.\n\nThis value is either\n- a direct URL to the file. The URL path must end in a supported file extension.\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
+                        "description": "The image to use as the last frame of the video.\n\n* **`gemini-omni-1.2`**: Supports 360p, 720p, 1080p, 4k. Requires a duration of 10 seconds or less.\n* **`kling-2.6`**: Supports 1080p.\n* **`kling-3.0`**: Supports 720p, 1080p, 4k.\n* **`kling-4.0`**: Supports 720p, 1080p.\n* **`ltx-2.5`**: Supports 480p, 720p, 1080p.\n* **`minimax-h3`**: Supports 480p, 720p, 1080p.\n* **`seedance-1.5`**: Supports 480p, 720p, 1080p.\n* **`seedance-2.0`**: Supports 480p, 720p, 1080p, 4k.\n* **`seedance-2.0-fast`**: Supports 480p, 720p.\n* **`seedance-2.0-mini`**: Not supported\n* **`seedance-2.5`**: Supports 480p, 720p, 1080p, 4k.\n* **`veo3.1`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`veo3.1-lite`**: Supports 720p, 1080p. Requires a duration of 8 seconds or less.\n* **`wan-2.2`**: Not supported\n* **`wan-3.0`**: Supports 480p, 720p, 1080p.\n\nThis value is either\n- a direct URL to the file. The URL path must end in a supported file extension.\n- `file_path` field from the response of the [upload urls API](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls).\n\nSee the [file upload guide](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls#input-file) for details.\n",
                         "example": "api-assets/id/1234.png"
                       }
                     },
