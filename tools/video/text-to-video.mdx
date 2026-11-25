@@ -22,10 +22,13 @@ asynchronously, and duration varies with the input, selected settings, and queue
 
 ## How It Works
 
-1. **Write a prompt** - Describe the video you want to create
-2. **Set duration** - Choose how long the video should be
-3. **API generates the video** - AI creates original video content
-4. **Download the result** - Retrieve your generated video
+1. [Create an API key](/get-started/authentication#creating-your-first-api-key) in the Developer Hub.
+2. [Create a video project](/api-reference/video-projects/text-to-video) with your prompt, model,
+   resolution, and duration. The response gives you a project ID.
+3. [Check the project's status](/api-reference/video-projects/get-video-details) using that ID until
+   the job finishes.
+4. When the status is `complete`, download the MP4 from the returned `downloads` list. The Python
+   and Node.js examples below wait for completion and save the file for you.
 
 ## Use Cases
 
@@ -100,6 +103,10 @@ combining reference media. Video references can also change the
 ## Code Examples
 
 ### Basic Text to Video
+
+This example uses LTX 2.5 at 480p to make a five-second MP4. It uses 120 credits and works
+on the Free plan if your [account has enough credits](/api-reference/account/get-account-details).
+See [model credit costs](/api-reference/models) before changing the settings.
 
 <CodeGroup>
 
