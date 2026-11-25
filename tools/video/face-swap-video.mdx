@@ -199,6 +199,8 @@ Face Swap Video uses credits based on video duration and frame rate — credits 
 | Frame rate | Higher FPS = more credits   |
 | Resolution | Affects quality, not cost   |
 
+For example, a 10-second output rendered at 24 fps uses 240 credits. See [the credit cost table](/api-reference/models#duration-based-endpoints) for the rate.
+
 The create response returns an estimated `credits_charged`; the final amount can change after rendering based on the actual output frame rate. Check the completed job's `credits_charged` for the exact cost.
 
 ## Error Handling
