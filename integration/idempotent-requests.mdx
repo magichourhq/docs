@@ -48,4 +48,25 @@ res, err := client.V1.AiImageGenerator.Create(
 
 </CodeGroup>
 
-In the Python and Node.js SDKs, `generate()` accepts the same option. The Rust SDK can't send custom headers yet.
+The Python and Node.js SDKs also accept the header in `generate()`:
+
+<CodeGroup>
+
+```python Python SDK
+client.v1.ai_image_generator.generate(
+    image_count=1,
+    style={"prompt": "Cool image"},
+    request_options={"additional_headers": {"Idempotency-Key": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"}},
+)
+```
+
+```typescript Node.js SDK
+await client.v1.aiImageGenerator.generate(
+  { imageCount: 1, style: { prompt: "Cool image" } },
+  { additionalHeaders: { "Idempotency-Key": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10" } },
+);
+```
+
+</CodeGroup>
+
+The Rust SDK can't send custom headers yet.
