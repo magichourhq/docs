@@ -110,7 +110,6 @@
               "integration/overview",
               "integration/first-integration",
               "integration/inputs-and-outputs",
-              "integration/idempotent-requests",
               "integration/adding-api-to-your-app",
               "integration/development-and-testing",
               "integration/postman",
