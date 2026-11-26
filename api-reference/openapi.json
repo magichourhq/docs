@@ -1609,7 +1609,7 @@
                     },
                     "type": {
                       "type": "string",
-                      "description": "The type of the video project. Possible values are ANIMATION, AUTO_SUBTITLE, VIDEO_TO_VIDEO, FACE_SWAP, TEXT_TO_VIDEO, IMAGE_TO_VIDEO, LIP_SYNC, TALKING_PHOTO, AVATAR, VIDEO_UPSCALER, VIDEO_EDITOR, CHARACTER_REPLACE, VIDEO_COLORIZER, VIDEO_WATERMARK_REMOVER, VIDEO_COLOR_GRADER, VIDEO_TRANSLATOR, MUSIC_VIDEO, EXTEND, AUDIO_TO_VIDEO, VIDEO_EXPANDER, UGC_AD",
+                      "description": "The type of the video project. Possible values are ANIMATION, AUTO_SUBTITLE, VIDEO_TO_VIDEO, FACE_SWAP, TEXT_TO_VIDEO, IMAGE_TO_VIDEO, LIP_SYNC, TALKING_PHOTO, AVATAR, VIDEO_UPSCALER, VIDEO_EDITOR, CHARACTER_REPLACE, VIDEO_COLORIZER, VIDEO_WATERMARK_REMOVER, VIDEO_COLOR_GRADER, VIDEO_TRANSLATOR, MUSIC_VIDEO, VIDEO_REMIXER, EXTEND, AUDIO_TO_VIDEO, VIDEO_EXPANDER, UGC_AD",
                       "example": "FACE_SWAP"
                     },
                     "created_at": {
@@ -2074,7 +2074,17 @@
         "description": "Create a talking photo video from an image and an audio file.",
         "summary": "AI Talking Photo",
         "tags": ["Video Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "aiTalkingPhoto.createTalkingPhoto",
         "requestBody": {
           "required": true,
@@ -2369,7 +2379,17 @@
         "description": "Create a spoken UGC video from a prepared image and script. Returns a project ID; poll GET /v1/video-projects/{id} for status and downloads. To compose an image, generate the image separately with the Image Editor API and supply its download URL.",
         "summary": "AI UGC Ad Generator",
         "tags": ["Video Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "aiUgcAd.createVideo",
         "requestBody": {
           "required": true,
@@ -2631,7 +2651,17 @@
         "description": "**What this API does**\n\nCreate the same Video Editor you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video editor into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video editor job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/ai-video-editor).",
         "summary": "AI Video Editor",
         "tags": ["Video Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "aiVideoEditor.createVideo",
         "requestBody": {
           "required": true,
@@ -2957,7 +2987,17 @@
         "description": "**What this API does**\n\nCreate the same Video Translator you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video translator into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video translator job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/ai-video-translator).",
         "summary": "AI Video Translator",
         "tags": ["Video Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "aiVideoTranslator.createVideo",
         "requestBody": {
           "required": true,
@@ -3281,7 +3321,17 @@
         "description": "**What this API does**\n\nCreate the same Video Upscaler you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video upscaler into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video upscaler job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-upscaler).",
         "summary": "AI Video Upscaler",
         "tags": ["Video Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "aiVideoUpscaler.createVideo",
         "requestBody": {
           "required": true,
@@ -3545,7 +3595,17 @@
         "description": "Create a Animation video. The estimated frame cost is calculated based on the `fps` and `end_seconds` input.",
         "summary": "Animation",
         "tags": ["Video Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "animation.createVideo",
         "requestBody": {
           "required": true,
@@ -3979,7 +4039,17 @@
         "description": "**What this API does**\n\nCreate the same Audio To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding audio to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a audio to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/audio-to-video).",
         "summary": "Audio-to-Video",
         "tags": ["Video Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "audioToVideo.createVideo",
         "requestBody": {
           "required": true,
@@ -4260,7 +4330,17 @@
         "description": "Automatically generate subtitles for your video in multiple languages.",
         "summary": "Auto Subtitle Generator",
         "tags": ["Video Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "autoSubtitleGenerator.createVideo",
         "requestBody": {
           "required": true,
@@ -4580,7 +4660,17 @@
         "description": "**What this API does**\n\nCreate the same Character Replace you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding character replace into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a character replace job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/character-replace).",
         "summary": "Character Replace",
         "tags": ["Video Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "characterReplace.createVideo",
         "requestBody": {
           "required": true,
@@ -4913,7 +5003,17 @@
         "description": "**What this API does**\n\nCreate the same Face Swap you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding face swap into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a face swap job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/face-swap).",
         "summary": "Face Swap Video",
         "tags": ["Video Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "faceSwap.createVideo",
         "requestBody": {
           "required": true,
@@ -5240,7 +5340,17 @@
         "description": "**What this API does**\n\nCreate the same Image To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding image to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a image to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/image-to-video).",
         "summary": "Image-to-Video",
         "tags": ["Video Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "imageToVideo.createVideo",
         "requestBody": {
           "required": true,
@@ -5552,7 +5662,17 @@
         "description": "**What this API does**\n\nCreate the same Lip Sync you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding lip sync into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a lip sync job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/lip-sync).",
         "summary": "Lip Sync",
         "tags": ["Video Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "lipSync.createVideo",
         "requestBody": {
           "required": true,
@@ -5849,7 +5969,17 @@
         "description": "**What this API does**\n\nCreate the same Text To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding text to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a text to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/text-to-video).",
         "summary": "Text-to-Video",
         "tags": ["Video Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "textToVideo.createVideo",
         "requestBody": {
           "required": true,
@@ -6181,7 +6311,17 @@
         "description": "**What this API does**\n\nCreate the same Video To Video you can make in the browser, but programmatically, so you can automate it, run it at scale, or connect it to your own app or workflow.\n    \n**Good for**\n- Automation and batch processing  \n- Adding video to video into apps, pipelines, or tools  \n\n**How it works (3 steps)**\n1) Upload your inputs (video, image, or audio) with [Generate Upload URLs](https://docs.magichour.ai/api-reference/files/generate-asset-upload-urls) and copy the `file_path`.  \n2) Send a request to create a video to video job with the basic fields.  \n3) Check the job status until it's `complete`, then download the result from `downloads`.\n\n**Key options**\n- Inputs: usually a file, sometimes a YouTube link, depending on project type  \n- Resolution: output size and plan requirements vary by workflow and model. Some workflows derive output size from the input video.\n- Extra fields: e.g. `face_swap_mode`, `start_seconds`/`end_seconds`, or a text prompt  \n\n**Cost**  \nCredits are charged when the job is queued (`credits_charged` in the response). Tools billed per frame charge an estimate and settle to the frames that actually render once the job finishes; tools billed per second charge the final amount upfront. Failed jobs are refunded.\n\nFor detailed examples, see the [product page](https://magichour.ai/products/video-to-video).\n\nV3 request example (upload both assets first):\n```json\n{\"start_seconds\":0,\"end_seconds\":2,\"width\":1024,\"height\":704,\"fps\":30,\"fps_resolution\":\"HALF\",\"style\":{\"art_style\":\"Studio Ghibli\",\"version\":\"v3\",\"model\":\"default\"},\"assets\":{\"video_source\":\"file\",\"video_file_path\":\"api-assets/id/video.mp4\",\"initial_image_path\":\"api-assets/id/reference.png\"}}\n```\nV3 supports up to 1,200 output frames for square videos and 800 otherwise.",
         "summary": "Video-to-Video",
         "tags": ["Video Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "videoToVideo.createVideo",
         "requestBody": {
           "required": true,
@@ -7411,7 +7551,17 @@
         "description": "Change outfits in photos in seconds with just a photo reference. Each photo costs 25 credits.",
         "summary": "AI Clothes Changer",
         "tags": ["Image Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "aiClothesChanger.createImage",
         "requestBody": {
           "required": true,
@@ -7666,7 +7816,17 @@
         "description": "Edit facial features of an image using AI. Each edit costs 1 frame. The height/width of the output image depends on your subscription. Please refer to our [pricing](https://magichour.ai/pricing) page for more details",
         "summary": "AI Face Editor",
         "tags": ["Image Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "aiFaceEditor.editImage",
         "requestBody": {
           "required": true,
@@ -8047,7 +8207,17 @@
         "description": "Create an AI GIF. Each GIF costs 50 credits.",
         "summary": "AI GIF Generator",
         "tags": ["Image Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "aiGifGenerator.createImage",
         "requestBody": {
           "required": true,
@@ -8297,7 +8467,17 @@
         "description": "Edit images with AI.",
         "summary": "AI Image Editor",
         "tags": ["Image Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "aiImageEditor.createImage",
         "requestBody": {
           "required": true,
@@ -8599,7 +8779,17 @@
         "description": "Create a 4:5 AI headshot. Each headshot costs 50 credits.",
         "summary": "AI Headshot Generator",
         "tags": ["Image Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "aiHeadshotGenerator.createImage",
         "requestBody": {
           "required": true,
@@ -8852,7 +9042,17 @@
         "description": "Create an AI image with advanced model selection and quality controls.",
         "summary": "AI Image Generator",
         "tags": ["Image Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "aiImageGenerator.createImage",
         "requestBody": {
           "required": true,
@@ -9184,7 +9384,17 @@
         "description": "Upscale your image using AI. Each 2x upscale costs 50 credits for balanced/creative modes, and 25 credits for preserve. 4x upscale costs 200 and 100 credits respectively.",
         "summary": "AI Image Upscaler",
         "tags": ["Image Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "aiImageUpscaler.createImage",
         "requestBody": {
           "required": true,
@@ -9453,7 +9663,17 @@
         "description": "Create an AI generated meme. Each meme costs 10 credits.",
         "summary": "AI Meme Generator",
         "tags": ["Image Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "aiMemeGenerator.createImage",
         "requestBody": {
           "required": true,
@@ -9809,7 +10029,17 @@
         "description": "Create an AI QR code. Each QR code costs 0 credits.",
         "summary": "AI QR Code Generator",
         "tags": ["Image Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "aiQrCodeGenerator.createImage",
         "requestBody": {
           "required": true,
@@ -10055,7 +10285,17 @@
         "description": "Swap a person into a scene image using Nano Banana 2 Lite (640px/1k) or Nano Banana 2.1 (2k/4k). Credits depend on `resolution` (from 50 credits at 640px upward).",
         "summary": "Body Swap",
         "tags": ["Image Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "bodySwap.createImage",
         "requestBody": {
           "required": true,
@@ -10310,7 +10550,17 @@
         "description": "Create a face swap photo. Each photo costs 10 credits. The height/width of the output image depends on your subscription. Please refer to our [pricing](https://magichour.ai/pricing) page for more details",
         "summary": "Face Swap Photo",
         "tags": ["Image Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "faceSwapPhoto.createImage",
         "requestBody": {
           "required": true,
@@ -10598,7 +10848,17 @@
         "description": "Swap a head onto a body image. Each image costs 10 credits. Output resolution depends on your subscription; you may set `max_resolution` lower than your plan maximum if desired.",
         "summary": "Head Swap",
         "tags": ["Image Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "headSwap.createImage",
         "requestBody": {
           "required": true,
@@ -10852,7 +11112,17 @@
         "description": "Remove background from image. Each image costs 5 credits.",
         "summary": "Image Background Remover",
         "tags": ["Image Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "imageBackgroundRemover.createImage",
         "requestBody": {
           "required": true,
@@ -11099,7 +11369,17 @@
         "description": "Colorize image. Each image costs 10 credits.",
         "summary": "Photo Colorizer",
         "tags": ["Image Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "photoColorizer.createImage",
         "requestBody": {
           "required": true,
@@ -11791,7 +12071,17 @@
         "description": "Generate music from a description, with optional custom lyrics or instrumental-only output. Costs 1 credits per requested second. Returns a project ID; poll GET /v1/audio-projects/{id} for status and downloads.",
         "summary": "AI Music Generator",
         "tags": ["Audio Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "aiMusicGenerator.createAudio",
         "requestBody": {
           "required": true,
@@ -12053,7 +12343,17 @@
         "description": "Clone a voice from an audio sample and generate speech. \n* Each character costs 0.1 credits. \n* The cost is rounded up to the nearest whole number",
         "summary": "AI Voice Cloner",
         "tags": ["Audio Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "aiVoiceCloner.createAudio",
         "requestBody": {
           "required": true,
@@ -12407,7 +12707,17 @@
         "description": "Generate speech from text. Each character costs 0.1 credits. The cost is rounded up to the nearest whole number.",
         "summary": "AI Voice Generator",
         "tags": ["Audio Projects"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "description": "A unique string for this request, such as a UUID. Sending the same key again within 24 hours returns the original project instead of creating and charging for a new one. A key applies across all video, image, and audio endpoints on your account, so use a new key for every project.",
+              "example": "5f3c1b9e-8a41-4a0e-9d3e-2f6a1c7b9e10"
+            }
+          }
+        ],
         "operationId": "aiVoiceGenerator.createAudio",
         "requestBody": {
           "required": true,
