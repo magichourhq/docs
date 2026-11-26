@@ -155,9 +155,12 @@ Available on [AI image generator](/api-reference/image-projects/ai-image-generat
 resolution, and image count; do not assume every batch costs the single-image rate multiplied by
 the count. For example, `nano-banana-2.1` costs 50 credits for one image at `640px` or `1k`, and
 150 credits total for a grid of 4, 9, or 16 images. Free-plan image models are available at `640px`.
-Larger resolutions require a paid plan even if the model is available on the free plan. Existing
-requests using `nano-banana-2` run on `nano-banana-2.1` at the 2.1 rates. For Seedream 4.5 generation,
-see the [generator model details](/api-reference/image-projects/ai-image-generator#body-model) for available resolutions and credits.
+Larger resolutions require a paid plan even if the model is available on the free plan. Set `model`
+to `nano-banana-2.1` explicitly to use the 2.1 rates above. If your integration sends `nano-banana-2`,
+check the current model and credit details for the
+[generator](/api-reference/image-projects/ai-image-generator#body-model) or
+[editor](/api-reference/image-projects/ai-image-editor#body-model) before estimating cost.
+The generator reference also lists the available resolutions and credits for Seedream 4.5.
 
 | Model                 | Allowed image counts (generator) | Max additional input images (editor) |
 | :-------------------- | :------------------------------- | :----------------------------------- |
