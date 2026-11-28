@@ -10,27 +10,27 @@ higher values cost more credits on the same plan.
 ## Named resolutions (the current model)
 
 [Text to video](/api-reference/video-projects/text-to-video) and
-[image to video](/api-reference/video-projects/image-to-video) take `480p`, `720p`, `1080p`, or `4k`.
+[image to video](/api-reference/video-projects/image-to-video) take `360p`, `480p`, `720p`, `1080p`, or `4k`.
 [Image generator](/api-reference/image-projects/ai-image-generator) and
 [image editor](/api-reference/image-projects/ai-image-editor) take `640px`, `1k`, `2k`, or `4k`.
 
 What you can pass depends on two things: the model, and your plan.
 
-- **The model** lists the resolutions it actually supports. `sora-2` is 720p only. `kling-3.0` goes
-  to 4k. See [models](/api-reference/models).
+- **The model** lists its supported resolutions. `minimax-h3` supports 480p, 720p and 1080p.
+  `kling-3.0` goes up to 4K. See [models](/api-reference/models).
 - **Your plan** gates the highest option you may request. Free is typically the lowest option
   (`480p` / `640px`). Paid plans (Creator, Pro, Business) can request the higher options the model
   supports. You pay more credits for higher resolution; the plan does not charge a flat "Creator
   rate" regardless of size.
 
-A Creator requesting `kling-3.0` at 1080p is allowed and is billed at 72 credits/second. The same
-job at 4k is 240 credits/second. That is by design: one plan, multiple resolutions, cost follows
-the output.
+A Creator using `kling-3.0` pays 72 credits per second at 1080p or 264 at 4K. These are the base
+rates for requests without audio or a video reference.
 
 <Note>
-  Defaults follow the plan. Text to video and image to video default to `480p` on Free and `720p` on
-  paid. Image `auto` is deprecated and mapped server-side to a resolution the model and your plan
-  both support.
+  With no resolution or legacy quality override, Text to Video and Image to Video use `480p` on Free
+  when `model` is omitted or set to `default`. The other requests default to `720p`. On Free, pass
+  `480p` explicitly when choosing a model that supports it. Image `auto` is deprecated and mapped
+  server-side to a resolution the model and your plan both support.
 </Note>
 
 ## Plan vs cost
