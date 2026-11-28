@@ -1,4 +1,4 @@
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import {
   Button,
   FormField,
@@ -8,6 +8,7 @@ import {
   Text,
   Title,
   Alert,
+  Checkbox,
 } from "@canva/app-ui-kit";
 import { englishMessage, type MessageFormatter } from "../../../vercel-ai-sdk/src/client";
 import type { VideoPanel, VideoOptions } from "../../shared/video";
@@ -21,12 +22,14 @@ export function App({
   formatMessage?: MessageFormatter;
 }) {
   const s = useSyncExternalStore(panel.subscribe, panel.snapshot);
+  const fileInput = useRef<HTMLInputElement>(null);
   const [key, setKey] = useState(""),
     [prompt, setPrompt] = useState(""),
     [duration, setDuration] = useState(5),
     [resolution, setResolution] = useState<VideoOptions["resolution"]>("480p"),
     [ratio, setRatio] = useState<VideoOptions["aspectRatio"]>("16:9"),
     [id, setId] = useState("");
+  const [historyChecked, setHistoryChecked] = useState(false);
   const [sourceUrl, setSourceUrl] = useState(""),
     [videoUrl, setVideoUrl] = useState("");
   useEffect(() => {
@@ -77,6 +80,7 @@ export function App({
               description: "Label or instruction in the Magic Hour video generation form.",
             })}
             type="password"
+            disabled={s.busy || s.keyLocked}
             value={key}
             onChange={(event) => setKey(event.target.value)}
             autoComplete="off"
@@ -92,7 +96,17 @@ export function App({
           description: "Text or action in the Magic Hour video generation panel.",
         })}
       </Text>
-      <Button variant="secondary" disabled={s.busy} onClick={() => void panel.capture()}>
+      <Button
+        variant="secondary"
+        disabled={s.busy}
+        onClick={() => {
+          const previous = panel.snapshot().source;
+          void panel.capture().then(() => {
+            if (panel.snapshot().source !== previous && fileInput.current)
+              fileInput.current.value = "";
+          });
+        }}
+      >
         {formatMessage({
           defaultMessage: "Use selected image",
           description: "Text or action in the Magic Hour video generation panel.",
@@ -115,12 +129,17 @@ export function App({
             defaultMessage: "Upload image",
             description: "Label or instruction in the Magic Hour video generation form.",
           })}
+          ref={fileInput}
           type="file"
           accept="image/png,image/jpeg,image/webp"
           disabled={s.busy}
           onChange={(e) => {
-            const file = e.target.files?.[0];
-            if (file) void panel.selectFile(file);
+            const input = e.currentTarget;
+            const file = input.files?.[0];
+            if (file)
+              void panel.selectFile(file).then(() => {
+                if (panel.snapshot().source?.blob !== file) input.value = "";
+              });
           }}
         />
       </label>
@@ -135,7 +154,14 @@ export function App({
             style={{ maxWidth: "100%", maxHeight: 180, objectFit: "contain" }}
           />
           <Text size="small">{s.source?.label}</Text>
-          <Button variant="tertiary" disabled={s.busy} onClick={() => panel.removeImage()}>
+          <Button
+            variant="tertiary"
+            disabled={s.busy}
+            onClick={() => {
+              panel.removeImage();
+              if (fileInput.current) fileInput.current.value = "";
+            }}
+          >
             {formatMessage({
               defaultMessage: "Remove image",
               description: "Text or action in the Magic Hour video generation panel.",
@@ -271,7 +297,7 @@ export function App({
       </Text>
       <Button
         variant="primary"
-        disabled={!s.ready || s.busy || !!s.savedId}
+        disabled={!s.ready || s.busy || s.activeProject || !!s.savedId}
         onClick={() =>
           void panel.generate(key, { prompt, duration, resolution, aspectRatio: ratio })
         }
@@ -315,12 +341,22 @@ export function App({
           defaultMessage: "Video project ID",
           description: "Label or instruction in the Magic Hour video generation form.",
         })}
-        control={(props) => <TextInput {...props} value={id} onChange={setId} disabled={s.busy} />}
+        control={(props) => (
+          <TextInput
+            {...props}
+            value={id}
+            onChange={setId}
+            disabled={s.busy || (s.activeProject && !!s.savedId)}
+          />
+        )}
       />
       <Button
         variant="secondary"
         disabled={s.busy || !id}
-        onClick={() => void panel.resume(key, id.trim())}
+        onClick={() => {
+          setHistoryChecked(false);
+          void panel.resume(key, id.trim());
+        }}
       >
         {formatMessage({
           defaultMessage: "Resume generation",
@@ -334,8 +370,46 @@ export function App({
           description: "Text or action in the Magic Hour video generation panel.",
         })}
       </Text>
+      {s.submissionUnknown && (
+        <>
+          <Checkbox
+            checked={historyChecked}
+            onChange={(_, checked) => setHistoryChecked(checked)}
+            disabled={s.busy}
+            label={formatMessage({
+              defaultMessage:
+                "I checked my Magic Hour account history and found no project from this submission.",
+              description: "Confirmation before clearing an interrupted submission.",
+            })}
+          />
+          <Text size="small">
+            {formatMessage({
+              defaultMessage:
+                "If a project appears, resume its exact ID instead. Clearing recovery permits another generation charge.",
+              description: "Warning before clearing uncertain submission recovery.",
+            })}
+          </Text>
+          <Button
+            variant="secondary"
+            disabled={s.busy || !historyChecked}
+            onClick={() => {
+              void panel.reset(true);
+              setHistoryChecked(false);
+            }}
+          >
+            {formatMessage({
+              defaultMessage: "Clear interrupted submission",
+              description: "Action after checking account history for an interrupted submission.",
+            })}
+          </Button>
+        </>
+      )}
       {s.savedId && (
-        <Button variant="tertiary" disabled={s.busy} onClick={() => void panel.reset()}>
+        <Button
+          variant="tertiary"
+          disabled={s.busy || s.activeProject}
+          onClick={() => void panel.reset()}
+        >
           {formatMessage({
             defaultMessage: "New generation",
             description: "Text or action in the Magic Hour video generation panel.",
@@ -353,7 +427,10 @@ export function App({
           description: "Text or action in the Magic Hour video generation panel.",
         })}
       </Button>
-      <Button variant="tertiary" onClick={() => openLink("https://docs.magichour.ai/pricing")}>
+      <Button
+        variant="tertiary"
+        onClick={() => openLink("https://docs.magichour.ai/billing/overview")}
+      >
         {formatMessage({
           defaultMessage: "API pricing",
           description: "Text or action in the Magic Hour video generation panel.",

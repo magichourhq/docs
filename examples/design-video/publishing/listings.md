@@ -1,6 +1,6 @@
 # Prepared listing copy
 
-Status: development implementations; no marketplace submission or approval is claimed.
+Prepared copy for the existing integrations. Each portal's selected payment model, submitted version and approval must be verified separately.
 
 ## Framer
 
@@ -18,6 +18,12 @@ Status: development implementations; no marketplace submission or approval is cl
 
 **Description:** Choose your own image file or explicitly export the current page, describe the motion, and generate a video with Magic Hour. Preview and add the finished video to Adobe Express. Export restrictions are respected, and a saved project can be resumed without a new generation. The public version does not capture individual selected elements; that Adobe API is experimental.
 
+**Marketplace payment model:** Free and paid plans available. Select this option for the updated submission; do not label the add-on as requiring a paid purchase. The add-on itself has no separate fee. Magic Hour provides signup credits, and LTX 2.5 at 480p can use a free account's available credits. 720p requires a paid Magic Hour plan. Adobe Express Premium is a separate entitlement.
+
+**Payment details (under 250 characters):** No add-on fee. A Magic Hour account, API key and credits are required. Free signup credits support 480p generation. Buy credits or a plan as needed; 720p requires a paid Magic Hour plan. Adobe Express Premium is separate.
+
+**Credits:** New accounts currently receive 400 signup credits. Basic accounts can manually claim 100 daily credits up to seven times in total. Costs depend on the model, resolution and duration. Monthly plan allocations follow successful monthly payment; annual allocations arrive upfront. Unused subscription and credit-pack credits roll over and do not expire. The connection check displays the available balance at that check. See https://magichour.ai/faq and https://docs.magichour.ai/billing/overview for current terms.
+
 ## Canva
 
 **Name:** Magic Hour Video
@@ -34,7 +40,7 @@ Website: https://magichour.ai
 
 API account: https://magichour.ai/developer
 
-API pricing: https://docs.magichour.ai/pricing
+API pricing: https://docs.magichour.ai/billing/overview
 
 Privacy: https://magichour.ai/privacy-policy
 
