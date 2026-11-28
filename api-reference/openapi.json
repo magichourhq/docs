@@ -563,6 +563,356 @@
         ]
       }
     },
+    "/v1/estimate/video": {
+      "get": {
+        "description": "Get the credits a video create request charges when it is submitted. Pass `tool`, then the fields below that the tool's create request uses, with the same values. Tools billed per frame charge an estimate at submission, assuming 30 fps for an uploaded video, and settle to the frames that render. Does not create a project or spend credits. It prices the fields passed here. It does not check your plan, your balance or the rest of the create request.",
+        "summary": "Estimate video credits",
+        "tags": ["Video Projects"],
+        "parameters": [
+          {
+            "name": "tool",
+            "in": "query",
+            "description": "The create endpoint to price, named by its path. For example `image-to-video` for `POST /v1/image-to-video`.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "image-to-video",
+                "text-to-video",
+                "ai-ugc-ad",
+                "ai-video-editor",
+                "character-replace",
+                "audio-to-video",
+                "ai-video-translator",
+                "ai-video-upscaler",
+                "face-swap",
+                "auto-subtitle-generator"
+              ],
+              "example": "image-to-video"
+            }
+          },
+          {
+            "name": "end_seconds",
+            "in": "query",
+            "description": "The `end_seconds` of the create request. Used by every tool.",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "example": 5
+            }
+          },
+          {
+            "name": "start_seconds",
+            "in": "query",
+            "description": "The `start_seconds` of the create request, for tools whose create request has it. Defaults to 0.",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "model",
+            "in": "query",
+            "description": "The `model` of the create request. Used by `image-to-video`, `text-to-video`, `ai-ugc-ad`, `ai-video-editor`, `character-replace`.",
+            "schema": {
+              "type": "string",
+              "example": "kling-3.0"
+            }
+          },
+          {
+            "name": "resolution",
+            "in": "query",
+            "description": "The `resolution` of the create request. Used by `image-to-video`, `text-to-video`, `ai-ugc-ad`, `ai-video-editor`, `character-replace`, `audio-to-video`, `ai-video-translator`, `ai-video-upscaler`. `ai-video-translator` defaults to `480p`.",
+            "schema": {
+              "type": "string",
+              "example": "720p"
+            }
+          },
+          {
+            "name": "audio",
+            "in": "query",
+            "description": "The `audio` of the create request. Used by `image-to-video`, `text-to-video`. Defaults to `false`.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "has_video_reference",
+            "in": "query",
+            "description": "Whether any of the create request's `references` is a video. Used by `text-to-video`. Defaults to `false`.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "operationId": "estimate.video",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "estimated_credits": {
+                      "type": "integer",
+                      "description": "Credits a create request with these fields charges.",
+                      "example": 150
+                    }
+                  },
+                  "required": ["estimated_credits"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["invalid_request"],
+                      "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["unauthorized"],
+                      "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["unprocessable_entity"],
+                      "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["internal_server_error"],
+                      "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/estimate/audio": {
+      "get": {
+        "description": "Get the credits an audio create request charges. Pass `tool`, then the field below that the tool's create request uses. Does not create a project or spend credits. It prices the fields passed here. It does not check your plan, your balance or the rest of the create request.",
+        "summary": "Estimate audio credits",
+        "tags": ["Audio Projects"],
+        "parameters": [
+          {
+            "name": "tool",
+            "in": "query",
+            "description": "The create endpoint to price, named by its path. For example `ai-voice-generator` for `POST /v1/ai-voice-generator`.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["ai-voice-generator", "ai-voice-cloner", "ai-music-generator"],
+              "example": "ai-voice-generator"
+            }
+          },
+          {
+            "name": "character_count",
+            "in": "query",
+            "description": "The number of characters in the `style.prompt` of the create request. Used by `ai-voice-generator`, `ai-voice-cloner`.",
+            "schema": {
+              "type": "integer",
+              "example": 120
+            }
+          },
+          {
+            "name": "duration",
+            "in": "query",
+            "description": "The `duration` of the create request. Used by `ai-music-generator`.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "operationId": "estimate.audio",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "estimated_credits": {
+                      "type": "integer",
+                      "description": "Credits a create request with these fields charges.",
+                      "example": 150
+                    }
+                  },
+                  "required": ["estimated_credits"],
+                  "description": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["invalid_request"],
+                      "description": "Machine-readable error code.\n\n- `invalid_request`: Fix request syntax or validation errors before retrying."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["unauthorized"],
+                      "description": "Machine-readable error code.\n\n- `unauthorized`: Provide a valid API key before retrying."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["unprocessable_entity"],
+                      "description": "Machine-readable error code.\n\n- `unprocessable_entity`: Change the request values before retrying."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["code", "message"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": ["internal_server_error"],
+                      "description": "Machine-readable error code.\n\n- `internal_server_error`: Retry later or contact support if the error continues."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/v1/saved-items": {
       "get": {
         "description": "Returns active saved items owned by the authenticated account, newest first. Each item includes every saved asset with a durable file_path for reuse in compatible generation APIs and a temporary signed URL for previewing or downloading. Filter by type to find characters, references, voices, moodboards, or brand kits. To fetch the next page, pass the response's next_cursor as cursor.",
