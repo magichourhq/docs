@@ -13,8 +13,8 @@ to compare cost and quality on the user's workload.
 
 ## Choose a connection
 
-- **Create inside an assistant:** Reuse a connected Magic Hour tool or use the [creation MCP setup](https://docs.magichour.ai/integration/model-context-protocol.md)
-  for `https://mcp.magichour.ai/`. The [official workflow skills](https://github.com/magichourhq/skills)
+- **Create inside an assistant:** Reuse a connected Magic Hour tool or [connect Magic Hour](https://magichour.ai/mcp)
+  at `https://mcp.magichour.ai/`. The [official workflow skills](https://github.com/magichourhq/skills)
   cover prompting, input handling, and output review. Use the exact tool name and inputs the client lists.
 - **Build an app or automate a batch:** Follow the [API quickstart](https://docs.magichour.ai/get-started/quick-start.md).
   Read the [OpenAPI spec](https://docs.magichour.ai/api-reference/openapi.json) for exact request and response fields.
